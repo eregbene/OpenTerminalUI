@@ -1,79 +1,39 @@
 import { NavLink } from "react-router-dom";
-import { useStockStore } from "../../store/stockStore";
-import logo from "../../assets/logo.png";
 import { useAlertsStore } from "../../store/alertsStore";
 import { UserAccountPanel } from "./UserAccountPanel";
+import { APP_BRAND_MARK, APP_NAME } from "../../utils/constants";
 
 export function Sidebar() {
-  const ticker = useStockStore((s) => s.ticker);
   const unreadCount = useAlertsStore((s) => s.unreadCount);
   const nav = [
-    { label: "Market", path: "/equity/stocks", key: "F1" },
-    { label: "Security Hub", path: "/equity/security", key: "SH", hint: "Research" },
-    { label: "Economics", path: "/equity/economics", key: "E", hint: "Macro" },
-    { label: "Commodities", path: "/equity/commodities", key: "CMDTY", hint: "Macro" },
-    { label: "Forex", path: "/equity/forex", key: "FX", hint: "Macro" },
-    { label: "ETF Analytics", path: "/equity/etf-analytics", key: "ETFA", hint: "Funds" },
-    { label: "Bonds", path: "/equity/bonds", key: "BOND", hint: "Fixed Income" },
-    { label: "Yield Curve", path: "/equity/yield-curve", key: "YC", hint: "Fixed Income" },
-    { label: "Rotation", path: "/equity/sector-rotation", key: "ROT", hint: "Relative" },
-    { label: "Crypto", path: "/equity/crypto", key: "CR", hint: "Digital" },
-    { label: "Compare", path: "/equity/compare", key: "CMP", hint: "Split View" },
-    { label: "Screener", path: "/equity/screener", key: "F2" },
-    { label: "Alpha Zoo", path: "/equity/alpha-zoo", key: "AZ", hint: "Quant" },
-    { label: "Research Autopilot", path: "/equity/research-autopilot", key: "RA", hint: "Quant" },
-    { label: "Strategy Export", path: "/equity/strategy-export", key: "SE", hint: "Quant" },
-    { label: "Hotlists", path: "/equity/hotlists", key: "HOT", hint: "Movers" },
-    { label: "Insider", path: "/equity/insider", key: "IN", hint: "Research" },
-    { label: "Heatmap", path: "/equity/heatmap", key: "HM", hint: "Market" },
-    { label: "Dividends", path: "/equity/dividends", key: "DIV", hint: "Income" },
-    { label: "RS Analysis", path: "/equity/rs", key: "RS", hint: "Relative" },
-    { label: "Launchpad", path: "/equity/launchpad", key: "LP", hint: "Workspace" },
-    { label: "Workstation", path: "/equity/chart-workstation", key: "6", hint: "6 Charts" },
-    { label: "Research", path: "/equity/research", key: "RES", hint: "Papers" },
-    { label: "MTA", path: "/equity/mta", key: "MT", hint: "Multi-TF" },
-    { label: "DOM", path: "/equity/dom", key: "D", hint: "Depth" },
-    { label: "Tape", path: "/equity/tape", key: "T", hint: "Time & Sales" },
-    { label: "Portfolio", path: "/equity/portfolio", key: "F3" },
-    { label: "Portfolio Lab", path: "/equity/portfolio/lab", key: "PLB", hint: "Research" },
-    { label: "Paper", path: "/equity/paper", key: "P" },
-    { label: "Position Sizer", path: "/equity/position-sizer", key: "PS", hint: "Trading" },
-    { label: "Journal", path: "/equity/journal", key: "J", hint: "Trading" },
-    { label: "Shadow Account", path: "/equity/shadow-account", key: "SA", hint: "Trading" },
-    { label: "Watchlist", path: "/equity/watchlist", key: "F4" },
-    { label: "News", path: "/equity/news", key: "F5" },
+    { label: "EUR/USD", path: "/equity/forex?symbol=EURUSD", key: "FX", hint: "Primary" },
+    { label: "Charts", path: "/forex/chart?symbol=EURUSD&market=FX", key: "CH", hint: "Forex" },
+    { label: "Research", path: "/equity/research?q=EURUSD", key: "RES", hint: "FX" },
+    { label: "MTA", path: "/equity/mta?symbol=EURUSD&market=FX", key: "MT", hint: "Multi-TF" },
+    { label: "Paper", path: "/equity/paper?symbol=EURUSD", key: "P", hint: "Paper only" },
+    { label: "Position Sizer", path: "/equity/position-sizer?symbol=EURUSD", key: "PS", hint: "Risk" },
+    { label: "Journal", path: "/equity/journal?symbol=EURUSD", key: "J", hint: "Trading" },
+    { label: "News", path: "/equity/news?symbol=EURUSD&market=FX", key: "NW", hint: "Macro" },
     { label: "Alerts", path: "/equity/alerts", key: "A" },
     { label: "Risk", path: "/equity/risk", key: "R" },
-    { label: "Correlation", path: "/equity/correlation", key: "CR", hint: "Risk" },
-    { label: "Stat Lab", path: "/equity/stat-lab", key: "SL", hint: "Quant" },
-    { label: "Pair Trading", path: "/equity/pair-trading", key: "PT", hint: "Quant" },
-    { label: "OMS", path: "/equity/oms", key: "O" },
-    { label: "Ops", path: "/equity/ops", key: "K" },
-    { label: "Plugins", path: "/equity/plugins", key: "PL" },
     { label: "Settings", path: "/equity/settings", key: "F6" },
-    { label: "About", path: "/equity/stocks/about", key: "F7" },
-    { label: "Model Lab", path: "/backtesting/model-lab", key: "ML", hint: "Backtest" },
-    { label: "Cockpit", path: "/equity/cockpit", key: "CP", hint: "Overview" },
-    { label: "Backtesting", path: "/backtesting", key: "F9" },
+    { label: "Backtesting", path: "/backtesting?symbol=EURUSD&market=FX", key: "BT", hint: "FX" },
   ];
 
   return (
     <aside className="relative z-30 flex h-full w-48 shrink-0 flex-col border-r border-terminal-border bg-terminal-panel p-0">
       <div className="border-b border-terminal-border bg-terminal-panel px-3 py-2">
-        <img src={logo} alt="OpenTerminalUI" className="h-8 w-auto object-contain" />
+        <img src={APP_BRAND_MARK} alt={APP_NAME} className="h-8 w-auto object-contain" />
       </div>
       <div className="border-b border-terminal-border px-3 py-2 text-[11px] text-terminal-muted">
-        NSE EQUITY ANALYTICS
+        BENSIM TRADING
       </div>
       <div className="space-y-1 border-b border-terminal-border p-2 text-xs">
-        <NavLink to="/" className="block rounded px-2 py-2 text-terminal-muted hover:bg-terminal-bg hover:text-terminal-text">
+        <NavLink to="/equity/forex?symbol=EURUSD" className="block rounded px-2 py-2 text-terminal-muted hover:bg-terminal-bg hover:text-terminal-text">
           Home
         </NavLink>
-        <NavLink
-          to={`/fno?symbol=${encodeURIComponent((ticker || "NIFTY").toUpperCase())}`}
-          className="block rounded px-2 py-2 text-terminal-muted hover:bg-terminal-bg hover:text-terminal-text"
-        >
-          Switch To F&O {"->"}
+        <NavLink to="/equity/forex?symbol=EURUSD" className="block rounded px-2 py-2 text-terminal-accent hover:bg-terminal-bg hover:text-terminal-text">
+          EUR/USD Focus
         </NavLink>
       </div>
       <nav className="flex-1 space-y-1 overflow-auto p-2 text-xs">

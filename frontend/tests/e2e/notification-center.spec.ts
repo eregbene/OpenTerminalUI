@@ -1,9 +1,23 @@
 import { expect, test } from "@playwright/test";
 
+function makeJwt(payload: Record<string, unknown>): string {
+  const encoded = Buffer.from(JSON.stringify(payload)).toString("base64url");
+  return `x.${encoded}.y`;
+}
+
 test("notification center opens from the top bar", async ({ page, request }) => {
   const notificationTitle = `Alert: AAPL price_above ${Date.now()}`;
+  const accessToken = makeJwt({
+    sub: "e2e-user",
+    email: "e2e@example.com",
+    role: "trader",
+    exp: Math.floor(Date.now() / 1000) + 3600,
+  });
 
-  await request.post(`http://127.0.0.1:${process.env.E2E_BACKEND_PORT || "8010"}/api/notifications`, {
+  const createResponse = await request.post(`http://127.0.0.1:${process.env.E2E_BACKEND_PORT || "8010"}/api/notifications`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
     data: {
       type: "alert",
       title: notificationTitle,
@@ -13,6 +27,7 @@ test("notification center opens from the top bar", async ({ page, request }) => 
       priority: "high",
     },
   });
+  expect(createResponse.status(), await createResponse.text()).toBe(201);
 
   await page.goto("/", { waitUntil: "domcontentloaded" });
 

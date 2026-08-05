@@ -479,25 +479,30 @@ export function ChartShellToolbar({
             </div>
           </div>
         </div>
-        <section className="rounded border border-terminal-border bg-terminal-bg/50 p-2 text-[11px]" data-testid="chart-shell-shortcuts">
-          <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
-            <div className="ot-type-label text-terminal-muted">Keyboard Workflows</div>
-            <span className="text-[10px] text-terminal-muted">
-              Focus a pane with `1-9` or click a chart before using pane-local shortcuts.
-            </span>
-          </div>
-          <div className="mt-2 flex flex-wrap gap-1.5">
-            {SHORTCUT_HINTS.map((shortcut) => (
-              <span
-                key={shortcut.combo}
-                className="inline-flex items-center gap-1 rounded border border-terminal-border bg-terminal-bg px-2 py-1 text-[10px]"
-              >
-                <span className="text-terminal-accent">{shortcut.combo}</span>
-                <span className="text-terminal-text">{shortcut.label}</span>
-              </span>
-            ))}
-          </div>
-        </section>
+        <details className="rounded border border-terminal-border bg-terminal-bg/50 p-2 text-[11px]">
+          <summary className="cursor-pointer select-none text-[10px] uppercase tracking-[0.16em] text-terminal-muted hover:text-terminal-accent">
+            Advanced chart controls
+          </summary>
+          <div className="mt-2 grid gap-2">
+            <section className="rounded border border-terminal-border bg-terminal-bg/50 p-2 text-[11px]" data-testid="chart-shell-shortcuts">
+              <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+                <div className="ot-type-label text-terminal-muted">Keyboard Workflows</div>
+                <span className="text-[10px] text-terminal-muted">
+                  Focus a pane with `1-9` or click a chart before using pane-local shortcuts.
+                </span>
+              </div>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {SHORTCUT_HINTS.map((shortcut) => (
+                  <span
+                    key={shortcut.combo}
+                    className="inline-flex items-center gap-1 rounded border border-terminal-border bg-terminal-bg px-2 py-1 text-[10px]"
+                  >
+                    <span className="text-terminal-accent">{shortcut.combo}</span>
+                    <span className="text-terminal-text">{shortcut.label}</span>
+                  </span>
+                ))}
+              </div>
+            </section>
         <div className="grid gap-2 md:hidden" data-testid="chart-shell-mobile-layout">
           <section className="rounded border border-terminal-border bg-terminal-bg/50 p-2 text-[11px]">
             <div className="flex items-center justify-between gap-2">
@@ -982,6 +987,8 @@ export function ChartShellToolbar({
             </div>
           </section>
         </div>
+          </div>
+        </details>
       </div>
     </div>
   );

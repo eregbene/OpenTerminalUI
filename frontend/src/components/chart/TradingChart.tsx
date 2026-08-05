@@ -434,7 +434,7 @@ type Props = {
   drawingWorkspaceId?: string;
   extendedHours?: ExtendedHoursConfig;
   preMarketLevels?: PreMarketLevelConfig;
-  market?: "US" | "IN";
+  market?: "US" | "IN" | "FX";
   panelId?: string;
   crosshairSyncGroupId?: string | null;
   comparisonSeries?: Array<{ symbol: string; data: ChartPoint[]; color?: string }>;

@@ -1,0 +1,68 @@
+{
+  "accounts": {
+    "acct_01919f1687b9": {
+      "account_id": "acct_01919f1687b9",
+      "base_currency": "USD",
+      "buying_power": "100000",
+      "cash_balance": "100000",
+      "created_at": "2026-07-28T13:31:20.004493Z",
+      "equity": "100000",
+      "fees": "0",
+      "gross_exposure": "0",
+      "high_water_mark": "100000",
+      "initial_cash": "100000",
+      "metadata": {},
+      "name": "FX-4 Paper Account",
+      "net_exposure": "0",
+      "realized_pnl": "0",
+      "reserved_cash": "0",
+      "reset_at": null,
+      "status": "ACTIVE",
+      "unrealized_pnl": "0",
+      "updated_at": "2026-07-28T13:31:20.004497Z",
+      "version": 1
+    }
+  },
+  "audits": [
+    {
+      "account_id": "acct_01919f1687b9",
+      "audit_id": "audit_4fce7f8fc844",
+      "causation_id": null,
+      "correlation_id": null,
+      "created_at": "2026-07-28T13:31:20.004574Z",
+      "deployment_id": null,
+      "entity_id": "acct_01919f1687b9",
+      "entity_type": "paper_account",
+      "event_type": "paper_account_created",
+      "payload": {
+        "base_currency": "USD",
+        "initial_cash": "100000",
+        "name": "FX-4 Paper Account"
+      }
+    }
+  ],
+  "deployments": {},
+  "emergency_controls": {},
+  "fills": {},
+  "ledger": [
+    {
+      "account_id": "acct_01919f1687b9",
+      "cash_delta": "100000",
+      "causation_id": null,
+      "created_at": "2026-07-28T13:31:20.004543Z",
+      "currency": "USD",
+      "event_type": "cash_deposit",
+      "fees": "0",
+      "instrument_id": null,
+      "ledger_id": "ledger_da73a29299e1",
+      "metadata": {},
+      "price": null,
+      "quantity_delta": "0",
+      "realized_pnl": "0",
+      "reserved_cash_delta": "0"
+    }
+  ],
+  "orders": {},
+  "reconciliations": [],
+  "risk_evaluations": {}
+}

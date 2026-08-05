@@ -8,6 +8,8 @@ import {
   fetchVolumeProfile,
   type VolumeProfileResponse,
 } from "../../api/client";
+import { analyzeMarketStructure, type MarketStructureSnapshot } from "../../api/marketStructure";
+import { evaluateStrategy, listStrategies, type StrategyEvaluation, type StrategyRegistration } from "../../api/strategies";
 import type { AlertRule, ChartPoint, ChartResponse, CorporateEvent, PitFundamentalsResponse } from "../../types";
 import type {
   ChartSlot,
@@ -27,6 +29,12 @@ import type { IndicatorConfig } from "../../shared/chart/types";
 import type { ReplayCommand } from "../../shared/chart/replay";
 import { ChartPanelHeader } from "./ChartPanelHeader";
 import { ChartPanelFooter } from "./ChartPanelFooter";
+import {
+  DEFAULT_MARKET_STRUCTURE_TOGGLES,
+  MarketStructurePanel,
+  type MarketStructureToggles,
+} from "./MarketStructurePanel";
+import { StrategyDecisionPanel } from "./StrategyDecisionPanel";
 import type { QuoteTick } from "../../realtime/useQuotesStream";
 import { quickAddToFirstPortfolio } from "../../shared/portfolioQuickAdd";
 import {
@@ -129,6 +137,17 @@ export function ChartPanel({
   const [clearDrawingsSignal, setClearDrawingsSignal] = useState(0);
   const [pendingTrendPoint, setPendingTrendPoint] = useState(false);
   const [showVolumeProfile, setShowVolumeProfile] = useState(false);
+  const [showMarketStructure, setShowMarketStructure] = useState(false);
+  const [showStrategyInspector, setShowStrategyInspector] = useState(false);
+  const [marketStructure, setMarketStructure] = useState<MarketStructureSnapshot | null>(null);
+  const [marketStructureLoading, setMarketStructureLoading] = useState(false);
+  const [marketStructureError, setMarketStructureError] = useState<string | null>(null);
+  const [marketStructureToggles, setMarketStructureToggles] = useState<MarketStructureToggles>(DEFAULT_MARKET_STRUCTURE_TOGGLES);
+  const [strategies, setStrategies] = useState<StrategyRegistration[]>([]);
+  const [selectedStrategyId, setSelectedStrategyId] = useState("ema_trend_continuation_v1");
+  const [strategyEvaluation, setStrategyEvaluation] = useState<StrategyEvaluation | null>(null);
+  const [strategyLoading, setStrategyLoading] = useState(false);
+  const [strategyError, setStrategyError] = useState<string | null>(null);
   const [vpMode, setVpMode] = useState<"fixed" | "session" | "visible">("fixed");
   const [vpPeriod, setVpPeriod] = useState("20d");
   const [vpLookbackBars, setVpLookbackBars] = useState(300);
@@ -295,6 +314,76 @@ export function ChartPanel({
   }, [showVolumeProfile, slot.ticker, slot.market, vpMode, vpPeriod, vpLookbackBars, vpBins]);
 
   useEffect(() => {
+    if (!showMarketStructure || !slot.ticker || renderChartData.length < 10) return;
+    let cancelled = false;
+    setMarketStructureLoading(true);
+    setMarketStructureError(null);
+    void analyzeMarketStructure({
+      symbol: slot.ticker,
+      timeframe: slot.timeframe,
+      bars: renderChartData,
+      profile: "balanced",
+    })
+      .then((payload) => {
+        if (!cancelled) setMarketStructure(payload);
+      })
+      .catch((err) => {
+        if (!cancelled) setMarketStructureError(err instanceof Error ? err.message : "Market structure analysis failed");
+      })
+      .finally(() => {
+        if (!cancelled) setMarketStructureLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [showMarketStructure, slot.ticker, slot.timeframe, renderChartData]);
+
+  useEffect(() => {
+    if (!showStrategyInspector) return;
+    let cancelled = false;
+    void listStrategies()
+      .then((payload) => {
+        if (cancelled) return;
+        setStrategies(payload);
+        if (!payload.some((row) => row.strategy_id === selectedStrategyId) && payload[0]) {
+          setSelectedStrategyId(payload[0].strategy_id);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setStrategies([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [showStrategyInspector, selectedStrategyId]);
+
+  useEffect(() => {
+    if (!showStrategyInspector || !slot.ticker || renderChartData.length < 10 || !selectedStrategyId) return;
+    let cancelled = false;
+    setStrategyLoading(true);
+    setStrategyError(null);
+    void evaluateStrategy({
+      strategyId: selectedStrategyId,
+      symbol: slot.ticker,
+      timeframe: slot.timeframe,
+      bars: renderChartData,
+      assetClass: "equity",
+    })
+      .then((payload) => {
+        if (!cancelled) setStrategyEvaluation(payload);
+      })
+      .catch((err) => {
+        if (!cancelled) setStrategyError(err instanceof Error ? err.message : "Strategy evaluation failed");
+      })
+      .finally(() => {
+        if (!cancelled) setStrategyLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [showStrategyInspector, selectedStrategyId, slot.ticker, slot.timeframe, slot.market, renderChartData]);
+
+  useEffect(() => {
     if (!slot.ticker || !overlayDateRange) {
       setContextEvents([]);
       setContextFundamentals(null);
@@ -440,6 +529,38 @@ export function ChartPanel({
             <button
               type="button"
               className={`rounded border px-2 py-0.5 text-[10px] ${
+                showMarketStructure
+                  ? "border-terminal-accent bg-terminal-accent/10 text-terminal-accent"
+                  : "border-terminal-border bg-terminal-panel/90 text-terminal-muted"
+              }`}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowMarketStructure((v) => !v);
+              }}
+              aria-label={showMarketStructure ? "Hide market structure overlays" : "Show market structure overlays"}
+              data-testid="market-structure-toggle"
+            >
+              SMC
+            </button>
+            <button
+              type="button"
+              className={`rounded border px-2 py-0.5 text-[10px] ${
+                showStrategyInspector
+                  ? "border-terminal-accent bg-terminal-accent/10 text-terminal-accent"
+                  : "border-terminal-border bg-terminal-panel/90 text-terminal-muted"
+              }`}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowStrategyInspector((v) => !v);
+              }}
+              aria-label={showStrategyInspector ? "Hide strategy inspector" : "Show strategy inspector"}
+              data-testid="strategy-inspector-toggle"
+            >
+              STRAT
+            </button>
+            <button
+              type="button"
+              className={`rounded border px-2 py-0.5 text-[10px] ${
                 showDrawingTools
                   ? "border-terminal-accent bg-terminal-accent/10 text-terminal-accent"
                   : "border-terminal-border bg-terminal-panel/90 text-terminal-muted"
@@ -566,6 +687,25 @@ export function ChartPanel({
               }}
             />
             {showVolumeProfile ? <VolumeProfile profile={volumeProfile} liveQuote={liveQuote} /> : null}
+            {showMarketStructure ? (
+              <MarketStructurePanel
+                snapshot={marketStructure}
+                loading={marketStructureLoading}
+                error={marketStructureError}
+                toggles={marketStructureToggles}
+                onToggle={(key) => setMarketStructureToggles((prev) => ({ ...prev, [key]: !prev[key] }))}
+              />
+            ) : null}
+            {showStrategyInspector ? (
+              <StrategyDecisionPanel
+                strategies={strategies}
+                selectedStrategyId={selectedStrategyId}
+                evaluation={strategyEvaluation}
+                loading={strategyLoading}
+                error={strategyError}
+                onStrategyChange={setSelectedStrategyId}
+              />
+            ) : null}
           </>
         )}
         {showVolumeProfile && slot.ticker ? (

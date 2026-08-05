@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { useMarketStatus } from "../../hooks/useStocks";
-import { useSettingsStore } from "../../store/settingsStore";
 import { useStockStore } from "../../store/stockStore";
-import { APP_VERSION } from "../../utils/constants";
+import { APP_NAME, APP_VERSION } from "../../utils/constants";
 import { TerminalBadge } from "./TerminalBadge";
 
 function nowLabel(now: Date): string {
@@ -17,8 +16,6 @@ type Props = {
 };
 
 export function StatusBar({ tickerOverride }: Props) {
-  const selectedMarket = useSettingsStore((s) => s.selectedMarket);
-  const displayCurrency = useSettingsStore((s) => s.displayCurrency);
   const tickerFromStore = useStockStore((s) => s.ticker);
   const stockLoading = useStockStore((s) => s.loading);
   const stockError = useStockStore((s) => s.error);
@@ -61,15 +58,15 @@ export function StatusBar({ tickerOverride }: Props) {
     <div className="border-t border-terminal-border bg-terminal-panel px-3 py-1 text-[11px] uppercase tracking-wide text-terminal-muted">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <span>{selectedMarket}</span>
-          <span>{displayCurrency}</span>
-          <span>{ticker || "NO-SYMBOL"}</span>
+          <span>FX</span>
+          <span>USD</span>
+          <span>{ticker || "EURUSD"}</span>
           <TerminalBadge variant={isMock ? "mock" : "live"}>{isMock ? "MOCK" : "LIVE"}</TerminalBadge>
           <span className="tabular-nums">{nowLabel(now)}</span>
         </div>
         <div className="flex items-center gap-2 border-l border-terminal-border pl-2">
           <span className="rounded border border-terminal-border px-1.5 py-0.5 text-[10px] text-terminal-accent">
-            OpenTerminalUI V{APP_VERSION}
+            {APP_NAME} V{APP_VERSION}
           </span>
           <span>DATA</span>
           <TerminalBadge variant={dataState.variant}>{dataState.label}</TerminalBadge>

@@ -1,0 +1,771 @@
+{
+  "attribution": {
+    "by_exit_reason": {
+      "target": 11.399999999999977
+    },
+    "long_pnl": 11.399999999999977,
+    "short_pnl": 0
+  },
+  "equity_curve": [
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T00:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T00:15:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T00:30:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T00:45:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T01:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T01:15:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T01:30:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T01:45:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T02:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T02:15:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T02:30:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T02:45:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T03:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T03:15:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T03:30:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T03:45:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T04:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T04:15:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T04:30:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T04:45:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T05:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T05:15:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T05:30:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T05:45:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T06:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T06:15:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T06:30:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T06:45:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T07:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T07:15:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T07:30:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T07:45:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T08:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T08:15:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T08:30:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T08:45:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T09:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T09:15:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T09:30:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T09:45:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T10:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T10:15:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T10:30:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T10:45:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T11:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T11:15:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T11:30:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T11:45:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T12:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T12:15:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T12:30:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T12:45:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T13:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T13:15:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T13:30:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T13:45:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T14:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T14:15:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T14:30:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T14:45:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.0,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T15:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.2,
+      "exposure": 131.0,
+      "timestamp": "2026-01-01T15:15:00Z",
+      "unrealized_pnl": 0.19999999999998863
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100000.7,
+      "exposure": 131.5,
+      "timestamp": "2026-01-01T15:30:00Z",
+      "unrealized_pnl": 0.6999999999999886
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100001.2,
+      "exposure": 132.0,
+      "timestamp": "2026-01-01T15:45:00Z",
+      "unrealized_pnl": 1.1999999999999886
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100001.7,
+      "exposure": 132.5,
+      "timestamp": "2026-01-01T16:00:00Z",
+      "unrealized_pnl": 1.6999999999999886
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100002.2,
+      "exposure": 133.0,
+      "timestamp": "2026-01-01T16:15:00Z",
+      "unrealized_pnl": 2.1999999999999886
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100002.7,
+      "exposure": 133.5,
+      "timestamp": "2026-01-01T16:30:00Z",
+      "unrealized_pnl": 2.6999999999999886
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100003.2,
+      "exposure": 134.0,
+      "timestamp": "2026-01-01T16:45:00Z",
+      "unrealized_pnl": 3.1999999999999886
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100003.7,
+      "exposure": 134.5,
+      "timestamp": "2026-01-01T17:00:00Z",
+      "unrealized_pnl": 3.6999999999999886
+    },
+    {
+      "cash": 100000.0,
+      "equity": 100004.2,
+      "exposure": 135.0,
+      "timestamp": "2026-01-01T17:15:00Z",
+      "unrealized_pnl": 4.199999999999989
+    },
+    {
+      "cash": 100005.7,
+      "equity": 100005.7,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T17:30:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100005.7,
+      "equity": 100005.9,
+      "exposure": 136.0,
+      "timestamp": "2026-01-01T17:45:00Z",
+      "unrealized_pnl": 0.19999999999998863
+    },
+    {
+      "cash": 100005.7,
+      "equity": 100006.4,
+      "exposure": 136.5,
+      "timestamp": "2026-01-01T18:00:00Z",
+      "unrealized_pnl": 0.6999999999999886
+    },
+    {
+      "cash": 100005.7,
+      "equity": 100006.9,
+      "exposure": 137.0,
+      "timestamp": "2026-01-01T18:15:00Z",
+      "unrealized_pnl": 1.1999999999999886
+    },
+    {
+      "cash": 100005.7,
+      "equity": 100007.4,
+      "exposure": 137.5,
+      "timestamp": "2026-01-01T18:30:00Z",
+      "unrealized_pnl": 1.6999999999999886
+    },
+    {
+      "cash": 100005.7,
+      "equity": 100007.9,
+      "exposure": 138.0,
+      "timestamp": "2026-01-01T18:45:00Z",
+      "unrealized_pnl": 2.1999999999999886
+    },
+    {
+      "cash": 100005.7,
+      "equity": 100008.4,
+      "exposure": 138.5,
+      "timestamp": "2026-01-01T19:00:00Z",
+      "unrealized_pnl": 2.6999999999999886
+    },
+    {
+      "cash": 100005.7,
+      "equity": 100008.9,
+      "exposure": 139.0,
+      "timestamp": "2026-01-01T19:15:00Z",
+      "unrealized_pnl": 3.1999999999999886
+    },
+    {
+      "cash": 100005.7,
+      "equity": 100009.4,
+      "exposure": 139.5,
+      "timestamp": "2026-01-01T19:30:00Z",
+      "unrealized_pnl": 3.6999999999999886
+    },
+    {
+      "cash": 100005.7,
+      "equity": 100009.9,
+      "exposure": 140.0,
+      "timestamp": "2026-01-01T19:45:00Z",
+      "unrealized_pnl": 4.199999999999989
+    },
+    {
+      "cash": 100011.4,
+      "equity": 100011.4,
+      "exposure": 0.0,
+      "timestamp": "2026-01-01T20:00:00Z",
+      "unrealized_pnl": 0.0
+    },
+    {
+      "cash": 100011.4,
+      "equity": 100011.59999999999,
+      "exposure": 141.0,
+      "timestamp": "2026-01-01T20:15:00Z",
+      "unrealized_pnl": 0.19999999999998863
+    },
+    {
+      "cash": 100011.4,
+      "equity": 100012.09999999999,
+      "exposure": 141.5,
+      "timestamp": "2026-01-01T20:30:00Z",
+      "unrealized_pnl": 0.6999999999999886
+    },
+    {
+      "cash": 100011.4,
+      "equity": 100012.59999999999,
+      "exposure": 142.0,
+      "timestamp": "2026-01-01T20:45:00Z",
+      "unrealized_pnl": 1.1999999999999886
+    },
+    {
+      "cash": 100011.4,
+      "equity": 100013.09999999999,
+      "exposure": 142.5,
+      "timestamp": "2026-01-01T21:00:00Z",
+      "unrealized_pnl": 1.6999999999999886
+    },
+    {
+      "cash": 100011.4,
+      "equity": 100013.59999999999,
+      "exposure": 143.0,
+      "timestamp": "2026-01-01T21:15:00Z",
+      "unrealized_pnl": 2.1999999999999886
+    },
+    {
+      "cash": 100011.4,
+      "equity": 100014.09999999999,
+      "exposure": 143.5,
+      "timestamp": "2026-01-01T21:30:00Z",
+      "unrealized_pnl": 2.6999999999999886
+    },
+    {
+      "cash": 100011.4,
+      "equity": 100014.59999999999,
+      "exposure": 144.0,
+      "timestamp": "2026-01-01T21:45:00Z",
+      "unrealized_pnl": 3.1999999999999886
+    },
+    {
+      "cash": 100011.4,
+      "equity": 100015.09999999999,
+      "exposure": 144.5,
+      "timestamp": "2026-01-01T22:00:00Z",
+      "unrealized_pnl": 3.6999999999999886
+    },
+    {
+      "cash": 100011.4,
+      "equity": 100015.59999999999,
+      "exposure": 145.0,
+      "timestamp": "2026-01-01T22:15:00Z",
+      "unrealized_pnl": 4.199999999999989
+    }
+  ],
+  "metrics": {
+    "annualized_return": 0.0004417709676018955,
+    "annualized_volatility": 4.724884992229864e-05,
+    "average_holding_period": 135.0,
+    "average_loss": null,
+    "average_win": 5.699999999999989,
+    "best_trade": 5.699999999999989,
+    "calmar_ratio": null,
+    "consecutive_losses": 0,
+    "consecutive_wins": 2,
+    "drawdown_duration": 0,
+    "expectancy": 5.699999999999989,
+    "exposure_time": 1.0,
+    "loss_rate": 0.0,
+    "maximum_drawdown": 0.0,
+    "payoff_ratio": null,
+    "profit_factor": null,
+    "sharpe_ratio": 9.347844858419034,
+    "sortino_ratio": null,
+    "total_return": 0.00015599999999982295,
+    "trade_count": 2,
+    "turnover": 0.0026660000000000004,
+    "warnings": [
+      "metric ratios are low-confidence with fewer than 10 trades",
+      "profit factor is unavailable because there are no losing trades"
+    ],
+    "win_rate": 1.0,
+    "worst_trade": 5.699999999999989
+  },
+  "orders": [
+    {
+      "average_fill_price": 130.8,
+      "decision_id": "dec_60edaced66952ad0",
+      "eligible_from": "2026-01-01T15:15:00Z",
+      "filled_quantity": 1.0,
+      "invalidation_price": 127.5,
+      "limit_price": null,
+      "proposal_id": "prop_4431d99a79692339",
+      "quantity": 1.0,
+      "rejection_reason": null,
+      "side": "buy",
+      "simulated_order_id": "ord_405d4319074db012",
+      "status": "filled",
+      "stop_price": null,
+      "submitted_at": "2026-01-01T15:00:00Z",
+      "target_price": 136.5,
+      "time_in_force": "gtc",
+      "type": "market_on_next_bar"
+    },
+    {
+      "average_fill_price": 135.8,
+      "decision_id": "dec_eb82efb58b645725",
+      "eligible_from": "2026-01-01T17:45:00Z",
+      "filled_quantity": 1.0,
+      "invalidation_price": 132.5,
+      "limit_price": null,
+      "proposal_id": "prop_dd59fe55355b621a",
+      "quantity": 1.0,
+      "rejection_reason": null,
+      "side": "buy",
+      "simulated_order_id": "ord_dda7a309249620a6",
+      "status": "filled",
+      "stop_price": null,
+      "submitted_at": "2026-01-01T17:30:00Z",
+      "target_price": 141.5,
+      "time_in_force": "gtc",
+      "type": "market_on_next_bar"
+    },
+    {
+      "average_fill_price": 140.8,
+      "decision_id": "dec_62ae662ee5c40249",
+      "eligible_from": "2026-01-01T20:15:00Z",
+      "filled_quantity": 1.0,
+      "invalidation_price": 137.5,
+      "limit_price": null,
+      "proposal_id": "prop_927353121537f57f",
+      "quantity": 1.0,
+      "rejection_reason": null,
+      "side": "buy",
+      "simulated_order_id": "ord_a0802dbfae8a05c8",
+      "status": "filled",
+      "stop_price": null,
+      "submitted_at": "2026-01-01T20:00:00Z",
+      "target_price": 146.5,
+      "time_in_force": "gtc",
+      "type": "market_on_next_bar"
+    }
+  ],
+  "trades": [
+    {
+      "ambiguous_fill": false,
+      "decision_id": "dec_60edaced66952ad0",
+      "entry_price": 130.8,
+      "entry_time": "2026-01-01T15:15:00Z",
+      "evidence_reference": "dec_60edaced66952ad0",
+      "exit_price": 136.5,
+      "exit_reason": "target",
+      "exit_time": "2026-01-01T17:30:00Z",
+      "fees": 0.0,
+      "gross_pnl": 5.699999999999989,
+      "net_pnl": 5.699999999999989,
+      "proposal_id": "prop_4431d99a79692339",
+      "quantity": 1.0,
+      "return_pct": 0.04357798165137616,
+      "side": "long",
+      "trade_id": "trade_85faaffae4e29464"
+    },
+    {
+      "ambiguous_fill": false,
+      "decision_id": "dec_eb82efb58b645725",
+      "entry_price": 135.8,
+      "entry_time": "2026-01-01T17:45:00Z",
+      "evidence_reference": "dec_eb82efb58b645725",
+      "exit_price": 141.5,
+      "exit_reason": "target",
+      "exit_time": "2026-01-01T20:00:00Z",
+      "fees": 0.0,
+      "gross_pnl": 5.699999999999989,
+      "net_pnl": 5.699999999999989,
+      "proposal_id": "prop_dd59fe55355b621a",
+      "quantity": 1.0,
+      "return_pct": 0.041973490427098525,
+      "side": "long",
+      "trade_id": "trade_ef1197d72c3e5843"
+    }
+  ],
+  "warnings": [
+    "metric ratios are low-confidence with fewer than 10 trades",
+    "profit factor is unavailable because there are no losing trades"
+  ]
+}

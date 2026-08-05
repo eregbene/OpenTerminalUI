@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Bell, CircleDot } from "lucide-react";
 
-import { useMarketStatus } from "../../hooks/useStocks";
 import { useAlertsStore } from "../../store/alertsStore";
 import { useQuotesStore } from "../../realtime/useQuotesStream";
 
@@ -13,11 +12,6 @@ function formatZone(now: Date, timeZone: string) {
     hour12: false,
     timeZone,
   });
-}
-
-function marketLabel(value: unknown): "OPEN" | "CLOSED" {
-  const raw = String(value || "").toUpperCase();
-  return raw.includes("OPEN") ? "OPEN" : "CLOSED";
 }
 
 function Dot({ tone }: { tone: "green" | "yellow" | "red" | "gray" }) {
@@ -33,7 +27,6 @@ function Dot({ tone }: { tone: "green" | "yellow" | "red" | "gray" }) {
 }
 
 export function MarketStatusBar(_props: { tickerOverride?: string | null } = {}) {
-  const { data: marketStatus } = useMarketStatus();
   const unreadAlerts = useAlertsStore((s) => s.unreadCount);
   const connectionState = useQuotesStore((s) => s.connectionState);
   const [now, setNow] = useState(() => new Date());
@@ -64,16 +57,6 @@ export function MarketStatusBar(_props: { tickerOverride?: string | null } = {})
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lagMs, now]);
 
-  const marketPayload = (marketStatus ?? {}) as {
-    marketState?: Array<{ marketStatus?: string }>;
-    nseStatus?: string;
-    nyseStatus?: string;
-    nextOpenTime?: string;
-    fallbackEnabled?: boolean;
-  };
-
-  const nseOpen = marketLabel(marketPayload.marketState?.[0]?.marketStatus ?? marketPayload.nseStatus);
-  const nyseOpen = marketLabel(marketPayload.nyseStatus);
   const connectionTone =
     connectionState === "connected" ? "green" : connectionState === "connecting" ? "yellow" : "red";
   const connText =
@@ -83,21 +66,20 @@ export function MarketStatusBar(_props: { tickerOverride?: string | null } = {})
     <div className="border-t border-terminal-border bg-[#0D1117] px-3 py-0.5 text-[11px]">
       <div className="grid h-5 grid-cols-[auto_1fr_auto] items-center gap-3 text-terminal-muted">
         <div className="inline-flex items-center gap-3 ot-type-data whitespace-nowrap">
-          <span><span className="text-terminal-text">IST</span> {formatZone(now, "Asia/Kolkata")}</span>
+          <span><span className="text-terminal-text">LDN</span> {formatZone(now, "Europe/London")}</span>
           <span><span className="text-terminal-text">ET</span> {formatZone(now, "America/New_York")}</span>
           <span><span className="text-terminal-text">UTC</span> {formatZone(now, "UTC")}</span>
         </div>
 
         <div className="inline-flex min-w-0 items-center justify-center gap-3 overflow-hidden whitespace-nowrap ot-type-status">
           <span className="inline-flex items-center gap-1">
-            <Dot tone={nseOpen === "OPEN" ? "green" : "gray"} />
-            <span>NSE: {nseOpen}</span>
+            <Dot tone="green" />
+            <span>FX: 24H</span>
           </span>
           <span className="inline-flex items-center gap-1">
-            <Dot tone={nyseOpen === "OPEN" ? "green" : "gray"} />
-            <span>NYSE: {nyseOpen}</span>
+            <Dot tone="green" />
+            <span>EUR/USD FOCUS</span>
           </span>
-          {marketPayload.nextOpenTime ? <span className="text-terminal-muted">NEXT OPEN {String(marketPayload.nextOpenTime)}</span> : null}
         </div>
 
         <div className="inline-flex items-center gap-3 ot-type-data whitespace-nowrap">

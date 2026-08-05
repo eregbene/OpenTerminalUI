@@ -5,11 +5,13 @@ import {
   type RecentSecurityAssetClass,
   type RecentSecurityMarket,
 } from "../store/settingsStore";
+import { isForexPair } from "../utils/instruments";
 
 export function inferRecentSecurityAssetClass(symbol: string, exchange?: string | null): RecentSecurityAssetClass {
   const normalizedSymbol = symbol.trim().toUpperCase();
   const normalizedExchange = String(exchange ?? "").trim().toUpperCase();
 
+  if (isForexPair(normalizedSymbol)) return "forex";
   if (normalizedSymbol.endsWith("-USD") || normalizedExchange.includes("CRYPTO")) return "crypto";
   if (normalizedExchange.includes("FOREX") || normalizedExchange === "FX") return "forex";
   if (normalizedExchange.includes("COM")) return "commodity";
@@ -23,6 +25,7 @@ export function inferRecentSecurityMarket(countryCode?: string | null, exchangeO
   const normalizedCountry = String(countryCode ?? "").trim().toUpperCase();
   const normalizedExchange = String(exchangeOrMarket ?? "").trim().toUpperCase();
 
+  if (normalizedCountry === "FX" || normalizedExchange === "FX" || normalizedExchange.includes("FOREX")) return "FX";
   if (normalizedCountry === "IN" || normalizedExchange === "NSE" || normalizedExchange === "BSE") return "IN";
   return "US";
 }

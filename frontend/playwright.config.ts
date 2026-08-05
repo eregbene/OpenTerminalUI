@@ -10,7 +10,7 @@ const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
 const chromiumLaunchArgs = ["--disable-gpu"];
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(currentDir, "..");
-const authStatePath = process.env.PLAYWRIGHT_AUTH_STATE_PATH || path.join(repoRoot, "playwright", ".auth", "user.json");
+const authStatePath = process.env.PLAYWRIGHT_AUTH_STATE_PATH || path.join(repoRoot, "test-results", ".auth", "user.json");
 const sqlitePath = path.join(repoRoot, "data", "playwright-e2e.db").replace(/\\/g, "/");
 const sqliteUrl = process.env.OPENTERMINALUI_SQLITE_URL || `sqlite:///${sqlitePath}`;
 const databaseUrl = process.env.DATABASE_URL || sqliteUrl.replace("sqlite:///", "sqlite+aiosqlite:///");

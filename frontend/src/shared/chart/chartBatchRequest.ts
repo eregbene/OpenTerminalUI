@@ -14,8 +14,14 @@ export function supportsExtendedHoursRequest(slot: ChartSlot): boolean {
   return slot.market === "US" && (slot.timeframe === "1m" || slot.timeframe === "5m" || slot.timeframe === "15m" || slot.timeframe === "1h");
 }
 
+export function chartMarketToApiMarket(market: ChartSlot["market"]): string {
+  if (market === "IN") return "NSE";
+  if (market === "FX") return "FX";
+  return "NASDAQ";
+}
+
 export function buildChartBatchRequestKey(slot: ChartSlot): string {
-  const market = slot.market === "IN" ? "NSE" : "NASDAQ";
+  const market = chartMarketToApiMarket(slot.market);
   const extended = slot.extendedHours.enabled && supportsExtendedHoursRequest(slot);
   return `${slot.id}|${market}|${String(slot.ticker ?? "").toUpperCase()}|${BATCH_TIMEFRAME_MAP[slot.timeframe]}|ext=${extended}`;
 }

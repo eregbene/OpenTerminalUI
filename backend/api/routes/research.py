@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
 from backend.core.research import service
+from backend.research.performance_intelligence import strategy_performance_service
 
 router = APIRouter(prefix="/api/research", tags=["research"])
 
@@ -49,3 +50,46 @@ async def search(q: str, k: int = 10) -> dict[str, Any]:
 async def items(limit: int = 50) -> dict[str, Any]:
     limit = max(1, min(200, limit))
     return {"items": service.list_items(limit=limit)}
+
+
+@router.get("/strategies")
+async def research_strategies() -> dict[str, Any]:
+    return {"items": strategy_performance_service.strategies()}
+
+
+@router.get("/strategies/{strategy_id}")
+async def research_strategy(strategy_id: str) -> dict[str, Any]:
+    row = strategy_performance_service.strategy(strategy_id)
+    if row is None:
+        raise HTTPException(status_code=404, detail="strategy not found")
+    return row
+
+
+@router.get("/leaderboard")
+async def research_leaderboard() -> dict[str, Any]:
+    return strategy_performance_service.leaderboard()
+
+
+@router.get("/performance")
+async def research_performance() -> dict[str, Any]:
+    return strategy_performance_service.performance()
+
+
+@router.get("/equity")
+async def research_equity() -> dict[str, Any]:
+    return strategy_performance_service.equity()
+
+
+@router.get("/calibration")
+async def research_calibration() -> dict[str, Any]:
+    return strategy_performance_service.calibration()
+
+
+@router.post("/performance/refresh")
+async def research_performance_refresh() -> dict[str, Any]:
+    return strategy_performance_service.refresh_from_paper_trades()
+
+
+@router.get("/performance/analysis")
+async def research_performance_analysis() -> dict[str, Any]:
+    return strategy_performance_service.first_analysis()

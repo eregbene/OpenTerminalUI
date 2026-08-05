@@ -1,0 +1,9 @@
+# Optional heavy ML/research packages.
+# These are intentionally excluded from the default Docker runtime because the
+# current application code does not import them and xgboost pulls large GPU
+# wheels on Linux. Parquet support remains in requirements-research.txt because
+# the OHLCV cache writes cold storage through pandas/pyarrow.
+-r requirements-research.txt
+hmmlearn
+optuna
+xgboost

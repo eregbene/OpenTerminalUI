@@ -14,7 +14,7 @@ load_local_env()
 
 
 class AppSettings(BaseModel):
-    app_name: str = "OpenTerminalUI API"
+    app_name: str = "Bensim Trading API"
     app_version: str = "0.6.0"
     cors_origins: list[str] = Field(
         default_factory=lambda: [
@@ -126,12 +126,25 @@ def _as_bool(value: Any, default: bool = False) -> bool:
     return str(value).strip().lower() in {"1", "true", "yes", "on", "y"}
 
 
+def _bensim_alias(name: str) -> str | None:
+    if name.startswith("OPENTERMINALUI_"):
+        return f"BENSIM_{name.removeprefix('OPENTERMINALUI_')}"
+    return None
+
+
 def _env(name: str, legacy_name: str | None = None) -> str | None:
+    alias = _bensim_alias(name)
+    if alias:
+        val = os.getenv(alias)
+        if val is not None and val.strip() != "":
+            return val
     val = os.getenv(name)
-    if val is not None:
+    if val is not None and val.strip() != "":
         return val
     if legacy_name:
-        return os.getenv(legacy_name)
+        legacy_val = os.getenv(legacy_name)
+        if legacy_val is not None and legacy_val.strip() != "":
+            return legacy_val
     return None
 
 
@@ -190,7 +203,7 @@ def get_settings() -> AppSettings:
         app_name=(
             _env("OPENTERMINALUI_APP_NAME")
             or _env("OPENSCREENS_APP_NAME", "TRADE_SCREENS_APP_NAME")
-            or app_cfg.get("name", "OpenTerminalUI API")
+            or app_cfg.get("name", "Bensim Trading API")
         ),
         app_version=(
             _env("OPENTERMINALUI_APP_VERSION")

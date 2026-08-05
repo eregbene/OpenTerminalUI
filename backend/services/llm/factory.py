@@ -24,7 +24,7 @@ def get_llm_provider(
             timeout=timeout,
             extra_headers={
                 "HTTP-Referer": "https://openterminalui.local",
-                "X-Title": "OpenTerminalUI Agent",
+                "X-Title": "Bensim Trading Agent",
             },
             # Free models are flaky (429/404); try the configured free chain.
             fallback_models=[] if settings.agent_disable_model_fallbacks else [

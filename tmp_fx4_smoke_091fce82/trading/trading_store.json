@@ -1,0 +1,362 @@
+{
+  "accounts": {
+    "acct_f05b64b968b4": {
+      "account_id": "acct_f05b64b968b4",
+      "base_currency": "USD",
+      "buying_power": "100000",
+      "cash_balance": "100000",
+      "created_at": "2026-07-28T13:31:57.200924Z",
+      "equity": "100000",
+      "fees": "0",
+      "gross_exposure": "0",
+      "high_water_mark": "100000",
+      "initial_cash": "100000",
+      "metadata": {},
+      "name": "FX-4 Paper Account",
+      "net_exposure": "0",
+      "realized_pnl": "0",
+      "reserved_cash": "0",
+      "reset_at": null,
+      "status": "ACTIVE",
+      "unrealized_pnl": "0",
+      "updated_at": "2026-07-28T13:31:57.200926Z",
+      "version": 1
+    }
+  },
+  "audits": [
+    {
+      "account_id": "acct_f05b64b968b4",
+      "audit_id": "audit_b3353c7cf05c",
+      "causation_id": null,
+      "correlation_id": null,
+      "created_at": "2026-07-28T13:31:57.200988Z",
+      "deployment_id": null,
+      "entity_id": "acct_f05b64b968b4",
+      "entity_type": "paper_account",
+      "event_type": "paper_account_created",
+      "payload": {
+        "base_currency": "USD",
+        "initial_cash": "100000",
+        "name": "FX-4 Paper Account"
+      }
+    },
+    {
+      "account_id": "acct_f05b64b968b4",
+      "audit_id": "audit_cbf76828af54",
+      "causation_id": null,
+      "correlation_id": null,
+      "created_at": "2026-07-28T13:31:57.247214Z",
+      "deployment_id": "deploy_a6cd894dc4bb",
+      "entity_id": "deploy_a6cd894dc4bb",
+      "entity_type": "strategy_deployment",
+      "event_type": "paper_deployment_pending_approval",
+      "payload": {}
+    },
+    {
+      "account_id": "acct_f05b64b968b4",
+      "audit_id": "audit_13e00607d18a",
+      "causation_id": null,
+      "correlation_id": null,
+      "created_at": "2026-07-28T13:31:57.263706Z",
+      "deployment_id": "deploy_a6cd894dc4bb",
+      "entity_id": "deploy_a6cd894dc4bb",
+      "entity_type": "strategy_deployment",
+      "event_type": "paper_deployment_human_approved",
+      "payload": {
+        "approver": "fx4_manual_policy",
+        "candidate_hash": "7daae5b887f3e7a1b58750e2c831f5d34c14fec7fa4c96bbb33ae7fae31c3214",
+        "expires_at": null,
+        "strategy_hash": "trend_pullback_v1"
+      }
+    },
+    {
+      "account_id": "acct_f05b64b968b4",
+      "audit_id": "audit_1269a7a4957e",
+      "causation_id": null,
+      "correlation_id": "corr_bf82dabb31de",
+      "created_at": "2026-07-28T13:31:57.310600Z",
+      "deployment_id": "deploy_a6cd894dc4bb",
+      "entity_id": "risk_eval_c1388113d7b5",
+      "entity_type": "risk_evaluation",
+      "event_type": "paper_risk_evaluated",
+      "payload": {
+        "blocking_reasons": [
+          "insufficient buying power"
+        ],
+        "decision": "REJECTED",
+        "resizing_reasons": []
+      }
+    },
+    {
+      "account_id": "acct_f05b64b968b4",
+      "audit_id": "audit_07763b0a8f90",
+      "causation_id": null,
+      "correlation_id": "corr_bf82dabb31de",
+      "created_at": "2026-07-28T13:31:57.323793Z",
+      "deployment_id": "deploy_a6cd894dc4bb",
+      "entity_id": null,
+      "entity_type": "paper_order",
+      "event_type": "paper_order_rejected",
+      "payload": {
+        "errors": [
+          "risk decision is not approved",
+          "approved quantity must be positive"
+        ],
+        "proposal_id": "fxcand_7daae5b887f3e7a1"
+      }
+    }
+  ],
+  "deployments": {
+    "deploy_a6cd894dc4bb": {
+      "account_id": "acct_f05b64b968b4",
+      "approval_notes": "manual confirmation paper deployment",
+      "approved_at": "2026-07-28T13:31:57.263636Z",
+      "approved_by": "fx4_manual_policy",
+      "approved_candidate_hash": "7daae5b887f3e7a1b58750e2c831f5d34c14fec7fa4c96bbb33ae7fae31c3214",
+      "approved_strategy_hash": "trend_pullback_v1",
+      "candidate_id": "fxcand_7daae5b887f3e7a1",
+      "created_at": "2026-07-28T13:31:57.247159Z",
+      "data_policy": {},
+      "deployment_id": "deploy_a6cd894dc4bb",
+      "execution_model": {
+        "created_at": "2026-07-28T13:31:57.247153Z",
+        "execution_model_id": "exec_model_dc0148a4332e",
+        "fill_policy": "NEXT_EVENT_CONSERVATIVE",
+        "latency_ms": 0,
+        "liquidity_max_quantity": null,
+        "market_closed_policy": "QUEUE",
+        "partial_fill_policy": "ALL_OR_NONE_WITHOUT_VOLUME",
+        "slippage_bps": "3",
+        "spread_bps": "2",
+        "version": 1
+      },
+      "expires_at": null,
+      "instruments": [
+        {
+          "asset_class": "FOREX",
+          "contract_multiplier": "1",
+          "expired": false,
+          "halted": false,
+          "instrument_id": "FX:EURUSD",
+          "lot_size": "1",
+          "market_open": true,
+          "metadata": {
+            "broker_contract_status": "PAPER_FX_FIXTURE"
+          },
+          "minimum_tick": "0.00001",
+          "quote_currency": "USD",
+          "sector": null,
+          "shortable": true,
+          "symbol": "EURUSD"
+        }
+      ],
+      "metadata": {},
+      "risk_policy": {
+        "account": {
+          "maximum_daily_loss_percent": "2",
+          "maximum_drawdown_percent": "10",
+          "maximum_gross_exposure_percent": "100",
+          "maximum_leverage": "1",
+          "maximum_long_exposure_percent": "100",
+          "maximum_net_exposure_percent": "60",
+          "maximum_open_positions": "10",
+          "maximum_pending_orders": "10",
+          "maximum_short_exposure_percent": "0",
+          "minimum_available_cash": "0"
+        },
+        "created_at": "2026-07-28T13:31:57.263559Z",
+        "data": {
+          "allow_fallback": "False",
+          "allow_simulated": "True",
+          "allow_stale": "False",
+          "maximum_age_seconds": "60",
+          "minimum_quality_score": "0.8"
+        },
+        "immutable_after_approval": true,
+        "instrument": {
+          "maximum_notional": "500000",
+          "maximum_orders_per_hour": "10",
+          "minimum_price": "0.01"
+        },
+        "metadata": {},
+        "name": "Default Paper Risk",
+        "policy_id": "risk_policy_d8ff8e5a354c",
+        "position": {
+          "allow_averaging_down": "False",
+          "allow_pyramiding": "False",
+          "allow_short_selling": "True",
+          "maximum_position_percent": "10",
+          "maximum_quantity": "1000000",
+          "maximum_risk_per_trade_percent": "0.5",
+          "minimum_stop_distance_ticks": "2",
+          "require_invalidation_level": "True"
+        },
+        "strategy": {
+          "maximum_active_positions": "3",
+          "maximum_daily_entries": "5",
+          "maximum_losing_streak": "3",
+          "maximum_total_strategy_exposure_percent": "30",
+          "one_active_order_per_proposal": "True",
+          "one_position_per_structural_event": "True"
+        },
+        "version": 1
+      },
+      "schedule": {},
+      "selected_parameters": {
+        "source": "forex_strategy_candidate"
+      },
+      "stale": false,
+      "stale_reasons": [],
+      "status": "ENABLED",
+      "strategy_id": "trend_pullback_v1",
+      "strategy_version": "1.0.0",
+      "timeframes": [
+        "1D"
+      ],
+      "updated_at": "2026-07-28T13:31:57.263664Z",
+      "version": 3
+    }
+  },
+  "emergency_controls": {},
+  "fills": {},
+  "ledger": [
+    {
+      "account_id": "acct_f05b64b968b4",
+      "cash_delta": "100000",
+      "causation_id": null,
+      "created_at": "2026-07-28T13:31:57.200952Z",
+      "currency": "USD",
+      "event_type": "cash_deposit",
+      "fees": "0",
+      "instrument_id": null,
+      "ledger_id": "ledger_ac9bc80e9068",
+      "metadata": {},
+      "price": null,
+      "quantity_delta": "0",
+      "realized_pnl": "0",
+      "reserved_cash_delta": "0"
+    }
+  ],
+  "orders": {},
+  "reconciliations": [],
+  "risk_evaluations": {
+    "risk_eval_c1388113d7b5": {
+      "account_id": "acct_f05b64b968b4",
+      "account_snapshot_id": "acct_snap_32d75957a9d2",
+      "approved_notional": "0",
+      "approved_quantity": "0",
+      "blocking_reasons": [
+        "insufficient buying power"
+      ],
+      "created_at": "2026-07-28T13:31:57.307865Z",
+      "decision": "REJECTED",
+      "deployment_id": "deploy_a6cd894dc4bb",
+      "evaluation_id": "risk_eval_c1388113d7b5",
+      "expires_at": "2026-07-28T13:36:57.293375Z",
+      "market_data_reference": {
+        "ask": null,
+        "bid": null,
+        "conversion_rate": "1",
+        "conversion_source": "base",
+        "conversion_timestamp": "2026-07-28T13:31:57.293382Z",
+        "is_delayed": false,
+        "is_fallback": false,
+        "is_simulated": true,
+        "is_stale": false,
+        "price": "1.085",
+        "provider": "forex-strategy",
+        "quality_score": "1.0",
+        "timestamp": "2026-07-28T13:31:57.293375Z"
+      },
+      "proposal_id": "fxcand_7daae5b887f3e7a1",
+      "requested_direction": "BUY",
+      "requested_notional": "135625.0000",
+      "requested_quantity": "125000.0",
+      "resizing_reasons": [],
+      "risk_policy_id": "risk_policy_d8ff8e5a354c",
+      "rules_evaluated": [
+        {
+          "evidence": {
+            "status": "CLEAR"
+          },
+          "message": "Emergency disable is enabled",
+          "rule_id": "emergency_disable",
+          "status": "PASS"
+        },
+        {
+          "evidence": {
+            "status": "ACTIVE"
+          },
+          "message": "Paper account is not active",
+          "rule_id": "account_active",
+          "status": "PASS"
+        },
+        {
+          "evidence": {
+            "stale": false,
+            "stale_reasons": [],
+            "status": "ENABLED"
+          },
+          "message": "Deployment is not approved and enabled or is stale",
+          "rule_id": "deployment_enabled",
+          "status": "PASS"
+        },
+        {
+          "evidence": {
+            "asset_class": "FOREX"
+          },
+          "message": "Unsupported instrument type",
+          "rule_id": "instrument_supported",
+          "status": "PASS"
+        },
+        {
+          "evidence": {
+            "expired": false,
+            "halted": false,
+            "market_open": true
+          },
+          "message": "Instrument is not in a tradable market state",
+          "rule_id": "market_state",
+          "status": "PASS"
+        },
+        {
+          "evidence": {
+            "is_stale": false
+          },
+          "message": "Market data staleness accepted",
+          "rule_id": "data_stale",
+          "status": "PASS"
+        },
+        {
+          "evidence": {
+            "sizing_intent": {
+              "type": "fixed_units"
+            }
+          },
+          "message": "insufficient buying power",
+          "rule_id": "sizing",
+          "status": "FAIL"
+        },
+        {
+          "evidence": {
+            "current": "0",
+            "limit": "100000",
+            "new": "0"
+          },
+          "message": "Maximum gross exposure exceeded",
+          "rule_id": "account_gross_exposure",
+          "status": "PASS"
+        },
+        {
+          "evidence": {
+            "pending_orders": 0
+          },
+          "message": "Maximum pending orders exceeded",
+          "rule_id": "pending_orders",
+          "status": "PASS"
+        }
+      ],
+      "warnings": []
+    }
+  }
+}

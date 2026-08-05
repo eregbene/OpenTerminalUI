@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { fetchQuotesBatch, fetchStockBriefing, getHistory } from "../api/client";
 import { AiInsightCard } from "../components/terminal/AiInsightCard";
@@ -41,6 +41,7 @@ import type { ChartKind, ChartTimeframe, IndicatorConfig } from "../shared/chart
 import { quickAddToFirstPortfolio } from "../shared/portfolioQuickAdd";
 import { useSettingsStore } from "../store/settingsStore";
 import { useStockStore } from "../store/stockStore";
+import { normalizeForexPair } from "../utils/instruments";
 
 type TabId = "overview" | "market-depth" | "financials" | "analysis" | "peers" | "valuation" | "shareholding" | "events" | "earnings";
 
@@ -77,6 +78,7 @@ function normalizeRealtimeMarketCode(value: string): "NSE" | "NASDAQ" {
 }
 
 export function StockDetailPage() {
+  const navigate = useNavigate();
   const { ticker, interval, range, setInterval, setRange } = useStockStore();
   const { formatDisplayMoney } = useDisplayCurrency();
   const selectedMarket = useSettingsStore((s) => s.selectedMarket);
@@ -108,6 +110,13 @@ export function StockDetailPage() {
   const [isBackfilling, setIsBackfilling] = useState(false);
   const [hasMoreHistory, setHasMoreHistory] = useState(true);
   const chartFullscreenRef = useRef<HTMLDivElement | null>(null);
+  const forexPair = normalizeForexPair(ticker);
+
+  useEffect(() => {
+    if (forexPair) {
+      navigate(`/equity/forex?symbol=${encodeURIComponent(forexPair)}`, { replace: true });
+    }
+  }, [forexPair, navigate]);
 
   const { data: stock } = useStock(ticker);
   const { data: returnsData } = useStockReturns(ticker);

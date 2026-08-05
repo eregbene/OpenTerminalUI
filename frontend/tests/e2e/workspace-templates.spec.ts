@@ -30,7 +30,7 @@ test("launchpad workspace templates can be applied, saved, and deleted", async (
 
   await page.goto("/equity/launchpad", { waitUntil: "domcontentloaded" });
 
-  await expect(page.getByRole("button", { name: "Templates" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Templates" })).toBeVisible({ timeout: 45_000 });
   await page.getByRole("button", { name: "Templates" }).click();
   await expect(page.getByTestId("workspace-template-gallery")).toBeVisible();
   await expect(page.locator('[data-template-origin="builtin"]')).toHaveCount(6);

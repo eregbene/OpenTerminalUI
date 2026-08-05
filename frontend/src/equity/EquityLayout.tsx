@@ -54,8 +54,8 @@ function EquityRightRail() {
   });
 
   const newsQuery = useQuery({
-    queryKey: ["right-rail", "news", selectedMarket, ticker],
-    queryFn: () => getSymbolNews({ symbol: (ticker || "RELIANCE").toUpperCase(), market: selectedMarket, limit: 5 }),
+    queryKey: ["right-rail", "news", "FX", ticker],
+    queryFn: () => getSymbolNews({ symbol: (ticker || "EURUSD").toUpperCase(), market: "FX", limit: 5 }),
     enabled: Boolean(ticker),
     staleTime: 30_000,
     refetchInterval: 60_000,
@@ -162,8 +162,12 @@ function EquityRightRail() {
   const omsAudit = (omsAuditQuery.data ?? []) as AuditEvent[];
 
   const routeLabel = (() => {
-    if (location.pathname.includes("/equity/stocks")) return "Market / Stock Detail";
-    if (location.pathname.includes("/equity/screener")) return "Equity Screener";
+    const params = new URLSearchParams(location.search);
+    const fxSymbol = String(params.get("symbol") || params.get("pair") || "EURUSD").toUpperCase().replace(/[^A-Z]/g, "").slice(0, 6);
+    const fxLabel = fxSymbol.length === 6 ? `${fxSymbol.slice(0, 3)}/${fxSymbol.slice(3)}` : "Majors";
+    if (location.pathname.includes("/equity/forex")) return `Forex / ${fxLabel}`;
+    if (location.pathname.includes("/equity/stocks")) return `Forex / ${fxLabel}`;
+    if (location.pathname.includes("/equity/screener")) return "Forex Research";
     if (location.pathname.includes("/equity/portfolio")) return "Portfolio";
     if (location.pathname.includes("/equity/paper")) return "Paper Trading";
     if (location.pathname.includes("/equity/risk")) return "Risk Dashboard";
@@ -171,7 +175,7 @@ function EquityRightRail() {
     if (location.pathname.includes("/equity/oms")) return "OMS / Compliance";
     if (location.pathname.includes("/equity/news")) return "News";
     if (location.pathname.includes("/equity/watchlist")) return "Watchlist";
-    return "Equity Workspace";
+    return "Forex Workspace";
   })();
 
   const presetConfig = getWorkspacePresetConfig(preset);
@@ -193,8 +197,8 @@ function EquityRightRail() {
         >
           <div className="grid grid-cols-2 gap-2 text-[11px]">
             <div className="rounded border border-terminal-border bg-terminal-bg px-2 py-1">
-              <div className="text-terminal-muted">Ticker</div>
-              <div className="text-terminal-text">{(ticker || "RELIANCE").toUpperCase()}</div>
+              <div className="text-terminal-muted">Pair</div>
+              <div className="text-terminal-text">{(ticker || "EURUSD").toUpperCase()}</div>
             </div>
             <div className="rounded border border-terminal-border bg-terminal-bg px-2 py-1">
               <div className="text-terminal-muted">Alerts</div>
@@ -266,7 +270,7 @@ function EquityRightRail() {
           )}
         </TerminalPanel>
 
-        <TerminalPanel title="News" subtitle={`Latest for ${(ticker || "RELIANCE").toUpperCase()}`} bodyClassName="space-y-1">
+        <TerminalPanel title="News" subtitle={`Latest for ${(ticker || "EURUSD").toUpperCase()}`} bodyClassName="space-y-1">
           {newsQuery.isLoading ? (
             <div className="text-[11px] text-terminal-muted">Loading news...</div>
           ) : symbolNews.length === 0 ? (

@@ -1,7 +1,7 @@
-# RFC: OpenTerminalUI Quant Feature Pack
+# RFC: Bensim Trading Quant Feature Pack
 
 ## 1. Overview and Objectives
-The Quant Feature Pack introduces robust algorithmic trading and portfolio management capabilities to OpenTerminalUI. This encompasses a comprehensive suite spanning a unified cockpit, portfolio-level backtesting, institutional-grade risk analytics, reproducible experiment tracking, centralized instrument mastering, paper trading with trade cost analysis (TCA), and automated data quality checks.
+The Quant Feature Pack introduces robust algorithmic trading and portfolio management capabilities to Bensim Trading. This encompasses a comprehensive suite spanning a unified cockpit, portfolio-level backtesting, institutional-grade risk analytics, reproducible experiment tracking, centralized instrument mastering, paper trading with trade cost analysis (TCA), and automated data quality checks.
 
 ## 2. Module Map
 The feature pack is logically divided into 7 core modules, each designed with single-responsibility principles while interacting seamlessly.

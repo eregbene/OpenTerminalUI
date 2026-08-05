@@ -58,6 +58,13 @@ describe("GO commanding", () => {
     expect(navigate).toHaveBeenCalledWith("/equity/stocks?ticker=AAPL");
   });
 
+  it("routes ticker-only forex pairs to the Forex page", () => {
+    const navigate = vi.fn();
+    const result = executeParsedCommand(parseCommand("EURUSD"), navigate as any);
+    expect(result.ok).toBe(true);
+    expect(navigate).toHaveBeenCalledWith("/equity/forex?pair=EURUSD");
+  });
+
   it("routes financial subfunctions to the requested Security Hub subtab", () => {
     const navigate = vi.fn();
     const result = executeParsedCommand(parseCommand("AAPL FA MARGINS"), navigate as any);

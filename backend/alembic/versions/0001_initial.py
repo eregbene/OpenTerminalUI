@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy.dialects import postgresql
 
 
 revision = "0001_initial"
@@ -18,6 +19,20 @@ depends_on = None
 
 
 def upgrade() -> None:
+    bind = op.get_bind()
+    user_role_type = sa.Enum("ADMIN", "TRADER", "VIEWER", name="userrole")
+    if bind.dialect.name == "postgresql":
+        user_role_type = postgresql.ENUM("ADMIN", "TRADER", "VIEWER", name="userrole", create_type=False)
+        op.execute(
+            """
+            DO $$
+            BEGIN
+                IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'userrole') THEN
+                    CREATE TYPE userrole AS ENUM ('ADMIN', 'TRADER', 'VIEWER');
+                END IF;
+            END$$;
+            """
+        )
     op.create_table(
         "holdings",
         sa.Column("id", sa.Integer(), primary_key=True),
@@ -144,7 +159,7 @@ def upgrade() -> None:
         sa.Column("id", sa.String(length=36), primary_key=True),
         sa.Column("email", sa.String(length=320), nullable=False),
         sa.Column("hashed_password", sa.String(length=255), nullable=False),
-        sa.Column("role", sa.Enum("ADMIN", "TRADER", "VIEWER", name="userrole"), nullable=False, server_default="VIEWER"),
+        sa.Column("role", user_role_type, nullable=False, server_default="VIEWER"),
         sa.Column("created_at", sa.DateTime(), nullable=False),
         sa.Column("last_login", sa.DateTime(), nullable=True),
     )
@@ -166,7 +181,6 @@ def upgrade() -> None:
     op.create_index("ix_refresh_tokens_expires_at", "refresh_tokens", ["expires_at"], unique=False)
     op.create_index("ix_refresh_tokens_revoked_at", "refresh_tokens", ["revoked_at"], unique=False)
 
-    bind = op.get_bind()
     if bind.dialect.name == "postgresql":
         op.execute("CREATE INDEX IF NOT EXISTS brin_news_articles_created_at ON news_articles USING BRIN (created_at)")
         op.execute("CREATE INDEX IF NOT EXISTS brin_backtest_runs_created_at ON backtest_runs USING BRIN (created_at)")

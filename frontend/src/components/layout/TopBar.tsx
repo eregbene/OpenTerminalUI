@@ -1,133 +1,40 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { fetchCryptoSearch, searchSymbols, type SearchSymbolItem } from "../../api/client";
-import { CountryFlag } from "../common/CountryFlag";
+import type { SearchSymbolItem } from "../../api/client";
 import { NotificationBell } from "../notifications/NotificationBell";
 import { useNavigationHistory } from "../../hooks/useNavigationHistory";
-import { inferRecentSecurityAssetClass, inferRecentSecurityMarket, useRecentSecurities } from "../../hooks/useRecentSecurities";
-import { useMarketStatus, useTopBarTickers } from "../../hooks/useStocks";
-import { useQuotesStore } from "../../realtime/useQuotesStream";
-import { useSettingsStore } from "../../store/settingsStore";
+import { useRecentSecurities } from "../../hooks/useRecentSecurities";
 import { useStockStore } from "../../store/stockStore";
-import { COUNTRY_MARKETS } from "../../types";
-import type { CountryCode, MarketCode } from "../../types";
-
-type DisplayCurrency = "INR" | "USD";
-
-const COUNTRY_FLAGS: Record<CountryCode, string> = {
-  IN: "🇮🇳",
-  US: "🇺🇸",
-};
-
-const COUNTRY_DEFAULT_MARKET: Record<CountryCode, MarketCode> = {
-  IN: "NSE",
-  US: "NASDAQ",
-};
+import { APP_BRAND_MARK, APP_NAME } from "../../utils/constants";
+import { normalizeForexPair } from "../../utils/instruments";
 
 type TopBarProps = {
   hideTickerLoader?: boolean;
   hideMarketMarquee?: boolean;
 };
 
-const BRAND_ICON_SRC = "/favicon.png";
+const BRAND_ICON_SRC = APP_BRAND_MARK;
+const DEFAULT_PAIR = "EURUSD";
+const DEFAULT_PAIR_ROUTE = "/equity/forex?symbol=EURUSD";
+const DEFAULT_CHART_ROUTE = "/forex/chart?symbol=EURUSD&market=FX";
 
-export function TopBar({ hideTickerLoader = false, hideMarketMarquee = false }: TopBarProps) {
+export function TopBar({ hideTickerLoader = false, hideMarketMarquee: _hideMarketMarquee = false }: TopBarProps) {
   const navigate = useNavigate();
   const setTicker = useStockStore((s) => s.setTicker);
-  const load = useStockStore((s) => s.load);
   const stock = useStockStore((s) => s.stock);
   const ticker = useStockStore((s) => s.ticker);
-  const selectedCountry = useSettingsStore((s) => s.selectedCountry);
-  const selectedMarket = useSettingsStore((s) => s.selectedMarket);
-  const displayCurrency = useSettingsStore((s) => s.displayCurrency);
-  const setSelectedCountry = useSettingsStore((s) => s.selectedCountry === "IN" ? s.setSelectedCountry : s.setSelectedCountry); // keep store reactive
-  const setSelectedMarket = useSettingsStore((s) => s.setSelectedMarket);
-  const setDisplayCurrency = useSettingsStore((s) => s.setDisplayCurrency);
   const { addRecent } = useRecentSecurities();
   const { breadcrumbs } = useNavigationHistory({ autoTrack: true });
 
-  const { data: polledStatus } = useMarketStatus();
-  const realtimeStatus = useQuotesStore((s) => s.marketStatus);
-  const { data: topBarTickers } = useTopBarTickers();
-
-  const [query, setQuery] = useState(ticker);
+  const [query, setQuery] = useState(ticker || DEFAULT_PAIR);
   const [results, setResults] = useState<SearchSymbolItem[]>([]);
   const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const searchRequestRef = useRef(0);
   const suppressSuggestionsRef = useRef(false);
-  const marketsForCountry = COUNTRY_MARKETS[selectedCountry];
-
-  const statusPayload = (realtimeStatus || polledStatus) as {
-    error?: string;
-    marketState?: Array<{ marketStatus?: string; tradeDate?: string }>;
-    nifty50?: number | null;
-    sensex?: number | null;
-    inrUsd?: number | null;
-    usdInr?: number | null;
-    sp500?: number | null;
-    nikkei225?: number | null;
-    hangseng?: number | null;
-    nifty50Pct?: number | null;
-    sensexPct?: number | null;
-    usdInrPct?: number | null;
-    sp500Pct?: number | null;
-    nikkei225Pct?: number | null;
-    hangsengPct?: number | null;
-    fallbackEnabled?: boolean;
-    source?: { nseIndices?: boolean };
-  } | undefined;
-  const marketError = statusPayload?.error;
-  const nifty50 = typeof statusPayload?.nifty50 === "number" ? statusPayload.nifty50 : null;
-  const sensex = typeof statusPayload?.sensex === "number" ? statusPayload.sensex : null;
-  const inrUsd = typeof statusPayload?.inrUsd === "number" ? statusPayload.inrUsd : null;
-  const usdInr = typeof statusPayload?.usdInr === "number" ? statusPayload.usdInr : null;
-  const sp500 = typeof statusPayload?.sp500 === "number" ? statusPayload.sp500 : null;
-  const nikkei225 = typeof statusPayload?.nikkei225 === "number" ? statusPayload.nikkei225 : null;
-  const hangseng = typeof statusPayload?.hangseng === "number" ? statusPayload.hangseng : null;
-  const nifty50Pct = typeof statusPayload?.nifty50Pct === "number" ? statusPayload.nifty50Pct : null;
-  const sensexPct = typeof statusPayload?.sensexPct === "number" ? statusPayload.sensexPct : null;
-  const usdInrPct = typeof statusPayload?.usdInrPct === "number" ? statusPayload.usdInrPct : null;
-  const sp500Pct = typeof statusPayload?.sp500Pct === "number" ? statusPayload.sp500Pct : null;
-  const nikkei225Pct = typeof statusPayload?.nikkei225Pct === "number" ? statusPayload.nikkei225Pct : null;
-  const hangsengPct = typeof statusPayload?.hangsengPct === "number" ? statusPayload.hangsengPct : null;
-  const hasIndexData = nifty50 !== null || sensex !== null;
-  const hasGlobalData = sp500 !== null || nikkei225 !== null || hangseng !== null;
-  const hasFxData = usdInr !== null || inrUsd !== null;
-  const isFallback = Boolean(statusPayload?.fallbackEnabled) || !statusPayload?.source?.nseIndices;
-  const marketStateLabel = String(statusPayload?.marketState?.[0]?.marketStatus || "").toUpperCase();
-  const feedStateLabel = !hasIndexData
-    ? "OFFLINE"
-    : marketStateLabel === "CLOSE"
-    ? "CLOSED"
-    : isFallback
-    ? "FALLBACK"
-    : "LIVE";
-  const backendHealthLabel = hasGlobalData && hasFxData ? "stream ok" : "partial feed";
-
-  const formatIndex = (value: number | null) => {
-    if (value === null) return "0.00"; // Should not happen with backend fallbacks
-    return value.toLocaleString("en-IN", { maximumFractionDigits: 2 });
-  };
-  const formatFx = (value: number | null) => {
-    if (value === null) return "83.15";
-    return value.toLocaleString("en-US", { minimumFractionDigits: 4, maximumFractionDigits: 6 });
-  };
-  const formatGlobalIndex = (value: number | null) => {
-    if (value === null) return "0.00";
-    return value.toLocaleString("en-US", { maximumFractionDigits: 2 });
-  };
-  const formatPct = (value: number | null) => {
-    const val = value ?? 0;
-    const sign = val > 0 ? "+" : "";
-    return `${sign}${val.toFixed(2)}%`;
-  };
-  const pctClass = (value: number | null) => {
-    const val = value ?? 0;
-    return val >= 0 ? "text-terminal-pos" : "text-terminal-neg";
-  };
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const collapsedBreadcrumbs = useMemo(() => {
     if (breadcrumbs.length <= 5) return breadcrumbs;
     return [
@@ -139,11 +46,11 @@ export function TopBar({ hideTickerLoader = false, hideMarketMarquee = false }: 
   }, [breadcrumbs]);
 
   useEffect(() => {
-    setQuery(ticker);
+    setQuery(ticker || DEFAULT_PAIR);
   }, [ticker]);
 
   useEffect(() => {
-    const normalizedTicker = ticker.trim().toUpperCase();
+    const normalizedTicker = (ticker || DEFAULT_PAIR).trim().toUpperCase();
     if (!normalizedTicker) return;
 
     const resolvedSymbol = String(stock?.ticker || stock?.symbol || "").trim().toUpperCase();
@@ -151,21 +58,17 @@ export function TopBar({ hideTickerLoader = false, hideMarketMarquee = false }: 
 
     addRecent(
       normalizedTicker,
-      stock?.company_name || normalizedTicker,
-      inferRecentSecurityAssetClass(normalizedTicker, stock?.exchange),
-      inferRecentSecurityMarket(stock?.country_code || selectedCountry, stock?.exchange || selectedMarket),
+      stock?.company_name || `${normalizedTicker.slice(0, 3)}/${normalizedTicker.slice(3)} Forex`,
+      "forex",
+      "FX",
       typeof stock?.current_price === "number" ? stock.current_price : undefined,
       typeof stock?.change_pct === "number" ? stock.change_pct : undefined,
     );
   }, [
     addRecent,
-    selectedCountry,
-    selectedMarket,
     stock?.change_pct,
     stock?.company_name,
-    stock?.country_code,
     stock?.current_price,
-    stock?.exchange,
     stock?.symbol,
     stock?.ticker,
     ticker,
@@ -186,7 +89,7 @@ export function TopBar({ hideTickerLoader = false, hideMarketMarquee = false }: 
       }
       if ((event.key === "m" || event.key === "M") && !editing) {
         event.preventDefault();
-        navigate("/equity/portfolio");
+        navigate(DEFAULT_PAIR_ROUTE);
         return;
       }
       if (event.key === "Escape") {
@@ -196,8 +99,7 @@ export function TopBar({ hideTickerLoader = false, hideMarketMarquee = false }: 
           return;
         }
         if (editing && tag === "input") {
-          const inputEl = target as HTMLInputElement;
-          inputEl.blur();
+          (target as HTMLInputElement).blur();
         }
       }
     };
@@ -205,61 +107,29 @@ export function TopBar({ hideTickerLoader = false, hideMarketMarquee = false }: 
     return () => window.removeEventListener("keydown", onKey);
   }, [navigate, results.length]);
 
-  useEffect(() => {
-    if (!marketsForCountry.includes(selectedMarket)) {
-      setSelectedMarket(COUNTRY_DEFAULT_MARKET[selectedCountry]);
-    }
-  }, [marketsForCountry, selectedCountry, selectedMarket, setSelectedMarket]);
-
   const doSearch = useCallback(async (q: string) => {
-    if (suppressSuggestionsRef.current) {
+    if (suppressSuggestionsRef.current || q.length < 2) {
       setResults([]);
       setIsSuggestionsOpen(false);
       return;
     }
-    if (q.length < 2) {
-      setResults([]);
-      setIsSuggestionsOpen(false);
-      return;
-    }
-    const requestId = ++searchRequestRef.current;
-    try {
-      const [equityRes, cryptoRes] = await Promise.all([searchSymbols(q, selectedMarket), fetchCryptoSearch(q)]);
-      const merged = [...equityRes, ...cryptoRes];
-      const seen = new Set<string>();
-      const res = merged.filter((item) => {
-        const key = `${(item.ticker || "").toUpperCase()}::${(item.name || "").toUpperCase()}`;
-        if (seen.has(key)) return false;
-        seen.add(key);
-        return true;
-      });
-      if (requestId !== searchRequestRef.current || suppressSuggestionsRef.current) {
-        return;
-      }
-      setResults(res);
-      setIsSuggestionsOpen(res.length > 0);
-    } catch {
-      if (requestId === searchRequestRef.current) {
-        setResults([]);
-        setIsSuggestionsOpen(false);
-      }
-    }
-  }, [selectedMarket]);
 
-  const handleLoad = useCallback(async () => {
-    setResults([]);
-    setIsSuggestionsOpen(false);
-    try {
-      await load();
-    } catch {
-      // Stock store handles errors internally
-    }
-  }, [load]);
+    const requestId = ++searchRequestRef.current;
+    const fxPair = normalizeForexPair(q) || (q.trim().length >= 2 ? DEFAULT_PAIR : null);
+    const nextResults: SearchSymbolItem[] = fxPair
+      ? [{ ticker: fxPair, name: `${fxPair.slice(0, 3)}/${fxPair.slice(3)} Forex`, exchange: "FX", country_code: "FX" }]
+      : [];
+
+    if (requestId !== searchRequestRef.current || suppressSuggestionsRef.current) return;
+    setResults(nextResults);
+    setIsSuggestionsOpen(nextResults.length > 0);
+  }, []);
 
   const selectTicker = useCallback((value: string | SearchSymbolItem) => {
     const item = typeof value === "string" ? null : value;
-    const symbol = (typeof value === "string" ? value : value.ticker).trim().toUpperCase();
-    if (!symbol) return;
+    const inputSymbol = (typeof value === "string" ? value : value.ticker).trim().toUpperCase();
+    const symbol = normalizeForexPair(inputSymbol) ?? DEFAULT_PAIR;
+
     suppressSuggestionsRef.current = true;
     searchRequestRef.current += 1;
     if (debounceRef.current) {
@@ -270,41 +140,35 @@ export function TopBar({ hideTickerLoader = false, hideMarketMarquee = false }: 
     setIsSuggestionsOpen(false);
     setQuery(symbol);
     setTicker(symbol);
-    addRecent(
-      symbol,
-      item?.name || symbol,
-      inferRecentSecurityAssetClass(symbol, item?.exchange),
-      inferRecentSecurityMarket(item?.country_code || selectedCountry, item?.exchange || selectedMarket),
-    );
-    void handleLoad();
-  }, [addRecent, handleLoad, selectedCountry, selectedMarket, setTicker]);
-  const safeTicker = (ticker || "NIFTY").toUpperCase();
+    addRecent(symbol, item?.name || `${symbol.slice(0, 3)}/${symbol.slice(3)} Forex`, "forex", "FX");
+    navigate(`/equity/forex?symbol=${encodeURIComponent(symbol)}`);
+  }, [addRecent, navigate, setTicker]);
 
   return (
     <div className="relative z-20 border-b border-terminal-border bg-terminal-panel">
       <div className="relative flex items-center gap-2 overflow-x-auto px-3 py-1.5">
         <Link
-          to="/"
+          to={DEFAULT_PAIR_ROUTE}
           className="inline-flex h-7 items-center rounded border border-terminal-border bg-terminal-bg px-1.5"
-          aria-label="OpenTerminalUI Home"
+          aria-label={`${APP_NAME} Home`}
         >
-          <img src={BRAND_ICON_SRC} alt="OpenTerminalUI" className="h-5 w-5 object-contain" />
+          <img src={BRAND_ICON_SRC} alt={APP_NAME} className="h-5 w-5 object-contain" />
         </Link>
         <div className="flex shrink-0 items-center gap-2">
-          <Link className="rounded border border-terminal-border px-2 py-1 text-[11px] text-terminal-muted hover:text-terminal-text" to="/">
+          <Link className="rounded border border-terminal-border px-2 py-1 text-[11px] text-terminal-muted hover:text-terminal-text" to={DEFAULT_PAIR_ROUTE}>
             HOME
           </Link>
-          <Link className="rounded border border-terminal-border px-2 py-1 text-[11px] text-terminal-muted hover:text-terminal-text" to="/equity/screener">
-            SCREENER
+          <Link className="rounded border border-terminal-border px-2 py-1 text-[11px] text-terminal-accent hover:text-terminal-text" to={DEFAULT_PAIR_ROUTE}>
+            EUR/USD
           </Link>
-          <Link className="rounded border border-terminal-border px-2 py-1 text-[11px] text-terminal-muted hover:text-terminal-text" to="/equity/compare">
-            COMPARE
+          <Link className="rounded border border-terminal-border px-2 py-1 text-[11px] text-terminal-muted hover:text-terminal-text" to={DEFAULT_CHART_ROUTE}>
+            CHARTS
           </Link>
-          <Link className="rounded border border-terminal-border px-2 py-1 text-[11px] text-terminal-muted hover:text-terminal-text" to={`/fno/heatmap?symbol=${encodeURIComponent(safeTicker)}`}>
-            HEATMAP
+          <Link className="rounded border border-terminal-border px-2 py-1 text-[11px] text-terminal-muted hover:text-terminal-text" to="/equity/paper?symbol=EURUSD">
+            PAPER
           </Link>
-          <Link className="rounded border border-terminal-border px-2 py-1 text-[11px] text-terminal-muted hover:text-terminal-text" to={`/fno?symbol=${encodeURIComponent(safeTicker)}`}>
-            F&O -&gt;
+          <Link className="rounded border border-terminal-border px-2 py-1 text-[11px] text-terminal-muted hover:text-terminal-text" to="/equity/journal?symbol=EURUSD">
+            JOURNAL
           </Link>
         </div>
         {!hideTickerLoader ? (
@@ -312,7 +176,7 @@ export function TopBar({ hideTickerLoader = false, hideMarketMarquee = false }: 
             <input
               ref={searchInputRef}
               className="w-full rounded border border-terminal-border bg-terminal-bg px-2 py-1 text-xs outline-none focus:border-terminal-accent"
-              placeholder={`Search ${selectedMarket} symbol ( / )`}
+              placeholder="Search FX pair: EURUSD"
               value={query}
               onChange={(e) => {
                 const next = e.target.value.toUpperCase();
@@ -333,9 +197,7 @@ export function TopBar({ hideTickerLoader = false, hideMarketMarquee = false }: 
                 setTimeout(() => setIsSuggestionsOpen(false), 120);
               }}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  selectTicker(query);
-                }
+                if (e.key === "Enter") selectTicker(query);
                 if (e.key === "Escape") {
                   setResults([]);
                   setIsSuggestionsOpen(false);
@@ -344,59 +206,24 @@ export function TopBar({ hideTickerLoader = false, hideMarketMarquee = false }: 
             />
             <button
               className="rounded bg-terminal-accent px-2 py-1 text-xs font-medium text-black"
-              onClick={() => {
-                selectTicker(query);
-              }}
+              onClick={() => selectTicker(query)}
             >
               Load
             </button>
           </div>
         ) : null}
-        <div className="flex shrink-0 items-center gap-1 border-l border-terminal-border pl-2">
-          <select
-            className="w-[88px] rounded border border-terminal-border bg-terminal-bg px-1 py-1 text-[11px] uppercase text-terminal-text outline-none"
-            value={selectedCountry}
-            onChange={(e) => setSelectedCountry(e.target.value as CountryCode)}
-          >
-            <option value="IN">{COUNTRY_FLAGS.IN} IN</option>
-            <option value="US">{COUNTRY_FLAGS.US} US</option>
-          </select>
-          <select
-            className="w-[86px] rounded border border-terminal-border bg-terminal-bg px-1 py-1 text-[11px] uppercase text-terminal-text outline-none"
-            value={selectedMarket}
-            onChange={(e) => setSelectedMarket(e.target.value as MarketCode)}
-          >
-            {marketsForCountry.map((market) => (
-              <option key={market} value={market}>
-                {market}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="flex shrink-0 items-center gap-1 border-l border-terminal-border pl-2">
-          <select
-            className="w-[72px] rounded border border-terminal-border bg-terminal-bg px-1 py-1 text-[11px] uppercase text-terminal-text outline-none"
-            value={displayCurrency}
-            onChange={(e) => setDisplayCurrency(e.target.value as DisplayCurrency)}
-            title="Display currency"
-            aria-label="Display currency"
-          >
-            <option value="INR">INR</option>
-            <option value="USD">USD</option>
-          </select>
-        </div>
         <div className="inline-flex shrink-0 items-center gap-1 border-l border-terminal-border pl-2 text-[11px] uppercase tracking-wide text-terminal-muted">
-          <CountryFlag countryCode={selectedCountry} size="sm" />
-          <span>{selectedMarket}</span>
+          <span className="rounded border border-terminal-border px-2 py-1 text-terminal-accent">FX</span>
+          <span>EUR/USD focus</span>
         </div>
         <NotificationBell />
         <Link
-          to="/"
+          to={DEFAULT_PAIR_ROUTE}
           className="inline-flex h-7 shrink-0 items-center border-l border-terminal-border pl-2"
-          aria-label="OpenTerminalUI Home (Top Right)"
-          title="OpenTerminalUI"
+          aria-label={`${APP_NAME} Home (Top Right)`}
+          title={APP_NAME}
         >
-          <img src={BRAND_ICON_SRC} alt="OpenTerminalUI" className="h-5 w-5 object-contain" />
+          <img src={BRAND_ICON_SRC} alt={APP_NAME} className="h-5 w-5 object-contain" />
         </Link>
         {!hideTickerLoader && isSuggestionsOpen && results.length > 0 && (
           <div className="absolute left-3 right-3 top-10 z-10 max-h-72 overflow-auto rounded border border-terminal-border bg-terminal-panel">
@@ -408,15 +235,13 @@ export function TopBar({ hideTickerLoader = false, hideMarketMarquee = false }: 
                   event.preventDefault();
                   selectTicker(item);
                 }}
-                onClick={() => {
-                  selectTicker(item);
-                }}
+                onClick={() => selectTicker(item)}
               >
                 <span className="inline-flex items-center gap-2">
-                  <CountryFlag countryCode={item.country_code} flagEmoji={item.flag_emoji} size="sm" />
+                  <span className="rounded border border-terminal-border px-1 text-[10px] text-terminal-accent">FX</span>
                   <span>{item.ticker}</span>
                   <span className="text-terminal-muted">- {item.name}</span>
-                  {item.exchange ? <span className="text-terminal-muted">({item.exchange})</span> : null}
+                  <span className="text-terminal-muted">(FX)</span>
                 </span>
               </button>
             ))}

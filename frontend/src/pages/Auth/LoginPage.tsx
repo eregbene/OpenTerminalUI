@@ -25,7 +25,7 @@ export function LoginPage() {
     try {
       await login(email, password);
       const redirectParam = new URLSearchParams(location.search).get("redirect");
-      const target = redirectParam || (location.state as { from?: string } | undefined)?.from || "/equity/stocks";
+      const target = redirectParam || (location.state as { from?: string } | undefined)?.from || "/equity/forex?symbol=EURUSD";
       navigate(target, { replace: true });
     } catch {
       setError("Invalid credentials");

@@ -32,7 +32,7 @@ export async function getHistory(
       return {
         ticker: symbol.toUpperCase(),
         interval,
-        currency: market.toUpperCase() === "NSE" || market.toUpperCase() === "BSE" ? "INR" : "USD",
+        currency: market.toUpperCase() === "NSE" || market.toUpperCase() === "BSE" ? "INR" : market.toUpperCase() === "FX" && symbol.trim().length >= 6 ? symbol.trim().toUpperCase().slice(3, 6) : "USD",
         data: (Array.isArray(unified.data) ? unified.data : []).map((row) => ({
           t: Math.floor(Number(row.t) / 1000),
           o: Number(row.o),

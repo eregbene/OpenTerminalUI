@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom";
-import { Home, List, LineChart, Search, Briefcase } from "lucide-react";
+import { Bell, BookOpen, Home, LineChart, Radio } from "lucide-react";
 
 const tabs = [
-  { label: "Home", path: "/home", icon: Home },
-  { label: "Watch", path: "/equity/watchlist", icon: List },
-  { label: "Chart", path: "/equity/chart-workstation", icon: LineChart },
-  { label: "Scan", path: "/equity/screener", icon: Search },
-  { label: "Port", path: "/equity/portfolio", icon: Briefcase },
+  { label: "Home", path: "/equity/forex?symbol=EURUSD", icon: Home },
+  { label: "FX", path: "/equity/forex?symbol=EURUSD", icon: Radio },
+  { label: "Chart", path: "/forex/chart?symbol=EURUSD&market=FX", icon: LineChart },
+  { label: "Journal", path: "/equity/journal?symbol=EURUSD", icon: BookOpen },
+  { label: "Alerts", path: "/equity/alerts", icon: Bell },
 ];
 
 export function MobileBottomNav() {

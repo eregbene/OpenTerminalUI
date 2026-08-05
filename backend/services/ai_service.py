@@ -17,7 +17,7 @@ from backend.services.lm_studio_client import (
 logger = logging.getLogger(__name__)
 
 SYSTEM_PROMPT = """
-You are an expert financial AI assistant for OpenTerminalUI.
+You are an expert financial AI assistant for Bensim Trading.
 Parse the user's natural-language query and classify its intent.
 
 Available intents:

@@ -37,6 +37,18 @@ def test_resolve_market_uses_hint_before_classifier() -> None:
         chart_data.market_classifier.classify = original  # type: ignore[assignment]
 
 
+def test_resolve_market_supports_forex_pairs() -> None:
+    provider = ChartDataProvider()
+
+    async def _run() -> None:
+        assert await provider.resolve_market("EURUSD", market_hint="FX") == ("FX", "EURUSD", "EURUSD=X")
+        assert await provider.resolve_market("FX:GBPUSD") == ("FX", "GBPUSD", "GBPUSD=X")
+        assert await provider.resolve_market("USD/INR") == ("FX", "USDINR", "USDINR=X")
+        assert await provider.resolve_market("EURUSD=X") == ("FX", "EURUSD", "EURUSD=X")
+
+    asyncio.run(_run())
+
+
 def test_get_ohlcv_prefers_in_memory_cache(monkeypatch) -> None:
     provider = ChartDataProvider()
     provider.chart_cache_ttl = 9999

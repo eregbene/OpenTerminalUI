@@ -1,6 +1,6 @@
 # Backtesting Blueprint Implementation Status
 
-This folder tracks implementation of the "OpenTerminalUI Pro Backtesting Enhancement Blueprint v1.0".
+This folder tracks implementation of the "Bensim Trading Pro Backtesting Enhancement Blueprint v1.0".
 
 ## Milestones
 

@@ -103,6 +103,48 @@ function buildSessionAreaPoint(
     : { time: time as UTCTimestamp };
 }
 
+const MAX_CORE_PAYLOAD_CACHE_ENTRIES = 24;
+const corePayloadCache = new WeakMap<readonly RendererBarInput[], Map<string, CorePriceSeriesPayload>>();
+const corePayloadCacheOrder: Array<{ data: readonly RendererBarInput[]; key: string }> = [];
+
+function corePayloadCacheKey(options: CoreSeriesOptions): string {
+  const extended = options.extendedHours;
+  const palette = options.shadePalette ?? TRADING_SESSION_SHADE_PALETTE;
+  return [
+    options.showSessionShading ? "shade" : "no-shade",
+    options.includeSessionAreas ? "areas" : "no-areas",
+    extended?.enabled ? "ext" : "no-ext",
+    extended?.showPreMarket ? "pre" : "no-pre",
+    extended?.showAfterHours ? "post" : "no-post",
+    extended?.visualMode ?? "",
+    extended?.colorScheme ?? "",
+    palette.pre,
+    palette.regular,
+    palette.post,
+  ].join("|");
+}
+
+function readCorePayloadCache(data: readonly RendererBarInput[], key: string): CorePriceSeriesPayload | null {
+  return corePayloadCache.get(data)?.get(key) ?? null;
+}
+
+function cacheCorePayload(data: readonly RendererBarInput[], key: string, payload: CorePriceSeriesPayload): CorePriceSeriesPayload {
+  let byKey = corePayloadCache.get(data);
+  if (!byKey) {
+    byKey = new Map();
+    corePayloadCache.set(data, byKey);
+  }
+  byKey.set(key, payload);
+  corePayloadCacheOrder.push({ data, key });
+  if (corePayloadCacheOrder.length > MAX_CORE_PAYLOAD_CACHE_ENTRIES) {
+    const oldest = corePayloadCacheOrder.shift();
+    if (oldest) {
+      corePayloadCache.get(oldest.data)?.delete(oldest.key);
+    }
+  }
+  return payload;
+}
+
 export function isPreSession(session: string | undefined): boolean {
   return session === "pre" || session === "pre_open";
 }
@@ -157,6 +199,9 @@ export function buildCorePriceSeriesPayload(
   data: readonly RendererBarInput[],
   options: CoreSeriesOptions = {},
 ): CorePriceSeriesPayload {
+  const cacheKey = corePayloadCacheKey(options);
+  const cached = readCorePayloadCache(data, cacheKey);
+  if (cached) return cached;
   const size = data.length;
   const candles = new Array(size) as CorePriceSeriesPayload["candles"];
   const closeLine = new Array(size) as CorePriceSeriesPayload["closeLine"];
@@ -169,7 +214,21 @@ export function buildCorePriceSeriesPayload(
 
   for (let index = 0; index < size; index += 1) {
     const row = data[index]!;
-    const normalized = normalizeRendererBar(row);
+    const time = Number(row.time);
+    const open = Number(row.open);
+    const high = Number(row.high);
+    const low = Number(row.low);
+    const close = Number(row.close);
+    const normalized = {
+      time,
+      open,
+      high,
+      low,
+      close,
+      volume: Number(row.volume ?? 0),
+      session: row.session ?? row.s,
+      isExtended: Boolean(row.isExtended ?? row.ext),
+    };
     candles[index] = (
       buildEnhancedCandle(
         normalized,
@@ -206,14 +265,14 @@ export function buildCorePriceSeriesPayload(
     previousClose = normalized.close;
   }
 
-  return {
+  return cacheCorePayload(data, cacheKey, {
     candles,
     closeLine,
     volume,
     sessionShading,
     preSessionArea,
     postSessionArea,
-  };
+  });
 }
 
 export function buildCorePriceSeriesUpdate(

@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { MarketTicker } from "../../components/MarketTicker";
 import { StatusBar } from "../../components/StatusBar";
 import { useAuth, type AuthRole } from "../../contexts/AuthContext";
-import logo from "../../assets/logo.png";
+import { APP_BRAND_MARK, APP_NAME } from "../../utils/constants";
 
 export function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -35,7 +35,7 @@ export function RegisterPage() {
     try {
       await register(email.trim(), password, role);
       await login(email.trim(), password);
-      navigate("/equity/stocks", { replace: true });
+      navigate("/equity/forex?symbol=EURUSD", { replace: true });
     } catch {
       setError("REGISTRATION FAILED");
     }
@@ -43,7 +43,7 @@ export function RegisterPage() {
 
   return (
     <div className="ot-login-layout">
-      <StatusBar left="OPENTERMINALUI" center="SYSTEM STATUS: ONLINE" centerDotColor="green" />
+      <StatusBar left={APP_NAME.toUpperCase()} center="SYSTEM STATUS: ONLINE" centerDotColor="green" />
 
       <section className="ot-login-hero">
         <div className="ot-login-ticker-wrap">
@@ -60,11 +60,11 @@ export function RegisterPage() {
 
         <div className="ot-brand-block">
           <div className="ot-brand-logo-row">
-            <img src={logo} alt="OpenTerminalUI" className="ot-brand-logo" />
-            <span className="ot-brand-kicker">OPEN-SOURCE TRADING TERMINAL</span>
+            <img src={APP_BRAND_MARK} alt={APP_NAME} className="ot-brand-logo" />
+            <span className="ot-brand-kicker">PROFESSIONAL TRADING WORKSTATION</span>
           </div>
           <h1 className="ot-brand-title">
-            <span className="ot-brand-title-open">OPENTERMINALUI</span>
+            <span className="ot-brand-title-open">{APP_NAME.toUpperCase()}</span>
           </h1>
           <p className="ot-brand-subtitle">Create secure terminal access.</p>
         </div>
@@ -74,7 +74,7 @@ export function RegisterPage() {
         <div className="ot-login-panel-inner">
           <header className="ot-stagger" style={{ ["--stagger-index" as string]: 1 }}>
             <div className="ot-panel-logo-wrap">
-              <img src={logo} alt="OpenTerminalUI logo" className="ot-panel-logo" />
+              <img src={APP_BRAND_MARK} alt={`${APP_NAME} logo`} className="ot-panel-logo" />
             </div>
             <p className="ot-panel-kicker">NEW OPERATOR</p>
             <h2 className="ot-panel-title">REQUEST ACCESS</h2>

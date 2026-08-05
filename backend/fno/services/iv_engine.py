@@ -17,12 +17,13 @@ class IVEngine:
         self._ensure_table()
 
     def _ensure_table(self) -> None:
+        id_column = "id SERIAL PRIMARY KEY" if engine.dialect.name == "postgresql" else "id INTEGER PRIMARY KEY AUTOINCREMENT"
         with engine.begin() as conn:
             conn.execute(
                 text(
-                    """
+                    f"""
                     CREATE TABLE IF NOT EXISTS iv_snapshots (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        {id_column},
                         snapshot_date TEXT NOT NULL,
                         symbol TEXT NOT NULL,
                         atm_iv REAL NOT NULL,

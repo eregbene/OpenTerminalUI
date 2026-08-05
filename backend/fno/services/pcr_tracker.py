@@ -44,12 +44,13 @@ class PCRTracker:
         self._ensure_table()
 
     def _ensure_table(self) -> None:
+        id_column = "id SERIAL PRIMARY KEY" if engine.dialect.name == "postgresql" else "id INTEGER PRIMARY KEY AUTOINCREMENT"
         with engine.begin() as conn:
             conn.execute(
                 text(
-                    """
+                    f"""
                     CREATE TABLE IF NOT EXISTS pcr_snapshots (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        {id_column},
                         snapshot_date TEXT NOT NULL,
                         symbol TEXT NOT NULL,
                         pcr_oi REAL NOT NULL,

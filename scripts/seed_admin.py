@@ -49,8 +49,8 @@ def main() -> int:
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
     db = SessionLocal()
     try:
-        if db.query(User).count() > 0:
-            print("[seed-admin] a user already exists; skipping admin seed.")
+        if db.query(User).filter(User.email == email).first() is not None:
+            print(f"[seed-admin] admin account already exists: {email}")
             return 0
         db.add(
             User(

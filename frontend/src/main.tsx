@@ -24,7 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   </React.StrictMode>
 );
 
-if ("serviceWorker" in navigator) {
+if ("serviceWorker" in navigator && import.meta.env.VITE_DISABLE_SERVICE_WORKER !== "1") {
   window.addEventListener("load", () => {
     void navigator.serviceWorker.register("/sw.js");
   });

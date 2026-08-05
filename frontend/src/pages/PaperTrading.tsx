@@ -9,6 +9,7 @@ import {
   fetchPaperTrades,
   placePaperOrder,
 } from "../api/client";
+import { CanonicalPaperControls } from "../components/trading/CanonicalPaperControls";
 import { HotKeyPanel } from "../components/trading/HotKeyPanel";
 
 export function PaperTradingPage() {
@@ -66,6 +67,8 @@ export function PaperTradingPage() {
 
   return (
     <div className="space-y-3 p-3">
+      <CanonicalPaperControls />
+
       <div className="rounded border border-terminal-border bg-terminal-panel p-3">
         <div className="mb-2 text-sm font-semibold text-terminal-accent">Create Virtual Portfolio</div>
         <div className="grid grid-cols-1 gap-2 md:grid-cols-4">

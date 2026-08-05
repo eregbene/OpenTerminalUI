@@ -5,6 +5,7 @@ import { fetchChart, fetchStock } from "../api/client";
 import { useSettingsStore } from "./settingsStore";
 import type { ChartResponse, StockSnapshot } from "../types";
 import { normalizeTicker } from "../utils/ticker";
+import { normalizeForexPair } from "../utils/instruments";
 
 type StockState = {
   ticker: string;
@@ -23,7 +24,7 @@ type StockState = {
 export const useStockStore = create<StockState>()(
   persist(
     (set, get) => ({
-      ticker: "RELIANCE",
+      ticker: "EURUSD",
       interval: "1d",
       range: "1y",
       stock: null,
@@ -36,7 +37,7 @@ export const useStockStore = create<StockState>()(
       load: async () => {
         const { ticker, interval, range } = get();
         const normalizedTicker = normalizeTicker(ticker);
-        const market = useSettingsStore.getState().selectedMarket;
+        const market = normalizeForexPair(normalizedTicker) ? "FX" : useSettingsStore.getState().selectedMarket;
         set({ loading: true, error: null });
         try {
           const [stockResult, chartResult] = await Promise.allSettled([

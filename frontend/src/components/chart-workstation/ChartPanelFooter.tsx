@@ -1,4 +1,5 @@
 import type { ChartPoint } from "../../types";
+import { DataQualityBadge } from "../market/DataQualityBadge";
 import "./ChartWorkstation.css";
 
 interface Props {
@@ -29,12 +30,18 @@ export function ChartPanelFooter({ ticker, lastBar, liveLtp = null, liveChangePc
       )}
       {liveLtp !== null && Number.isFinite(liveLtp) ? (
         <>
-          <span className="ml-auto text-terminal-muted">RT</span>
+          <span className="ml-auto">
+            <DataQualityBadge status="realtime" provider="stream" compact />
+          </span>
           <span className={liveChangePct !== null && liveChangePct < 0 ? "text-terminal-neg" : "text-terminal-pos"}>
             {liveLtp.toFixed(2)}
           </span>
         </>
-      ) : null}
+      ) : (
+        <span className="ml-auto">
+          <DataQualityBadge status="cached" provider="historical" compact />
+        </span>
+      )}
     </div>
   );
 }

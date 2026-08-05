@@ -6,11 +6,11 @@
       "localStorage": [
         {
           "name": "ot-access-token",
-          "value": "x.eyJzdWIiOiJlMmUtdXNlciIsImVtYWlsIjoiZTJlQGV4YW1wbGUuY29tIiwicm9sZSI6InRyYWRlciIsImV4cCI6MTc4MTQ1NDA2OH0.y"
+          "value": "x.eyJzdWIiOiJlMmUtdXNlciIsImVtYWlsIjoiZTJlQGV4YW1wbGUuY29tIiwicm9sZSI6InRyYWRlciIsImV4cCI6MTc4NDc0MDMyMn0.y"
         },
         {
           "name": "ot-refresh-token",
-          "value": "x.eyJleHAiOjE3ODE0NTc2Njh9.y"
+          "value": "x.eyJleHAiOjE3ODQ3NDM5MjJ9.y"
         }
       ]
     }

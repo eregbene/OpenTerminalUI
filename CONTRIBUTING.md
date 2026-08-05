@@ -1,4 +1,4 @@
-# Contributing to OpenTerminalUI
+# Contributing to Bensim Trading
 
 Thank you for contributing.
 

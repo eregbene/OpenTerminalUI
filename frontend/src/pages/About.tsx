@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import logo from "../assets/logo.png";
 import { TerminalBadge } from "../components/terminal/TerminalBadge";
 import { TerminalButton } from "../components/terminal/TerminalButton";
 import { TerminalPanel } from "../components/terminal/TerminalPanel";
 import { AsciiHero } from "../home/AsciiHero";
+import { APP_BRAND_MARK, APP_DESCRIPTION, APP_NAME, APP_REPO_URL, APP_TAGLINE } from "../utils/constants";
 
-const REPO_URL = "https://github.com/Hitheshkaranth/OpenTerminalUI";
+const REPO_URL = APP_REPO_URL;
 const STAR_URL = `${REPO_URL}/stargazers`;
 
 const PLATFORM_STATS = [
@@ -304,14 +304,14 @@ export function AboutPage({ terminalType = "market" }: AboutProps) {
   const descriptor =
     terminalType === "fno"
       ? "Derivatives workflows, strategy tooling, and cross-desk charting in one terminal dossier."
-      : "Analyze. Trade. Optimize. Open-source Indian and US market analytics with shared terminal routing.";
+      : `${APP_TAGLINE} ${APP_DESCRIPTION}`;
   const returnRoute = terminalType === "fno" ? "/fno" : "/equity/stocks";
 
   return (
     <div className="space-y-3 p-3 font-mono">
       <header className="flex flex-wrap items-center justify-between gap-2 rounded-sm border border-terminal-border bg-terminal-panel px-3 py-2">
         <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-terminal-muted">
-          <span>About | OpenTerminalUI</span>
+          <span>About | {APP_NAME}</span>
           <TerminalBadge variant="accent">{deskLabel}</TerminalBadge>
           <TerminalBadge variant="info">Product Dossier</TerminalBadge>
         </div>
@@ -337,11 +337,11 @@ export function AboutPage({ terminalType = "market" }: AboutProps) {
 
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
                 <div className="flex h-28 w-28 shrink-0 items-center justify-center rounded-sm border border-terminal-accent/60 bg-terminal-panel/85 p-4 shadow-[0_0_40px_rgba(255,184,77,0.12)] lg:h-36 lg:w-36">
-                  <img src={logo} alt="OpenTerminalUI logo" className="h-full w-full object-contain" />
+                  <img src={APP_BRAND_MARK} alt={`${APP_NAME} logo`} className="h-full w-full object-contain" />
                 </div>
                 <div className="min-w-0 space-y-3">
-                  <div className="text-[11px] uppercase tracking-[0.24em] text-terminal-muted">OpenTerminal UI</div>
-                  <h1 className="text-3xl uppercase tracking-[0.16em] text-terminal-accent lg:text-5xl">OpenTerminal UI</h1>
+                  <div className="text-[11px] uppercase tracking-[0.24em] text-terminal-muted">{APP_NAME}</div>
+                  <h1 className="text-3xl uppercase tracking-[0.16em] text-terminal-accent lg:text-5xl">{APP_NAME}</h1>
                   <p className="max-w-3xl text-sm leading-6 text-terminal-text">{descriptor}</p>
                   <div className="flex flex-wrap gap-2 text-[10px] uppercase tracking-[0.16em] text-terminal-muted">
                     <span className="rounded-sm border border-terminal-border/70 bg-terminal-panel/70 px-2 py-1">

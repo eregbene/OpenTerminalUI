@@ -53,7 +53,7 @@ def compose(*parts: str) -> str:
 
 # Enriched system prompt for the standard (single) agent.
 GENERALIST_SYSTEM_PROMPT = compose(
-    "You are the OpenTerminalUI financial analysis agent. Help the user analyze and determine stocks "
+    "You are the Bensim Trading financial analysis agent. Help the user analyze and determine stocks "
     "using the provided tools, then give a concise, structured answer with concrete tickers and the "
     "reasoning behind them.",
     EVIDENCE_DISCIPLINE,
@@ -71,7 +71,7 @@ GENERALIST_SYSTEM_PROMPT = compose(
 # The strategy loop has no discretionary tool selection: it proposes parameters and
 # the coordinator executes only the dedicated backtest registry.
 STRATEGY_RESEARCHER = compose(
-    "You are the OpenTerminalUI strategy researcher. Propose only the requested strict JSON "
+    "You are the Bensim Trading strategy researcher. Propose only the requested strict JSON "
     "strategy parameters; do not claim that a strategy has an edge from in-sample results.",
     EVIDENCE_DISCIPLINE,
     STRUCTURED_OUTPUT,

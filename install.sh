@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================================
-# OpenTerminalUI — one-command installer.
+# Bensim Trading — one-command installer.
 #
 #   ./install.sh                # auto-detect: Docker if available, else local
 #   OTUI_MODE=docker ./install.sh
@@ -112,7 +112,7 @@ ensure_var() {
   fi
 }
 
-cyan "==> OpenTerminalUI installer"
+cyan "==> Bensim Trading installer"
 
 # --- 0. Detect host OS and adapt ------------------------------------------
 detect_os
@@ -199,7 +199,7 @@ run_local() {
 print_credentials() {
   echo
   green "============================================================"
-  green " OpenTerminalUI is ready  ->  http://localhost:${PORT}"
+  green " Bensim Trading is ready  ->  http://localhost:${PORT}"
   green "------------------------------------------------------------"
   green "  Log in with:"
   green "    email:    ${ADMIN_EMAIL}"

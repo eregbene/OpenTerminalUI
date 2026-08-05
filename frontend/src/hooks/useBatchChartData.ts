@@ -5,6 +5,7 @@ import type { ChartSlot } from "../store/chartWorkstationStore";
 import {
   BATCH_TIMEFRAME_MAP,
   buildChartBatchRequestKey,
+  chartMarketToApiMarket,
   supportsExtendedHoursRequest,
 } from "../shared/chart/chartBatchRequest";
 
@@ -41,7 +42,7 @@ export function useBatchChartData(slots: ChartSlot[]): Result {
           symbol: slot.ticker!.toUpperCase(),
           interval: BATCH_TIMEFRAME_MAP[slot.timeframe],
           range: "1y",
-          market: slot.market === "IN" ? "NSE" : "NASDAQ",
+          market: chartMarketToApiMarket(slot.market),
           extended: slot.extendedHours.enabled && supportsExtendedHoursRequest(slot),
         })),
     [requestSignature],

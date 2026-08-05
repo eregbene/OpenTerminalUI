@@ -5,21 +5,22 @@ from datetime import date, datetime, timedelta, timezone
 from typing import Any, Callable
 
 from backend.core.finnhub_client import FinnhubClient
+from backend.forex_intelligence.instruments import FOREX_INSTRUMENTS, SUPPORTED_FOREX_CURRENCIES, get_forex_instrument
 from backend.core.yahoo_client import YahooClient
 from backend.shared.cache import cache as cache_instance
 
-SUPPORTED_CURRENCIES = ["USD", "EUR", "GBP", "JPY", "CHF", "AUD", "CAD", "INR"]
+SUPPORTED_CURRENCIES = list(SUPPORTED_FOREX_CURRENCIES)
 DEFAULT_PAIR_INTERVAL = "1d"
 DEFAULT_PAIR_RANGE = "3mo"
 
 _YAHOO_USD_REFERENCE_SYMBOLS: dict[str, tuple[str, bool]] = {
     "EUR": ("EURUSD=X", False),
     "GBP": ("GBPUSD=X", False),
-    "JPY": ("USDJPY=X", True),
-    "CHF": ("USDCHF=X", True),
+    "JPY": ("JPY=X", True),
+    "CHF": ("CHF=X", True),
     "AUD": ("AUDUSD=X", False),
-    "CAD": ("USDCAD=X", True),
-    "INR": ("USDINR=X", True),
+    "CAD": ("CAD=X", True),
+    "NZD": ("NZDUSD=X", False),
 }
 
 _PAIR_RANGE_TO_DELTA: dict[str, timedelta] = {
@@ -117,14 +118,14 @@ _CENTRAL_BANK_SNAPSHOTS: list[dict[str, Any]] = [
         "decision_cycle": "6 weeks",
     },
     {
-        "currency": "INR",
-        "bank": "Reserve Bank of India",
-        "policy_rate": 6.50,
-        "last_decision_date": date(2026, 2, 7),
-        "next_decision_date": date(2026, 4, 5),
+        "currency": "NZD",
+        "bank": "Reserve Bank of New Zealand",
+        "policy_rate": 5.50,
+        "last_decision_date": date(2026, 2, 25),
+        "next_decision_date": date(2026, 4, 8),
         "last_action": "Hold",
         "last_change_bps": 0,
-        "decision_cycle": "Bi-monthly",
+        "decision_cycle": "6 weeks",
     },
 ]
 
@@ -134,6 +135,9 @@ def _normalize_pair_text(pair: str) -> str:
 
 
 def _yahoo_symbol(base_currency: str, quote_currency: str) -> str:
+    canonical = f"{base_currency}{quote_currency}"
+    if canonical in FOREX_INSTRUMENTS:
+        return str(get_forex_instrument(canonical).provider_symbol_mappings["yahoo"])
     return f"{base_currency}{quote_currency}=X"
 
 
@@ -312,12 +316,15 @@ class ForexService:
 
     def _resolve_pair(self, pair: str) -> tuple[str, str, str]:
         normalized = _normalize_pair_text(pair)
+        if normalized in FOREX_INSTRUMENTS:
+            instrument = get_forex_instrument(normalized)
+            return normalized, instrument.base_currency, instrument.quote_currency
         if len(normalized) != 6:
             raise ValueError("pair must resolve to a 6-letter FX symbol, for example EURUSD")
         base_currency = normalized[:3]
         quote_currency = normalized[3:]
         if base_currency not in SUPPORTED_CURRENCIES or quote_currency not in SUPPORTED_CURRENCIES:
-            raise ValueError("pair must use supported currency codes: USD, EUR, GBP, JPY, CHF, AUD, CAD, INR")
+            raise ValueError("pair must use supported currency codes: USD, EUR, GBP, JPY, CHF, AUD, CAD, NZD")
         if base_currency == quote_currency:
             raise ValueError("pair must use two different currencies")
         return normalized, base_currency, quote_currency

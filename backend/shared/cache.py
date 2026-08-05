@@ -22,6 +22,8 @@ logger = logging.getLogger(__name__)
 class MultiTierCache:
     def __init__(self, redis_url: Optional[str] = None, db_path: str = "trade_screens_cache.db"):
         self.redis_url = redis_url or os.getenv("REDIS_URL")
+        self.key_prefix = os.getenv("BENSIM_REDIS_KEY_PREFIX", "bensim")
+        self.legacy_key_prefix = os.getenv("OPENTERMINALUI_REDIS_KEY_PREFIX", "openterminalui")
         self.db_path = db_path
         self._l1_cache: dict[str, Tuple[float, Any]] = {}
         self._redis: Optional[aioredis.Redis] = None
@@ -177,6 +179,10 @@ class MultiTierCache:
             self._set_l1(key, val, 10)
             return val
 
+        legacy_key = self._legacy_key_for(key)
+        if legacy_key and legacy_key != key:
+            return await self.get(legacy_key)
+
         return None
 
     async def set(self, key: str, value: Any, ttl: int = 300):
@@ -188,7 +194,19 @@ class MultiTierCache:
         s = symbol.strip().upper()
         p_str = json.dumps(params or {}, sort_keys=True)
         h = hashlib.md5(p_str.encode()).hexdigest()
-        return f"openterminalui:{data_type}:{s}:{h}"
+        return f"{self.key_prefix}:{data_type}:{s}:{h}"
+
+    def build_legacy_key(self, data_type: str, symbol: str, params: Optional[dict] = None) -> str:
+        s = symbol.strip().upper()
+        p_str = json.dumps(params or {}, sort_keys=True)
+        h = hashlib.md5(p_str.encode()).hexdigest()
+        return f"{self.legacy_key_prefix}:{data_type}:{s}:{h}"
+
+    def _legacy_key_for(self, key: str) -> str | None:
+        prefix = f"{self.key_prefix}:"
+        if key.startswith(prefix):
+            return f"{self.legacy_key_prefix}:{key.removeprefix(prefix)}"
+        return None
 
     def _encode_blob(self, value: Any) -> bytes:
         payload = pickle.dumps(value)

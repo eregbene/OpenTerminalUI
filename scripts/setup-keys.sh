@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================================
-# OpenTerminalUI — interactive API-key wizard.
+# Bensim Trading — interactive API-key wizard.
 #
 #   ./scripts/setup-keys.sh      (or:  make keys)
 #
@@ -54,7 +54,7 @@ prompt() {
   echo
 }
 
-cyan "==> OpenTerminalUI API key setup  (writing to .env)"
+cyan "==> Bensim Trading API key setup  (writing to .env)"
 echo
 dim "All keys are OPTIONAL. The app runs with built-in fallback data without them."
 echo

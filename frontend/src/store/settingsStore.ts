@@ -7,7 +7,7 @@ export type DisplayCurrency = "INR" | "USD";
 export type RealtimeMode = "polling" | "ws";
 export type ThemeVariant = "terminal-noir" | "classic-bloomberg" | "light-desk" | "custom";
 export type RecentSecurityAssetClass = "equity" | "fno" | "crypto" | "commodity" | "forex" | "etf" | "mf";
-export type RecentSecurityMarket = "IN" | "US";
+export type RecentSecurityMarket = "IN" | "US" | "FX";
 
 export type RecentSecurity = {
   symbol: string;
@@ -34,7 +34,7 @@ function sanitizeRecentSecurity(item: unknown): RecentSecurity | null {
 
   const name = String(row.name ?? symbol).trim() || symbol;
   const assetClass = isRecentSecurityAssetClass(row.assetClass) ? row.assetClass : "equity";
-  const market: RecentSecurityMarket = row.market === "IN" ? "IN" : "US";
+  const market: RecentSecurityMarket = row.market === "FX" ? "FX" : row.market === "IN" ? "IN" : "US";
   const visitedAt = Number.isFinite(Number(row.visitedAt)) ? Number(row.visitedAt) : Date.now();
   const lastPrice = Number.isFinite(Number(row.lastPrice)) ? Number(row.lastPrice) : undefined;
   const changePercent = Number.isFinite(Number(row.changePercent)) ? Number(row.changePercent) : undefined;

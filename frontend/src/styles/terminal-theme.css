@@ -1,5 +1,5 @@
 :root {
-  /* Terminal Design System v2 - semantic tokens */
+  /* Bensim Trading Design System v1 - semantic tokens */
   --ot-font-data: "Fira Code", "JetBrains Mono", "IBM Plex Mono", "Courier New", monospace;
   --ot-font-ui: "Inter", "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
 
@@ -78,6 +78,12 @@
   --ot-color-accent-glow: rgba(255, 107, 0, 0.14);
   --ot-color-accent-secondary: #18ffff;
   --ot-color-accent-info: #448aff;
+
+  --bt-color-brand-primary: var(--ot-color-accent-primary);
+  --bt-color-brand-secondary: var(--ot-color-accent-secondary);
+  --bt-color-brand-canvas: var(--ot-color-canvas);
+  --bt-color-brand-surface: var(--ot-color-surface-1);
+  --bt-radius-control: var(--ot-radius-sm);
 
   --ot-color-market-up: #00e676;
   --ot-color-market-down: #ff3d3d;

@@ -6,12 +6,23 @@ import "./ChartWorkstation.css";
 
 interface Props {
   value: string | null;
-  market: "IN" | "US";
-  onChange: (ticker: string, market: "IN" | "US", companyName?: string | null) => void;
+  market: "IN" | "US" | "FX";
+  onChange: (ticker: string, market: "IN" | "US" | "FX", companyName?: string | null) => void;
   className?: string;
   inputClassName?: string;
   placeholder?: string;
   inputTestId?: string;
+}
+
+const MAJOR_CURRENCIES = new Set(["USD", "EUR", "GBP", "JPY", "CHF", "CAD", "AUD", "NZD", "INR", "CNH", "SEK", "NOK", "SGD", "HKD", "ZAR"]);
+
+function normalizeForexPair(value: string): string | null {
+  const raw = value.trim().toUpperCase().replace(/^FX:/, "").replace("/", "");
+  if (!/^[A-Z]{6}$/.test(raw)) return null;
+  const base = raw.slice(0, 3);
+  const quote = raw.slice(3, 6);
+  if (!MAJOR_CURRENCIES.has(base) || !MAJOR_CURRENCIES.has(quote) || base === quote) return null;
+  return raw;
 }
 
 export function TickerDropdown({
@@ -46,9 +57,13 @@ export function TickerDropdown({
       }
       try {
         setLoading(true);
-        const apiMarket = market === "IN" ? "NSE" : "NASDAQ";
-        const r = await searchSymbols(q, apiMarket);
-        setResults(r.slice(0, 8));
+        const apiMarket = market === "IN" ? "NSE" : market === "FX" ? "FX" : "NASDAQ";
+        const r = apiMarket === "FX" ? [] : await searchSymbols(q, apiMarket);
+        const fxPair = normalizeForexPair(q);
+        const fxResult: SearchSymbolItem[] = fxPair
+          ? [{ ticker: fxPair, name: `${fxPair.slice(0, 3)}/${fxPair.slice(3)} Forex`, exchange: "FX", country_code: "FX" } as SearchSymbolItem]
+          : [];
+        setResults([...fxResult, ...r.filter((item) => item.ticker.toUpperCase() !== fxPair)].slice(0, 8));
         setSelectedIdx(0);
         setOpen(true);
       } catch {
@@ -60,7 +75,7 @@ export function TickerDropdown({
   };
 
   const pick = (item: SearchSymbolItem) => {
-    const resolvedMarket: "IN" | "US" = item.country_code === "US" ? "US" : "IN";
+    const resolvedMarket: "IN" | "US" | "FX" = item.country_code === "FX" || item.exchange === "FX" ? "FX" : item.country_code === "US" ? "US" : "IN";
     onChange(item.ticker, resolvedMarket, item.name ?? null);
     setQuery(item.ticker);
     setOpen(false);
@@ -119,11 +134,11 @@ export function TickerDropdown({
             <span className="inline-flex min-w-0 items-center gap-2">
               <span>{item.ticker}</span>
               <TerminalBadge
-                variant={item.country_code === "US" ? "info" : "neutral"}
+                variant={item.country_code === "US" || item.country_code === "FX" ? "info" : "neutral"}
                 size="sm"
                 className="shrink-0"
               >
-                {item.country_code === "US" ? "US" : "IN"}
+                {item.country_code === "FX" ? "FX" : item.country_code === "US" ? "US" : "IN"}
               </TerminalBadge>
             </span>
             <span className="truncate text-[10px] opacity-60">{(item.name ?? "").slice(0, 20)}</span>

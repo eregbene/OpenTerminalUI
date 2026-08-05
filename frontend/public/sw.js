@@ -1,5 +1,5 @@
-const CACHE_NAME = "otui-static-v5";
-const ASSETS = ["/manifest.json", "/favicon.png", "/icon-192.png", "/icon-512.png"];
+const CACHE_NAME = "otui-static-v6";
+const ASSETS = ["/manifest.json", "/bensim-mark.svg", "/favicon.png", "/icon-192.png", "/icon-512.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
@@ -41,7 +41,29 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Cache-first for static assets. Do not cache HTML for asset requests; that
+  // App bundles must be network-first so rebuilt chunk names do not leave
+  // lazy routes stuck behind stale cached JavaScript.
+  if (url.origin === self.location.origin && url.pathname.startsWith("/assets/")) {
+    event.respondWith(
+      fetch(request)
+        .then((resp) => {
+          const contentType = resp.headers.get("content-type") || "";
+          if (resp.ok && !contentType.includes("text/html")) {
+            const copy = resp.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, copy)).catch(() => {});
+          }
+          return resp;
+        })
+        .catch(async () => {
+          const cached = await caches.match(request);
+          if (cached) return cached;
+          throw new Error(`Asset unavailable: ${url.pathname}`);
+        })
+    );
+    return;
+  }
+
+  // Cache-first for other static assets. Do not cache HTML for asset requests; that
   // turns stale chunk URLs into JavaScript MIME errors after a rebuild.
   event.respondWith(
     caches.match(request).then((cached) => {

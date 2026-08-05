@@ -13,7 +13,7 @@ export default async function globalSetup(config: FullConfig) {
   const currentDir = path.dirname(fileURLToPath(import.meta.url));
   const repoRoot = path.resolve(currentDir, "..", "..", "..");
   const storageStatePath =
-    process.env.PLAYWRIGHT_AUTH_STATE_PATH || path.join(repoRoot, "playwright", ".auth", "user.json");
+    process.env.PLAYWRIGHT_AUTH_STATE_PATH || path.join(repoRoot, "test-results", ".auth", "user.json");
   const browser = await chromium.launch({ args: ["--disable-gpu"] });
   const accessToken = makeJwt({
     sub: "e2e-user",
@@ -36,9 +36,30 @@ export default async function globalSetup(config: FullConfig) {
     );
 
     if (typeof firstProjectBaseUrl === "string") {
-      await page.goto(firstProjectBaseUrl, { waitUntil: "domcontentloaded" });
+      try {
+        await page.goto(firstProjectBaseUrl, { waitUntil: "domcontentloaded", timeout: 10_000 });
+        await context.storageState({ path: storageStatePath });
+      } catch {
+        const origin = new URL(firstProjectBaseUrl).origin;
+        await fs.writeFile(
+          storageStatePath,
+          JSON.stringify({
+            cookies: [],
+            origins: [
+              {
+                origin,
+                localStorage: [
+                  { name: "ot-access-token", value: accessToken },
+                  { name: "ot-refresh-token", value: refreshToken },
+                ],
+              },
+            ],
+          }),
+        );
+      }
+    } else {
+      await context.storageState({ path: storageStatePath });
     }
-    await context.storageState({ path: storageStatePath });
   } finally {
     await context.close();
     await browser.close();

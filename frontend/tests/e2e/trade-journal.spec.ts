@@ -124,6 +124,7 @@ test("trade journal flow creates a trade and renders analytics", async ({ page }
 
   await page.goto("/equity/journal", { waitUntil: "domcontentloaded" });
 
+  await expect(page.getByTestId("add-trade-button")).toBeVisible({ timeout: 45_000 });
   await page.getByTestId("add-trade-button").click();
   await page.getByTestId("journal-entry-form").getByPlaceholder("RELIANCE").fill("RELIANCE");
   await page.getByTestId("journal-entry-form").locator('input[type="datetime-local"]').first().fill("2026-04-01T09:15");

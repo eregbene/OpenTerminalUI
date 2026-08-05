@@ -3,6 +3,7 @@ import type { NavigateFunction } from "react-router-dom";
 import type { SearchSymbolItem } from "../../api/client";
 import { inferRecentSecurityAssetClass } from "../../hooks/useRecentSecurities";
 import { useStockStore } from "../../store/stockStore";
+import { normalizeForexPair } from "../../utils/instruments";
 
 export type CommandFunctionCode =
   | "DESK"
@@ -270,6 +271,11 @@ function navigateToSecurityHub(navigate: NavigateFunction, ticker: string, tab: 
 }
 
 function navigateToMarketStock(navigate: NavigateFunction, ticker: string) {
+  const fxPair = normalizeForexPair(ticker);
+  if (fxPair) {
+    navigate(`/equity/forex?symbol=${encodeURIComponent(fxPair)}`);
+    return;
+  }
   navigate(`/equity/stocks?ticker=${encodeURIComponent(ticker)}`);
 }
 
@@ -289,7 +295,7 @@ function navigateToAssetClassView(
   if (assetClass === "forex") {
     const params = new URLSearchParams();
     if (ticker) {
-      params.set("pair", ticker);
+      params.set("symbol", ticker);
     }
     navigate(`/equity/forex${params.toString() ? `?${params.toString()}` : ""}`);
     return;
@@ -303,10 +309,16 @@ function navigateToAssetClassView(
 }
 
 function navigateToChartWorkstation(navigate: NavigateFunction, ticker?: string) {
+  const fxPair = ticker ? normalizeForexPair(ticker) : null;
   const params = new URLSearchParams();
   if (ticker) {
     params.set("ticker", ticker);
     params.set("symbol", ticker);
+  }
+  if (fxPair) {
+    params.set("market", "FX");
+    navigate(`/forex/chart${params.toString() ? `?${params.toString()}` : ""}`);
+    return;
   }
   navigate(`/equity/chart-workstation${params.toString() ? `?${params.toString()}` : ""}`);
 }
@@ -352,7 +364,8 @@ export function executeParsedCommand(parsed: ParsedCommand, navigate: NavigateFu
   if (parsed.kind === "ticker") {
     applyTicker(parsed.ticker);
     navigateToMarketStock(navigate, parsed.ticker);
-    return { ok: true, target: `/equity/stocks?ticker=${parsed.ticker}` };
+    const fxPair = normalizeForexPair(parsed.ticker);
+    return { ok: true, target: fxPair ? `/equity/forex?symbol=${fxPair}` : `/equity/stocks?ticker=${parsed.ticker}` };
   }
 
   if (parsed.kind === "ticker-function") {

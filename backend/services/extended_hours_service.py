@@ -102,6 +102,8 @@ class ExtendedHoursService:
         value = (market or "").strip().upper()
         if value in {"NYSE", "NASDAQ", "AMEX", "US"}:
             return "US", ("NASDAQ" if value == "US" else value)
+        if value in {"FX", "FOREX", "CURRENCY"}:
+            return "FX", "FX"
         if value in {"NSE", "BSE", "NFO", "IN"}:
             return "IN", ("NSE" if value == "IN" else value)
         # Conservative fallback keeps provider compatibility while disabling session specialization.

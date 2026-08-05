@@ -1,5 +1,5 @@
 app:
-  name: "OpenTerminalUI API"
+  name: "Bensim Trading API"
   version: "0.6.0"
   environment: "local"
   default_exchange_suffix: ".NS"

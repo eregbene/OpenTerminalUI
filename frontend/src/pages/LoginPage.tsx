@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MarketTicker } from "../components/MarketTicker";
 import { StatusBar } from "../components/StatusBar";
 import { useAuth } from "../contexts/AuthContext";
-import logo from "../assets/logo.png";
+import { APP_BRAND_MARK, APP_NAME, APP_REPO_URL, APP_TAGLINE, APP_VERSION } from "../utils/constants";
 
 const TRANSITION_FLAG_KEY = "ot-terminal-transition";
 
@@ -98,7 +98,7 @@ export function LoginPage() {
 
   return (
     <div className="ot-login-layout">
-      <StatusBar left="OPENTERMINALUI" center="SYSTEM STATUS: ONLINE" centerDotColor="green" />
+      <StatusBar left={APP_NAME.toUpperCase()} center="SYSTEM STATUS: ONLINE" centerDotColor="green" />
 
       <section className="ot-login-hero">
         <div className="ot-login-ticker-wrap">
@@ -115,13 +115,13 @@ export function LoginPage() {
 
         <div className="ot-brand-block">
           <div className="ot-brand-logo-row">
-            <img src={logo} alt="OpenTerminalUI" className="ot-brand-logo" />
-            <span className="ot-brand-kicker">OPEN-SOURCE TRADING TERMINAL</span>
+            <img src={APP_BRAND_MARK} alt={APP_NAME} className="ot-brand-logo" />
+            <span className="ot-brand-kicker">PROFESSIONAL TRADING WORKSTATION</span>
           </div>
           <h1 className="ot-brand-title">
-            <span className="ot-brand-title-open">OPENTERMINALUI</span>
+            <span className="ot-brand-title-open">{APP_NAME.toUpperCase()}</span>
           </h1>
-          <p className="ot-brand-subtitle">Analyze. Trade. Optimize.</p>
+          <p className="ot-brand-subtitle">{APP_TAGLINE}</p>
         </div>
       </section>
 
@@ -129,7 +129,7 @@ export function LoginPage() {
         <div className="ot-login-panel-inner">
           <header className="ot-stagger" style={{ ["--stagger-index" as string]: 1 }}>
             <div className="ot-panel-logo-wrap">
-              <img src={logo} alt="OpenTerminalUI logo" className="ot-panel-logo" />
+              <img src={APP_BRAND_MARK} alt={`${APP_NAME} logo`} className="ot-panel-logo" />
             </div>
             <p className="ot-panel-kicker">SECURE ACCESS</p>
             <h2 className="ot-panel-title">AUTHENTICATE</h2>
@@ -205,7 +205,7 @@ export function LoginPage() {
               className="ot-demo-button ot-stagger"
               style={{ ["--stagger-index" as string]: 9 }}
               onClick={() => {
-                setUserId("demo@openterminal.dev");
+                setUserId("demo@bensim.trading");
                 setPassword("demo12345");
                 setError(null);
               }}
@@ -216,9 +216,9 @@ export function LoginPage() {
 
           <footer className="ot-login-footer ot-stagger" style={{ ["--stagger-index" as string]: 10 }}>
             <p>
-              New to OpenTerminal? <Link to="/register">Request access</Link>
+              New to Bensim Trading? <Link to="/register">Request access</Link>
             </p>
-            <p className="ot-login-meta">v1.0.0 | MIT LICENSE | github.com/Hitheshkaranth/OpenTerminalUI</p>
+            <p className="ot-login-meta">v{APP_VERSION} | MIT LICENSE | {APP_REPO_URL.replace("https://", "")}</p>
           </footer>
         </div>
       </section>

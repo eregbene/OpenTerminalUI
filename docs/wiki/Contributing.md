@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for your interest in contributing to OpenTerminalUI. This page covers the development setup, coding conventions, task system, and PR checklist.
+Thank you for your interest in contributing to Bensim Trading. This page covers the development setup, coding conventions, task system, and PR checklist.
 
 ---
 
@@ -70,7 +70,7 @@ cd frontend && npm run test:e2e
 
 ## Project Task System (Forge)
 
-OpenTerminalUI uses a multi-agent orchestration system called **Forge**. Tasks are distributed across three agents based on domain:
+Bensim Trading uses a multi-agent orchestration system called **Forge**. Tasks are distributed across three agents based on domain:
 
 | Agent | File | Domain |
 |---|---|---|

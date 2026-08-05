@@ -17,9 +17,11 @@ from backend.shared.market_classifier import market_classifier
 
 logger = logging.getLogger(__name__)
 
-MarketType = Literal["IN", "US"]
+MarketType = Literal["IN", "US", "FX"]
 IN_EXCHANGES = {"NSE", "BSE", "NFO"}
 US_EXCHANGES = {"NYSE", "NASDAQ", "AMEX"}
+FX_MARKET_HINTS = {"FX", "FOREX", "CURRENCY", "CURRENCIES"}
+MAJOR_CURRENCIES = {"USD", "EUR", "GBP", "JPY", "CHF", "CAD", "AUD", "NZD", "INR", "CNH", "SEK", "NOK", "SGD", "HKD", "ZAR"}
 
 
 @dataclass
@@ -43,6 +45,19 @@ def _utc_dt(value: datetime) -> datetime:
 def _parse_iso_dt(value: str | None) -> datetime | None:
     if not value:
         return None
+
+
+def _normalize_forex_pair(symbol: str) -> str | None:
+    raw = (symbol or "").strip().upper().replace("FX:", "").replace("/", "")
+    if raw.endswith("=X"):
+        raw = raw[:-2]
+    if len(raw) != 6 or not raw.isalpha():
+        return None
+    base = raw[:3]
+    quote = raw[3:]
+    if base == quote or base not in MAJOR_CURRENCIES or quote not in MAJOR_CURRENCIES:
+        return None
+    return raw
     text = value.strip()
     if not text:
         return None
@@ -74,22 +89,31 @@ class ChartDataProvider:
             exchange, ticker = raw.split(":", 1)
             exchange = exchange.strip().upper()
             ticker = ticker.strip().upper()
+            if exchange in FX_MARKET_HINTS:
+                pair = _normalize_forex_pair(ticker)
+                if pair:
+                    return ("FX", pair, f"{pair}=X")
             if exchange in IN_EXCHANGES:
                 suffix = ".BO" if exchange == "BSE" else ".NS"
                 return ("IN", ticker, f"{ticker}{suffix}")
             if exchange in US_EXCHANGES:
                 return ("US", ticker, ticker)
+        pair = _normalize_forex_pair(raw)
+        hint = (market_hint or "").strip().upper()
+        if pair and (hint in FX_MARKET_HINTS or raw.endswith("=X") or "/" in raw):
+            return ("FX", pair, f"{pair}=X")
         if raw.endswith(".NS"):
             return ("IN", raw[:-3], raw)
         if raw.endswith(".BO"):
             return ("IN", raw[:-3], raw)
 
-        hint = (market_hint or "").strip().upper()
         if hint in IN_EXCHANGES:
             suffix = ".BO" if hint == "BSE" else ".NS"
             return ("IN", raw, f"{raw}{suffix}")
         if hint in US_EXCHANGES:
             return ("US", raw, raw)
+        if hint in FX_MARKET_HINTS and pair:
+            return ("FX", pair, f"{pair}=X")
 
         try:
             cls = await market_classifier.classify(raw)
@@ -182,6 +206,8 @@ class ChartDataProvider:
 
         if market == "IN":
             bars = await self._india_ohlcv(base_symbol, provider_ticker, interval, period, start, end)
+        elif market == "FX":
+            bars = await self._forex_ohlcv(base_symbol, provider_ticker, interval, period, start, end)
         else:
             bars = await self._us_ohlcv(base_symbol, provider_ticker, interval, period, start, end, prepost=prepost)
 
@@ -329,6 +355,17 @@ class ChartDataProvider:
                 return bars
         logger.debug("Falling back to yfinance historical for %s after US waterfall miss", ticker)
         return await self._yfinance_ohlcv(base_symbol, ticker, interval, period, start, end, market="US", prepost=prepost)
+
+    async def _forex_ohlcv(
+        self,
+        base_symbol: str,
+        ticker: str,
+        interval: str,
+        period: str,
+        start: datetime | None,
+        end: datetime | None,
+    ) -> list[OHLCVBar]:
+        return await self._yfinance_ohlcv(base_symbol, ticker, interval, period, start, end, market="FX")
 
     async def _alpaca_historical(
         self,

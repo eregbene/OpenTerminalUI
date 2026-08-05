@@ -3,7 +3,9 @@ const fs = require("node:fs");
 const { defineConfig, devices } = require("./frontend/node_modules/@playwright/test");
 
 const E2E_FRONTEND_PORT = Number(process.env.E2E_FRONTEND_PORT || 4173);
-const E2E_BACKEND_PORT = Number(process.env.E2E_BACKEND_PORT || 8010);
+const E2E_BACKEND_MODE = process.env.E2E_BACKEND_MODE || "local";
+const E2E_BACKEND_PORT = Number(process.env.E2E_BACKEND_PORT || (E2E_BACKEND_MODE === "docker" ? 8000 : 8010));
+const E2E_BACKEND_URL = process.env.E2E_BACKEND_URL || `http://127.0.0.1:${E2E_BACKEND_PORT}`;
 
 let ROOT_DIR = process.cwd();
 if (!fs.existsSync(path.join(ROOT_DIR, "data")) && fs.existsSync(path.join(ROOT_DIR, "..", "data"))) {
@@ -14,7 +16,7 @@ console.log("DEBUG: ROOT_DIR =", ROOT_DIR);
 const SQLITE_PATH = path.join(ROOT_DIR, "data", "playwright-e2e.db").replace(/\\/g, "/");
 const SQLITE_URL = `sqlite:///${SQLITE_PATH}`;
 const DATABASE_URL = SQLITE_URL.replace("sqlite:///", "sqlite+aiosqlite:///");
-const AUTH_STATE_PATH = process.env.PLAYWRIGHT_AUTH_STATE_PATH || path.join(ROOT_DIR, "playwright", ".auth", "user.json");
+const AUTH_STATE_PATH = process.env.PLAYWRIGHT_AUTH_STATE_PATH || path.join(ROOT_DIR, "test-results", ".auth", "user.json");
 console.log("DEBUG: SQLITE_URL =", SQLITE_URL);
 console.log("DEBUG: DATABASE_URL =", DATABASE_URL);
 
@@ -35,7 +37,15 @@ export default defineConfig({
     storageState: AUTH_STATE_PATH,
   },
   webServer: [
-    {
+    E2E_BACKEND_MODE === "docker"
+      ? {
+          command: `node -e "console.error('Docker backend mode expects ${E2E_BACKEND_URL}/health to be running. Start it with: docker compose up -d backend redis'); process.exit(1)"`,
+          cwd: ROOT_DIR,
+          port: E2E_BACKEND_PORT,
+          reuseExistingServer: true,
+          timeout: 5_000,
+        }
+      : {
       command: `python -m uvicorn backend.main:app --host 127.0.0.1 --port ${E2E_BACKEND_PORT}`,
       cwd: ROOT_DIR,
       port: E2E_BACKEND_PORT,
@@ -58,9 +68,10 @@ export default defineConfig({
       timeout: 240_000,
       env: {
         ...process.env,
-        VITE_API_BASE_URL: `http://127.0.0.1:${E2E_BACKEND_PORT}/api`,
-        VITE_PROXY_TARGET: `http://127.0.0.1:${E2E_BACKEND_PORT}`,
+        VITE_API_BASE_URL: `${E2E_BACKEND_URL}/api`,
+        VITE_PROXY_TARGET: E2E_BACKEND_URL,
         VITE_E2E_AUTO_LOGIN: "1",
+        VITE_DISABLE_SERVICE_WORKER: "1",
       },
     },
   ],

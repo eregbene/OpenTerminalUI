@@ -51,3 +51,49 @@ export async function streamRun(
     for (const event of events) onEvent(event);
   }
 }
+
+export interface AIChatRequest {
+  message: string;
+  conversation_id?: string;
+  evidence_bundle_id?: string;
+  domain?: string;
+  entity_id?: string;
+}
+
+export async function chatStream(
+  req: AIChatRequest,
+  onEvent: (event: AgentEvent) => void,
+  signal?: AbortSignal,
+): Promise<void> {
+  const token = getAccessToken();
+  const headers: Record<string, string> = { Accept: "text/event-stream", "Content-Type": "application/json" };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  let resp: Response;
+  try {
+    resp = await fetch(`${API_BASE}/ai/chat/stream`, { method: "POST", headers, body: JSON.stringify(req), signal });
+  } catch (err) {
+    if (signal?.aborted) return;
+    onEvent({ type: "error", message: (err as Error).message || "network error" });
+    return;
+  }
+  if (!resp.ok || !resp.body) {
+    onEvent({ type: "error", message: `AI chat failed (HTTP ${resp.status})` });
+    return;
+  }
+  const reader = resp.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const { events, rest } = parseSSEBuffer(buffer);
+    buffer = rest;
+    for (const event of events) onEvent(event);
+  }
+}
+
+export async function listAIConversations(): Promise<{ items: unknown[] }> {
+  const { data } = await api.get<{ items: unknown[] }>("/ai/conversations");
+  return data;
+}

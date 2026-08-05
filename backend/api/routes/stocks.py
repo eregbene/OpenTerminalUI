@@ -13,6 +13,7 @@ from backend.core.models import CapexPoint, CapexTrackerResponse, DeliveryPoint,
 from backend.shared.market_classifier import market_classifier
 
 router = APIRouter()
+MAJOR_CURRENCIES = {"USD", "EUR", "GBP", "JPY", "CHF", "CAD", "AUD", "NZD", "INR", "CNH", "SEK", "NOK", "SGD", "HKD", "ZAR"}
 
 # --- Helpers to process 10y financials into frontend format ---
 def _process_timeseries(data: Dict[str, Any], metric_map: Dict[str, str]) -> List[Dict[str, Any]]:
@@ -127,8 +128,41 @@ def _pct_change_from_cutoff(close: pd.Series, days: int) -> float | None:
         return None
     return ((latest_close - base) / base) * 100.0
 
+
+def _normalize_forex_pair(value: str) -> str | None:
+    raw = (value or "").strip().upper().replace("FX:", "").replace("/", "")
+    if raw.endswith("=X"):
+        raw = raw[:-2]
+    if len(raw) != 6 or not raw.isalpha():
+        return None
+    base = raw[:3]
+    quote = raw[3:]
+    if base == quote or base not in MAJOR_CURRENCIES or quote not in MAJOR_CURRENCIES:
+        return None
+    return raw
+
 @router.get("/stocks/{ticker}", response_model=StockSnapshot)
-async def get_stock(ticker: str) -> StockSnapshot:
+async def get_stock(ticker: str, market: str | None = Query(default=None)) -> StockSnapshot:
+    fx_pair = _normalize_forex_pair(ticker)
+    if fx_pair:
+        return StockSnapshot(
+            ticker=fx_pair,
+            symbol=f"{fx_pair}=X",
+            company_name=f"{fx_pair[:3]}/{fx_pair[3:]} Forex",
+            sector="Forex",
+            industry="Currency pair",
+            country_code="FX",
+            exchange="FX",
+            classification={
+                "exchange": "FX",
+                "country_code": "FX",
+                "flag_emoji": "",
+                "currency": fx_pair[3:],
+                "has_futures": False,
+                "has_options": False,
+            },
+            raw={"asset_class": "forex", "source_symbol": f"{fx_pair}=X"},
+        )
     classification = await market_classifier.classify(ticker)
     yf_symbol = await market_classifier.yfinance_symbol(ticker)
     try:

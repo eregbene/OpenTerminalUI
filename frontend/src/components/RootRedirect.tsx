@@ -6,7 +6,7 @@ import { useAuth } from "../contexts/AuthContext";
 /**
  * Root path policy: the public marketing landing (served statically from
  * `public/landing/`, outside the SPA) is the default page for guests, while
- * authenticated users are taken straight into the app at `/home`.
+ * authenticated users are taken straight into the EUR/USD forex workspace.
  */
 export function RootRedirect() {
   const { isAuthenticated, isInitializing } = useAuth();
@@ -29,7 +29,7 @@ export function RootRedirect() {
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/home" replace />;
+    return <Navigate to="/equity/forex?symbol=EURUSD" replace />;
   }
 
   // Guests: the effect kicks off the redirect to the static landing; render

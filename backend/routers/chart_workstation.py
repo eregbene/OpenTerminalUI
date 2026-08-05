@@ -60,10 +60,12 @@ async def batch_chart_data(request: BatchChartRequest) -> dict[str, Any]:
     async def fetch_one(item: BatchTickerItem) -> tuple[str, Any]:
         try:
             # We use the ExtendedHoursService instead of direct provider
+            market_value = item.market.upper()
+            service_market = "US" if market_value in {"NYSE", "NASDAQ", "AMEX"} else "FX" if market_value in {"FX", "FOREX"} else "IN"
             bars = await service.get_chart_data(
                 symbol=item.symbol,
                 timeframe=item.timeframe,
-                market="US" if item.market.upper() in {"NYSE", "NASDAQ", "AMEX"} else "IN",
+                market=service_market,
                 extended=item.extended,
             )
 
@@ -71,7 +73,7 @@ async def batch_chart_data(request: BatchChartRequest) -> dict[str, Any]:
             return key, {
                 "ticker": item.symbol.upper(),
                 "interval": item.timeframe,
-                "currency": "INR" if item.market.upper() in {"NSE", "BSE", "NFO"} else "USD",
+                "currency": "INR" if item.market.upper() in {"NSE", "BSE", "NFO"} else item.symbol.upper()[3:6] if item.market.upper() in {"FX", "FOREX"} and len(item.symbol.strip()) >= 6 else "USD",
                 "data": [
                     {
                         "t": b["time"],
@@ -97,7 +99,7 @@ async def batch_chart_data(request: BatchChartRequest) -> dict[str, Any]:
             return key, {
                 "ticker": item.symbol.upper(),
                 "interval": item.timeframe,
-                "currency": "INR" if item.market.upper() in {"NSE", "BSE", "NFO"} else "USD",
+                "currency": "INR" if item.market.upper() in {"NSE", "BSE", "NFO"} else item.symbol.upper()[3:6] if item.market.upper() in {"FX", "FOREX"} and len(item.symbol.strip()) >= 6 else "USD",
                 "error": str(exc),
                 "data": [],
                 "meta": {"warnings": [{"code": "batch_chart_error", "message": str(exc)}]},

@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 // Captures README screenshots of the main workspaces. Run with:
 //   npx playwright test screenshots --project=chromium
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-const OUT_DIR = path.resolve(HERE, "..", "..", "..", "assets", "screenshots");
+const OUT_DIR = process.env.PLAYWRIGHT_SCREENSHOT_OUTPUT_DIR || path.resolve(HERE, "..", "..", "..", "test-results", "screenshots");
 
 const PAGES: Array<{ name: string; url: string; settle?: number }> = [
   { name: "home", url: "/" },

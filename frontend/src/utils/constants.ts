@@ -1,5 +1,11 @@
-export const APP_NAME = "OpenTerminalUI";
+export const APP_NAME = "Bensim Trading";
+export const APP_SHORT_NAME = "Bensim";
+export const APP_LEGAL_NAME = "Bensim Trading";
 export const APP_VERSION = "0.6.0";
+export const APP_TAGLINE = "Analyze. Trade. Optimize.";
+export const APP_DESCRIPTION = "Professional multi-asset trading workstation for research, analytics, portfolio, risk, and execution workflows.";
+export const APP_BRAND_MARK = "/bensim-mark.svg";
+export const APP_REPO_URL = "https://github.com/Hitheshkaranth/OpenTerminalUI";
 
 export const MOMENTUM_ROTATION_BASKET = [
   "RELIANCE",

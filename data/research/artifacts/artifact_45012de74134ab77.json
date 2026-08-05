@@ -1,0 +1,86 @@
+[
+  {
+    "completed_at": "2026-07-23T18:53:17.742739Z",
+    "errors": [],
+    "job_id": "opt_98bb34791e8db3e6",
+    "metrics": {
+      "annualized_return": 0.00048142325162991995,
+      "annualized_volatility": 5.5684045625021486e-05,
+      "average_holding_period": 90.0,
+      "average_loss": null,
+      "average_win": 4.199999999999989,
+      "best_trade": 4.199999999999989,
+      "calmar_ratio": null,
+      "consecutive_losses": 0,
+      "consecutive_wins": 4,
+      "drawdown_duration": 0,
+      "expectancy": 4.199999999999989,
+      "exposure_time": 1.0,
+      "loss_rate": 0.0,
+      "maximum_drawdown": 0.0,
+      "payoff_ratio": null,
+      "profit_factor": null,
+      "sharpe_ratio": 8.64357841129324,
+      "sortino_ratio": null,
+      "total_return": 0.00016999999999978144,
+      "trade_count": 4,
+      "turnover": 0.005442000000000001,
+      "warnings": [
+        "metric ratios are low-confidence with fewer than 10 trades",
+        "profit factor is unavailable because there are no losing trades"
+      ],
+      "win_rate": 1.0,
+      "worst_trade": 4.199999999999989
+    },
+    "objective_value": 8.64357841129324,
+    "parameter_set": {
+      "targets.0.value": 1.5
+    },
+    "parameter_set_hash": "6ccba0c6d357586a",
+    "started_at": "2026-07-23T18:53:17.071508Z",
+    "status": "completed",
+    "trial_id": "trial_db1d4e75de1ff58e"
+  },
+  {
+    "completed_at": "2026-07-23T18:53:18.419932Z",
+    "errors": [],
+    "job_id": "opt_98bb34791e8db3e6",
+    "metrics": {
+      "annualized_return": 0.0004417709676018955,
+      "annualized_volatility": 4.724884992229864e-05,
+      "average_holding_period": 135.0,
+      "average_loss": null,
+      "average_win": 5.699999999999989,
+      "best_trade": 5.699999999999989,
+      "calmar_ratio": null,
+      "consecutive_losses": 0,
+      "consecutive_wins": 2,
+      "drawdown_duration": 0,
+      "expectancy": 5.699999999999989,
+      "exposure_time": 1.0,
+      "loss_rate": 0.0,
+      "maximum_drawdown": 0.0,
+      "payoff_ratio": null,
+      "profit_factor": null,
+      "sharpe_ratio": 9.347844858419034,
+      "sortino_ratio": null,
+      "total_return": 0.00015599999999982295,
+      "trade_count": 2,
+      "turnover": 0.0026660000000000004,
+      "warnings": [
+        "metric ratios are low-confidence with fewer than 10 trades",
+        "profit factor is unavailable because there are no losing trades"
+      ],
+      "win_rate": 1.0,
+      "worst_trade": 5.699999999999989
+    },
+    "objective_value": 9.347844858419034,
+    "parameter_set": {
+      "targets.0.value": 2.0
+    },
+    "parameter_set_hash": "42a60a3dbf1aacd9",
+    "started_at": "2026-07-23T18:53:17.742818Z",
+    "status": "completed",
+    "trial_id": "trial_ed2a44524977935e"
+  }
+]

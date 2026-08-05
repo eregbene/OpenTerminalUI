@@ -39,7 +39,7 @@ async function waitForLoadedData(page, name, expectedText = [], timeout = 45000)
     ({ expected: needles }) => {
       const body = document.body?.innerText || "";
       const hasExpected = needles.some((needle) => body.toLowerCase().includes(String(needle).toLowerCase()));
-      const appShellLoading = /Loading OpenTerminalUI|Loading route|Loading dashboard/i.test(body);
+      const appShellLoading = /Loading Bensim Trading|Loading route|Loading dashboard/i.test(body);
       return hasExpected && !appShellLoading;
     },
     { expected },

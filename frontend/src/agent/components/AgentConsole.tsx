@@ -21,11 +21,16 @@ export function AgentConsole() {
   const toggleStrategy = useAgentStore((s) => s.toggleStrategy);
   const toggleScreener = useAgentStore((s) => s.toggleScreener);
   const startRun = useAgentStore((s) => s.startRun);
+  const retry = useAgentStore((s) => s.retry);
+  const stop = useAgentStore((s) => s.stop);
+  const clear = useAgentStore((s) => s.clear);
+  const exportConversation = useAgentStore((s) => s.exportConversation);
   // Subscribe to the active ticker so the context chip re-renders on symbol change.
   useStockStore((s) => s.ticker);
   const contextSymbol = buildScreenContext().symbol;
   const [draft, setDraft] = useState("");
   const activeModel = [...messages].reverse().find((message) => message.role === "assistant")?.model;
+  const latestAssistant = [...messages].reverse().find((message) => message.role === "assistant");
   const modelLabel = activeModel?.replace(/^.*\//, "").replace(/:free$/, "");
 
   useEffect(() => {
@@ -46,6 +51,19 @@ export function AgentConsole() {
     if (!text || running) return;
     setDraft("");
     void startRun(text);
+  };
+
+  const copyLatest = async () => {
+    const text = latestAssistant?.content ?? "";
+    if (text) await navigator.clipboard?.writeText(text);
+  };
+
+  const exportLatest = async () => {
+    await navigator.clipboard?.writeText(exportConversation());
+  };
+
+  const openResearchAgent = () => {
+    window.location.assign("/equity/research-agent");
   };
 
   return (
@@ -123,6 +141,9 @@ export function AgentConsole() {
               {modelLabel}
             </span>
           ) : null}
+          <span className="rounded border border-terminal-border px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wide text-terminal-muted">
+            {latestAssistant?.grounding?.validated === false ? "Grounding: limited" : "Grounding: verified"}
+          </span>
         </div>
         <button
           type="button"
@@ -137,6 +158,42 @@ export function AgentConsole() {
       <div style={{ flex: 1, overflowY: "auto", minHeight: 0 }}>
         <ChatThread messages={messages} />
         <ArtifactCanvas artifacts={artifacts} />
+        {latestAssistant ? (
+          <section className="mx-3 mb-3 grid gap-2 rounded border border-terminal-border bg-terminal-panel/70 p-2 text-[11px] text-terminal-muted">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-semibold uppercase tracking-wide text-terminal-text">Evidence</span>
+              <span>{latestAssistant.evidenceBundleId ?? "No bundle"}</span>
+              {latestAssistant.latencyMs != null ? <span>{Math.round(latestAssistant.latencyMs)}ms</span> : null}
+            </div>
+            {latestAssistant.citations?.length ? (
+              <div className="flex flex-wrap gap-1">
+                {latestAssistant.citations.map((citation) => (
+                  <span key={`${citation.bundle_id}-${citation.marker}`} className="rounded border border-terminal-accent/40 px-1.5 py-0.5 text-terminal-accent">
+                    {citation.marker}
+                  </span>
+                ))}
+              </div>
+            ) : null}
+            {latestAssistant.tokenUsage ? (
+              <div className="font-mono">
+                Tokens: {String(latestAssistant.tokenUsage.prompt_tokens ?? 0)} prompt / {String(latestAssistant.tokenUsage.completion_tokens ?? 0)} completion
+              </div>
+            ) : null}
+            {latestAssistant.grounding?.warnings?.length ? (
+              <div>Limitations: {latestAssistant.grounding.warnings.join(", ")}</div>
+            ) : null}
+          </section>
+        ) : null}
+      </div>
+
+      <div className="flex flex-wrap gap-2 border-t border-terminal-border px-2 py-2">
+        <button type="button" onClick={copyLatest} className="rounded border border-terminal-border px-2 py-1 text-[11px] uppercase text-terminal-muted hover:text-terminal-accent">Copy</button>
+        <button type="button" onClick={exportLatest} className="rounded border border-terminal-border px-2 py-1 text-[11px] uppercase text-terminal-muted hover:text-terminal-accent">Export</button>
+        <button type="button" onClick={retry} disabled={running} className="rounded border border-terminal-border px-2 py-1 text-[11px] uppercase text-terminal-muted hover:text-terminal-accent">Retry</button>
+        <button type="button" onClick={stop} disabled={!running} className="rounded border border-terminal-border px-2 py-1 text-[11px] uppercase text-terminal-muted hover:text-terminal-accent">Stop</button>
+        <button type="button" onClick={clear} className="rounded border border-terminal-border px-2 py-1 text-[11px] uppercase text-terminal-muted hover:text-terminal-accent">Clear</button>
+        <button type="button" onClick={openResearchAgent} className="rounded border border-terminal-border px-2 py-1 text-[11px] uppercase text-terminal-muted hover:text-terminal-accent">Research Agent</button>
+        <span className="ml-auto text-[11px] uppercase text-terminal-muted">Suggested: explain risk, summarize order, compare evidence</span>
       </div>
 
       <div style={{ display: "flex", gap: "var(--ot-space-2)", padding: "var(--ot-space-2)", borderTop: "1px solid var(--ot-color-border-default)" }}>

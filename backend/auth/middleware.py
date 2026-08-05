@@ -6,7 +6,7 @@ from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse
 
-from backend.auth.deps import auth_exempt_path
+from backend.auth.deps import _get_or_create_dev_user, auth_exempt_path
 from backend.auth.jwt import decode_token
 from backend.shared.db import SessionLocal
 from backend.models.user import User
@@ -17,6 +17,15 @@ class AuthMiddleware(BaseHTTPMiddleware):
         path = request.url.path
         auth_enabled = os.getenv("AUTH_MIDDLEWARE_ENABLED", "1") == "1"
         if not auth_enabled or not path.startswith("/api") or auth_exempt_path(path):
+            return await call_next(request)
+
+        session_factory = getattr(request.app.state, "db_session_factory", SessionLocal)
+        if os.getenv("E2E_DEV_AUTH") == "1":
+            db = session_factory()
+            try:
+                request.state.current_user = _get_or_create_dev_user(db)
+            finally:
+                db.close()
             return await call_next(request)
 
         auth_header = request.headers.get("Authorization", "")
@@ -35,7 +44,6 @@ class AuthMiddleware(BaseHTTPMiddleware):
         if not user_id:
             return JSONResponse({"detail": "Invalid token subject"}, status_code=401)
 
-        session_factory = getattr(request.app.state, "db_session_factory", SessionLocal)
         db = session_factory()
         try:
             user = db.query(User).filter(User.id == user_id).first()

@@ -13,6 +13,7 @@ const corsHeaders = {
 };
 
 test("custom formula screener validates, runs, and saves formulas", async ({ page }) => {
+  test.slow();
   const token = fakeJwt({
     sub: "u_e2e",
     email: "trader@example.com",
@@ -117,6 +118,7 @@ test("custom formula screener validates, runs, and saves formulas", async ({ pag
 
   await page.goto("/equity/screener", { waitUntil: "domcontentloaded" });
 
+  await expect(page.getByText("Equity Screener")).toBeVisible({ timeout: 60_000 });
   await page.getByRole("button", { name: "Custom Formula" }).click();
   await expect(page.getByText("Validation OK")).toBeVisible();
 

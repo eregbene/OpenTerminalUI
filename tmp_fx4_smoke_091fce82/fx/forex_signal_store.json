@@ -1,0 +1,173 @@
+{
+  "active_trades": {},
+  "audits": [],
+  "candidates": {
+    "fxcand_7daae5b887f3e7a1": {
+      "broker_order_id": null,
+      "candidate_entry": 1.085,
+      "candidate_id": "fxcand_7daae5b887f3e7a1",
+      "candle_timestamp": "2026-07-28T13:31:57.176800Z",
+      "confidence": 0.795,
+      "content_hash": "7daae5b887f3e7a1b58750e2c831f5d34c14fec7fa4c96bbb33ae7fae31c3214",
+      "data_quality": 1.0,
+      "direction": "BUY",
+      "eligibility": [
+        {
+          "eligible": true,
+          "reasons": [],
+          "score": 0.795,
+          "strategy_id": "trend_pullback_v1"
+        },
+        {
+          "eligible": true,
+          "reasons": [],
+          "score": 0.795,
+          "strategy_id": "breakout_retest_v1"
+        },
+        {
+          "eligible": false,
+          "reasons": [
+            "STRATEGY_DISABLED",
+            "STATUS_RESEARCH",
+            "UNSUPPORTED_REGIME",
+            "REGIME_NOT_SUPPORTED",
+            "FRAMEWORK_DEPENDENCY_MISSING"
+          ],
+          "score": 0.0,
+          "strategy_id": "mean_reversion_range_v1"
+        },
+        {
+          "eligible": false,
+          "reasons": [
+            "STRATEGY_DISABLED",
+            "STATUS_RESEARCH",
+            "REGIME_NOT_SUPPORTED",
+            "FRAMEWORK_DEPENDENCY_MISSING"
+          ],
+          "score": 0.0,
+          "strategy_id": "liquidity_sweep_reversal_v1"
+        },
+        {
+          "eligible": false,
+          "reasons": [
+            "STRATEGY_DISABLED",
+            "STATUS_RESEARCH"
+          ],
+          "score": 0.0,
+          "strategy_id": "session_breakout_v1"
+        },
+        {
+          "eligible": false,
+          "reasons": [
+            "STRATEGY_DISABLED",
+            "STATUS_ANALYSIS_ONLY",
+            "UNSUPPORTED_SYMBOL",
+            "FRAMEWORK_DEPENDENCY_MISSING"
+          ],
+          "score": 0.0,
+          "strategy_id": "xauusd_analysis_only_v1"
+        }
+      ],
+      "entry_type": "MARKET",
+      "entry_zone": {
+        "high": 1.0852,
+        "low": 1.0848
+      },
+      "expiration": "2026-07-28T15:31:57.177175Z",
+      "explanation": {
+        "conflicting_frameworks": [],
+        "entry_logic": "BUY at 1.085",
+        "expiration_conditions": [
+          "two hours",
+          "candidate expiry",
+          "stale data",
+          "spread exceeds threshold"
+        ],
+        "missing_evidence": [
+          "STRATEGY_DISABLED",
+          "STATUS_RESEARCH",
+          "UNSUPPORTED_REGIME",
+          "REGIME_NOT_SUPPORTED",
+          "FRAMEWORK_DEPENDENCY_MISSING",
+          "STRATEGY_DISABLED",
+          "STATUS_RESEARCH",
+          "REGIME_NOT_SUPPORTED",
+          "FRAMEWORK_DEPENDENCY_MISSING",
+          "STRATEGY_DISABLED",
+          "STATUS_RESEARCH",
+          "STRATEGY_DISABLED",
+          "STATUS_ANALYSIS_ONLY",
+          "UNSUPPORTED_SYMBOL",
+          "FRAMEWORK_DEPENDENCY_MISSING"
+        ],
+        "regime_suitable": true,
+        "risk_reward": 2.0,
+        "stop_logic": "stop at 1.083",
+        "supporting_frameworks": [
+          "trend_following",
+          "price_action",
+          "support_resistance",
+          "breakout",
+          "momentum"
+        ],
+        "symbol_supported": true,
+        "target_logic": "primary target at 1.089",
+        "why_triggered": [
+          "completed candle",
+          "eligible strategy selected",
+          "framework agreement above deterministic threshold"
+        ]
+      },
+      "feature_vector_id": null,
+      "fill_ids": [],
+      "framework_agreement": 0.72,
+      "framework_signal_ids": [],
+      "generated_at": "2026-07-28T13:31:57.177244Z",
+      "idempotency_key": "eb4cab5e9b306c96a4c4014c98974d847b272864d3f9703941a0d769fdfacfcf",
+      "instrument_type": "FOREX",
+      "invalidation": "stop beyond deterministic structure invalidation",
+      "oms_intent_id": "intent_53de94f75c64",
+      "oms_order_id": null,
+      "paper_deployment_id": "fx4-trend_pullback_v1-manual",
+      "regime": "trend",
+      "risk_decision": {
+        "approved": true,
+        "candidate_id": "fxcand_7daae5b887f3e7a1",
+        "content_hash": "0d995a0cc002222bb4aa0fc7444aaad687d5969d1fca004dcf9ef631c0320484",
+        "data_used": {
+          "entry": 1.085,
+          "risk_per_trade_percent": 0.25,
+          "stop": 1.083
+        },
+        "decision_id": "fxrisk_0d995a0cc002222b",
+        "estimated_margin": 4475.62,
+        "estimated_risk": 250.0,
+        "exposure_after": {
+          "usd_directional_exposure": 10850.0
+        },
+        "exposure_before": {
+          "open_trade_count": 0
+        },
+        "generated_at": "2026-07-28T13:31:57.177395Z",
+        "policy_version": "fx-risk-v1",
+        "position_size": 125000.0,
+        "rejection_reasons": []
+      },
+      "risk_reward": 2.0,
+      "session": "london",
+      "signal_basis": "COMPLETED_CANDLE",
+      "signal_timestamp": "2026-07-28T13:31:57.177161Z",
+      "source_dataset_id": null,
+      "spread": 0.0001,
+      "status": "RISK_REJECTED",
+      "stop_price": 1.083,
+      "strategy_id": "trend_pullback_v1",
+      "strategy_version": "1.0.0",
+      "symbol": "EURUSD",
+      "target_prices": [
+        1.089
+      ],
+      "timeframe": "1h"
+    }
+  }
+}

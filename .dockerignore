@@ -12,6 +12,14 @@ reports/
 frontend/node_modules/
 frontend/.npm-cache/
 frontend/dist/
+frontend/test-results/
+frontend/tsconfig.tsbuildinfo
+frontend/vitest.log
+frontend/vitest-report.xml
+test-results/
+playwright-report/
+data/research/
+data/trading/
 backend/__pycache__/
 backend/**/*.pyc
 .git/

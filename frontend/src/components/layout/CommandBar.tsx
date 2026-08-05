@@ -24,6 +24,7 @@ import {
   type CommandSuggestion,
 } from "./commanding";
 import { useSettingsStore } from "../../store/settingsStore";
+import type { RecentSecurityMarket } from "../../store/settingsStore";
 import { useStockStore } from "../../store/stockStore";
 import { AIQueryResult } from "../../types";
 
@@ -106,7 +107,7 @@ function formatAssetClassLabel(value: string) {
 function findSymbolMetadata(
   symbol: string,
   searchUniverse: SearchSymbolItem[],
-  recentSecurities: Array<{ symbol: string; name: string; market: "IN" | "US" }>,
+  recentSecurities: Array<{ symbol: string; name: string; market: RecentSecurityMarket }>,
 ) {
   const match = searchUniverse.find((item) => String(item.ticker || "").trim().toUpperCase() === symbol);
   if (match) {

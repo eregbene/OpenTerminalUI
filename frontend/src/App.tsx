@@ -30,6 +30,15 @@ const AboutPage = lazyWithRetry(() => import("./pages/About").then((m) => ({ def
 const DashboardPage = lazyWithRetry(() => import("./pages/Dashboard").then((m) => ({ default: m.DashboardPage })));
 const ScreenerPage = lazyWithRetry(() => import("./pages/Screener").then((m) => ({ default: m.ScreenerPage })));
 const PortfolioPage = lazyWithRetry(() => import("./pages/Portfolio").then((m) => ({ default: m.PortfolioPage })));
+const PortfolioOperationsCenter = lazyWithRetry(() => import("./pages/PortfolioOperationsCenter").then((m) => ({ default: m.PortfolioOperationsCenter })));
+const PortfolioManagementPage = lazyWithRetry(() => import("./pages/Phase12DetailPages").then((m) => ({ default: m.PortfolioManagementPage })));
+const PortfolioPerformancePage = lazyWithRetry(() => import("./pages/Phase12DetailPages").then((m) => ({ default: m.PortfolioPerformancePage })));
+const PortfolioRiskPage = lazyWithRetry(() => import("./pages/Phase12DetailPages").then((m) => ({ default: m.PortfolioRiskPage })));
+const ExecutionAnalyticsPage = lazyWithRetry(() => import("./pages/Phase12DetailPages").then((m) => ({ default: m.ExecutionAnalyticsPage })));
+const StrategyLeaderboardPage = lazyWithRetry(() => import("./pages/Phase12DetailPages").then((m) => ({ default: m.StrategyLeaderboardPage })));
+const PortfolioReplayPage = lazyWithRetry(() => import("./pages/Phase12DetailPages").then((m) => ({ default: m.PortfolioReplayPage })));
+const OperationsCenterPage = lazyWithRetry(() => import("./pages/Phase12DetailPages").then((m) => ({ default: m.OperationsCenterPage })));
+const ReportsCenterPage = lazyWithRetry(() => import("./pages/Phase12DetailPages").then((m) => ({ default: m.ReportsCenterPage })));
 const WatchlistPage = lazyWithRetry(() => import("./pages/Watchlist").then((m) => ({ default: m.WatchlistPage })));
 const NewsPage = lazyWithRetry(() => import("./pages/News").then((m) => ({ default: m.NewsPage })));
 const AlertsPage = lazyWithRetry(() => import("./pages/Alerts").then((m) => ({ default: m.AlertsPage })));
@@ -45,6 +54,10 @@ const SettingsPage = lazyWithRetry(() => import("./pages/Settings").then((m) => 
 const PluginsPage = lazyWithRetry(() => import("./pages/Plugins/Plugins").then((m) => ({ default: m.PluginsPage })));
 const ChartWorkstationPage = lazyWithRetry(() => import("./pages/ChartWorkstationPage").then((m) => ({ default: m.ChartWorkstationPage })));
 const ResearchPage = lazyWithRetry(() => import("./pages/ResearchPage").then((m) => ({ default: m.ResearchPage })));
+const StrategyPerformanceDashboard = lazyWithRetry(() => import("./pages/StrategyPerformanceDashboard").then((m) => ({ default: m.StrategyPerformanceDashboard })));
+const ResearchWorkflowPage = lazyWithRetry(() => import("./pages/ResearchWorkflowPage").then((m) => ({ default: m.ResearchWorkflowPage })));
+const ResearchAgentPage = lazyWithRetry(() => import("./pages/ResearchAgentPage").then((m) => ({ default: m.ResearchAgentPage })));
+const BrokerOperationsPage = lazyWithRetry(() => import("./pages/BrokerOperationsPage").then((m) => ({ default: m.BrokerOperationsPage })));
 const MultiTimeframePage = lazyWithRetry(() => import("./pages/MultiTimeframePage").then((m) => ({ default: m.MultiTimeframePage })));
 const LaunchpadPage = lazyWithRetry(() => import("./pages/Launchpad").then((m) => ({ default: m.LaunchpadPage })));
 const LaunchpadPopoutPage = lazyWithRetry(() => import("./pages/LaunchpadPopout").then((m) => ({ default: m.LaunchpadPopoutPage })));
@@ -129,8 +142,8 @@ function App() {
           <Route path="/forgot-access" element={<ForgotAccessPage />} />
 
           <Route path="/equity" element={<ProtectedRoute><EquityLayout /></ProtectedRoute>}>
-            <Route index element={<Navigate to="/equity/stocks" replace />} />
-            <Route path="stocks" element={<StockDetailPage />} />
+            <Route index element={<Navigate to="/equity/forex?symbol=EURUSD" replace />} />
+            <Route path="stocks" element={<Navigate to="/equity/forex?symbol=EURUSD" replace />} />
             <Route path="security" element={<SecurityHubPage />} />
             <Route path="security/:ticker" element={<SecurityHubPage />} />
             <Route path="commodities" element={<CommoditiesPage />} />
@@ -147,9 +160,19 @@ function App() {
             <Route path="factors" element={<FactorDashboardPage />} />
             <Route path="alpha-zoo" element={<AlphaZooPage />} />
             <Route path="research-autopilot" element={<ResearchAutopilotPage />} />
+            <Route path="research-agent" element={<ResearchAgentPage />} />
+            <Route path="brokers" element={<BrokerOperationsPage />} />
             <Route path="strategy-export" element={<StrategyExportPage />} />
             <Route path="intelligence-timeline" element={<IntelligenceTimelinePage />} />
-            <Route path="portfolio" element={<PortfolioPage />} />
+            <Route path="portfolio" element={<PortfolioOperationsCenter />} />
+            <Route path="portfolio/legacy" element={<PortfolioPage />} />
+            <Route path="portfolio/manage" element={<PortfolioManagementPage />} />
+            <Route path="portfolio/performance" element={<PortfolioPerformancePage />} />
+            <Route path="portfolio/risk" element={<PortfolioRiskPage />} />
+            <Route path="portfolio/execution" element={<ExecutionAnalyticsPage />} />
+            <Route path="portfolio/strategies" element={<StrategyLeaderboardPage />} />
+            <Route path="portfolio/replay" element={<PortfolioReplayPage />} />
+            <Route path="portfolio/reports" element={<ReportsCenterPage />} />
             <Route path="portfolio/lab" element={<PortfolioLabPage />} />
             <Route path="portfolio/lab/portfolios/:id" element={<PortfolioLabDetailPage />} />
             <Route path="portfolio/lab/runs/:runId" element={<PortfolioLabRunReportPage />} />
@@ -168,11 +191,13 @@ function App() {
             <Route path="stat-lab" element={<StatisticalLab />} />
             <Route path="pair-trading" element={<PairTradingLabPage />} />
             <Route path="oms" element={<OmsCompliancePage />} />
+            <Route path="operations" element={<OperationsCenterPage />} />
             <Route path="ops" element={<OpsDashboardPage />} />
             <Route path="plugins" element={<PluginsPage />} />
             <Route path="settings" element={<SettingsPage />} />
             <Route path="chart-workstation" element={<ChartWorkstationPage />} />
             <Route path="research" element={<ResearchPage />} />
+            <Route path="research/performance" element={<StrategyPerformanceDashboard />} />
             <Route path="mta" element={<MultiTimeframePage />} />
             <Route path="dom" element={<DOMPage />} />
             <Route path="tape" element={<TimeAndSalesPage />} />
@@ -212,6 +237,7 @@ function App() {
             <Route path="model-governance" element={<ModelGovernancePage />} />
             <Route path="algorithm-framework" element={<AlgorithmFrameworkLab />} />
             <Route path="portfolio-optimizer" element={<PortfolioOptimizer />} />
+            <Route path="research-lab" element={<ResearchWorkflowPage />} />
           </Route>
 
           <Route path="/account" element={<ProtectedRoute><AccountLayout /></ProtectedRoute>}>
@@ -228,15 +254,16 @@ function App() {
           <Route path="/portfolio-lab/runs/:runId" element={<ProtectedRoute><PortfolioLabRunReportPage /></ProtectedRoute>} />
           <Route path="/portfolio-lab/blends" element={<ProtectedRoute><PortfolioLabBlendsPage /></ProtectedRoute>} />
 
-          <Route path="/stocks" element={<Navigate to="/equity/stocks" replace />} />
+          <Route path="/stocks" element={<Navigate to="/equity/forex?symbol=EURUSD" replace />} />
           <Route path="/security" element={<Navigate to="/equity/security" replace />} />
           <Route path="/commodities" element={<Navigate to="/equity/commodities" replace />} />
-          <Route path="/forex" element={<Navigate to="/equity/forex" replace />} />
+          <Route path="/forex" element={<ProtectedRoute><ForexPage /></ProtectedRoute>} />
+          <Route path="/forex/chart" element={<ProtectedRoute><ChartWorkstationPage /></ProtectedRoute>} />
           <Route path="/hotlists" element={<Navigate to="/equity/hotlists" replace />} />
           <Route path="/stocks/about" element={<Navigate to="/equity/stocks/about" replace />} />
-          <Route path="/dashboard" element={<Navigate to="/equity/dashboard" replace />} />
-          <Route path="/screener" element={<Navigate to="/equity/screener" replace />} />
-          <Route path="/compare" element={<Navigate to="/equity/compare" replace />} />
+          <Route path="/dashboard" element={<Navigate to="/equity/forex?symbol=EURUSD" replace />} />
+          <Route path="/screener" element={<Navigate to="/equity/forex?symbol=EURUSD" replace />} />
+          <Route path="/compare" element={<Navigate to="/equity/forex?symbol=EURUSD" replace />} />
           <Route path="/portfolio" element={<Navigate to="/equity/portfolio" replace />} />
           <Route path="/mutual-funds" element={<Navigate to="/equity/portfolio?mode=mutual_funds" replace />} />
           <Route path="/watchlist" element={<Navigate to="/equity/watchlist" replace />} />

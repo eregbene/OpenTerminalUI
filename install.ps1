@@ -1,5 +1,5 @@
 # ============================================================================
-# OpenTerminalUI — one-command installer for Windows (PowerShell).
+# Bensim Trading — one-command installer for Windows (PowerShell).
 #
 #   ./install.ps1                 # auto-detect: Docker if available, else local
 #   $env:OTUI_MODE="docker"; ./install.ps1
@@ -54,7 +54,7 @@ function Initialize-EnvVar($key, $value) {
   if ([string]::IsNullOrEmpty((Get-EnvVar $key))) { Set-EnvVar $key $value }
 }
 
-Write-Cyan "==> OpenTerminalUI installer (Windows)"
+Write-Cyan "==> Bensim Trading installer (Windows)"
 
 $PyBin = Get-PyBin
 Write-Green "    detected OS: windows  (python: $(if ($PyBin) { $PyBin } else { 'not found' }))"
@@ -98,7 +98,7 @@ Write-Cyan "==> install mode: $Mode"
 function Show-Credentials {
   Write-Host ""
   Write-Green "============================================================"
-  Write-Green " OpenTerminalUI is ready  ->  http://localhost:$Port"
+  Write-Green " Bensim Trading is ready  ->  http://localhost:$Port"
   Write-Green "------------------------------------------------------------"
   Write-Green "  Log in with:"
   Write-Green "    email:    $AdminEmail"

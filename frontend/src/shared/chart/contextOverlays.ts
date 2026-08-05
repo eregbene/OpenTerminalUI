@@ -75,6 +75,27 @@ const FUNDAMENTAL_PICKS: Array<{
 ];
 const SECONDS_PER_DAY = 86_400;
 const MILLISECONDS_PER_DAY = SECONDS_PER_DAY * 1_000;
+const MAX_MARKER_CACHE_ENTRIES = 24;
+const markerCache = new WeakMap<CorporateEvent[], WeakMap<ContextOverlayBar[], ContextOverlayMarker[]>>();
+const markerCacheOrder: Array<{ events: CorporateEvent[]; bars: ContextOverlayBar[] }> = [];
+
+function readMarkerCache(events: CorporateEvent[], bars: ContextOverlayBar[]): ContextOverlayMarker[] | null {
+  return markerCache.get(events)?.get(bars) ?? null;
+}
+
+function cacheMarkers(events: CorporateEvent[], bars: ContextOverlayBar[], markers: ContextOverlayMarker[]): ContextOverlayMarker[] {
+  let byBars = markerCache.get(events);
+  if (!byBars) {
+    byBars = new WeakMap();
+    markerCache.set(events, byBars);
+  }
+  byBars.set(bars, markers);
+  markerCacheOrder.push({ events, bars });
+  if (markerCacheOrder.length > MAX_MARKER_CACHE_ENTRIES) {
+    markerCacheOrder.shift();
+  }
+  return markers;
+}
 
 function toUtcDayStart(value: string): number | null {
   if (!value) return null;
@@ -172,6 +193,8 @@ export function buildContextOverlayMarkers(
   bars: ContextOverlayBar[],
 ): ContextOverlayMarker[] {
   if (!events.length || !bars.length) return [];
+  const cached = readMarkerCache(events, bars);
+  if (cached) return cached;
   const tradingDays = firstTradingBarByDay(bars);
   const firstDayTs = tradingDays[0]?.dayTs ?? null;
   const lastDayTs = tradingDays[tradingDays.length - 1]?.dayTs ?? null;
@@ -208,7 +231,7 @@ export function buildContextOverlayMarkers(
     });
   }
 
-  return Array.from(grouped.entries())
+  const markers = Array.from(grouped.entries())
     .map(([id, group]) => {
       const primary = group.items[0];
       const extraCount = Math.max(0, group.items.length - 1);
@@ -224,6 +247,7 @@ export function buildContextOverlayMarkers(
       };
     })
     .sort((left, right) => left.time - right.time || left.kind.localeCompare(right.kind));
+  return cacheMarkers(events, bars, markers);
 }
 
 export function pickFundamentalContext(
@@ -273,7 +297,7 @@ export function describeSessionState(
 }
 
 export function describeMarketState(args: {
-  market: "US" | "IN";
+  market: "US" | "IN" | "FX";
   replayEnabled: boolean;
   bar: ContextOverlayBar | null | undefined;
   liveMarketStatus?: Record<string, unknown> | null;
@@ -288,6 +312,9 @@ export function describeMarketState(args: {
   }
 
   const payload = args.liveMarketStatus ?? {};
+  if (args.market === "FX") {
+    return { label: "FX", detail: "Forex market context", tone: "info" };
+  }
   const raw =
     args.market === "US"
       ? String(payload.nyseStatus ?? payload.marketStatus ?? payload.status ?? "").toUpperCase()

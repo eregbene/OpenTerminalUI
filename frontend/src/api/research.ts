@@ -48,3 +48,36 @@ export async function listResearch(limit = 50): Promise<{ items: ResearchItem[] 
   });
   return data;
 }
+
+export type StrategyPerformanceSnapshot = {
+  items?: Array<Record<string, any>>;
+  adaptive_weights?: Record<string, number>;
+  health_counts?: Record<string, number>;
+  sample_size_protection?: Record<string, any>;
+  updated_at?: string;
+};
+
+export async function getStrategyLeaderboard(): Promise<StrategyPerformanceSnapshot> {
+  const { data } = await api.get<StrategyPerformanceSnapshot>("/research/leaderboard");
+  return data;
+}
+
+export async function getResearchPerformance(): Promise<Record<string, any>> {
+  const { data } = await api.get<Record<string, any>>("/research/performance");
+  return data;
+}
+
+export async function getResearchEquity(): Promise<Record<string, any>> {
+  const { data } = await api.get<Record<string, any>>("/research/equity");
+  return data;
+}
+
+export async function getResearchCalibration(): Promise<Record<string, any>> {
+  const { data } = await api.get<Record<string, any>>("/research/calibration");
+  return data;
+}
+
+export async function getResearchPerformanceAnalysis(): Promise<Record<string, any>> {
+  const { data } = await api.get<Record<string, any>>("/research/performance/analysis");
+  return data;
+}

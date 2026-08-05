@@ -1,6 +1,6 @@
 # Data Providers
 
-OpenTerminalUI uses a **multi-provider waterfall architecture** — each data request tries the highest-quality provider first, and falls back automatically on failure. This ensures resilience against rate limits, scraping breakage, and API outages.
+Bensim Trading uses a **multi-provider waterfall architecture** — each data request tries the highest-quality provider first, and falls back automatically on failure. This ensures resilience against rate limits, scraping breakage, and API outages.
 
 ---
 

@@ -1,4 +1,4 @@
-# OpenTerminalUI Installation (Docker, Fresh Clone)
+# Bensim Trading Installation (Docker, Fresh Clone)
 
 This guide is for a new machine starting from a public git clone.
 Only Docker Desktop/Engine + Docker Compose are required; local Python/Node are not needed for this path.

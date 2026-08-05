@@ -1,6 +1,6 @@
-# OpenTerminalUI Wiki
+# Bensim Trading Wiki
 
-OpenTerminalUI is a terminal-first market analysis platform for India and US markets.
+Bensim Trading is a terminal-first market analysis platform for India and US markets.
 
 ## Current Product Focus
 

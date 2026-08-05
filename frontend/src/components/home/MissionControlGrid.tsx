@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useMarketStatus } from "../../hooks/useStocks";
 import { useQuotesStore, useQuotesStream } from "../../realtime/useQuotesStream";
 import { useSettingsStore } from "../../store/settingsStore";
+import { DataQualityBadge } from "../market/DataQualityBadge";
 import { MissionControlPanel } from "./MissionControlPanel";
 
 type MarketCell = {
@@ -121,6 +122,9 @@ export function MissionControlGrid() {
           <div className="rounded-sm border border-terminal-border/80 px-2 py-1.5">
             <span className="text-terminal-muted">Data Mode</span>
             <span className="ml-2 text-terminal-text">{selectedMarket.toUpperCase()} stream relay</span>
+            <span className="ml-2">
+              <DataQualityBadge status={marketOpen ? "realtime" : "delayed"} provider={selectedMarket.toUpperCase()} compact />
+            </span>
           </div>
           <div className="rounded-sm border border-terminal-border/80 px-2 py-1.5">
             <span className="text-terminal-muted">Market State</span>

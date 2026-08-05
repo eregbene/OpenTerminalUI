@@ -1,0 +1,12 @@
+-r requirements-market-data.txt
+scipy
+scikit-learn
+statsmodels
+pyarrow
+openpyxl
+reportlab
+pypdf
+mcp
+# empyrical is intentionally isolated from Python 3.13 local installs.
+# The supported backend runtime is Python 3.11, where this legacy package builds.
+empyrical; python_version < "3.13"

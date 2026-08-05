@@ -7,7 +7,7 @@ export type AgentEvent =
   | { type: "status"; text: string }
   | { type: "phase"; key: string; label: string }
   | { type: "role_message"; role: string; content: string }
-  | { type: "final"; content: string }
+  | { type: "final"; content?: string; answer?: string; conversation_id?: string; evidence_bundle_id?: string; citations?: { marker: string; bundle_id: string; label: string }[]; token_usage?: Record<string, unknown>; grounding?: { validated: boolean; warnings: string[] }; provider?: string; latency_ms?: number }
   | { type: "error"; message: string };
 
 export interface RunContext {
@@ -47,6 +47,12 @@ export interface AgentMessage {
   /** Transient live progress note for the active turn (e.g. "Contacting llama…",
    * "rate-limited; retrying in 15s…"). Not part of the persisted answer. */
   status?: string;
+  evidenceBundleId?: string;
+  conversationId?: string;
+  citations?: { marker: string; bundle_id: string; label: string }[];
+  tokenUsage?: Record<string, unknown>;
+  grounding?: { validated: boolean; warnings: string[] };
+  latencyMs?: number;
 }
 
 export interface AgentArtifact {

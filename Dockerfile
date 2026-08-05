@@ -4,7 +4,7 @@ FROM node:20-alpine AS frontend-builder
 WORKDIR /app/frontend
 
 COPY frontend/package.json frontend/package-lock.json ./
-RUN npm install
+RUN npm ci
 
 COPY frontend/ ./
 RUN npm run build
@@ -15,10 +15,15 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
-COPY backend/requirements.txt /tmp/requirements.txt
-RUN pip install --no-cache-dir -r /tmp/requirements.txt
+COPY backend/requirements*.txt /tmp/
+RUN pip install -r /tmp/requirements-dev.txt
+# Forex Factory calendar/news scraper providers (backend/economic_intelligence/providers)
+# use headless Chromium via Playwright for background ingestion jobs only -- never on the
+# trading-cycle hot path. Real build-time cost: ~300-400MB extra image size.
+RUN python -m playwright install --with-deps chromium
 
 COPY backend/ ./backend/
+COPY pytest.ini ./pytest.ini
 COPY models/ ./models/
 COPY nlp/ ./nlp/
 COPY data/ ./data/

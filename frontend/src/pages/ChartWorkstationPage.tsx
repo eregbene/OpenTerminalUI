@@ -37,8 +37,10 @@ import { normalizeIndicatorConfigs } from "../shared/chart/indicatorCatalog";
 import type { IndicatorConfig } from "../shared/chart/types";
 import { shouldDefaultExtendedHoursOn } from "../shared/chart/candlePresentation";
 import { fetchChartData } from "../services/chartDataService";
+import { chartMarketToApiMarket } from "../shared/chart/chartBatchRequest";
 import type { ChartPoint } from "../types";
 import { useStockStore } from "../store/stockStore";
+import { normalizeForexPair } from "../utils/instruments";
 import { SavedViewsControl } from "../components/savedViews/SavedViewsControl";
 import {
   LEGACY_WORKSTATION_STORE_KEY,
@@ -146,7 +148,7 @@ type WorkspaceTemplate = {
 };
 
 type ParsedWorkspaceTemplate = WorkspaceState;
-const DEFAULT_WORKSTATION_IMPORT_MARKET: SlotMarket = "IN";
+const DEFAULT_WORKSTATION_IMPORT_MARKET: SlotMarket = "FX";
 
 const DEFAULT_EXTENDED_HOURS = {
   enabled: false,
@@ -266,6 +268,10 @@ function isChartType(value: unknown): value is ChartSlotType {
   return value === "candle" || value === "line" || value === "area";
 }
 
+function isSlotMarket(value: unknown): value is SlotMarket {
+  return value === "IN" || value === "US" || value === "FX";
+}
+
 function isCompareMode(value: unknown): value is WorkspaceCompareConfig["mode"] {
   return value === "normalized" || value === "price";
 }
@@ -287,13 +293,13 @@ function inferGridTemplate(slotCount: number): WorkspaceSnapshot["gridTemplate"]
 }
 
 function buildTemplateSlot(slot: Partial<ChartSlot> | null | undefined): ChartSlot {
-  const market = slot?.market === "US" ? "US" : "IN";
+  const market = isSlotMarket(slot?.market) ? slot.market : "FX";
   return {
     id: typeof slot?.id === "string" && slot.id ? slot.id : createSlotId(),
-    ticker: typeof slot?.ticker === "string" && slot.ticker.trim() ? slot.ticker.trim().toUpperCase() : null,
-    companyName: typeof slot?.companyName === "string" && slot.companyName.trim() ? slot.companyName.trim() : null,
+    ticker: typeof slot?.ticker === "string" && slot.ticker.trim() ? slot.ticker.trim().toUpperCase() : "EURUSD",
+    companyName: typeof slot?.companyName === "string" && slot.companyName.trim() ? slot.companyName.trim() : "EUR/USD Forex",
     market,
-    timeframe: isTimeframe(slot?.timeframe) ? slot.timeframe : "1D",
+    timeframe: isTimeframe(slot?.timeframe) ? slot.timeframe : "1h",
     chartType: isChartType(slot?.chartType) ? slot.chartType : "candle",
     indicators: normalizeIndicatorConfigs(slot?.indicators),
     extendedHours: { ...DEFAULT_EXTENDED_HOURS, ...(slot?.extendedHours ?? {}), enabled: market === "US" && Boolean(slot?.extendedHours?.enabled) },
@@ -406,7 +412,7 @@ export function parseWorkspaceTemplateConfig(
           : null;
       const timeframe = isTimeframe(row.timeframe) ? row.timeframe : "1D";
       const chartType = isChartType(row.chartType) ? row.chartType : "candle";
-      const market = row.market === "US" ? "US" : row.market === "IN" ? "IN" : fallbackMarket;
+      const market = isSlotMarket(row.market) ? row.market : fallbackMarket;
       return buildTemplateSlot({
         id: typeof row.id === "string" ? row.id : undefined,
         ticker,
@@ -503,8 +509,8 @@ function focusLayoutSelector() {
 function applyMultiTimeframePreset() {
   const state = useChartWorkstationStore.getState();
   const active = state.slots.find((s) => s.id === state.activeSlotId) || state.slots[0];
-  const symbol = active?.ticker || "AAPL";
-  const market = active?.market || "US";
+  const symbol = active?.ticker || "EURUSD";
+  const market = active?.market || "FX";
   const nextSlots = [...state.slots];
   while (nextSlots.length < 4) {
     const id = Math.random().toString(36).slice(2, 9) + Date.now().toString(36);
@@ -879,6 +885,7 @@ export function ChartWorkstationPage() {
 
   const initRef = useRef(false);
   const importedShareRef = useRef("");
+  const importedRouteSymbolRef = useRef("");
   const activeWorkspaceTab = useMemo(
     () => workspaceTabs.find((tab) => tab.id === activeWorkspaceTabId) ?? null,
     [activeWorkspaceTabId, workspaceTabs],
@@ -1328,6 +1335,35 @@ export function ChartWorkstationPage() {
 
   useEffect(() => {
     if (!workspaceReady) return;
+    const params = new URLSearchParams(location.search);
+    const requestedSymbol = params.get("ticker") || params.get("symbol") || params.get("pair");
+    if (!requestedSymbol) return;
+
+    const normalizedPair = normalizeForexPair(requestedSymbol);
+    const symbol = (normalizedPair || requestedSymbol).trim().toUpperCase();
+    if (!symbol) return;
+
+    const marketParam = params.get("market");
+    const market: SlotMarket = isSlotMarket(marketParam) ? marketParam : normalizedPair ? "FX" : "FX";
+    const slotId = activeSlotId || slots[0]?.id;
+    if (!slotId) return;
+
+    const importKey = `${slotId}:${symbol}:${market}`;
+    if (importedRouteSymbolRef.current === importKey) return;
+    importedRouteSymbolRef.current = importKey;
+
+    updateSlotTicker(
+      slotId,
+      symbol,
+      market,
+      market === "FX" && symbol.length === 6 ? `${symbol.slice(0, 3)}/${symbol.slice(3)} Forex` : symbol,
+    );
+    setActiveSlot(slotId);
+    setTicker(symbol);
+  }, [activeSlotId, location.search, setActiveSlot, setTicker, slots, updateSlotTicker, workspaceReady]);
+
+  useEffect(() => {
+    if (!workspaceReady) return;
     if (syncCrosshair !== linkSettings.crosshair) {
       setSyncCrosshair(linkSettings.crosshair);
     }
@@ -1472,7 +1508,7 @@ export function ChartWorkstationPage() {
 
     Promise.all(
       targetSlots.map(async (slot) => {
-        const market = slot.market === "IN" ? "NSE" : "NASDAQ";
+        const market = chartMarketToApiMarket(slot.market);
         const interval = TIMEFRAME_TO_INTERVAL[slot.timeframe];
         const extended = slot.extendedHours.enabled && slot.market === "US";
         const compareSymbols = activeCompareSymbols.filter((symbol) => symbol !== slot.ticker?.toUpperCase());
@@ -2011,7 +2047,11 @@ export function ChartWorkstationPage() {
     if (!activeTicker) return reportMissingActiveSymbol("Navigation");
     setTicker(activeTicker);
     if (route === "security") {
-      navigate(`/equity/security/${activeTicker}`);
+      if (activeSlot?.market === "FX") {
+        navigate(`/forex?symbol=${encodeURIComponent(activeTicker)}`);
+      } else {
+        navigate(`/equity/security/${activeTicker}`);
+      }
     } else if (route === "news") {
       navigate(`/equity/news?ticker=${encodeURIComponent(activeTicker)}`);
     } else if (route === "screener") {
@@ -2023,7 +2063,7 @@ export function ChartWorkstationPage() {
       navigate(`/equity/portfolio?ticker=${encodeURIComponent(activeTicker)}`);
     }
     return { ok: true };
-  }, [activeCompareSymbols, activeTicker, navigate, reportMissingActiveSymbol, setTicker]);
+  }, [activeCompareSymbols, activeSlot?.market, activeTicker, navigate, reportMissingActiveSymbol, setTicker]);
 
   const handleChartWorkstationAction = useCallback((actionId: ChartWorkstationActionId): CommandExecutionResult => {
     if (actionId === "chart.toggleIndicators") return dispatchPanelCommand("toggleIndicators");

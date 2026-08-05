@@ -1,11 +1,11 @@
 
 import React, { useState, useRef, useEffect } from "react";
-import { ExtendedHoursConfig } from "../../store/chartWorkstationStore";
+import { ExtendedHoursConfig, type SlotMarket } from "../../store/chartWorkstationStore";
 
 interface ExtendedHoursToggleProps {
   value: ExtendedHoursConfig;
   onChange: (config: Partial<ExtendedHoursConfig>) => void;
-  market: "US" | "IN";
+  market: SlotMarket;
   disabled?: boolean;
 }
 

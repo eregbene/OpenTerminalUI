@@ -6,11 +6,11 @@ product
 
 ## Users
 
-OpenTerminalUI serves traders, individual investors, researchers, and quant teams who need to scan markets, compare securities, and move quickly from an idea to a chart, portfolio decision, or backtest.
+Bensim Trading serves traders, individual investors, researchers, and quant teams who need to scan markets, compare securities, and move quickly from an idea to a chart, portfolio decision, or backtest.
 
 ## Product Purpose
 
-OpenTerminalUI is a self-hosted financial terminal that combines market data, charting, screeners, portfolio analytics, derivatives workflows, and research tools in one browser-based workspace. Success means users can find investable ideas, understand why a security qualifies, and take the next action without fighting the interface.
+Bensim Trading is a self-hosted financial terminal that combines market data, charting, screeners, portfolio analytics, derivatives workflows, and research tools in one browser-based workspace. Success means users can find investable ideas, understand why a security qualifies, and take the next action without fighting the interface.
 
 ## Brand Personality
 

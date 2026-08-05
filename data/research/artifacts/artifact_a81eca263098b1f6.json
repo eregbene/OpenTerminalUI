@@ -1,0 +1,282 @@
+{
+  "artifacts": [],
+  "completed_at": "2026-07-23T18:52:13.358778Z",
+  "error": null,
+  "experiment_id": null,
+  "folds": [
+    {
+      "degradation": null,
+      "fold_id": "fold_b9089c0dfed4fbc0",
+      "selected_parameters": {
+        "targets.0.value": 2.0
+      },
+      "train_end": "2026-01-01T09:45:00Z",
+      "train_metrics": {
+        "annualized_return": 0.0,
+        "annualized_volatility": 0.0,
+        "average_holding_period": null,
+        "average_loss": null,
+        "average_win": null,
+        "best_trade": null,
+        "calmar_ratio": null,
+        "consecutive_losses": 0,
+        "consecutive_wins": 0,
+        "drawdown_duration": 0,
+        "expectancy": null,
+        "exposure_time": 0.0,
+        "loss_rate": null,
+        "maximum_drawdown": 0.0,
+        "payoff_ratio": null,
+        "profit_factor": null,
+        "sharpe_ratio": null,
+        "sortino_ratio": null,
+        "total_return": 0.0,
+        "trade_count": 0,
+        "turnover": 0.0,
+        "warnings": [
+          "metric ratios are low-confidence with fewer than 10 trades"
+        ],
+        "win_rate": null,
+        "worst_trade": null
+      },
+      "train_start": "2026-01-01T00:00:00Z",
+      "validation_end": "2026-01-01T14:45:00Z",
+      "validation_metrics": {
+        "annualized_return": 0.0,
+        "annualized_volatility": 0.0,
+        "average_holding_period": null,
+        "average_loss": null,
+        "average_win": null,
+        "best_trade": null,
+        "calmar_ratio": null,
+        "consecutive_losses": 0,
+        "consecutive_wins": 0,
+        "drawdown_duration": 0,
+        "expectancy": null,
+        "exposure_time": 0.0,
+        "loss_rate": null,
+        "maximum_drawdown": 0.0,
+        "payoff_ratio": null,
+        "profit_factor": null,
+        "sharpe_ratio": null,
+        "sortino_ratio": null,
+        "total_return": 0.0,
+        "trade_count": 0,
+        "turnover": 0.0,
+        "warnings": [
+          "metric ratios are low-confidence with fewer than 10 trades"
+        ],
+        "win_rate": null,
+        "worst_trade": null
+      },
+      "validation_start": "2026-01-01T10:00:00Z"
+    },
+    {
+      "degradation": null,
+      "fold_id": "fold_6b2e46babafcee9d",
+      "selected_parameters": {
+        "targets.0.value": 2.0
+      },
+      "train_end": "2026-01-01T14:45:00Z",
+      "train_metrics": {
+        "annualized_return": 0.0,
+        "annualized_volatility": 0.0,
+        "average_holding_period": null,
+        "average_loss": null,
+        "average_win": null,
+        "best_trade": null,
+        "calmar_ratio": null,
+        "consecutive_losses": 0,
+        "consecutive_wins": 0,
+        "drawdown_duration": 0,
+        "expectancy": null,
+        "exposure_time": 0.0,
+        "loss_rate": null,
+        "maximum_drawdown": 0.0,
+        "payoff_ratio": null,
+        "profit_factor": null,
+        "sharpe_ratio": null,
+        "sortino_ratio": null,
+        "total_return": 0.0,
+        "trade_count": 0,
+        "turnover": 0.0,
+        "warnings": [
+          "metric ratios are low-confidence with fewer than 10 trades"
+        ],
+        "win_rate": null,
+        "worst_trade": null
+      },
+      "train_start": "2026-01-01T05:00:00Z",
+      "validation_end": "2026-01-01T19:45:00Z",
+      "validation_metrics": {
+        "annualized_return": 0.0,
+        "annualized_volatility": 0.0,
+        "average_holding_period": null,
+        "average_loss": null,
+        "average_win": null,
+        "best_trade": null,
+        "calmar_ratio": null,
+        "consecutive_losses": 0,
+        "consecutive_wins": 0,
+        "drawdown_duration": 0,
+        "expectancy": null,
+        "exposure_time": 0.0,
+        "loss_rate": null,
+        "maximum_drawdown": 0.0,
+        "payoff_ratio": null,
+        "profit_factor": null,
+        "sharpe_ratio": null,
+        "sortino_ratio": null,
+        "total_return": 0.0,
+        "trade_count": 0,
+        "turnover": 0.0,
+        "warnings": [
+          "metric ratios are low-confidence with fewer than 10 trades"
+        ],
+        "win_rate": null,
+        "worst_trade": null
+      },
+      "validation_start": "2026-01-01T15:00:00Z"
+    }
+  ],
+  "job_id": "val_07959fbce72d3ce6",
+  "lineage": {
+    "backtest_engine_version": "research-event-v1",
+    "correlation_id": "corr_69b2a92b32fe7d4c",
+    "cost_model_version": "1.0.0",
+    "created_at": "2026-07-23T18:52:10.861335Z",
+    "created_by": "research",
+    "dataset_hash": "39b67061a89053d4",
+    "dataset_snapshot_id": "ds_bf395c96d30d64de",
+    "execution_model_version": "1.0.0",
+    "feature_version": "strategy-features-v1",
+    "market_structure_config_hash": "phase5-internal",
+    "parameter_set_hash": "42a60a3dbf1aacd9",
+    "random_seed": 42,
+    "strategy_hash": "cf8c6c69957dcac4",
+    "strategy_id": "ema_trend_continuation_v1",
+    "strategy_version": "1.0.0"
+  },
+  "plan": {
+    "embargo_bars": 0,
+    "mode": "rolling",
+    "purge_bars": 0,
+    "step_bars": 20,
+    "train_bars": 40,
+    "validation_bars": 20
+  },
+  "robustness": [
+    {
+      "metrics": {
+        "annualized_return": 0.0004223587129186246,
+        "annualized_volatility": 4.5203664617469573e-05,
+        "average_holding_period": 135.0,
+        "average_loss": null,
+        "average_win": 5.427699999999989,
+        "best_trade": 5.432699999999989,
+        "calmar_ratio": null,
+        "consecutive_losses": 0,
+        "consecutive_wins": 2,
+        "drawdown_duration": 0,
+        "expectancy": 5.427699999999989,
+        "exposure_time": 1.0,
+        "loss_rate": 0.0,
+        "maximum_drawdown": 0.0,
+        "payoff_ratio": null,
+        "profit_factor": Infinity,
+        "sharpe_ratio": 9.34151962302699,
+        "sortino_ratio": null,
+        "total_return": 0.0001491460000000444,
+        "trade_count": 2,
+        "turnover": 0.0026660000000000004,
+        "warnings": [
+          "metric ratios are low-confidence with fewer than 10 trades"
+        ],
+        "win_rate": 1.0,
+        "worst_trade": 5.422699999999989
+      },
+      "name": "Cost stress",
+      "passed": true,
+      "scenario_id": "cost_stress",
+      "warnings": [
+        "metric ratios are low-confidence with fewer than 10 trades"
+      ]
+    },
+    {
+      "metrics": {
+        "annualized_return": 0.0004672616049254952,
+        "annualized_volatility": 5.8506280218497676e-05,
+        "average_holding_period": 67.5,
+        "average_loss": null,
+        "average_win": 3.4499999999999886,
+        "best_trade": 5.199999999999989,
+        "calmar_ratio": null,
+        "consecutive_losses": 0,
+        "consecutive_wins": 4,
+        "drawdown_duration": 0,
+        "expectancy": 3.4499999999999886,
+        "exposure_time": 1.0,
+        "loss_rate": 0.0,
+        "maximum_drawdown": 0.0,
+        "payoff_ratio": null,
+        "profit_factor": Infinity,
+        "sharpe_ratio": 7.984691813422979,
+        "sortino_ratio": null,
+        "total_return": 0.00016499999999974868,
+        "trade_count": 4,
+        "turnover": 0.005442000000000001,
+        "warnings": [
+          "metric ratios are low-confidence with fewer than 10 trades"
+        ],
+        "win_rate": 1.0,
+        "worst_trade": 1.6999999999999886
+      },
+      "name": "Entry delay",
+      "passed": true,
+      "scenario_id": "entry_delay",
+      "warnings": [
+        "metric ratios are low-confidence with fewer than 10 trades"
+      ]
+    },
+    {
+      "metrics": {
+        "annualized_return": 0.0002944417445567282,
+        "annualized_volatility": 4.731593361577693e-05,
+        "average_holding_period": 135.0,
+        "average_loss": null,
+        "average_win": 5.828571428571422,
+        "best_trade": 5.828571428571422,
+        "calmar_ratio": null,
+        "consecutive_losses": 0,
+        "consecutive_wins": 1,
+        "drawdown_duration": 0,
+        "expectancy": 5.828571428571422,
+        "exposure_time": 1.0,
+        "loss_rate": 0.0,
+        "maximum_drawdown": 0.0,
+        "payoff_ratio": null,
+        "profit_factor": Infinity,
+        "sharpe_ratio": 6.221999101612899,
+        "sortino_ratio": null,
+        "total_return": 8.528571428567666e-05,
+        "trade_count": 1,
+        "turnover": 0.001373,
+        "warnings": [
+          "metric ratios are low-confidence with fewer than 10 trades"
+        ],
+        "win_rate": 1.0,
+        "worst_trade": 5.828571428571422
+      },
+      "name": "Random skipped trades",
+      "passed": true,
+      "scenario_id": "skipped_trades",
+      "warnings": [
+        "metric ratios are low-confidence with fewer than 10 trades"
+      ]
+    }
+  ],
+  "run_id": "val_07959fbce72d3ce6",
+  "scenarios": [],
+  "started_at": "2026-07-23T18:52:11.490879Z",
+  "status": "completed"
+}

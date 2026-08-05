@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { fetchChartData } from "../services/chartDataService";
+import { buildChartBatchRequestKey, chartMarketToApiMarket } from "../shared/chart/chartBatchRequest";
 
 describe("fetchChartData", () => {
   afterEach(() => {
@@ -26,5 +27,36 @@ describe("fetchChartData", () => {
     expect(String(fetchMock.mock.calls[0]?.[0])).toContain("/chart/AAPL?");
     expect(String(fetchMock.mock.calls[0]?.[0])).toContain("normalized=true");
     expect(String(fetchMock.mock.calls[0]?.[0])).toContain("market=NASDAQ");
+  });
+});
+
+describe("chart workstation market mapping", () => {
+  it("keeps forex symbols in the FX market lane", () => {
+    expect(chartMarketToApiMarket("FX")).toBe("FX");
+    expect(
+      buildChartBatchRequestKey({
+        id: "fx-slot",
+        ticker: "EURUSD",
+        market: "FX",
+        timeframe: "1D",
+        chartType: "candle",
+        indicators: [],
+        extendedHours: {
+          enabled: false,
+          showPreMarket: true,
+          showAfterHours: true,
+          visualMode: "merged",
+          colorScheme: "dimmed",
+        },
+        preMarketLevels: {
+          showPMHigh: true,
+          showPMLow: true,
+          showPMOpen: false,
+          showPMVWAP: false,
+          extendIntoRTH: true,
+          daysToShow: 1,
+        },
+      }),
+    ).toContain("|FX|EURUSD|");
   });
 });

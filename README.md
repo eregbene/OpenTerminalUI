@@ -1,7 +1,7 @@
-# OpenTerminalUI
+# Bensim Trading
 
 <p align="center">
-  <img src="assets/logo.png" alt="OpenTerminalUI logo" width="560" />
+  <img src="assets/logo.png" alt="Bensim Trading logo" width="560" />
 </p>
 
 <p align="center">
@@ -31,7 +31,7 @@
 
 ---
 
-OpenTerminalUI is a self-hosted, full-stack financial terminal that combines real-time market data, institutional-grade charting, derivatives analytics, portfolio management, and quant research into a single platform. Built with a terminal-style shell interface inspired by Bloomberg and Refinitiv, it delivers professional-grade workflows to anyone with a browser.
+Bensim Trading is a self-hosted, full-stack financial terminal that combines real-time market data, institutional-grade charting, derivatives analytics, portfolio management, and quant research into a single platform. Built with a terminal-style shell interface inspired by Bloomberg and Refinitiv, it delivers professional-grade workflows to anyone with a browser.
 
 **Multi-market coverage** across NSE, BSE, NYSE, NASDAQ, crypto, commodities, forex, bonds, ETFs, and mutual funds. **70+ technical indicators**, **multi-panel chart workstations**, **F&O option chains with live Greeks**, **backtesting with Model Lab**, **statistical arbitrage with Pair Trading Lab**, **Portfolio Lab and optimizer workflows**, **paper trading and trade journal**, **OMS / ops / data-quality consoles**, **saved views and launchpad workspaces**, a **tool-using AI research agent with multi-agent debate and Strategy Lab**, and an **extensible plugin system** &mdash; all running on your own hardware.
 
@@ -591,7 +591,7 @@ the local path, Python 3.11+ and Node 20+. Nothing else to configure.
 **First login:** when the installer finishes it prints something like:
 
 ```
- OpenTerminalUI is ready  ->  http://localhost:8000
+ Bensim Trading is ready  ->  http://localhost:8000
    email:    admin@openterminal.local
    password: <generated unique password>
 ```
@@ -680,7 +680,7 @@ The platform runs without API keys using fallback providers. Add keys to unlock 
 
 ## AI News Sentiment with Gemma 4 (LM Studio)
 
-OpenTerminalUI integrates a locally hosted **Google Gemma 4** model, served through
+Bensim Trading integrates a locally hosted **Google Gemma 4** model, served through
 [LM Studio](https://lmstudio.ai/), to power the per-stock **AI Emotion Indicator**
 on the News workspace. The model reads recent headlines for a ticker and returns a
 structured judgement &mdash; sentiment, confidence, and a market emotion &mdash; which
@@ -722,7 +722,7 @@ GET /api/sentiment/emotion/{ticker}  ──▶  Emotion Indicator (News page)
    `http://localhost:1234` and exposes the OpenAI-compatible API at `/v1`.
 4. **Note the model id** &mdash; copy the exact model id shown by LM Studio
    (visible at `http://localhost:1234/v1/models`); you will set it as `LM_STUDIO_MODEL`.
-5. **Configure OpenTerminalUI**:
+5. **Configure Bensim Trading**:
    - **Local development** &mdash; add to `.env` (defaults already point at localhost):
      ```bash
      LM_STUDIO_BASE_URL=http://localhost:1234/v1

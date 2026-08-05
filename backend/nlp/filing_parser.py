@@ -66,11 +66,12 @@ _NEGATIVE_WORDS = {
 
 
 def ensure_conviction_table(db: Session) -> None:
+    id_column = "id SERIAL PRIMARY KEY" if db.bind is not None and db.bind.dialect.name == "postgresql" else "id INTEGER PRIMARY KEY AUTOINCREMENT"
     db.execute(
         text(
-            """
+            f"""
             CREATE TABLE IF NOT EXISTS stock_conviction_records (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                {id_column},
                 symbol TEXT NOT NULL,
                 market TEXT NOT NULL,
                 record_date TEXT NOT NULL,
@@ -254,7 +255,7 @@ async def fetch_public_filings(symbol: str, market: str, limit: int = 5) -> list
     if not url:
         return []
     try:
-        async with httpx.AsyncClient(timeout=8.0, headers={"User-Agent": "OpenTerminalUI contact@example.com"}, trust_env=False) as client:
+        async with httpx.AsyncClient(timeout=8.0, headers={"User-Agent": "Bensim Trading contact@example.com"}, trust_env=False) as client:
             resp = await client.get(url)
             resp.raise_for_status()
             payload = resp.json()

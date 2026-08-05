@@ -90,11 +90,11 @@ def _yahoo_quote_payload() -> list[dict]:
     return [
         {"symbol": "EURUSD=X", "regularMarketPrice": 1.0850},
         {"symbol": "GBPUSD=X", "regularMarketPrice": 1.2740},
-        {"symbol": "USDJPY=X", "regularMarketPrice": 151.3200},
-        {"symbol": "USDCHF=X", "regularMarketPrice": 0.8844},
+        {"symbol": "JPY=X", "regularMarketPrice": 151.3200},
+        {"symbol": "CHF=X", "regularMarketPrice": 0.8844},
         {"symbol": "AUDUSD=X", "regularMarketPrice": 0.6620},
-        {"symbol": "USDCAD=X", "regularMarketPrice": 1.3574},
-        {"symbol": "USDINR=X", "regularMarketPrice": 83.1400},
+        {"symbol": "CAD=X", "regularMarketPrice": 1.3574},
+        {"symbol": "NZDUSD=X", "regularMarketPrice": 0.5994},
     ]
 
 
@@ -195,7 +195,7 @@ def test_cross_rates_endpoint_uses_finnhub_fallback_when_yahoo_fails() -> None:
                 "CHF": 0.885,
                 "AUD": 1.51,
                 "CAD": 1.36,
-                "INR": 83.0,
+                "NZD": 1.67,
             },
         }
     )
@@ -229,6 +229,43 @@ def test_pair_chart_endpoint_returns_yahoo_ohlcv_and_normalizes_pair() -> None:
     assert body["candles"][0]["o"] == 1.08
     assert body["current_rate"] == 1.085
     assert yahoo.chart_calls == [("EURUSD=X", "1mo", "1d")]
+
+
+def test_major_forex_endpoints_expose_canonical_symbols() -> None:
+    yahoo = _FakeYahoo(
+        quotes_payload=_yahoo_quote_payload(),
+        chart_payloads={
+            "JPY=X": _yahoo_chart_payload(start_price=151.0, closes=[151.1, 151.2, 151.3]),
+            "GC=F": _yahoo_chart_payload(start_price=2350.0, closes=[2351.0, 2352.0, 2353.0]),
+        },
+    )
+    client = TestClient(_build_app(_build_service(yahoo=yahoo, finnhub=_FakeFinnhub(), cache=_FakeCache())))
+
+    instruments = client.get("/api/forex/instruments")
+    quotes = client.get("/api/forex/quotes")
+    candles = client.get("/api/forex/candles/USDJPY?interval=1d&range=1mo")
+
+    assert instruments.status_code == 200
+    assert instruments.json()["symbols"] == ["EURUSD", "GBPUSD", "USDJPY", "USDCHF", "USDCAD", "AUDUSD", "NZDUSD", "XAUUSD"]
+    assert quotes.status_code == 200
+    assert {row["symbol"] for row in quotes.json()["quotes"]} == set(instruments.json()["symbols"])
+    gold = next(row for row in quotes.json()["quotes"] if row["symbol"] == "XAUUSD")
+    assert gold["provider_symbol"] == "GC=F"
+    assert gold["is_proxy"] is True
+    assert candles.status_code == 200
+    assert candles.json()["pair"] == "USDJPY"
+    assert candles.json()["source_symbol"] == "JPY=X"
+
+
+def test_stock_snapshot_forex_pair_bypasses_equity_fundamentals() -> None:
+    from backend.api.routes import stocks
+
+    payload = asyncio.run(stocks.get_stock("EURUSD", market="NSE"))
+
+    assert payload.ticker == "EURUSD"
+    assert payload.symbol == "EURUSD=X"
+    assert payload.exchange == "FX"
+    assert payload.raw["asset_class"] == "forex"
 
 
 def test_pair_chart_endpoint_uses_finnhub_fallback_when_yahoo_has_no_chart() -> None:

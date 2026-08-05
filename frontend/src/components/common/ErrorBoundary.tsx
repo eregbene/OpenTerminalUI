@@ -1,6 +1,7 @@
 import React from "react";
+import { APP_BRAND_MARK, APP_NAME } from "../../utils/constants";
 
-const BRAND_ICON_SRC = "/favicon.png";
+const BRAND_ICON_SRC = APP_BRAND_MARK;
 
 type Props = {
   children: React.ReactNode;
@@ -73,7 +74,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
             <div className="relative">
               <img
                 src={BRAND_ICON_SRC}
-                alt="OpenTerminalUI"
+                alt={APP_NAME}
                 className={`h-16 w-16 object-contain ${isAutoRetrying ? "animate-pulse" : "opacity-60"}`}
               />
               {isAutoRetrying && (

@@ -12,12 +12,20 @@ _ephemeral_secrets: dict[str, str] = {}
 _DEV_ENV_NAMES = {"dev", "development", "local", "test", "testing"}
 
 
+def _env_value(name: str) -> str | None:
+    value = os.getenv(name)
+    if value is None or value.strip() == "":
+        return None
+    return value
+
+
 def _runtime_env() -> str:
     load_local_env()
     return (
-        os.getenv("OPENTERMINALUI_ENV")
-        or os.getenv("APP_ENV")
-        or os.getenv("ENV")
+        _env_value("BENSIM_ENV")
+        or _env_value("OPENTERMINALUI_ENV")
+        or _env_value("APP_ENV")
+        or _env_value("ENV")
         or "development"
     ).strip().lower()
 

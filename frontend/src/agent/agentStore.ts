@@ -1,11 +1,12 @@
 import { create } from "zustand";
 
-import { createRun, streamRun } from "./agentApi";
+import { chatStream, createRun, streamRun } from "./agentApi";
 import { buildScreenContext } from "./screenContext";
 import type { AgentArtifact, AgentEvent, AgentMessage } from "./types";
 
 let seq = 0;
 const nextId = () => `m${Date.now()}_${seq++}`;
+let activeController: AbortController | null = null;
 
 interface AgentState {
   open: boolean;
@@ -15,6 +16,7 @@ interface AgentState {
   screener: boolean;
   messages: AgentMessage[];
   artifacts: AgentArtifact[];
+  lastPrompt?: string;
   toggleOpen: () => void;
   setOpen: (open: boolean) => void;
   toggleDebate: () => void;
@@ -24,6 +26,11 @@ interface AgentState {
   appendUserAndPending: (prompt: string) => void;
   applyEvent: (event: AgentEvent) => void;
   startRun: (prompt: string) => Promise<void>;
+  retry: () => Promise<void>;
+  stop: () => void;
+  clear: () => void;
+  exportConversation: () => string;
+  explainEntity: (domain: string, entityId: string, label?: string) => Promise<void>;
 }
 
 export const useAgentStore = create<AgentState>((set, get) => ({
@@ -34,6 +41,7 @@ export const useAgentStore = create<AgentState>((set, get) => ({
   screener: false,
   messages: [],
   artifacts: [],
+  lastPrompt: undefined,
 
   toggleOpen: () => set((s) => ({ open: !s.open })),
   setOpen: (open) => set({ open }),
@@ -99,7 +107,13 @@ export const useAgentStore = create<AgentState>((set, get) => ({
           msg.content += event.text;
           break;
         case "final":
-          msg.content = event.content;
+          msg.content = event.content ?? event.answer ?? msg.content;
+          msg.evidenceBundleId = event.evidence_bundle_id;
+          msg.conversationId = event.conversation_id;
+          msg.citations = event.citations;
+          msg.tokenUsage = event.token_usage;
+          msg.grounding = event.grounding;
+          msg.latencyMs = event.latency_ms;
           msg.status = undefined;
           msg.pending = false;
           break;
@@ -119,23 +133,72 @@ export const useAgentStore = create<AgentState>((set, get) => ({
     const text = prompt.trim();
     if (!text || get().running) return;
     get().appendUserAndPending(text);
-    set({ running: true });
+    set({ running: true, lastPrompt: text });
+    activeController = new AbortController();
     try {
       const debate = get().debate;
       const strategy = get().strategy;
       const screener = get().screener;
-      const runId = await createRun({
-        prompt: text,
-        context: buildScreenContext(),
-        ...(debate ? { mode: "debate" as const, ticker: text }
-          : strategy ? { mode: "strategy" as const, ticker: text }
-            : screener ? { mode: "screener" as const, ticker: text }
-              : {}),
-      });
-      await streamRun(runId, (event) => get().applyEvent(event));
+      if (debate || strategy || screener) {
+        const runId = await createRun({
+          prompt: text,
+          context: buildScreenContext(),
+          ...(debate ? { mode: "debate" as const, ticker: text }
+            : strategy ? { mode: "strategy" as const, ticker: text }
+              : screener ? { mode: "screener" as const, ticker: text }
+                : {}),
+        });
+        await streamRun(runId, (event) => get().applyEvent(event), activeController.signal);
+      } else {
+        const context = buildScreenContext();
+        await chatStream(
+          {
+            message: text,
+            ...(context.symbol ? { domain: "market_structure", entity_id: context.symbol } : {}),
+          },
+          (event) => get().applyEvent(event),
+          activeController.signal,
+        );
+      }
     } catch (err) {
       get().applyEvent({ type: "error", message: (err as Error).message || "request failed" });
     } finally {
+      activeController = null;
+      if (get().running) set({ running: false });
+    }
+  },
+
+  retry: async () => {
+    const prompt = get().lastPrompt;
+    if (prompt) await get().startRun(prompt);
+  },
+
+  stop: () => {
+    activeController?.abort();
+    activeController = null;
+    set((s) => ({ running: false, messages: s.messages.map((m, i) => i === s.messages.length - 1 ? { ...m, pending: false, status: undefined } : m) }));
+  },
+
+  clear: () => set({ messages: [], artifacts: [], running: false }),
+
+  exportConversation: () => JSON.stringify({ messages: get().messages, artifacts: get().artifacts }, null, 2),
+
+  explainEntity: async (domain, entityId, label) => {
+    const prompt = `Explain ${label ?? entityId}`;
+    set({ open: true, debate: false, strategy: false, screener: false });
+    get().appendUserAndPending(prompt);
+    set({ running: true, lastPrompt: prompt });
+    activeController = new AbortController();
+    try {
+      await chatStream(
+        { message: prompt, domain, entity_id: entityId },
+        (event) => get().applyEvent(event),
+        activeController.signal,
+      );
+    } catch (err) {
+      get().applyEvent({ type: "error", message: (err as Error).message || "request failed" });
+    } finally {
+      activeController = null;
       if (get().running) set({ running: false });
     }
   },

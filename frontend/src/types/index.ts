@@ -599,6 +599,37 @@ export type AIQueryResult = {
   explanation: string;
 };
 
+export type AIResearchBrief = {
+  type: 'research_brief';
+  symbol: string;
+  horizon: string;
+  question: string;
+  generated_at: string;
+  summary: string;
+  decision_support: {
+    posture: 'constructive' | 'cautious' | 'neutral';
+    confidence: 'low' | 'low-medium' | 'medium';
+    next_research_actions: string[];
+    not_in_scope: string[];
+  };
+  sections: Array<{
+    title: string;
+    points: string[];
+    evidence_ids: string[];
+  }>;
+  evidence: Array<{
+    id: string;
+    source: string;
+    summary: string;
+    data: Record<string, unknown>;
+  }>;
+  guardrails: {
+    execution_authority: 'none';
+    requires_human_review: boolean;
+    deterministic_sources_only: boolean;
+  };
+};
+
 export type PriceRange = {
   low?: number | null;
   high?: number | null;

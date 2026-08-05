@@ -10,7 +10,7 @@ function makeId(): string {
 
 export type ChartSlotTimeframe = "1m" | "5m" | "15m" | "1h" | "1D" | "1W" | "1M";
 export type ChartSlotType = "candle" | "line" | "area";
-export type SlotMarket = "IN" | "US";
+export type SlotMarket = "IN" | "US" | "FX";
 
 export interface ExtendedHoursConfig {
   enabled: boolean;
@@ -94,10 +94,10 @@ function normalizeLinkGroup(value: unknown): LinkGroup {
 function makeSlot(): ChartSlot {
   return {
     id: makeId(),
-    ticker: null,
-    companyName: null,
-    market: "IN",
-    timeframe: "1D",
+    ticker: "EURUSD",
+    companyName: "EUR/USD Forex",
+    market: "FX",
+    timeframe: "1h",
     chartType: "candle",
     indicators: [],
     extendedHours: { ...DEFAULT_ETH },
@@ -116,12 +116,12 @@ function normalizeSlot(slot: Partial<ChartSlot> | undefined): ChartSlot {
     ...base,
     ...(slot ?? {}),
     id: typeof slot?.id === "string" && slot.id ? slot.id : base.id,
-    ticker: typeof slot?.ticker === "string" && slot.ticker ? slot.ticker : null,
+    ticker: typeof slot?.ticker === "string" && slot.ticker ? slot.ticker : "EURUSD",
     companyName: typeof (slot as any)?.companyName === "string" && (slot as any).companyName.trim()
       ? (slot as any).companyName.trim()
-      : null,
-    market: slot?.market === "US" ? "US" : "IN",
-    timeframe: (slot?.timeframe as ChartSlotTimeframe) ?? "1D",
+      : "EUR/USD Forex",
+    market: slot?.market === "US" ? "US" : slot?.market === "IN" ? "IN" : "FX",
+    timeframe: (slot?.timeframe as ChartSlotTimeframe) ?? "1h",
     chartType: (slot?.chartType as ChartSlotType) ?? "candle",
     indicators: normalizeIndicators((slot as any)?.indicators),
     extendedHours: { ...DEFAULT_ETH, ...(slot?.extendedHours ?? {}) },

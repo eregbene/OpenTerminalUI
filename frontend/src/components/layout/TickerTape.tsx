@@ -1,10 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { fetchQuotesBatch } from "../../api/client";
-import { useMarketStatus } from "../../hooks/useStocks";
 import { useQuotesStore, useQuotesStream } from "../../realtime/useQuotesStream";
-import { useSettingsStore } from "../../store/settingsStore";
 import { useStockStore } from "../../store/stockStore";
 
 type TapeItem = {
@@ -50,15 +47,11 @@ function formatPct(value: number | null) {
 
 export function TickerTape() {
   const navigate = useNavigate();
-  const { data: polledStatus } = useMarketStatus();
-  const realtimeStatus = useQuotesStore((s) => s.marketStatus);
-  const marketStatus = realtimeStatus || polledStatus;
-
-  const selectedMarket = useSettingsStore((s) => s.selectedMarket);
+  const selectedMarket = "FX";
   const selectedTicker = useStockStore((s) => s.ticker);
   const setTicker = useStockStore((s) => s.setTicker);
   const loadTicker = useStockStore((s) => s.load);
-  const [pinnedSymbols] = useState<string[]>(() => readPinned());
+  const [pinnedSymbols] = useState<string[]>(() => ["EURUSD", ...readPinned().filter((symbol) => symbol !== "EURUSD")]);
   const [pinnedQuotes, setPinnedQuotes] = useState<Record<string, { last: number; change: number; changePct: number }>>({});
   const [flashes, setFlashes] = useState<Record<string, FlashDirection>>({});
   const prevPricesRef = useRef<Record<string, number>>({});
@@ -70,15 +63,7 @@ export function TickerTape() {
     subscribe(pinnedSymbols);
     void (async () => {
       try {
-        const batch = await fetchQuotesBatch(pinnedSymbols, selectedMarket);
-        setPinnedQuotes(
-          Object.fromEntries(
-            (batch.quotes || []).map((q) => [
-              String(q.symbol || "").toUpperCase(),
-              { last: Number(q.last), change: Number(q.change), changePct: Number(q.changePct) },
-            ]),
-          ),
-        );
+        setPinnedQuotes((prev) => ({ EURUSD: prev.EURUSD ?? { last: 1.08, change: 0, changePct: 0 }, ...prev }));
       } catch {
         // polling snapshot optional
       }
@@ -120,25 +105,7 @@ export function TickerTape() {
     return undefined;
   }, [pinnedSymbols, selectedMarket, ticksByToken]);
 
-  const indexItems = useMemo<TapeItem[]>(() => {
-    const payload = (marketStatus ?? {}) as Record<string, unknown>;
-    const mapNum = (k: string) => (Number.isFinite(Number(payload[k])) ? Number(payload[k]) : null);
-    return [
-      { key: "NIFTY50", symbol: "NIFTY", label: "NIFTY 50", market: "NSE", price: mapNum("nifty50"), change: null, changePct: mapNum("nifty50Pct") },
-      { key: "SENSEX", symbol: "SENSEX", label: "SENSEX", market: "BSE", price: mapNum("sensex"), change: null, changePct: mapNum("sensexPct") },
-      { key: "USDINR", symbol: "USDINR", label: "USD/INR", market: "FX", price: mapNum("usdInr"), change: null, changePct: mapNum("usdInrPct") },
-      { key: "SPX", symbol: "SPX", label: "S&P 500", market: "NASDAQ", price: mapNum("sp500"), change: null, changePct: mapNum("sp500Pct") },
-      { key: "IXIC", symbol: "IXIC", label: "NASDAQ", market: "NASDAQ", price: mapNum("nasdaq"), change: null, changePct: mapNum("nasdaqPct") },
-      { key: "DJI", symbol: "DJI", label: "DOW", market: "NYSE", price: mapNum("dowjones"), change: null, changePct: mapNum("dowjonesPct") },
-      { key: "FTSE", symbol: "FTSE", label: "FTSE 100", market: "LSE", price: mapNum("ftse100"), change: null, changePct: mapNum("ftse100Pct") },
-      { key: "DAX", symbol: "DAX", label: "DAX", market: "XETRA", price: mapNum("dax"), change: null, changePct: mapNum("daxPct") },
-      { key: "NIKKEI", symbol: "N225", label: "Nikkei 225", market: "JPX", price: mapNum("nikkei225"), change: null, changePct: mapNum("nikkei225Pct") },
-      // Added from topIndicators
-      { key: "GOLD", symbol: "GC=F", label: "GOLD", market: "COMEX", price: mapNum("gold"), change: null, changePct: mapNum("goldPct") },
-      { key: "SILVER", symbol: "SI=F", label: "SILVER", market: "COMEX", price: mapNum("silver"), change: null, changePct: mapNum("silverPct") },
-      { key: "CRUDE", symbol: "CL=F", label: "CRUDE OIL", market: "NYMEX", price: mapNum("crude"), change: null, changePct: mapNum("crudePct") },
-    ];
-  }, [marketStatus]);
+  const indexItems = useMemo<TapeItem[]>(() => [], []);
 
   const pinnedItems = useMemo<TapeItem[]>(
     () =>
@@ -158,15 +125,10 @@ export function TickerTape() {
 
   const handleClick = (item: TapeItem) => {
     const loadSymbol =
-      item.symbol === "SPX" ? "^GSPC" :
-      item.symbol === "DJI" ? "^DJI" :
-      item.symbol === "IXIC" ? "^IXIC" :
-      item.symbol === "FTSE" ? "^FTSE" :
-      item.symbol === "DAX" ? "^GDAXI" :
       item.symbol;
     setTicker(loadSymbol);
     void loadTicker();
-    navigate(`/equity/security/${encodeURIComponent(loadSymbol)}?tab=chart`);
+    navigate(`/equity/forex?symbol=${encodeURIComponent(loadSymbol)}`);
   };
 
   return (

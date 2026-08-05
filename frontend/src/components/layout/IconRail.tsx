@@ -1,8 +1,9 @@
 import { useContext, useMemo, useRef, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContextRef } from "../../contexts/AuthContext";
+import { APP_BRAND_MARK, APP_NAME } from "../../utils/constants";
 
-const BRAND_ICON_SRC = "/favicon.png";
+const BRAND_ICON_SRC = APP_BRAND_MARK;
 
 type RailItem = {
   id: string;
@@ -12,18 +13,13 @@ type RailItem = {
 };
 
 const RAIL_ITEMS: RailItem[] = [
-  { id: "home", label: "Home", glyph: "HM", to: "/home" },
-  { id: "market", label: "Market", glyph: "MK", to: "/equity/stocks" },
-  { id: "workstation", label: "Workstation", glyph: "WS", to: "/equity/chart-workstation" },
-  { id: "launchpad", label: "Launchpad", glyph: "LP", to: "/equity/launchpad" },
-  { id: "screener", label: "Screener", glyph: "SC", to: "/equity/screener" },
-  { id: "alpha-zoo", label: "Alpha", glyph: "AZ", to: "/equity/alpha-zoo" },
-  { id: "research-autopilot", label: "Research", glyph: "RA", to: "/equity/research-autopilot" },
-  { id: "strategy-export", label: "Export", glyph: "EX", to: "/equity/strategy-export" },
-  { id: "portfolio", label: "Portfolio", glyph: "PF", to: "/equity/portfolio" },
-  { id: "shadow-account", label: "Shadow", glyph: "SA", to: "/equity/shadow-account" },
-  { id: "watchlist", label: "Watchlist", glyph: "WL", to: "/equity/watchlist" },
-  { id: "news", label: "News", glyph: "NW", to: "/equity/news" },
+  { id: "home", label: "Home", glyph: "HM", to: "/equity/forex?symbol=EURUSD" },
+  { id: "forex", label: "EUR/USD", glyph: "FX", to: "/equity/forex?symbol=EURUSD" },
+  { id: "workstation", label: "Charts", glyph: "CH", to: "/forex/chart?symbol=EURUSD&market=FX" },
+  { id: "research", label: "Research", glyph: "RA", to: "/equity/research?q=EURUSD" },
+  { id: "paper", label: "Paper", glyph: "PT", to: "/equity/paper?symbol=EURUSD" },
+  { id: "journal", label: "Journal", glyph: "JN", to: "/equity/journal?symbol=EURUSD" },
+  { id: "news", label: "News", glyph: "NW", to: "/equity/news?symbol=EURUSD&market=FX" },
   { id: "alerts", label: "Alerts", glyph: "AL", to: "/equity/alerts" },
   { id: "settings", label: "Settings", glyph: "ST", to: "/equity/settings" },
 ];
@@ -89,7 +85,7 @@ export function IconRail() {
       onKeyDown={onRailKeyDown}
     >
       <div className="flex items-center justify-center border-b border-terminal-border px-2 py-2">
-        <img src={BRAND_ICON_SRC} alt="OpenTerminalUI" className="h-7 w-7 max-w-full object-contain" />
+        <img src={BRAND_ICON_SRC} alt={APP_NAME} className="h-7 w-7 max-w-full object-contain" />
       </div>
       <nav className="flex-1 space-y-1 overflow-auto p-2">
         {items.map((item, index) => (

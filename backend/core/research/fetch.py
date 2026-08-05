@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 _REQUEST_HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
-        "(KHTML, like Gecko) Chrome/124.0 Safari/537.36 OpenTerminalUI/research"
+        "(KHTML, like Gecko) Chrome/124.0 Safari/537.36 BensimTrading/research"
     ),
     "Accept": "text/html,application/xhtml+xml,application/pdf,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.9",
