@@ -10,6 +10,7 @@ from sqlalchemy import select
 from backend.economic_intelligence.event_mapping import is_central_bank_event, normalize_event_name
 from backend.economic_intelligence.normalization import normalize_timestamp_to_utc, parse_numeric_value
 from backend.economic_intelligence.orm import (
+    EconomicEventDefinitionCacheLogORM,
     EconomicEventDefinitionORM,
     EconomicEventORM,
     EconomicEventRevisionORM,
@@ -136,6 +137,38 @@ def upsert_event(event: dict[str, Any], *, provider: str = "ff_calendar_json") -
         row.is_central_bank_event = is_central_bank_event(raw_name)
         row.payload_hash = payload_hash
         row.last_seen_at = now
+
+        # Lifecycle tracking (0029): SCHEDULED -> FORECAST_AVAILABLE -> ACTUAL_PENDING ->
+        # ACTUAL_PUBLISHED -> REVISED -> COMPLETED, plus first-seen/changed timestamps, each
+        # set-once inside the changed-field detection already computed above.
+        previous_revised = any(field == "previous_raw" for field, *_ in changed_fields)
+        # Use the pre-mutation old_value captured in changed_fields, not `existing`/`row`
+        # (the same object once existing is not None -- by this point row.actual_raw has
+        # already been overwritten to the new value above, so re-reading existing.actual_raw
+        # here would see the NEW value and misclassify a first-ever publication as a revision).
+        actual_revised = any(field == "actual_raw" and old_value is not None for field, old_value, _new_value in changed_fields)
+        if forecast_parsed.value is not None and row.forecast_first_seen_at is None:
+            row.forecast_first_seen_at = now
+        if actual_parsed.value is not None and row.actual_first_seen_at is None:
+            row.actual_first_seen_at = now
+        if previous_revised and row.previous_revision_first_seen_at is None:
+            row.previous_revision_first_seen_at = now
+        if any(field == "scheduled_at_utc" for field, *_ in changed_fields):
+            row.scheduled_time_changed_at = now
+        if actual_revised:
+            row.lifecycle_status = "REVISED"
+        elif actual_parsed.value is not None:
+            row.lifecycle_status = "ACTUAL_PUBLISHED"
+            if row.completed_at is None and now - scheduled_at >= timedelta(hours=1):
+                row.lifecycle_status = "COMPLETED"
+                row.completed_at = now
+        elif now >= scheduled_at:
+            row.lifecycle_status = "ACTUAL_PENDING"
+        elif forecast_parsed.value is not None:
+            row.lifecycle_status = "FORECAST_AVAILABLE"
+        else:
+            row.lifecycle_status = "SCHEDULED"
+
         db.merge(row)
         snapshot_exists = (
             db.scalars(select(EconomicEventSnapshotORM).where(EconomicEventSnapshotORM.economic_event_id == internal_id, EconomicEventSnapshotORM.payload_hash == payload_hash)).first()
@@ -169,6 +202,18 @@ def upsert_event(event: dict[str, Any], *, provider: str = "ff_calendar_json") -
             )
         db.commit()
         return {"internal_id": internal_id, "created": created, "revised_fields": [f for f, *_ in changed_fields], "duplicate": snapshot_exists}
+
+
+def event_snapshots(economic_event_id: str, *, limit: int = 500) -> list[dict[str, Any]]:
+    with SessionLocal() as db:
+        stmt = select(EconomicEventSnapshotORM).where(EconomicEventSnapshotORM.economic_event_id == economic_event_id).order_by(EconomicEventSnapshotORM.observed_at.asc()).limit(max(1, min(2000, limit)))
+        return [_dump(row) for row in db.scalars(stmt).all()]
+
+
+def event_revisions(economic_event_id: str, *, limit: int = 500) -> list[dict[str, Any]]:
+    with SessionLocal() as db:
+        stmt = select(EconomicEventRevisionORM).where(EconomicEventRevisionORM.economic_event_id == economic_event_id).order_by(EconomicEventRevisionORM.observed_at.asc()).limit(max(1, min(2000, limit)))
+        return [_dump(row) for row in db.scalars(stmt).all()]
 
 
 def latest_snapshot_as_of(economic_event_id: str, as_of: datetime) -> dict[str, Any] | None:
@@ -268,6 +313,22 @@ def is_definition_stale(normalized_name: str, *, stale_after_days: int) -> bool:
     return utcnow() - last_refreshed > timedelta(days=stale_after_days)
 
 
+def log_definition_cache_event(normalized_name: str, outcome: str, *, reason: str | None = None) -> None:
+    """outcome: hit|miss|refreshed|failed."""
+    now = utcnow()
+    with SessionLocal() as db:
+        db.add(EconomicEventDefinitionCacheLogORM(id=_hash({"name": normalized_name, "outcome": outcome, "at": now.isoformat()})[:40], normalized_name=normalized_name, outcome=outcome, reason=reason, observed_at=now))
+        db.commit()
+
+
+def definition_cache_log(*, normalized_name: str | None = None, limit: int = 200) -> list[dict[str, Any]]:
+    with SessionLocal() as db:
+        stmt = select(EconomicEventDefinitionCacheLogORM).order_by(EconomicEventDefinitionCacheLogORM.observed_at.desc()).limit(max(1, min(1000, limit)))
+        if normalized_name:
+            stmt = stmt.where(EconomicEventDefinitionCacheLogORM.normalized_name == normalized_name)
+        return [_dump(row) for row in db.scalars(stmt).all()]
+
+
 def upsert_news_item(item: dict[str, Any]) -> dict[str, Any]:
     """Dedup precedence: stable story ID -> canonical URL -> content hash -> normalized headline+time."""
     headline = str(item.get("headline") or "").strip()
@@ -347,10 +408,70 @@ def save_trade_context_snapshot(snapshot: dict[str, Any]) -> str:
                 openai_context_json=snapshot.get("openai_context") or {},
                 deterministic_decision=str(snapshot.get("deterministic_decision") or "ALLOW"),
                 reason_codes_json=snapshot.get("reason_codes") or [],
+                economic_guard_mode=snapshot.get("economic_guard_mode"),
+                shadow_decision=snapshot.get("shadow_decision"),
+                effective_decision=snapshot.get("effective_decision"),
+                execution_changed_by_economic=bool(snapshot.get("execution_changed_by_economic")),
+                nearest_event_id=snapshot.get("nearest_event_id"),
+                minutes_to_event=snapshot.get("minutes_to_event"),
+                provider_freshness_json=snapshot.get("provider_freshness") or {},
+                spread_at_evaluation=snapshot.get("spread_at_evaluation"),
+                linked_execution_id=snapshot.get("linked_execution_id"),
             )
         )
         db.commit()
     return snapshot_id
+
+
+def get_trade_context_snapshot(snapshot_id: str) -> dict[str, Any] | None:
+    with SessionLocal() as db:
+        row = db.get(EconomicTradeContextSnapshotORM, snapshot_id)
+        return _dump(row) if row else None
+
+
+def query_shadow_decisions(*, symbol: str | None = None, mode: str | None = None, start: datetime | None = None, end: datetime | None = None, limit: int = 200) -> list[dict[str, Any]]:
+    with SessionLocal() as db:
+        stmt = select(EconomicTradeContextSnapshotORM).order_by(EconomicTradeContextSnapshotORM.created_at.desc()).limit(max(1, min(2000, limit)))
+        if symbol:
+            stmt = stmt.where(EconomicTradeContextSnapshotORM.symbol == symbol.upper())
+        if mode:
+            stmt = stmt.where(EconomicTradeContextSnapshotORM.economic_guard_mode == mode)
+        if start:
+            stmt = stmt.where(EconomicTradeContextSnapshotORM.created_at >= start)
+        if end:
+            stmt = stmt.where(EconomicTradeContextSnapshotORM.created_at <= end)
+        return [_dump(row) for row in db.scalars(stmt).all()]
+
+
+def unlinked_shadow_decisions(*, limit: int = 100) -> list[dict[str, Any]]:
+    with SessionLocal() as db:
+        stmt = (
+            select(EconomicTradeContextSnapshotORM)
+            .where(EconomicTradeContextSnapshotORM.linked_execution_id.is_not(None), EconomicTradeContextSnapshotORM.order_outcome.is_(None))
+            .order_by(EconomicTradeContextSnapshotORM.created_at.desc())
+            .limit(max(1, min(500, limit)))
+        )
+        return [_dump(row) for row in db.scalars(stmt).all()]
+
+
+def record_order_outcome(snapshot_id: str, outcome: dict[str, Any]) -> bool:
+    with SessionLocal() as db:
+        row = db.get(EconomicTradeContextSnapshotORM, snapshot_id)
+        if row is None:
+            return False
+        row.order_outcome = outcome
+        db.commit()
+        return True
+
+
+def link_snapshot_execution(snapshot_id: str, execution_idempotency_key: str) -> bool:
+    with SessionLocal() as db:
+        row = db.get(EconomicTradeContextSnapshotORM, snapshot_id)
+        if row is None:
+            return False
+        row.linked_execution_id = execution_idempotency_key
+        db.commit()
+        return True
 
 
 def record_provider_run(provider_name: str, *, started_at: datetime, finished_at: datetime, status: str, records_received: int = 0, records_inserted: int = 0, records_updated: int = 0, latency_ms: float | None = None, failure_reason: str | None = None, metadata: dict[str, Any] | None = None) -> None:

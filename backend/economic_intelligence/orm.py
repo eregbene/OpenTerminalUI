@@ -40,6 +40,13 @@ class EconomicEventORM(Base):
     last_seen_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, onupdate=utcnow)
+    # Lifecycle tracking (0029)
+    lifecycle_status: Mapped[str] = mapped_column(String(24), nullable=False, default="scheduled", index=True)
+    forecast_first_seen_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    actual_first_seen_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    previous_revision_first_seen_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    scheduled_time_changed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
     __table_args__ = (
         UniqueConstraint("provider", "provider_event_id", name="uq_ff_event_provider_id"),
@@ -153,6 +160,17 @@ class EconomicTradeContextSnapshotORM(Base):
     deterministic_decision: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
     reason_codes_json: Mapped[list] = mapped_column(JSON, nullable=False, default=list)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
+    # Shadow mode (0029)
+    economic_guard_mode: Mapped[str | None] = mapped_column(String(16), nullable=True, index=True)
+    shadow_decision: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+    effective_decision: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+    execution_changed_by_economic: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, index=True)
+    nearest_event_id: Mapped[str | None] = mapped_column(String(160), nullable=True)
+    minutes_to_event: Mapped[float | None] = mapped_column(Float, nullable=True)
+    provider_freshness_json: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
+    spread_at_evaluation: Mapped[float | None] = mapped_column(Float, nullable=True)
+    order_outcome: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    linked_execution_id: Mapped[str | None] = mapped_column(String(160), nullable=True, index=True)
 
 
 class EconomicProviderRunORM(Base):
@@ -184,3 +202,22 @@ class EconomicProviderStateORM(Base):
     consecutive_failures: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     schema_changed: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, onupdate=utcnow)
+    # Diagnostics (0029)
+    selector_version: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    records_accepted: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    records_rejected: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    cache_hits: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    cache_misses: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    retry_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    last_attempt_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    lock_owner: Mapped[str | None] = mapped_column(String(64), nullable=True)
+
+
+class EconomicEventDefinitionCacheLogORM(Base):
+    __tablename__ = "ff_economic_event_definition_cache_log"
+
+    id: Mapped[str] = mapped_column(String(160), primary_key=True)
+    normalized_name: Mapped[str] = mapped_column(Text, nullable=False, index=True)
+    outcome: Mapped[str] = mapped_column(String(16), nullable=False, index=True)  # hit|miss|refreshed|failed
+    reason: Mapped[str | None] = mapped_column(Text, nullable=True)
+    observed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)

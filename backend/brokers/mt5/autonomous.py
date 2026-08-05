@@ -305,6 +305,12 @@ class MT5AutonomousTradingService:
             comment=_mt5_order_comment(candidate["canonical_pair"], now),
             context_hash=candidate["context_hash"],
         )
+        snapshot_id = economic_context.get("snapshot_id")
+        if snapshot_id:
+            try:
+                await economic_intelligence_service.link_execution(snapshot_id, f"mt5-entry:{intent.intent_id}:{intent.context_hash}")
+            except Exception as exc:
+                logger.warning("Economic intelligence outcome-link failed (non-fatal): %s", exc.__class__.__name__)
         projected_margin = await self.execution.order_calc_margin(intent)
         send_count_before = self.execution.order_send_calls
         result = await self.execution.submit_market_order(intent, economic_context=economic_context)

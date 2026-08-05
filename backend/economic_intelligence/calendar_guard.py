@@ -132,6 +132,31 @@ def combine(*results: GuardResult) -> GuardResult:
     return best  # type: ignore[return-value]
 
 
+GUARD_MODES = ("disabled", "shadow", "enforce")
+
+
+def apply_guard_mode(combined: GuardResult, mode: str) -> tuple[GuardResult, bool]:
+    """Decouples the *evaluated* economic decision from its *effect* on order approval.
+
+    - enforce: today's behavior -- the evaluated decision is returned unchanged.
+    - shadow: evaluate and persist the true decision (the caller's `combined` is what's
+      recorded as the shadow decision), but always return ALLOW so nothing about order
+      approval or adaptive-manager suppression changes.
+    - disabled: same neutral ALLOW return; the provider layer may still ingest.
+
+    Returns (effective_guard, execution_changed_by_economic) where the second element is
+    True only when the *returned* guard actually restricted something (decision != ALLOW) --
+    which is by construction always False in shadow/disabled mode, and mirrors `combined`'s
+    restrictiveness in enforce mode.
+    """
+    if mode not in GUARD_MODES:
+        mode = "enforce"
+    if mode == "enforce":
+        return combined, combined["decision"] != "ALLOW"
+    reason = "ECONOMIC_GUARD_DISABLED" if mode == "disabled" else "ECONOMIC_GUARD_SHADOW_MODE"
+    return empty_result("ALLOW", [reason]), False
+
+
 def from_blockers(blockers: list[str]) -> GuardResult:
     """Adapts a plain blocker-string list (e.g. decision_context's context_blockers) into a GuardResult
     so it can participate in the same precedence combine() as the new economic guard."""

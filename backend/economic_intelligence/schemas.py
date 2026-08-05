@@ -56,3 +56,42 @@ class EvaluateRequest(BaseModel):
 class HealthResponse(BaseModel):
     items: list[dict[str, Any]]
     keys_exposed: bool = False
+
+
+class ShadowReplayRequest(BaseModel):
+    snapshot_id: str
+
+
+class DryRunSyntheticProviderState(BaseModel):
+    calendar_state: str | None = None  # HEALTHY|STALE|DEGRADED|UNAVAILABLE|SCHEMA_CHANGED
+    news_state: str | None = None
+
+
+class DryRunSyntheticEvent(BaseModel):
+    currency: str
+    impact: str = "high"
+    minutes_from_now: float = 10.0
+    is_central_bank_event: bool = False
+    raw_name: str = "Synthetic Event"
+
+
+class DryRunSyntheticNews(BaseModel):
+    risk_level: str = "low"
+    confidence: float = 0.9
+    urgency: str = "low"
+
+
+class DryRunEvaluateRequest(BaseModel):
+    symbol: str
+    direction: str = "LONG"
+    strategy: str | None = None
+    volume: float | None = None
+    entry: float | None = None
+    stop_loss: float | None = None
+    take_profit: float | None = None
+    decision_time: datetime | None = None
+    synthetic_provider_state: DryRunSyntheticProviderState | None = None
+    synthetic_events: list[DryRunSyntheticEvent] | None = None
+    synthetic_news: DryRunSyntheticNews | None = None
+    synthetic_openai_advisory: dict[str, Any] | None = None
+    spread: float | None = None

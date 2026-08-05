@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends
 
 from backend.auth.deps import get_current_user
 from backend.economic_intelligence.persistence import get_event, query_events, query_news
-from backend.economic_intelligence.schemas import BackfillRequest, EvaluateRequest
+from backend.economic_intelligence.schemas import BackfillRequest, DryRunEvaluateRequest, EvaluateRequest, ShadowReplayRequest
 from backend.economic_intelligence.service import economic_intelligence_service
 from backend.models.user import User
 
@@ -34,6 +34,11 @@ async def upcoming_events(hours: int = 48, currency: str | None = None, current_
 async def event_detail(event_id: str, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
     row = get_event(event_id)
     return row or {"status": "not_found", "event_id": event_id}
+
+
+@router.post("/events/{event_id}/refresh-detail")
+async def refresh_event_detail(event_id: str, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return await economic_intelligence_service.refresh_event_detail_for_event_id(event_id)
 
 
 @router.get("/news")
@@ -64,3 +69,28 @@ async def backfill(payload: BackfillRequest, current_user: User = Depends(get_cu
 @router.post("/evaluate")
 async def evaluate(payload: EvaluateRequest, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
     return await economic_intelligence_service.evaluate_entry(canonical_pair=payload.symbol, direction=payload.direction)
+
+
+@router.get("/events/{event_id}/timeline")
+async def event_timeline(event_id: str, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return await economic_intelligence_service.event_timeline(event_id)
+
+
+@router.get("/shadow/decisions")
+async def shadow_decisions(symbol: str | None = None, mode: str | None = None, limit: int = 200, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return await economic_intelligence_service.list_shadow_decisions(symbol=symbol, mode=mode, limit=limit)
+
+
+@router.get("/shadow/summary")
+async def shadow_summary(symbol: str | None = None, mode: str | None = None, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return await economic_intelligence_service.shadow_summary(symbol=symbol, mode=mode)
+
+
+@router.post("/shadow/replay")
+async def shadow_replay(payload: ShadowReplayRequest, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return await economic_intelligence_service.shadow_replay(payload.snapshot_id)
+
+
+@router.post("/evaluate/dry-run")
+async def evaluate_dry_run(payload: DryRunEvaluateRequest, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return await economic_intelligence_service.dry_run_evaluate(payload.model_dump())

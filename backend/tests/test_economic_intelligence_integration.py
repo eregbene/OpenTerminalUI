@@ -135,6 +135,39 @@ def test_economic_evaluation_missing_defaults_to_no_new_restriction(monkeypatch)
     assert "ECONOMIC_MANAGE_EXISTING_ONLY" not in types
 
 
+def test_profit_lock_candidate_still_proceeds_when_economic_guard_allows(monkeypatch):
+    """ALLOW must never suppress an explicit deterministic risk rule -- TP_PROGRESS_PROFIT_LOCK
+    fires exactly as it would with no economic guard involved at all."""
+    SessionLocal = _adaptive_session_factory(monkeypatch)
+    state = _managed_state("XAU_ECON_PROFIT_LOCK")
+    state.max_tp_progress = 0.85
+    state.tp_progress = 0.20
+    state.winner_classification = "weakening"
+    payload = {"price_current": 4000.0}
+    economic_result = {"guard": {"decision": "ALLOW", "reason_codes": [], "size_multiplier": 1.0}}
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [], economic_result=economic_result)
+        choice = adaptive_management_service._select_action(candidates)
+
+    action_types = {c.action_type for c in candidates}
+    assert "TP_PROGRESS_PROFIT_LOCK" in action_types
+    assert choice.action_type == "TP_PROGRESS_PROFIT_LOCK"
+
+
+def test_all_economic_candidate_types_route_through_execution_manager():
+    """ECONOMIC_REDUCE_SIZE joins the same TRADE_ACTION_DEAL dispatch set every other closing/
+    reducing action type already uses in _build_mt5_request -- no new broker-mutation code
+    path was introduced; ECONOMIC_MANAGE_EXISTING_ONLY is deliberately in neither set (it is a
+    pure advisory/suppression marker, never itself a broker mutation)."""
+    import inspect
+
+    source = inspect.getsource(adaptive_management_service._build_mt5_request)
+    assert '"ECONOMIC_REDUCE_SIZE"' in source
+    assert '"ECONOMIC_MANAGE_EXISTING_ONLY"' not in source
+    assert "execution_manager.submit_mt5_request" in inspect.getsource(adaptive_management_service._execute_action)
+
+
 # --- economic guard blockers in the autonomous entry pipeline ---
 
 
