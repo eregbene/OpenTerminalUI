@@ -33,6 +33,7 @@ from backend.adaptive_management.orm import (
     TradePathSnapshotORM,
     TradeThesisORM,
 )
+from backend.brokers.mt5 import account_registry
 from backend.brokers.mt5.adapter import mt5_adapter
 from backend.brokers.mt5.config import mt5_config
 from backend.brokers.mt5.persistence import sanitize
@@ -44,10 +45,30 @@ from backend.shared.db import SessionLocal
 
 REGIME_VERSION = "deterministic_regime_v1"
 REWARD_VERSION = "adaptive_reward_v1"
-ADAPTIVE_MODE = os.getenv("ADAPTIVE_TRADE_MANAGEMENT_MODE", "shadow").lower()
 ACTIVE_POLICY_ID = "conservative_demo_manager_v1"
 ACTIVE_POLICY_VERSION = "v2"
 logger = logging.getLogger(__name__)
+
+# v2 action types added by the trade-sizing/profit-protection overhaul. Deliberately gated by
+# their OWN independent shadow/enforce switch (v2_mode() below) rather than reusing the existing
+# ADAPTIVE_TRADE_MANAGEMENT_MODE/demo_active gate -- so the brand-new dynamic-TP and
+# reduced-risk-SL logic ships shadow-only by default even on an installation that already runs
+# the existing manager in demo_active, and enabling it is a deliberate, separate opt-in.
+V2_ACTION_TYPES = {"MOVE_SL_TO_REDUCED_RISK", "EXTEND_TP", "REDUCE_TP"}
+
+# The set of action types that modify SL and/or TP on an existing broker position (as opposed to
+# closing/reducing volume). Referenced at every point that needs to treat these uniformly:
+# reconciliation confirmation matching, request building, and post-fill cooldown stamping.
+SLTP_MODIFY_ACTION_TYPES = {"MOVE_SL_BREAKEVEN", "TRAIL_STOP", "TP_PROGRESS_STRUCTURE_STOP"} | V2_ACTION_TYPES
+
+
+def v2_mode() -> str:
+    """Independent shadow/enforce/disabled switch for the v2 action types (see
+    V2_ACTION_TYPES). Read fresh on every call, matching AdaptiveManagementService.mode()'s
+    convention, so monkeypatch.setenv works in tests. Default 'shadow': v2 actions are always
+    computed and persisted, never executed, until an operator explicitly sets 'enforce'."""
+    value = os.getenv("ADAPTIVE_MANAGEMENT_MODE", "shadow").strip().lower()
+    return value if value in {"disabled", "shadow", "enforce"} else "shadow"
 
 
 @dataclass(frozen=True)
@@ -171,6 +192,8 @@ class AdaptiveManagementService:
         terminal = await mt5_adapter.terminal_status()
         if terminal.account_mode != "DEMO" or cfg.account_mode != "DEMO":
             return {"status": "REJECTED", "reason": "MT5_DEMO_ACCOUNT_REQUIRED"}
+        fingerprint = account_registry.fingerprint_account(account)
+        account_registry.record_sighting(fingerprint, account_mode=cfg.account_mode, profile_label=os.getenv("MT5_ACCOUNT_PROFILE_LABEL"))
         now = utcnow()
         activation_id = "ADAPTIVE_ACT_" + _hash({"account": account.login, "policy": ACTIVE_POLICY_ID, "time": (effective_from or now).isoformat()})[:24]
         with SessionLocal() as db:
@@ -182,6 +205,7 @@ class AdaptiveManagementService:
             activation.policy_version = ACTIVE_POLICY_VERSION
             activation.mode = "demo_active"
             activation.demo_account = str(account.login)
+            activation.account_fingerprint = fingerprint.fingerprint_hash
             activation.effective_from = effective_from or now
             activation.approved_by = approved_by
             activation.approved_at = now
@@ -277,6 +301,72 @@ class AdaptiveManagementService:
         with SessionLocal() as db:
             states = {row.position_id: _orm_dict(row) for row in db.query(AdaptivePositionStateORM).all()}
         return {"items": [position.model_dump(mode="json") | {"adaptive_state": states.get(_position_id(position.model_dump(mode="json")))} for position in positions]}
+
+    async def position_detail(self, ticket: str) -> dict[str, Any]:
+        positions = await mt5_adapter.mt5_positions()
+        live = next((p for p in positions if _position_id(p.model_dump(mode="json")) == ticket), None)
+        with SessionLocal() as db:
+            state = db.get(AdaptivePositionStateORM, ticket)
+            audit = db.query(AdaptiveStopQualityAuditORM).filter(AdaptiveStopQualityAuditORM.position_id == ticket).first()
+            stages = [_orm_dict(row) for row in db.query(AdaptivePartialExitStageORM).filter(AdaptivePartialExitStageORM.position_id == ticket).order_by(AdaptivePartialExitStageORM.created_at.asc()).all()]
+        if live is None and state is None:
+            return {"found": False, "ticket": ticket}
+        return {
+            "found": True,
+            "ticket": ticket,
+            "live_position": live.model_dump(mode="json") if live else None,
+            "adaptive_state": _orm_dict(state) if state else None,
+            "stop_quality_audit": _orm_dict(audit) if audit else None,
+            "partial_exit_stages": stages,
+        }
+
+    def position_history(self, ticket: str) -> dict[str, Any]:
+        with SessionLocal() as db:
+            actions = db.query(AdaptiveManagementActionORM).filter(AdaptiveManagementActionORM.position_id == ticket).order_by(AdaptiveManagementActionORM.created_at.asc()).all()
+            action_ids = [row.action_id for row in actions]
+            broker_results = (
+                db.query(AdaptiveBrokerActionResultORM).filter(AdaptiveBrokerActionResultORM.action_id.in_(action_ids)).order_by(AdaptiveBrokerActionResultORM.created_at.asc()).all()
+                if action_ids
+                else []
+            )
+            events = db.query(AdaptiveTradeEventORM).filter(AdaptiveTradeEventORM.position_id == ticket).order_by(AdaptiveTradeEventORM.utc_time.asc()).all()
+        return {
+            "ticket": ticket,
+            "management_actions": [_orm_dict(row) for row in actions],
+            "broker_action_results": [_orm_dict(row) for row in broker_results],
+            "trade_events": [_orm_dict(row) for row in events],
+        }
+
+    def performance(self) -> dict[str, Any]:
+        return self.audit_report(session_id=None)
+
+    def shadow_summary(self) -> dict[str, Any]:
+        with SessionLocal() as db:
+            shadow_actions = db.query(AdaptiveManagementActionORM).filter(AdaptiveManagementActionORM.mode == "shadow").order_by(AdaptiveManagementActionORM.created_at.desc()).limit(500).all()
+        by_action_type: dict[str, int] = {}
+        by_status: dict[str, int] = {}
+        for row in shadow_actions:
+            by_action_type[row.action_type] = by_action_type.get(row.action_type, 0) + 1
+            by_status[row.status] = by_status.get(row.status, 0) + 1
+        return {
+            "mode": self.mode(),
+            "v2_mode": v2_mode(),
+            "sample_size": len(shadow_actions),
+            "by_action_type": by_action_type,
+            "by_status": by_status,
+            # Invariant check: shadow-mode candidates must never reach the broker. Any nonzero
+            # value here indicates a gating bug, not expected behavior.
+            "shadow_broker_mutation_leak_count": sum(1 for row in shadow_actions if row.broker_mutation_attempted),
+            "recent": [_orm_dict(row) for row in shadow_actions[:50]],
+        }
+
+    async def run_shadow_cycle(self) -> dict[str, Any]:
+        """Runs one evaluation cycle and reports it tagged with the current mode/v2_mode so
+        callers can see whether anything could have mutated the broker. Does not itself change
+        ADAPTIVE_TRADE_MANAGEMENT_MODE/ADAPTIVE_MANAGEMENT_MODE -- those remain env-controlled,
+        so calling this route can never silently enable enforce mode."""
+        result = await self._monitor_cycle()
+        return {**result, "mode": self.mode(), "v2_mode": v2_mode()}
 
     def activation(self) -> dict[str, Any]:
         with SessionLocal() as db:
@@ -559,6 +649,9 @@ class AdaptiveManagementService:
                 key = row.position_id or row.trade_id
                 if key:
                     deals_by_position.setdefault(key, []).append(row)
+            actions_by_position: dict[str, list[AdaptiveManagementActionORM]] = {}
+            for row in db.query(AdaptiveManagementActionORM).filter(AdaptiveManagementActionORM.status == "submitted").all():
+                actions_by_position.setdefault(row.position_id, []).append(row)
 
         records: list[dict[str, Any]] = []
         for state in states:
@@ -573,6 +666,15 @@ class AdaptiveManagementService:
             original_stop_distance = abs(float(state.entry_price or 0) - float(state.original_sl or 0)) if state.original_sl else None
             initial_rr = (original_target_distance / original_stop_distance) if original_target_distance and original_stop_distance else None
             max_tp_progress = state.max_tp_progress
+            max_achieved_r = float(state.max_achieved_r or 0)
+            giveback_r = float(state.current_giveback_r or 0)
+            giveback_ratio = (giveback_r / max_achieved_r) if max_achieved_r > 0 else None
+            exit_deal = max(deals, key=lambda d: d.utc_time or datetime.min.replace(tzinfo=timezone.utc), default=None)
+            exit_price = float(exit_deal.price) if exit_deal is not None and exit_deal.price is not None else None
+            direction_sign = 1.0 if (state.direction or "").upper() == "LONG" else -1.0
+            exit_r = ((exit_price - float(state.entry_price or 0)) * direction_sign / original_stop_distance) if exit_price is not None and original_stop_distance else None
+            actions = actions_by_position.get(state.position_id, [])
+            action_types_taken = {row.action_type for row in actions}
             records.append(
                 {
                     "position_id": state.position_id,
@@ -588,21 +690,38 @@ class AdaptiveManagementService:
                     "initial_stop_distance": original_stop_distance,
                     "initial_target_distance": original_target_distance,
                     "initial_risk_reward": initial_rr,
-                    "mfe_r": state.max_achieved_r,
+                    "sl_atr_multiple": stop_audit.sl_atr_multiple if stop_audit else None,
+                    "mfe_r": max_achieved_r,
                     "mae_r": state.min_achieved_r,
+                    "exit_r": exit_r,
+                    "mfe_capture_ratio": (exit_r / max_achieved_r) if exit_r is not None and max_achieved_r > 0 else None,
                     "max_tp_progress": max_tp_progress,
                     "max_tp_progress_at": state.max_tp_progress_at.isoformat() if state.max_tp_progress_at else None,
-                    "profit_retracement_after_mfe_r": state.current_giveback_r,
+                    "profit_retracement_after_mfe_r": giveback_r,
+                    "giveback_ratio": giveback_ratio,
+                    "giveback_over_50pct": bool(giveback_ratio is not None and giveback_ratio > 0.5),
                     "exit_reason": exit_reason,
                     "realized_pnl": realized_pnl,
+                    "ever_profitable": bool(max_achieved_r > 0),
+                    "reached_0_5r": bool(max_achieved_r >= 0.5),
+                    "reached_1r": bool(max_achieved_r >= 1.0),
+                    "reached_0_5r_then_lost": bool(max_achieved_r >= 0.5 and realized_pnl <= 0),
+                    "reached_1r_then_lost": bool(max_achieved_r >= 1.0 and realized_pnl <= 0),
                     "original_tp_later_reached": bool(max_tp_progress and max_tp_progress >= 0.999),
                     "original_sl_later_reached": bool(state.min_achieved_r and state.min_achieved_r <= -0.999),
                     "management_cut_future_winner": bool(exit_reason not in (None, "TAKE_PROFIT") and max_tp_progress and max_tp_progress >= 0.60 and realized_pnl <= 0),
                     "management_failed_to_protect_large_profit": bool(max_tp_progress and max_tp_progress >= 0.80 and realized_pnl <= 0),
                     "stop_inside_normal_volatility": bool(stop_audit and "stop_too_tight" in (stop_audit.flags or [])),
                     "stop_quality_classification": stop_audit.classification if stop_audit else state.stop_quality_classification,
+                    "stop_quality_classification_v2": stop_audit.classification_v2 if stop_audit else state.stop_quality_v2,
                     "winner_classification": state.winner_classification,
                     "would_breakeven_precede_later_tp": bool(state.max_achieved_r and state.max_achieved_r >= 1.0 and max_tp_progress and max_tp_progress < 1.0),
+                    "breakeven_action_taken": bool(action_types_taken & {"MOVE_SL_BREAKEVEN", "MOVE_SL_TO_TRUE_BREAK_EVEN"}),
+                    "partial_profit_action_taken": bool(action_types_taken & {"PARTIAL_PROFIT", "TP_PROGRESS_PARTIAL_PROTECT", "TP_PROGRESS_PROFIT_LOCK", "LOCK_PARTIAL_PROFIT", "PARTIAL_CLOSE"}),
+                    "trailing_action_taken": bool(action_types_taken & {"TRAIL_STOP", "TP_PROGRESS_STRUCTURE_STOP", "TRAIL_BY_STRUCTURE", "TRAIL_BY_VOLATILITY"}),
+                    "sl_reduced_risk_action_taken": bool(action_types_taken & {"MOVE_SL_TO_REDUCED_RISK"}),
+                    "tp_extended": bool(action_types_taken & {"EXTEND_TP"}),
+                    "tp_reduced": bool(action_types_taken & {"REDUCE_TP"}),
                 }
             )
 
@@ -621,6 +740,7 @@ class AdaptiveManagementService:
             "minimums": DEFAULT_MINIMUMS,
             "records": records,
             "grouped": grouped,
+            "aggregate": _post_trade_aggregate(records),
         }
 
     def _champion_challenger(self, db: Any, experiment_id: str, rows: list[CounterfactualOutcomeORM]) -> None:
@@ -695,6 +815,15 @@ class AdaptiveManagementService:
             except Exception as exc:
                 self._open_breaker(f"BROKER_NOT_READY:{exc.__class__.__name__}")
                 return {"status": "BROKER_NOT_READY", "error": exc.__class__.__name__, "broker_mutation_calls": 0}
+            # Re-fingerprint the connected account every cycle -- an activation approved for a
+            # different account (e.g. the previous 100K demo) must never keep managing positions
+            # after switching MT5 accounts. None on lookup failure fails safe: _can_execute
+            # treats "can't determine the account" the same as "wrong account" (blocked).
+            try:
+                live_account = await mt5_adapter.mt5_account()
+                current_fingerprint = account_registry.fingerprint_account(live_account).fingerprint_hash
+            except Exception:
+                current_fingerprint = None
             with SessionLocal() as db:
                 activation = _active_activation(db)
                 breaker = _breaker(db)
@@ -708,7 +837,11 @@ class AdaptiveManagementService:
                     symbol = str(payload.get("symbol") or "UNKNOWN").upper()
                     context = await context_for_trade(symbol, utcnow())
                     candles = await _safe_candles(symbol)
-                    state = self._sync_position_state(db, payload, activation, context, candles)
+                    try:
+                        symbol_info = await mt5_adapter.symbol_info(symbol)
+                    except Exception:
+                        symbol_info = None
+                    state = self._sync_position_state(db, payload, activation, context, candles, account_fingerprint=current_fingerprint, symbol_info=symbol_info)
                     try:
                         economic_result = await economic_intelligence_service.evaluate_position(symbol=symbol, direction=state.direction, opened_at=state.opened_at)
                     except Exception as exc:
@@ -718,7 +851,7 @@ class AdaptiveManagementService:
                     choice = self._select_action(candidates)
                     action = self._persist_action(db, state, activation, choice, candidates, mode, breaker)
                     selected.append(_orm_dict(action))
-                    if self._can_execute(action, state, activation, breaker, mode):
+                    if self._can_execute(action, state, activation, breaker, mode, current_fingerprint):
                         result = await self._execute_action(action, state, payload)
                         executed += 1 if result.get("broker_mutation_attempted") else 0
                         self._persist_result(db, action, result)
@@ -766,7 +899,7 @@ class AdaptiveManagementService:
             .filter(
                 AdaptiveBrokerActionResultORM.reconciliation_state == "pending",
                 AdaptiveManagementActionORM.position_id == position_id,
-                AdaptiveManagementActionORM.action_type.in_({"MOVE_SL_BREAKEVEN", "TRAIL_STOP", "TP_PROGRESS_STRUCTURE_STOP"}),
+                AdaptiveManagementActionORM.action_type.in_(SLTP_MODIFY_ACTION_TYPES),
             )
             .all()
         )
@@ -778,7 +911,7 @@ class AdaptiveManagementService:
             result_row.reconciliation_state = "confirmed" if sl_matches and tp_matches else "mismatch"
             db.merge(result_row)
 
-    def _sync_position_state(self, db: Any, payload: dict[str, Any], activation: Any | None, context: dict[str, Any], candles: list[dict[str, Any]]) -> AdaptivePositionStateORM:
+    def _sync_position_state(self, db: Any, payload: dict[str, Any], activation: Any | None, context: dict[str, Any], candles: list[dict[str, Any]], account_fingerprint: str | None = None, symbol_info: Any | None = None) -> AdaptivePositionStateORM:
         position_id = _position_id(payload)
         row = db.get(AdaptivePositionStateORM, position_id) or AdaptivePositionStateORM(position_id=position_id)
         direction = _position_direction(payload)
@@ -791,6 +924,8 @@ class AdaptiveManagementService:
         risk = abs(entry - sl) if sl else 0.00001
         r_now = _signed_r(TradeCase(position_id, None, str(payload.get("symbol")).upper(), direction, float(payload.get("volume") or 0), entry, sl or entry, tp or entry, opened_at or utcnow(), None, 0), current_price, risk)
         row.activation_id = activation.activation_id if activation else row.activation_id
+        if account_fingerprint:
+            row.account_fingerprint = account_fingerprint
         row.symbol = str(payload.get("symbol") or "UNKNOWN").upper()
         row.direction = direction
         row.broker_ticket = str(payload.get("ticket") or payload.get("identifier") or position_id)
@@ -848,10 +983,10 @@ class AdaptiveManagementService:
         row.updated_at = utcnow()
         db.merge(row)
         if is_first_sight and row.original_sl is not None:
-            self._audit_initial_stop(db, row, payload, candles, atr)
+            self._audit_initial_stop(db, row, payload, candles, atr, symbol_info)
         return row
 
-    def _audit_initial_stop(self, db: Any, row: AdaptivePositionStateORM, payload: dict[str, Any], candles: list[dict[str, Any]], atr: float | None) -> None:
+    def _audit_initial_stop(self, db: Any, row: AdaptivePositionStateORM, payload: dict[str, Any], candles: list[dict[str, Any]], atr: float | None, symbol_info: Any | None = None) -> None:
         existing = db.query(AdaptiveStopQualityAuditORM).filter(AdaptiveStopQualityAuditORM.position_id == row.position_id).first()
         if existing:
             return
@@ -860,7 +995,17 @@ class AdaptiveManagementService:
         spread = normalized[-1]["spread"] if normalized and normalized[-1].get("spread") is not None else None
         structure_level = _swing_structure_level(normalized, row.direction)
         structure_distance = abs(float(row.entry_price or 0) - structure_level) if structure_level is not None else None
-        result = tp_protection.classify_stop_quality(sl_distance=sl_distance, atr=atr, spread=spread, structure_distance=structure_distance, broker_min_stop=None)
+        # Real broker minimum stop distance (points -> price), fixing a prior bug where this
+        # was hardcoded to None and the "stop too close to the broker's minimum" check could
+        # never actually fire.
+        broker_min_stop_distance: float | None = None
+        if symbol_info is not None:
+            stops_level = float(getattr(symbol_info, "trade_stops_level", None) or 0)
+            point = float(getattr(symbol_info, "point", None) or 0)
+            if stops_level and point:
+                broker_min_stop_distance = stops_level * point
+        result = tp_protection.classify_stop_quality(sl_distance=sl_distance, atr=atr, spread=spread, structure_distance=structure_distance, broker_min_stop=broker_min_stop_distance)
+        result_v2 = tp_protection.classify_stop_quality_v2(sl_distance=sl_distance, atr=atr, spread=spread, structure_distance=structure_distance, broker_min_stop_distance=broker_min_stop_distance)
         audit = AdaptiveStopQualityAuditORM(audit_id="ASQ_" + _hash({"position": row.position_id})[:40])
         audit.position_id = row.position_id
         audit.symbol = row.symbol
@@ -871,12 +1016,14 @@ class AdaptiveManagementService:
         audit.sl_atr_multiple = result["sl_atr_multiple"]
         audit.spread_pct_of_sl = result["spread_pct_of_sl"]
         audit.structure_buffer_price = structure_distance
-        audit.broker_min_stop_price = None
+        audit.broker_min_stop_price = broker_min_stop_distance
         audit.flags = result["flags"]
         audit.classification = result["classification"]
+        audit.classification_v2 = result_v2["classification"]
         audit.raw_payload = sanitize({"entry": row.entry_price, "sl": row.original_sl, "atr": atr})
         db.merge(audit)
         row.stop_quality_classification = result["classification"]
+        row.stop_quality_v2 = result_v2["classification"]
 
     def _evaluate_position(self, db: Any, state: AdaptivePositionStateORM, payload: dict[str, Any], context: dict[str, Any], candles: list[dict[str, Any]], economic_result: dict[str, Any] | None = None) -> list[ManagementCandidate]:
         entry = float(state.entry_price or 0)
@@ -1017,7 +1164,65 @@ class AdaptiveManagementService:
 
         if _candles_held(state.opened_at, candles) >= _env_int("ADAPTIVE_TIME_EXIT_CANDLES", 24, minimum=1, maximum=288) and max_r < 0.25:
             candidates.append(ManagementCandidate("TIME_EXIT", 70, requested_volume=float(state.current_volume), reason="no_progress_time_exit", evidence={"max_r": max_r}))
+
+        if v2_mode() != "disabled" and cooldown_ok and not manage_existing_only:
+            candidates.extend(self._v2_candidates(state, r_now, max_r, atr, atr_r, regime, zone, normalized_candles))
         return candidates
+
+    def _v2_candidates(self, state: AdaptivePositionStateORM, r_now: float, max_r: float, atr: float | None, atr_r: float, regime: str, zone: str, normalized_candles: list[dict[str, Any]]) -> list[ManagementCandidate]:
+        """v2 action types (MOVE_SL_TO_REDUCED_RISK/EXTEND_TP/REDUCE_TP), gated by their own
+        v2_mode() shadow/enforce switch independent of the existing demo_active gate -- see
+        V2_ACTION_TYPES and the module docstring above it."""
+        out: list[ManagementCandidate] = []
+        entry = float(state.entry_price or 0)
+
+        reduced_risk_r = _env_float("ADAPTIVE_REDUCED_RISK_R", 0.5)
+        breakeven_r = _env_float("ADAPTIVE_BREAKEVEN_R", 1.0)
+        if reduced_risk_r <= r_now < breakeven_r and state.winner_classification not in {"invalidated", "critical"} and state.current_sl is not None:
+            halfway = entry - (entry - float(state.current_sl)) / 2.0 if state.direction == "LONG" else entry + (float(state.current_sl) - entry) / 2.0
+            if _stop_improves(state.direction, halfway, state.current_sl):
+                out.append(
+                    ManagementCandidate(
+                        "MOVE_SL_TO_REDUCED_RISK",
+                        49,
+                        requested_sl=halfway,
+                        requested_tp=state.current_tp,
+                        reason="reduced_risk_step_before_full_breakeven_eligibility",
+                        evidence={"r": r_now, "reduced_risk_r_threshold": reduced_risk_r, "breakeven_r_threshold": breakeven_r, "winner_classification": state.winner_classification},
+                    )
+                )
+
+        sl_at_or_beyond_breakeven = state.current_sl is not None and ((state.direction == "LONG" and float(state.current_sl) >= entry) or (state.direction == "SHORT" and float(state.current_sl) <= entry))
+        if zone in {"zone_85_95", "zone_95_plus"} and state.winner_classification in {"strong_continuation", "healthy_pullback"} and sl_at_or_beyond_breakeven and state.current_tp and atr:
+            extension = atr * _env_float("ADAPTIVE_TP_EXTEND_ATR_MULT", 1.0)
+            new_tp = float(state.current_tp) + extension if state.direction == "LONG" else float(state.current_tp) - extension
+            out.append(
+                ManagementCandidate(
+                    "EXTEND_TP",
+                    65,
+                    requested_sl=state.current_sl,
+                    requested_tp=new_tp,
+                    reason="momentum_and_structure_continuation_extend_target",
+                    evidence={"zone": zone, "winner_classification": state.winner_classification, "previous_tp": state.current_tp, "proposed_tp": new_tp, "profit_protected": sl_at_or_beyond_breakeven},
+                )
+            )
+
+        if state.winner_classification in {"weakening", "critical"} and float(state.tp_progress or 0) >= _env_float("ADAPTIVE_TP_REDUCE_MIN_PROGRESS", 0.5) and state.current_tp:
+            price_now = entry + r_now * abs(entry - float(state.current_sl or entry)) if state.direction == "LONG" else entry - r_now * abs(entry - float(state.current_sl or entry))
+            new_tp = price_now + (float(state.current_tp) - price_now) * (1.0 - _env_float("ADAPTIVE_TP_REDUCE_FRACTION", 0.35))
+            tp_moves_closer = abs(new_tp - price_now) < abs(float(state.current_tp) - price_now)
+            if tp_moves_closer:
+                out.append(
+                    ManagementCandidate(
+                        "REDUCE_TP",
+                        42,
+                        requested_sl=state.current_sl,
+                        requested_tp=new_tp,
+                        reason="momentum_deteriorating_original_target_statistically_unrealistic",
+                        evidence={"tp_progress": state.tp_progress, "winner_classification": state.winner_classification, "previous_tp": state.current_tp, "proposed_tp": new_tp},
+                    )
+                )
+        return out
 
     def _select_action(self, candidates: list[ManagementCandidate]) -> ManagementCandidate:
         return sorted(candidates, key=lambda row: row.priority)[0]
@@ -1055,7 +1260,7 @@ class AdaptiveManagementService:
             action.status = "blocked_not_adopted"
         return db.merge(action)
 
-    def _can_execute(self, action: AdaptiveManagementActionORM, state: AdaptivePositionStateORM, activation: Any | None, breaker: Any, mode: str) -> bool:
+    def _can_execute(self, action: AdaptiveManagementActionORM, state: AdaptivePositionStateORM, activation: Any | None, breaker: Any, mode: str, current_account_fingerprint: str | None = None) -> bool:
         cfg = mt5_config()
         if action.action_type == "HOLD" or mode != "demo_active" or not activation or breaker.state != "closed":
             return False
@@ -1064,6 +1269,17 @@ class AdaptiveManagementService:
         if action.policy_id != ACTIVE_POLICY_ID or cfg.live_trading_enabled or cfg.account_mode != "DEMO":
             return False
         if not state.managed_automatically:
+            return False
+        # Account-identity re-verification: an activation approved for a different MT5 account
+        # (fingerprint mismatch) or an undetermined current account (lookup failure -- fail
+        # closed, matches "unknown account blocked") must never execute. Only enforced when the
+        # activation actually has a fingerprint recorded, so legacy/test activations created
+        # before this column existed aren't newly broken.
+        if activation.account_fingerprint and activation.account_fingerprint != current_account_fingerprint:
+            return False
+        if action.action_type in V2_ACTION_TYPES and v2_mode() != "enforce":
+            return False
+        if not _rate_limit_ok(breaker, activation.maximum_actions_per_hour):
             return False
         symbols = [str(row).upper() for row in (activation.eligible_symbols or [])]
         return not symbols or state.symbol in symbols
@@ -1117,12 +1333,12 @@ class AdaptiveManagementService:
                 "type_time": getattr(mt5, "ORDER_TIME_GTC", 0),
                 "type_filling": filling_type,
             }
-        if action.action_type in {"MOVE_SL_BREAKEVEN", "TRAIL_STOP", "TP_PROGRESS_STRUCTURE_STOP"}:
+        if action.action_type in SLTP_MODIFY_ACTION_TYPES:
             return {
                 "action": getattr(mt5, "TRADE_ACTION_SLTP", 6),
                 "position": int(payload.get("ticket") or payload.get("identifier") or state.broker_ticket),
                 "symbol": state.symbol,
-                "sl": _round_price(action.requested_sl, symbol),
+                "sl": _round_price(action.requested_sl, symbol) if action.requested_sl else _round_price(state.current_sl, symbol),
                 "tp": _round_price(action.requested_tp, symbol) if action.requested_tp else 0.0,
                 "magic": mt5_config().bensim_magic,
                 "comment": _bsm_comment(state.strategy_id, state.timeframe, "SLTP"),
@@ -1154,7 +1370,7 @@ class AdaptiveManagementService:
         db.merge(row)
         if result.get("status") == "ACCEPTED":
             state = db.get(AdaptivePositionStateORM, action.position_id)
-            if state and action.action_type in {"MOVE_SL_BREAKEVEN", "TRAIL_STOP", "TP_PROGRESS_STRUCTURE_STOP"}:
+            if state and action.action_type in SLTP_MODIFY_ACTION_TYPES:
                 state.last_management_at = utcnow()
                 db.merge(state)
             stage = (action.evidence or {}).get("stage")
@@ -1715,6 +1931,22 @@ def _breaker(db: Any) -> AdaptiveCircuitBreakerORM:
     return row
 
 
+def _rate_limit_ok(breaker: AdaptiveCircuitBreakerORM, maximum_actions_per_hour: int) -> bool:
+    """Enforces activation.maximum_actions_per_hour, which previously existed as a stored
+    column that nothing ever read or incremented. Rolling 1-hour window tracked on the
+    (already-loaded, already-committed-at-cycle-end) breaker row -- no extra DB round trip."""
+    now = utcnow()
+    window_start = _as_aware(breaker.actions_hour_window_started_at)
+    if not window_start or (now - window_start).total_seconds() >= 3600:
+        breaker.actions_hour_window_started_at = now
+        breaker.actions_this_hour = 0
+    limit = max(1, min(20, int(maximum_actions_per_hour or 6)))
+    if breaker.actions_this_hour >= limit:
+        return False
+    breaker.actions_this_hour += 1
+    return True
+
+
 def _position_id(payload: dict[str, Any]) -> str:
     return str(payload.get("identifier") or payload.get("ticket") or _hash(payload)[:32])
 
@@ -2012,6 +2244,58 @@ def _audit_group_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "stop_too_tight_count": sum(1 for row in rows if row.get("stop_quality_classification") == "stop_too_tight"),
         "avg_profit_retracement_after_mfe_r": _avg([float(row.get("profit_retracement_after_mfe_r") or 0) for row in rows]),
         "avg_realized_pnl": _avg([float(row.get("realized_pnl") or 0) for row in rows]),
+        "stop_outs_count": sum(1 for row in rows if row.get("exit_reason") == "STOP_LOSS" or (row.get("realized_pnl") or 0) < 0),
+    }
+
+
+def _post_trade_aggregate(records: list[dict[str, Any]]) -> dict[str, Any]:
+    """Portfolio-wide post-trade analytics -- expectancy/profit-factor/MFE-capture/giveback,
+    plus break-even, partial-profit and trailing outcome buckets, so aggregate expectancy
+    (not individual trade screenshots) can be optimized per the task's explicit instruction."""
+    count = len(records)
+    if count == 0:
+        return {"sample_size": 0, "insufficient_data": True}
+
+    def _bucket(predicate: Any) -> dict[str, Any]:
+        rows = [row for row in records if predicate(row)]
+        pnls = [float(row.get("realized_pnl") or 0) for row in rows]
+        return {
+            "count": len(rows),
+            "avg_realized_pnl": _avg(pnls) if pnls else None,
+            "win_rate": (sum(1 for p in pnls if p > 0) / len(pnls)) if pnls else None,
+        }
+
+    pnls = [float(row.get("realized_pnl") or 0) for row in records]
+    wins = [p for p in pnls if p > 0]
+    losses = [p for p in pnls if p < 0]
+    mfe_r_values = [float(row.get("mfe_r") or 0) for row in records]
+    exit_r_values = [float(row["exit_r"]) for row in records if row.get("exit_r") is not None]
+    capture_ratios = [float(row["mfe_capture_ratio"]) for row in records if row.get("mfe_capture_ratio") is not None]
+    sl_atr_values = [float(row["sl_atr_multiple"]) for row in records if row.get("sl_atr_multiple") is not None]
+    reached_0_5r = [row for row in records if row.get("reached_0_5r")]
+    reached_1r = [row for row in records if row.get("reached_1r")]
+
+    return {
+        "sample_size": count,
+        "insufficient_data": count < DEFAULT_MINIMUMS["MIN_TRADES_PER_POLICY_GLOBAL"],
+        "expectancy_usd": _avg(pnls),
+        "profit_factor": (sum(wins) / abs(sum(losses))) if losses else (float("inf") if wins else None),
+        "win_rate": (len(wins) / count) if count else None,
+        "avg_mfe_r": _avg(mfe_r_values),
+        "avg_exit_r": _avg(exit_r_values) if exit_r_values else None,
+        "avg_mfe_capture_ratio": _avg(capture_ratios) if capture_ratios else None,
+        "avg_sl_distance_atr_multiple": _avg(sl_atr_values) if sl_atr_values else None,
+        "trades_reaching_0_5r_count": len(reached_0_5r),
+        "trades_reaching_0_5r_then_losing_count": sum(1 for row in reached_0_5r if float(row.get("realized_pnl") or 0) <= 0),
+        "trades_reaching_1r_count": len(reached_1r),
+        "trades_reaching_1r_then_losing_count": sum(1 for row in reached_1r if float(row.get("realized_pnl") or 0) <= 0),
+        "giveback_over_50pct_count": sum(1 for row in records if row.get("giveback_over_50pct")),
+        "ever_profitable_count": sum(1 for row in records if row.get("ever_profitable")),
+        "ever_profitable_then_closed_at_loss_count": sum(1 for row in records if row.get("ever_profitable") and float(row.get("realized_pnl") or 0) <= 0),
+        "breakeven_results": _bucket(lambda row: row.get("breakeven_action_taken")),
+        "partial_profit_results": _bucket(lambda row: row.get("partial_profit_action_taken")),
+        "trailing_results": _bucket(lambda row: row.get("trailing_action_taken")),
+        "no_management_action_results": _bucket(lambda row: not (row.get("breakeven_action_taken") or row.get("partial_profit_action_taken") or row.get("trailing_action_taken"))),
     }
 
 

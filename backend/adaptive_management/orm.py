@@ -298,6 +298,11 @@ class AdaptiveActivationORM(Base):
     policy_version: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
     mode: Mapped[str] = mapped_column(String(16), nullable=False, default="shadow", index=True)
     demo_account: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+    # sha256(login:server) via account_registry.fingerprint_account() -- re-verified against
+    # the live account on every monitor cycle so switching MT5 accounts (e.g. onto a new demo
+    # account) automatically deactivates this activation instead of silently continuing to
+    # manage positions under an activation approved for a different account.
+    account_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
     effective_from: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
     approved_by: Mapped[str] = mapped_column(String(128), nullable=False, default="local_env")
     approved_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
@@ -317,6 +322,10 @@ class AdaptivePositionStateORM(Base):
 
     position_id: Mapped[str] = mapped_column(String(96), primary_key=True)
     activation_id: Mapped[str | None] = mapped_column(String(128), nullable=True, index=True)
+    # sha256(login:server) -- scopes state isolation per MT5 account. broker ticket numbers can
+    # collide across different accounts/brokers, so this (not just position_id) is what
+    # guarantees a new account never inherits a previous account's risk/management state.
+    account_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
     symbol: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
     direction: Mapped[str] = mapped_column(String(16), nullable=False, index=True)
     broker_ticket: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
@@ -343,6 +352,7 @@ class AdaptivePositionStateORM(Base):
     current_giveback_r: Mapped[float] = mapped_column(Float, nullable=False, default=0)
     winner_classification: Mapped[str] = mapped_column(String(32), nullable=False, default="insufficient_data", index=True)
     stop_quality_classification: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+    stop_quality_v2: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
     profit_lock_floor_r: Mapped[float | None] = mapped_column(Float, nullable=True)
     strategy_id: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
     timeframe: Mapped[str | None] = mapped_column(String(16), nullable=True, index=True)
@@ -366,6 +376,10 @@ class AdaptiveStopQualityAuditORM(Base):
     spread_pct_of_sl: Mapped[float | None] = mapped_column(Float, nullable=True)
     structure_buffer_price: Mapped[float | None] = mapped_column(Float, nullable=True)
     broker_min_stop_price: Mapped[float | None] = mapped_column(Float, nullable=True)
+    # v2 classification using the task-specified vocabulary (VALID/TOO_TIGHT/TOO_WIDE/
+    # INVALID_STRUCTURE/INVALID_BROKER_DISTANCE/UNAFFORDABLE_RISK) -- additive alongside the
+    # existing `classification` column (flags-based vocabulary), which is left unchanged.
+    classification_v2: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
     flags: Mapped[list] = mapped_column(JSON, nullable=False, default=list)
     classification: Mapped[str] = mapped_column(String(32), nullable=False, default="insufficient_data", index=True)
     raw_payload: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
@@ -444,6 +458,7 @@ class AdaptiveCircuitBreakerORM(Base):
     failed_actions: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     rejected_actions: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     actions_this_hour: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    actions_hour_window_started_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     opened_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True, index=True)
     reset_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True, index=True)
     raw_payload: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
