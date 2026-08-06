@@ -97,6 +97,31 @@ async def open_positions(current_user: User = Depends(get_current_user)) -> dict
     return await adaptive_management_service.open_positions()
 
 
+@router.get("/positions")
+async def positions(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return await adaptive_management_service.open_positions()
+
+
+@router.get("/positions/{ticket}")
+async def position_detail(ticket: str, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return await adaptive_management_service.position_detail(ticket)
+
+
+@router.get("/positions/{ticket}/history")
+async def position_history(ticket: str, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return adaptive_management_service.position_history(ticket)
+
+
+@router.get("/performance")
+async def performance(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return adaptive_management_service.performance()
+
+
+@router.get("/shadow-summary")
+async def shadow_summary(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return adaptive_management_service.shadow_summary()
+
+
 @router.get("/decisions")
 async def decisions(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
     return {"shadow_decisions": adaptive_management_service.shadow_decisions(), "management_actions": adaptive_management_service.actions()}
@@ -185,3 +210,13 @@ async def adopt_existing_position(payload: AdoptPositionRequest, current_user: U
 @router.post("/evaluate-now")
 async def evaluate_now(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
     return await adaptive_management_service.evaluate_now()
+
+
+@router.post("/evaluate")
+async def evaluate(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return await adaptive_management_service.evaluate_now()
+
+
+@router.post("/run-shadow")
+async def run_shadow(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return await adaptive_management_service.run_shadow_cycle()
