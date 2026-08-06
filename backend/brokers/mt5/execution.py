@@ -63,12 +63,21 @@ class MT5ExecutionService:
         entry: Decimal,
         stop: Decimal,
         target: Decimal,
+        risk_budget_adjustment: dict[str, Any] | None = None,
     ) -> MT5RiskSizing:
         reasons = _geometry_reasons(direction, entry, stop, target)
         equity_risk_cap = (account_equity * Decimal(str(self.config.risk_percent_per_trade)) / Decimal("100")).quantize(Decimal("0.01"))
         trade_risk_cap = Decimal(str(self.config.max_risk_per_trade_usd))
         aggregate_percent_cap = account_equity * Decimal(str(self.config.max_total_open_risk_percent)) / Decimal("100")
         effective_risk = min(equity_risk_cap, trade_risk_cap, Decimal(str(self.config.max_total_open_risk_usd)), Decimal(str(self.config.max_daily_loss_usd)), aggregate_percent_cap)
+        # v2 effective-risk-budget scaling (drawdown/portfolio exposure/correlation/economic
+        # risk/strategy confidence) -- optional and multiplicative only, so callers that don't
+        # pass it get byte-identical behavior to before this parameter existed. See
+        # backend/brokers/mt5/risk_budget.py::compute_risk_multiplier.
+        risk_multiplier = 1.0
+        if risk_budget_adjustment is not None:
+            risk_multiplier = float(risk_budget_adjustment.get("multiplier", 1.0))
+            effective_risk = (effective_risk * Decimal(str(risk_multiplier))).quantize(Decimal("0.01"))
         tick_size = symbol.trade_tick_size or symbol.point
         tick_value = symbol.trade_tick_value_loss or symbol.trade_tick_value or symbol.trade_tick_value_profit
         step = symbol.volume_step or Decimal("0.01")
@@ -99,6 +108,7 @@ class MT5ExecutionService:
             projected_loss_usd=projected_loss,
             projected_profit_usd=projected_profit,
             risk_reward=rr,
+            risk_multiplier=Decimal(str(risk_multiplier)),
             reasons=reasons,
             equity_risk_cap_usd=equity_risk_cap,
             trade_risk_cap_usd=trade_risk_cap,

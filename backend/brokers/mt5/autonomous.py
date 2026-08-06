@@ -20,11 +20,14 @@ from backend.brokers.mt5.execution import MT5ExecutionService, _round_down
 from backend.brokers.mt5.models import MT5ForexInstrument, MT5TradeIntent
 from backend.brokers.mt5.persistence import learning_context_for_candidate, persist_cycle_result, trade_performance_summary, update_trade_history, update_trade_reconciliation
 from backend.brokers.mt5.prop_risk import risk_status
+from backend.brokers.mt5.risk_budget import effective_risk_budget_usd
+from backend.brokers.mt5.take_profit import select_take_profit
 from backend.decision_context.service import decision_context_service
 from backend.economic_intelligence.service import economic_intelligence_service
 from backend.intelligence.trading.config import ai_trading_config
 from backend.intelligence.trading.persistence import get_state, set_state, utcnow
 from backend.intelligence.trading.usage import usage_ledger
+from backend.portfolio_execution.service import portfolio_manager
 
 logger = logging.getLogger(__name__)
 
@@ -180,7 +183,7 @@ class MT5AutonomousTradingService:
                 result = {"cycle_id": cycle_id, "status": "AI_REJECTED", "winner": best, "ai_decision": decision, "openai_calls": 1, "order_send_calls": 0}
                 self._record_cycle(result)
                 return result
-            submission = await self._submit(best)
+            submission = await self._submit(best, ai_confidence=float(decision.get("confidence") or 0.0))
             result = {"cycle_id": cycle_id, "status": submission["status"], "winner": best, "ai_decision": decision, "trade": submission, "openai_calls": 1, "order_send_calls": submission.get("order_send_calls", 0)}
             self._record_cycle(result)
             return result
@@ -271,16 +274,54 @@ class MT5AutonomousTradingService:
         self.state.decisions.insert(0, decision | {"candidate": candidate["canonical_pair"], "created_at": utcnow().isoformat()})
         return decision
 
-    async def _submit(self, candidate: dict[str, Any]) -> dict[str, Any]:
+    def _risk_budget_adjustment(self, account: Any, economic_context: dict[str, Any], ai_confidence: float | None) -> dict[str, Any]:
+        """Real, live inputs for the effective-risk-budget scaling layer (see
+        risk_budget.py). drawdown_pct is deliberately a simple, honest equity-vs-balance
+        proxy (unrealized drawdown only) -- true peak-equity drawdown tracking would need a
+        persisted high-water mark and is noted as a follow-up, not implemented here."""
+        try:
+            balance = float(account.balance or 0)
+            equity = float(account.equity or 0)
+            drawdown_pct = max(0.0, (balance - equity) / balance * 100.0) if balance > 0 else 0.0
+        except Exception:
+            drawdown_pct = 0.0
+        try:
+            risk_snapshot = portfolio_manager.risk()
+            open_risk = float(risk_snapshot.get("open_risk") or 0)
+            portfolio_exposure_ratio = open_risk / float(self.config.max_total_open_risk_usd) if self.config.max_total_open_risk_usd else 0.0
+        except Exception:
+            portfolio_exposure_ratio = 0.0
+        try:
+            exposure = portfolio_manager.exposure()
+            max_currency_exposure = max((abs(row.get("net", 0)) for row in (exposure.get("currency") or {}).values()), default=0.0)
+            correlated_cap = float(self.config.max_total_open_risk_usd) * _env_float("MAX_CORRELATED_OPEN_RISK_PCT", 0.75) / max(0.01, self.config.max_total_open_risk_percent)
+            correlated_exposure_ratio = max_currency_exposure / correlated_cap if correlated_cap else 0.0
+        except Exception:
+            correlated_exposure_ratio = 0.0
+        guard_decision = str(((economic_context.get("guard") or {}).get("decision")) or "ALLOW").upper()
+        economic_risk_level = {"ALLOW": "none", "REDUCE_SIZE": "medium", "DELAY": "high", "BLOCK": "high", "MANAGE_EXISTING_ONLY": "medium"}.get(guard_decision, "none")
+        return {
+            "drawdown_pct": drawdown_pct,
+            "portfolio_exposure_ratio": portfolio_exposure_ratio,
+            "correlated_exposure_ratio": correlated_exposure_ratio,
+            "economic_risk_level": economic_risk_level,
+            "strategy_confidence": ai_confidence,
+        }
+
+    async def _submit(self, candidate: dict[str, Any], *, ai_confidence: float | None = None) -> dict[str, Any]:
         account = await self.adapter.mt5_account()
         symbol = await self.adapter.symbol_info(candidate["broker_symbol"])
         quote = await self.adapter.latest_tick(candidate["broker_symbol"])
         entry = quote.ask if candidate["direction"] == "LONG" else quote.bid
         if entry is None:
             return {"status": "REJECTED", "reasons": ["NO_ENTRY_PRICE"], "order_send_calls": 0}
-        risk = await self.execution.calculate_risk_size(account_equity=account.equity, symbol=symbol, direction=candidate["direction"], entry=entry, stop=Decimal(str(candidate["stop_loss"])), target=Decimal(str(candidate["take_profit"])))
+        economic_context_preview = candidate.get("economic_context") or {}
+        risk_adjustment = self._risk_budget_adjustment(account, economic_context_preview, ai_confidence)
+        base_risk_budget = (account.equity * Decimal(str(self.config.risk_percent_per_trade)) / Decimal("100")).quantize(Decimal("0.01"))
+        _, risk_adjustment_detail = effective_risk_budget_usd(base_risk_budget, **risk_adjustment)
+        risk = await self.execution.calculate_risk_size(account_equity=account.equity, symbol=symbol, direction=candidate["direction"], entry=entry, stop=Decimal(str(candidate["stop_loss"])), target=Decimal(str(candidate["take_profit"])), risk_budget_adjustment=risk_adjustment_detail)
         if risk.status != "APPROVED":
-            return {"status": "RISK_REJECTED", "risk": risk.model_dump(mode="json"), "order_send_calls": 0}
+            return {"status": "RISK_REJECTED", "risk": risk.model_dump(mode="json"), "risk_budget_adjustment": risk_adjustment_detail, "order_send_calls": 0}
         economic_context = candidate.get("economic_context") or {}
         size_multiplier = float(((economic_context.get("guard") or {}).get("size_multiplier")) or 1.0)
         if size_multiplier < 1.0:
@@ -319,6 +360,7 @@ class MT5AutonomousTradingService:
             "trade_id": intent_id,
             "intent": intent.model_dump(mode="json"),
             "risk": risk.model_dump(mode="json"),
+            "risk_budget_adjustment": risk_adjustment_detail,
             "projected_margin": str(projected_margin) if projected_margin is not None else None,
             "submission": result.model_dump(mode="json"),
             "order_send_calls": order_send_calls,
@@ -515,11 +557,23 @@ def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any]) -
     if stop_price is None:
         return 0, "NO_TRADE", {"entry": str(entry), "stop_loss": str(entry), "take_profit": str(entry)}
     stop = Decimal(str(stop_price))
-    stop_distance = abs(entry - stop)
-    target = entry + stop_distance * Decimal("1.8") if direction == "LONG" else entry - stop_distance * Decimal("1.8")
+    # Opposing structure level: the swing level on the OPPOSITE side of the trade direction is
+    # the nearest meaningful liquidity/resistance-or-support a move would need to clear -- a
+    # real target, not a fixed multiple of the stop distance unrelated to actual price structure.
+    opposing_structure = _swing_level(m15, "SHORT" if direction == "LONG" else "LONG")
+    tp_selection = select_take_profit(direction=direction, entry=entry, stop_loss=stop, opposing_structure_level=opposing_structure, atr=atr)
+    target = tp_selection["tp1"]
     spread_penalty = min(30, float(spread / atr * Decimal("100"))) if atr > 0 else 30
     score = 88 - spread_penalty
-    return round(score, 2), direction, {"entry": str(entry), "stop_loss": str(stop), "take_profit": str(target), "risk_reward": "1.8"}
+    return round(score, 2), direction, {
+        "entry": str(entry),
+        "stop_loss": str(stop),
+        "take_profit": str(target),
+        "take_profit_tp2": str(tp_selection["tp2"]),
+        "take_profit_runner": str(tp_selection["runner"]),
+        "take_profit_basis": tp_selection["basis"],
+        "risk_reward": str(tp_selection["reward_multiple"]) if tp_selection["reward_multiple"] is not None else "1.8",
+    }
 
 
 def _swing_level(candles: list[Any], direction: str, lookback: int = 20) -> Decimal | None:

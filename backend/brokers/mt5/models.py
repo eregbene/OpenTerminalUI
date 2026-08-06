@@ -236,6 +236,7 @@ class MT5RiskSizing(MT5Model):
     reasons: list[str] = Field(default_factory=list)
     equity_risk_cap_usd: Decimal = Decimal("0")
     trade_risk_cap_usd: Decimal = Decimal("0")
+    risk_multiplier: Decimal = Decimal("1.0")
 
 
 class MT5OrderCheckResult(MT5Model):

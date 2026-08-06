@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from typing import Any, Sequence
 
+from backend.brokers.mt5 import account_registry
 from backend.brokers.mt5.adapter import mt5_adapter
 from backend.brokers.mt5.config import mt5_config
 from backend.brokers.mt5.persistence import sanitize
@@ -209,6 +210,18 @@ class ExecutionManager:
         cfg = mt5_config()
         if cfg.live_trading_enabled:
             return self._reject(idempotency_key, request, source, "LIVE_TRADING_BLOCKED", economic_context=economic_context)
+        if adapter is not None:
+            # Independent, always-active account-identity gate -- the one chokepoint every
+            # order-submission caller (autonomous entries and Adaptive Trade Manager's direct
+            # calls) shares, so switching MT5 accounts (e.g. onto the new 10K demo account)
+            # can never silently inherit a previous account's approval or risk state.
+            try:
+                account = await adapter.mt5_account()
+                account_blockers = account_registry.account_blockers(account, account_mode=cfg.account_mode)
+            except Exception as exc:
+                account_blockers = [f"ACCOUNT_REGISTRY_UNAVAILABLE:{exc.__class__.__name__}"]
+            if account_blockers:
+                return self._reject(idempotency_key, request, source, ";".join(account_blockers), economic_context=economic_context)
         allowed, blockers = portfolio_manager.can_open_new_trade() if source == "mt5_autonomous_entry" else (True, [])
         if not allowed:
             return self._reject(idempotency_key, request, source, ";".join(blockers), economic_context=economic_context)
