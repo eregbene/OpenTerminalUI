@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
@@ -14,6 +15,9 @@ from backend.adaptive_management.orm import (
     AdaptiveCircuitBreakerORM,
     AdaptiveManagementActionORM,
     AdaptivePositionStateORM,
+    AdaptiveTradeEventORM,
+    CounterfactualOutcomeORM,
+    TradePathSnapshotORM,
 )
 from backend.brokers.mt5 import account_registry
 from backend.brokers.mt5.account_registry import AccountClassification, MT5AccountProfileORM
@@ -27,6 +31,7 @@ def _session_factory(monkeypatch):
     Base.metadata.create_all(bind=engine)
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     monkeypatch.setattr(account_registry, "SessionLocal", SessionLocal)
+    monkeypatch.setattr(adaptive_service, "SessionLocal", SessionLocal)
     return SessionLocal
 
 
@@ -431,3 +436,107 @@ def test_v2_action_types_are_the_only_new_broker_mutating_vocabulary():
     # V2_ACTION_TYPES stays a closed, deterministic set so no advisory-only caller can widen it.
     assert adaptive_service.V2_ACTION_TYPES == {"MOVE_SL_TO_REDUCED_RISK", "EXTEND_TP", "REDUCE_TP"}
     assert adaptive_service.SLTP_MODIFY_ACTION_TYPES >= adaptive_service.V2_ACTION_TYPES
+
+
+# ---------------------------------------------------------------------------
+# Automatic replay-on-close (Trade Intelligence self-learning foundation)
+# ---------------------------------------------------------------------------
+
+
+def _replay_candles():
+    start = datetime(2026, 8, 1, 8, 0, tzinfo=timezone.utc)
+    prices = [1.1000, 1.1005, 1.1010, 1.1008, 1.1015, 1.1020, 1.1018, 1.1025, 1.1030, 1.1028, 1.1035, 1.1040, 1.1045]
+    rows = []
+    for i, close in enumerate(prices):
+        rows.append({"time": (start + timedelta(minutes=5 * i)).isoformat(), "open": close - 0.0003, "high": close + 0.0004, "low": close - 0.0005, "close": close, "spread": 1})
+    return rows
+
+
+class _FakeReplayCandle:
+    def __init__(self, payload):
+        self.payload = payload
+
+    def model_dump(self, mode="json"):
+        return self.payload
+
+
+class _FakeReplayAdapter:
+    async def candles(self, symbol, timeframe, count=100):
+        return [_FakeReplayCandle(row) for row in _replay_candles()]
+
+
+def _closed_deal(position_id: str, price: float, utc_time: datetime, realized_pnl: float = 40.0):
+    return AdaptiveTradeEventORM(
+        event_id=f"DEAL_{position_id}",
+        session_id="S1",
+        trade_id=position_id,
+        position_id=position_id,
+        event_type="DEAL",
+        symbol="EURUSD",
+        price=price,
+        realized_pnl=realized_pnl,
+        utc_time=utc_time,
+    )
+
+
+def test_auto_replay_runs_for_closed_trade_with_deal_data(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setattr(adaptive_service, "mt5_adapter", _FakeReplayAdapter())
+    svc = adaptive_service.AdaptiveManagementService()
+    entry_time = datetime(2026, 8, 1, 8, 0, tzinfo=timezone.utc)
+    exit_time = datetime(2026, 8, 1, 9, 0, tzinfo=timezone.utc)
+    with SessionLocal() as db:
+        db.add(_base_state(position_id="CLOSED1", direction="LONG", entry_price=1.1000, current_sl=1.0980, original_sl=1.0980, original_tp=1.1040, opened_at=entry_time, closed_detected_at=exit_time, strategy_id="BENSIM_AUTO", timeframe="M5"))
+        db.add(_closed_deal("CLOSED1", 1.1040, exit_time))
+        db.commit()
+
+    with SessionLocal() as db:
+        asyncio.run(svc._auto_replay_recently_closed(db))
+
+    with SessionLocal() as db:
+        row = db.get(AdaptivePositionStateORM, "CLOSED1")
+        assert row.replay_completed_at is not None
+        outcomes = db.query(CounterfactualOutcomeORM).filter(CounterfactualOutcomeORM.trade_id == "CLOSED1").all()
+        assert len(outcomes) > 1  # simulated against multiple named policies
+        assert db.query(TradePathSnapshotORM).count() >= 1
+
+
+def test_auto_replay_skips_trade_with_no_deal_data_yet(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setattr(adaptive_service, "mt5_adapter", _FakeReplayAdapter())
+    svc = adaptive_service.AdaptiveManagementService()
+    entry_time = datetime(2026, 8, 1, 8, 0, tzinfo=timezone.utc)
+    exit_time = datetime(2026, 8, 1, 9, 0, tzinfo=timezone.utc)
+    with SessionLocal() as db:
+        db.add(_base_state(position_id="CLOSED2", direction="LONG", entry_price=1.1000, current_sl=1.0980, original_sl=1.0980, original_tp=1.1040, opened_at=entry_time, closed_detected_at=exit_time))
+        db.commit()
+
+    with SessionLocal() as db:
+        asyncio.run(svc._auto_replay_recently_closed(db))
+
+    with SessionLocal() as db:
+        row = db.get(AdaptivePositionStateORM, "CLOSED2")
+        # No deal data was available yet -- must stay NULL so a later cycle retries, not skip forever.
+        assert row.replay_completed_at is None
+
+
+def test_auto_replay_never_touches_broker(monkeypatch):
+    # _FakeReplayAdapter exposes ONLY .candles() -- no client/mt5/order_send/positions method
+    # exists on it at all, so any code path that tried to read positions or submit an order
+    # would raise AttributeError and fail this test, rather than silently doing nothing.
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setattr(adaptive_service, "mt5_adapter", _FakeReplayAdapter())
+    svc = adaptive_service.AdaptiveManagementService()
+    entry_time = datetime(2026, 8, 1, 8, 0, tzinfo=timezone.utc)
+    exit_time = datetime(2026, 8, 1, 9, 0, tzinfo=timezone.utc)
+    with SessionLocal() as db:
+        db.add(_base_state(position_id="CLOSED3", direction="LONG", entry_price=1.1000, current_sl=1.0980, original_sl=1.0980, original_tp=1.1040, opened_at=entry_time, closed_detected_at=exit_time))
+        db.add(_closed_deal("CLOSED3", 1.1040, exit_time))
+        db.commit()
+
+    with SessionLocal() as db:
+        asyncio.run(svc._auto_replay_recently_closed(db))
+
+    with SessionLocal() as db:
+        row = db.get(AdaptivePositionStateORM, "CLOSED3")
+        assert row.replay_completed_at is not None

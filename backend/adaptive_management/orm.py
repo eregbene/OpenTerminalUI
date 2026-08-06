@@ -357,6 +357,11 @@ class AdaptivePositionStateORM(Base):
     strategy_id: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
     timeframe: Mapped[str | None] = mapped_column(String(16), nullable=True, index=True)
     closed_detected_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True, index=True)
+    # Set once this closed trade has been auto-replayed against every named management policy
+    # (see AdaptiveManagementService._auto_replay_recently_closed). Stays NULL (not
+    # closed_detected_at itself) so a trade whose deal data wasn't backfilled yet on the first
+    # attempt is retried on a later cycle instead of being silently skipped forever.
+    replay_completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True, index=True)
     raw_payload: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, onupdate=utcnow)

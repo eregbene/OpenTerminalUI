@@ -123,6 +123,7 @@ class AdaptiveManagementService:
         self._stop_event = asyncio.Event()
         self._cycle_lock = asyncio.Lock()
         self._last_reconciliation_at: datetime | None = None
+        self._last_auto_replay_at: datetime | None = None
 
     async def start(self) -> None:
         if self._task and not self._task.done():
@@ -841,6 +842,7 @@ class AdaptiveManagementService:
                 self._auto_recover_breaker(db, breaker)
                 currently_open_ids = {_position_id(position.model_dump(mode="json")) for position in positions}
                 await self._reconcile_recently_closed(db, currently_open_ids)
+                await self._auto_replay_recently_closed(db)
                 selected = []
                 executed = 0
                 for position in positions:
@@ -902,6 +904,60 @@ class AdaptiveManagementService:
             await self.import_mt5_session(days=3)
         except Exception as exc:
             logger.warning("Automatic reconciliation import failed for %d closed position(s): %s", len(newly_closed), exc.__class__.__name__)
+
+    async def _auto_replay_recently_closed(self, db: Any) -> None:
+        """Turns the (already-built, otherwise-dormant) replay/counterfactual engine into a
+        running pipeline: every closed trade automatically gets simulated against every named
+        management policy, exactly once, as soon as its deal data is available. Analysis-only --
+        replay()/reconstruct_path() never call the broker and never mutate the original journal
+        (see replay()'s own broker_mutation_calls: 0 guarantee). Not gated on newly_closed's
+        `closed_detected_at IS NULL` filter (that only fires once per position and would
+        otherwise silently drop trades whose deal data wasn't backfilled yet on the first pass);
+        gated on replay_completed_at instead so a trade is retried on later cycles until its
+        deals actually exist."""
+        now = utcnow()
+        cooldown = _env_int("ADAPTIVE_AUTO_REPLAY_COOLDOWN_SECONDS", 60, minimum=10, maximum=3600)
+        last = _as_aware(self._last_auto_replay_at)
+        if last and (now - last).total_seconds() < cooldown:
+            return
+        self._last_auto_replay_at = now
+        pending = (
+            db.query(AdaptivePositionStateORM)
+            .filter(AdaptivePositionStateORM.closed_detected_at.isnot(None), AdaptivePositionStateORM.replay_completed_at.is_(None))
+            .order_by(AdaptivePositionStateORM.closed_detected_at.asc())
+            .limit(_env_int("ADAPTIVE_AUTO_REPLAY_BATCH_SIZE", 5, minimum=1, maximum=50))
+            .all()
+        )
+        for row in pending:
+            try:
+                deals = db.query(AdaptiveTradeEventORM).filter(AdaptiveTradeEventORM.position_id == row.position_id, AdaptiveTradeEventORM.event_type == "DEAL").all()
+                if not deals:
+                    continue
+                exit_deal = max(deals, key=lambda d: d.utc_time or row.closed_detected_at)
+                realized_pnl = sum(float(d.realized_pnl or 0) + float(d.commission or 0) + float(d.swap or 0) + float(d.fee or 0) for d in deals)
+                trade = {
+                    "trade_id": row.position_id,
+                    "symbol": row.symbol,
+                    "direction": row.direction,
+                    "volume": row.original_volume,
+                    "entry": row.entry_price,
+                    "stop_loss": row.original_sl,
+                    "take_profit": row.original_tp,
+                    "entry_time": row.opened_at,
+                    "exit_time": exit_deal.utc_time or row.closed_detected_at,
+                    "actual_pnl": realized_pnl,
+                    "strategy_id": row.strategy_id,
+                    "timeframe": row.timeframe,
+                }
+                candles = await _replay_candles(row.symbol, row.timeframe or "M5", row.opened_at, trade["exit_time"])
+                if not candles:
+                    continue
+                self.replay(trade, candles, policy_ids=None)
+                row.replay_completed_at = now
+                db.merge(row)
+                db.commit()
+            except Exception as exc:
+                logger.warning("Automatic replay failed for closed position %s: %s", row.position_id, exc.__class__.__name__)
 
     def _reconcile_sltp_confirmations(self, db: Any, position_id: str, current_sl: float | None, current_tp: float | None) -> None:
         pending = (
@@ -1930,6 +1986,25 @@ async def context_for_trade(symbol: str, timestamp: datetime | None = None) -> d
         return await decision_context_service.forex_context(symbol, timestamp)
     except Exception as exc:
         return {"symbol": symbol, "context_unavailable": True, "error": exc.__class__.__name__}
+
+
+_TIMEFRAME_MINUTES = {"M1": 1, "M5": 5, "M15": 15, "M30": 30, "H1": 60, "H4": 240, "D1": 1440}
+
+
+async def _replay_candles(symbol: str, timeframe: str, entry_time: datetime | None, exit_time: datetime | None) -> list[dict[str, Any]]:
+    """Fetches enough of the trade's own timeframe to cover its full lifetime (plus lead-in
+    context) for reconstruct_path/replay -- unlike _safe_candles (fixed 120-bar window for the
+    live management cycle), a closed trade needing replay can span far more bars than that."""
+    minutes = _TIMEFRAME_MINUTES.get(timeframe.upper(), 5)
+    span_minutes = 120.0
+    if entry_time and exit_time:
+        span_minutes = max(span_minutes, (_as_aware(exit_time) - _as_aware(entry_time)).total_seconds() / 60.0)
+    count = min(500, max(60, int(span_minutes / minutes) + 30))
+    try:
+        candles = await mt5_adapter.candles(symbol, timeframe.upper(), count=count)
+        return [row.model_dump(mode="json") for row in candles]
+    except Exception:
+        return []
 
 
 async def _safe_candles(symbol: str) -> list[dict[str, Any]]:
