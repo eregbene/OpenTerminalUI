@@ -184,6 +184,52 @@ def classify_stop_quality(
     return {"classification": classification, "flags": flags or ["acceptable"], "sl_atr_multiple": atr_multiple, "spread_pct_of_sl": spread_pct}
 
 
+STOP_QUALITY_V2_CLASSIFICATIONS = ("VALID", "TOO_TIGHT", "TOO_WIDE", "INVALID_STRUCTURE", "INVALID_BROKER_DISTANCE", "UNAFFORDABLE_RISK")
+
+
+def classify_stop_quality_v2(
+    *,
+    sl_distance: float | None,
+    atr: float | None,
+    spread: float | None,
+    structure_distance: float | None,
+    broker_min_stop_distance: float | None,
+    effective_risk_budget_usd: float | None = None,
+    projected_monetary_loss_usd: float | None = None,
+    min_atr_mult: float = 0.8,
+    max_atr_mult: float = 3.5,
+    min_spread_ratio: float = 3.0,
+) -> dict[str, Any]:
+    """Returns one of STOP_QUALITY_V2_CLASSIFICATIONS. Reuses the same distance/ATR/spread/
+    structure math as classify_stop_quality() but (a) actually checks the real broker minimum
+    stop distance instead of silently accepting broker_min_stop=None, and (b) adds an
+    affordability check against the effective risk budget -- a structurally valid stop that
+    would still cost more than the account can risk is UNAFFORDABLE_RISK, not VALID."""
+    reasons: list[str] = []
+    if sl_distance is None or sl_distance <= 0:
+        return {"classification": "INVALID_STRUCTURE", "reasons": ["missing_or_zero_sl_distance"], "sl_atr_multiple": None, "spread_pct_of_sl": None}
+    if broker_min_stop_distance and sl_distance < broker_min_stop_distance:
+        return {"classification": "INVALID_BROKER_DISTANCE", "reasons": ["below_broker_minimum_stop_distance"], "sl_atr_multiple": None, "spread_pct_of_sl": None, "broker_min_stop_distance": broker_min_stop_distance}
+    if effective_risk_budget_usd is not None and projected_monetary_loss_usd is not None and projected_monetary_loss_usd > effective_risk_budget_usd * 1.001:
+        return {"classification": "UNAFFORDABLE_RISK", "reasons": ["projected_monetary_loss_exceeds_effective_risk_budget"], "sl_atr_multiple": None, "spread_pct_of_sl": None}
+    if spread and sl_distance < spread * min_spread_ratio:
+        reasons.append("inside_spread_noise_floor")
+    atr_multiple = (sl_distance / atr) if atr and atr > 0 else None
+    spread_pct = (spread / sl_distance) if spread else None
+    if atr_multiple is not None:
+        if atr_multiple < min_atr_mult or reasons:
+            return {"classification": "TOO_TIGHT", "reasons": reasons or ["below_minimum_atr_multiple"], "sl_atr_multiple": atr_multiple, "spread_pct_of_sl": spread_pct}
+        if atr_multiple > max_atr_mult:
+            return {"classification": "TOO_WIDE", "reasons": ["above_maximum_atr_multiple"], "sl_atr_multiple": atr_multiple, "spread_pct_of_sl": spread_pct}
+    elif reasons:
+        return {"classification": "TOO_TIGHT", "reasons": reasons, "sl_atr_multiple": None, "spread_pct_of_sl": spread_pct}
+    if structure_distance is not None and structure_distance > 0:
+        deviation = abs(sl_distance - structure_distance) / structure_distance
+        if deviation > 0.6:
+            return {"classification": "INVALID_STRUCTURE", "reasons": ["stop_not_structure_based"], "sl_atr_multiple": atr_multiple, "spread_pct_of_sl": spread_pct}
+    return {"classification": "VALID", "reasons": ["within_acceptable_bounds"], "sl_atr_multiple": atr_multiple, "spread_pct_of_sl": spread_pct}
+
+
 def construct_dynamic_stop(
     direction: str,
     entry: float,
