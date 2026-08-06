@@ -22,7 +22,8 @@ def upgrade() -> None:
     op.create_table(
         "mt5_account_profiles",
         sa.Column("fingerprint_hash", sa.String(64), primary_key=True),
-        sa.Column("login", sa.Integer(), nullable=False),
+        # BigInteger: some brokers issue demo logins above the 32-bit signed range.
+        sa.Column("login", sa.BigInteger(), nullable=False),
         sa.Column("server", sa.String(128), nullable=False),
         sa.Column("company", sa.String(128), nullable=True),
         sa.Column("currency", sa.String(8), nullable=True),

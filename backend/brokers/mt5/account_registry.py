@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
-from sqlalchemy import Boolean, DateTime, Index, Integer, String, Text
+from sqlalchemy import BigInteger, Boolean, DateTime, Index, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from backend.brokers.mt5.models import MT5Account
@@ -56,7 +56,9 @@ class MT5AccountProfileORM(Base):
     __tablename__ = "mt5_account_profiles"
 
     fingerprint_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
-    login: Mapped[int] = mapped_column(Integer, nullable=False)
+    # BigInteger: some brokers issue demo logins above the 32-bit signed range (e.g. 5054067375),
+    # so a plain Integer column would overflow on insert.
+    login: Mapped[int] = mapped_column(BigInteger, nullable=False)
     server: Mapped[str] = mapped_column(String(128), nullable=False)
     company: Mapped[str | None] = mapped_column(String(128), nullable=True)
     currency: Mapped[str | None] = mapped_column(String(8), nullable=True)
