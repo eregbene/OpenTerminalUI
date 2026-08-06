@@ -21,7 +21,7 @@ from backend.brokers.mt5.models import MT5ForexInstrument, MT5TradeIntent
 from backend.brokers.mt5.persistence import learning_context_for_candidate, persist_cycle_result, trade_performance_summary, update_trade_history, update_trade_reconciliation
 from backend.brokers.mt5.prop_risk import risk_status
 from backend.brokers.mt5.risk_budget import effective_risk_budget_usd
-from backend.brokers.mt5.take_profit import select_take_profit
+from backend.brokers.mt5.take_profit import MIN_REWARD_MULTIPLE, select_take_profit
 from backend.decision_context.service import decision_context_service
 from backend.economic_intelligence.service import economic_intelligence_service
 from backend.intelligence.trading.config import ai_trading_config
@@ -176,6 +176,24 @@ class MT5AutonomousTradingService:
                 result = {"cycle_id": cycle_id, "status": "SKIPPED_PROVIDER_LIMIT", "blockers": reasons, "winner": best, "openai_calls": 0, "order_send_calls": 0}
                 self._record_cycle(result, dry_run=dry_run)
                 return result
+            # Reward:risk is a pure price-geometry ratio, independent of the AI's confidence
+            # output, so it can be re-verified against a FRESH quote before spending a paid AI
+            # call. stop_loss/take_profit were fixed at screening time against an earlier quote;
+            # by the time _submit() re-fetches the entry price, price may have drifted enough
+            # that the same fixed SL/TP no longer clear MIN_REWARD_MULTIPLE -- which would
+            # otherwise only be discovered by calculate_risk_size() AFTER the AI call already ran.
+            try:
+                fresh_quote = await self.adapter.latest_tick(best["broker_symbol"])
+                fresh_entry = fresh_quote.ask if best["direction"] == "LONG" else fresh_quote.bid
+                if fresh_entry is not None:
+                    stale_stop_distance = abs(fresh_entry - Decimal(str(best["stop_loss"])))
+                    stale_target_distance = abs(Decimal(str(best["take_profit"])) - fresh_entry)
+                    if stale_stop_distance > 0 and (stale_target_distance / stale_stop_distance) < MIN_REWARD_MULTIPLE:
+                        result = {"cycle_id": cycle_id, "status": "SKIPPED_STALE_RISK_REWARD", "winner": best, "blockers": ["RISK_REWARD_DEGRADED_SINCE_SCREENING"], "openai_calls": 0, "order_send_calls": 0}
+                        self._record_cycle(result, mark_processed=False, dry_run=dry_run)
+                        return result
+            except Exception as exc:
+                logger.warning("Reward:risk pre-check failed (non-fatal, proceeding to AI decision): %s", exc.__class__.__name__)
             decision = await self._ai_decision(best)
             if decision["decision"] == "NO_TRADE":
                 result = {"cycle_id": cycle_id, "status": "NO_TRADE", "winner": best, "ai_decision": decision, "openai_calls": 1, "order_send_calls": 0}
