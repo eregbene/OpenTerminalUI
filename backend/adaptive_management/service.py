@@ -341,6 +341,26 @@ class AdaptiveManagementService:
     def performance(self) -> dict[str, Any]:
         return self.audit_report(session_id=None)
 
+    def probability_report(self, dimensions: list[str] | None = None, session_id: str | None = None) -> dict[str, Any]:
+        """Probability Engine Foundation: real statistics grouped by a composite cohort key
+        (default strategy x symbol x timeframe x session x entry_regime), NOT AI guesses and NOT
+        hard-coded rules -- every number here is computed directly from audit_report()'s already-
+        assembled per-trade records. Confidence is graduated by sample size (LOW/MEDIUM/HIGH),
+        not a boolean gate, so a caller can see exactly how much evidence backs a given cohort."""
+        dims = dimensions or ["strategy_id", "symbol", "timeframe", "session", "entry_regime"]
+        report = self.audit_report(session_id=session_id)
+        records = report["records"]
+        cohorts: dict[str, list[dict[str, Any]]] = {}
+        for record in records:
+            key = "|".join(f"{dim}={record.get(dim) or 'UNKNOWN'}" for dim in dims)
+            cohorts.setdefault(key, []).append(record)
+        return {
+            "dimensions": dims,
+            "session_id": session_id,
+            "total_trades": len(records),
+            "cohorts": {key: _cohort_probability_stats(rows) for key, rows in cohorts.items()},
+        }
+
     def shadow_summary(self) -> dict[str, Any]:
         with SessionLocal() as db:
             activation = _active_activation(db)
@@ -685,6 +705,8 @@ class AdaptiveManagementService:
             exit_price = float(exit_deal.price) if exit_deal is not None and exit_deal.price is not None else None
             direction_sign = 1.0 if (state.direction or "").upper() == "LONG" else -1.0
             exit_r = ((exit_price - float(state.entry_price or 0)) * direction_sign / original_stop_distance) if exit_price is not None and original_stop_distance else None
+            exit_time = exit_deal.utc_time if exit_deal is not None else None
+            holding_minutes = ((exit_time - state.opened_at).total_seconds() / 60.0) if exit_time and state.opened_at else None
             actions = actions_by_position.get(state.position_id, [])
             action_types_taken = {row.action_type for row in actions}
             records.append(
@@ -719,6 +741,7 @@ class AdaptiveManagementService:
                     "giveback_over_50pct": bool(giveback_ratio is not None and giveback_ratio > 0.5),
                     "exit_reason": exit_reason,
                     "realized_pnl": realized_pnl,
+                    "holding_minutes": holding_minutes,
                     "ever_profitable": bool(max_achieved_r > 0),
                     "reached_0_5r": bool(max_achieved_r >= 0.5),
                     "reached_1r": bool(max_achieved_r >= 1.0),
@@ -2412,6 +2435,66 @@ def _post_trade_aggregate(records: list[dict[str, Any]]) -> dict[str, Any]:
         "partial_profit_results": _bucket(lambda row: row.get("partial_profit_action_taken")),
         "trailing_results": _bucket(lambda row: row.get("trailing_action_taken")),
         "no_management_action_results": _bucket(lambda row: not (row.get("breakeven_action_taken") or row.get("partial_profit_action_taken") or row.get("trailing_action_taken"))),
+    }
+
+
+# Sample-size-to-confidence bucketing. Not a statistical significance test -- a plain, honestly
+# labeled "how much evidence exists" gate, matching the task's own example (12 trades -> LOW,
+# 520 trades -> HIGH). Kept separate from DEFAULT_MINIMUMS (which gates policy PROMOTION) since
+# this only gates how much a caller should trust a probability READING, not whether a policy is
+# allowed to go live.
+CONFIDENCE_SAMPLE_THRESHOLDS = {"LOW": 0, "MEDIUM": 10, "HIGH": 30}
+
+
+def _confidence_label(sample_size: int) -> str:
+    if sample_size >= CONFIDENCE_SAMPLE_THRESHOLDS["HIGH"]:
+        return "HIGH"
+    if sample_size >= CONFIDENCE_SAMPLE_THRESHOLDS["MEDIUM"]:
+        return "MEDIUM"
+    return "LOW"
+
+
+def _success_rate(rows: list[dict[str, Any]], predicate: Any) -> dict[str, Any]:
+    matching = [row for row in rows if predicate(row)]
+    if not matching:
+        return {"sample_size": 0, "success_rate": None}
+    return {"sample_size": len(matching), "success_rate": sum(1 for row in matching if float(row.get("realized_pnl") or 0) > 0) / len(matching)}
+
+
+def _cohort_probability_stats(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    count = len(rows)
+    pnls = [float(row.get("realized_pnl") or 0) for row in rows]
+    wins = [p for p in pnls if p > 0]
+    losses = [p for p in pnls if p < 0]
+    mfe_r_values = [float(row["mfe_r"]) for row in rows if row.get("mfe_r") is not None]
+    mae_r_values = [float(row["mae_r"]) for row in rows if row.get("mae_r") is not None]
+    exit_r_values = [float(row["exit_r"]) for row in rows if row.get("exit_r") is not None]
+    giveback_values = [float(row["giveback_ratio"]) for row in rows if row.get("giveback_ratio") is not None]
+    holding_values = [float(row["holding_minutes"]) for row in rows if row.get("holding_minutes") is not None]
+    reached_1r = [row for row in rows if row.get("mfe_r") is not None and float(row["mfe_r"]) >= 1.0]
+    continued_to_2r = [row for row in reached_1r if float(row["mfe_r"]) >= 2.0]
+    return {
+        "sample_size": count,
+        "confidence": _confidence_label(count),
+        "win_rate": (len(wins) / count) if count else None,
+        "loss_rate": (len(losses) / count) if count else None,
+        "avg_r": _avg(exit_r_values) if exit_r_values else None,
+        "avg_mfe_r": _avg(mfe_r_values) if mfe_r_values else None,
+        "avg_mae_r": _avg(mae_r_values) if mae_r_values else None,
+        "profit_factor": (sum(wins) / abs(sum(losses))) if losses else (float("inf") if wins else None),
+        "expectancy_usd": _avg(pnls) if pnls else None,
+        "avg_giveback_ratio": _avg(giveback_values) if giveback_values else None,
+        "avg_holding_minutes": _avg(holding_values) if holding_values else None,
+        "partial_close_results": _success_rate(rows, lambda row: row.get("partial_profit_action_taken")),
+        "breakeven_results": _success_rate(rows, lambda row: row.get("breakeven_action_taken")),
+        "trailing_results": _success_rate(rows, lambda row: row.get("trailing_action_taken")),
+        # Example future query this answers: "what percentage of trades reaching +1R continued
+        # to +2R" -- computed from this cohort's own historical trades, not guessed.
+        "pct_reaching_1r_continued_to_2r": {
+            "sample_size": len(reached_1r),
+            "confidence": _confidence_label(len(reached_1r)),
+            "value": (len(continued_to_2r) / len(reached_1r)) if reached_1r else None,
+        },
     }
 
 

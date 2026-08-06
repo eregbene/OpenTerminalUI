@@ -540,3 +540,35 @@ def test_auto_replay_never_touches_broker(monkeypatch):
     with SessionLocal() as db:
         row = db.get(AdaptivePositionStateORM, "CLOSED3")
         assert row.replay_completed_at is not None
+
+
+# ---------------------------------------------------------------------------
+# Probability Engine Foundation (cohort statistics, sample-size confidence)
+# ---------------------------------------------------------------------------
+
+
+def test_probability_report_groups_by_composite_cohort_and_grades_confidence(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    svc = adaptive_service.AdaptiveManagementService()
+    with SessionLocal() as db:
+        # Cohort A: SMC/EURUSD/M15/insufficient_data-session -- 12 trades, all reaching >=1R,
+        # half continuing to >=2R, all winners -> enough for MEDIUM confidence.
+        for i in range(12):
+            db.add(_base_state(position_id=f"A{i}", symbol="EURUSD", strategy_id="SMC", timeframe="M15", entry_regime="trending_up", max_achieved_r=2.0 if i % 2 == 0 else 1.2, current_giveback_r=0.1))
+        # Cohort B: a single trade -- must stay LOW confidence.
+        db.add(_base_state(position_id="B0", symbol="GBPUSD", strategy_id="ICT", timeframe="H1", entry_regime="ranging", max_achieved_r=0.3))
+        db.commit()
+
+    report = svc.probability_report()
+
+    cohort_a_key = "strategy_id=SMC|symbol=EURUSD|timeframe=M15|session=UNKNOWN|entry_regime=trending_up"
+    cohort_b_key = "strategy_id=ICT|symbol=GBPUSD|timeframe=H1|session=UNKNOWN|entry_regime=ranging"
+    assert report["total_trades"] == 13
+    cohort_a = report["cohorts"][cohort_a_key]
+    cohort_b = report["cohorts"][cohort_b_key]
+    assert cohort_a["sample_size"] == 12
+    assert cohort_a["confidence"] == "MEDIUM"
+    assert cohort_a["pct_reaching_1r_continued_to_2r"]["value"] == 0.5
+    assert cohort_b["sample_size"] == 1
+    assert cohort_b["confidence"] == "LOW"
+    assert cohort_b["pct_reaching_1r_continued_to_2r"]["value"] is None  # never reached +1R
