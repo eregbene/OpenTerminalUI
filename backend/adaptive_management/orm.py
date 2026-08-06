@@ -356,6 +356,16 @@ class AdaptivePositionStateORM(Base):
     profit_lock_floor_r: Mapped[float | None] = mapped_column(Float, nullable=True)
     strategy_id: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
     timeframe: Mapped[str | None] = mapped_column(String(16), nullable=True, index=True)
+    # Trade Intelligence Dataset: market conditions at entry, captured once (first sight of the
+    # position, before any management has run) and never overwritten afterward -- distinct from
+    # the live/current regime evaluated every cycle for management decisions. This is what lets
+    # future probability queries group by "the regime the trade was ENTERED in", not the regime
+    # it happens to be in right now.
+    entry_regime: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+    entry_regime_confidence: Mapped[float | None] = mapped_column(Float, nullable=True)
+    entry_atr: Mapped[float | None] = mapped_column(Float, nullable=True)
+    entry_volatility: Mapped[float | None] = mapped_column(Float, nullable=True)
+    entry_spread: Mapped[float | None] = mapped_column(Float, nullable=True)
     closed_detected_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True, index=True)
     # Set once this closed trade has been auto-replayed against every named management policy
     # (see AdaptiveManagementService._auto_replay_recently_closed). Stays NULL (not

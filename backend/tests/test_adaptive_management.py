@@ -681,6 +681,35 @@ def test_sync_position_state_captures_strategy_and_timeframe_once(monkeypatch):
     assert second_timeframe == "M15"
 
 
+def test_sync_position_state_captures_entry_regime_once_not_live_regime(monkeypatch):
+    # First sync: a clear uptrend -> detect_regime should classify "trending_up" and it must be
+    # captured onto entry_regime permanently (this is the market condition the TRADE WAS ENTERED
+    # IN, not whatever the market happens to be doing on a later management cycle).
+    SessionLocal = _session_factory(monkeypatch)
+    start = datetime(2026, 8, 4, 8, 0, tzinfo=timezone.utc)
+    trending_candles = [{"time": (start + timedelta(minutes=5 * i)).isoformat(), "open": 1.1000 + i * 0.0008, "high": 1.1002 + i * 0.0008, "low": 1.0999 + i * 0.0008, "close": 1.1001 + i * 0.0008, "spread": 1} for i in range(14)]
+    payload = {"ticket": 902, "identifier": 902, "symbol": "EURUSD", "type": 0, "volume": 1.0, "price_open": 1.1000, "price_current": 1.1010, "sl": 1.0980, "tp": 1.1100, "time": "2026-08-04T08:00:00+00:00", "comment": "BSM|MTFAI1|M5|EURUSD0800"}
+
+    with SessionLocal() as db:
+        state = adaptive_management_service._sync_position_state(db, payload, None, {}, trending_candles)
+        db.commit()
+        first_entry_regime = state.entry_regime
+        first_entry_atr = state.entry_atr
+
+    assert first_entry_regime == "trending_up"
+    assert first_entry_atr is not None
+
+    # Second sync: flat/ranging candles (a completely different live regime) must NOT overwrite
+    # the entry-time snapshot already captured above.
+    flat_candles = [{"time": (start + timedelta(minutes=5 * (14 + i))).isoformat(), "open": 1.1100, "high": 1.11005, "low": 1.10995, "close": 1.1100, "spread": 1} for i in range(14)]
+    with SessionLocal() as db:
+        state = adaptive_management_service._sync_position_state(db, payload, None, {}, flat_candles)
+        db.commit()
+        second_entry_regime = state.entry_regime
+
+    assert second_entry_regime == first_entry_regime == "trending_up"
+
+
 def test_exit_and_sltp_actions_carry_captured_lineage_in_comment():
     state = _managed_state("XAU_LINEAGE")
     state.strategy_id = "MTFAI1"

@@ -695,6 +695,11 @@ class AdaptiveManagementService:
                     "timeframe": timeframe,
                     "session": _session_label(state.opened_at),
                     "volatility_state": _volatility_state_label(stop_audit),
+                    "entry_regime": state.entry_regime or "insufficient_data",
+                    "entry_regime_confidence": state.entry_regime_confidence,
+                    "entry_atr": state.entry_atr,
+                    "entry_volatility": state.entry_volatility,
+                    "entry_spread": state.entry_spread,
                     "policy_version": ACTIVE_POLICY_VERSION,
                     "original_entry": state.entry_price,
                     "original_sl": state.original_sl,
@@ -737,7 +742,7 @@ class AdaptiveManagementService:
                 }
             )
 
-        dimensions = ("strategy_id", "symbol", "timeframe", "session", "volatility_state", "policy_version")
+        dimensions = ("strategy_id", "symbol", "timeframe", "session", "volatility_state", "entry_regime", "policy_version")
         grouped: dict[str, dict[str, Any]] = {}
         for dimension in dimensions:
             buckets: dict[str, list[dict[str, Any]]] = {}
@@ -1021,6 +1026,12 @@ class AdaptiveManagementService:
 
         regime_info = detect_regime(candles, context=context)
         atr = float(regime_info.get("features", {}).get("atr") or 0) or None
+        if is_first_sight:
+            row.entry_regime = str(regime_info.get("regime") or "insufficient_data")
+            row.entry_regime_confidence = float(regime_info.get("confidence") or 0.0)
+            row.entry_atr = atr
+            row.entry_volatility = _float(regime_info.get("features", {}).get("realized_volatility"))
+            row.entry_spread = _float(regime_info.get("features", {}).get("spread"))
         progress = tp_protection.tp_progress(direction, entry, current_price, tp)
         row.tp_progress = progress if progress is not None else float(row.tp_progress or 0)
         if progress is not None and progress > float(row.max_tp_progress or 0):
