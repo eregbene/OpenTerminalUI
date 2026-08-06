@@ -7,6 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
+from backend.brokers.mt5 import account_registry
 from backend.portfolio_execution import service
 from backend.portfolio_execution.orm import ExecutionOrderORM, ExecutionStateTransitionORM
 from backend.portfolio_execution.service import execution_manager, portfolio_manager
@@ -72,6 +73,13 @@ class FakeClient:
         return self.mt5
 
 
+class FakeAccount:
+    login = 123456
+    server = "Bensim-Demo"
+    company = "Bensim"
+    currency = "USD"
+
+
 class FakeAdapter:
     def __init__(self):
         self.mt5 = FakeMT5()
@@ -86,12 +94,16 @@ class FakeAdapter:
     async def latest_tick(self, symbol):
         return FakeQuote()
 
+    async def mt5_account(self):
+        return FakeAccount()
+
 
 def _session_factory(monkeypatch):
     engine = create_engine("sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool)
     Base.metadata.create_all(bind=engine)
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     monkeypatch.setattr(service, "SessionLocal", SessionLocal)
+    monkeypatch.setattr(account_registry, "SessionLocal", SessionLocal)
     return SessionLocal
 
 

@@ -27,6 +27,7 @@ from backend.adaptive_management.orm import (
     TradeThesisORM,
 )
 from backend.adaptive_management.service import adaptive_management_service
+from backend.brokers.mt5 import account_registry
 from backend.shared.db import Base
 
 
@@ -50,6 +51,8 @@ def _managed_state(position_id: str) -> AdaptivePositionStateORM:
 class _FakeAccount:
     login = 123456
     server = "MetaQuotes-Demo"
+    company = "MetaQuotes"
+    currency = "USD"
 
     def model_dump(self, mode="json"):
         return {"login": self.login, "server": self.server, "currency": "USD"}
@@ -169,6 +172,7 @@ def _session_factory(monkeypatch):
     Base.metadata.create_all(bind=engine)
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     monkeypatch.setattr(service, "SessionLocal", SessionLocal)
+    monkeypatch.setattr(account_registry, "SessionLocal", SessionLocal)
     return SessionLocal
 
 

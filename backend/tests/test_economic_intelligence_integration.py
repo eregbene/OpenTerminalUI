@@ -7,6 +7,7 @@ from sqlalchemy.pool import StaticPool
 from backend.adaptive_management.orm import AdaptivePositionStateORM
 from backend.adaptive_management.service import adaptive_management_service
 from backend.adaptive_management import service as adaptive_service_module
+from backend.brokers.mt5 import account_registry
 from backend.brokers.mt5.autonomous import mt5_autonomous_service
 from backend.portfolio_execution import service as execution_service_module
 from backend.portfolio_execution.orm import ExecutionOrderORM
@@ -44,6 +45,7 @@ def _execution_session_factory(monkeypatch):
     Base.metadata.create_all(bind=engine)
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     monkeypatch.setattr(execution_service_module, "SessionLocal", SessionLocal)
+    monkeypatch.setattr(account_registry, "SessionLocal", SessionLocal)
     return SessionLocal
 
 
@@ -216,6 +218,12 @@ def test_execution_manager_journals_economic_context(monkeypatch):
         def ensure_ready(self):
             return _FakeMT5()
 
+    class _FakeAccount:
+        login = 123456
+        server = "Bensim-Demo"
+        company = "Bensim"
+        currency = "USD"
+
     class _FakeAdapter:
         client = _FakeClient()
 
@@ -227,6 +235,9 @@ def test_execution_manager_journals_economic_context(monkeypatch):
 
         async def latest_tick(self, symbol):
             return _FakeQuote()
+
+        async def mt5_account(self):
+            return _FakeAccount()
 
     economic_context = {"guard": {"decision": "ALLOW", "reason_codes": []}, "calendar": {"decision": "ALLOW"}}
     result = execution_service_module.asyncio.run(
