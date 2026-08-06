@@ -342,7 +342,16 @@ class AdaptiveManagementService:
 
     def shadow_summary(self) -> dict[str, Any]:
         with SessionLocal() as db:
-            shadow_actions = db.query(AdaptiveManagementActionORM).filter(AdaptiveManagementActionORM.mode == "shadow").order_by(AdaptiveManagementActionORM.created_at.desc()).limit(500).all()
+            activation = _active_activation(db)
+            # AdaptiveManagementActionORM predates account_fingerprint and has no account column
+            # to filter on directly. A position can never span an account switch, so actions
+            # created before the CURRENT activation started cannot belong to the currently
+            # connected account -- scoping by activation.created_at keeps a prior account's
+            # shadow history out of this account's summary without needing a data migration.
+            query = db.query(AdaptiveManagementActionORM).filter(AdaptiveManagementActionORM.mode == "shadow")
+            if activation:
+                query = query.filter(AdaptiveManagementActionORM.created_at >= activation.created_at)
+            shadow_actions = query.order_by(AdaptiveManagementActionORM.created_at.desc()).limit(500).all()
         by_action_type: dict[str, int] = {}
         by_status: dict[str, int] = {}
         for row in shadow_actions:
@@ -351,6 +360,8 @@ class AdaptiveManagementService:
         return {
             "mode": self.mode(),
             "v2_mode": v2_mode(),
+            "account_fingerprint": activation.account_fingerprint if activation else None,
+            "scoped_from": activation.created_at.isoformat() if activation else None,
             "sample_size": len(shadow_actions),
             "by_action_type": by_action_type,
             "by_status": by_status,
@@ -1005,7 +1016,19 @@ class AdaptiveManagementService:
             if stops_level and point:
                 broker_min_stop_distance = stops_level * point
         result = tp_protection.classify_stop_quality(sl_distance=sl_distance, atr=atr, spread=spread, structure_distance=structure_distance, broker_min_stop=broker_min_stop_distance)
-        result_v2 = tp_protection.classify_stop_quality_v2(sl_distance=sl_distance, atr=atr, spread=spread, structure_distance=structure_distance, broker_min_stop_distance=broker_min_stop_distance)
+        # SPREAD_TO_STOP_MAX_RATIO is spread-as-a-fraction-of-stop (e.g. 0.20 = spread must be
+        # <=20% of the stop distance); classify_stop_quality_v2's min_spread_ratio is its
+        # reciprocal (stop must be >= spread * min_spread_ratio) -- same constraint, inverted form.
+        spread_to_stop_max_ratio = _env_float("SPREAD_TO_STOP_MAX_RATIO", 1.0 / 3.0)
+        result_v2 = tp_protection.classify_stop_quality_v2(
+            sl_distance=sl_distance,
+            atr=atr,
+            spread=spread,
+            structure_distance=structure_distance,
+            broker_min_stop_distance=broker_min_stop_distance,
+            min_atr_mult=_env_float("ATR_STOP_MULTIPLIER_MIN", 0.8),
+            min_spread_ratio=(1.0 / spread_to_stop_max_ratio) if spread_to_stop_max_ratio > 0 else 3.0,
+        )
         audit = AdaptiveStopQualityAuditORM(audit_id="ASQ_" + _hash({"position": row.position_id})[:40])
         audit.position_id = row.position_id
         audit.symbol = row.symbol
@@ -1083,6 +1106,13 @@ class AdaptiveManagementService:
 
         giveback_r = max(0.0, max_r - r_now)
         allowance_fraction = tp_protection.retracement_allowance(atr_r=atr_r, regime=regime, timeframe=timeframe)
+        # Additive ceiling on top of the existing regime-aware allowance: once a trade has
+        # actually reached 1.0R/1.5R of favorable movement, giveback tolerance is capped at the
+        # configured ratio, never loosened. No effect below 1.0R (byte-identical to before).
+        if max_r >= 1.5:
+            allowance_fraction = min(allowance_fraction, _env_float("MFE_GIVEBACK_LIMIT_AFTER_1_5R", 0.35))
+        elif max_r >= 1.0:
+            allowance_fraction = min(allowance_fraction, _env_float("MFE_GIVEBACK_LIMIT_AFTER_1R", 0.50))
         allowance_r = allowance_fraction * max_r
         if max_r >= _env_float("ADAPTIVE_MFE_MIN_R", 0.5) and giveback_r > allowance_r:
             candidates.append(
