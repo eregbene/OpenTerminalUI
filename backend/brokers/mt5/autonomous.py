@@ -12,6 +12,7 @@ from decimal import Decimal
 from typing import Any
 
 from backend.adaptive_management.tp_protection import classify_stop_quality_v2, construct_dynamic_stop
+from backend.market_structure.engine import analyze_bars
 from backend.ai_provider import ProviderRequest, provider_registry
 from backend.brokers.mt5.adapter import MT5Adapter, mt5_adapter
 from backend.brokers.mt5.config import MT5Config
@@ -153,6 +154,7 @@ class MT5AutonomousTradingService:
                 return result
             best = sorted(eligible, key=lambda row: row["ranking_score"], reverse=True)[0]
             best["candidate_id"] = f"{cycle_id}:{best['broker_symbol']}:{best['context_hash'][:16]}"
+            best["entry_quality"] = await self._entry_quality_score(best)
             context_risk = await decision_context_service.context_risk(best["canonical_pair"])
             best["decision_context"] = context_risk
             context_blockers = self._context_blockers(context_risk)
@@ -326,6 +328,44 @@ class MT5AutonomousTradingService:
             "correlated_exposure_ratio": correlated_exposure_ratio,
             "economic_risk_level": economic_risk_level,
             "strategy_confidence": ai_confidence,
+        }
+
+    async def _entry_quality_score(self, candidate: dict[str, Any]) -> dict[str, Any]:
+        """Decomposed, explainable entry score (SMC/ICT structure -- order blocks, FVGs,
+        liquidity sweeps, BOS/CHoCH, dealing ranges) for decision support only. Computed AFTER
+        the candidate is already selected by the existing ranking/AI-decision pipeline -- this
+        never changes which candidate is chosen or whether the trade proceeds; it exists purely
+        so the entry can be explained (Part 2/8) and the decomposed score can be persisted onto
+        the trade record for later probability analysis (Part 1/4). A failure here degrades to
+        an empty score, never blocks the cycle."""
+        try:
+            bars = await self.adapter.candles(candidate["broker_symbol"], "M15", count=100)
+            rows = [row.model_dump(mode="json") for row in bars]
+            snapshot = analyze_bars(rows, symbol=candidate["broker_symbol"], timeframe="M15")
+        except Exception as exc:
+            return {"status": "unavailable", "reason": exc.__class__.__name__, "total_score": None, "components": [], "positive_contributors": [], "negative_contributors": [], "reason_codes": [], "explanations": []}
+        score = snapshot.score
+        components = [component.model_dump() for component in (score.score_components if score else [])]
+        positive = [c["name"] for c in components if c["value"] >= 0.5]
+        negative = [c["name"] for c in components if c["value"] < 0.5]
+        # Data-sufficiency heuristic, NOT a statistically calibrated confidence interval --
+        # tightens only with how much bar history fed the structural analysis. A real calibrated
+        # interval requires the probability engine (Part 4) comparing scores to actual outcomes
+        # across enough closed trades; until then this is honestly a completeness proxy.
+        band = 0.05 if len(rows) >= 100 else 0.10 if len(rows) >= 60 else 0.20
+        total = score.total_score if score else 0.0
+        return {
+            "status": "ok",
+            "total_score": total,
+            "confidence_interval": [round(max(0.0, total - band), 4), round(min(1.0, total + band), 4)],
+            "confidence_interval_basis": "bar_data_completeness_heuristic",
+            "components": components,
+            "positive_contributors": positive,
+            "negative_contributors": negative,
+            "reason_codes": [f"STRUCTURE_{name.upper()}_CONFIRMED" for name in positive] + [f"STRUCTURE_{name.upper()}_ABSENT" for name in negative],
+            "explanations": snapshot.explanations or [],
+            "trend_state": snapshot.trend.state if snapshot.trend else None,
+            "bars_analyzed": len(rows),
         }
 
     async def _submit(self, candidate: dict[str, Any], *, ai_confidence: float | None = None, dry_run: bool = False) -> dict[str, Any]:

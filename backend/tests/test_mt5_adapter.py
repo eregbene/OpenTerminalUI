@@ -473,3 +473,36 @@ def _intent(volume: Decimal):
         comment="BENSIM_AUTO_test",
         context_hash="abc",
     )
+
+
+def test_entry_quality_score_returns_well_formed_decision_support_data():
+    adapter = fake_adapter()
+    service = MT5AutonomousTradingService(adapter)
+
+    result = asyncio.run(service._entry_quality_score({"broker_symbol": "EURUSD"}))
+
+    assert result["status"] == "ok"
+    assert 0.0 <= result["total_score"] <= 1.0
+    low, high = result["confidence_interval"]
+    assert low <= result["total_score"] <= high
+    assert result["components"], "structure engine should always return the fixed set of score components"
+    for component in result["components"]:
+        assert {"name", "value", "weight", "contribution", "evidence"} <= set(component)
+    assert set(result["positive_contributors"]) | set(result["negative_contributors"]) == {c["name"] for c in result["components"]}
+    assert all(code.startswith("STRUCTURE_") for code in result["reason_codes"])
+
+
+def test_entry_quality_score_degrades_gracefully_never_raises():
+    adapter = fake_adapter()
+    service = MT5AutonomousTradingService(adapter)
+
+    async def _broken_candles(symbol, timeframe, count=100):
+        raise RuntimeError("MT5 unavailable")
+
+    adapter.candles = _broken_candles
+
+    result = asyncio.run(service._entry_quality_score({"broker_symbol": "EURUSD"}))
+
+    assert result["status"] == "unavailable"
+    assert result["total_score"] is None
+    assert result["components"] == []
