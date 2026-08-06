@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from typing import Any
 
-from backend.adaptive_management.tp_protection import construct_dynamic_stop
+from backend.adaptive_management.tp_protection import classify_stop_quality_v2, construct_dynamic_stop
 from backend.ai_provider import ProviderRequest, provider_registry
 from backend.brokers.mt5.adapter import MT5Adapter, mt5_adapter
 from backend.brokers.mt5.config import MT5Config
@@ -123,31 +123,33 @@ class MT5AutonomousTradingService:
                 logger.exception("MT5 cycle failed: %s", exc.__class__.__name__)
                 self.state.last_result = {"status": "ERROR", "error": exc.__class__.__name__, "cycle_id": self.state.current_cycle_id}
 
-    async def run_cycle(self, *, owner: str = "local") -> dict[str, Any]:
+    async def run_cycle(self, *, owner: str = "local", dry_run: bool = False) -> dict[str, Any]:
         async with self._cycle_lock:
             self._assert_owner(owner)
             self._load_state()
             cycle_time = _completed_m5_time()
             cycle_id = f"MT5_M5_{cycle_time.strftime('%Y%m%d%H%M')}"
-            self.state.current_cycle_id = cycle_id
-            self.state.last_cycle_time = utcnow()
-            self.state.current_state = "running"
-            if cycle_id in set(_stored().get("processed_candles") or []):
+            if not dry_run:
+                self.state.current_cycle_id = cycle_id
+                self.state.last_cycle_time = utcnow()
+                self.state.current_state = "running"
+            if not dry_run and cycle_id in set(_stored().get("processed_candles") or []):
                 result = {"cycle_id": cycle_id, "status": "SKIPPED_DUPLICATE_CANDLE", "openai_calls": 0, "order_send_calls": 0}
-                self._record_cycle(result)
+                self._record_cycle(result, dry_run=dry_run)
                 return result
             blockers = await self._global_blockers()
             if blockers:
                 result = {"cycle_id": cycle_id, "status": "SKIPPED_BLOCKED", "blockers": blockers, "openai_calls": 0, "order_send_calls": 0}
-                self._record_cycle(result, mark_processed=False)
+                self._record_cycle(result, mark_processed=False, dry_run=dry_run)
                 return result
             universe = await self.adapter.forex_universe()
             candidates = await self._screen(universe.items)
             eligible = [row for row in candidates if not row["rejection_reasons"]]
             if not eligible:
                 result = {"cycle_id": cycle_id, "status": "SKIPPED_NO_CANDIDATE", "symbols_discovered": universe.total_forex_pairs, "eligible_symbols": len([i for i in universe.items if i.eligible]), "candidates": candidates[:25], "openai_calls": 0, "order_send_calls": 0}
-                self._record_cycle(result)
-                usage_ledger.record_skip(len(candidates))
+                self._record_cycle(result, dry_run=dry_run)
+                if not dry_run:
+                    usage_ledger.record_skip(len(candidates))
                 return result
             best = sorted(eligible, key=lambda row: row["ranking_score"], reverse=True)[0]
             best["candidate_id"] = f"{cycle_id}:{best['broker_symbol']}:{best['context_hash'][:16]}"
@@ -163,29 +165,29 @@ class MT5AutonomousTradingService:
             economic_blockers = self._economic_blockers(economic_result)
             if context_blockers:
                 result = {"cycle_id": cycle_id, "status": "SKIPPED_CONTEXT_RISK", "winner": best, "context_risk": context_risk, "blockers": context_blockers, "openai_calls": 0, "order_send_calls": 0}
-                self._record_cycle(result, mark_processed=False)
+                self._record_cycle(result, mark_processed=False, dry_run=dry_run)
                 return result
             if economic_blockers:
                 result = {"cycle_id": cycle_id, "status": "SKIPPED_ECONOMIC_RISK", "winner": best, "economic_context": economic_result, "blockers": economic_blockers, "openai_calls": 0, "order_send_calls": 0}
-                self._record_cycle(result, mark_processed=False)
+                self._record_cycle(result, mark_processed=False, dry_run=dry_run)
                 return result
             can_request, reasons = usage_ledger.can_request(ai_trading_config(), best["context_hash"])
             if not can_request:
                 result = {"cycle_id": cycle_id, "status": "SKIPPED_PROVIDER_LIMIT", "blockers": reasons, "winner": best, "openai_calls": 0, "order_send_calls": 0}
-                self._record_cycle(result)
+                self._record_cycle(result, dry_run=dry_run)
                 return result
             decision = await self._ai_decision(best)
             if decision["decision"] == "NO_TRADE":
                 result = {"cycle_id": cycle_id, "status": "NO_TRADE", "winner": best, "ai_decision": decision, "openai_calls": 1, "order_send_calls": 0}
-                self._record_cycle(result)
+                self._record_cycle(result, dry_run=dry_run)
                 return result
             if decision["decision"] != best["direction"] or Decimal(str(decision["confidence"])) < Decimal(str(ai_trading_config().min_confidence)):
                 result = {"cycle_id": cycle_id, "status": "AI_REJECTED", "winner": best, "ai_decision": decision, "openai_calls": 1, "order_send_calls": 0}
-                self._record_cycle(result)
+                self._record_cycle(result, dry_run=dry_run)
                 return result
-            submission = await self._submit(best, ai_confidence=float(decision.get("confidence") or 0.0))
+            submission = await self._submit(best, ai_confidence=float(decision.get("confidence") or 0.0), dry_run=dry_run)
             result = {"cycle_id": cycle_id, "status": submission["status"], "winner": best, "ai_decision": decision, "trade": submission, "openai_calls": 1, "order_send_calls": submission.get("order_send_calls", 0)}
-            self._record_cycle(result)
+            self._record_cycle(result, dry_run=dry_run)
             return result
 
     async def _global_blockers(self) -> list[str]:
@@ -308,7 +310,7 @@ class MT5AutonomousTradingService:
             "strategy_confidence": ai_confidence,
         }
 
-    async def _submit(self, candidate: dict[str, Any], *, ai_confidence: float | None = None) -> dict[str, Any]:
+    async def _submit(self, candidate: dict[str, Any], *, ai_confidence: float | None = None, dry_run: bool = False) -> dict[str, Any]:
         account = await self.adapter.mt5_account()
         symbol = await self.adapter.symbol_info(candidate["broker_symbol"])
         quote = await self.adapter.latest_tick(candidate["broker_symbol"])
@@ -346,6 +348,33 @@ class MT5AutonomousTradingService:
             comment=_mt5_order_comment(candidate["canonical_pair"], now),
             context_hash=candidate["context_hash"],
         )
+        if dry_run:
+            stop_distance = abs(float(entry) - float(candidate["stop_loss"]))
+            atr = float(candidate["atr"]) if candidate.get("atr") else None
+            spread = float(candidate["spread"]) if candidate.get("spread") else None
+            stops_level = float(getattr(symbol, "trade_stops_level", None) or 0)
+            point = float(getattr(symbol, "point", None) or 0)
+            broker_min_stop_distance = (stops_level * point) if stops_level and point else None
+            stop_quality_v2 = classify_stop_quality_v2(
+                sl_distance=stop_distance,
+                atr=atr,
+                spread=spread,
+                structure_distance=None,
+                broker_min_stop_distance=broker_min_stop_distance,
+                effective_risk_budget_usd=float(risk_adjustment_detail.get("adjusted_risk_budget_usd") or 0),
+                projected_monetary_loss_usd=float(risk.projected_loss_usd),
+                min_atr_mult=_env_float("ATR_STOP_MULTIPLIER_MIN", 0.8),
+            )
+            projected_margin = await self.execution.order_calc_margin(intent)
+            return {
+                "status": "DRY_RUN_OK",
+                "intent": intent.model_dump(mode="json"),
+                "risk": risk.model_dump(mode="json"),
+                "risk_budget_adjustment": risk_adjustment_detail,
+                "projected_margin": str(projected_margin) if projected_margin is not None else None,
+                "stop_quality_v2": stop_quality_v2,
+                "order_send_calls": 0,
+            }
         snapshot_id = economic_context.get("snapshot_id")
         if snapshot_id:
             try:
@@ -388,7 +417,12 @@ class MT5AutonomousTradingService:
             blockers.append("CONTEXT_ACK_REQUIRED")
         return sorted(set(blockers))
 
-    def _record_cycle(self, result: dict[str, Any], *, mark_processed: bool = True) -> None:
+    def _record_cycle(self, result: dict[str, Any], *, mark_processed: bool = True, dry_run: bool = False) -> None:
+        if dry_run:
+            # A dry-run cycle must be side-effect free: no cycle-history/status mutation, no
+            # processed-candle bookkeeping, no persistence -- so it can never suppress or
+            # interfere with a real scheduled cycle for the same candle.
+            return
         self.state.last_result = result
         self.state.cycles.insert(0, result | {"created_at": utcnow().isoformat()})
         store = _stored()
@@ -573,6 +607,8 @@ def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any]) -
         "take_profit_runner": str(tp_selection["runner"]),
         "take_profit_basis": tp_selection["basis"],
         "risk_reward": str(tp_selection["reward_multiple"]) if tp_selection["reward_multiple"] is not None else "1.8",
+        "atr": str(atr),
+        "spread": str(spread),
     }
 
 

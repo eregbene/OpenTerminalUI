@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import os
 import socket
 import uuid
 from decimal import Decimal, ROUND_FLOOR
@@ -229,6 +230,14 @@ async def mt5_autonomous_status(current_user: User = Depends(get_current_user)) 
     return mt5_autonomous_service.status()
 
 
+@router.post("/mt5/autonomous/dry-run")
+async def mt5_autonomous_dry_run(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    """Runs one full autonomous cycle (screening, decision context, economic guard, portfolio/
+    risk sizing, SL/TP construction) but never calls order_send -- dry_run is hardcoded True and
+    is not a request parameter, so this route can never be used to submit a real order."""
+    return await mt5_autonomous_service.run_cycle(owner="api", dry_run=True)
+
+
 @router.get("/mt5/autonomous/cycles")
 async def mt5_autonomous_cycles(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
     return {"items": mt5_autonomous_service.cycles()}
@@ -359,6 +368,120 @@ async def mt5_verification(current_user: User = Depends(get_current_user)) -> di
         "order_submission_status": "READ_ONLY",
         "place_order_calls": 0,
         "openai_calls": 0,
+    }
+
+
+@router.get("/mt5/preflight")
+async def mt5_preflight(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    """Read-only composite health check -- connects, reads account/terminal/symbol state, and
+    checks account-identity/live-trading/prop-trading gates plus Portfolio/Execution/Adaptive
+    Manager and economic-intelligence provider health, without submitting any order. Returns
+    READY/DEGRADED/BLOCKED/UNAVAILABLE with the exact reasons behind the verdict."""
+    from backend.adaptive_management.service import adaptive_management_service
+    from backend.brokers.mt5 import account_registry
+    from backend.brokers.mt5.config import mt5_config
+    from backend.economic_intelligence.service import economic_intelligence_service
+    from backend.portfolio_execution.service import execution_manager, portfolio_manager
+
+    adapter = _adapter("mt5")
+    try:
+        health = await adapter.connect()
+        terminal = await adapter.terminal_status()
+        account = await adapter.mt5_account()
+    except Exception as exc:
+        return {"status": "UNAVAILABLE", "blockers": [f"MT5_CONNECTION_FAILED:{exc.__class__.__name__}"], "degraded_reasons": []}
+
+    cfg = mt5_config()
+    fingerprint = account_registry.fingerprint_account(account)
+    profile = account_registry.get_profile(fingerprint.fingerprint_hash)
+    account_blockers = account_registry.account_blockers(account, account_mode=cfg.account_mode)
+
+    blockers: list[str] = list(account_blockers)
+    degraded: list[str] = []
+    if not terminal.connected or not terminal.initialize_success:
+        blockers.append("TERMINAL_NOT_CONNECTED")
+    elif health.state.value not in {"HEALTHY", "DEGRADED"}:
+        blockers.append(f"BROKER_HEALTH_{health.state.value}")
+    if terminal.account_mode != "DEMO" or cfg.account_mode != "DEMO":
+        blockers.append("ACCOUNT_TRADE_MODE_NOT_DEMO")
+    if cfg.live_trading_enabled:
+        blockers.append("LIVE_TRADING_ENABLED_UNEXPECTED")
+
+    symbols: list[str] = []
+    try:
+        symbols = await adapter.verify_symbols()
+        configured = [s.strip().upper() for s in (os.getenv("MT5_TRADING_SYMBOLS") or "").split(",") if s.strip()]
+        missing_symbols = [s for s in configured if s not in symbols]
+        if missing_symbols:
+            degraded.append(f"SYMBOLS_UNAVAILABLE:{','.join(missing_symbols)}")
+    except Exception as exc:
+        degraded.append(f"SYMBOL_VERIFICATION_FAILED:{exc.__class__.__name__}")
+
+    fresh_tick = False
+    try:
+        tick = await adapter.latest_tick("EURUSD")
+        fresh_tick = bool(tick.bid and tick.ask)
+        if not fresh_tick:
+            degraded.append("NO_FRESH_TICK_EURUSD")
+    except Exception as exc:
+        degraded.append(f"TICK_UNAVAILABLE:{exc.__class__.__name__}")
+
+    if not (terminal.trade_allowed and terminal.ea_trading_allowed):
+        degraded.append("TERMINAL_AUTOTRADING_DISABLED")
+
+    autonomous_status = mt5_autonomous_service.status()
+    if autonomous_status.get("emergency_disable"):
+        blockers.append("MT5_EMERGENCY_DISABLED")
+
+    try:
+        portfolio_manager.status()
+        portfolio_healthy = True
+    except Exception as exc:
+        degraded.append(f"PORTFOLIO_MANAGER_UNHEALTHY:{exc.__class__.__name__}")
+        portfolio_healthy = False
+    try:
+        execution_status = execution_manager.status()
+        execution_healthy = True
+    except Exception as exc:
+        degraded.append(f"EXECUTION_MANAGER_UNHEALTHY:{exc.__class__.__name__}")
+        execution_healthy = False
+        execution_status = None
+    try:
+        adaptive_status = adaptive_management_service.status()
+        adaptive_healthy = True
+    except Exception as exc:
+        degraded.append(f"ADAPTIVE_MANAGER_UNHEALTHY:{exc.__class__.__name__}")
+        adaptive_healthy = False
+        adaptive_status = None
+    try:
+        provider_health = await economic_intelligence_service.provider_health_report()
+        if str(provider_health.get("status") or "").upper() not in {"OK", "HEALTHY", ""}:
+            degraded.append(f"ECONOMIC_INTELLIGENCE_PROVIDER_DEGRADED:{provider_health.get('status')}")
+    except Exception as exc:
+        degraded.append(f"ECONOMIC_INTELLIGENCE_PROVIDER_UNAVAILABLE:{exc.__class__.__name__}")
+        provider_health = None
+
+    status = "BLOCKED" if blockers else ("DEGRADED" if degraded else "READY")
+    return {
+        "status": status,
+        "blockers": blockers,
+        "degraded_reasons": degraded,
+        "connection_status": health.model_dump(mode="json"),
+        "terminal": terminal.model_dump(mode="json"),
+        "account": account.model_dump(mode="json"),
+        "account_fingerprint": fingerprint.fingerprint_hash,
+        "account_profile": profile,
+        "symbols_available": symbols,
+        "fresh_tick_available": fresh_tick,
+        "emergency_disable": bool(autonomous_status.get("emergency_disable")),
+        "portfolio_manager_healthy": portfolio_healthy,
+        "execution_manager_healthy": execution_healthy,
+        "execution_manager_status": execution_status,
+        "adaptive_manager_healthy": adaptive_healthy,
+        "adaptive_manager_status": adaptive_status,
+        "economic_intelligence_provider_health": provider_health,
+        "order_submission_status": "READ_ONLY",
+        "place_order_calls": 0,
     }
 
 
