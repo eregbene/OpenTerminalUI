@@ -14,6 +14,7 @@ from typing import Any
 from backend.adaptive_management.tp_protection import classify_stop_quality_v2, construct_dynamic_stop
 from backend.market_structure.engine import analyze_bars
 from backend.ai_provider import ProviderRequest, provider_registry
+from backend.brokers.mt5 import account_registry
 from backend.brokers.mt5.adapter import MT5Adapter, mt5_adapter
 from backend.brokers.mt5.config import MT5Config
 from backend.brokers.mt5.config import mt5_config
@@ -385,7 +386,26 @@ class MT5AutonomousTradingService:
         risk_adjustment = self._risk_budget_adjustment(account, economic_context_preview, ai_confidence)
         base_risk_budget = (account.equity * Decimal(str(self.config.risk_percent_per_trade)) / Decimal("100")).quantize(Decimal("0.01"))
         _, risk_adjustment_detail = effective_risk_budget_usd(base_risk_budget, **risk_adjustment)
-        risk = await self.execution.calculate_risk_size(account_equity=account.equity, symbol=symbol, direction=candidate["direction"], entry=entry, stop=Decimal(str(candidate["stop_loss"])), target=Decimal(str(candidate["take_profit"])), risk_budget_adjustment=risk_adjustment_detail)
+        try:
+            account_fingerprint = account_registry.fingerprint_account(account).fingerprint_hash
+        except Exception:
+            account_fingerprint = None
+        # Portfolio open-risk headroom: how much more the portfolio can safely risk right now,
+        # not just the static per-trade caps -- PART 4 step 8's "compare against portfolio
+        # available risk". None (not 0) when no snapshot exists yet, so calculate_risk_size's own
+        # min()-of-caps behaves exactly as before this parameter existed rather than blocking
+        # every entry before the very first portfolio snapshot has run.
+        portfolio_available_risk_usd = None
+        latest_snapshot = portfolio_manager.latest_snapshot()
+        if latest_snapshot is not None:
+            open_risk = float(latest_snapshot.get("open_risk") or 0)
+            portfolio_available_risk_usd = Decimal(str(max(0.0, self.config.max_total_open_risk_usd - open_risk)))
+        risk = await self.execution.calculate_risk_size(
+            account_equity=account.equity, symbol=symbol, direction=candidate["direction"], entry=entry,
+            stop=Decimal(str(candidate["stop_loss"])), target=Decimal(str(candidate["take_profit"])),
+            risk_budget_adjustment=risk_adjustment_detail, portfolio_available_risk_usd=portfolio_available_risk_usd,
+            account_fingerprint=account_fingerprint,
+        )
         if risk.status != "APPROVED":
             return {"status": "RISK_REJECTED", "risk": risk.model_dump(mode="json"), "risk_budget_adjustment": risk_adjustment_detail, "order_send_calls": 0}
         economic_context = candidate.get("economic_context") or {}

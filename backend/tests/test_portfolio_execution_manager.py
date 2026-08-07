@@ -160,16 +160,19 @@ class FakeQuoteTick:
 
 def test_position_risk_converts_non_usd_quote_currency_to_usd():
     """EURJPY: raw (sl-entry)*volume*contract is JPY-denominated, not USD -- must be
-    scaled by the USD/JPY conversion rate before it feeds into open_risk aggregation."""
+    scaled by the USD/JPY conversion rate before it feeds into open_risk aggregation.
+    No symbol_info passed -- exercises the legacy-fallback money-per-point path (PART 3's
+    _money_per_point), which preserves the exact historical 100_000-contract numbers this test
+    was written against when no live broker metadata is available."""
     position = FakePosition("EURJPY", 0, 1.2, comment="BSM|MTFAI1|M15|EURJPY0951")
     position.price_open = Decimal("182.056")
     position.sl = Decimal("181.753")
     position.tp = Decimal("182.601")
     position.price_current = Decimal("182.013")
 
-    unconverted = service._position_risk(position)  # default rate=1.0, the pre-fix behavior
+    unconverted = service.asyncio.run(service._position_risk(position))  # default rate=1.0, the pre-fix behavior
     usdjpy_rate = 158.3
-    converted = service._position_risk(position, usd_conversion_rate=1 / usdjpy_rate)
+    converted = service.asyncio.run(service._position_risk(position, usd_conversion_rate=1 / usdjpy_rate))
 
     assert unconverted["stop_loss_projection"] == pytest.approx(-36360.0, rel=1e-3)
     assert converted["stop_loss_projection"] == pytest.approx(-229.7, rel=1e-2)
@@ -178,9 +181,44 @@ def test_position_risk_converts_non_usd_quote_currency_to_usd():
 
 def test_position_risk_usd_quote_pair_is_unaffected_by_rate():
     position = FakePosition("EURUSD", 0, 1.0)
-    default = service._position_risk(position)
-    explicit = service._position_risk(position, usd_conversion_rate=1.0)
+    default = service.asyncio.run(service._position_risk(position))
+    explicit = service.asyncio.run(service._position_risk(position, usd_conversion_rate=1.0))
     assert default == explicit
+
+
+def test_position_risk_uses_canonical_calculator_when_symbol_info_available():
+    # With real symbol_info, _position_risk must use the SAME canonical calculator every other
+    # MT5 monetary-risk call site uses (not the legacy hardcoded-contract fallback) -- for a
+    # well-formed XAUUSD symbol (contract_size=100, matching tick_value) this must agree with
+    # the true $100/point/lot economics, not the old contract=100 guess (which happens to be
+    # correct here, but for the WRONG reason -- verified against a broker-native order_calc_profit
+    # fake so a future metadata-only regression would be caught).
+    from backend.brokers.mt5.models import MT5Symbol
+
+    class _FakeMT5Native:
+        ORDER_TYPE_BUY = 0
+        ORDER_TYPE_SELL = 1
+
+        def order_calc_profit(self, order_type, symbol, volume, price_open, price_close):
+            diff = (price_close - price_open) if order_type == self.ORDER_TYPE_BUY else (price_open - price_close)
+            return diff * 100.0 * volume
+
+    symbol_info = MT5Symbol(
+        symbol="XAUUSD", visible=True, selected=True, digits=2, point=Decimal("0.01"),
+        trade_tick_size=Decimal("0.01"), trade_tick_value=Decimal("1.0"), trade_tick_value_profit=Decimal("1.0"),
+        trade_tick_value_loss=Decimal("1.0"), trade_contract_size=Decimal("100.0"),
+        volume_min=Decimal("0.01"), volume_max=Decimal("100.0"), volume_step=Decimal("0.01"),
+    )
+    position = FakePosition("XAUUSD", 0, 0.10)
+    position.price_open = Decimal("4279.93")
+    position.sl = Decimal("4256.34")
+    position.tp = Decimal("4316.14")
+    position.price_current = Decimal("4283.55")
+
+    result = service.asyncio.run(service._position_risk(position, symbol_info=symbol_info, mt5_client=_FakeMT5Native()))
+
+    # Real broker-confirmed economics for this exact trade: -$235.90 at 0.10 lot.
+    assert result["stop_loss_projection"] == pytest.approx(-235.90, rel=1e-2)
 
 
 async def _rate(currency, quotes):

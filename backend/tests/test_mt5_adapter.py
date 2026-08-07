@@ -130,7 +130,17 @@ class FakeMT5:
         return 100 * volume
 
     def order_calc_profit(self, order_type, symbol, volume, price_open, price_close):
-        return -50 * volume / 0.1 if price_close < price_open else 90 * volume / 0.1
+        # Realistic-enough simulation for the canonical risk calculator's cross-validation:
+        # proportional to price distance and volume (a real broker's order_calc_profit is), and
+        # uses the SAME contract-size convention as the test fixtures' trade_contract_size, so it
+        # agrees with the contract_size method for a "healthy" (non-deliberately-broken) symbol
+        # exactly like a real broker's order_calc_profit agrees with a correctly configured
+        # trade_contract_size. The old flat "-50 or 90 regardless of distance" version predated
+        # the canonical calculator and made every distance-varying sizing test look like a
+        # critical broker-metadata mismatch.
+        contract = 100.0 if str(symbol).upper().startswith("XAU") else 100000.0
+        diff = (price_close - price_open) if order_type == self.ORDER_TYPE_BUY else (price_open - price_close)
+        return diff * contract * volume
 
     def last_error(self):
         return (0, "OK")
@@ -333,13 +343,32 @@ def _xauusd_symbol_with_understated_tick_value() -> "MT5Symbol":
     )
 
 
+def _xauusd_symbol_clean() -> "MT5Symbol":
+    # Self-consistent XAUUSD metadata (tick_value == contract_size x tick_size, exactly like the
+    # real broker's order_calc_profit agrees with both) -- used where a test wants to isolate
+    # ONE sizing behavior (e.g. volume-below-minimum) from the separate critical-mismatch-block
+    # path that a deliberately-broken tick_value now correctly triggers.
+    from backend.brokers.mt5.models import MT5Symbol
+
+    return MT5Symbol(
+        symbol="XAUUSD", visible=True, selected=True, bid=Decimal("4283.55"), ask=Decimal("4283.92"), digits=2,
+        point=Decimal("0.01"), trade_tick_size=Decimal("0.01"), trade_tick_value=Decimal("1.0"),
+        trade_tick_value_profit=Decimal("1.0"), trade_tick_value_loss=Decimal("1.0"), trade_contract_size=Decimal("100.0"),
+        volume_min=Decimal("0.01"), volume_max=Decimal("100.0"), volume_step=Decimal("0.01"),
+    )
+
+
 def test_xauusd_sizing_cross_validates_tick_value_against_contract_size():
+    # XAUUSD regression test (PART 19 #8): this is the exact live incident's numbers. With the
+    # canonical calculator now cross-validating all three methods (order_calc_profit included),
+    # the ~10x tick_value/contract_size disagreement is no longer silently self-corrected -- it
+    # is DETECTED and the entry is BLOCKED outright (PART 2: "XAUUSD's previous ~10x discrepancy
+    # must trigger the critical path"), which is strictly safer than the old "size to the larger
+    # estimate and proceed" behavior this test originally asserted.
     adapter = fake_adapter()
     service = MT5ExecutionService(adapter)
     symbol = _xauusd_symbol_with_understated_tick_value()
 
-    # This exact trade: entry 4279.93, SL 4256.34 (distance 23.59), 10k account, $50 risk cap.
-    # Real monetary risk at this SL (broker-confirmed via order_calc_profit): $235.90/0.10 lot.
     sizing = asyncio.run(
         service.calculate_risk_size(
             account_equity=Decimal("10000"), symbol=symbol, direction="LONG",
@@ -347,22 +376,21 @@ def test_xauusd_sizing_cross_validates_tick_value_against_contract_size():
         )
     )
 
-    # The buggy tick_value-only formula would size to ~0.10 lot (an ~$235.90 real risk against a
-    # $50 cap -- 4.7x over). Contract-size cross-validation must produce a materially smaller,
-    # budget-respecting volume instead.
-    naive_buggy_volume = Decimal("0.10")
-    assert sizing.status in {"APPROVED", "REJECTED"}
-    if sizing.status == "APPROVED":
-        assert sizing.volume < naive_buggy_volume
-        assert sizing.projected_loss_usd <= Decimal(str(service.config.max_risk_per_trade_usd))
+    assert sizing.status == "REJECTED"
+    assert "SYMBOL_RISK_METADATA_CRITICAL_MISMATCH" in sizing.reasons
+    assert sizing.volume == Decimal("0")
+    assert sizing.risk_calculation_disagreement_pct is not None
+    assert sizing.risk_calculation_disagreement_pct >= 100.0
 
 
 def test_minimum_lot_blocked_when_it_exceeds_risk_budget():
     # Never round UP to volume_min when even volume_min's monetary risk exceeds the configured
-    # budget -- block the trade instead of silently accepting oversized risk.
+    # budget -- block the trade instead of silently accepting oversized risk. Uses
+    # self-consistent metadata so this isolates the volume-min-too-risky path from the separate
+    # critical-mismatch-block path (covered by the regression test above).
     adapter = fake_adapter()
     service = MT5ExecutionService(adapter)
-    symbol = _xauusd_symbol_with_understated_tick_value()
+    symbol = _xauusd_symbol_clean()
 
     sizing = asyncio.run(
         service.calculate_risk_size(
@@ -372,7 +400,7 @@ def test_minimum_lot_blocked_when_it_exceeds_risk_budget():
     )
 
     assert sizing.status == "REJECTED"
-    assert "VOLUME_BELOW_MINIMUM" in sizing.reasons
+    assert "VOLUME_BELOW_MINIMUM_RISK_TOO_HIGH" in sizing.reasons
 
 
 def test_10k_account_50_max_risk_cannot_open_200_dollar_sl_risk_position():

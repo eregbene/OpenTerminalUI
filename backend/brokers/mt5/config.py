@@ -25,6 +25,7 @@ class MT5Config:
     order_submission_enabled: bool = False
     autonomous_submission_enabled: bool = False
     manual_acceptance_enabled: bool = False
+    database_recovery_in_progress: bool = False
     broker_provider: str = "MT5"
     forex_execution_provider: str = "MT5"
     max_new_entries_per_cycle: int = 1
@@ -90,6 +91,8 @@ class MT5Config:
     request_timeout_ms: int = 60000
     default_history_count: int = 100
     read_only: bool = True
+    risk_calculation_disagreement_pct: float = 10.0
+    risk_calculation_critical_disagreement_pct: float = 100.0
 
 
 def _csv(name: str) -> tuple[str, ...]:
@@ -112,6 +115,7 @@ def mt5_config() -> MT5Config:
         order_submission_enabled=_bool("MT5_ORDER_SUBMISSION_ENABLED", False),
         autonomous_submission_enabled=_bool("MT5_AUTONOMOUS_SUBMISSION_ENABLED", False),
         manual_acceptance_enabled=_bool("MT5_MANUAL_ACCEPTANCE_ENABLED", False),
+        database_recovery_in_progress=_bool("DATABASE_RECOVERY_IN_PROGRESS", False),
         broker_provider=(os.getenv("BROKER_PROVIDER") or "MT5").upper(),
         forex_execution_provider=(os.getenv("FOREX_EXECUTION_PROVIDER") or "MT5").upper(),
         max_new_entries_per_cycle=int(os.getenv("MT5_MAX_NEW_ENTRIES_PER_CYCLE", "1")),
@@ -178,6 +182,8 @@ def mt5_config() -> MT5Config:
         request_timeout_ms=timeout_ms,
         default_history_count=int(os.getenv("MT5_DEFAULT_HISTORY_COUNT", "100")),
         read_only=True,
+        risk_calculation_disagreement_pct=float(os.getenv("MT5_RISK_CALCULATION_DISAGREEMENT_PCT", "10")),
+        risk_calculation_critical_disagreement_pct=float(os.getenv("MT5_RISK_CALCULATION_CRITICAL_DISAGREEMENT_PCT", "100")),
     )
 
 

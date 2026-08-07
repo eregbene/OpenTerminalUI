@@ -14,6 +14,8 @@ from backend.auth.deps import get_current_user
 from backend.brokers import broker_registry
 from backend.brokers.errors import BrokerError
 from backend.brokers.mt5.autonomous import mt5_autonomous_service
+from backend.brokers.mt5.config import mt5_config
+from backend.brokers.mt5.risk_calculator import calculate_canonical_loss_per_lot
 from backend.brokers.mt5.persistence import (
     history_availability,
     learning_context_for_candidate,
@@ -157,6 +159,36 @@ async def mt5_positions(current_user: User = Depends(get_current_user)) -> dict[
 @router.get("/mt5/orders")
 async def mt5_orders(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
     return {"items": [row.model_dump(mode="json") for row in await _adapter("mt5").mt5_orders()]}
+
+
+@router.get("/mt5/risk-diagnostics/{symbol}")
+async def mt5_risk_diagnostics(symbol: str, entry: float | None = None, stop: float | None = None, direction: str = "LONG", current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    """PART 16: exposes the canonical risk calculator's (backend/brokers/mt5/risk_calculator.py)
+    full diagnostic -- broker-native/contract/tick estimates, the selected (most conservative)
+    one, disagreement %, and block/warning state -- for any symbol, without needing an open
+    position or a live sizing attempt. `entry`/`stop` default to the current bid/ask and a
+    symbol-scaled 1% probe distance when omitted, so this is usable as a pure "is this symbol's
+    broker metadata trustworthy right now" health check. No credentials in the response --
+    symbol_info/estimates never carry account secrets."""
+    adapter = _adapter("mt5")
+    symbol_info = await adapter.symbol_info(symbol.upper())
+    quote = await adapter.latest_tick(symbol.upper())
+    entry_price = Decimal(str(entry)) if entry is not None else Decimal(str(quote.bid or quote.ask or 0))
+    if stop is not None:
+        stop_price = Decimal(str(stop))
+    else:
+        probe = (symbol_info.point or Decimal("0.0001")) * 100
+        stop_price = entry_price - probe if direction.upper() == "LONG" else entry_price + probe
+    try:
+        mt5_client = adapter.client.ensure_ready()
+    except Exception:
+        mt5_client = None
+    cfg = mt5_config()
+    result = await calculate_canonical_loss_per_lot(
+        direction=direction.upper(), entry=entry_price, stop=stop_price, symbol_info=symbol_info,
+        mt5_client=mt5_client, warning_pct=cfg.risk_calculation_disagreement_pct, critical_pct=cfg.risk_calculation_critical_disagreement_pct,
+    )
+    return {"symbol": symbol.upper(), "direction": direction.upper(), "entry": str(entry_price), "stop": str(stop_price), **result.to_dict()}
 
 
 @router.get("/mt5/history")

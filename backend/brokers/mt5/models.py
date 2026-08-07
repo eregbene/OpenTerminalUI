@@ -237,6 +237,13 @@ class MT5RiskSizing(MT5Model):
     equity_risk_cap_usd: Decimal = Decimal("0")
     trade_risk_cap_usd: Decimal = Decimal("0")
     risk_multiplier: Decimal = Decimal("1.0")
+    # Canonical-risk-calculator diagnostics (backend/brokers/mt5/risk_calculator.py) -- populated
+    # whenever the calculator ran, regardless of APPROVED/REJECTED outcome, so a caller/API can
+    # always show which method was trusted and how much the estimates disagreed.
+    risk_calculation_method: str | None = None
+    risk_calculation_estimates: dict[str, Any] = Field(default_factory=dict)
+    risk_calculation_disagreement_pct: float | None = None
+    risk_calculation_warning_codes: list[str] = Field(default_factory=list)
 
 
 class MT5OrderCheckResult(MT5Model):

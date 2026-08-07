@@ -16,6 +16,7 @@ from backend.adaptive_management.orm import (
     AdaptiveExperimentORM,
     AdaptiveManagementActionORM,
     AdaptivePartialExitStageORM,
+    AdaptivePartialProfitStageORM,
     AdaptivePositionStateORM,
     AdaptiveSessionORM,
     AdaptiveTradeEventORM,
@@ -635,6 +636,326 @@ def test_corrupted_stored_max_achieved_r_self_heals_instead_of_persisting_foreve
 
     assert max_achieved_r < 5.0
     assert min_achieved_r > -5.0
+
+
+# ---------------------------------------------------------------------------
+# Canonical monetary risk: immutable original_* fields, mutable current_* fields, monetary R,
+# R_UNAVAILABLE, legacy reconstruction, and the persistent partial-profit stage machine.
+# ---------------------------------------------------------------------------
+
+
+def _mt5_symbol_eurusd():
+    from backend.brokers.mt5.models import MT5Symbol
+    from decimal import Decimal
+
+    return MT5Symbol(
+        symbol="EURUSD", visible=True, selected=True, digits=5, point=Decimal("0.00001"),
+        trade_tick_size=Decimal("0.00001"), trade_tick_value=Decimal("1.0"), trade_tick_value_profit=Decimal("1.0"),
+        trade_tick_value_loss=Decimal("1.0"), trade_contract_size=Decimal("100000"),
+        volume_min=Decimal("0.01"), volume_max=Decimal("100.0"), volume_step=Decimal("0.01"),
+    )
+
+
+def test_original_risk_money_persisted_once_at_first_sight(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    payload = {"ticket": 10, "identifier": 10, "symbol": "EURUSD", "type": 0, "volume": 1.0, "price_open": 1.1000, "price_current": 1.1010, "sl": 1.0990, "tp": 1.1030, "time": "2026-08-07T08:00:00+00:00", "comment": "BENSIM_AUTO"}
+
+    with SessionLocal() as db:
+        state = adaptive_management_service._sync_position_state(db, payload, None, {}, [], symbol_info=_mt5_symbol_eurusd(), account_equity=10000.0)
+        db.commit()
+        original_risk_money = state.original_risk_money
+        original_risk_source = state.original_risk_source
+        original_entry = state.original_entry
+        original_stop_distance = state.original_stop_distance
+
+    assert original_risk_money == pytest.approx(100.0, rel=0.01)  # 0.001 distance x 100000 contract x 1.0 volume
+    assert original_risk_source in {"CONSERVATIVE_MULTI_METHOD", "BROKER_NATIVE"}
+    assert original_entry == pytest.approx(1.1000)
+    assert original_stop_distance == pytest.approx(0.0010, abs=1e-6)
+
+
+def test_original_risk_immutable_after_breakeven_move(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    opened = {"ticket": 11, "identifier": 11, "symbol": "EURUSD", "type": 0, "volume": 1.0, "price_open": 1.1000, "price_current": 1.1000, "sl": 1.0990, "tp": 1.1030, "time": "2026-08-07T08:00:00+00:00", "comment": "BENSIM_AUTO"}
+    after_breakeven = dict(opened, price_current=1.1050, sl=1.1000)  # SL moved to entry
+
+    with SessionLocal() as db:
+        adaptive_management_service._sync_position_state(db, opened, None, {}, [], symbol_info=_mt5_symbol_eurusd(), account_equity=10000.0)
+        db.commit()
+        state = adaptive_management_service._sync_position_state(db, after_breakeven, None, {}, [], symbol_info=_mt5_symbol_eurusd(), account_equity=10000.0)
+        db.commit()
+        original_risk_money = state.original_risk_money
+        original_stop_distance = state.original_stop_distance
+
+    assert original_risk_money == pytest.approx(100.0, rel=0.01)  # unchanged by the SL move
+    assert original_stop_distance == pytest.approx(0.0010, abs=1e-6)
+
+
+def test_original_risk_immutable_after_trailing_into_profit(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    opened = {"ticket": 12, "identifier": 12, "symbol": "EURUSD", "type": 0, "volume": 1.0, "price_open": 1.1000, "price_current": 1.1000, "sl": 1.0990, "tp": 1.1030, "time": "2026-08-07T08:00:00+00:00", "comment": "BENSIM_AUTO"}
+    after_trailing = dict(opened, price_current=1.1080, sl=1.1040)  # SL trailed into profit territory
+
+    with SessionLocal() as db:
+        adaptive_management_service._sync_position_state(db, opened, None, {}, [], symbol_info=_mt5_symbol_eurusd(), account_equity=10000.0)
+        db.commit()
+        state = adaptive_management_service._sync_position_state(db, after_trailing, None, {}, [], symbol_info=_mt5_symbol_eurusd(), account_equity=10000.0)
+        db.commit()
+        original_risk_money = state.original_risk_money
+
+    assert original_risk_money == pytest.approx(100.0, rel=0.01)
+
+
+def test_original_risk_immutable_after_partial_close_reduces_volume(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    opened = {"ticket": 13, "identifier": 13, "symbol": "EURUSD", "type": 0, "volume": 1.0, "price_open": 1.1000, "price_current": 1.1000, "sl": 1.0990, "tp": 1.1030, "time": "2026-08-07T08:00:00+00:00", "comment": "BENSIM_AUTO"}
+    after_partial = dict(opened, volume=0.75, price_current=1.1020)  # 25% partial close
+
+    with SessionLocal() as db:
+        adaptive_management_service._sync_position_state(db, opened, None, {}, [], symbol_info=_mt5_symbol_eurusd(), account_equity=10000.0)
+        db.commit()
+        state = adaptive_management_service._sync_position_state(db, after_partial, None, {}, [], symbol_info=_mt5_symbol_eurusd(), account_equity=10000.0)
+        db.commit()
+        original_risk_money = state.original_risk_money
+        original_volume = state.original_volume
+        current_volume = state.current_volume
+
+    assert original_risk_money == pytest.approx(100.0, rel=0.01)  # still the FULL 1.0-lot original risk
+    assert original_volume == pytest.approx(1.0)
+    assert current_volume == pytest.approx(0.75)
+
+
+def test_current_risk_money_reflects_live_sl_not_original(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    opened = {"ticket": 14, "identifier": 14, "symbol": "EURUSD", "type": 0, "volume": 1.0, "price_open": 1.1000, "price_current": 1.1000, "sl": 1.0990, "tp": 1.1030, "time": "2026-08-07T08:00:00+00:00", "comment": "BENSIM_AUTO"}
+    reduced_risk = dict(opened, price_current=1.1015, sl=1.0995)  # SL improved halfway
+    trailed_into_profit = dict(opened, price_current=1.1080, sl=1.1040)  # SL now protects profit
+
+    with SessionLocal() as db:
+        adaptive_management_service._sync_position_state(db, opened, None, {}, [], symbol_info=_mt5_symbol_eurusd(), account_equity=10000.0)
+        db.commit()
+        state_reduced = adaptive_management_service._sync_position_state(db, reduced_risk, None, {}, [], symbol_info=_mt5_symbol_eurusd(), account_equity=10000.0)
+        db.commit()
+        reduced_current_risk = state_reduced.current_risk_money
+        state_profit = adaptive_management_service._sync_position_state(db, trailed_into_profit, None, {}, [], symbol_info=_mt5_symbol_eurusd(), account_equity=10000.0)
+        db.commit()
+        profit_current_risk = state_profit.current_risk_money
+        protected_profit = state_profit.protected_profit_money
+
+    assert reduced_current_risk == pytest.approx(50.0, rel=0.05)  # half the original $100 risk remains
+    assert profit_current_risk == pytest.approx(0.0, abs=0.01)
+    assert protected_profit > 0
+
+
+def test_monetary_r_uses_broker_profit_over_original_risk_money(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    opened = {"ticket": 15, "identifier": 15, "symbol": "EURUSD", "type": 0, "volume": 1.0, "price_open": 1.1000, "price_current": 1.1000, "sl": 1.0990, "tp": 1.1030, "profit": 0.0, "time": "2026-08-07T08:00:00+00:00", "comment": "BENSIM_AUTO"}
+    in_profit = dict(opened, price_current=1.1050, profit=50.0)  # broker-reported $50 profit, original risk $100 -> R=0.5
+
+    with SessionLocal() as db:
+        adaptive_management_service._sync_position_state(db, opened, None, {}, [], symbol_info=_mt5_symbol_eurusd(), account_equity=10000.0)
+        db.commit()
+        state = adaptive_management_service._sync_position_state(db, in_profit, None, {}, [], symbol_info=_mt5_symbol_eurusd(), account_equity=10000.0)
+        db.commit()
+        max_achieved_r = state.max_achieved_r
+        r_source = state.r_source
+
+    assert r_source == "MONEY"
+    assert max_achieved_r == pytest.approx(0.5, rel=0.01)
+
+
+def test_r_unavailable_when_no_sl_and_no_original_risk(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    state = _managed_state("R_UNAVAIL")
+    state.current_sl = None
+    state.original_sl = None
+    state.original_risk_money = None
+    payload = {"price_current": 4001.0}
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    # Missing static protection (no SL) is the FIRST gate -- R never even needs evaluating.
+    assert any(c.reason == "missing_static_protection_preserve_manual_review" for c in candidates)
+
+
+def test_r_unavailable_skips_r_threshold_candidates_but_keeps_equity_layer(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    state = _managed_state("R_UNAVAIL2")
+    state.original_sl = None  # SL exists (current_sl set in _managed_state) but no ORIGINAL sl and no original_risk_money
+    state.original_risk_money = None
+    payload = {"price_current": 4010.0, "profit": 200.0}
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [], account_equity=10000.0)
+
+    hold = next(c for c in candidates if c.action_type == "HOLD")
+    assert hold.evidence["r_source"] == "UNAVAILABLE"
+    assert not any(c.action_type == "PARTIAL_PROFIT" for c in candidates)
+    # The account-scaled equity layer is R-independent and must still be able to reassess.
+    assert any(c.action_type == "HOLD_WITH_GIVEBACK_RISK" for c in candidates)
+
+
+def test_legacy_position_reconstructs_original_risk_once(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    # Simulates a row created by an OLDER version of this code: original_sl/tp/volume already
+    # exist, but original_risk_money (added in this hardening) does not.
+    legacy_row = AdaptivePositionStateORM(
+        position_id="LEGACY1", symbol="EURUSD", direction="LONG", broker_ticket="LEGACY1",
+        entry_price=1.1000, original_sl=1.0990, current_sl=1.0995, original_tp=1.1030, current_tp=1.1030,
+        original_volume=1.0, current_volume=1.0,
+    )
+    payload = {"ticket": "LEGACY1", "identifier": "LEGACY1", "symbol": "EURUSD", "type": 0, "volume": 1.0, "price_open": 1.1000, "price_current": 1.1010, "sl": 1.0995, "tp": 1.1030, "time": "2026-08-07T08:00:00+00:00", "comment": "BENSIM_AUTO"}
+
+    with SessionLocal() as db:
+        db.merge(legacy_row)
+        db.commit()
+        state = adaptive_management_service._sync_position_state(db, payload, None, {}, [], symbol_info=_mt5_symbol_eurusd(), account_equity=10000.0)
+        db.commit()
+        original_risk_money = state.original_risk_money
+        original_risk_source = state.original_risk_source
+
+    assert original_risk_money == pytest.approx(100.0, rel=0.01)  # from original_sl (1.0990), NOT current_sl (1.0995)
+    assert original_risk_source == "RECONSTRUCTED"
+
+
+def _base_activation_and_breaker():
+    from backend.adaptive_management.orm import AdaptiveActivationORM, AdaptiveCircuitBreakerORM
+
+    activation = AdaptiveActivationORM(activation_id="ACT_PS", policy_id=service.ACTIVE_POLICY_ID, policy_version=service.ACTIVE_POLICY_VERSION, account_fingerprint=None, effective_from=datetime.now(timezone.utc), eligible_strategies=[], eligible_symbols=[], maximum_actions_per_hour=6, active=True, demo_account="1", approved_by="test", approved_at=datetime.now(timezone.utc), rollback_policy={}, emergency_state="normal", configuration_snapshot={}, mode="demo_active")
+    breaker = AdaptiveCircuitBreakerORM(breaker_id="B_PS", state="closed", actions_this_hour=0)
+    return activation, breaker
+
+
+def test_partial_1_stage_executes_once_and_blocks_repeat_candidate(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    state = _managed_state("PS1")
+    state.partial_profit_stage = "NONE"
+    action = AdaptiveManagementActionORM(action_id="A_PS1", position_id="PS1", policy_id=service.ACTIVE_POLICY_ID, action_type="PARTIAL_PROFIT", priority=40, mode="demo_active", status="selected", idempotency_key="A_PS1-KEY", requested_volume=0.25, evidence={"target_stage": "PARTIAL_1", "requested_fraction": 0.25})
+
+    with SessionLocal() as db:
+        db.merge(state)
+        db.commit()
+        stage_row = adaptive_management_service._begin_partial_stage_attempt(db, state, action)
+        db.commit()
+        assert stage_row.stage == "PARTIAL_1_PENDING"
+        adaptive_management_service._resolve_partial_stage_attempt(db, stage_row, state, {"status": "ACCEPTED", "filled_volume": 0.25, "broker_ticket": "999"})
+        updated = db.get(AdaptivePositionStateORM, "PS1")
+        assert updated.partial_profit_stage == "PARTIAL_1_EXECUTED"
+
+    # A fresh evaluation, even with r_now still well above the stage-1 threshold, must NOT
+    # generate a second PARTIAL_1 candidate -- the stage has already executed.
+    with SessionLocal() as db:
+        updated = db.get(AdaptivePositionStateORM, "PS1")
+        candidates = adaptive_management_service._evaluate_position(db, updated, {"price_current": 4050.0, "profit": 500.0}, {}, [])
+    assert not [c for c in candidates if c.action_type == "PARTIAL_PROFIT" and c.evidence.get("target_stage") == "PARTIAL_1"]
+
+
+def test_partial_2_stage_executes_once_and_advances_to_runner(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    state = _managed_state("PS2")
+    state.partial_profit_stage = "PARTIAL_1_EXECUTED"
+    action = AdaptiveManagementActionORM(action_id="A_PS2", position_id="PS2", policy_id=service.ACTIVE_POLICY_ID, action_type="PARTIAL_PROFIT", priority=40, mode="demo_active", status="selected", idempotency_key="A_PS2-KEY", requested_volume=0.25, evidence={"target_stage": "PARTIAL_2", "requested_fraction": 0.33})
+
+    with SessionLocal() as db:
+        db.merge(state)
+        db.commit()
+        stage_row = adaptive_management_service._begin_partial_stage_attempt(db, state, action)
+        db.commit()
+        adaptive_management_service._resolve_partial_stage_attempt(db, stage_row, state, {"status": "ACCEPTED", "filled_volume": 0.25, "broker_ticket": "1000"})
+        updated = db.get(AdaptivePositionStateORM, "PS2")
+
+    assert updated.partial_profit_stage == "RUNNER"
+
+
+def test_cooldown_expiry_cannot_repeat_an_executed_stage(monkeypatch):
+    # Stage-gating is independent of the modification cooldown -- even with the cooldown long
+    # expired (last_management_at far in the past), an EXECUTED stage must never fire again.
+    SessionLocal = _session_factory(monkeypatch)
+    state = _managed_state("PS_COOLDOWN")
+    state.partial_profit_stage = "PARTIAL_1_EXECUTED"
+    state.last_management_at = datetime.now(timezone.utc) - timedelta(hours=1)
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, {"price_current": 4050.0, "profit": 500.0}, {}, [])
+
+    assert not [c for c in candidates if c.action_type == "PARTIAL_PROFIT" and c.evidence.get("target_stage") == "PARTIAL_1"]
+
+
+def test_restart_reconciliation_confirms_executed_stage_from_execution_order(monkeypatch):
+    # PART 11: a PENDING row left behind by a crash (between committing PENDING and resolving
+    # it) must reconcile against the Execution Manager's own durable order-state record, never
+    # blindly resubmit.
+    from backend.portfolio_execution.orm import ExecutionOrderORM
+
+    SessionLocal = _session_factory(monkeypatch)
+    state = _managed_state("PS_RESTART_OK")
+    with SessionLocal() as db:
+        db.merge(state)
+        order = ExecutionOrderORM(execution_id="EXE_RESTART_OK", idempotency_key="KEY_RESTART_OK", source="adaptive_trade_manager", symbol="XAUUSD", action_type="DEAL", requested_volume=0.25, state="ACCEPTED", deal_ticket="777", order_ticket="888")
+        db.merge(order)
+        stage_row = AdaptivePartialProfitStageORM(stage_attempt_id="APPS_RESTART_OK", position_id="PS_RESTART_OK", broker_ticket="PS_RESTART_OK", stage="PARTIAL_1_PENDING", requested_volume=0.25, idempotency_key="KEY_RESTART_OK", requested_at=datetime.now(timezone.utc), reconciliation_status="PENDING")
+        db.merge(stage_row)
+        db.commit()
+
+        import asyncio as _asyncio
+        _asyncio.run(adaptive_management_service._reconcile_pending_partial_stages(db, {"PS_RESTART_OK"}))
+
+        resolved = db.query(AdaptivePartialProfitStageORM).filter(AdaptivePartialProfitStageORM.stage_attempt_id == "APPS_RESTART_OK").first()
+        updated_state = db.get(AdaptivePositionStateORM, "PS_RESTART_OK")
+
+    assert resolved.reconciliation_status == "CONFIRMED_EXECUTED"
+    assert resolved.stage == "PARTIAL_1_EXECUTED"
+    assert updated_state.partial_profit_stage == "PARTIAL_1_EXECUTED"
+
+
+def test_restart_reconciliation_allows_retry_after_confirmed_rejection(monkeypatch):
+    from backend.portfolio_execution.orm import ExecutionOrderORM
+
+    SessionLocal = _session_factory(monkeypatch)
+    state = _managed_state("PS_RESTART_FAIL")
+    with SessionLocal() as db:
+        db.merge(state)
+        order = ExecutionOrderORM(execution_id="EXE_RESTART_FAIL", idempotency_key="KEY_RESTART_FAIL", source="adaptive_trade_manager", symbol="XAUUSD", action_type="DEAL", requested_volume=0.25, state="REJECTED")
+        db.merge(order)
+        stage_row = AdaptivePartialProfitStageORM(stage_attempt_id="APPS_RESTART_FAIL", position_id="PS_RESTART_FAIL", broker_ticket="PS_RESTART_FAIL", stage="PARTIAL_1_PENDING", requested_volume=0.25, idempotency_key="KEY_RESTART_FAIL", requested_at=datetime.now(timezone.utc), reconciliation_status="PENDING")
+        db.merge(stage_row)
+        db.commit()
+
+        import asyncio as _asyncio
+        _asyncio.run(adaptive_management_service._reconcile_pending_partial_stages(db, {"PS_RESTART_FAIL"}))
+
+        resolved = db.query(AdaptivePartialProfitStageORM).filter(AdaptivePartialProfitStageORM.stage_attempt_id == "APPS_RESTART_FAIL").first()
+        updated_state = db.get(AdaptivePositionStateORM, "PS_RESTART_FAIL")
+
+    assert resolved.reconciliation_status == "CONFIRMED_NOT_EXECUTED"
+    assert updated_state.partial_profit_stage == "NONE"  # safe to retry
+
+
+def test_restart_reconciliation_ambiguous_pending_never_auto_resubmits(monkeypatch):
+    # The Execution Manager's own order is STILL "SUBMITTED" (neither confirmed executed nor
+    # confirmed rejected) -- genuinely ambiguous whether the broker ever saw the request. Must
+    # become RECONCILIATION_REQUIRED, never silently retried.
+    from backend.portfolio_execution.orm import ExecutionOrderORM
+
+    SessionLocal = _session_factory(monkeypatch)
+    state = _managed_state("PS_RESTART_AMBIGUOUS")
+    with SessionLocal() as db:
+        db.merge(state)
+        order = ExecutionOrderORM(execution_id="EXE_RESTART_AMBIG", idempotency_key="KEY_RESTART_AMBIG", source="adaptive_trade_manager", symbol="XAUUSD", action_type="DEAL", requested_volume=0.25, state="SUBMITTED")
+        db.merge(order)
+        stage_row = AdaptivePartialProfitStageORM(stage_attempt_id="APPS_RESTART_AMBIG", position_id="PS_RESTART_AMBIGUOUS", broker_ticket="PS_RESTART_AMBIGUOUS", stage="PARTIAL_1_PENDING", requested_volume=0.25, idempotency_key="KEY_RESTART_AMBIG", requested_at=datetime.now(timezone.utc), reconciliation_status="PENDING")
+        db.merge(stage_row)
+        db.commit()
+
+        import asyncio as _asyncio
+        _asyncio.run(adaptive_management_service._reconcile_pending_partial_stages(db, {"PS_RESTART_AMBIGUOUS"}))
+
+        resolved = db.query(AdaptivePartialProfitStageORM).filter(AdaptivePartialProfitStageORM.stage_attempt_id == "APPS_RESTART_AMBIG").first()
+        updated_state = db.get(AdaptivePositionStateORM, "PS_RESTART_AMBIGUOUS")
+
+    assert resolved.reconciliation_status == "RECONCILIATION_REQUIRED"
+    assert updated_state.partial_profit_stage == "RECONCILIATION_REQUIRED"
 
 
 def test_breakeven_price_uses_real_symbol_point_not_generic_fx_guess():

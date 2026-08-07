@@ -8,6 +8,7 @@ from backend.brokers.mt5.config import MT5Config
 from backend.brokers.mt5.diagnostics import assert_demo_account
 from backend.brokers.mt5.exceptions import MT5ReadOnlyViolation
 from backend.brokers.mt5.models import MT5OrderCheckResult, MT5OrderSubmissionResult, MT5RiskSizing, MT5Symbol, MT5TradeIntent
+from backend.brokers.mt5.risk_calculator import CRITICAL_MISMATCH, calculate_canonical_loss_per_lot, record_mismatch_if_needed
 from backend.portfolio_execution.service import execution_manager
 
 
@@ -26,6 +27,12 @@ class MT5ExecutionService:
 
     async def safety_blockers(self) -> list[str]:
         blockers: list[str] = []
+        if self.config.database_recovery_in_progress:
+            # Set via DATABASE_RECOVERY_IN_PROGRESS after the 2026-08-07 incident
+            # (see migration 0036_db_incident_boundary / the db_incidents table).
+            # Blocks NEW entries only -- existing position management is untouched
+            # by this flag, matching Part 14 of the recovery directive.
+            blockers.append("DATABASE_RECOVERY_IN_PROGRESS")
         if not self.config.enabled:
             blockers.append("MT5_DISABLED")
         if self.config.account_mode != "DEMO":
@@ -64,12 +71,25 @@ class MT5ExecutionService:
         stop: Decimal,
         target: Decimal,
         risk_budget_adjustment: dict[str, Any] | None = None,
+        portfolio_available_risk_usd: Decimal | None = None,
+        account_fingerprint: str | None = None,
     ) -> MT5RiskSizing:
+        """PART 4's required sizing sequence, using the single canonical monetary-risk
+        calculator (backend/brokers/mt5/risk_calculator.py) for every loss estimate -- no other
+        module may compute MT5 monetary risk a different way (see that module's docstring for
+        the incident this replaced: a lone trade_tick_value field 10x under-estimated XAUUSD
+        risk). `portfolio_available_risk_usd`, when provided, additionally caps sizing to
+        whatever open-risk headroom the portfolio actually has left (optional/backward
+        compatible -- omitted callers get identical behavior to before this parameter existed)."""
         reasons = _geometry_reasons(direction, entry, stop, target)
+        # 1. Configured monetary risk budget.
         equity_risk_cap = (account_equity * Decimal(str(self.config.risk_percent_per_trade)) / Decimal("100")).quantize(Decimal("0.01"))
         trade_risk_cap = Decimal(str(self.config.max_risk_per_trade_usd))
         aggregate_percent_cap = account_equity * Decimal(str(self.config.max_total_open_risk_percent)) / Decimal("100")
-        effective_risk = min(equity_risk_cap, trade_risk_cap, Decimal(str(self.config.max_total_open_risk_usd)), Decimal(str(self.config.max_daily_loss_usd)), aggregate_percent_cap)
+        cap_values = [equity_risk_cap, trade_risk_cap, Decimal(str(self.config.max_total_open_risk_usd)), Decimal(str(self.config.max_daily_loss_usd)), aggregate_percent_cap]
+        if portfolio_available_risk_usd is not None:
+            cap_values.append(max(Decimal("0"), portfolio_available_risk_usd))
+        effective_risk = min(cap_values)
         # v2 effective-risk-budget scaling (drawdown/portfolio exposure/correlation/economic
         # risk/strategy confidence) -- optional and multiplicative only, so callers that don't
         # pass it get byte-identical behavior to before this parameter existed. See
@@ -78,41 +98,77 @@ class MT5ExecutionService:
         if risk_budget_adjustment is not None:
             risk_multiplier = float(risk_budget_adjustment.get("multiplier", 1.0))
             effective_risk = (effective_risk * Decimal(str(risk_multiplier))).quantize(Decimal("0.01"))
-        tick_size = symbol.trade_tick_size or symbol.point
-        tick_value = symbol.trade_tick_value_loss or symbol.trade_tick_value or symbol.trade_tick_value_profit
         step = symbol.volume_step or Decimal("0.01")
         minimum = symbol.volume_min or Decimal("0.01")
         maximum = symbol.volume_max or Decimal("100")
-        if not tick_size or tick_size <= 0 or not tick_value or tick_value <= 0:
-            reasons.append("TICK_VALUE_UNAVAILABLE")
         if reasons:
             return MT5RiskSizing(status="REJECTED", reasons=reasons, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap)
-        stop_distance = abs(entry - stop)
-        loss_per_lot = (stop_distance / tick_size) * tick_value
-        # Cross-validate against trade_contract_size, the other broker-reported field that
-        # independently determines monetary value per 1.0-lot price move (value = contract_size
-        # x price_change, when profit currency == account currency -- true for XAUUSD/USD here).
-        # For a correctly configured symbol these two formulas agree exactly (trade_tick_value ==
-        # trade_contract_size * trade_tick_size by construction) -- confirmed for this account's
-        # EURUSD (100000 * 0.00001 == 1.0). They did NOT agree for this account's XAUUSD
-        # (trade_tick_value implied $10/point/lot; trade_contract_size implied $100/point/lot --
-        # confirmed against the broker's own order_calc_profit, which is authoritative). Silently
-        # trusting the smaller figure there produced a 10x-oversized position: a 0.10 lot "$25
-        # risk" Gold trade that was actually risking $235.90 against a $50 account cap. Always
-        # take the larger (more conservative) of the two; never let a broker-metadata quirk on
-        # one field alone silently oversize a position.
-        if symbol.trade_contract_size and symbol.trade_contract_size > 0:
-            contract_based_loss_per_lot = stop_distance * symbol.trade_contract_size
-            loss_per_lot = max(loss_per_lot, contract_based_loss_per_lot)
-        if loss_per_lot <= 0:
-            return MT5RiskSizing(status="REJECTED", reasons=["PROJECTED_LOSS_UNVERIFIABLE"], equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap)
+
+        # 2. Canonical projected loss for 1.0 lot -- most-conservative-of-every-available-method.
+        mt5_client = self._native_client()
+        canonical = await calculate_canonical_loss_per_lot(
+            direction=direction,
+            entry=entry,
+            stop=stop,
+            symbol_info=symbol,
+            mt5_client=mt5_client,
+            warning_pct=self.config.risk_calculation_disagreement_pct,
+            critical_pct=self.config.risk_calculation_critical_disagreement_pct,
+        )
+        record_mismatch_if_needed(canonical, symbol=symbol.symbol, account_fingerprint=account_fingerprint, context="new_entry_sizing")
+        diagnostics = dict(
+            risk_calculation_method=canonical.selected_method,
+            risk_calculation_estimates={name: est.to_dict() for name, est in canonical.estimates.items()},
+            risk_calculation_disagreement_pct=canonical.max_disagreement_pct,
+            risk_calculation_warning_codes=list(canonical.warning_codes),
+        )
+        if canonical.selected_loss_per_lot is None or canonical.selected_loss_per_lot <= 0:
+            reasons.append("PROJECTED_LOSS_UNVERIFIABLE")
+            return MT5RiskSizing(status="REJECTED", reasons=reasons, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, **diagnostics)
+        if canonical.blocked:
+            # Critical broker-metadata disagreement (>= MT5_RISK_CALCULATION_CRITICAL_DISAGREEMENT_PCT)
+            # blocks a NEW entry outright -- this is exactly the path that must catch a future
+            # XAUUSD-shaped incident before any order is sized, let alone submitted. Existing
+            # position MANAGEMENT (SL/TP modification, partial close) deliberately does NOT call
+            # this method and is therefore never blocked by it -- see PART 2.
+            reasons.append(canonical.block_reason or CRITICAL_MISMATCH)
+            return MT5RiskSizing(status="REJECTED", reasons=reasons, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, **diagnostics)
+        loss_per_lot = canonical.selected_loss_per_lot
+
+        # 3-4. raw_volume = budget / one_lot_loss, FLOORED to volume_step. Never rounded up.
         raw_volume = effective_risk / loss_per_lot
         capped = min(raw_volume, maximum)
         volume = _round_down(capped, step)
+
+        # 5-6. volume_min / volume_max bounds. If even volume_min's monetary risk exceeds the
+        # budget, BLOCK -- never round up merely to satisfy volume_min (this is the exact
+        # invariant the XAUUSD incident violated).
         if volume < minimum:
-            return MT5RiskSizing(status="REJECTED", reasons=["VOLUME_BELOW_MINIMUM"], equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap)
+            minimum_risk = (loss_per_lot * minimum).copy_abs().quantize(Decimal("0.01"))
+            reasons.append("VOLUME_BELOW_MINIMUM_RISK_TOO_HIGH" if minimum_risk > effective_risk else "VOLUME_BELOW_MINIMUM")
+            return MT5RiskSizing(status="REJECTED", reasons=reasons, effective_risk_usd=effective_risk, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, **diagnostics)
+
+        # 7. Recalculate projected monetary loss at the normalized (post-floor) volume. MT5 lot
+        # economics are linear in volume (broker-confirmed: order_calc_profit(0.1 lot) ==
+        # order_calc_profit(1.0 lot)/10 exactly), so this is the same selected-method figure
+        # scaled to `volume` -- not a second broker round trip for no additional information.
         projected_loss = (loss_per_lot * volume).copy_abs().quantize(Decimal("0.01"))
-        projected_profit = (abs(target - entry) / tick_size * tick_value * volume).copy_abs().quantize(Decimal("0.01"))
+        tick_size = symbol.trade_tick_size or symbol.point
+        tick_value = symbol.trade_tick_value_loss or symbol.trade_tick_value or symbol.trade_tick_value_profit
+        if tick_size and tick_size > 0 and tick_value and tick_value > 0:
+            projected_profit = (abs(target - entry) / tick_size * tick_value * volume).copy_abs().quantize(Decimal("0.01"))
+        else:
+            projected_profit = Decimal("0.00")
+
+        # 8-9. Compare final projected loss against every permitted cap; block outside rounding
+        # tolerance rather than silently accepting an over-budget trade because of floor rounding.
+        tolerance = Decimal("0.02")
+        if projected_loss > effective_risk + tolerance:
+            reasons.append("PROJECTED_LOSS_EXCEEDS_RISK_BUDGET")
+        if projected_loss > trade_risk_cap + tolerance:
+            reasons.append("PROJECTED_LOSS_EXCEEDS_HARD_CAP")
+        if portfolio_available_risk_usd is not None and projected_loss > portfolio_available_risk_usd + tolerance:
+            reasons.append("PROJECTED_LOSS_EXCEEDS_PORTFOLIO_AVAILABLE_RISK")
         rr = (projected_profit / projected_loss).quantize(Decimal("0.01")) if projected_loss > 0 else Decimal("0")
         if rr < Decimal("1.5"):
             reasons.append("RISK_REWARD_TOO_LOW")
@@ -127,7 +183,17 @@ class MT5ExecutionService:
             reasons=reasons,
             equity_risk_cap_usd=equity_risk_cap,
             trade_risk_cap_usd=trade_risk_cap,
+            **diagnostics,
         )
+
+    def _native_client(self) -> Any | None:
+        """Best-effort raw MT5 client for the canonical calculator's broker-native
+        order_calc_profit method -- None (not an error) when the terminal isn't ready yet, so
+        sizing still proceeds using the contract-size/tick-value methods alone."""
+        try:
+            return self.adapter.client.ensure_ready()
+        except Exception:
+            return None
 
     async def order_calc_margin(self, intent: MT5TradeIntent) -> Decimal | None:
         mt5 = self.adapter.client.ensure_ready()

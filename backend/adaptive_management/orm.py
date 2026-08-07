@@ -384,6 +384,46 @@ class AdaptivePositionStateORM(Base):
     # _contaminated_position_ids().
     contaminated: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, index=True)
     contamination_reason: Mapped[str | None] = mapped_column(String(512), nullable=True)
+
+    # --- Canonical monetary risk: IMMUTABLE once populated (first reconciliation only) ---
+    # Set exactly once, in _sync_position_state's is_first_sight branch, via the canonical risk
+    # calculator (backend/brokers/mt5/risk_calculator.py). NEVER modified afterward -- not by an
+    # SL move, breakeven, trailing, TP move, partial close, backend restart, or reconciliation.
+    # original_sl/original_tp/original_volume above already follow this same "set once" pattern;
+    # these five columns extend it to entry price, stop distance, and money/percent/source. See
+    # test_original_risk_money_immutable_after_* for the guard tests proving this.
+    original_entry: Mapped[float | None] = mapped_column(Float, nullable=True)
+    original_stop_distance: Mapped[float | None] = mapped_column(Float, nullable=True)
+    original_risk_money: Mapped[float | None] = mapped_column(Float, nullable=True)
+    original_risk_pct: Mapped[float | None] = mapped_column(Float, nullable=True)
+    # BROKER_NATIVE | CONSERVATIVE_MULTI_METHOD | RECONSTRUCTED | LEGACY_FALLBACK | UNAVAILABLE
+    original_risk_source: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+
+    # --- Current monetary risk: MUTABLE, recomputed every management cycle ---
+    # current_volume/current_sl/current_tp already exist above and are mutable. These three are
+    # the money-denominated view of "if current_sl were hit right now, at current_volume, what's
+    # the loss/protected-profit" -- see AdaptiveManagementService._current_risk_fields. Never
+    # conflated with the original_* fields: original_risk_money answers "what did this trade
+    # start out risking" (for R normalization), current_risk_money answers "what is actually at
+    # stake right now" (e.g. ~0 after a breakeven move, even though original_risk_money is
+    # unchanged).
+    current_risk_money: Mapped[float] = mapped_column(Float, nullable=False, default=0)
+    protected_profit_money: Mapped[float] = mapped_column(Float, nullable=False, default=0)
+    remaining_open_risk_money: Mapped[float] = mapped_column(Float, nullable=False, default=0)
+
+    # Which basis r_now/max_achieved_r/min_achieved_r were computed on this cycle: "MONEY"
+    # (preferred -- current_unrealized_pnl / original_risk_money), "PRICE_DISTANCE_FALLBACK"
+    # (original_risk_money unavailable, fell back to the original-SL price-distance calc), or
+    # "UNAVAILABLE" (neither reliable -- R-threshold candidates are skipped entirely that cycle;
+    # see _evaluate_position). Never "current SL distance" -- see the R-anchoring incident fix.
+    r_source: Mapped[str] = mapped_column(String(32), nullable=False, default="UNAVAILABLE", index=True)
+
+    # Denormalized current stage for fast reads (position_detail, candidate-generation gating)
+    # -- the durable, per-attempt record lives in AdaptivePartialProfitStageORM, keyed by the
+    # same position_id. NONE | PARTIAL_1_PENDING | PARTIAL_1_EXECUTED | PARTIAL_2_PENDING |
+    # PARTIAL_2_EXECUTED | RUNNER | COMPLETE | RECONCILIATION_REQUIRED.
+    partial_profit_stage: Mapped[str] = mapped_column(String(32), nullable=False, default="NONE", index=True)
+
     raw_payload: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, onupdate=utcnow)
@@ -428,6 +468,40 @@ class AdaptivePartialExitStageORM(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
 
     __table_args__ = (UniqueConstraint("position_id", "stage", name="uq_adaptive_partial_stage_position_stage"),)
+
+
+class AdaptivePartialProfitStageORM(Base):
+    """Persistent state machine for the R-threshold-based PARTIAL_PROFIT action type (distinct
+    from AdaptivePartialExitStageORM, which tracks the separate TP-progress-zone-based partial
+    system). One row per stage ATTEMPT -- a retried stage after a CONFIRMED_NOT_EXECUTED result
+    gets a new row, not an overwrite, so the full attempt history survives. The durable guarantee
+    this table exists for: an EXECUTED stage can never execute again for the same account
+    fingerprint + ticket + stage, even across cooldown expiry, backend restarts, or Docker
+    restarts -- see AdaptiveManagementService._reconcile_pending_partial_stages, which resolves
+    any row still PENDING at startup against the Execution Manager's own order-state record
+    (ExecutionOrderORM, keyed by the same idempotency_key) rather than ever blindly resubmitting."""
+
+    __tablename__ = "adaptive_partial_profit_stages"
+
+    stage_attempt_id: Mapped[str] = mapped_column(String(160), primary_key=True)
+    position_id: Mapped[str] = mapped_column(String(96), nullable=False, index=True)
+    broker_ticket: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+    account_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    # PARTIAL_1_PENDING | PARTIAL_1_EXECUTED | PARTIAL_2_PENDING | PARTIAL_2_EXECUTED
+    stage: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
+    requested_fraction: Mapped[float | None] = mapped_column(Float, nullable=True)
+    requested_volume: Mapped[float | None] = mapped_column(Float, nullable=True)
+    executed_volume: Mapped[float | None] = mapped_column(Float, nullable=True)
+    broker_deal_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    broker_order_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    idempotency_key: Mapped[str] = mapped_column(String(160), nullable=False, unique=True, index=True)
+    requested_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow)
+    executed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    remaining_broker_volume: Mapped[float | None] = mapped_column(Float, nullable=True)
+    # PENDING | CONFIRMED_EXECUTED | CONFIRMED_NOT_EXECUTED | RECONCILIATION_REQUIRED
+    reconciliation_status: Mapped[str] = mapped_column(String(32), nullable=False, default="PENDING", index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, onupdate=utcnow)
 
 
 class AdaptiveManagementActionORM(Base):

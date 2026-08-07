@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-from sqlalchemy import Boolean, DateTime, Float, Index, Integer, JSON, String, Text, UniqueConstraint
+from sqlalchemy import BigInteger, Boolean, DateTime, Float, Index, Integer, JSON, Numeric, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 from backend.shared.db import Base
@@ -215,6 +215,29 @@ class MT5CanonicalCandleORM(Base):
     )
 
 
+class MT5RiskMetadataMismatchORM(Base):
+    """Audit record of a canonical-risk-calculator disagreement (see
+    backend/brokers/mt5/risk_calculator.py) beyond the configured warning threshold
+    (MT5_RISK_CALCULATION_DISAGREEMENT_PCT). One row per calculation that triggered a warning or
+    critical mismatch -- never deleted/edited, so it's the durable record of every symbol whose
+    broker-reported risk metadata has ever disagreed with itself (the exact class of bug behind
+    the XAUUSD 10x sizing incident on ticket 57873187767)."""
+
+    __tablename__ = "mt5_risk_metadata_mismatches"
+
+    mismatch_id: Mapped[str] = mapped_column(String(96), primary_key=True)
+    symbol: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
+    account_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    selected_method: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    selected_loss_per_lot: Mapped[float | None] = mapped_column(Float, nullable=True)
+    estimates: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
+    disagreement_pct: Mapped[float | None] = mapped_column(Float, nullable=True, index=True)
+    critical: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, index=True)
+    blocked_entry: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    context: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
+
+
 class MT5RetentionPolicyORM(Base):
     __tablename__ = "mt5_retention_policies"
 
@@ -225,3 +248,52 @@ class MT5RetentionPolicyORM(Base):
     notes: Mapped[str] = mapped_column(Text, nullable=False, default="")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, onupdate=utcnow)
+
+
+class MT5BrokerRecoveredTradeORM(Base):
+    """One-time post-incident broker-history recovery target. See migration
+    0037_mt5_broker_recovered_trades and backend/scripts/recover_mt5_broker_history.py.
+
+    Deliberately separate from MT5TradeRecordORM (mt5_trade_records), whose schema
+    assumes internal Bensim context (cycle_id, ai_decision_id, strategy_outputs, ...)
+    that does not exist for broker-only recovered history. Every column here is a
+    broker-observable fact; anything the broker doesn't retain is left NULL.
+    """
+
+    __tablename__ = "mt5_broker_recovered_trades"
+
+    recovery_record_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    account_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+    deal_ticket: Mapped[int | None] = mapped_column(BigInteger, nullable=True)
+    order_ticket: Mapped[int | None] = mapped_column(BigInteger, nullable=True)
+    position_id: Mapped[int | None] = mapped_column(BigInteger, nullable=True, index=True)
+    symbol: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+    direction: Mapped[str | None] = mapped_column(String(8), nullable=True)
+    deal_type: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    entry_type: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    volume: Mapped[float | None] = mapped_column(Numeric(18, 4), nullable=True)
+    price: Mapped[float | None] = mapped_column(Numeric(18, 6), nullable=True)
+    deal_time: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True, index=True)
+    order_setup_time: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    order_done_time: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    profit: Mapped[float | None] = mapped_column(Numeric(18, 4), nullable=True)
+    commission: Mapped[float | None] = mapped_column(Numeric(18, 4), nullable=True)
+    swap: Mapped[float | None] = mapped_column(Numeric(18, 4), nullable=True)
+    fee: Mapped[float | None] = mapped_column(Numeric(18, 4), nullable=True)
+    comment: Mapped[str | None] = mapped_column(String(256), nullable=True)
+    magic: Mapped[int | None] = mapped_column(BigInteger, nullable=True)
+    reason: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    stop_loss: Mapped[float | None] = mapped_column(Numeric(18, 6), nullable=True)
+    take_profit: Mapped[float | None] = mapped_column(Numeric(18, 6), nullable=True)
+    broker_retcode: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    broker_status: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    raw_deal_payload: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    raw_order_payload: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    data_origin: Mapped[str] = mapped_column(String(32), nullable=False, default="MT5_BROKER_RECOVERY")
+    recovered_after_incident: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    recovery_incident_id: Mapped[str] = mapped_column(String(64), nullable=False, default="DB_DROP_20260807")
+    recovered_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow)
+
+    __table_args__ = (
+        UniqueConstraint("account_fingerprint", "deal_ticket", name="uq_mt5_recovered_deal"),
+    )

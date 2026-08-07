@@ -18,6 +18,7 @@ from backend.adaptive_management.orm import (
     AdaptiveExperimentORM,
     AdaptiveManagementActionORM,
     AdaptivePartialExitStageORM,
+    AdaptivePartialProfitStageORM,
     AdaptivePositionAdoptionORM,
     AdaptivePositionStateORM,
     AdaptiveSessionORM,
@@ -38,9 +39,11 @@ from backend.brokers.mt5.account_registry import AccountClassification
 from backend.brokers.mt5.adapter import mt5_adapter
 from backend.brokers.mt5.config import mt5_config
 from backend.brokers.mt5.persistence import sanitize
+from backend.brokers.mt5.risk_calculator import calculate_canonical_loss_per_lot, calculate_conservative_loss_per_lot_sync, record_mismatch_if_needed
 from backend.decision_context.service import decision_context_service
 from backend.economic_intelligence.service import economic_intelligence_service
 from backend.intelligence.trading.config import ai_trading_config
+from backend.portfolio_execution.orm import ExecutionOrderORM
 from backend.portfolio_execution.service import execution_manager
 from backend.shared.db import SessionLocal
 
@@ -376,8 +379,19 @@ class AdaptiveManagementService:
             state = db.get(AdaptivePositionStateORM, ticket)
             audit = db.query(AdaptiveStopQualityAuditORM).filter(AdaptiveStopQualityAuditORM.position_id == ticket).first()
             stages = [_orm_dict(row) for row in db.query(AdaptivePartialExitStageORM).filter(AdaptivePartialExitStageORM.position_id == ticket).order_by(AdaptivePartialExitStageORM.created_at.asc()).all()]
+            partial_profit_stages = [_orm_dict(row) for row in db.query(AdaptivePartialProfitStageORM).filter(AdaptivePartialProfitStageORM.position_id == ticket).order_by(AdaptivePartialProfitStageORM.created_at.asc()).all()]
         if live is None and state is None:
             return {"found": False, "ticket": ticket}
+        # PART 16: unrealized_r/MFE_R/MAE_R -- monetary-preferred (PART 7), computed live from
+        # the live broker P&L and the persisted immutable original_risk_money rather than a
+        # separately-persisted column, since "current unrealized R right now" is inherently a
+        # point-in-time view (max_achieved_r/min_achieved_r remain the durable MFE/MAE record).
+        unrealized_r = None
+        if state is not None and state.original_risk_money and live is not None:
+            try:
+                unrealized_r = float(live.profit or 0) / state.original_risk_money
+            except Exception:
+                unrealized_r = None
         return {
             "found": True,
             "ticket": ticket,
@@ -385,6 +399,20 @@ class AdaptiveManagementService:
             "adaptive_state": _orm_dict(state) if state else None,
             "stop_quality_audit": _orm_dict(audit) if audit else None,
             "partial_exit_stages": stages,
+            "partial_profit_stages": partial_profit_stages,
+            "risk_summary": {
+                "original_risk_money": state.original_risk_money if state else None,
+                "original_risk_pct": state.original_risk_pct if state else None,
+                "original_risk_source": state.original_risk_source if state else None,
+                "current_risk_money": state.current_risk_money if state else None,
+                "protected_profit_money": state.protected_profit_money if state else None,
+                "remaining_open_risk_money": state.remaining_open_risk_money if state else None,
+                "unrealized_r": unrealized_r,
+                "mfe_r": state.max_achieved_r if state else None,
+                "mae_r": state.min_achieved_r if state else None,
+                "r_source": state.r_source if state else None,
+                "partial_profit_stage": state.partial_profit_stage if state else None,
+            },
         }
 
     def position_history(self, ticket: str) -> dict[str, Any]:
@@ -1245,6 +1273,10 @@ class AdaptiveManagementService:
                 account_equity = float(live_account.equity) if live_account is not None else None
             except Exception:
                 account_equity = None
+            try:
+                mt5_client = mt5_adapter.client.ensure_ready()
+            except Exception:
+                mt5_client = None
             with SessionLocal() as db:
                 activation = _active_activation(db)
                 breaker = _breaker(db)
@@ -1252,6 +1284,7 @@ class AdaptiveManagementService:
                 currently_open_ids = {_position_id(position.model_dump(mode="json")) for position in positions}
                 await self._reconcile_recently_closed(db, currently_open_ids)
                 await self._auto_replay_recently_closed(db)
+                await self._reconcile_pending_partial_stages(db, currently_open_ids)
                 selected = []
                 executed = 0
                 for position in positions:
@@ -1275,7 +1308,35 @@ class AdaptiveManagementService:
                             symbol_info = await mt5_adapter.symbol_info(symbol)
                         except Exception:
                             symbol_info = None
-                        state = self._sync_position_state(db, payload, activation, context, candles, account_fingerprint=current_fingerprint, symbol_info=symbol_info)
+                        # PART 5: original monetary risk is captured via the canonical
+                        # calculator (backend/brokers/mt5/risk_calculator.py) exactly once, the
+                        # very first time this position is ever seen -- computed here (async
+                        # context) rather than inside _sync_position_state (sync) so that
+                        # function stays callable without an event loop, matching every existing
+                        # test call site. Only attempted when original_risk_money isn't already
+                        # populated, so an already-initialized position costs zero extra broker
+                        # calls per cycle.
+                        original_risk_result = None
+                        existing_row = db.get(AdaptivePositionStateORM, ticket)
+                        needs_original_risk = (existing_row is None or existing_row.original_risk_money is None) and symbol_info is not None
+                        if needs_original_risk:
+                            sl_price = payload.get("sl")
+                            entry_price = payload.get("price_open")
+                            if sl_price and entry_price:
+                                try:
+                                    original_risk_result = await calculate_canonical_loss_per_lot(
+                                        direction=_position_direction(payload),
+                                        entry=Decimal(str(entry_price)),
+                                        stop=Decimal(str(sl_price)),
+                                        symbol_info=symbol_info,
+                                        mt5_client=mt5_client,
+                                        warning_pct=mt5_config().risk_calculation_disagreement_pct,
+                                        critical_pct=mt5_config().risk_calculation_critical_disagreement_pct,
+                                    )
+                                    record_mismatch_if_needed(original_risk_result, symbol=symbol, account_fingerprint=current_fingerprint, context="management_original_risk_capture")
+                                except Exception:
+                                    original_risk_result = None
+                        state = self._sync_position_state(db, payload, activation, context, candles, account_fingerprint=current_fingerprint, symbol_info=symbol_info, original_risk_result=original_risk_result, account_equity=account_equity)
                         try:
                             economic_result = await economic_intelligence_service.evaluate_position(symbol=symbol, direction=state.direction, opened_at=state.opened_at)
                         except Exception as exc:
@@ -1286,9 +1347,20 @@ class AdaptiveManagementService:
                         action = self._persist_action(db, state, activation, choice, candidates, mode, breaker)
                         selected.append(_orm_dict(action))
                         if self._can_execute(action, state, activation, breaker, mode, current_fingerprint):
+                            partial_stage_row = None
+                            if action.action_type == "PARTIAL_PROFIT":
+                                # PART 11 restart-safety: the PENDING row (and the state's
+                                # denormalized stage) is committed BEFORE the broker call, not
+                                # after -- so a crash mid-call still leaves a real row for
+                                # _reconcile_pending_partial_stages to resolve on restart,
+                                # instead of losing the attempt entirely.
+                                partial_stage_row = self._begin_partial_stage_attempt(db, state, action)
+                                db.commit()
                             result = await self._execute_action(action, state, payload)
                             executed += 1 if result.get("broker_mutation_attempted") else 0
                             self._persist_result(db, action, result)
+                            if partial_stage_row is not None:
+                                self._resolve_partial_stage_attempt(db, partial_stage_row, state, result)
                     except Exception as exc:
                         self._record_position_evaluation_error(ticket, symbol, exc)
                         continue
@@ -1416,7 +1488,7 @@ class AdaptiveManagementService:
             result_row.reconciliation_state = "confirmed" if sl_matches and tp_matches else "mismatch"
             db.merge(result_row)
 
-    def _sync_position_state(self, db: Any, payload: dict[str, Any], activation: Any | None, context: dict[str, Any], candles: list[dict[str, Any]], account_fingerprint: str | None = None, symbol_info: Any | None = None) -> AdaptivePositionStateORM:
+    def _sync_position_state(self, db: Any, payload: dict[str, Any], activation: Any | None, context: dict[str, Any], candles: list[dict[str, Any]], account_fingerprint: str | None = None, symbol_info: Any | None = None, original_risk_result: Any | None = None, account_equity: float | None = None) -> AdaptivePositionStateORM:
         position_id = _position_id(payload)
         row = db.get(AdaptivePositionStateORM, position_id) or AdaptivePositionStateORM(position_id=position_id)
         direction = _position_direction(payload)
@@ -1425,22 +1497,40 @@ class AdaptiveManagementService:
         entry = float(payload.get("price_open") or current_price or 0)
         sl = _float(payload.get("sl"))
         tp = _float(payload.get("tp"))
+        volume = float(payload.get("volume") or 0)
         self._reconcile_sltp_confirmations(db, position_id, sl, tp)
         is_first_sight = row.original_sl is None
-        # R is always relative to the trade's ORIGINAL initial risk, never the current/moving
-        # SL: R answers "how far has price moved relative to what I originally risked", and that
-        # denominator must stay fixed once a management action starts moving the stop. Using the
-        # live sl here previously caused two live incidents on the same trade: (1) once SL was
-        # moved to true breakeven (sl == entry), abs(entry - sl) == 0 and the `or 0.00001`
-        # epsilon fallback made the denominator near-zero, exploding r_now into the hundreds of
-        # thousands and firing repeated, real PARTIAL_PROFIT broker closes; before that fallback
-        # existed, the same zero-distance case was an outright ZeroDivisionError that crashed
-        # the entire monitor cycle (see the incident report). Anchoring to original_sl (the
-        # first-ever-seen sl, immutable afterward) makes both failure modes structurally
-        # impossible without needing any epsilon guard.
-        original_sl_for_risk = row.original_sl if row.original_sl is not None else sl
-        risk = abs(entry - original_sl_for_risk) or 0.00001
-        r_now = _signed_r(TradeCase(position_id, None, str(payload.get("symbol")).upper(), direction, float(payload.get("volume") or 0), entry, original_sl_for_risk or entry, tp or entry, opened_at or utcnow(), None, 0), current_price, risk)
+        # R's price-distance denominator is always the trade's ORIGINAL initial risk, never the
+        # current/moving SL -- see the R-anchoring incident this comment predates. Kept as the
+        # STRUCTURAL fallback (atr_r, retracement allowance, and R itself when original_risk_money
+        # isn't available -- PART 7) even now that PART 7 prefers a monetary R when possible.
+        # is_first_sight's current sl IS the true original sl at this exact moment (row.original_sl
+        # itself gets persisted a few lines down) -- safe to use structurally. A NOT-first-sight
+        # row with original_sl somehow still None is a data inconsistency, not "use current sl
+        # instead": _compute_r below gets the true row.original_sl (None if unavailable) only.
+        structural_sl_for_risk = row.original_sl if row.original_sl is not None else sl
+        risk = abs(entry - structural_sl_for_risk) or 0.00001
+
+        # --- PART 5: immutable original monetary risk, captured exactly once ---
+        if is_first_sight:
+            self._capture_original_risk(row, is_first_sight=True, entry=entry, sl=sl, volume=volume, account_equity=account_equity, original_risk_result=original_risk_result, symbol_info=symbol_info)
+        elif row.original_risk_source is None:
+            # PART 8: this row predates original_risk_money existing at all (original_sl/tp/
+            # volume were already set by an older version of this function) -- reconstruct once,
+            # using the row's own already-persisted original values, never the live ones.
+            self._reconstruct_legacy_original_risk(row, account_equity=account_equity, symbol_info=symbol_info)
+
+        # --- PART 7: R prefers original_risk_money (monetary) over price distance, and price
+        # distance over nothing. Never the current/moving SL either way. On first sight,
+        # row.original_sl hasn't been persisted yet (that assignment is a few lines below) but
+        # the live `sl` IS the true original at this exact moment -- safe to use as the
+        # price-distance fallback's anchor. Any later cycle uses row.original_sl only (None, not
+        # a current-sl substitute, if it's somehow still unset).
+        profit_usd = _float(payload.get("profit"))
+        true_original_sl = sl if is_first_sight else row.original_sl
+        r_now, r_source = _compute_r(profit_usd=profit_usd, original_risk_money=row.original_risk_money, entry=entry, current_price=current_price, original_sl_for_risk=true_original_sl, direction=direction, risk=risk)
+        row.r_source = r_source
+
         row.activation_id = activation.activation_id if activation else row.activation_id
         if account_fingerprint:
             row.account_fingerprint = account_fingerprint
@@ -1449,8 +1539,8 @@ class AdaptiveManagementService:
         row.broker_ticket = str(payload.get("ticket") or payload.get("identifier") or position_id)
         row.thesis_id = _lineage(payload.get("comment"), "setup")
         row.opened_at = opened_at
-        row.original_volume = row.original_volume or float(payload.get("volume") or 0)
-        row.current_volume = float(payload.get("volume") or 0)
+        row.original_volume = row.original_volume or volume
+        row.current_volume = volume
         row.entry_price = entry
         row.original_sl = row.original_sl if row.original_sl is not None else sl
         row.current_sl = sl
@@ -1480,6 +1570,9 @@ class AdaptiveManagementService:
             row.mae_price = current_price
         row.adopted = bool(row.adopted or _is_adopted(db, position_id))
         row.managed_automatically = _existing_allowed(opened_at, activation) or row.adopted
+
+        # --- PART 6: mutable current risk / protected profit, recomputed every cycle ---
+        self._update_current_risk_fields(row, entry=entry, current_sl=sl, direction=direction, volume=volume)
 
         regime_info = detect_regime(candles, context=context)
         atr = float(regime_info.get("features", {}).get("atr") or 0) or None
@@ -1520,6 +1613,107 @@ class AdaptiveManagementService:
         if is_first_sight and row.original_sl is not None:
             self._audit_initial_stop(db, row, payload, candles, atr, symbol_info)
         return row
+
+    def _capture_original_risk(self, row: AdaptivePositionStateORM, *, is_first_sight: bool, entry: float, sl: float | None, volume: float, account_equity: float | None, original_risk_result: Any | None, symbol_info: Any | None) -> None:
+        """PART 5: original_entry/original_stop_distance/original_risk_money/original_risk_pct/
+        original_risk_source -- set EXACTLY ONCE, on this position's first-ever sight, and never
+        touched again by any later call (an `if row.original_risk_source is not None: return`
+        guard, not just "first sight" convention, so even a caller bug that re-invoked this on an
+        existing row could never overwrite it -- see test_original_risk_money_immutable_after_*).
+
+        `original_risk_result` (a risk_calculator.CanonicalRiskResult, computed in the async
+        caller with a live broker client -- see _monitor_cycle) is preferred when provided
+        (source=BROKER_NATIVE when order_calc_profit was the selected method, else
+        CONSERVATIVE_MULTI_METHOD). Falls back to the sync-only contract_size/tick_value subset
+        (risk_calculator.calculate_conservative_loss_per_lot_sync) when no live-computed result
+        was passed in but symbol_info is available (source=CONSERVATIVE_MULTI_METHOD still, since
+        it's still the most-conservative-of-available-methods rule, just missing the
+        order_calc_profit corroboration) -- this is what makes _sync_position_state itself stay
+        callable without an event loop (existing test call sites). LEGACY_FALLBACK (raw
+        price-distance x a generic-forex contract size, no real broker metadata at all) or
+        UNAVAILABLE (no reliable SL) otherwise -- PART 8 explicitly allows this rather than
+        crashing or inventing a number. A NOT-first-sight row reaching here with
+        original_risk_source still None is a LEGACY position (original_sl/tp/volume already
+        existed before these fields shipped) -- see _reconstruct_legacy_original_risk, which
+        calls this same method with the row's own already-persisted original_entry/original_sl/
+        original_volume (never the current/live ones, which may have already moved) and forces
+        source=RECONSTRUCTED regardless of which method produced the estimate."""
+        if row.original_risk_source is not None:
+            return  # already captured -- immutable, never recomputed
+        if not sl:
+            row.original_risk_source = "UNAVAILABLE"
+            return
+        row.original_entry = entry
+        row.original_stop_distance = abs(entry - sl)
+        loss_per_lot: float | None = None
+        source = "UNAVAILABLE"
+        if original_risk_result is not None and original_risk_result.selected_loss_per_lot is not None:
+            loss_per_lot = float(original_risk_result.selected_loss_per_lot)
+            source = "BROKER_NATIVE" if original_risk_result.selected_method == "order_calc_profit" else "CONSERVATIVE_MULTI_METHOD"
+        elif symbol_info is not None:
+            sync_result = calculate_conservative_loss_per_lot_sync(entry=Decimal(str(entry)), stop=Decimal(str(sl)), symbol_info=symbol_info)
+            if sync_result.selected_loss_per_lot is not None:
+                loss_per_lot = float(sync_result.selected_loss_per_lot)
+                source = "CONSERVATIVE_MULTI_METHOD"
+        if loss_per_lot is None and row.original_stop_distance > 0:
+            # No broker symbol metadata available at all (e.g. broker unreachable this cycle) --
+            # a labeled degraded estimate, never silently treated as equivalent to a real one.
+            loss_per_lot = row.original_stop_distance * 100_000.0
+            source = "LEGACY_FALLBACK"
+        if loss_per_lot is None:
+            row.original_risk_source = "UNAVAILABLE"
+            return
+        row.original_risk_money = loss_per_lot * volume
+        row.original_risk_pct = (row.original_risk_money / account_equity * 100.0) if account_equity else None
+        row.original_risk_source = source if is_first_sight else "RECONSTRUCTED"
+
+    def _reconstruct_legacy_original_risk(self, row: AdaptivePositionStateORM, *, account_equity: float | None, symbol_info: Any | None) -> None:
+        """PART 8: one-time reconstruction for a position whose state row predates these fields
+        -- original_sl/original_tp/original_volume already exist (set by the OLD
+        _sync_position_state before this feature shipped), but original_risk_money doesn't. Uses
+        the row's own already-persisted original_entry-or-entry_price/original_sl/original_volume
+        (never the live/current ones, which may have already moved by the time this feature
+        shipped) so a legacy position that already had its SL improved doesn't get its original
+        risk under-reconstructed from a smaller, already-protected distance."""
+        original_entry = row.original_entry if row.original_entry is not None else row.entry_price
+        self._capture_original_risk(
+            row,
+            is_first_sight=False,
+            entry=float(original_entry or 0),
+            sl=row.original_sl,
+            volume=float(row.original_volume or row.current_volume or 0),
+            account_equity=account_equity,
+            original_risk_result=None,
+            symbol_info=symbol_info,
+        )
+
+    def _update_current_risk_fields(self, row: AdaptivePositionStateORM, *, entry: float, current_sl: float | None, direction: str, volume: float) -> None:
+        """PART 6: current_risk_money/protected_profit_money/remaining_open_risk_money --
+        mutable, recomputed every cycle from the CURRENT sl and volume, scaled by a
+        money-per-point ratio derived once from the immutable original_risk_money/
+        original_stop_distance (never re-queries the broker every cycle for this -- MT5 lot
+        economics are linear in price distance, confirmed broker-side). Zero (not None) when
+        original_risk_money is unavailable -- these fields describe "money at stake right now",
+        which is honestly unknown-as-zero rather than fabricated when there's no reliable
+        baseline, and R-threshold logic already independently checks r_source before trusting R."""
+        if not row.original_risk_money or not row.original_stop_distance or row.original_stop_distance <= 0 or not current_sl:
+            row.current_risk_money = 0.0
+            row.protected_profit_money = 0.0
+            row.remaining_open_risk_money = 0.0
+            return
+        money_per_point = row.original_risk_money / row.original_stop_distance
+        # Positive when current_sl is on the LOSS side of entry (a real stop still protecting
+        # against a loss), negative (profit protected) when on the WIN side -- e.g. after a
+        # breakeven move or trailing stop into profit.
+        loss_direction_distance = (entry - current_sl) if direction == "LONG" else (current_sl - entry)
+        money_at_stake = loss_direction_distance * money_per_point * (volume / row.original_volume if row.original_volume else 1.0)
+        if money_at_stake >= 0:
+            row.current_risk_money = money_at_stake
+            row.protected_profit_money = 0.0
+        else:
+            row.current_risk_money = 0.0
+            row.protected_profit_money = abs(money_at_stake)
+        row.remaining_open_risk_money = row.current_risk_money
 
     def _audit_initial_stop(self, db: Any, row: AdaptivePositionStateORM, payload: dict[str, Any], candles: list[dict[str, Any]], atr: float | None, symbol_info: Any | None = None) -> None:
         existing = db.query(AdaptiveStopQualityAuditORM).filter(AdaptiveStopQualityAuditORM.position_id == row.position_id).first()
@@ -1576,16 +1770,33 @@ class AdaptiveManagementService:
         entry = float(state.entry_price or 0)
         price = float(payload.get("price_current") or entry)
         sl = float(state.current_sl or state.original_sl or entry)
-        # R denominator is always the trade's ORIGINAL risk distance, never the live/current sl
-        # -- see the matching comment in _sync_position_state for the incident this fixes (R
-        # exploding to enormous values, firing repeated real PARTIAL_PROFIT closes, once a
-        # protective SL move brought current_sl near/at entry).
-        risk = abs(entry - float(state.original_sl if state.original_sl is not None else sl)) or 0.00001
-        case = TradeCase(state.position_id, None, state.symbol, state.direction, float(state.current_volume or 0), entry, sl, float(state.current_tp or entry), state.opened_at or utcnow(), None, 0)
-        r_now = _signed_r(case, price, risk)
-        candidates = [ManagementCandidate("HOLD", 100, reason="no_management_trigger", evidence={"r": r_now, "max_r": state.max_achieved_r, "tp_progress": state.tp_progress, "winner_classification": state.winner_classification})]
+        # R denominator is always the trade's ORIGINAL risk, never the live/current sl -- see the
+        # matching comment in _sync_position_state for the incident this fixes (R exploding to
+        # enormous values, firing repeated real PARTIAL_PROFIT closes, once a protective SL move
+        # brought current_sl near/at entry). PART 7: prefers the SAME monetary basis
+        # (state.original_risk_money) _sync_position_state just used for state.max_achieved_r/
+        # min_achieved_r this same cycle, so r_now here is always consistent with those --
+        # never independently recomputed on a different basis.
+        # Structural denominator (atr_r, retracement allowance) can fall back to the current sl
+        # when original_sl is missing -- those aren't "R" and don't carry the same never-use-
+        # current-sl invariant. R itself (_compute_r below) gets the TRUE original_sl only (None
+        # if unavailable), so a position with no original_sl on record is R_UNAVAILABLE, never
+        # silently price-distance-anchored to whatever the current sl happens to be.
+        structural_sl_for_risk = float(state.original_sl) if state.original_sl is not None else sl
+        risk = abs(entry - structural_sl_for_risk) or 0.00001
+        r_now, r_source = _compute_r(profit_usd=_float(payload.get("profit")), original_risk_money=state.original_risk_money, entry=entry, current_price=price, original_sl_for_risk=(float(state.original_sl) if state.original_sl is not None else None), direction=state.direction, risk=risk)
+        r_reliable = r_source != "UNAVAILABLE"
+        candidates = [ManagementCandidate("HOLD", 100, reason="no_management_trigger", evidence={"r": r_now, "r_source": r_source, "max_r": state.max_achieved_r, "tp_progress": state.tp_progress, "winner_classification": state.winner_classification})]
         if not state.current_sl or not state.current_tp:
             candidates.append(ManagementCandidate("HOLD", 1, reason="missing_static_protection_preserve_manual_review", evidence={"sl": state.current_sl, "tp": state.current_tp}))
+            return candidates
+        if not r_reliable:
+            # PART 7: "If no reliable original risk exists: set R_UNAVAILABLE. Do not invent a
+            # denominator." -- every R-threshold-gated candidate below is skipped entirely this
+            # cycle (not fabricated as HOLD-with-r=0, which would look like "flat/no progress"
+            # rather than "unknown"). The account-scaled equity-profit protection layer
+            # (_account_scaled_profit_protection) is R-independent and still runs normally.
+            candidates.extend(self._account_scaled_profit_protection(state, payload, candidates, 0.0, 0.0, "insufficient_data", account_equity))
             return candidates
         if _opposing_candles(candles, state.direction) >= 2 and r_now < -0.25:
             candidates.append(ManagementCandidate("THESIS_INVALIDATION_CLOSE", 10, requested_volume=float(state.current_volume), reason="two_completed_opposing_candles_after_adverse_move", evidence={"r": r_now}))
@@ -1667,8 +1878,17 @@ class AdaptiveManagementService:
                 )
             )
 
-        if r_now >= _env_float("ADAPTIVE_PARTIAL_PROFIT_R", 0.5):
-            candidates.append(ManagementCandidate("PARTIAL_PROFIT", 40, requested_volume=float(state.current_volume) * _env_float("ADAPTIVE_PARTIAL_PROFIT_FRACTION", 0.25), reason="partial_profit_threshold", evidence={"r": r_now}))
+        # PARTS 9-10: persistent partial-profit stage machine, gated by state.partial_profit_stage
+        # (not just the cooldown) -- an EXECUTED stage can never fire its candidate again
+        # regardless of r_now/cooldown; a PENDING/RECONCILIATION_REQUIRED stage never generates a
+        # new candidate while its prior attempt is unresolved (see
+        # _reconcile_pending_partial_stages, which resolves any stuck PENDING row before this
+        # code ever runs again on the same cycle).
+        partial_stage = state.partial_profit_stage or "NONE"
+        if partial_stage == "NONE" and r_now >= _env_float("ADAPTIVE_PARTIAL_PROFIT_R", 0.5):
+            candidates.append(ManagementCandidate("PARTIAL_PROFIT", 40, requested_volume=float(state.current_volume) * _env_float("ADAPTIVE_PARTIAL_PROFIT_FRACTION", 0.25), reason="partial_profit_threshold", evidence={"r": r_now, "target_stage": "PARTIAL_1", "requested_fraction": _env_float("ADAPTIVE_PARTIAL_PROFIT_FRACTION", 0.25)}))
+        elif partial_stage == "PARTIAL_1_EXECUTED" and r_now >= _env_float("ADAPTIVE_PARTIAL_PROFIT_2_R", 1.0):
+            candidates.append(ManagementCandidate("PARTIAL_PROFIT", 40, requested_volume=float(state.current_volume) * _env_float("ADAPTIVE_PARTIAL_PROFIT_2_FRACTION", 0.33), reason="partial_profit_stage2_threshold", evidence={"r": r_now, "target_stage": "PARTIAL_2", "requested_fraction": _env_float("ADAPTIVE_PARTIAL_PROFIT_2_FRACTION", 0.33)}))
 
         if zone in {"zone_75_85", "zone_85_95", "zone_95_plus"} and state.winner_classification in {"strong_continuation", "healthy_pullback"} and cooldown_ok and not manage_existing_only:
             structure_level = _swing_structure_level(normalized_candles, state.direction)
@@ -2033,6 +2253,105 @@ class AdaptiveManagementService:
                 stage_row.executed_volume = _float(result.get("filled_volume"))
                 stage_row.action_id = action.action_id
                 db.merge(stage_row)
+
+    def _begin_partial_stage_attempt(self, db: Any, state: AdaptivePositionStateORM, action: AdaptiveManagementActionORM) -> AdaptivePartialProfitStageORM:
+        """PARTS 9-11: records a partial-profit stage ATTEMPT as PENDING before the broker call
+        happens, so a crash mid-call leaves a real, reconcilable row (see
+        _reconcile_pending_partial_stages) instead of silence. One row per attempt (a retried
+        stage after CONFIRMED_NOT_EXECUTED gets a NEW row via a new action_id/idempotency_key --
+        the full attempt history survives, nothing is overwritten)."""
+        target_stage = str((action.evidence or {}).get("target_stage") or "PARTIAL_1")
+        row = AdaptivePartialProfitStageORM(stage_attempt_id="APPS_" + _hash({"action": action.action_id})[:40])
+        row.position_id = state.position_id
+        row.broker_ticket = state.broker_ticket
+        row.account_fingerprint = state.account_fingerprint
+        row.stage = f"{target_stage}_PENDING"
+        row.requested_fraction = float((action.evidence or {}).get("requested_fraction") or 0) or None
+        row.requested_volume = action.requested_volume
+        row.idempotency_key = action.idempotency_key
+        row.requested_at = utcnow()
+        row.reconciliation_status = "PENDING"
+        db.merge(row)
+        # db.get(), not another db.merge(state): _sync_position_state's own db.merge(row) earlier
+        # this cycle already put the real, session-tracked instance in the identity map -- re-
+        # merging the (possibly still-transient, for a brand-new position) `state` reference
+        # passed in here risked a duplicate-INSERT attempt against the immediate db.commit()
+        # below, since a merge()'d object's session-attached copy is a DIFFERENT object than the
+        # one the caller's local variable still points to.
+        tracked_state = db.get(AdaptivePositionStateORM, state.position_id)
+        if tracked_state is not None:
+            tracked_state.partial_profit_stage = row.stage
+            db.merge(tracked_state)
+        return row
+
+    def _resolve_partial_stage_attempt(self, db: Any, stage_row: AdaptivePartialProfitStageORM, state: AdaptivePositionStateORM, result: dict[str, Any]) -> None:
+        """Resolves a PENDING attempt immediately after the broker call returns (the common,
+        non-crash case). PART 10: ACCEPTED -> *_EXECUTED (PARTIAL_2 additionally advances the
+        denormalized stage straight to RUNNER -- no third stage exists). Anything else reverts
+        the denormalized stage to what it was before this attempt, so a rejected/errored request
+        can be retried on a later cycle (a fresh candidate, fresh idempotency key, fresh row --
+        never resubmitting THIS exact request)."""
+        target_stage = stage_row.stage.replace("_PENDING", "")
+        current = db.get(AdaptivePositionStateORM, state.position_id) or state
+        if result.get("status") == "ACCEPTED":
+            stage_row.stage = f"{target_stage}_EXECUTED"
+            stage_row.executed_at = utcnow()
+            stage_row.executed_volume = _float(result.get("filled_volume")) or stage_row.requested_volume
+            stage_row.broker_deal_id = str(result.get("broker_ticket") or "") or None
+            stage_row.reconciliation_status = "CONFIRMED_EXECUTED"
+            stage_row.remaining_broker_volume = max(0.0, float(current.current_volume or 0) - float(stage_row.executed_volume or 0))
+            current.partial_profit_stage = "RUNNER" if target_stage == "PARTIAL_2" else f"{target_stage}_EXECUTED"
+        else:
+            stage_row.reconciliation_status = "CONFIRMED_NOT_EXECUTED"
+            current.partial_profit_stage = "PARTIAL_1_EXECUTED" if target_stage == "PARTIAL_2" else "NONE"
+        db.merge(stage_row)
+        db.merge(current)
+        db.commit()
+
+    async def _reconcile_pending_partial_stages(self, db: Any, currently_open_ids: set[str]) -> None:
+        """PART 11: resolves every partial-profit stage attempt still PENDING -- from a PRIOR
+        cycle that crashed (backend restart, Docker restart, scheduler restart) between
+        committing the PENDING row and _resolve_partial_stage_attempt running -- against the
+        Execution Manager's own order-state record (ExecutionOrderORM, keyed by the SAME
+        idempotency_key _begin_partial_stage_attempt used), which is the sole broker-mutation
+        path's own durable truth. Never blindly resubmits: broker confirmation either way
+        (executed or rejected) resolves the row; a request that's still SUBMITTED/PENDING at the
+        Execution Manager (genuinely ambiguous -- we don't know if the broker itself ever saw it)
+        becomes RECONCILIATION_REQUIRED and is left for manual/operator review, never retried
+        automatically."""
+        pending = db.query(AdaptivePartialProfitStageORM).filter(AdaptivePartialProfitStageORM.reconciliation_status == "PENDING").all()
+        for stage_row in pending:
+            target_stage = stage_row.stage.replace("_PENDING", "")
+            state = db.get(AdaptivePositionStateORM, stage_row.position_id)
+            order = db.query(ExecutionOrderORM).filter(ExecutionOrderORM.idempotency_key == stage_row.idempotency_key).first()
+            if order is None or order.state == "REJECTED":
+                # Never even reached submission, or the broker explicitly rejected it -- safe to
+                # retry: revert the denormalized stage so a fresh candidate can fire next cycle.
+                stage_row.reconciliation_status = "CONFIRMED_NOT_EXECUTED"
+                if state:
+                    state.partial_profit_stage = "PARTIAL_1_EXECUTED" if target_stage == "PARTIAL_2" else "NONE"
+            elif order.state in {"ACCEPTED", "FILLED", "PARTIALLY_FILLED"}:
+                stage_row.reconciliation_status = "CONFIRMED_EXECUTED"
+                stage_row.stage = f"{target_stage}_EXECUTED"
+                stage_row.executed_at = order.updated_at or utcnow()
+                stage_row.executed_volume = order.requested_volume or stage_row.requested_volume
+                stage_row.broker_deal_id = order.deal_ticket
+                stage_row.broker_order_id = order.order_ticket
+                if state:
+                    stage_row.remaining_broker_volume = max(0.0, float(state.current_volume or 0) - float(stage_row.executed_volume or 0))
+                    state.partial_profit_stage = "RUNNER" if target_stage == "PARTIAL_2" else f"{target_stage}_EXECUTED"
+            else:
+                # PENDING/SUBMITTED at the Execution Manager itself -- genuinely ambiguous
+                # (the broker may or may not have received/processed the request before the
+                # crash). Never auto-resubmit; requires explicit operator/reconciliation review.
+                stage_row.reconciliation_status = "RECONCILIATION_REQUIRED"
+                if state:
+                    state.partial_profit_stage = "RECONCILIATION_REQUIRED"
+            db.merge(stage_row)
+            if state:
+                db.merge(state)
+        if pending:
+            db.commit()
 
     def _record_action_failure(self, reason: str) -> None:
         with SessionLocal() as db:
@@ -2438,6 +2757,23 @@ def _normalize_candle(row: dict[str, Any]) -> dict[str, Any] | None:
 
 def _signed_r(case: TradeCase, price: float, risk: float) -> float:
     return (price - case.entry) / risk if case.direction == "LONG" else (case.entry - price) / risk
+
+
+def _compute_r(*, profit_usd: float | None, original_risk_money: float | None, entry: float, current_price: float, original_sl_for_risk: float | None, direction: str, risk: float) -> tuple[float, str]:
+    """PART 7: R prefers a monetary basis (current_unrealized_pnl / original_risk_money) --
+    unlike price-distance R, this correctly reflects a partial close's SMALLER current exposure
+    against the SAME original risk (price-distance R alone can't tell the difference between a
+    100%-volume and a 25%-volume position at the same price). Falls back to the existing
+    original-SL-anchored price-distance calculation only when original_risk_money isn't
+    available yet, and returns r_source="UNAVAILABLE" (r_now=0.0, never a fabricated number) when
+    neither is reliable -- callers must gate R-threshold candidate generation on r_source, not
+    just consume r_now blindly. Never computed from the CURRENT/moving SL either way."""
+    if original_risk_money and original_risk_money > 0 and profit_usd is not None:
+        return profit_usd / original_risk_money, "MONEY"
+    if original_sl_for_risk:
+        case = TradeCase("", None, "", direction, 0.0, entry, original_sl_for_risk, entry, utcnow(), None, 0)
+        return _signed_r(case, current_price, risk), "PRICE_DISTANCE_FALLBACK"
+    return 0.0, "UNAVAILABLE"
 
 
 def _price_from_r(case: TradeCase, r_value: float) -> float:

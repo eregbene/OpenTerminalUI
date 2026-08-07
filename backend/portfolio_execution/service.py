@@ -14,6 +14,7 @@ from backend.brokers.mt5 import account_registry
 from backend.brokers.mt5.adapter import mt5_adapter
 from backend.brokers.mt5.config import mt5_config
 from backend.brokers.mt5.persistence import sanitize
+from backend.brokers.mt5.risk_calculator import calculate_canonical_loss_per_lot, record_mismatch_if_needed
 from backend.portfolio_execution.orm import ExecutionMetricORM, ExecutionOrderORM, ExecutionStateTransitionORM, PortfolioSnapshotORM
 from backend.shared.db import SessionLocal
 
@@ -88,7 +89,34 @@ class PortfolioManager:
         free_margin = float(account.free_margin)
         quote_currencies = {_currencies(str(row.symbol or "").upper())[1] for row in positions}
         conversion_rates = {currency: await _fx_conversion_rate(currency) for currency in quote_currencies if currency and currency != "USD"}
-        risk_rows = [_position_risk(row, conversion_rates.get(_currencies(str(row.symbol or "").upper())[1], 1.0)) for row in positions]
+        # One canonical-risk-calculator-backed lookup per unique symbol (not per position) --
+        # several open positions on the same symbol share the same broker metadata.
+        account_fingerprint = None
+        try:
+            account_fingerprint = account_registry.fingerprint_account(account).fingerprint_hash
+        except Exception:
+            pass
+        symbol_infos: dict[str, Any] = {}
+        for symbol_name in {str(row.symbol or "").upper() for row in positions}:
+            try:
+                symbol_infos[symbol_name] = await mt5_adapter.symbol_info(symbol_name)
+            except Exception:
+                symbol_infos[symbol_name] = None
+        mt5_client = None
+        try:
+            mt5_client = mt5_adapter.client.ensure_ready()
+        except Exception:
+            pass
+        risk_rows = [
+            await _position_risk(
+                row,
+                conversion_rates.get(_currencies(str(row.symbol or "").upper())[1], 1.0),
+                symbol_info=symbol_infos.get(str(row.symbol or "").upper()),
+                mt5_client=mt5_client,
+                account_fingerprint=account_fingerprint,
+            )
+            for row in positions
+        ]
         exposure = _exposure(positions)
         correlation = await correlation_engine.matrix([row.symbol for row in positions])
         priorities = _position_priorities(positions, risk_rows)
@@ -378,23 +406,72 @@ class CorrelationEngine:
         return {"timeframe": "M15", "symbols": unique, "matrix": matrix, "highly_correlated": _high_corr(matrix)}
 
 
-def _position_risk(position: Any, usd_conversion_rate: float = 1.0) -> dict[str, float]:
+async def _position_risk(position: Any, usd_conversion_rate: float = 1.0, *, symbol_info: Any | None = None, mt5_client: Any | None = None, account_fingerprint: str | None = None) -> dict[str, float]:
+    """Portfolio-level per-position risk projection -- PART 3's highest-priority migration
+    target. Previously hardcoded a guessed contract size (100_000, or 100 "for XAU") instead of
+    reading the real broker-reported trade_contract_size, the exact class of bug (a magic number
+    standing in for real symbol metadata) behind the XAUUSD 10x sizing incident, just guessed
+    differently. Now derives a broker-verified money-per-point ratio from the SAME canonical
+    calculator (backend/brokers/mt5/risk_calculator.py) every other MT5 monetary-risk call site
+    uses, then applies it exactly as the original formula did (money_per_point * price_diff *
+    volume * direction_sign * fx_rate) -- so this function's OUTPUT SHAPE and SIGN CONVENTION are
+    unchanged (`build_snapshot`/`protection_from_values`/tests all keep working), only the
+    magic-number contract size is gone. `symbol_info`/`mt5_client` are optional so a caller
+    without live broker metadata (e.g. a unit test exercising just the FX-conversion math) still
+    gets a usable, clearly-labeled degraded result instead of an exception."""
     direction = "LONG" if int(position.type or 0) == 0 else "SHORT"
-    entry = float(position.price_open or 0)
-    price = float(position.price_current or entry)
+    entry = Decimal(str(position.price_open or 0))
+    price = Decimal(str(position.price_current or entry))
     volume = float(position.volume or 0)
-    sl = float(position.sl or entry)
-    tp = float(position.tp or entry)
-    contract = 100_000.0 if not str(position.symbol).upper().startswith("XAU") else 100.0
+    sl = Decimal(str(position.sl or entry))
+    tp = Decimal(str(position.tp or entry))
     signed = 1 if direction == "LONG" else -1
     rate = usd_conversion_rate or 1.0
+
+    money_per_point = await _money_per_point(direction=direction, entry=entry, sl=sl, tp=tp, symbol_info=symbol_info, mt5_client=mt5_client, account_fingerprint=account_fingerprint, symbol=str(position.symbol or ""))
+
+    def _project(target_price: Decimal) -> float:
+        return float(target_price - entry) * volume * money_per_point * signed * rate
+
     return {
         "symbol": position.symbol,
         "floating": float(position.profit or 0),
-        "stop_loss_projection": (sl - entry) * volume * contract * signed * rate,
-        "take_profit_projection": (tp - entry) * volume * contract * signed * rate,
-        "current_projection": (price - entry) * volume * contract * signed * rate,
+        "stop_loss_projection": _project(sl),
+        "take_profit_projection": _project(tp),
+        "current_projection": _project(price),
     }
+
+
+async def _money_per_point(*, direction: str, entry: Decimal, sl: Decimal, tp: Decimal, symbol_info: Any | None, mt5_client: Any | None, account_fingerprint: str | None, symbol: str) -> float:
+    """Broker-verified $ value of a 1.0-price-unit move for 1.0 lot -- derived from the canonical
+    calculator's selected (most conservative) loss-per-lot estimate divided by whichever probe
+    distance (SL or TP, whichever is farther from entry) produced it, since a linear MT5
+    instrument's money-per-point is the same regardless of which distance you measure it with.
+    Falls back to the legacy hardcoded 100_000/100_(XAU) guess ONLY when no symbol metadata is
+    available at all (e.g. a broker outage, or a caller with no live client) -- never as a first
+    choice."""
+    if symbol_info is None:
+        return 100.0 if symbol.upper().startswith("XAU") else 100_000.0
+    sl_distance = abs(sl - entry)
+    tp_distance = abs(tp - entry)
+    probe_distance = sl_distance if sl_distance >= tp_distance else tp_distance
+    if probe_distance <= 0:
+        point = getattr(symbol_info, "point", None) or Decimal("0.0001")
+        probe_distance = point * 100
+    probe_stop = entry - probe_distance if direction == "LONG" else entry + probe_distance
+    canonical = await calculate_canonical_loss_per_lot(
+        direction=direction,
+        entry=entry,
+        stop=probe_stop,
+        symbol_info=symbol_info,
+        mt5_client=mt5_client,
+        warning_pct=mt5_config().risk_calculation_disagreement_pct,
+        critical_pct=mt5_config().risk_calculation_critical_disagreement_pct,
+    )
+    record_mismatch_if_needed(canonical, symbol=symbol, account_fingerprint=account_fingerprint, context="position_risk_snapshot")
+    if canonical.selected_loss_per_lot is None or probe_distance <= 0:
+        return 100.0 if symbol.upper().startswith("XAU") else 100_000.0
+    return float(canonical.selected_loss_per_lot / probe_distance)
 
 
 async def _fx_conversion_rate(quote_currency: str) -> float:
