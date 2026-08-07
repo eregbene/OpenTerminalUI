@@ -317,6 +317,91 @@ def test_mt5_lot_size_varies_with_stop_distance():
     assert narrow.volume != Decimal("0.01")
 
 
+def _xauusd_symbol_with_understated_tick_value() -> "MT5Symbol":
+    # Reproduces the exact live-account XAUUSD symbol metadata behind a confirmed sizing bug:
+    # trade_tick_value=0.1 implies $10/point/lot via the standard (tick_value/tick_size) formula,
+    # but the broker's own order_calc_profit (ground truth, confirmed live) pays out $100/point/
+    # lot -- trade_contract_size(100) * tick_size(0.01) == 1.0, not the reported 0.1. Trusting
+    # tick_value alone silently oversizes every Gold position by 10x.
+    from backend.brokers.mt5.models import MT5Symbol
+
+    return MT5Symbol(
+        symbol="XAUUSD", visible=True, selected=True, bid=Decimal("4283.55"), ask=Decimal("4283.92"), digits=2,
+        point=Decimal("0.01"), trade_tick_size=Decimal("0.01"), trade_tick_value=Decimal("0.1"),
+        trade_tick_value_profit=Decimal("0.1"), trade_tick_value_loss=Decimal("0.1"), trade_contract_size=Decimal("100.0"),
+        volume_min=Decimal("0.01"), volume_max=Decimal("100.0"), volume_step=Decimal("0.01"),
+    )
+
+
+def test_xauusd_sizing_cross_validates_tick_value_against_contract_size():
+    adapter = fake_adapter()
+    service = MT5ExecutionService(adapter)
+    symbol = _xauusd_symbol_with_understated_tick_value()
+
+    # This exact trade: entry 4279.93, SL 4256.34 (distance 23.59), 10k account, $50 risk cap.
+    # Real monetary risk at this SL (broker-confirmed via order_calc_profit): $235.90/0.10 lot.
+    sizing = asyncio.run(
+        service.calculate_risk_size(
+            account_equity=Decimal("10000"), symbol=symbol, direction="LONG",
+            entry=Decimal("4279.93"), stop=Decimal("4256.34"), target=Decimal("4316.14"),
+        )
+    )
+
+    # The buggy tick_value-only formula would size to ~0.10 lot (an ~$235.90 real risk against a
+    # $50 cap -- 4.7x over). Contract-size cross-validation must produce a materially smaller,
+    # budget-respecting volume instead.
+    naive_buggy_volume = Decimal("0.10")
+    assert sizing.status in {"APPROVED", "REJECTED"}
+    if sizing.status == "APPROVED":
+        assert sizing.volume < naive_buggy_volume
+        assert sizing.projected_loss_usd <= Decimal(str(service.config.max_risk_per_trade_usd))
+
+
+def test_minimum_lot_blocked_when_it_exceeds_risk_budget():
+    # Never round UP to volume_min when even volume_min's monetary risk exceeds the configured
+    # budget -- block the trade instead of silently accepting oversized risk.
+    adapter = fake_adapter()
+    service = MT5ExecutionService(adapter)
+    symbol = _xauusd_symbol_with_understated_tick_value()
+
+    sizing = asyncio.run(
+        service.calculate_risk_size(
+            account_equity=Decimal("10000"), symbol=symbol, direction="LONG",
+            entry=Decimal("4279.93"), stop=Decimal("4200.00"), target=Decimal("4400.00"),  # huge stop distance
+        )
+    )
+
+    assert sizing.status == "REJECTED"
+    assert "VOLUME_BELOW_MINIMUM" in sizing.reasons
+
+
+def test_10k_account_50_max_risk_cannot_open_200_dollar_sl_risk_position():
+    client = MT5Client(
+        MT5Config(
+            enabled=True, login=123456, password="x", server="MetaQuotes-Demo",
+            order_submission_enabled=True, autonomous_submission_enabled=True,
+            broker_provider="MT5", forex_execution_provider="MT5",
+            risk_percent_per_trade=0.25, max_risk_per_trade_usd=50.0,
+        )
+    )
+    client._mt5 = FakeMT5()
+    adapter = MT5Adapter(client.config, client)
+    service = MT5ExecutionService(adapter)
+    symbol = _xauusd_symbol_with_understated_tick_value()
+
+    sizing = asyncio.run(
+        service.calculate_risk_size(
+            account_equity=Decimal("10000"), symbol=symbol, direction="LONG",
+            entry=Decimal("4279.93"), stop=Decimal("4256.34"), target=Decimal("4316.14"),
+        )
+    )
+
+    if sizing.status == "APPROVED":
+        assert sizing.projected_loss_usd <= Decimal("50.00")
+    else:
+        assert sizing.status == "REJECTED"
+
+
 def test_mt5_order_check_failure_blocks_order_send():
     adapter = fake_adapter()
     service = MT5ExecutionService(adapter)

@@ -89,6 +89,21 @@ class MT5ExecutionService:
             return MT5RiskSizing(status="REJECTED", reasons=reasons, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap)
         stop_distance = abs(entry - stop)
         loss_per_lot = (stop_distance / tick_size) * tick_value
+        # Cross-validate against trade_contract_size, the other broker-reported field that
+        # independently determines monetary value per 1.0-lot price move (value = contract_size
+        # x price_change, when profit currency == account currency -- true for XAUUSD/USD here).
+        # For a correctly configured symbol these two formulas agree exactly (trade_tick_value ==
+        # trade_contract_size * trade_tick_size by construction) -- confirmed for this account's
+        # EURUSD (100000 * 0.00001 == 1.0). They did NOT agree for this account's XAUUSD
+        # (trade_tick_value implied $10/point/lot; trade_contract_size implied $100/point/lot --
+        # confirmed against the broker's own order_calc_profit, which is authoritative). Silently
+        # trusting the smaller figure there produced a 10x-oversized position: a 0.10 lot "$25
+        # risk" Gold trade that was actually risking $235.90 against a $50 account cap. Always
+        # take the larger (more conservative) of the two; never let a broker-metadata quirk on
+        # one field alone silently oversize a position.
+        if symbol.trade_contract_size and symbol.trade_contract_size > 0:
+            contract_based_loss_per_lot = stop_distance * symbol.trade_contract_size
+            loss_per_lot = max(loss_per_lot, contract_based_loss_per_lot)
         if loss_per_lot <= 0:
             return MT5RiskSizing(status="REJECTED", reasons=["PROJECTED_LOSS_UNVERIFIABLE"], equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap)
         raw_volume = effective_risk / loss_per_lot
