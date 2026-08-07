@@ -1,0 +1,39 @@
+name: "${COMPOSE_PROJECT_NAME:-openterminalui}-test"
+
+# Dedicated, disposable Postgres for destructive/integration tests. Never shares a
+# volume, container, network name, or database name with docker-compose.yml's
+# `postgres` service. Added after the 2026-08-07 incident where a test fixture
+# dropped every table in the shared development database (see migration
+# 0036_db_incident_boundary / the db_incidents table).
+#
+# Usage:
+#   docker compose -f docker-compose.test.yml up -d postgres_test
+#   docker compose -f docker-compose.test.yml exec -T postgres_test \
+#       pg_isready -U openterminalui_test -d openterminalui_test
+#   TEST_DATABASE_URL=postgresql://openterminalui_test:openterminalui_test@localhost:${TEST_POSTGRES_PORT:-5433}/openterminalui_test \
+#       alembic -c backend/alembic.ini upgrade head
+#   ... run the destructive/integration test suite against TEST_DATABASE_URL ...
+#   docker compose -f docker-compose.test.yml down -v   # destroy the ephemeral DB
+
+services:
+  postgres_test:
+    image: postgres:16-alpine
+    labels:
+      com.bensim.product: "Bensim Trading"
+      com.bensim.service: "postgres-test"
+    environment:
+      POSTGRES_DB: "openterminalui_test"
+      POSTGRES_USER: "openterminalui_test"
+      POSTGRES_PASSWORD: "openterminalui_test"
+    ports:
+      - "${TEST_POSTGRES_PORT:-5433}:5432"
+    tmpfs:
+      # No persistent volume at all -- every `docker compose -f docker-compose.test.yml
+      # down` (with or without -v) leaves nothing behind. This DB is meant to be
+      # created, migrated, exercised, and destroyed within a single test run.
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U openterminalui_test -d openterminalui_test"]
+      interval: 5s
+      timeout: 5s
+      retries: 20

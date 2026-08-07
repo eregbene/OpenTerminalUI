@@ -147,6 +147,8 @@ services:
       MT5_ORDER_SUBMISSION_ENABLED: "${MT5_ORDER_SUBMISSION_ENABLED:-false}"
       MT5_AUTONOMOUS_SUBMISSION_ENABLED: "${MT5_AUTONOMOUS_SUBMISSION_ENABLED:-false}"
       MT5_MANUAL_ACCEPTANCE_ENABLED: "${MT5_MANUAL_ACCEPTANCE_ENABLED:-false}"
+      DATABASE_RECOVERY_IN_PROGRESS: "${DATABASE_RECOVERY_IN_PROGRESS:-0}"
+      BACKUP_DIR_IN_CONTAINER: "/backups"
       BROKER_PROVIDER: "${BROKER_PROVIDER:-MT5}"
       FOREX_EXECUTION_PROVIDER: "${FOREX_EXECUTION_PROVIDER:-MT5}"
       MT5_MAX_NEW_ENTRIES_PER_CYCLE: "${MT5_MAX_NEW_ENTRIES_PER_CYCLE:-1}"
@@ -244,6 +246,11 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - openterminalui_data:/data
+      # Read-only visibility into local Postgres backups (scripts/backup_postgres.ps1)
+      # for GET /api/system/backup-status. Host path is outside the git repo and
+      # outside any Docker-managed volume; adjust BENSIM_BACKUP_DIR if you keep
+      # backups elsewhere. Missing directory is handled gracefully by the endpoint.
+      - ${BENSIM_BACKUP_DIR:-C:/Users/Intel/Desktop/BensimBackups}:/backups:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -284,7 +291,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - openterminalui_postgres_data:/var/lib/postgresql/data
+      - openterminalui_postgres_data_recovered_20260807:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-openterminalui} -d ${POSTGRES_DB:-openterminalui}"]
       interval: 5s
@@ -294,4 +301,18 @@ services:
 
 volumes:
   openterminalui_data:
+  # PRESERVED, NOT DELETED: this volume held the database wiped by the 2026-08-07
+  # Base.metadata.drop_all() incident (see migration 0036_db_incident_boundary /
+  # the db_incidents table). Kept as incident evidence and left declared here
+  # (unused) so `docker compose down` never has a dangling-volume reason to prune
+  # it. Do not remove this declaration and do not `docker volume rm` it.
   openterminalui_postgres_data:
+  # The rebuilt database: fresh volume, schema created entirely via
+  # `alembic upgrade head` (0001->0036), pre-incident survivor data (pcr_snapshots)
+  # restored from pg_dump export. Created and migrated outside compose as
+  # `openterminalui_postgres_recovered_20260807`; declared here as `external: true`
+  # so compose attaches to that EXACT existing volume rather than creating a new
+  # empty one under compose's own naming convention.
+  openterminalui_postgres_data_recovered_20260807:
+    external: true
+    name: openterminalui_postgres_recovered_20260807

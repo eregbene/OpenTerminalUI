@@ -12,6 +12,34 @@ permissions:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    # Ephemeral test-only Postgres, isolated from any real environment -- available
+    # via TEST_DATABASE_URL for destructive/integration tests (see
+    # backend/shared/test_db_safety.py, docker-compose.test.yml). Never populated
+    # from repo secrets or a developer .env; the name/credentials below are fixed,
+    # throwaway, and destroyed at the end of every job run.
+    services:
+      postgres_test:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: openterminalui_ci_test
+          POSTGRES_USER: openterminalui_ci_test
+          POSTGRES_PASSWORD: openterminalui_ci_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U openterminalui_ci_test -d openterminalui_ci_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      # Explicit and unambiguous: CI never reads a developer .env, and DATABASE_URL
+      # here is a plain ephemeral sqlite file scoped to the job workspace -- the
+      # default test suite does not need real Postgres at all (see the isolated
+      # in-memory sqlite pattern in backend/shared/test_db_safety.py). Any test that
+      # genuinely needs Postgres opts in via TEST_DATABASE_URL, which points at the
+      # `postgres_test` service above and is destroyed with the job.
+      DATABASE_URL: "sqlite:///./ci_ephemeral_openterminalui.db"
+      TEST_DATABASE_URL: "postgresql+psycopg://openterminalui_ci_test:openterminalui_ci_test@localhost:5432/openterminalui_ci_test"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
