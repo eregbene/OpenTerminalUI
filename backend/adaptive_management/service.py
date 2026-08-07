@@ -407,6 +407,39 @@ class AdaptiveManagementService:
 
         return {"position_id": position_id, "status": "ok", "policies_compared": len(outcomes), "verdicts": verdicts}
 
+    def leaderboard_report(self, session_id: str | None = None, top_n: int = 3) -> dict[str, Any]:
+        """Part 12 validation reporting: best/worst strategy, best/worst session, best/worst
+        symbol, highest giveback, highest expectancy, highest/lowest MFE capture -- a thin
+        ranking layer over audit_report()'s already-computed per-dimension cohort stats (each
+        cohort already gated by the same minimum-sample-size requirement as everywhere else in
+        this file, so a 2-trade cohort can never top a leaderboard)."""
+        report = self.audit_report(session_id=session_id)
+        grouped = report["grouped"]
+
+        def _entries(dimension: str, metric: str) -> list[dict[str, Any]]:
+            buckets = grouped.get(dimension) or {}
+            return [{"key": key, "dimension": dimension, "sample_size": stats["sample_size"], "value": stats[metric]} for key, stats in buckets.items() if not stats.get("insufficient_data") and stats.get(metric) is not None]
+
+        def _rank(dimension: str, metric: str = "avg_realized_pnl") -> dict[str, Any]:
+            entries = sorted(_entries(dimension, metric), key=lambda row: row["value"], reverse=True)
+            return {"best": entries[:top_n], "worst": list(reversed(entries[-top_n:])) if entries else []}
+
+        cross_dimension = ("strategy_id", "symbol", "timeframe", "session", "entry_regime")
+        expectancy_pool = [entry for dimension in cross_dimension for entry in _entries(dimension, "avg_realized_pnl")]
+        giveback_pool = [entry for dimension in cross_dimension for entry in _entries(dimension, "avg_profit_retracement_after_mfe_r")]
+        mfe_capture_pool = [entry for dimension in cross_dimension for entry in _entries(dimension, "avg_mfe_capture_ratio")]
+        return {
+            "session_id": session_id,
+            "total_trades": report["trade_count"],
+            "by_strategy": _rank("strategy_id"),
+            "by_session": _rank("session"),
+            "by_symbol": _rank("symbol"),
+            "highest_expectancy": sorted(expectancy_pool, key=lambda row: row["value"], reverse=True)[:top_n],
+            "highest_giveback": sorted(giveback_pool, key=lambda row: row["value"], reverse=True)[:top_n],
+            "highest_mfe_capture": sorted(mfe_capture_pool, key=lambda row: row["value"], reverse=True)[:top_n],
+            "lowest_mfe_capture": sorted(mfe_capture_pool, key=lambda row: row["value"])[:top_n],
+        }
+
     def shadow_summary(self) -> dict[str, Any]:
         with SessionLocal() as db:
             activation = _active_activation(db)
@@ -2429,6 +2462,7 @@ def _audit_group_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "stop_too_tight_count": sum(1 for row in rows if row.get("stop_quality_classification") == "stop_too_tight"),
         "avg_profit_retracement_after_mfe_r": _avg([float(row.get("profit_retracement_after_mfe_r") or 0) for row in rows]),
         "avg_realized_pnl": _avg([float(row.get("realized_pnl") or 0) for row in rows]),
+        "avg_mfe_capture_ratio": _avg(mfe_capture_values) if (mfe_capture_values := [float(row["mfe_capture_ratio"]) for row in rows if row.get("mfe_capture_ratio") is not None]) else None,
         "stop_outs_count": sum(1 for row in rows if row.get("exit_reason") == "STOP_LOSS" or (row.get("realized_pnl") or 0) < 0),
     }
 

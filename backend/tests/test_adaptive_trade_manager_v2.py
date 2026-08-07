@@ -637,3 +637,36 @@ def test_management_quality_verdict_exit_optimal_when_nothing_beats_actual(monke
 
     assert result["verdicts"]["exit_optimal"]["verdict"] is True
     assert result["verdicts"]["trailing_too_aggressive"]["verdict"] is True
+
+
+# ---------------------------------------------------------------------------
+# Leaderboard reports (Part 12 validation reporting)
+# ---------------------------------------------------------------------------
+
+
+def test_leaderboard_ranks_strategies_by_expectancy_with_minimum_sample_gate(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    svc = adaptive_service.AdaptiveManagementService()
+    with SessionLocal() as db:
+        # STRAT_WINNER: 10 trades, consistently profitable.
+        for i in range(10):
+            db.add(_base_state(position_id=f"W{i}", symbol="EURUSD", strategy_id="STRAT_WINNER", timeframe="M15", max_achieved_r=1.5))
+            db.add(_closed_deal(f"W{i}", 1.1050, datetime(2026, 8, 1, tzinfo=timezone.utc), realized_pnl=50.0))
+        # STRAT_LOSER: 10 trades, consistently losing.
+        for i in range(10):
+            db.add(_base_state(position_id=f"L{i}", symbol="EURUSD", strategy_id="STRAT_LOSER", timeframe="M15", max_achieved_r=0.2))
+            db.add(_closed_deal(f"L{i}", 1.0950, datetime(2026, 8, 1, tzinfo=timezone.utc), realized_pnl=-30.0))
+        # STRAT_TINY: only 3 trades -- must be excluded (insufficient_data), even though it's
+        # the most profitable per-trade, so it can never top the leaderboard on a thin sample.
+        for i in range(3):
+            db.add(_base_state(position_id=f"T{i}", symbol="EURUSD", strategy_id="STRAT_TINY", timeframe="M15", max_achieved_r=3.0))
+            db.add(_closed_deal(f"T{i}", 1.1200, datetime(2026, 8, 1, tzinfo=timezone.utc), realized_pnl=200.0))
+        db.commit()
+
+    result = svc.leaderboard_report(top_n=3)
+
+    best_keys = [row["key"] for row in result["by_strategy"]["best"]]
+    worst_keys = [row["key"] for row in result["by_strategy"]["worst"]]
+    assert any("STRAT_WINNER" in key for key in best_keys)
+    assert any("STRAT_LOSER" in key for key in worst_keys)
+    assert not any("STRAT_TINY" in key for key in best_keys + worst_keys)
