@@ -572,3 +572,68 @@ def test_probability_report_groups_by_composite_cohort_and_grades_confidence(mon
     assert cohort_b["sample_size"] == 1
     assert cohort_b["confidence"] == "LOW"
     assert cohort_b["pct_reaching_1r_continued_to_2r"]["value"] is None  # never reached +1R
+
+
+# ---------------------------------------------------------------------------
+# Management Quality Engine (too-tight/too-early verdicts from counterfactuals)
+# ---------------------------------------------------------------------------
+
+
+def _outcome(position_id, policy_id, *, actual_pnl=-20.0, hypothetical_pnl=-20.0, loss_reduced=False, profit_reduced=False, giveback_avoided=0.0):
+    return CounterfactualOutcomeORM(
+        outcome_id=f"OUT_{position_id}_{policy_id}",
+        trade_id=position_id,
+        policy_id=policy_id,
+        actual_pnl=actual_pnl,
+        hypothetical_pnl=hypothetical_pnl,
+        hypothetical_r=0.0,
+        difference_from_actual=hypothetical_pnl - actual_pnl,
+        loss_reduced=loss_reduced,
+        profit_reduced=profit_reduced,
+        giveback_avoided=giveback_avoided,
+    )
+
+
+def test_management_quality_verdict_flags_stop_too_tight_and_breakeven_too_late(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    svc = adaptive_service.AdaptiveManagementService()
+    with SessionLocal() as db:
+        db.add(_outcome("POS1", "static_baseline_v1", actual_pnl=-20.0, hypothetical_pnl=-20.0))
+        # A 1.5x wider stop would have turned the loss into a real profit -> stop was too tight.
+        db.add(_outcome("POS1", "atr_structure_stop_wider_v1", actual_pnl=-20.0, hypothetical_pnl=15.0))
+        # A tighter stop does no worse -- the extra room bought nothing.
+        db.add(_outcome("POS1", "atr_structure_stop_tighter_v1", actual_pnl=-20.0, hypothetical_pnl=-20.0))
+        # Earlier breakeven would have reduced the loss -> breakeven was too late (never protected).
+        db.add(_outcome("POS1", "breakeven_at_0_75r_v1", actual_pnl=-20.0, hypothetical_pnl=-8.0, loss_reduced=True))
+        db.commit()
+
+    result = svc.management_quality_verdict("POS1")
+
+    assert result["status"] == "ok"
+    assert result["verdicts"]["stop_too_tight"]["verdict"] is True
+    assert result["verdicts"]["stop_too_wide"]["verdict"] is True
+    assert result["verdicts"]["breakeven_too_late"]["verdict"] is True
+
+
+def test_management_quality_verdict_reports_no_replay_data_when_ungathered(monkeypatch):
+    _session_factory(monkeypatch)
+    svc = adaptive_service.AdaptiveManagementService()
+
+    result = svc.management_quality_verdict("NEVER_REPLAYED")
+
+    assert result["status"] == "no_replay_data"
+    assert result["verdicts"] == {}
+
+
+def test_management_quality_verdict_exit_optimal_when_nothing_beats_actual(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    svc = adaptive_service.AdaptiveManagementService()
+    with SessionLocal() as db:
+        db.add(_outcome("POS2", "static_baseline_v1", actual_pnl=50.0, hypothetical_pnl=50.0))
+        db.add(_outcome("POS2", "trailing_atr_1_5_v1", actual_pnl=50.0, hypothetical_pnl=30.0, profit_reduced=True))
+        db.commit()
+
+    result = svc.management_quality_verdict("POS2")
+
+    assert result["verdicts"]["exit_optimal"]["verdict"] is True
+    assert result["verdicts"]["trailing_too_aggressive"]["verdict"] is True

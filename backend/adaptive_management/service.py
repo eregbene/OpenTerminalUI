@@ -361,6 +361,52 @@ class AdaptiveManagementService:
             "cohorts": {key: _cohort_probability_stats(rows) for key, rows in cohorts.items()},
         }
 
+    def management_quality_verdict(self, position_id: str) -> dict[str, Any]:
+        """Management Quality Engine: was the stop too tight/wide, was breakeven too early/late,
+        should partials have been taken, was trailing too aggressive/passive, was the exit
+        optimal -- each verdict is a direct, explained comparison between what actually happened
+        and what the auto-replay counterfactual engine (Part 5/6, now running automatically on
+        every close) computed for a specific named policy against the SAME trade. Requires the
+        trade to have been replayed already (see _auto_replay_recently_closed); returns
+        status=no_replay_data otherwise rather than guessing."""
+        with SessionLocal() as db:
+            outcomes = db.query(CounterfactualOutcomeORM).filter(CounterfactualOutcomeORM.trade_id == position_id).all()
+        if not outcomes:
+            return {"position_id": position_id, "status": "no_replay_data", "verdicts": {}}
+        by_policy = {row.policy_id: row for row in outcomes}
+        threshold = _env_float("MANAGEMENT_QUALITY_MEANINGFUL_DIFFERENCE_USD", 1.0)
+        verdicts: dict[str, dict[str, Any]] = {}
+
+        wider = by_policy.get("atr_structure_stop_wider_v1")
+        if wider:
+            verdicts["stop_too_tight"] = {"verdict": bool(wider.difference_from_actual > threshold), "basis": "atr_structure_stop_wider_v1", "would_have_changed_pnl_usd": wider.difference_from_actual, "reason": "a 1.5x wider, risk-normalized stop would have produced meaningfully more profit"}
+        tighter = by_policy.get("atr_structure_stop_tighter_v1")
+        if tighter:
+            verdicts["stop_too_wide"] = {"verdict": bool(tighter.difference_from_actual >= -threshold), "basis": "atr_structure_stop_tighter_v1", "would_have_changed_pnl_usd": tighter.difference_from_actual, "reason": "a 0.75x tighter, risk-normalized stop would have done no worse, so the extra room wasn't needed"}
+
+        stricter_breakeven = by_policy.get("improved_breakeven_structure_v1")
+        if stricter_breakeven:
+            verdicts["breakeven_too_early"] = {"verdict": bool(stricter_breakeven.difference_from_actual > threshold), "basis": "improved_breakeven_structure_v1", "would_have_changed_pnl_usd": stricter_breakeven.difference_from_actual, "reason": "requiring a higher achieved-R before breakeven would have produced meaningfully more profit"}
+        earlier_breakeven = by_policy.get("breakeven_at_0_75r_v1")
+        if earlier_breakeven:
+            verdicts["breakeven_too_late"] = {"verdict": bool(earlier_breakeven.loss_reduced and earlier_breakeven.difference_from_actual > threshold), "basis": "breakeven_at_0_75r_v1", "would_have_changed_pnl_usd": earlier_breakeven.difference_from_actual, "reason": "moving to breakeven at +0.75R would have reduced a loss that actually occurred"}
+
+        partial = by_policy.get("tp_progress_partial_v1") or by_policy.get("partial_25_at_0_5r_v1")
+        if partial:
+            verdicts["partial_profit_should_have_been_taken"] = {"verdict": bool(partial.difference_from_actual > threshold and partial.giveback_avoided > 0), "basis": partial.policy_id, "would_have_changed_pnl_usd": partial.difference_from_actual, "giveback_avoided_r": partial.giveback_avoided, "reason": "staged partial closes would have locked in profit that was later given back"}
+
+        trailing = by_policy.get("trailing_atr_1_5_v1")
+        if trailing:
+            verdicts["trailing_too_aggressive"] = {"verdict": bool(trailing.profit_reduced), "basis": "trailing_atr_1_5_v1", "would_have_changed_pnl_usd": trailing.difference_from_actual, "reason": "ATR-based trailing would have exited with less profit than what actually happened"}
+            verdicts["trailing_too_passive"] = {"verdict": bool(trailing.difference_from_actual > threshold and trailing.giveback_avoided > 0), "basis": "trailing_atr_1_5_v1", "would_have_changed_pnl_usd": trailing.difference_from_actual, "giveback_avoided_r": trailing.giveback_avoided, "reason": "ATR-based trailing would have protected profit that was actually given back"}
+
+        best = max(outcomes, key=lambda row: row.hypothetical_pnl, default=None)
+        baseline = by_policy.get("static_baseline_v1")
+        exit_gap = (best.hypothetical_pnl - baseline.actual_pnl) if best and baseline else None
+        verdicts["exit_optimal"] = {"verdict": bool(exit_gap is not None and exit_gap <= threshold), "basis": best.policy_id if best else None, "best_alternative_pnl_usd": best.hypothetical_pnl if best else None, "gap_to_best_alternative_usd": exit_gap, "reason": "no simulated policy would have produced meaningfully more profit than the actual exit" if (exit_gap is not None and exit_gap <= threshold) else "at least one simulated policy would have produced meaningfully more profit"}
+
+        return {"position_id": position_id, "status": "ok", "policies_compared": len(outcomes), "verdicts": verdicts}
+
     def shadow_summary(self) -> dict[str, Any]:
         with SessionLocal() as db:
             activation = _active_activation(db)
