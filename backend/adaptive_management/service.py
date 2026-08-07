@@ -34,6 +34,7 @@ from backend.adaptive_management.orm import (
     TradeThesisORM,
 )
 from backend.brokers.mt5 import account_registry
+from backend.brokers.mt5.account_registry import AccountClassification
 from backend.brokers.mt5.adapter import mt5_adapter
 from backend.brokers.mt5.config import mt5_config
 from backend.brokers.mt5.persistence import sanitize
@@ -49,11 +50,12 @@ ACTIVE_POLICY_ID = "conservative_demo_manager_v1"
 ACTIVE_POLICY_VERSION = "v2"
 logger = logging.getLogger(__name__)
 
-# v2 action types added by the trade-sizing/profit-protection overhaul. Deliberately gated by
-# their OWN independent shadow/enforce switch (v2_mode() below) rather than reusing the existing
-# ADAPTIVE_TRADE_MANAGEMENT_MODE/demo_active gate -- so the brand-new dynamic-TP and
-# reduced-risk-SL logic ships shadow-only by default even on an installation that already runs
-# the existing manager in demo_active, and enabling it is a deliberate, separate opt-in.
+# v2 action types added by the trade-sizing/profit-protection overhaul. Execution of these (like
+# every other action type) is gated by account CLASSIFICATION, not by a manual env opt-in: see
+# _can_execute()'s classification check below. Per the ACCOUNT MODES policy, INTERNAL_DEMO is the
+# only classification where Adaptive Trade Manager V2 is ACTIVE -- PROP_EVALUATION/PROP_FUNDED/
+# PERSONAL_LIVE/UNKNOWN always stay SHADOW regardless of env configuration. v2_mode() below
+# remains only as an explicit operator kill-switch ('disabled') independent of the base mode().
 V2_ACTION_TYPES = {"MOVE_SL_TO_REDUCED_RISK", "EXTEND_TP", "REDUCE_TP"}
 
 # The set of action types that modify SL and/or TP on an existing broker position (as opposed to
@@ -61,14 +63,41 @@ V2_ACTION_TYPES = {"MOVE_SL_TO_REDUCED_RISK", "EXTEND_TP", "REDUCE_TP"}
 # reconciliation confirmation matching, request building, and post-fill cooldown stamping.
 SLTP_MODIFY_ACTION_TYPES = {"MOVE_SL_BREAKEVEN", "TRAIL_STOP", "TP_PROGRESS_STRUCTURE_STOP"} | V2_ACTION_TYPES
 
+# Volume-reducing/closing action types. Unlike SLTP_MODIFY_ACTION_TYPES, these were NOT gated by
+# state.last_management_at/_cooldown_elapsed at candidate-generation time (only cooldown_ok-gated
+# candidates were) -- incident hardening: a single cycle where R was transiently wrong (see the
+# runaway-R incident on ticket 57873187767) could satisfy PARTIAL_PROFIT's threshold every single
+# monitor cycle, and each cycle's per-minute idempotency-key bucket (_idempotency_key) makes every
+# cycle's candidate look like a brand-new, never-before-seen action -- so idempotency dedup never
+# caught it either. Four real PARTIAL_PROFIT broker closes fired in under a minute before this
+# existed. _can_execute() now enforces the same cooldown against these at the EXECUTION gate
+# (not generation, so the candidate is still visible/logged during cooldown) as defense-in-depth,
+# independent of whatever upstream bug might someday make R wrong again.
+VOLUME_MUTATING_COOLDOWN_ACTION_TYPES = {"PARTIAL_PROFIT", "THESIS_INVALIDATION_CLOSE", "EVENT_RISK_REDUCTION", "ECONOMIC_REDUCE_SIZE", "TP_PROGRESS_PROFIT_LOCK", "MFE_PROTECTION_CLOSE"}
+
 
 def v2_mode() -> str:
-    """Independent shadow/enforce/disabled switch for the v2 action types (see
-    V2_ACTION_TYPES). Read fresh on every call, matching AdaptiveManagementService.mode()'s
-    convention, so monkeypatch.setenv works in tests. Default 'shadow': v2 actions are always
-    computed and persisted, never executed, until an operator explicitly sets 'enforce'."""
+    """Operator kill-switch for the v2 action types (see V2_ACTION_TYPES), independent of the
+    base mode()/ACCOUNT MODES classification gate. Read fresh on every call, matching
+    AdaptiveManagementService.mode()'s convention, so monkeypatch.setenv works in tests. Only
+    'disabled' has any effect (v2 action types never execute, for any account); 'shadow' and
+    'enforce' are otherwise equivalent -- real execution is governed entirely by
+    _account_classification() in _can_execute(), never by this switch alone."""
     value = os.getenv("ADAPTIVE_MANAGEMENT_MODE", "shadow").strip().lower()
     return value if value in {"disabled", "shadow", "enforce"} else "shadow"
+
+
+def _account_classification(fingerprint_hash: str | None) -> str:
+    """Looks up the persisted AccountClassification (backend.brokers.mt5.account_registry) for
+    an account fingerprint. No fingerprint, or no profile row yet, fails closed to UNKNOWN --
+    matching account_registry.account_blockers()'s fail-closed treatment of unrecognized
+    accounts at the Execution Manager chokepoint. This is the single source of truth for whether
+    Adaptive Trade Manager V2 may execute (vs. shadow-only) for the currently connected account,
+    per the ACCOUNT MODES policy: INTERNAL_DEMO=ACTIVE, everything else=SHADOW."""
+    if not fingerprint_hash:
+        return AccountClassification.UNKNOWN.value
+    profile = account_registry.get_profile(fingerprint_hash)
+    return profile["classification"] if profile else AccountClassification.UNKNOWN.value
 
 
 def learning_recommendation_mode() -> str:
@@ -139,6 +168,16 @@ class AdaptiveManagementService:
         self._cycle_lock = asyncio.Lock()
         self._last_reconciliation_at: datetime | None = None
         self._last_auto_replay_at: datetime | None = None
+        self._next_interval_hint: float | None = None
+        # Per-position crash isolation (incident hardening): a single malformed position (e.g.
+        # the ZeroDivisionError incident on ticket 57873187767, which previously crashed the
+        # ENTIRE monitor cycle -- EURUSD/GBPUSD/every other open position included -- until the
+        # process-level except in _monitor_loop caught it and the whole cycle was simply
+        # discarded) must never stop other open positions from being managed. See the per-
+        # position try/except in _monitor_cycle. Process-lifetime counters, not persisted --
+        # cheap, and the log line (see _record_position_evaluation_error) is the durable record.
+        self._position_evaluation_errors_total: int = 0
+        self._position_evaluation_errors_by_symbol: dict[str, int] = {}
 
     async def start(self) -> None:
         if self._task and not self._task.done():
@@ -171,11 +210,14 @@ class AdaptiveManagementService:
         with SessionLocal() as db:
             activation = _active_activation(db)
             breaker = _breaker(db)
+            classification = _account_classification(activation.account_fingerprint) if activation else None
             return {
                 "enabled": os.getenv("ADAPTIVE_TRADE_MANAGEMENT_ENABLED", "true").lower() in {"1", "true", "yes", "on"},
                 "mode": self.mode(),
+                "v2_mode": v2_mode(),
+                "account_classification": classification,
                 "broker_mutation_allowed": False,
-                "demo_active_broker_mutation_allowed": bool(activation and self.mode() == "demo_active" and breaker.state == "closed"),
+                "demo_active_broker_mutation_allowed": bool(activation and self.mode() == "demo_active" and breaker.state == "closed" and classification == AccountClassification.INTERNAL_DEMO.value),
                 "supported_modes": ["disabled", "shadow", "demo_active"],
                 "live_trading_enabled": bool(cfg.live_trading_enabled),
                 "order_submission_config_unchanged": True,
@@ -188,6 +230,8 @@ class AdaptiveManagementService:
                 "policies": db.query(TradeManagementPolicyORM).count(),
                 "shadow_decisions": db.query(ShadowDecisionORM).count(),
                 "counterfactual_outcomes": db.query(CounterfactualOutcomeORM).count(),
+                "adaptive_position_evaluation_errors_total": self._position_evaluation_errors_total,
+                "adaptive_position_evaluation_errors_by_symbol": dict(self._position_evaluation_errors_by_symbol),
             }
 
     async def activate_demo(
@@ -209,7 +253,14 @@ class AdaptiveManagementService:
         if terminal.account_mode != "DEMO" or cfg.account_mode != "DEMO":
             return {"status": "REJECTED", "reason": "MT5_DEMO_ACCOUNT_REQUIRED"}
         fingerprint = account_registry.fingerprint_account(account)
-        account_registry.record_sighting(fingerprint, account_mode=cfg.account_mode, profile_label=os.getenv("MT5_ACCOUNT_PROFILE_LABEL"))
+        classification = account_registry.record_sighting(fingerprint, account_mode=cfg.account_mode, profile_label=os.getenv("MT5_ACCOUNT_PROFILE_LABEL"))
+        # Defense in depth beyond the raw MT5 DEMO/LIVE flag: a demo-mode MT5 account can still
+        # be a prop-firm evaluation/funded account under the finer-grained classification system
+        # (see account_registry.AccountClassification). Only INTERNAL_DEMO may ever activate
+        # real V2 management -- everything else stays shadow-only per the ACCOUNT MODES policy,
+        # regardless of what cfg.account_mode/terminal.account_mode report.
+        if classification != AccountClassification.INTERNAL_DEMO.value:
+            return {"status": "REJECTED", "reason": "ACCOUNT_NOT_INTERNAL_DEMO", "classification": classification}
         now = utcnow()
         activation_id = "ADAPTIVE_ACT_" + _hash({"account": account.login, "policy": ACTIVE_POLICY_ID, "time": (effective_from or now).isoformat()})[:24]
         with SessionLocal() as db:
@@ -353,6 +404,136 @@ class AdaptiveManagementService:
             "trade_events": [_orm_dict(row) for row in events],
         }
 
+    def mark_contaminated(self, position_id: str, reason: str) -> dict[str, Any]:
+        """Marks a position as engineering-contaminated (see AdaptivePositionStateORM.
+        contaminated): excluded from clean performance/probability/replay-policy-promotion/
+        learning statistics, full broker/execution history preserved. Idempotent -- re-marking
+        an already-contaminated position just updates the reason."""
+        with SessionLocal() as db:
+            state = db.get(AdaptivePositionStateORM, position_id)
+            if not state:
+                return {"status": "NOT_FOUND", "position_id": position_id}
+            state.contaminated = True
+            state.contamination_reason = reason
+            db.merge(state)
+            db.commit()
+        return {"status": "OK", "position_id": position_id, "contaminated": True, "reason": reason}
+
+    async def close_incident_position(self, position_id: str, *, incident_id: str | None = None, reason: str = "VALIDATION_INCIDENT_CLOSE", requested_by: str = "operator") -> dict[str, Any]:
+        """Controlled, deliberate close of a single contaminated/incident position (XAUUSD
+        incident remediation, Part 4). Never touches the broker directly -- routes through the
+        EXACT SAME pipeline as every other management action: _persist_action -> _can_execute
+        (classification/fingerprint/live-trading/rate-limit gates all apply, unchanged) ->
+        _execute_action -> execution_manager.submit_mt5_request -> MT5. Idempotent: a second
+        call after a successful close returns the original result instead of resubmitting, and
+        a position already closed at the broker (e.g. hit SL/TP naturally) is reconciled only --
+        nothing is submitted."""
+        with SessionLocal() as db:
+            state = db.get(AdaptivePositionStateORM, position_id)
+            if state is None:
+                return {"status": "NOT_FOUND", "position_id": position_id}
+            # Duplicate-close guard: an already-submitted VALIDATION_INCIDENT_CLOSE for this
+            # position means the broker mutation already happened. Never resubmit -- report the
+            # original outcome instead. This is bucket/time-independent, unlike the generic
+            # idempotency-key dedup in _persist_action (which only catches an exact repeat
+            # within the same minute bucket).
+            existing = (
+                db.query(AdaptiveManagementActionORM)
+                .filter(AdaptiveManagementActionORM.position_id == position_id, AdaptiveManagementActionORM.action_type == "VALIDATION_INCIDENT_CLOSE", AdaptiveManagementActionORM.status == "submitted")
+                .order_by(AdaptiveManagementActionORM.created_at.desc())
+                .first()
+            )
+            if existing:
+                broker_result = db.query(AdaptiveBrokerActionResultORM).filter(AdaptiveBrokerActionResultORM.action_id == existing.action_id).first()
+                return {"status": "ALREADY_CLOSED_BY_INCIDENT_ACTION", "position_id": position_id, "action_id": existing.action_id, "broker_result": _orm_dict(broker_result) if broker_result else None}
+        # Live broker re-verification -- a real mutation must never rely on cached DB state
+        # alone for account identity or whether the position is even still open.
+        try:
+            live_account = await mt5_adapter.mt5_account()
+            current_fingerprint = account_registry.fingerprint_account(live_account).fingerprint_hash
+        except Exception as exc:
+            return {"status": "ACCOUNT_LOOKUP_FAILED", "position_id": position_id, "reason": exc.__class__.__name__}
+        classification = _account_classification(current_fingerprint)
+        if classification != AccountClassification.INTERNAL_DEMO.value:
+            return {"status": "REJECTED", "position_id": position_id, "reason": "ACCOUNT_NOT_INTERNAL_DEMO", "classification": classification}
+        try:
+            live_positions = await mt5_adapter.mt5_positions()
+        except Exception as exc:
+            return {"status": "BROKER_NOT_READY", "position_id": position_id, "reason": exc.__class__.__name__}
+        live_position = next((p for p in live_positions if _position_id(p.model_dump(mode="json")) == position_id), None)
+        if live_position is None:
+            # Already closed at the broker by the time this ran (naturally hit SL/TP, or a
+            # prior incomplete run already closed it) -- reconcile only, submit nothing.
+            with SessionLocal() as db:
+                state = db.get(AdaptivePositionStateORM, position_id)
+                if state and state.closed_detected_at is None:
+                    state.closed_detected_at = utcnow()
+                    db.merge(state)
+                    db.commit()
+            return {"status": "ALREADY_CLOSED_AT_BROKER", "position_id": position_id, "action": "reconciled_only"}
+        payload = live_position.model_dump(mode="json")
+        current_volume = float(payload.get("volume") or 0)
+        if current_volume <= 0:
+            return {"status": "NO_REMAINING_VOLUME", "position_id": position_id}
+        with SessionLocal() as db:
+            activation = _active_activation(db)
+            breaker = _breaker(db)
+            state = db.get(AdaptivePositionStateORM, position_id)
+            if not activation:
+                return {"status": "REJECTED", "position_id": position_id, "reason": "NO_ACTIVE_ACTIVATION"}
+            if activation.account_fingerprint and activation.account_fingerprint != current_fingerprint:
+                return {"status": "REJECTED", "position_id": position_id, "reason": "ACCOUNT_FINGERPRINT_MISMATCH"}
+            choice = ManagementCandidate(
+                "VALIDATION_INCIDENT_CLOSE",
+                0,
+                requested_volume=current_volume,
+                reason=reason,
+                evidence={
+                    "incident_id": incident_id or f"INCIDENT_{position_id}",
+                    "requested_by": requested_by,
+                    "original_volume": state.original_volume if state else None,
+                    "volume_before_close": current_volume,
+                },
+            )
+            action = self._persist_action(db, state, activation, choice, [choice], self.mode(), breaker)
+            db.commit()
+            db.refresh(action)
+            action_id, action_status = action.action_id, action.status
+            can_execute = self._can_execute(action, state, activation, breaker, self.mode(), current_fingerprint)
+        if not can_execute:
+            return {"status": "BLOCKED", "position_id": position_id, "reason": "CAN_EXECUTE_FALSE", "action_id": action_id, "action_status": action_status}
+        result = await self._execute_action(action, state, payload)
+        with SessionLocal() as db:
+            # Re-fetch action in THIS session -- the `action` object above is detached (its own
+            # `with SessionLocal()` block already exited), and _persist_result only mutates
+            # action.status/updated_at as plain Python attributes (no db.merge(action) of its
+            # own, since every other caller already holds a session-attached instance). Passing
+            # the detached instance here would silently mutate memory only, never the DB row --
+            # the exact bug that broke this method's own duplicate-close guard during testing.
+            fresh_action = db.get(AdaptiveManagementActionORM, action_id)
+            self._persist_result(db, fresh_action, result)
+            db.commit()
+            broker_result = db.query(AdaptiveBrokerActionResultORM).filter(AdaptiveBrokerActionResultORM.action_id == action_id).first()
+            if result.get("status") == "ACCEPTED":
+                refreshed_state = db.get(AdaptivePositionStateORM, position_id)
+                if refreshed_state and float(result.get("filled_volume") or 0) >= current_volume - 1e-9:
+                    refreshed_state.closed_detected_at = utcnow()
+                    db.merge(refreshed_state)
+                    db.commit()
+        return {
+            "status": result.get("status"),
+            "position_id": position_id,
+            "action_id": action_id,
+            "incident_id": incident_id or f"INCIDENT_{position_id}",
+            "broker_mutation_attempted": result.get("broker_mutation_attempted"),
+            "retcode": result.get("retcode"),
+            "broker_ticket": result.get("broker_ticket"),
+            "fill_price": result.get("fill_price"),
+            "filled_volume": result.get("filled_volume"),
+            "close_volume_requested": current_volume,
+            "raw_response": result.get("raw_response"),
+        }
+
     def performance(self) -> dict[str, Any]:
         return self.audit_report(session_id=None)
 
@@ -457,6 +638,49 @@ class AdaptiveManagementService:
             "learning_mode": learning_recommendation_mode(),
         }
 
+    def replay_results(self, position_id: str) -> dict[str, Any]:
+        """Reads back what the auto-replay pipeline already computed for a closed trade --
+        does NOT trigger a fresh replay (that happens automatically on close; see
+        _auto_replay_recently_closed). Returns status=not_replayed_yet rather than blocking or
+        guessing if the trade hasn't been processed yet."""
+        with SessionLocal() as db:
+            path = db.query(TradePathSnapshotORM).filter(TradePathSnapshotORM.trade_id == position_id).first()
+            outcomes = db.query(CounterfactualOutcomeORM).filter(CounterfactualOutcomeORM.trade_id == position_id).order_by(CounterfactualOutcomeORM.difference_from_actual.desc()).all()
+        if not outcomes:
+            return {"position_id": position_id, "status": "not_replayed_yet", "path": None, "outcomes": []}
+        return {
+            "position_id": position_id,
+            "status": "ok",
+            "path": _orm_dict(path) if path else None,
+            "outcomes": [_orm_dict(row) for row in outcomes],
+            "best_policy_id": outcomes[0].policy_id,
+            "learning_mode": learning_recommendation_mode(),
+        }
+
+    def learning_summary(self) -> dict[str, Any]:
+        """Part 9's /learning-summary: how much has the trade-intelligence engine actually
+        learned from so far -- real counts, not a qualitative claim. Excludes engineering-
+        contaminated positions (see AdaptivePositionStateORM.contaminated) from these counts --
+        a since-fixed manager bug's side effects are not something the engine should count as
+        having "learned from"."""
+        with SessionLocal() as db:
+            replayed = db.query(AdaptivePositionStateORM).filter(AdaptivePositionStateORM.replay_completed_at.isnot(None), AdaptivePositionStateORM.contaminated.is_(False)).count()
+            closed = db.query(AdaptivePositionStateORM).filter(AdaptivePositionStateORM.closed_detected_at.isnot(None), AdaptivePositionStateORM.contaminated.is_(False)).count()
+            counterfactuals = db.query(CounterfactualOutcomeORM).count()
+            policies = db.query(TradeManagementPolicyORM).count()
+        leaderboard = self.leaderboard_report()
+        return {
+            "learning_mode": learning_recommendation_mode(),
+            "closed_trades_total": closed,
+            "closed_trades_replayed": replayed,
+            "closed_trades_pending_replay": max(0, closed - replayed),
+            "counterfactual_outcomes_total": counterfactuals,
+            "policies_available": policies,
+            "total_trades_with_sufficient_data_for_ranking": leaderboard["total_trades"],
+            "top_expectancy_cohorts": leaderboard["highest_expectancy"],
+            "worst_giveback_cohorts": leaderboard["highest_giveback"],
+        }
+
     def shadow_summary(self) -> dict[str, Any]:
         with SessionLocal() as db:
             activation = _active_activation(db)
@@ -478,6 +702,7 @@ class AdaptiveManagementService:
             "mode": self.mode(),
             "v2_mode": v2_mode(),
             "account_fingerprint": activation.account_fingerprint if activation else None,
+            "account_classification": _account_classification(activation.account_fingerprint) if activation else None,
             "scoped_from": activation.created_at.isoformat() if activation else None,
             "sample_size": len(shadow_actions),
             "by_action_type": by_action_type,
@@ -644,7 +869,10 @@ class AdaptiveManagementService:
 
     def evaluate_policies(self, session_id: str | None = None) -> dict[str, Any]:
         with SessionLocal() as db:
-            query = db.query(CounterfactualOutcomeORM)
+            # Excludes engineering-contaminated positions -- policy scores feed replay-policy
+            # promotion decisions, which must never be influenced by a since-fixed manager bug's
+            # broker fills (see AdaptivePositionStateORM.contaminated).
+            query = db.query(CounterfactualOutcomeORM).filter(CounterfactualOutcomeORM.trade_id.notin_(_contaminated_position_ids(db)))
             if session_id:
                 trade_ids = [row.trade_id for row in db.query(AdaptiveTradeEventORM.trade_id).filter(AdaptiveTradeEventORM.session_id == session_id, AdaptiveTradeEventORM.trade_id.isnot(None)).distinct()]
                 query = query.filter(CounterfactualOutcomeORM.trade_id.in_(trade_ids))
@@ -658,7 +886,11 @@ class AdaptiveManagementService:
 
     def run_walk_forward(self, session_id: str | None = None, train_fraction: float = 0.6) -> dict[str, Any]:
         with SessionLocal() as db:
-            rows = db.query(CounterfactualOutcomeORM).order_by(CounterfactualOutcomeORM.created_at.asc()).all()
+            # Excludes engineering-contaminated positions -- this feeds _champion_challenger
+            # promotion recommendations, which must never treat a since-fixed manager bug's
+            # broker fills as real strategy performance (see AdaptivePositionStateORM.
+            # contaminated).
+            rows = db.query(CounterfactualOutcomeORM).filter(CounterfactualOutcomeORM.trade_id.notin_(_contaminated_position_ids(db))).order_by(CounterfactualOutcomeORM.created_at.asc()).all()
         if session_id:
             with SessionLocal() as db:
                 trade_ids = {row.trade_id for row in db.query(AdaptiveTradeEventORM.trade_id).filter(AdaptiveTradeEventORM.session_id == session_id, AdaptiveTradeEventORM.trade_id.isnot(None)).distinct()}
@@ -767,7 +999,13 @@ class AdaptiveManagementService:
 
     def audit_report(self, session_id: str | None = None) -> dict[str, Any]:
         with SessionLocal() as db:
-            states = db.query(AdaptivePositionStateORM).all()
+            # Excludes engineering-contaminated positions (see AdaptivePositionStateORM.
+            # contaminated) -- everything built on this report (probability_report,
+            # leaderboard_report, performance) must never count a since-fixed manager bug's
+            # side effects as real strategy performance. Full history for a contaminated ticket
+            # is still available via position_detail/position_history/replay_results by
+            # position_id -- only these AGGREGATE statistics exclude it.
+            states = db.query(AdaptivePositionStateORM).filter(AdaptivePositionStateORM.contaminated.is_(False)).all()
             audits = {row.position_id: row for row in db.query(AdaptiveStopQualityAuditORM).all()}
             events_query = db.query(AdaptiveTradeEventORM).filter(AdaptiveTradeEventORM.event_type == "DEAL")
             if session_id:
@@ -925,7 +1163,7 @@ class AdaptiveManagementService:
             return [_orm_dict(row) for row in db.query(ShadowDecisionORM).order_by(ShadowDecisionORM.timestamp.desc()).limit(500).all()]
 
     async def _monitor_loop(self) -> None:
-        interval = _env_int("ADAPTIVE_TRADE_MANAGEMENT_INTERVAL_SECONDS", 10, minimum=2, maximum=60)
+        base_interval = _env_int("ADAPTIVE_TRADE_MANAGEMENT_INTERVAL_SECONDS", 10, minimum=2, maximum=60)
         while not self._stop_event.is_set():
             try:
                 await self._monitor_cycle()
@@ -933,10 +1171,41 @@ class AdaptiveManagementService:
                 raise
             except Exception as exc:
                 logger.exception("Adaptive trade manager cycle failed: %s", exc)
+            # Adaptive EVALUATION frequency only -- how often we look, never how often we mutate
+            # the broker. Broker-side SL/TP changes stay governed entirely by the existing
+            # ADAPTIVE_MODIFICATION_COOLDOWN_SECONDS/_cooldown_elapsed + circuit-breaker rate
+            # limit (_rate_limit_ok), which this loop never touches. self._next_interval_hint is
+            # set at the end of a successful _monitor_cycle by _compute_next_interval(); a
+            # crashed/skipped cycle leaves it at whatever it was (falls back to base_interval on
+            # the very first cycle).
+            interval = self._next_interval_hint or base_interval
             try:
                 await asyncio.wait_for(self._stop_event.wait(), timeout=interval)
             except asyncio.TimeoutError:
                 pass
+
+    def _compute_next_interval(self, selected: list[dict[str, Any]]) -> float:
+        """Faster checks the closer a position is to needing protection, slower when nothing
+        open/at risk -- so the manager isn't blind for up to a full base interval right when a
+        fast-moving instrument (e.g. Gold) crosses a profit threshold. Bounds are deliberately
+        tight (5-60s): this only ever changes how soon _monitor_cycle looks again, not whether
+        any broker mutation happens (see _monitor_loop's cooldown/rate-limit note above)."""
+        base = _env_int("ADAPTIVE_TRADE_MANAGEMENT_INTERVAL_SECONDS", 10, minimum=2, maximum=60)
+        if not selected:
+            return float(base)
+        urgent = _env_int("ADAPTIVE_INTERVAL_URGENT_SECONDS", 5, minimum=2, maximum=60)
+        profit = _env_int("ADAPTIVE_INTERVAL_PROFIT_SECONDS", 10, minimum=2, maximum=60)
+        fastest = float(base)
+        for action in selected:
+            evidence = action.get("evidence") or {}
+            max_r = float(evidence.get("max_r") or evidence.get("mfe_r") or 0)
+            tp_progress = float(evidence.get("tp_progress") or 0)
+            equity_tier = str(evidence.get("tier") or "")
+            if max_r >= 1.0 or tp_progress >= 0.85 or equity_tier == "strong_profit_no_explicit_protection":
+                fastest = min(fastest, float(urgent))
+            elif max_r >= 0.5 or equity_tier in {"protect_eligible", "reassess"}:
+                fastest = min(fastest, float(profit))
+        return fastest
 
     async def _monitor_cycle(self) -> dict[str, Any]:
         if self._cycle_lock.locked():
@@ -958,8 +1227,24 @@ class AdaptiveManagementService:
             try:
                 live_account = await mt5_adapter.mt5_account()
                 current_fingerprint = account_registry.fingerprint_account(live_account).fingerprint_hash
-            except Exception:
+            except Exception as exc:
+                # Was previously silent (bare `except Exception: current_fingerprint = None`),
+                # which made a persistent account-lookup failure indistinguishable from a
+                # healthy cycle in every log/metric: _can_execute() fails closed on
+                # current_fingerprint=None (correct), but nobody could ever tell THAT was why a
+                # position's protective actions kept getting selected and never executed.
+                logger.warning("Adaptive trade manager: mt5_account()/fingerprint lookup failed this cycle, execution will fail closed: %s", exc.__class__.__name__)
                 current_fingerprint = None
+                live_account = None
+            # Deliberately a separate try/except from the fingerprint lookup above: equity is
+            # only used by the account-scaled profit-protection layer (falls back to "layer
+            # disabled this cycle" -- see _account_scaled_profit_protection's `if not
+            # account_equity: return []`), so a missing/incompatible .equity field must never
+            # also fail closed on execution eligibility, which depends only on the fingerprint.
+            try:
+                account_equity = float(live_account.equity) if live_account is not None else None
+            except Exception:
+                account_equity = None
             with SessionLocal() as db:
                 activation = _active_activation(db)
                 breaker = _breaker(db)
@@ -972,28 +1257,57 @@ class AdaptiveManagementService:
                 for position in positions:
                     payload = position.model_dump(mode="json")
                     symbol = str(payload.get("symbol") or "UNKNOWN").upper()
-                    context = await context_for_trade(symbol, utcnow())
-                    candles = await _safe_candles(symbol)
+                    ticket = _position_id(payload)
+                    # Incident hardening: this try/except is the crash boundary for ONE
+                    # position's entire evaluation (sync -> candidate generation -> selection ->
+                    # persistence -> execution). A bug specific to one ticket (e.g. the
+                    # ZeroDivisionError from the runaway-R incident on 57873187767) must never
+                    # abort the rest of this cycle -- EURUSD/GBPUSD/every other open position
+                    # still gets evaluated and, if warranted, protected. Deliberately does NOT
+                    # roll back `db`: a plain Python exception here (ZeroDivisionError,
+                    # AttributeError, etc.) never leaves the SQLAlchemy session itself in an
+                    # invalid state, so earlier positions' already-`db.merge()`'d work in this
+                    # same cycle/session must survive to the final db.commit() below.
                     try:
-                        symbol_info = await mt5_adapter.symbol_info(symbol)
-                    except Exception:
-                        symbol_info = None
-                    state = self._sync_position_state(db, payload, activation, context, candles, account_fingerprint=current_fingerprint, symbol_info=symbol_info)
-                    try:
-                        economic_result = await economic_intelligence_service.evaluate_position(symbol=symbol, direction=state.direction, opened_at=state.opened_at)
+                        context = await context_for_trade(symbol, utcnow())
+                        candles = await _safe_candles(symbol)
+                        try:
+                            symbol_info = await mt5_adapter.symbol_info(symbol)
+                        except Exception:
+                            symbol_info = None
+                        state = self._sync_position_state(db, payload, activation, context, candles, account_fingerprint=current_fingerprint, symbol_info=symbol_info)
+                        try:
+                            economic_result = await economic_intelligence_service.evaluate_position(symbol=symbol, direction=state.direction, opened_at=state.opened_at)
+                        except Exception as exc:
+                            logger.warning("Economic intelligence position evaluation failed: %s", exc.__class__.__name__)
+                            economic_result = None
+                        candidates = self._evaluate_position(db, state, payload, context, candles, economic_result=economic_result, symbol_info=symbol_info, account_equity=account_equity)
+                        choice = self._select_action(candidates)
+                        action = self._persist_action(db, state, activation, choice, candidates, mode, breaker)
+                        selected.append(_orm_dict(action))
+                        if self._can_execute(action, state, activation, breaker, mode, current_fingerprint):
+                            result = await self._execute_action(action, state, payload)
+                            executed += 1 if result.get("broker_mutation_attempted") else 0
+                            self._persist_result(db, action, result)
                     except Exception as exc:
-                        logger.warning("Economic intelligence position evaluation failed: %s", exc.__class__.__name__)
-                        economic_result = None
-                    candidates = self._evaluate_position(db, state, payload, context, candles, economic_result=economic_result)
-                    choice = self._select_action(candidates)
-                    action = self._persist_action(db, state, activation, choice, candidates, mode, breaker)
-                    selected.append(_orm_dict(action))
-                    if self._can_execute(action, state, activation, breaker, mode, current_fingerprint):
-                        result = await self._execute_action(action, state, payload)
-                        executed += 1 if result.get("broker_mutation_attempted") else 0
-                        self._persist_result(db, action, result)
+                        self._record_position_evaluation_error(ticket, symbol, exc)
+                        continue
                 db.commit()
+            self._next_interval_hint = self._compute_next_interval(selected)
             return {"status": "OK", "positions": len(positions), "selected_actions": selected, "broker_mutation_calls": executed}
+
+    def _record_position_evaluation_error(self, ticket: str, symbol: str, exc: Exception) -> None:
+        """Journals a single position's evaluation crash (see the per-position try/except in
+        _monitor_cycle) without ever stopping the cycle for other positions. Logs only the
+        exception CLASS name and a truncated str(exc) -- never args/kwargs/full tracebacks that
+        could carry account numbers, prices, or other position data into log aggregators beyond
+        what's already safe to log. adaptive_position_evaluation_errors_total (see status())
+        gives an at-a-glance signal that something is repeatedly failing even if nobody is
+        watching logs in real time."""
+        self._position_evaluation_errors_total += 1
+        self._position_evaluation_errors_by_symbol[symbol] = self._position_evaluation_errors_by_symbol.get(symbol, 0) + 1
+        safe_summary = str(exc)[:200]
+        logger.error("Adaptive trade manager: position evaluation failed, skipping this position only (ticket=%s symbol=%s exception=%s): %s", ticket, symbol, exc.__class__.__name__, safe_summary)
 
     def _auto_recover_breaker(self, db: Any, breaker: Any) -> None:
         if breaker.state != "open" or not str(breaker.reason or "").startswith("BROKER_NOT_READY"):
@@ -1112,8 +1426,21 @@ class AdaptiveManagementService:
         sl = _float(payload.get("sl"))
         tp = _float(payload.get("tp"))
         self._reconcile_sltp_confirmations(db, position_id, sl, tp)
-        risk = abs(entry - sl) if sl else 0.00001
-        r_now = _signed_r(TradeCase(position_id, None, str(payload.get("symbol")).upper(), direction, float(payload.get("volume") or 0), entry, sl or entry, tp or entry, opened_at or utcnow(), None, 0), current_price, risk)
+        is_first_sight = row.original_sl is None
+        # R is always relative to the trade's ORIGINAL initial risk, never the current/moving
+        # SL: R answers "how far has price moved relative to what I originally risked", and that
+        # denominator must stay fixed once a management action starts moving the stop. Using the
+        # live sl here previously caused two live incidents on the same trade: (1) once SL was
+        # moved to true breakeven (sl == entry), abs(entry - sl) == 0 and the `or 0.00001`
+        # epsilon fallback made the denominator near-zero, exploding r_now into the hundreds of
+        # thousands and firing repeated, real PARTIAL_PROFIT broker closes; before that fallback
+        # existed, the same zero-distance case was an outright ZeroDivisionError that crashed
+        # the entire monitor cycle (see the incident report). Anchoring to original_sl (the
+        # first-ever-seen sl, immutable afterward) makes both failure modes structurally
+        # impossible without needing any epsilon guard.
+        original_sl_for_risk = row.original_sl if row.original_sl is not None else sl
+        risk = abs(entry - original_sl_for_risk) or 0.00001
+        r_now = _signed_r(TradeCase(position_id, None, str(payload.get("symbol")).upper(), direction, float(payload.get("volume") or 0), entry, original_sl_for_risk or entry, tp or entry, opened_at or utcnow(), None, 0), current_price, risk)
         row.activation_id = activation.activation_id if activation else row.activation_id
         if account_fingerprint:
             row.account_fingerprint = account_fingerprint
@@ -1125,7 +1452,6 @@ class AdaptiveManagementService:
         row.original_volume = row.original_volume or float(payload.get("volume") or 0)
         row.current_volume = float(payload.get("volume") or 0)
         row.entry_price = entry
-        is_first_sight = row.original_sl is None
         row.original_sl = row.original_sl if row.original_sl is not None else sl
         row.current_sl = sl
         row.original_tp = row.original_tp if row.original_tp is not None else tp
@@ -1134,8 +1460,20 @@ class AdaptiveManagementService:
             row.strategy_id = _lineage(payload.get("comment"), "strategy")
         if not row.timeframe or row.timeframe == "UNKNOWN":
             row.timeframe = _lineage(payload.get("comment"), "timeframe")
-        row.max_achieved_r = max(float(row.max_achieved_r or 0), r_now)
-        row.min_achieved_r = min(float(row.min_achieved_r or 0), r_now)
+        # Self-healing sanity clamp: max_achieved_r/min_achieved_r are otherwise monotonic
+        # (max()/min() against their own prior value), so a single bad r_now computed before a
+        # bug fix (e.g. the current-sl-based risk-denominator incident this file's git history
+        # documents) poisons the column FOREVER afterward -- every later cycle's correct r_now
+        # still loses to max() against the old garbage. No legitimate trade in this system
+        # (partial profit taken at 1R, trailing active by 1.25R) should ever reach +/-50R; a
+        # stored value beyond that bound is proof of corruption, not a real achievement, so it's
+        # discarded (reset to this cycle's r_now) instead of preserved.
+        stale_max = float(row.max_achieved_r or 0)
+        stale_min = float(row.min_achieved_r or 0)
+        prior_max = 0.0 if abs(stale_max) > 50.0 else stale_max
+        prior_min = 0.0 if abs(stale_min) > 50.0 else stale_min
+        row.max_achieved_r = max(prior_max, r_now)
+        row.min_achieved_r = min(prior_min, r_now)
         if r_now >= row.max_achieved_r:
             row.mfe_price = current_price
         if r_now <= row.min_achieved_r:
@@ -1234,11 +1572,15 @@ class AdaptiveManagementService:
         row.stop_quality_classification = result["classification"]
         row.stop_quality_v2 = result_v2["classification"]
 
-    def _evaluate_position(self, db: Any, state: AdaptivePositionStateORM, payload: dict[str, Any], context: dict[str, Any], candles: list[dict[str, Any]], economic_result: dict[str, Any] | None = None) -> list[ManagementCandidate]:
+    def _evaluate_position(self, db: Any, state: AdaptivePositionStateORM, payload: dict[str, Any], context: dict[str, Any], candles: list[dict[str, Any]], economic_result: dict[str, Any] | None = None, symbol_info: Any | None = None, account_equity: float | None = None) -> list[ManagementCandidate]:
         entry = float(state.entry_price or 0)
         price = float(payload.get("price_current") or entry)
         sl = float(state.current_sl or state.original_sl or entry)
-        risk = abs(entry - sl) or 0.00001
+        # R denominator is always the trade's ORIGINAL risk distance, never the live/current sl
+        # -- see the matching comment in _sync_position_state for the incident this fixes (R
+        # exploding to enormous values, firing repeated real PARTIAL_PROFIT closes, once a
+        # protective SL move brought current_sl near/at entry).
+        risk = abs(entry - float(state.original_sl if state.original_sl is not None else sl)) or 0.00001
         case = TradeCase(state.position_id, None, state.symbol, state.direction, float(state.current_volume or 0), entry, sl, float(state.current_tp or entry), state.opened_at or utcnow(), None, 0)
         r_now = _signed_r(case, price, risk)
         candidates = [ManagementCandidate("HOLD", 100, reason="no_management_trigger", evidence={"r": r_now, "max_r": state.max_achieved_r, "tp_progress": state.tp_progress, "winner_classification": state.winner_classification})]
@@ -1350,7 +1692,7 @@ class AdaptiveManagementService:
                 )
 
         if cooldown_ok and not manage_existing_only:
-            be = _breakeven_price(state)
+            be = _breakeven_price(state, symbol_info)
             structure_level = _swing_structure_level(normalized_candles, state.direction)
             be_candidate = _structure_preferred_breakeven(state.direction, be, structure_level, atr)
             breakeven_ready = (
@@ -1383,7 +1725,60 @@ class AdaptiveManagementService:
 
         if v2_mode() != "disabled" and cooldown_ok and not manage_existing_only:
             candidates.extend(self._v2_candidates(state, r_now, max_r, atr, atr_r, regime, zone, normalized_candles))
+
+        candidates.extend(self._account_scaled_profit_protection(state, payload, candidates, r_now, max_r, regime, account_equity))
         return candidates
+
+    def _account_scaled_profit_protection(self, state: AdaptivePositionStateORM, payload: dict[str, Any], candidates: list[ManagementCandidate], r_now: float, max_r: float, regime: str, account_equity: float | None) -> list[ManagementCandidate]:
+        """Second, independent profit-protection layer, deliberately NOT R-based: R is relative
+        to THIS trade's own initial risk, so a well-sized trade and a badly-oversized trade that
+        both reach the same R can carry very different real dollar/equity exposure. Expressed as
+        % of current account equity (not a fixed $100/$50) so it scales correctly across account
+        sizes -- see ADAPTIVE_PROFIT_REASSESS_EQUITY_PCT/ADAPTIVE_PROFIT_PROTECT_EQUITY_PCT/
+        ADAPTIVE_STRONG_PROFIT_EQUITY_PCT. This never closes or resizes anything by itself: it
+        either (a) does nothing, because a stronger R-based/structure-based protective candidate
+        already fired this cycle, or (b) persists an explicit HOLD_WITH_GIVEBACK_RISK candidate
+        recording current profit, MFE, and the giveback being tolerated, so "the manager chose to
+        let a meaningfully-profitable trade breathe" is always a logged decision with a reason,
+        never silence. Priority 90: loses to every real protective/closing candidate (all <90)
+        but wins over the generic no-trigger HOLD(100)."""
+        if not account_equity or account_equity <= 0:
+            return []
+        profit_usd = float(payload.get("profit") or 0)
+        equity_profit_pct = (profit_usd / account_equity) * 100.0
+        reassess_pct = _env_float("ADAPTIVE_PROFIT_REASSESS_EQUITY_PCT", 0.50)
+        if equity_profit_pct < reassess_pct:
+            return []
+        stronger_protection_selected = any(candidate.priority < 90 and candidate.action_type != "HOLD" for candidate in candidates)
+        if stronger_protection_selected:
+            return []
+        protect_pct = _env_float("ADAPTIVE_PROFIT_PROTECT_EQUITY_PCT", 0.75)
+        strong_pct = _env_float("ADAPTIVE_STRONG_PROFIT_EQUITY_PCT", 1.00)
+        tier = "strong_profit_no_explicit_protection" if equity_profit_pct >= strong_pct else ("protect_eligible" if equity_profit_pct >= protect_pct else "reassess")
+        giveback_r = max(0.0, max_r - r_now)
+        return [
+            ManagementCandidate(
+                "HOLD_WITH_GIVEBACK_RISK",
+                90,
+                reason=f"equity_profit_{tier}_tier_reassessed_no_stronger_protection_selected",
+                evidence={
+                    "profit_usd": profit_usd,
+                    "account_equity": account_equity,
+                    "equity_profit_pct": equity_profit_pct,
+                    "reassess_equity_pct": reassess_pct,
+                    "protect_equity_pct": protect_pct,
+                    "strong_equity_pct": strong_pct,
+                    "tier": tier,
+                    "r": r_now,
+                    "max_r": max_r,
+                    "giveback_r": giveback_r,
+                    "winner_classification": state.winner_classification,
+                    "regime": regime,
+                    "tp_progress": state.tp_progress,
+                    "next_evaluation_seconds": _env_int("ADAPTIVE_INTERVAL_PROFIT_SECONDS", 15, minimum=5, maximum=60),
+                },
+            )
+        ]
 
     def _v2_candidates(self, state: AdaptivePositionStateORM, r_now: float, max_r: float, atr: float | None, atr_r: float, regime: str, zone: str, normalized_candles: list[dict[str, Any]]) -> list[ManagementCandidate]:
         """v2 action types (MOVE_SL_TO_REDUCED_RISK/EXTEND_TP/REDUCE_TP), gated by their own
@@ -1464,7 +1859,24 @@ class AdaptiveManagementService:
         action.requested_price = choice.requested_price
         action.selected = True
         action.considered_actions = [candidate.__dict__ for candidate in candidates]
-        action.evidence = sanitize(choice.evidence or {"reason": choice.reason})
+        # Journal everything: augment the candidate's own evidence (reason, r, etc.) with the
+        # fields every management action must record regardless of action type -- ticket,
+        # symbol, account identity/classification, and the SL/TP/MFE/MAE state immediately
+        # before this decision was made.
+        action.evidence = sanitize(
+            {
+                **(choice.evidence or {}),
+                "ticket": state.broker_ticket,
+                "symbol": state.symbol,
+                "account_fingerprint": state.account_fingerprint,
+                "account_classification": _account_classification(state.account_fingerprint),
+                "previous_sl": state.current_sl,
+                "previous_tp": state.current_tp,
+                "mfe_r": state.max_achieved_r,
+                "mae_r": state.min_achieved_r,
+                "reason_code": choice.reason,
+            }
+        )
         action.broker_mutation_attempted = False
         if mode != "demo_active":
             action.status = "shadow_selected"
@@ -1474,17 +1886,26 @@ class AdaptiveManagementService:
             action.status = "blocked_circuit_open"
         elif not state.managed_automatically:
             action.status = "blocked_not_adopted"
+        elif _account_classification(state.account_fingerprint) != AccountClassification.INTERNAL_DEMO.value:
+            action.status = "shadow_non_internal_demo_account"
         return db.merge(action)
 
     def _can_execute(self, action: AdaptiveManagementActionORM, state: AdaptivePositionStateORM, activation: Any | None, breaker: Any, mode: str, current_account_fingerprint: str | None = None) -> bool:
         cfg = mt5_config()
-        if action.action_type == "HOLD" or mode != "demo_active" or not activation or breaker.state != "closed":
+        if action.action_type in {"HOLD", "HOLD_WITH_GIVEBACK_RISK"} or mode != "demo_active" or not activation or breaker.state != "closed":
             return False
         if action.broker_mutation_attempted or action.status in {"submitted", "rejected", "error"}:
             return False
         if action.policy_id != ACTIVE_POLICY_ID or cfg.live_trading_enabled or cfg.account_mode != "DEMO":
             return False
         if not state.managed_automatically:
+            return False
+        # Incident hardening: a volume-mutating action type (partial/full close) that already
+        # executed successfully against this SAME position within the modification cooldown is
+        # blocked from executing again, even under a brand-new action row/idempotency key (see
+        # VOLUME_MUTATING_COOLDOWN_ACTION_TYPES). Defense-in-depth against a repeat-fire storm
+        # if some future upstream bug makes a threshold transiently true every cycle again.
+        if action.action_type in VOLUME_MUTATING_COOLDOWN_ACTION_TYPES and not _cooldown_elapsed(state.last_management_at):
             return False
         # Account-identity re-verification: an activation approved for a different MT5 account
         # (fingerprint mismatch) or an undetermined current account (lookup failure -- fail
@@ -1493,7 +1914,20 @@ class AdaptiveManagementService:
         # before this column existed aren't newly broken.
         if activation.account_fingerprint and activation.account_fingerprint != current_account_fingerprint:
             return False
-        if action.action_type in V2_ACTION_TYPES and v2_mode() != "enforce":
+        # ACCOUNT MODES policy: Adaptive Trade Manager V2 (every action type, not just
+        # V2_ACTION_TYPES) is ACTIVE only for INTERNAL_DEMO accounts. PROP_EVALUATION/
+        # PROP_FUNDED/PERSONAL_LIVE/UNKNOWN always stay SHADOW here -- computed and persisted
+        # (see _persist_action) but never executed -- regardless of mode()/v2_mode() env
+        # configuration. This mirrors (defense in depth, not a substitute for) the same
+        # classification independently enforced at the Execution Manager chokepoint
+        # (portfolio_execution.service.ExecutionManager.submit_mt5_request -> account_blockers).
+        if _account_classification(current_account_fingerprint) != AccountClassification.INTERNAL_DEMO.value:
+            return False
+        # v2_mode() now only matters as an explicit operator kill-switch: 'disabled' turns off
+        # the v2 action types for everyone, even an INTERNAL_DEMO account. 'shadow' (the
+        # default) no longer blocks execution here -- that opt-in requirement is what this
+        # gate replaces.
+        if action.action_type in V2_ACTION_TYPES and v2_mode() == "disabled":
             return False
         if not _rate_limit_ok(breaker, activation.maximum_actions_per_hour):
             return False
@@ -1529,7 +1963,7 @@ class AdaptiveManagementService:
             return {"status": "ERROR", "reason": exc.__class__.__name__, "broker_mutation_attempted": False}
 
     async def _build_mt5_request(self, mt5: Any, symbol: Any, quote: Any, action: AdaptiveManagementActionORM, state: AdaptivePositionStateORM, payload: dict[str, Any]) -> dict[str, Any] | None:
-        if action.action_type in {"PARTIAL_PROFIT", "EVENT_RISK_REDUCTION", "MFE_PROTECTION_CLOSE", "TIME_EXIT", "THESIS_INVALIDATION_CLOSE", "TP_PROGRESS_PROFIT_LOCK", "TP_PROGRESS_PARTIAL_PROTECT", "ECONOMIC_REDUCE_SIZE"}:
+        if action.action_type in {"PARTIAL_PROFIT", "EVENT_RISK_REDUCTION", "MFE_PROTECTION_CLOSE", "TIME_EXIT", "THESIS_INVALIDATION_CLOSE", "TP_PROGRESS_PROFIT_LOCK", "TP_PROGRESS_PARTIAL_PROTECT", "ECONOMIC_REDUCE_SIZE", "VALIDATION_INCIDENT_CLOSE"}:
             volume = _normalize_volume(action.requested_volume or state.current_volume, symbol)
             if volume <= 0:
                 return None
@@ -1586,7 +2020,7 @@ class AdaptiveManagementService:
         db.merge(row)
         if result.get("status") == "ACCEPTED":
             state = db.get(AdaptivePositionStateORM, action.position_id)
-            if state and action.action_type in SLTP_MODIFY_ACTION_TYPES:
+            if state and (action.action_type in SLTP_MODIFY_ACTION_TYPES or action.action_type in VOLUME_MUTATING_COOLDOWN_ACTION_TYPES):
                 state.last_management_at = utcnow()
                 db.merge(state)
             stage = (action.evidence or {}).get("stage")
@@ -2219,9 +2653,19 @@ def _idempotency_key(position_id: str, action_type: str, volume: float | None, s
     return "AMI_" + _hash({"position": position_id, "action": action_type, "volume": volume, "sl": sl, "tp": tp, "bucket": bucket})[:48]
 
 
-def _breakeven_price(state: AdaptivePositionStateORM) -> float:
+def _breakeven_price(state: AdaptivePositionStateORM, symbol_info: Any | None = None) -> float:
     entry = float(state.entry_price or 0)
-    cost_buffer = _env_float("ADAPTIVE_BREAKEVEN_COST_BUFFER_POINTS", 2.0) * _point_guess(state.symbol)
+    # Real symbol_info.point (e.g. 0.01 for XAUUSD, digits=2) beats the generic FX guess
+    # whenever it's available -- _point_guess() only knows "JPY pair" vs "everything else"
+    # (0.01 / 0.0001) and silently treats Gold like a 4/5-digit forex pair. On this broker that
+    # made the breakeven cost buffer 100x too small for XAUUSD (0.0002 instead of ~0.02), so the
+    # requested SL rounded, at the broker's own 2-decimal precision, to a price bit-identical to
+    # entry -- a real "breakeven" SL that carries zero cost buffer AND, more seriously, a live
+    # zero-risk-distance that crashed every later R calculation (see _sync_position_state).
+    point = None
+    if symbol_info is not None:
+        point = float(getattr(symbol_info, "point", None) or getattr(symbol_info, "trade_tick_size", None) or 0) or None
+    cost_buffer = _env_float("ADAPTIVE_BREAKEVEN_COST_BUFFER_POINTS", 2.0) * (point or _point_guess(state.symbol))
     return entry + cost_buffer if state.direction == "LONG" else entry - cost_buffer
 
 
@@ -2273,6 +2717,13 @@ def _cooldown_elapsed(last_management_at: datetime | None) -> bool:
     cooldown = _env_int("ADAPTIVE_MODIFICATION_COOLDOWN_SECONDS", 120, minimum=10, maximum=3600)
     last = _as_aware(last_management_at)
     return bool(last and (utcnow() - last).total_seconds() >= cooldown)
+
+
+def _contaminated_position_ids(db: Any) -> set[str]:
+    """Position IDs marked AdaptivePositionStateORM.contaminated=True -- see that column's
+    docstring for why these are excluded from clean performance/probability/replay-policy-
+    promotion/learning statistics while their full broker/execution history stays intact."""
+    return {row.position_id for row in db.query(AdaptivePositionStateORM.position_id).filter(AdaptivePositionStateORM.contaminated.is_(True)).all()}
 
 
 def _price_matches(requested: float | None, actual: float | None, tolerance_fraction: float = 0.0005) -> bool:

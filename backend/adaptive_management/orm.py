@@ -372,6 +372,18 @@ class AdaptivePositionStateORM(Base):
     # closed_detected_at itself) so a trade whose deal data wasn't backfilled yet on the first
     # attempt is retried on a later cycle instead of being silently skipped forever.
     replay_completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True, index=True)
+    # Engineering-contamination flag: marks a position whose management history was affected by
+    # a since-fixed manager BUG (not a real trading/strategy outcome) -- e.g. the runaway-R
+    # incident on ticket 57873187767, which fired erroneous PARTIAL_PROFIT broker closes.
+    # Contaminated positions keep their full broker/execution history (nothing here is deleted
+    # or hidden from per-ticket lookups -- position_detail/position_history/replay_results all
+    # still work normally) but are excluded from aggregate "clean" statistics that would
+    # otherwise treat the bug's side effects as real strategy performance: audit_report() (and
+    # everything built on it -- probability_report/leaderboard_report/performance), and
+    # replay-policy promotion (evaluate_policies/run_walk_forward/_champion_challenger). See
+    # _contaminated_position_ids().
+    contaminated: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, index=True)
+    contamination_reason: Mapped[str | None] = mapped_column(String(512), nullable=True)
     raw_payload: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, onupdate=utcnow)

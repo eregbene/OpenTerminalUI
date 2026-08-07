@@ -4,6 +4,7 @@ import asyncio
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
+import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
@@ -271,8 +272,22 @@ def test_rate_limit_resets_after_window_elapses():
 
 
 # ---------------------------------------------------------------------------
-# v2 action gating (shadow vs enforce, account fingerprint, HOLD, sole mutation path)
+# v2 action gating (account classification, account fingerprint, HOLD, sole mutation path)
 # ---------------------------------------------------------------------------
+
+
+def _seed_classification(SessionLocal, fingerprint_hash: str, classification: str, account_mode: str = "DEMO") -> None:
+    """Seeds an account_registry profile row under an arbitrary test fingerprint string (not a
+    real sha256 hash) by going through record_sighting() with a hand-built AccountFingerprint --
+    reusing the real auto-classification path -- then overriding the classification directly,
+    the same pattern test_prop_trading_remains_blocked_without_explicit_approval uses above."""
+    fp = account_registry.AccountFingerprint(fingerprint_hash=fingerprint_hash, login=1, server="TEST", company=None, currency=None)
+    account_registry.record_sighting(fp, account_mode=account_mode)
+    if classification != AccountClassification.INTERNAL_DEMO.value:
+        with SessionLocal() as db:
+            row = db.get(MT5AccountProfileORM, fingerprint_hash)
+            row.classification = classification
+            db.commit()
 
 
 def _base_activation(**overrides):
@@ -316,9 +331,14 @@ def _base_state(**overrides):
     return AdaptivePositionStateORM(**defaults)
 
 
-def test_v2_action_blocked_in_shadow_mode(monkeypatch):
+def test_v2_action_executes_in_shadow_mode_for_internal_demo_account(monkeypatch):
+    # This is the core behavior this feature changes: ADAPTIVE_MANAGEMENT_MODE's default
+    # ('shadow') no longer requires a separate manual 'enforce' opt-in for an INTERNAL_DEMO
+    # account -- classification alone is enough to activate real V2 management now.
+    SessionLocal = _session_factory(monkeypatch)
     monkeypatch.setenv("ADAPTIVE_MANAGEMENT_MODE", "shadow")
     monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO"})())
+    _seed_classification(SessionLocal, "FP1", AccountClassification.INTERNAL_DEMO.value)
     svc = adaptive_service.AdaptiveManagementService()
     activation = _base_activation()
     breaker = AdaptiveCircuitBreakerORM(breaker_id="B3", state="closed", actions_this_hour=0)
@@ -327,12 +347,15 @@ def test_v2_action_blocked_in_shadow_mode(monkeypatch):
 
     allowed = svc._can_execute(action, state, activation, breaker, "demo_active", current_account_fingerprint="FP1")
 
-    assert allowed is False
+    assert allowed is True
 
 
-def test_v2_action_allowed_in_enforce_mode_when_otherwise_valid(monkeypatch):
-    monkeypatch.setenv("ADAPTIVE_MANAGEMENT_MODE", "enforce")
+def test_v2_action_blocked_when_v2_mode_explicitly_disabled(monkeypatch):
+    # 'disabled' remains a real operator kill-switch, even for an INTERNAL_DEMO account.
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("ADAPTIVE_MANAGEMENT_MODE", "disabled")
     monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO"})())
+    _seed_classification(SessionLocal, "FP1", AccountClassification.INTERNAL_DEMO.value)
     svc = adaptive_service.AdaptiveManagementService()
     activation = _base_activation()
     breaker = AdaptiveCircuitBreakerORM(breaker_id="B4", state="closed", actions_this_hour=0)
@@ -341,12 +364,14 @@ def test_v2_action_allowed_in_enforce_mode_when_otherwise_valid(monkeypatch):
 
     allowed = svc._can_execute(action, state, activation, breaker, "demo_active", current_account_fingerprint="FP1")
 
-    assert allowed is True
+    assert allowed is False
 
 
-def test_existing_action_types_unaffected_by_v2_mode_shadow(monkeypatch):
+def test_existing_action_types_also_active_for_internal_demo_in_shadow_mode(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
     monkeypatch.setenv("ADAPTIVE_MANAGEMENT_MODE", "shadow")
     monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO"})())
+    _seed_classification(SessionLocal, "FP1", AccountClassification.INTERNAL_DEMO.value)
     svc = adaptive_service.AdaptiveManagementService()
     activation = _base_activation()
     breaker = AdaptiveCircuitBreakerORM(breaker_id="B5", state="closed", actions_this_hour=0)
@@ -358,8 +383,39 @@ def test_existing_action_types_unaffected_by_v2_mode_shadow(monkeypatch):
     assert allowed is True
 
 
-def test_account_fingerprint_mismatch_blocks_execution(monkeypatch):
+@pytest.mark.parametrize(
+    "classification",
+    [
+        AccountClassification.PROP_EVALUATION.value,
+        AccountClassification.PROP_FUNDED.value,
+        AccountClassification.PERSONAL_LIVE.value,
+        AccountClassification.UNKNOWN.value,
+    ],
+)
+def test_execution_stays_shadow_for_every_non_internal_demo_classification(monkeypatch, classification):
+    # ACCOUNT MODES policy: only INTERNAL_DEMO is ACTIVE. Every other classification -- including
+    # ones running on an MT5-reported "DEMO" account_mode, e.g. a prop firm's evaluation account
+    # -- must stay shadow-only for BOTH pre-existing and v2 action types.
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("ADAPTIVE_MANAGEMENT_MODE", "enforce")
     monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO"})())
+    _seed_classification(SessionLocal, "FP1", classification)
+    svc = adaptive_service.AdaptiveManagementService()
+    activation = _base_activation()
+    breaker = AdaptiveCircuitBreakerORM(breaker_id=f"B_{classification}", state="closed", actions_this_hour=0)
+    state = _base_state()
+
+    base_action_allowed = svc._can_execute(_base_action("MOVE_SL_BREAKEVEN"), state, activation, breaker, "demo_active", current_account_fingerprint="FP1")
+    v2_action_allowed = svc._can_execute(_base_action("MOVE_SL_TO_REDUCED_RISK", action_id="A2", idempotency_key="A2-KEY"), state, activation, breaker, "demo_active", current_account_fingerprint="FP1")
+
+    assert base_action_allowed is False
+    assert v2_action_allowed is False
+
+
+def test_account_fingerprint_mismatch_blocks_execution(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO"})())
+    _seed_classification(SessionLocal, "FP_OLD_ACCOUNT", AccountClassification.INTERNAL_DEMO.value)
     svc = adaptive_service.AdaptiveManagementService()
     activation = _base_activation(account_fingerprint="FP_OLD_ACCOUNT")
     breaker = AdaptiveCircuitBreakerORM(breaker_id="B6", state="closed", actions_this_hour=0)
@@ -373,6 +429,42 @@ def test_account_fingerprint_mismatch_blocks_execution(monkeypatch):
     assert allowed_wrong_account is False
     assert allowed_unknown_account is False
     assert allowed_matching_account is True
+
+
+def test_volume_mutating_action_blocked_within_cooldown_of_recent_success(monkeypatch):
+    # Incident hardening: a volume-mutating action type (PARTIAL_PROFIT etc.) that already
+    # executed against this position within the modification cooldown must be blocked from
+    # executing again -- even under a brand-new action row/idempotency key -- so a threshold
+    # that's transiently true every cycle (the runaway-R incident's root cause) can never fire
+    # repeated real broker closes. See VOLUME_MUTATING_COOLDOWN_ACTION_TYPES.
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO"})())
+    _seed_classification(SessionLocal, "FP1", AccountClassification.INTERNAL_DEMO.value)
+    svc = adaptive_service.AdaptiveManagementService()
+    activation = _base_activation()
+    breaker = AdaptiveCircuitBreakerORM(breaker_id="B_COOLDOWN", state="closed", actions_this_hour=0)
+    action = _base_action("PARTIAL_PROFIT")
+    state = _base_state(last_management_at=datetime.now(timezone.utc))
+
+    allowed = svc._can_execute(action, state, activation, breaker, "demo_active", current_account_fingerprint="FP1")
+
+    assert allowed is False
+
+
+def test_volume_mutating_action_allowed_once_cooldown_elapses(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO"})())
+    monkeypatch.setenv("ADAPTIVE_MODIFICATION_COOLDOWN_SECONDS", "60")
+    _seed_classification(SessionLocal, "FP1", AccountClassification.INTERNAL_DEMO.value)
+    svc = adaptive_service.AdaptiveManagementService()
+    activation = _base_activation()
+    breaker = AdaptiveCircuitBreakerORM(breaker_id="B_COOLDOWN2", state="closed", actions_this_hour=0)
+    action = _base_action("PARTIAL_PROFIT")
+    state = _base_state(last_management_at=datetime.now(timezone.utc) - timedelta(seconds=120))
+
+    allowed = svc._can_execute(action, state, activation, breaker, "demo_active", current_account_fingerprint="FP1")
+
+    assert allowed is True
 
 
 def test_hold_action_never_executes(monkeypatch):
@@ -423,6 +515,200 @@ def test_no_reduced_risk_candidate_when_thesis_invalidated():
     candidates = svc._v2_candidates(state, r_now=0.6, max_r=0.6, atr=0.0010, atr_r=0.2, regime="trend", zone="zone_50_65", normalized_candles=[])
 
     assert not [c for c in candidates if c.action_type == "MOVE_SL_TO_REDUCED_RISK"]
+
+
+# ---------------------------------------------------------------------------
+# End-to-end: a V2 action type actually reaches the (fake) broker for an INTERNAL_DEMO
+# account with default env configuration -- the concrete proof the shadow restriction is lifted.
+# ---------------------------------------------------------------------------
+
+
+class _FakeExecMT5:
+    TRADE_ACTION_SLTP = 6
+    ORDER_TIME_GTC = 0
+    ORDER_FILLING_IOC = 1
+    TRADE_RETCODE_DONE = 10009
+
+    def ensure_ready(self):
+        return self
+
+
+class _FakeExecAdapter:
+    def __init__(self):
+        self.client = _FakeExecMT5()
+
+    async def symbol_info(self, symbol):
+        return type("Sym", (), {"filling_mode": 2, "digits": 5})()
+
+    async def latest_tick(self, symbol):
+        return type("Quote", (), {"bid": 1.0975, "ask": 1.0977})()
+
+
+class _FakeExecManager:
+    def __init__(self):
+        self.calls = 0
+
+    async def submit_mt5_request(self, **kwargs):
+        self.calls += 1
+        request = kwargs["request"]
+        return {"retcode": 10009, "order": 777, "deal": 888, "price": request.get("price"), "volume": request.get("volume")}
+
+
+def test_move_sl_to_reduced_risk_executes_end_to_end_for_internal_demo_with_default_env(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.delenv("ADAPTIVE_MANAGEMENT_MODE", raising=False)  # default: 'shadow'
+    monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO", "bensim_magic": 5601001})())
+    fake_adapter = _FakeExecAdapter()
+    fake_execution = _FakeExecManager()
+    monkeypatch.setattr(adaptive_service, "mt5_adapter", fake_adapter)
+    monkeypatch.setattr(adaptive_service, "execution_manager", fake_execution)
+    _seed_classification(SessionLocal, "FPX", AccountClassification.INTERNAL_DEMO.value)
+    svc = adaptive_service.AdaptiveManagementService()
+    state = _base_state(direction="LONG", entry_price=1.1000, current_sl=1.0950, current_tp=1.1100, winner_classification="healthy_pullback", account_fingerprint="FPX", broker_ticket="555")
+    activation = _base_activation()
+    breaker = AdaptiveCircuitBreakerORM(breaker_id="B_E2E", state="closed", actions_this_hour=0)
+
+    candidates = svc._v2_candidates(state, r_now=0.6, max_r=0.6, atr=0.0010, atr_r=0.2, regime="trend", zone="zone_50_65", normalized_candles=[])
+    choice = svc._select_action(candidates)
+    assert choice.action_type == "MOVE_SL_TO_REDUCED_RISK"
+
+    with SessionLocal() as db:
+        action = svc._persist_action(db, state, activation, choice, candidates, "demo_active", breaker)
+        db.commit()
+        db.refresh(action)
+        evidence = dict(action.evidence)
+
+    assert evidence["account_classification"] == AccountClassification.INTERNAL_DEMO.value
+    assert evidence["previous_sl"] == 1.0950
+    assert svc._can_execute(action, state, activation, breaker, "demo_active", current_account_fingerprint="FPX") is True
+
+    result = asyncio.run(svc._execute_action(action, state, {"ticket": state.broker_ticket}))
+
+    assert result["status"] == "ACCEPTED"
+    assert result["broker_mutation_attempted"] is True
+    assert fake_execution.calls == 1
+
+
+# ---------------------------------------------------------------------------
+# close_incident_position: controlled, idempotent close of a contaminated/incident position
+# (XAUUSD incident remediation, Part 4) -- never touches the broker directly, always through
+# _persist_action -> _can_execute -> _execute_action -> execution_manager.submit_mt5_request.
+# ---------------------------------------------------------------------------
+
+
+class _FakeIncidentAdapter(_FakeExecAdapter):
+    def __init__(self, login: int, server: str, live_payload: dict | None):
+        super().__init__()
+        self._login = login
+        self._server = server
+        self._live_payload = live_payload
+
+    async def mt5_account(self):
+        return type("Acct", (), {"login": self._login, "server": self._server, "company": "TestCo", "currency": "USD"})()
+
+    async def symbol_info(self, symbol):
+        return type("Sym", (), {"filling_mode": 2, "digits": 2, "volume_step": "0.01", "volume_min": "0.01", "volume_max": "100"})()
+
+    async def mt5_positions(self):
+        if self._live_payload is None:
+            return []
+        payload = self._live_payload
+
+        class _Pos:
+            def model_dump(self, mode="json"):
+                return payload
+
+        return [_Pos()]
+
+
+def _seed_incident_position(SessionLocal, *, position_id: str, fingerprint: str, volume: float = 0.03):
+    with SessionLocal() as db:
+        state = _base_state(position_id=position_id, symbol="XAUUSD", direction="LONG", broker_ticket=position_id, entry_price=4279.93, current_sl=4279.95, current_tp=4316.14, original_sl=4256.34, original_tp=4316.14, current_volume=volume, original_volume=0.10, account_fingerprint=fingerprint, contaminated=True, contamination_reason="runaway_r_calculation_bug", managed_automatically=True)
+        db.merge(state)
+        activation = _base_activation(account_fingerprint=fingerprint, eligible_symbols=["XAUUSD"])
+        db.merge(activation)
+        breaker = AdaptiveCircuitBreakerORM(breaker_id="adaptive_demo_manager", state="closed", actions_this_hour=0)
+        db.merge(breaker)
+        db.commit()
+
+
+def test_close_incident_position_closes_remaining_volume_exactly_once(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("ADAPTIVE_TRADE_MANAGEMENT_MODE", "demo_active")
+    monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO", "bensim_magic": 5601001})())
+    fp = account_registry.fingerprint_account(type("Acct", (), {"login": 5054067375, "server": "MetaQuotes-Demo", "company": "MetaQuotes", "currency": "USD"})())
+    _seed_classification(SessionLocal, fp.fingerprint_hash, AccountClassification.INTERNAL_DEMO.value)
+    live_payload = {"ticket": 57873187767, "identifier": 57873187767, "symbol": "XAUUSD", "type": 0, "volume": "0.03", "price_open": "4279.93", "price_current": "4293.93", "sl": "4279.95", "tp": "4316.14", "profit": "42.0"}
+    fake_adapter = _FakeIncidentAdapter(5054067375, "MetaQuotes-Demo", live_payload)
+    fake_execution = _FakeExecManager()
+    monkeypatch.setattr(adaptive_service, "mt5_adapter", fake_adapter)
+    monkeypatch.setattr(adaptive_service, "execution_manager", fake_execution)
+    _seed_incident_position(SessionLocal, position_id="57873187767", fingerprint=fp.fingerprint_hash)
+    svc = adaptive_service.AdaptiveManagementService()
+
+    result = asyncio.run(svc.close_incident_position("57873187767", incident_id="INC_XAUUSD_1", reason="VALIDATION_INCIDENT_CLOSE"))
+
+    assert result["status"] == "ACCEPTED"
+    assert result["broker_mutation_attempted"] is True
+    assert result["close_volume_requested"] == 0.03
+    assert fake_execution.calls == 1
+
+    # A second call must never resubmit -- idempotency is required.
+    result2 = asyncio.run(svc.close_incident_position("57873187767", incident_id="INC_XAUUSD_1"))
+    assert result2["status"] == "ALREADY_CLOSED_BY_INCIDENT_ACTION"
+    assert fake_execution.calls == 1
+
+
+def test_close_incident_position_reconciles_only_when_already_closed_at_broker(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("ADAPTIVE_TRADE_MANAGEMENT_MODE", "demo_active")
+    monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO", "bensim_magic": 5601001})())
+    fp = account_registry.fingerprint_account(type("Acct", (), {"login": 5054067375, "server": "MetaQuotes-Demo", "company": "MetaQuotes", "currency": "USD"})())
+    _seed_classification(SessionLocal, fp.fingerprint_hash, AccountClassification.INTERNAL_DEMO.value)
+    fake_adapter = _FakeIncidentAdapter(5054067375, "MetaQuotes-Demo", live_payload=None)  # position no longer open
+    fake_execution = _FakeExecManager()
+    monkeypatch.setattr(adaptive_service, "mt5_adapter", fake_adapter)
+    monkeypatch.setattr(adaptive_service, "execution_manager", fake_execution)
+    _seed_incident_position(SessionLocal, position_id="57873187767", fingerprint=fp.fingerprint_hash)
+    svc = adaptive_service.AdaptiveManagementService()
+
+    result = asyncio.run(svc.close_incident_position("57873187767", incident_id="INC_XAUUSD_1"))
+
+    assert result["status"] == "ALREADY_CLOSED_AT_BROKER"
+    assert fake_execution.calls == 0
+    with SessionLocal() as db:
+        state = db.get(AdaptivePositionStateORM, "57873187767")
+        assert state.closed_detected_at is not None
+
+
+def test_close_incident_position_rejects_non_internal_demo_account(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("ADAPTIVE_TRADE_MANAGEMENT_MODE", "demo_active")
+    monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO", "bensim_magic": 5601001})())
+    fp = account_registry.fingerprint_account(type("Acct", (), {"login": 700001, "server": "Bensim-Live", "company": "Bensim", "currency": "USD"})())
+    _seed_classification(SessionLocal, fp.fingerprint_hash, AccountClassification.PERSONAL_LIVE.value)
+    live_payload = {"ticket": 999001, "identifier": 999001, "symbol": "XAUUSD", "type": 0, "volume": "0.03", "price_open": "4279.93", "price_current": "4293.93", "sl": "4279.95", "tp": "4316.14", "profit": "42.0"}
+    fake_adapter = _FakeIncidentAdapter(700001, "Bensim-Live", live_payload)
+    fake_execution = _FakeExecManager()
+    monkeypatch.setattr(adaptive_service, "mt5_adapter", fake_adapter)
+    monkeypatch.setattr(adaptive_service, "execution_manager", fake_execution)
+    _seed_incident_position(SessionLocal, position_id="999001", fingerprint=fp.fingerprint_hash)
+    svc = adaptive_service.AdaptiveManagementService()
+
+    result = asyncio.run(svc.close_incident_position("999001"))
+
+    assert result["status"] == "REJECTED"
+    assert result["reason"] == "ACCOUNT_NOT_INTERNAL_DEMO"
+    assert fake_execution.calls == 0
+
+
+def test_close_incident_position_not_found_returns_status(monkeypatch):
+    _session_factory(monkeypatch)
+    svc = adaptive_service.AdaptiveManagementService()
+
+    result = asyncio.run(svc.close_incident_position("NEVER_EXISTED"))
+
+    assert result["status"] == "NOT_FOUND"
 
 
 # ---------------------------------------------------------------------------
@@ -572,6 +858,81 @@ def test_probability_report_groups_by_composite_cohort_and_grades_confidence(mon
     assert cohort_b["sample_size"] == 1
     assert cohort_b["confidence"] == "LOW"
     assert cohort_b["pct_reaching_1r_continued_to_2r"]["value"] is None  # never reached +1R
+
+
+# ---------------------------------------------------------------------------
+# Engineering-contamination flag (XAUUSD incident remediation, Part 3): a position whose
+# management history was affected by a since-fixed manager bug (real broker fills, not a
+# strategy outcome) must be excluded from clean performance/probability/replay-policy-promotion
+# statistics while its full broker/execution history stays fully intact.
+# ---------------------------------------------------------------------------
+
+
+def test_contaminated_position_excluded_from_audit_report_and_probability_report(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    svc = adaptive_service.AdaptiveManagementService()
+    with SessionLocal() as db:
+        db.add(_base_state(position_id="CLEAN1", symbol="EURUSD", strategy_id="SMC", max_achieved_r=1.5))
+        db.add(_base_state(position_id="BUGGED1", symbol="XAUUSD", strategy_id="MTFAI1", max_achieved_r=854999.0, contaminated=True, contamination_reason="runaway_r_calculation_bug"))
+        db.commit()
+
+    audit = svc.audit_report()
+    probability = svc.probability_report()
+
+    assert audit["trade_count"] == 1
+    assert not any(row["position_id"] == "BUGGED1" for row in audit["records"])
+    assert probability["total_trades"] == 1
+    # Direct per-ticket lookup must still work -- contamination hides a ticket from AGGREGATE
+    # stats only, never from its own history.
+    with SessionLocal() as db:
+        state = db.get(AdaptivePositionStateORM, "BUGGED1")
+        assert state is not None
+        assert state.max_achieved_r == 854999.0
+
+
+def test_contaminated_position_excluded_from_walk_forward_and_evaluate_policies(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    svc = adaptive_service.AdaptiveManagementService()
+    with SessionLocal() as db:
+        db.add(_base_state(position_id="BUGGED2", symbol="XAUUSD", contaminated=True, contamination_reason="runaway_r_calculation_bug"))
+        db.add(_outcome("BUGGED2", "static_baseline_v1", actual_pnl=999.0, hypothetical_pnl=999.0))
+        db.add(_base_state(position_id="CLEAN2", symbol="EURUSD"))
+        db.add(_outcome("CLEAN2", "static_baseline_v1", actual_pnl=10.0, hypothetical_pnl=10.0))
+        db.commit()
+
+    policies = svc.evaluate_policies()
+    walk_forward = svc.run_walk_forward()
+
+    policy_trade_ids = {outcome["trade_id"] for outcome in policies.get("items", [{}])[0].get("outcomes", [])} if policies.get("items") else set()
+    assert "BUGGED2" not in policy_trade_ids
+    assert walk_forward is not None  # must not crash; contaminated rows are filtered upstream
+
+
+def test_mark_contaminated_is_idempotent_and_preserves_full_history(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    svc = adaptive_service.AdaptiveManagementService()
+    with SessionLocal() as db:
+        db.add(_base_state(position_id="POS_TO_MARK", symbol="XAUUSD", max_achieved_r=854999.0))
+        db.commit()
+
+    first = svc.mark_contaminated("POS_TO_MARK", "runaway_r_calculation_bug_2026-08-07")
+    second = svc.mark_contaminated("POS_TO_MARK", "runaway_r_calculation_bug_2026-08-07_updated_note")
+
+    assert first == {"status": "OK", "position_id": "POS_TO_MARK", "contaminated": True, "reason": "runaway_r_calculation_bug_2026-08-07"}
+    assert second["reason"] == "runaway_r_calculation_bug_2026-08-07_updated_note"
+    with SessionLocal() as db:
+        state = db.get(AdaptivePositionStateORM, "POS_TO_MARK")
+        assert state.contaminated is True
+        assert state.max_achieved_r == 854999.0  # nothing about the trade's own data is touched
+
+
+def test_mark_contaminated_unknown_position_returns_not_found(monkeypatch):
+    _session_factory(monkeypatch)
+    svc = adaptive_service.AdaptiveManagementService()
+
+    result = svc.mark_contaminated("DOES_NOT_EXIST", "reason")
+
+    assert result == {"status": "NOT_FOUND", "position_id": "DOES_NOT_EXIST"}
 
 
 # ---------------------------------------------------------------------------

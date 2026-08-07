@@ -52,6 +52,18 @@ class AdoptPositionRequest(BaseModel):
     reason: str = ""
 
 
+class MarkContaminatedRequest(BaseModel):
+    position_id: str
+    reason: str
+
+
+class CloseIncidentPositionRequest(BaseModel):
+    position_id: str
+    incident_id: str | None = None
+    reason: str = "VALIDATION_INCIDENT_CLOSE"
+    requested_by: str = "operator"
+
+
 @router.get("/status")
 async def status(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
     return adaptive_management_service.status()
@@ -205,6 +217,16 @@ async def reset_circuit_breaker(current_user: User = Depends(get_current_user)) 
 @router.post("/adopt-existing-position")
 async def adopt_existing_position(payload: AdoptPositionRequest, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
     return adaptive_management_service.adoption(position_id=payload.position_id, approved_by=payload.approved_by, reason=payload.reason)
+
+
+@router.post("/mark-contaminated")
+async def mark_contaminated(payload: MarkContaminatedRequest, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return adaptive_management_service.mark_contaminated(position_id=payload.position_id, reason=payload.reason)
+
+
+@router.post("/close-incident-position")
+async def close_incident_position(payload: CloseIncidentPositionRequest, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return await adaptive_management_service.close_incident_position(position_id=payload.position_id, incident_id=payload.incident_id, reason=payload.reason, requested_by=payload.requested_by)
 
 
 @router.post("/evaluate-now")

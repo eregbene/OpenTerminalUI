@@ -362,6 +362,27 @@ def test_adaptive_demo_activation_requires_explicit_mode(monkeypatch):
     assert result["reason"] == "ADAPTIVE_TRADE_MANAGEMENT_MODE_MUST_BE_demo_active"
 
 
+def test_activate_demo_rejects_account_classified_as_prop_evaluation(monkeypatch):
+    # A demo-mode MT5 account (terminal/cfg both report "DEMO") that a human has classified as
+    # a prop-firm evaluation account must never activate real V2 management -- classification
+    # overrides the raw MT5 DEMO/LIVE flag. See account_registry.AccountClassification.
+    SessionLocal = _session_factory(monkeypatch)
+    fake = _FakeAdapter()
+    monkeypatch.setattr(service, "mt5_adapter", fake)
+    monkeypatch.setenv("ADAPTIVE_TRADE_MANAGEMENT_MODE", "demo_active")
+    fp = account_registry.fingerprint_account(_FakeAccount())
+    account_registry.record_sighting(fp, account_mode="DEMO")
+    with SessionLocal() as db:
+        row = db.get(account_registry.MT5AccountProfileORM, fp.fingerprint_hash)
+        row.classification = account_registry.AccountClassification.PROP_EVALUATION.value
+        db.commit()
+
+    result = asyncio.run(adaptive_management_service.activate_demo(eligible_symbols=["EURUSD"]))
+
+    assert result["status"] == "REJECTED"
+    assert result["reason"] == "ACCOUNT_NOT_INTERNAL_DEMO"
+
+
 def test_adaptive_demo_active_requires_new_or_adopted_position(monkeypatch):
     _session_factory(monkeypatch)
     fake = _FakeAdapter()
@@ -399,6 +420,62 @@ def test_adopted_position_can_execute_conservative_demo_action(monkeypatch):
     assert result["broker_mutation_calls"] == 1
     assert execution.calls == 1
     assert rows[0].status == "ACCEPTED"
+
+
+class _FakePositionTwo:
+    def model_dump(self, mode="json"):
+        return {
+            "ticket": 556,
+            "identifier": 556,
+            "symbol": "GBPUSD",
+            "type": 0,
+            "volume": 1.0,
+            "price_open": 1.2500,
+            "price_current": 1.2510,
+            "sl": 1.2480,
+            "tp": 1.2550,
+            "profit": 50,
+            "magic": 5601001,
+            "comment": "BENSIM_AUTO strategy=BENSIM_AUTO timeframe=M5 setup=TEST",
+            "time": "2026-08-04T08:00:00+00:00",
+        }
+
+
+class _FakeAdapterTwoPositions(_FakeAdapter):
+    async def mt5_positions(self):
+        return [_FakePosition(), _FakePositionTwo()]
+
+
+def test_one_malformed_position_does_not_stop_other_positions_from_being_managed(monkeypatch):
+    # Incident hardening (Part 5): the runaway-R bug on ticket 57873187767 crashed with a
+    # ZeroDivisionError inside a SINGLE position's evaluation, which previously aborted the
+    # entire monitor cycle -- every OTHER open position (EURUSD/GBPUSD/etc.) silently stopped
+    # being managed too, for as long as the bug persisted. This test proves a crash confined to
+    # one ticket (555/EURUSD) can no longer prevent a different ticket (556/GBPUSD) in the SAME
+    # cycle from being evaluated.
+    _session_factory(monkeypatch)
+    fake = _FakeAdapterTwoPositions()
+    monkeypatch.setattr(service, "mt5_adapter", fake)
+    monkeypatch.setenv("ADAPTIVE_TRADE_MANAGEMENT_MODE", "demo_active")
+    asyncio.run(adaptive_management_service.activate_demo(eligible_symbols=["EURUSD", "GBPUSD"], effective_from=datetime(2026, 8, 4, 7, 0, tzinfo=timezone.utc)))
+
+    original_sync = service.AdaptiveManagementService._sync_position_state
+
+    def _boom_for_eurusd(self, db, payload, *args, **kwargs):
+        if str(payload.get("ticket")) == "555":
+            raise ZeroDivisionError("simulated runaway-R incident")
+        return original_sync(self, db, payload, *args, **kwargs)
+
+    monkeypatch.setattr(service.AdaptiveManagementService, "_sync_position_state", _boom_for_eurusd)
+
+    result = asyncio.run(adaptive_management_service.evaluate_now())
+
+    assert result["status"] == "OK"
+    assert not any(row["position_id"] == "555" for row in result["selected_actions"])
+    assert any(row["position_id"] == "556" for row in result["selected_actions"])
+    status = adaptive_management_service.status()
+    assert status["adaptive_position_evaluation_errors_total"] >= 1
+    assert status["adaptive_position_evaluation_errors_by_symbol"].get("EURUSD", 0) >= 1
 
 
 def test_circuit_breaker_blocks_demo_execution(monkeypatch):
@@ -493,6 +570,170 @@ def test_mfe_giveback_triggers_from_half_r(monkeypatch):
         actions = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
 
     assert any(action.action_type == "MFE_PROTECTION_CLOSE" for action in actions)
+
+
+def test_sl_at_entry_does_not_crash_position_sync(monkeypatch):
+    # Regression test for a live incident: a breakeven SL that lands exactly on entry price (sl
+    # == entry, e.g. after broker-side rounding) made risk == abs(entry - sl) == 0. The old
+    # `if sl else 0.00001` guard didn't catch a zero DISTANCE (only a missing sl), so this raised
+    # ZeroDivisionError inside _signed_r() and crashed the entire adaptive-manager monitor cycle
+    # -- for every open position, every cycle, until the position closed.
+    SessionLocal = _session_factory(monkeypatch)
+    payload = {"ticket": 1, "identifier": 1, "symbol": "XAUUSD", "type": 0, "volume": 0.1, "price_open": 4279.93, "price_current": 4290.84, "sl": 4279.93, "tp": 4316.14, "time": "2026-08-07T06:58:36+00:00", "comment": "BSM|MTFAI1|M15"}
+
+    with SessionLocal() as db:
+        state = adaptive_management_service._sync_position_state(db, payload, None, {}, [])
+        db.commit()
+
+    assert state.current_sl == pytest.approx(4279.93)
+
+
+def test_r_uses_original_sl_not_current_sl_after_breakeven_move(monkeypatch):
+    # Second, more serious live incident on the SAME trade, uncovered immediately after fixing
+    # the crash above: once a genuinely-tracked position's SL is later moved to (near) entry by a
+    # real protective action, computing R's risk denominator from the CURRENT sl (abs(entry -
+    # current_sl) ~= 0, caught only by an epsilon fallback) exploded r_now into the hundreds of
+    # thousands -- which then satisfied every R-based threshold at once and fired several REAL,
+    # repeated PARTIAL_PROFIT broker closes in production (0.10 lot reduced to 0.03 lot in under
+    # a minute). R must stay anchored to the trade's ORIGINAL risk distance regardless of where
+    # the live stop currently sits.
+    SessionLocal = _session_factory(monkeypatch)
+    entry_payload = {"ticket": 2, "identifier": 2, "symbol": "XAUUSD", "type": 0, "volume": 0.1, "price_open": 4279.93, "price_current": 4279.93, "sl": 4256.34, "tp": 4316.14, "time": "2026-08-07T06:00:30+00:00", "comment": "BSM|MTFAI1|M15"}
+    breakeven_payload = dict(entry_payload, price_current=4290.84, sl=4279.93)  # SL moved to entry
+
+    with SessionLocal() as db:
+        adaptive_management_service._sync_position_state(db, entry_payload, None, {}, [])
+        db.commit()
+        state = adaptive_management_service._sync_position_state(db, breakeven_payload, None, {}, [])
+        db.commit()
+        max_achieved_r = state.max_achieved_r
+
+    # True R at this point: (4290.84 - 4279.93) / (4279.93 - 4256.34) ~= 0.4626 -- nowhere near
+    # the "hundreds of thousands" the current-sl-based epsilon fallback produced.
+    assert max_achieved_r == pytest.approx(0.4626, abs=0.01)
+    assert max_achieved_r < 5.0
+
+
+def test_corrupted_stored_max_achieved_r_self_heals_instead_of_persisting_forever(monkeypatch):
+    # max_achieved_r/min_achieved_r are otherwise pure max()/min() against their own prior
+    # value, so ANY single bad r_now (e.g. one computed before the fix above existed) poisons
+    # the column permanently -- every later, correctly-computed r_now still loses to max()
+    # against the old garbage. This happened in production: a live position's max_achieved_r
+    # was found at ~854,999 after the bug above fired once. A stored value that implausible
+    # (no trade in this system legitimately reaches +/-50R) must be discarded, not preserved.
+    SessionLocal = _session_factory(monkeypatch)
+    payload = {"ticket": 3, "identifier": 3, "symbol": "XAUUSD", "type": 0, "volume": 0.1, "price_open": 4279.93, "price_current": 4290.84, "sl": 4279.93, "tp": 4316.14, "time": "2026-08-07T06:58:36+00:00", "comment": "BSM|MTFAI1|M15"}
+
+    with SessionLocal() as db:
+        row = AdaptivePositionStateORM(position_id="3", symbol="XAUUSD", direction="LONG", broker_ticket="3", entry_price=4279.93, original_sl=4256.34, current_sl=4279.93, max_achieved_r=854999.99, min_achieved_r=-1200.0)
+        db.merge(row)
+        db.commit()
+        state = adaptive_management_service._sync_position_state(db, payload, None, {}, [])
+        db.commit()
+        max_achieved_r = state.max_achieved_r
+        min_achieved_r = state.min_achieved_r
+
+    assert max_achieved_r < 5.0
+    assert min_achieved_r > -5.0
+
+
+def test_breakeven_price_uses_real_symbol_point_not_generic_fx_guess():
+    # _point_guess() only distinguishes "JPY pair" (0.01) from "everything else" (0.0001) and
+    # has no idea Gold exists. On a real broker (XAUUSD, digits=2, point=0.01) that made the
+    # breakeven cost buffer (2 points x the guessed point value) only 0.0002 -- so the requested
+    # SL (entry + 0.0002) rounded, at the broker's own 2-decimal precision, to a price
+    # bit-identical to entry: a "breakeven" stop with zero real buffer and zero risk distance
+    # (see test_sl_at_entry_does_not_crash_position_sync). Passing the real symbol_info fixes it.
+    state = AdaptivePositionStateORM(position_id="XAU_BE", symbol="XAUUSD", direction="LONG", entry_price=4279.93)
+    generic_guess_price = service._breakeven_price(state, symbol_info=None)
+    real_symbol_info = type("Sym", (), {"point": 0.01, "trade_tick_size": 0.01})()
+    real_price = service._breakeven_price(state, symbol_info=real_symbol_info)
+
+    assert round(generic_guess_price, 2) == 4279.93  # rounds away to nothing at 2 decimals
+    assert round(real_price, 2) != 4279.93  # real point-based buffer survives rounding
+    assert real_price > generic_guess_price
+
+
+def test_equity_profit_reassess_threshold_generates_hold_with_giveback_risk(monkeypatch):
+    # $100 profit on a $10,000 account is exactly the 1.00% ADAPTIVE_STRONG_PROFIT_EQUITY_PCT
+    # tier -- this is the account-scaled second protection layer, independent of R, that the
+    # XAUUSD incident showed was missing: a trade can reach a meaningful fraction of account
+    # equity while still below this manager's R-based thresholds for THIS trade's own (possibly
+    # oversized) initial risk.
+    SessionLocal = _session_factory(monkeypatch)
+    state = _managed_state("EQ1")
+    state.max_achieved_r = 0.3
+    state.current_sl = state.original_sl  # no protective SL move has happened yet
+    payload = {"price_current": 4005.0, "profit": 100.0}
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [], account_equity=10000.0)
+
+    hold_candidates = [c for c in candidates if c.action_type == "HOLD_WITH_GIVEBACK_RISK"]
+    assert len(hold_candidates) == 1
+    evidence = hold_candidates[0].evidence
+    assert evidence["equity_profit_pct"] == pytest.approx(1.0)
+    assert evidence["tier"] == "strong_profit_no_explicit_protection"
+    assert evidence["profit_usd"] == 100.0
+
+
+def test_equity_profit_below_reassess_threshold_does_not_trigger(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    state = _managed_state("EQ2")
+    payload = {"price_current": 4001.0, "profit": 10.0}  # 0.10% of 10k, below the 0.50% floor
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [], account_equity=10000.0)
+
+    assert not [c for c in candidates if c.action_type == "HOLD_WITH_GIVEBACK_RISK"]
+
+
+def test_hold_with_giveback_risk_does_not_fire_when_stronger_protection_selected(monkeypatch):
+    # The equity layer is a fallback for "nothing else protected this profit," not an
+    # independent close/resize trigger -- it must never outrank a real protective candidate
+    # (e.g. the existing MFE giveback close) that already fired this cycle.
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.delenv("ADAPTIVE_MFE_MIN_R", raising=False)
+    state = _managed_state("EQ3")
+    state.max_achieved_r = 0.55
+    payload = {"price_current": 4001.32, "profit": 200.0}  # 2% of equity -- well above every tier
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [], account_equity=10000.0)
+
+    action_types = {c.action_type for c in candidates}
+    assert "MFE_PROTECTION_CLOSE" in action_types
+    assert "HOLD_WITH_GIVEBACK_RISK" not in action_types
+
+
+def test_hold_with_giveback_risk_never_executes(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    state = _managed_state("EQ4")
+    activation = AdaptiveActivationORM(activation_id="ACT_EQ")
+    activation.policy_id = service.ACTIVE_POLICY_ID
+    activation.policy_version = service.ACTIVE_POLICY_VERSION
+    activation.mode = "demo_active"
+    activation.demo_account = "123"
+    activation.effective_from = datetime.now(timezone.utc)
+    activation.approved_by = "test"
+    activation.approved_at = activation.effective_from
+    activation.eligible_symbols = []
+    activation.eligible_strategies = []
+    activation.maximum_actions_per_hour = 6
+    activation.rollback_policy = {}
+    activation.emergency_state = "normal"
+    activation.configuration_snapshot = {}
+    activation.active = True
+    action = AdaptiveManagementActionORM(action_id="A_EQ", activation_id="ACT_EQ", position_id="EQ4", policy_id=service.ACTIVE_POLICY_ID, action_type="HOLD_WITH_GIVEBACK_RISK", priority=90, mode="demo_active", status="selected", idempotency_key="A_EQ-KEY", broker_mutation_attempted=False)
+
+    with SessionLocal() as db:
+        db.merge(activation)
+        db.merge(state)
+        db.merge(action)
+        breaker = service._breaker(db)
+        db.commit()
+
+        assert adaptive_management_service._can_execute(action, state, activation, breaker, "demo_active") is False
 
 
 def test_tp_progress_and_max_tp_progress_persist_across_cycles(monkeypatch):
