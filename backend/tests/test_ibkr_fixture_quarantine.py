@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from datetime import datetime, timezone
 from decimal import Decimal
 from uuid import uuid4
@@ -9,8 +10,28 @@ from sqlalchemy import delete, inspect, text
 
 from backend.brokers.ibkr.orm import BrokerContractORM, BrokerEventORM, BrokerExecutionORM, BrokerOrderORM
 from backend.scripts.quarantine_stale_ibkr_fixture_records import run
-from backend.shared.db import Base, SessionLocal, engine
+from backend.shared.db import Base
+from backend.shared.test_db_safety import redirect_shared_db_to_isolated_sqlite
 from backend.forex_strategies.ibkr_acceptance import Fx5AcceptanceStore, IbkrPaperAcceptanceService
+
+# Module-level placeholders -- rebound per-test to an isolated in-memory sqlite
+# engine/session factory by _redirect_db() below. Never point at the shared/
+# application database: this file writes, ALTERs, and deletes real-shaped broker_*
+# rows. See backend/shared/test_db_safety.py (added after the 2026-08-07 incident).
+SessionLocal = None  # type: ignore[assignment]
+engine = None  # type: ignore[assignment]
+
+
+def _redirect_db(monkeypatch: pytest.MonkeyPatch) -> None:
+    global SessionLocal, engine
+    session_local = redirect_shared_db_to_isolated_sqlite(
+        monkeypatch,
+        extra_engine_sites=("backend.scripts.quarantine_stale_ibkr_fixture_records",),
+    )
+    isolated_engine = session_local.kw["bind"]
+    this_module = sys.modules[__name__]
+    monkeypatch.setattr(this_module, "SessionLocal", session_local)
+    monkeypatch.setattr(this_module, "engine", isolated_engine)
 
 
 def _now() -> datetime:
@@ -61,7 +82,8 @@ def _ensure_test_schema() -> None:
 
 
 @pytest.fixture()
-def fixture_lineage():
+def fixture_lineage(monkeypatch: pytest.MonkeyPatch):
+    _redirect_db(monkeypatch)
     _ensure_test_schema()
     suffix = uuid4().hex[:10]
     con_id = int(suffix[:8], 16)
@@ -179,7 +201,8 @@ def test_quarantine_rejects_wildcards() -> None:
         run("test_*", apply=False, reason="STALE_FX5B_TEST_FIXTURE")
 
 
-def test_quarantine_rejects_real_record() -> None:
+def test_quarantine_rejects_real_record(monkeypatch: pytest.MonkeyPatch) -> None:
+    _redirect_db(monkeypatch)
     _ensure_test_schema()
     suffix = uuid4().hex[:10]
     order_id = f"real_ibkr_order_{suffix}"

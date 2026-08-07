@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from uuid import uuid4
 
+import pytest
+
 from backend.brokers.ibkr.persistence import IbkrAcceptanceDbStore, broker_tables_available
-from backend.shared.db import Base, engine
+from backend.shared.test_db_safety import redirect_shared_db_to_isolated_sqlite
 from backend.forex_strategies.ibkr_acceptance import (
     AccountVerificationRecord,
     BrokerEventRecord,
@@ -15,17 +17,21 @@ from backend.forex_strategies.ibkr_acceptance import (
     utcnow,
 )
 
+# Isolated in-memory sqlite per test -- IbkrAcceptanceDbStore (backend/brokers/ibkr/
+# persistence.py) does `from backend.shared.db import SessionLocal, engine`, so this
+# was previously calling create_all against the shared/application database. See
+# backend/shared/test_db_safety.py (added after the 2026-08-07 incident).
+_EXTRA_SITES = ("backend.brokers.ibkr.persistence",)
 
-def test_broker_acceptance_tables_are_registered() -> None:
-    if not broker_tables_available():
-        Base.metadata.create_all(bind=engine)
+
+def test_broker_acceptance_tables_are_registered(monkeypatch: pytest.MonkeyPatch) -> None:
+    redirect_shared_db_to_isolated_sqlite(monkeypatch, extra_engine_sites=_EXTRA_SITES)
     assert broker_tables_available()
 
 
-def test_db_store_persists_connection_contract_order_event_recon_and_incident() -> None:
+def test_db_store_persists_connection_contract_order_event_recon_and_incident(monkeypatch: pytest.MonkeyPatch) -> None:
+    redirect_shared_db_to_isolated_sqlite(monkeypatch, extra_engine_sites=_EXTRA_SITES)
     store = IbkrAcceptanceDbStore()
-    if not broker_tables_available():
-        Base.metadata.create_all(bind=engine)
     suffix = uuid4().hex[:10]
     account = AccountVerificationRecord(
         verification_id=f"test_ibkracct_fx5b_{suffix}",

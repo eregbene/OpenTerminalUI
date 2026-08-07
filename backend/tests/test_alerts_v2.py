@@ -8,13 +8,15 @@ from fastapi.testclient import TestClient
 from backend.alerts.service import AlertEvaluatorService
 from backend.main import app
 from backend.models import AlertORM, AlertStatus, AlertTriggerORM
-from backend.shared.db import SessionLocal, init_db
+from backend.shared.test_db_safety import redirect_shared_db_to_isolated_sqlite
 
 
-def _init_fresh_db():
-    from backend.shared.db import engine, Base, init_db
-    Base.metadata.drop_all(bind=engine)
-    init_db()
+def _init_fresh_db(monkeypatch: pytest.MonkeyPatch):
+    # Isolated in-memory sqlite per test -- never touches the shared/application
+    # database. See backend/shared/test_db_safety.py (added after the 2026-08-07
+    # incident where this file's previous Base.metadata.drop_all(bind=engine) wiped
+    # the shared dev database).
+    return redirect_shared_db_to_isolated_sqlite(monkeypatch)
 
 def _auth_headers(client: TestClient, email: str) -> dict[str, str]:
     password = "StrongPass123!"
@@ -42,7 +44,7 @@ def _create_alert(client: TestClient, headers: dict[str, str], **overrides: obje
 
 @pytest.mark.asyncio
 async def test_create_alert_with_multiple_conditions_and_and_logic(monkeypatch: pytest.MonkeyPatch) -> None:
-    _init_fresh_db()
+    SessionLocal = _init_fresh_db(monkeypatch)
     client = TestClient(app)
     headers = _auth_headers(client, "alerts-v2-and@example.com")
     alert_id = _create_alert(
@@ -79,7 +81,7 @@ async def test_create_alert_with_multiple_conditions_and_and_logic(monkeypatch: 
 
 @pytest.mark.asyncio
 async def test_or_logic_triggers_when_any_condition_matches(monkeypatch: pytest.MonkeyPatch) -> None:
-    _init_fresh_db()
+    SessionLocal = _init_fresh_db(monkeypatch)
     client = TestClient(app)
     headers = _auth_headers(client, "alerts-v2-or@example.com")
     alert_id = _create_alert(
@@ -110,7 +112,7 @@ async def test_or_logic_triggers_when_any_condition_matches(monkeypatch: pytest.
 
 @pytest.mark.asyncio
 async def test_cooldown_prevents_retrigger(monkeypatch: pytest.MonkeyPatch) -> None:
-    _init_fresh_db()
+    SessionLocal = _init_fresh_db(monkeypatch)
     client = TestClient(app)
     headers = _auth_headers(client, "alerts-v2-cooldown@example.com")
     alert_id = _create_alert(client, headers, cooldown_minutes=10)
@@ -133,7 +135,7 @@ async def test_cooldown_prevents_retrigger(monkeypatch: pytest.MonkeyPatch) -> N
 
 @pytest.mark.asyncio
 async def test_max_triggers_auto_disables_alert(monkeypatch: pytest.MonkeyPatch) -> None:
-    _init_fresh_db()
+    SessionLocal = _init_fresh_db(monkeypatch)
     client = TestClient(app)
     headers = _auth_headers(client, "alerts-v2-max@example.com")
     alert_id = _create_alert(client, headers, max_triggers=1)
@@ -158,7 +160,7 @@ async def test_max_triggers_auto_disables_alert(monkeypatch: pytest.MonkeyPatch)
 
 @pytest.mark.asyncio
 async def test_expired_alert_does_not_evaluate(monkeypatch: pytest.MonkeyPatch) -> None:
-    _init_fresh_db()
+    SessionLocal = _init_fresh_db(monkeypatch)
     client = TestClient(app)
     headers = _auth_headers(client, "alerts-v2-expiry@example.com")
     alert_id = _create_alert(client, headers, expiry_date=(datetime.now(timezone.utc) - timedelta(days=1)).isoformat())
@@ -182,7 +184,7 @@ async def test_expired_alert_does_not_evaluate(monkeypatch: pytest.MonkeyPatch) 
 
 @pytest.mark.asyncio
 async def test_delivery_called_for_external_channels(monkeypatch: pytest.MonkeyPatch) -> None:
-    _init_fresh_db()
+    SessionLocal = _init_fresh_db(monkeypatch)
     client = TestClient(app)
     headers = _auth_headers(client, "alerts-v2-delivery@example.com")
     alert_id = _create_alert(
@@ -212,7 +214,7 @@ async def test_delivery_called_for_external_channels(monkeypatch: pytest.MonkeyP
 
 
 def test_alert_test_endpoint_sends_notification(monkeypatch: pytest.MonkeyPatch) -> None:
-    _init_fresh_db()
+    SessionLocal = _init_fresh_db(monkeypatch)
     client = TestClient(app)
     headers = _auth_headers(client, "alerts-v2-test-endpoint@example.com")
     alert_id = _create_alert(

@@ -1,13 +1,18 @@
 from __future__ import annotations
 
+import pytest
 from fastapi.testclient import TestClient
 
 from backend.main import app
-from backend.shared.db import init_db, engine, Base
+from backend.shared.test_db_safety import redirect_shared_db_to_isolated_sqlite
 
-def _init_fresh_db():
-    Base.metadata.drop_all(bind=engine)
-    init_db()
+
+def _init_fresh_db(monkeypatch: pytest.MonkeyPatch):
+    # Isolated in-memory sqlite per test -- never touches the shared/application
+    # database. See backend/shared/test_db_safety.py (added after the 2026-08-07
+    # incident where this file's previous Base.metadata.drop_all(bind=engine) wiped
+    # the shared dev database).
+    return redirect_shared_db_to_isolated_sqlite(monkeypatch)
 
 def _auth_headers(client: TestClient, email: str) -> dict[str, str]:
     password = "StrongPass123!"
@@ -17,8 +22,8 @@ def _auth_headers(client: TestClient, email: str) -> dict[str, str]:
     return {"Authorization": f"Bearer {token}"}
 
 
-def test_notification_routes_flow() -> None:
-    _init_fresh_db()
+def test_notification_routes_flow(monkeypatch: pytest.MonkeyPatch) -> None:
+    _init_fresh_db(monkeypatch)
     client = TestClient(app)
     headers = _auth_headers(client, "notifications@example.com")
 
