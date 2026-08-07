@@ -71,6 +71,21 @@ def v2_mode() -> str:
     return value if value in {"disabled", "shadow", "enforce"} else "shadow"
 
 
+def learning_recommendation_mode() -> str:
+    """Independent shadow/enforce/disabled gate for the trade-intelligence learning engine
+    (probability_report/management_quality_verdict/leaderboard_report and any future policy-
+    promotion capability built on top of them). Follows the exact v2_mode() precedent: read
+    fresh every call, defaults to 'shadow'. Nothing in this codebase currently has a code path
+    that reads this value to change risk/SL/TP/entries/portfolio limits automatically -- every
+    learning-engine method is pure analysis (reads only, never mutates live position/risk state).
+    This gate exists so a future 'apply this recommendation' feature has an already-safe-by-
+    default switch to build on, per Learning -> Recommendation -> Human review -> Shadow ->
+    Validation -> Enforcement; it is not itself the enforcement of that pipeline, since nothing
+    downstream of it can currently act."""
+    value = os.getenv("LEARNING_RECOMMENDATION_MODE", "shadow").strip().lower()
+    return value if value in {"disabled", "shadow", "enforce"} else "shadow"
+
+
 @dataclass(frozen=True)
 class TradeCase:
     trade_id: str
@@ -359,6 +374,7 @@ class AdaptiveManagementService:
             "session_id": session_id,
             "total_trades": len(records),
             "cohorts": {key: _cohort_probability_stats(rows) for key, rows in cohorts.items()},
+            "learning_mode": learning_recommendation_mode(),
         }
 
     def management_quality_verdict(self, position_id: str) -> dict[str, Any]:
@@ -372,7 +388,7 @@ class AdaptiveManagementService:
         with SessionLocal() as db:
             outcomes = db.query(CounterfactualOutcomeORM).filter(CounterfactualOutcomeORM.trade_id == position_id).all()
         if not outcomes:
-            return {"position_id": position_id, "status": "no_replay_data", "verdicts": {}}
+            return {"position_id": position_id, "status": "no_replay_data", "verdicts": {}, "learning_mode": learning_recommendation_mode()}
         by_policy = {row.policy_id: row for row in outcomes}
         threshold = _env_float("MANAGEMENT_QUALITY_MEANINGFUL_DIFFERENCE_USD", 1.0)
         verdicts: dict[str, dict[str, Any]] = {}
@@ -405,7 +421,7 @@ class AdaptiveManagementService:
         exit_gap = (best.hypothetical_pnl - baseline.actual_pnl) if best and baseline else None
         verdicts["exit_optimal"] = {"verdict": bool(exit_gap is not None and exit_gap <= threshold), "basis": best.policy_id if best else None, "best_alternative_pnl_usd": best.hypothetical_pnl if best else None, "gap_to_best_alternative_usd": exit_gap, "reason": "no simulated policy would have produced meaningfully more profit than the actual exit" if (exit_gap is not None and exit_gap <= threshold) else "at least one simulated policy would have produced meaningfully more profit"}
 
-        return {"position_id": position_id, "status": "ok", "policies_compared": len(outcomes), "verdicts": verdicts}
+        return {"position_id": position_id, "status": "ok", "policies_compared": len(outcomes), "verdicts": verdicts, "learning_mode": learning_recommendation_mode()}
 
     def leaderboard_report(self, session_id: str | None = None, top_n: int = 3) -> dict[str, Any]:
         """Part 12 validation reporting: best/worst strategy, best/worst session, best/worst
@@ -438,6 +454,7 @@ class AdaptiveManagementService:
             "highest_giveback": sorted(giveback_pool, key=lambda row: row["value"], reverse=True)[:top_n],
             "highest_mfe_capture": sorted(mfe_capture_pool, key=lambda row: row["value"], reverse=True)[:top_n],
             "lowest_mfe_capture": sorted(mfe_capture_pool, key=lambda row: row["value"])[:top_n],
+            "learning_mode": learning_recommendation_mode(),
         }
 
     def shadow_summary(self) -> dict[str, Any]:

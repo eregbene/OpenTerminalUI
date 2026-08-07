@@ -670,3 +670,30 @@ def test_leaderboard_ranks_strategies_by_expectancy_with_minimum_sample_gate(mon
     assert any("STRAT_WINNER" in key for key in best_keys)
     assert any("STRAT_LOSER" in key for key in worst_keys)
     assert not any("STRAT_TINY" in key for key in best_keys + worst_keys)
+
+
+# ---------------------------------------------------------------------------
+# Learning safety gate (Part 10)
+# ---------------------------------------------------------------------------
+
+
+def test_learning_recommendation_mode_defaults_to_shadow(monkeypatch):
+    monkeypatch.delenv("LEARNING_RECOMMENDATION_MODE", raising=False)
+    assert adaptive_service.learning_recommendation_mode() == "shadow"
+
+
+def test_learning_recommendation_mode_reads_env_fresh(monkeypatch):
+    monkeypatch.setenv("LEARNING_RECOMMENDATION_MODE", "enforce")
+    assert adaptive_service.learning_recommendation_mode() == "enforce"
+    monkeypatch.setenv("LEARNING_RECOMMENDATION_MODE", "garbage")
+    assert adaptive_service.learning_recommendation_mode() == "shadow"
+
+
+def test_learning_reports_surface_current_mode(monkeypatch):
+    _session_factory(monkeypatch)
+    monkeypatch.setenv("LEARNING_RECOMMENDATION_MODE", "shadow")
+    svc = adaptive_service.AdaptiveManagementService()
+
+    assert svc.probability_report()["learning_mode"] == "shadow"
+    assert svc.leaderboard_report()["learning_mode"] == "shadow"
+    assert svc.management_quality_verdict("NEVER_REPLAYED")["learning_mode"] == "shadow"
