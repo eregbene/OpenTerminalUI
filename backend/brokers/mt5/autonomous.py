@@ -368,6 +368,12 @@ class MT5AutonomousTradingService:
             "bars_analyzed": len(rows),
         }
 
+    async def entry_quality_score(self, symbol: str) -> dict[str, Any]:
+        """Public, API-facing entry point for GET /api/intelligence/entry-score -- computes the
+        same decision-support-only structural score _entry_quality_score already produces for
+        the live pipeline's picked candidate, on demand for any requested symbol."""
+        return await self._entry_quality_score({"broker_symbol": symbol.upper()})
+
     async def _submit(self, candidate: dict[str, Any], *, ai_confidence: float | None = None, dry_run: bool = False) -> dict[str, Any]:
         account = await self.adapter.mt5_account()
         symbol = await self.adapter.symbol_info(candidate["broker_symbol"])

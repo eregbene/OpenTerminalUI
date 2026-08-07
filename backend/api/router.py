@@ -25,6 +25,7 @@ from backend.api.routes.forex_intelligence import router as forex_intelligence_r
 from backend.api.routes.framework import router as framework_router
 from backend.api.routes.heatmap import router as heatmap_router
 from backend.api.routes.insider import router as insider_router
+from backend.api.routes.intelligence import router as intelligence_router
 from backend.api.routes.journal import router as journal_router
 from backend.api.routes.market_structure import router as market_structure_router
 from backend.api.routes.model_lab_robustness import router as model_lab_robustness_router
@@ -113,6 +114,7 @@ api_router.include_router(shadow_account_router)
 api_router.include_router(notifications_router)
 api_router.include_router(stress_test_router, prefix="/api")
 api_router.include_router(insider_router)
+api_router.include_router(intelligence_router)
 api_router.include_router(etf_router, prefix="/api")
 api_router.include_router(tape_router, prefix="/api/tape")
 api_router.include_router(admin_data_quality_router)
