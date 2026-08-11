@@ -31,7 +31,9 @@
 
 .PARAMETER Category
     Retention category: "daily" (default, pruned per -PruneDays), "premigration"
-    (last 10 always kept), "manual" or "incident" (never auto-pruned by this script).
+    (last 10 always kept), "scheduled" (only the single most recent kept -- each new
+    scheduled backup deletes the previous one), "manual" or "incident" (never
+    auto-pruned by this script).
 
 .PARAMETER DockerVolumeName
     Recorded in the metadata sidecar only. Default: openterminalui_postgres_recovered_20260807
@@ -45,6 +47,7 @@
     Retention:
       - daily:        keep backups from the last -PruneDays days (default 7)
       - premigration:  always keep at least the most recent 10
+      - scheduled:     keep only the single most recent (replaces, not accumulates)
       - manual/incident: never auto-deleted by this script
 #>
 param(
@@ -54,7 +57,7 @@ param(
     [string]$OutDir = "C:\Users\Intel\Desktop\BensimBackups",
     [string]$Label = "",
     [int]$PruneDays = 7,
-    [ValidateSet("daily", "premigration", "manual", "incident")]
+    [ValidateSet("daily", "premigration", "scheduled", "manual", "incident")]
     [string]$Category = "daily",
     [string]$DockerVolumeName = "openterminalui_postgres_recovered_20260807"
 )
@@ -174,6 +177,20 @@ switch ($Category) {
         if ($preMigBackups.Count -gt 10) {
             $preMigBackups | Select-Object -Skip 10 | ForEach-Object {
                 Write-Host "Pruning old pre-migration backup beyond the last 10: $($_.Name)"
+                Remove-Item $_.FullName -Force
+                $sidecar = $_.FullName -replace '\.dump$', '.metadata.json'
+                if (Test-Path $sidecar) { Remove-Item $sidecar -Force }
+            }
+        }
+    }
+    "scheduled" {
+        # Replace, don't accumulate: every new scheduled backup deletes every older
+        # scheduled backup, so exactly one is ever on disk at a time. Never touches
+        # premigration/manual/incident backups -- those are a separate safety net.
+        $scheduledBackups = Get-ChildItem -Path $OutDir -Filter "*_scheduled.dump" | Sort-Object LastWriteTime -Descending
+        if ($scheduledBackups.Count -gt 1) {
+            $scheduledBackups | Select-Object -Skip 1 | ForEach-Object {
+                Write-Host "Replacing previous scheduled backup: $($_.Name)"
                 Remove-Item $_.FullName -Force
                 $sidecar = $_.FullName -replace '\.dump$', '.metadata.json'
                 if (Test-Path $sidecar) { Remove-Item $sidecar -Force }
