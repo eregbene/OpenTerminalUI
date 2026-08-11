@@ -272,6 +272,108 @@ def test_rate_limit_resets_after_window_elapses():
 
 
 # ---------------------------------------------------------------------------
+# RATE_LIMIT_EXEMPT_ACTION_TYPES: THESIS_INVALIDATION_CLOSE and VALIDATION_INCIDENT_CLOSE are
+# genuine emergency/protective full exits and must not be blocked by other management actions
+# having already consumed ADAPTIVE_MAX_ACTIONS_PER_HOUR earlier in the hour. Normal/profit-
+# management actions must still stop at the cap, unchanged.
+# ---------------------------------------------------------------------------
+
+
+def test_normal_action_still_blocked_at_hourly_cap(monkeypatch):
+    monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO"})())
+    SessionLocal = _session_factory(monkeypatch)
+    _seed_classification(SessionLocal, "FP1", AccountClassification.INTERNAL_DEMO.value)
+    svc = adaptive_service.AdaptiveManagementService()
+    activation = _base_activation(maximum_actions_per_hour=6)
+    breaker = AdaptiveCircuitBreakerORM(breaker_id="B_CAP1", state="closed", actions_this_hour=6, actions_hour_window_started_at=datetime.now(timezone.utc))
+    action = _base_action("MOVE_SL_BREAKEVEN")
+    state = _base_state()
+
+    allowed = svc._can_execute(action, state, activation, breaker, "demo_active", current_account_fingerprint="FP1")
+
+    assert allowed is False
+    assert breaker.actions_this_hour == 6  # untouched -- the blocked check never increments
+
+
+def test_thesis_invalidation_close_bypasses_hourly_cap(monkeypatch):
+    monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO"})())
+    SessionLocal = _session_factory(monkeypatch)
+    _seed_classification(SessionLocal, "FP1", AccountClassification.INTERNAL_DEMO.value)
+    svc = adaptive_service.AdaptiveManagementService()
+    activation = _base_activation(maximum_actions_per_hour=6)
+    breaker = AdaptiveCircuitBreakerORM(breaker_id="B_CAP2", state="closed", actions_this_hour=6, actions_hour_window_started_at=datetime.now(timezone.utc))
+    action = _base_action("THESIS_INVALIDATION_CLOSE", requested_volume=0.5)
+    state = _base_state()
+
+    allowed = svc._can_execute(action, state, activation, breaker, "demo_active", current_account_fingerprint="FP1")
+
+    assert allowed is True
+    # A true bypass, not "one extra slot" -- the shared hourly counter is never touched by an
+    # exempt action, so it stays exactly where the (already-exhausted) normal budget left it.
+    assert breaker.actions_this_hour == 6
+
+
+def test_validation_incident_close_bypasses_hourly_cap(monkeypatch):
+    monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO"})())
+    SessionLocal = _session_factory(monkeypatch)
+    _seed_classification(SessionLocal, "FP1", AccountClassification.INTERNAL_DEMO.value)
+    svc = adaptive_service.AdaptiveManagementService()
+    activation = _base_activation(maximum_actions_per_hour=6)
+    breaker = AdaptiveCircuitBreakerORM(breaker_id="B_CAP3", state="closed", actions_this_hour=6, actions_hour_window_started_at=datetime.now(timezone.utc))
+    action = _base_action("VALIDATION_INCIDENT_CLOSE", requested_volume=0.5)
+    state = _base_state()
+
+    allowed = svc._can_execute(action, state, activation, breaker, "demo_active", current_account_fingerprint="FP1")
+
+    assert allowed is True
+    assert breaker.actions_this_hour == 6
+
+
+def test_exempt_action_still_blocked_by_cooldown_despite_bypassing_rate_cap(monkeypatch):
+    """The rate-limit bypass must not weaken any OTHER safety layer -- THESIS_INVALIDATION_CLOSE
+    is still a VOLUME_MUTATING_COOLDOWN_ACTION_TYPES member, so a recent successful modification
+    on this same position still blocks it, cap or no cap."""
+    monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO"})())
+    SessionLocal = _session_factory(monkeypatch)
+    _seed_classification(SessionLocal, "FP1", AccountClassification.INTERNAL_DEMO.value)
+    svc = adaptive_service.AdaptiveManagementService()
+    activation = _base_activation(maximum_actions_per_hour=6)
+    breaker = AdaptiveCircuitBreakerORM(breaker_id="B_CAP4", state="closed", actions_this_hour=6, actions_hour_window_started_at=datetime.now(timezone.utc))
+    action = _base_action("THESIS_INVALIDATION_CLOSE", requested_volume=0.5)
+    state = _base_state(last_management_at=datetime.now(timezone.utc))  # just modified -- inside cooldown
+
+    allowed = svc._can_execute(action, state, activation, breaker, "demo_active", current_account_fingerprint="FP1")
+
+    assert allowed is False
+
+
+def test_thesis_invalidation_close_executes_end_to_end_despite_exhausted_hourly_cap(monkeypatch):
+    """Proves a legitimate protective exit can still actually close the position at the broker
+    -- not just pass the _can_execute gate -- even when every other action type would be capped
+    this hour."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO", "bensim_magic": 5601001})())
+    _seed_classification(SessionLocal, "FPX", AccountClassification.INTERNAL_DEMO.value)
+    fake_adapter = _FakeExecAdapter(positions=[_FakePosition(identifier="P1", ticket="555001", symbol="EURUSD", type=0, volume=0.5, sl=1.0950, tp=1.1100)])
+    fake_execution = _FakeExecManager()
+    monkeypatch.setattr(adaptive_service, "mt5_adapter", fake_adapter)
+    monkeypatch.setattr(adaptive_service, "execution_manager", fake_execution)
+    svc = adaptive_service.AdaptiveManagementService()
+    activation = _base_activation(maximum_actions_per_hour=6)
+    breaker = AdaptiveCircuitBreakerORM(breaker_id="B_CAP5", state="closed", actions_this_hour=6, actions_hour_window_started_at=datetime.now(timezone.utc))
+    action = _base_action("THESIS_INVALIDATION_CLOSE", requested_volume=0.5)
+    state = _base_state(direction="LONG", symbol="EURUSD", entry_price=1.1000, current_sl=1.0950, current_tp=1.1100, current_volume=0.5, broker_ticket="555001", account_fingerprint="FPX")
+
+    assert svc._can_execute(action, state, activation, breaker, "demo_active", current_account_fingerprint="FPX") is True
+
+    result = asyncio.run(svc._execute_action(action, state, {"ticket": state.broker_ticket}))
+
+    assert result["status"] == "ACCEPTED"
+    assert result["broker_mutation_attempted"] is True
+    assert fake_execution.calls == 1
+
+
+# ---------------------------------------------------------------------------
 # v2 action gating (account classification, account fingerprint, HOLD, sole mutation path)
 # ---------------------------------------------------------------------------
 
@@ -533,15 +635,32 @@ class _FakeExecMT5:
         return self
 
 
+class _FakePosition:
+    def __init__(self, **kwargs):
+        self._data = kwargs
+
+    def model_dump(self, mode="json"):
+        return dict(self._data)
+
+
 class _FakeExecAdapter:
-    def __init__(self):
+    def __init__(self, positions=None):
         self.client = _FakeExecMT5()
+        # Matches the default _base_state() fixture (position_id="P1") with the SL/TP the
+        # end-to-end MOVE_SL_TO_REDUCED_RISK test below expects -- so the freshness re-fetch
+        # in _execute_action finds a live position consistent with the snapshot it was given.
+        # ticket="555" matches that test's broker_ticket override (must be numeric --
+        # _build_mt5_request does int(payload["ticket"])).
+        self.positions = positions if positions is not None else [_FakePosition(identifier="P1", ticket="555", symbol="EURUSD", type=0, volume=0.5, sl=1.0950, tp=1.1100)]
 
     async def symbol_info(self, symbol):
-        return type("Sym", (), {"filling_mode": 2, "digits": 5})()
+        return type("Sym", (), {"filling_mode": 2, "digits": 5, "volume_step": "0.01", "volume_min": "0.01", "volume_max": "100"})()
 
     async def latest_tick(self, symbol):
         return type("Quote", (), {"bid": 1.0975, "ask": 1.0977})()
+
+    async def mt5_positions(self):
+        return self.positions
 
 
 class _FakeExecManager:
@@ -587,6 +706,203 @@ def test_move_sl_to_reduced_risk_executes_end_to_end_for_internal_demo_with_defa
     assert result["status"] == "ACCEPTED"
     assert result["broker_mutation_attempted"] is True
     assert fake_execution.calls == 1
+
+
+# ---------------------------------------------------------------------------
+# Fresh-position re-fetch guard: the live MT5 position must be re-fetched and verified against
+# the action's snapshot (ticket, symbol, direction, volume, SL/TP, still open) immediately
+# before a broker mutation is built/submitted in _execute_action -- never rely on broker-side
+# rejection alone for staleness (the snapshot in `state`/`payload` was captured at the START of
+# the monitor cycle, and real I/O happens between then and submission).
+# ---------------------------------------------------------------------------
+
+
+def _fresh_state_and_action(action_type="MOVE_SL_BREAKEVEN", **state_overrides):
+    # broker_ticket must be numeric -- _build_mt5_request does int(payload["ticket"]).
+    defaults = dict(direction="LONG", symbol="EURUSD", entry_price=1.1000, current_sl=1.0950, current_tp=1.1100, current_volume=0.5, broker_ticket="555001")
+    defaults.update(state_overrides)
+    state = _base_state(**defaults)
+    action = _base_action(action_type, requested_sl=1.1000, requested_tp=1.1100, requested_volume=0.25)
+    return state, action
+
+
+def test_freshness_check_allows_submission_when_live_position_matches_snapshot(monkeypatch):
+    state, action = _fresh_state_and_action()
+    fake_adapter = _FakeExecAdapter(positions=[_FakePosition(identifier="P1", ticket="555001", symbol="EURUSD", type=0, volume=0.5, sl=1.0950, tp=1.1100)])
+    fake_execution = _FakeExecManager()
+    monkeypatch.setattr(adaptive_service, "mt5_adapter", fake_adapter)
+    monkeypatch.setattr(adaptive_service, "execution_manager", fake_execution)
+    svc = adaptive_service.AdaptiveManagementService()
+
+    result = asyncio.run(svc._execute_action(action, state, {"ticket": state.broker_ticket}))
+
+    assert result["status"] == "ACCEPTED"
+    assert result["broker_mutation_attempted"] is True
+    assert fake_execution.calls == 1
+
+
+def test_freshness_check_blocks_submission_when_position_already_closed(monkeypatch):
+    state, action = _fresh_state_and_action()
+    fake_adapter = _FakeExecAdapter(positions=[])  # ticket no longer open at the broker
+    fake_execution = _FakeExecManager()
+    monkeypatch.setattr(adaptive_service, "mt5_adapter", fake_adapter)
+    monkeypatch.setattr(adaptive_service, "execution_manager", fake_execution)
+    svc = adaptive_service.AdaptiveManagementService()
+
+    result = asyncio.run(svc._execute_action(action, state, {"ticket": state.broker_ticket}))
+
+    assert result["status"] == "NOOP"
+    assert result["reason"] == "STALE_POSITION_CLOSED"
+    assert result["broker_mutation_attempted"] is False
+    assert action.broker_mutation_attempted is False
+    assert fake_execution.calls == 0
+
+
+def test_freshness_check_blocks_submission_on_ticket_mismatch(monkeypatch):
+    state, action = _fresh_state_and_action()
+    # Found by position_id, but the broker's own ticket field disagrees with state.broker_ticket
+    # -- a data-integrity divergence that must never be trusted for a real mutation.
+    fake_adapter = _FakeExecAdapter(positions=[_FakePosition(identifier="P1", ticket="999999", symbol="EURUSD", type=0, volume=0.5, sl=1.0950, tp=1.1100)])
+    fake_execution = _FakeExecManager()
+    monkeypatch.setattr(adaptive_service, "mt5_adapter", fake_adapter)
+    monkeypatch.setattr(adaptive_service, "execution_manager", fake_execution)
+    svc = adaptive_service.AdaptiveManagementService()
+
+    result = asyncio.run(svc._execute_action(action, state, {"ticket": state.broker_ticket}))
+
+    assert result["status"] == "NOOP"
+    assert result["reason"] == "STALE_POSITION_TICKET_MISMATCH"
+    assert fake_execution.calls == 0
+
+
+def test_freshness_check_blocks_submission_on_direction_mismatch(monkeypatch):
+    state, action = _fresh_state_and_action()  # state.direction == "LONG"
+    fake_adapter = _FakeExecAdapter(positions=[_FakePosition(identifier="P1", ticket="555001", symbol="EURUSD", type=1, volume=0.5, sl=1.0950, tp=1.1100)])  # type=1 -> SHORT
+    fake_execution = _FakeExecManager()
+    monkeypatch.setattr(adaptive_service, "mt5_adapter", fake_adapter)
+    monkeypatch.setattr(adaptive_service, "execution_manager", fake_execution)
+    svc = adaptive_service.AdaptiveManagementService()
+
+    result = asyncio.run(svc._execute_action(action, state, {"ticket": state.broker_ticket}))
+
+    assert result["status"] == "NOOP"
+    assert result["reason"] == "STALE_POSITION_DIRECTION_MISMATCH"
+    assert fake_execution.calls == 0
+
+
+def test_freshness_check_blocks_stale_partial_close_on_volume_change(monkeypatch):
+    state, _ignored = _fresh_state_and_action(current_volume=0.5)
+    action = _base_action("PARTIAL_PROFIT", requested_volume=0.25)
+    # Volume already dropped to 0.2 (e.g. a prior partial fill or manual close) since the
+    # snapshot this PARTIAL_PROFIT candidate was computed from.
+    fake_adapter = _FakeExecAdapter(positions=[_FakePosition(identifier="P1", ticket="555001", symbol="EURUSD", type=0, volume=0.2, sl=1.0950, tp=1.1100)])
+    fake_execution = _FakeExecManager()
+    monkeypatch.setattr(adaptive_service, "mt5_adapter", fake_adapter)
+    monkeypatch.setattr(adaptive_service, "execution_manager", fake_execution)
+    svc = adaptive_service.AdaptiveManagementService()
+
+    result = asyncio.run(svc._execute_action(action, state, {"ticket": state.broker_ticket}))
+
+    assert result["status"] == "NOOP"
+    assert result["reason"] == "STALE_POSITION_VOLUME_CHANGED"
+    assert fake_execution.calls == 0
+
+
+def test_freshness_check_blocks_stale_sltp_modification_when_sl_already_changed(monkeypatch):
+    state, action = _fresh_state_and_action(current_sl=1.0950, current_tp=1.1100)
+    # SL already moved to 1.0980 by the time we're about to submit -- e.g. changed by a prior
+    # cycle's action or another process -- so this candidate's assumptions are stale.
+    fake_adapter = _FakeExecAdapter(positions=[_FakePosition(identifier="P1", ticket="555001", symbol="EURUSD", type=0, volume=0.5, sl=1.0980, tp=1.1100)])
+    fake_execution = _FakeExecManager()
+    monkeypatch.setattr(adaptive_service, "mt5_adapter", fake_adapter)
+    monkeypatch.setattr(adaptive_service, "execution_manager", fake_execution)
+    svc = adaptive_service.AdaptiveManagementService()
+
+    result = asyncio.run(svc._execute_action(action, state, {"ticket": state.broker_ticket}))
+
+    assert result["status"] == "NOOP"
+    assert result["reason"] == "STALE_POSITION_SLTP_CHANGED"
+    assert fake_execution.calls == 0
+
+
+def test_freshness_check_prevents_broker_call_so_no_duplicate_request_is_created(monkeypatch):
+    """When the position is stale, broker_mutation_attempted must stay False on the action row
+    -- the same flag _can_execute()/idempotency logic elsewhere relies on to know whether a
+    request was already sent -- so a stale rejection can never be mistaken for, or lead to, a
+    duplicate submission, even across repeated calls."""
+    state, action = _fresh_state_and_action()
+    fake_adapter = _FakeExecAdapter(positions=[])  # closed
+    fake_execution = _FakeExecManager()
+    monkeypatch.setattr(adaptive_service, "mt5_adapter", fake_adapter)
+    monkeypatch.setattr(adaptive_service, "execution_manager", fake_execution)
+    svc = adaptive_service.AdaptiveManagementService()
+
+    result1 = asyncio.run(svc._execute_action(action, state, {"ticket": state.broker_ticket}))
+    result2 = asyncio.run(svc._execute_action(action, state, {"ticket": state.broker_ticket}))
+
+    assert result1["status"] == "NOOP" and result2["status"] == "NOOP"
+    assert action.broker_mutation_attempted is False
+    assert fake_execution.calls == 0
+
+
+# ---------------------------------------------------------------------------
+# Broker stop/freeze-level floor (audit gap #1, Part 17): an SL/TP modification must never be
+# submitted to the broker when it would land inside the symbol's minimum stop/freeze distance
+# from the current price -- validated proactively in _build_mt5_request, not left to order_send
+# rejection.
+# ---------------------------------------------------------------------------
+
+
+class _FakeSymbolWithStopsLevel:
+    filling_mode = 2
+    digits = 5
+    point = 0.00001
+    trade_stops_level = 100  # 100 points = 0.00100 minimum distance
+    trade_freeze_level = 0
+
+
+def test_sltp_modification_skipped_when_inside_broker_stop_level():
+    svc = adaptive_service.AdaptiveManagementService()
+    mt5 = _FakeExecMT5()
+    symbol = _FakeSymbolWithStopsLevel()
+    quote = type("Quote", (), {"bid": 1.0975, "ask": 1.0977})()
+    state = _base_state(direction="LONG", entry_price=1.1000, current_sl=1.0950, broker_ticket="555")
+    # 0.0001 away from bid (1.0975) -- inside the 0.00100 broker floor.
+    action = _base_action("MOVE_SL_BREAKEVEN", requested_sl=1.0974, requested_tp=None)
+
+    request = asyncio.run(svc._build_mt5_request(mt5, symbol, quote, action, state, {"ticket": state.broker_ticket}))
+
+    assert request is None
+
+
+def test_sltp_modification_submitted_when_outside_broker_stop_level():
+    svc = adaptive_service.AdaptiveManagementService()
+    mt5 = _FakeExecMT5()
+    symbol = _FakeSymbolWithStopsLevel()
+    quote = type("Quote", (), {"bid": 1.0975, "ask": 1.0977})()
+    state = _base_state(direction="LONG", entry_price=1.1000, current_sl=1.0950, broker_ticket="555")
+    # 0.0075 away from bid -- well clear of the 0.00100 broker floor.
+    action = _base_action("MOVE_SL_BREAKEVEN", requested_sl=1.0900, requested_tp=None)
+
+    request = asyncio.run(svc._build_mt5_request(mt5, symbol, quote, action, state, {"ticket": state.broker_ticket}))
+
+    assert request is not None
+    assert request["sl"] == pytest.approx(1.0900)
+
+
+def test_sltp_modification_unaffected_when_symbol_metadata_missing_point():
+    """No point metadata -> the floor cannot be evaluated -- falls back to broker-side
+    validation (unchanged prior behavior) rather than blocking every modification."""
+    svc = adaptive_service.AdaptiveManagementService()
+    mt5 = _FakeExecMT5()
+    symbol = type("Sym", (), {"filling_mode": 2, "digits": 5})()  # no trade_stops_level/point
+    quote = type("Quote", (), {"bid": 1.0975, "ask": 1.0977})()
+    state = _base_state(direction="LONG", entry_price=1.1000, current_sl=1.0950, broker_ticket="555")
+    action = _base_action("MOVE_SL_BREAKEVEN", requested_sl=1.0974, requested_tp=None)
+
+    request = asyncio.run(svc._build_mt5_request(mt5, symbol, quote, action, state, {"ticket": state.broker_ticket}))
+
+    assert request is not None
 
 
 # ---------------------------------------------------------------------------

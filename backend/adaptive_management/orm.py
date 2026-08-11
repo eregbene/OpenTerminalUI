@@ -592,3 +592,123 @@ class AdaptivePathReconstructionJobORM(Base):
     error: Mapped[str | None] = mapped_column(Text, nullable=True)
     raw_payload: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
+
+
+class AdaptiveManagementEventORM(Base):
+    """Adaptive Trade Manager Validation & Performance Analytics layer -- append-only journal
+    of every per-position decision made in AdaptiveManagementService._monitor_cycle, captured
+    immediately after _persist_action (see service.py) so this NEVER influences _can_execute/
+    _execute_action. One row per position per cycle -- deliberately separate from
+    AdaptiveManagementActionORM (the operational action journal that already exists and is
+    upserted by idempotency_key) so this can be a pure, append-only observation record with a
+    consistent before/after snapshot even for HOLD decisions that never touch that table's
+    idempotency key differently."""
+
+    __tablename__ = "adaptive_management_events"
+
+    event_id: Mapped[str] = mapped_column(String(160), primary_key=True)
+    cycle_run_id: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
+    position_id: Mapped[str] = mapped_column(String(96), nullable=False, index=True)
+    symbol: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
+    direction: Mapped[str] = mapped_column(String(16), nullable=False, index=True)
+    entry_price: Mapped[float | None] = mapped_column(Float, nullable=True)
+    current_price: Mapped[float | None] = mapped_column(Float, nullable=True)
+    original_sl: Mapped[float | None] = mapped_column(Float, nullable=True)
+    original_tp: Mapped[float | None] = mapped_column(Float, nullable=True)
+    sl_before: Mapped[float | None] = mapped_column(Float, nullable=True)
+    sl_after: Mapped[float | None] = mapped_column(Float, nullable=True)
+    tp_before: Mapped[float | None] = mapped_column(Float, nullable=True)
+    tp_after: Mapped[float | None] = mapped_column(Float, nullable=True)
+    current_r: Mapped[float | None] = mapped_column(Float, nullable=True)
+    max_achieved_r: Mapped[float | None] = mapped_column(Float, nullable=True)
+    min_achieved_r: Mapped[float | None] = mapped_column(Float, nullable=True)
+    unrealized_pnl: Mapped[float | None] = mapped_column(Float, nullable=True)
+    # The REAL action taxonomy already emitted by _select_action/_persist_action (HOLD,
+    # MOVE_SL_BREAKEVEN, TRAIL_STOP, PARTIAL_PROFIT, MFE_PROTECTION_CLOSE, ... -- see
+    # service.py). Never invented/renamed here.
+    action_type: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+    # Coarse grouping of action_type into the minimum taxonomy this layer's spec asked for
+    # (NO_ACTION/MOVE_TO_BREAK_EVEN/TRAIL_SL/MODIFY_TP/PARTIAL_EXIT/FULL_EXIT/
+    # THESIS_INVALIDATED/PORTFOLIO_PROTECTION_EXIT/EMERGENCY_EXIT) -- derived, never a
+    # replacement for action_type. See _categorize_action in analytics.py.
+    action_category: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
+    action_status: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
+    action_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
+    manager_state: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
+    is_at_or_beyond_breakeven: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, index=True)
+    is_trailing_action: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, index=True)
+    strategy: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    market_regime: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    atr: Mapped[float | None] = mapped_column(Float, nullable=True)
+    structure_level: Mapped[float | None] = mapped_column(Float, nullable=True)
+    raw_payload: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
+
+    __table_args__ = (Index("ix_adaptive_mgmt_events_position_time", "position_id", "created_at"),)
+
+
+class AdaptivePositionBaselineORM(Base):
+    """Immutable original-trade-state baseline (Part 2). Written EXACTLY ONCE, the first time a
+    position is observed by the capture hook -- never updated afterward, regardless of what the
+    adaptive manager subsequently changes on AdaptivePositionStateORM.current_sl/current_tp.
+    This is what lets later analytics answer "what did the manager change relative to what was
+    originally placed", independent of AdaptivePositionStateORM's own (correctly mutable)
+    current_sl/current_tp columns."""
+
+    __tablename__ = "adaptive_position_baselines"
+
+    position_id: Mapped[str] = mapped_column(String(96), primary_key=True)
+    broker_ticket: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    symbol: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
+    direction: Mapped[str] = mapped_column(String(16), nullable=False, index=True)
+    original_entry: Mapped[float | None] = mapped_column(Float, nullable=True)
+    original_sl: Mapped[float | None] = mapped_column(Float, nullable=True)
+    original_tp: Mapped[float | None] = mapped_column(Float, nullable=True)
+    initial_stop_distance: Mapped[float | None] = mapped_column(Float, nullable=True)
+    initial_reward_risk: Mapped[float | None] = mapped_column(Float, nullable=True)
+    initial_risk_money: Mapped[float | None] = mapped_column(Float, nullable=True)
+    original_strategy: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    # Joined from MT5CandidateEvaluationORM via broker_ticket, best-effort (Part 11) -- NULL for
+    # positions with no matching candidate evaluation record (e.g. manually adopted positions,
+    # or positions opened before the confidence-calibration layer existed).
+    original_confidence: Mapped[float | None] = mapped_column(Float, nullable=True)
+    confidence_band: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+    candidate_rank: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
+
+
+class AdaptiveManagerCounterfactualORM(Base):
+    """Analytics-only counterfactual cache (Parts 8 & 13). One row per position, populated
+    progressively and strictly after the fact by backend/adaptive_management/outcome_resolver.py
+    via the SAME live/historical MT5 candle source the trading engine uses -- read-only, no
+    broker order is ever placed from this table's resolution logic, and nothing here is ever
+    read back into _monitor_cycle/_select_action."""
+
+    __tablename__ = "adaptive_manager_counterfactuals"
+
+    position_id: Mapped[str] = mapped_column(String(96), primary_key=True)
+    symbol: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
+
+    # Part 13: what would have happened if the ORIGINAL sl/tp had simply been left in place.
+    # PENDING | ORIGINAL_TP_FIRST | ORIGINAL_SL_FIRST | NEITHER_WITHIN_WINDOW
+    original_sltp_outcome: Mapped[str] = mapped_column(String(24), nullable=False, default="PENDING", index=True)
+    original_sltp_r: Mapped[float | None] = mapped_column(Float, nullable=True)
+    original_sltp_resolved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+    # Part 13: no-BE baseline -- only applicable when break-even was actually activated (derived
+    # from the AdaptiveManagementEventORM sl_before/sl_after series, see analytics.py).
+    no_be_applicable: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, index=True)
+    no_be_outcome: Mapped[str] = mapped_column(String(24), nullable=False, default="PENDING", index=True)
+    no_be_r: Mapped[float | None] = mapped_column(Float, nullable=True)
+    no_be_resolved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+    # Part 8: post-exit shadow tracking, from the manager's ACTUAL exit price/time forward.
+    post_exit_status: Mapped[str] = mapped_column(String(24), nullable=False, default="PENDING", index=True)
+    post_exit_reached_original_tp: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    post_exit_reached_plus_1r: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    post_exit_reversed_strongly: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    post_exit_would_have_hit_original_sl: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    post_exit_resolved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+    expiry_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True, index=True)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, onupdate=utcnow)

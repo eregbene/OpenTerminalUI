@@ -5,6 +5,18 @@ from typing import Any
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel, Field
 
+from backend.adaptive_management.analytics import (
+    break_even_analysis_report,
+    confidence_band_management_report,
+    core_metrics_report,
+    exit_reason_analytics_report,
+    intervention_frequency_report,
+    loser_protection_report,
+    manager_value_add_report,
+    recent_management_events,
+    symbol_strategy_regime_report,
+    winner_preservation_report,
+)
 from backend.adaptive_management.service import adaptive_management_service
 from backend.auth.deps import get_current_user
 from backend.models.user import User
@@ -242,3 +254,65 @@ async def evaluate(current_user: User = Depends(get_current_user)) -> dict[str, 
 @router.post("/run-shadow")
 async def run_shadow(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
     return await adaptive_management_service.run_shadow_cycle()
+
+
+# --- Adaptive Trade Manager Validation & Performance Analytics layer (read-only; Part 16).
+# These never read or write break-even/trailing/SL/TP rules, the adaptive manager's
+# configuration, or _monitor_cycle's decision path -- they only query the append-only
+# adaptive_management_events / adaptive_position_baselines / adaptive_manager_counterfactuals
+# tables. ---
+
+
+@router.get("/validation/overview")
+async def validation_overview(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return {"core_metrics": core_metrics_report(), "break_even": break_even_analysis_report()}
+
+
+@router.get("/validation/core-metrics")
+async def validation_core_metrics(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return core_metrics_report()
+
+
+@router.get("/validation/break-even")
+async def validation_break_even(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return break_even_analysis_report()
+
+
+@router.get("/validation/winner-preservation")
+async def validation_winner_preservation(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return {"items": winner_preservation_report()}
+
+
+@router.get("/validation/loser-protection")
+async def validation_loser_protection(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return loser_protection_report()
+
+
+@router.get("/validation/exit-reasons")
+async def validation_exit_reasons(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return {"items": exit_reason_analytics_report()}
+
+
+@router.get("/validation/interventions")
+async def validation_interventions(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return intervention_frequency_report()
+
+
+@router.get("/validation/manager-value-add")
+async def validation_manager_value_add(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return manager_value_add_report()
+
+
+@router.get("/validation/confidence-bands")
+async def validation_confidence_bands(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return confidence_band_management_report()
+
+
+@router.get("/validation/breakdown")
+async def validation_breakdown(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return symbol_strategy_regime_report()
+
+
+@router.get("/validation/recent-events")
+async def validation_recent_events(limit: int = 50, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return {"items": recent_management_events(limit=max(1, min(500, limit)))}

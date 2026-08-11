@@ -242,7 +242,15 @@ def construct_dynamic_stop(
     min_structure_buffer: float = 0.0,
     max_stop_distance: float | None = None,
     min_spread_ratio: float = 3.0,
+    broker_min_stop_distance: float | None = None,
 ) -> float | None:
+    """`broker_min_stop_distance` (price units, i.e. symbol_info.trade_stops_level *
+    symbol_info.point): when provided and positive, the final distance is never allowed below
+    it -- the broker will reject (or silently adjust) an order whose stop sits closer to entry
+    than its own minimum stop level, and this must be caught here, before sizing/order
+    submission, not discovered via an order_send rejection. Optional and backward-compatible:
+    omitted (None, the default) reproduces byte-identical behavior for every existing caller
+    that doesn't pass it."""
     if entry is None or atr is None or atr <= 0 or min_atr_mult <= 0 or max_atr_mult <= 0 or min_atr_mult > max_atr_mult:
         return None
     spread_value = spread or 0.0
@@ -255,6 +263,8 @@ def construct_dynamic_stop(
     else:
         raw_distance = atr * max(min_atr_mult, 1.0)
     min_distance = atr * min_atr_mult
+    if broker_min_stop_distance is not None and broker_min_stop_distance > 0:
+        min_distance = max(min_distance, broker_min_stop_distance)
     max_distance = atr * max_atr_mult
     if max_stop_distance is not None:
         max_distance = min(max_distance, max_stop_distance)

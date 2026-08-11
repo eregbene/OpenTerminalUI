@@ -28,6 +28,9 @@ frontend/.env.development
 *.sqlite3
 .yf_cache/
 data/bars/
+data/ai_assistant/
+data/research/artifacts/
+data/research_agent/
 reports/*.xlsx
 reports/*.csv
 .coverage
