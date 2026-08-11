@@ -55,8 +55,18 @@ class MT5ExecutionService:
                 blockers.append("TERMINAL_DISCONNECTED")
             if terminal.trade_allowed is False or terminal.external_python_trading_allowed is False:
                 blockers.append("TERMINAL_TRADING_NOT_ALLOWED")
-            if terminal.account_mode != "DEMO":
-                blockers.append("CRITICAL_LIVE_ACCOUNT_DETECTED")
+            # NOTE: there used to be a `terminal.account_mode != "DEMO"` check here
+            # ("CRITICAL_LIVE_ACCOUNT_DETECTED"). Removed: MT5TerminalStatus.account_mode is
+            # set from OUR OWN config.account_mode (see terminal_status_from_raw in
+            # diagnostics.py), never from broker-observed data, so in a genuine connection it
+            # can only ever equal config.account_mode -- it cannot detect a real live account.
+            # Its one observable effect was a false positive during a broker/bridge
+            # disconnection, where account_mode defaults to None (None != "DEMO"), producing a
+            # misleading "CRITICAL_LIVE_ACCOUNT_DETECTED" that was really just
+            # TERMINAL_DISCONNECTED (already reported above) wearing a scarier name. Real,
+            # broker-data-driven live-account protection is unaffected and unchanged --
+            # assert_demo_account() above already raises (caught below as BROKER_NOT_READY)
+            # using the actual account.trade_mode/server reported by the broker.
         except Exception as exc:
             blockers.append(f"BROKER_NOT_READY:{exc.__class__.__name__}")
         return blockers
@@ -73,6 +83,7 @@ class MT5ExecutionService:
         risk_budget_adjustment: dict[str, Any] | None = None,
         portfolio_available_risk_usd: Decimal | None = None,
         account_fingerprint: str | None = None,
+        account_currency: str | None = None,
     ) -> MT5RiskSizing:
         """PART 4's required sizing sequence, using the single canonical monetary-risk
         calculator (backend/brokers/mt5/risk_calculator.py) for every loss estimate -- no other
@@ -80,7 +91,12 @@ class MT5ExecutionService:
         the incident this replaced: a lone trade_tick_value field 10x under-estimated XAUUSD
         risk). `portfolio_available_risk_usd`, when provided, additionally caps sizing to
         whatever open-risk headroom the portfolio actually has left (optional/backward
-        compatible -- omitted callers get identical behavior to before this parameter existed)."""
+        compatible -- omitted callers get identical behavior to before this parameter existed).
+        `account_currency` (defaults to "USD" when omitted) tells the canonical calculator's
+        contract_size method whether it's safe to run for this symbol -- see
+        risk_calculator._contract_size_estimate for why a cross whose profit currency isn't the
+        account currency (e.g. EURJPY on a USD account) must skip that method rather than
+        silently return a quote-currency figure mislabeled as USD."""
         reasons = _geometry_reasons(direction, entry, stop, target)
         # 1. Configured monetary risk budget.
         equity_risk_cap = (account_equity * Decimal(str(self.config.risk_percent_per_trade)) / Decimal("100")).quantize(Decimal("0.01"))
@@ -114,6 +130,8 @@ class MT5ExecutionService:
             mt5_client=mt5_client,
             warning_pct=self.config.risk_calculation_disagreement_pct,
             critical_pct=self.config.risk_calculation_critical_disagreement_pct,
+            account_currency=account_currency or "USD",
+            adapter=self.adapter,
         )
         record_mismatch_if_needed(canonical, symbol=symbol.symbol, account_fingerprint=account_fingerprint, context="new_entry_sizing")
         diagnostics = dict(
@@ -146,17 +164,24 @@ class MT5ExecutionService:
         if volume < minimum:
             minimum_risk = (loss_per_lot * minimum).copy_abs().quantize(Decimal("0.01"))
             reasons.append("VOLUME_BELOW_MINIMUM_RISK_TOO_HIGH" if minimum_risk > effective_risk else "VOLUME_BELOW_MINIMUM")
-            return MT5RiskSizing(status="REJECTED", reasons=reasons, effective_risk_usd=effective_risk, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, **diagnostics)
+            return MT5RiskSizing(status="REJECTED", raw_volume=raw_volume, reasons=reasons, effective_risk_usd=effective_risk, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, **diagnostics)
 
         # 7. Recalculate projected monetary loss at the normalized (post-floor) volume. MT5 lot
         # economics are linear in volume (broker-confirmed: order_calc_profit(0.1 lot) ==
         # order_calc_profit(1.0 lot)/10 exactly), so this is the same selected-method figure
         # scaled to `volume` -- not a second broker round trip for no additional information.
         projected_loss = (loss_per_lot * volume).copy_abs().quantize(Decimal("0.01"))
-        tick_size = symbol.trade_tick_size or symbol.point
-        tick_value = symbol.trade_tick_value_loss or symbol.trade_tick_value or symbol.trade_tick_value_profit
-        if tick_size and tick_size > 0 and tick_value and tick_value > 0:
-            projected_profit = (abs(target - entry) / tick_size * tick_value * volume).copy_abs().quantize(Decimal("0.01"))
+        # projected_profit MUST be derived from the SAME canonical, cross-validated loss_per_lot
+        # -- not re-read from symbol.trade_tick_value directly. That field is exactly the one a
+        # broken/misconfigured broker can misreport (the XAUUSD incident this whole calculator
+        # exists to catch): using it here, unvalidated, would silently reintroduce the same class
+        # of bug into the reward:risk check even after the loss side was correctly cross-checked
+        # and cleared. stop_distance/loss_per_lot gives a validated $-per-price-unit rate; scaling
+        # that by the reward distance keeps both sides of the RR ratio dimensionally consistent.
+        stop_distance = abs(entry - stop)
+        rate_per_price_unit = (loss_per_lot / stop_distance) if stop_distance > 0 else None
+        if rate_per_price_unit and rate_per_price_unit > 0:
+            projected_profit = (abs(target - entry) * rate_per_price_unit * volume).copy_abs().quantize(Decimal("0.01"))
         else:
             projected_profit = Decimal("0.00")
 
@@ -175,6 +200,7 @@ class MT5ExecutionService:
         return MT5RiskSizing(
             status="APPROVED" if not reasons else "REJECTED",
             volume=volume,
+            raw_volume=raw_volume,
             effective_risk_usd=effective_risk,
             projected_loss_usd=projected_loss,
             projected_profit_usd=projected_profit,

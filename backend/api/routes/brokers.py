@@ -14,6 +14,15 @@ from backend.auth.deps import get_current_user
 from backend.brokers import broker_registry
 from backend.brokers.errors import BrokerError
 from backend.brokers.mt5.autonomous import mt5_autonomous_service
+from backend.brokers.mt5.confidence_calibration import (
+    calibration_reliability_report,
+    component_effectiveness_report,
+    confidence_band_report,
+    ranking_quality_report,
+    recent_candidate_outcomes,
+    rejection_analysis_report,
+    threshold_simulation_report,
+)
 from backend.brokers.mt5.config import mt5_config
 from backend.brokers.mt5.risk_calculator import calculate_canonical_loss_per_lot
 from backend.brokers.mt5.persistence import (
@@ -184,11 +193,25 @@ async def mt5_risk_diagnostics(symbol: str, entry: float | None = None, stop: fl
     except Exception:
         mt5_client = None
     cfg = mt5_config()
+    account = await adapter.mt5_account()
     result = await calculate_canonical_loss_per_lot(
         direction=direction.upper(), entry=entry_price, stop=stop_price, symbol_info=symbol_info,
         mt5_client=mt5_client, warning_pct=cfg.risk_calculation_disagreement_pct, critical_pct=cfg.risk_calculation_critical_disagreement_pct,
+        account_currency=account.currency or "USD", adapter=adapter,
     )
     return {"symbol": symbol.upper(), "direction": direction.upper(), "entry": str(entry_price), "stop": str(stop_price), **result.to_dict()}
+
+
+@router.get("/mt5/risk-diagnostics-universe")
+async def mt5_risk_diagnostics_universe(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    """Part 12: read-only diagnostic audit of EVERY symbol in the current MT5 forex universe's
+    risk-sizing metadata (order_calc_profit/contract_size/tick_value agreement, currency-
+    conversion resolvability, quorum) -- makes hidden EURJPY/XAUUSD-style issues visible before
+    any strategy attempts a trade on a symbol. Same computation the autonomous cycle's periodic
+    health check (MT5AutonomousTradingService.refresh_risk_metadata_health) uses; this route
+    also refreshes that cache so unhealthy symbols are excluded from execution eligibility going
+    forward."""
+    return await mt5_autonomous_service.refresh_risk_metadata_health()
 
 
 @router.get("/mt5/history")
@@ -346,6 +369,109 @@ async def mt5_history_availability(dataset_policy: str | None = "MT5_ONLY", curr
 @router.get("/mt5/persistence/retention")
 async def mt5_retention(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
     return {"items": retention_policies()}
+
+
+# --- Confidence Validation & Calibration layer (read-only analytics; Part 12). These never
+# read or write MT5Config.min_trade_confidence, confidence weights, or any trading-decision
+# path -- they only query the append-only mt5_candidate_evaluations dataset. ---
+
+
+@router.get("/mt5/confidence/overview")
+async def mt5_confidence_overview(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return {"bands": confidence_band_report(), "reliability": calibration_reliability_report()}
+
+
+@router.get("/mt5/confidence/bands")
+async def mt5_confidence_bands(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return confidence_band_report()
+
+
+@router.get("/mt5/confidence/reliability")
+async def mt5_confidence_reliability(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return calibration_reliability_report()
+
+
+@router.get("/mt5/confidence/components")
+async def mt5_confidence_components(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return {"items": component_effectiveness_report()}
+
+
+@router.get("/mt5/confidence/ranking")
+async def mt5_confidence_ranking(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return ranking_quality_report()
+
+
+@router.get("/mt5/confidence/rejections")
+async def mt5_confidence_rejections(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return {"items": rejection_analysis_report()}
+
+
+@router.get("/mt5/confidence/threshold-simulation")
+async def mt5_confidence_threshold_simulation(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    """Analytics-only simulation of alternative confidence thresholds over historical
+    candidate evaluations. Never reads or changes the live production threshold (75, set via
+    MT5Config.min_trade_confidence) -- see backend/brokers/mt5/confidence_calibration.py."""
+    return {"items": threshold_simulation_report(), "production_threshold": mt5_config().min_trade_confidence}
+
+
+@router.get("/mt5/confidence/candidate-outcomes")
+async def mt5_confidence_candidate_outcomes(limit: int = 50, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return {"items": recent_candidate_outcomes(limit=max(1, min(500, limit)))}
+
+
+# --- Multi-strategy activation, circuit breaker, and per-strategy analytics (Parts 15-17).
+# Config/API visibility only -- no web UI, per the spec ("Config/API visibility is enough").
+# strategy_performance/family-performance/participation are read-only analytics over the same
+# append-only mt5_candidate_evaluations dataset the confidence-calibration routes above use. ---
+
+
+@router.get("/mt5/strategies/activation")
+async def mt5_strategies_activation(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    from backend.mt5_strategies.models import STRATEGY_FAMILIES, activation_status, multi_strategy_enabled
+
+    return {
+        "multi_strategy_enabled": multi_strategy_enabled(),
+        "strategies": {
+            strategy_id: {"family": meta["family"], "default_activation": meta["default_activation"], "effective_activation": activation_status(strategy_id), "regimes": list(meta["regimes"])}
+            for strategy_id, meta in STRATEGY_FAMILIES.items()
+        },
+    }
+
+
+@router.get("/mt5/strategies/circuit-breaker")
+async def mt5_strategies_circuit_breaker(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    from backend.mt5_strategies.circuit_breaker import circuit_breaker_status
+
+    return circuit_breaker_status()
+
+
+@router.post("/mt5/strategies/circuit-breaker/{strategy_id}/reset")
+async def mt5_strategies_circuit_breaker_reset(strategy_id: str, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    from backend.mt5_strategies.circuit_breaker import reset
+
+    reset(strategy_id)
+    return {"status": "reset", "strategy_id": strategy_id}
+
+
+@router.get("/mt5/strategies/performance")
+async def mt5_strategies_performance(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    from backend.mt5_strategies.analytics import strategy_performance_report
+
+    return strategy_performance_report()
+
+
+@router.get("/mt5/strategies/family-performance")
+async def mt5_strategies_family_performance(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    from backend.mt5_strategies.analytics import strategy_family_performance_report
+
+    return strategy_family_performance_report()
+
+
+@router.get("/mt5/strategies/participation")
+async def mt5_strategies_participation(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    from backend.mt5_strategies.analytics import contribution_participation_report
+
+    return contribution_participation_report()
 
 
 @router.get("/mt5/reconciliation")

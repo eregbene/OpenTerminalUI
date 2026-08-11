@@ -8,7 +8,7 @@ from types import SimpleNamespace
 import pytest
 
 from backend.brokers.models import BrokerOrderCommand
-from backend.brokers.mt5.autonomous import MT5AutonomousTradingService, _mt5_order_comment, _parse_decision, _score_candidate, _swing_level
+from backend.brokers.mt5.autonomous import MT5AutonomousTradingService, _mt5_order_comment, _score_candidate, _swing_level
 from backend.brokers.mt5.adapter import MT5Adapter
 from backend.brokers.mt5.client import MT5Client
 from backend.brokers.mt5.config import MT5Config, mt5_config
@@ -253,6 +253,47 @@ def test_mt5_live_account_rejected():
     assert "not confirmed as demo" in (health.last_error or "")
 
 
+def test_safety_blockers_healthy_demo_produces_no_blockers():
+    service = MT5ExecutionService(fake_adapter())
+
+    blockers = asyncio.run(service.safety_blockers())
+
+    assert blockers == []
+
+
+def test_safety_blockers_does_not_false_positive_on_disconnection(monkeypatch: pytest.MonkeyPatch):
+    """A broker/bridge disconnection must be reported once, as TERMINAL_DISCONNECTED -- not
+    also as the misleading CRITICAL_LIVE_ACCOUNT_DETECTED. That blocker was removed because
+    MT5TerminalStatus.account_mode is only ever an echo of our own config.account_mode (see
+    terminal_status_from_raw), never broker-observed data -- during a disconnection it
+    defaults to None, and None != "DEMO" used to fire a scary-sounding false positive for
+    exactly the same underlying condition TERMINAL_DISCONNECTED already reports."""
+    adapter = fake_adapter()
+    service = MT5ExecutionService(adapter)
+
+    from backend.brokers.mt5.models import MT5TerminalStatus
+
+    disconnected_status = MT5TerminalStatus(connected=False, initialized=False, package_available=True, terminal_info={}, version=None, last_error=(1, "no connection"))
+    monkeypatch.setattr(adapter, "terminal_status", lambda: asyncio.sleep(0, result=disconnected_status))
+
+    blockers = asyncio.run(service.safety_blockers())
+
+    assert "TERMINAL_DISCONNECTED" in blockers
+    assert "CRITICAL_LIVE_ACCOUNT_DETECTED" not in blockers
+
+
+def test_safety_blockers_still_blocks_a_genuine_live_account():
+    """Real, broker-data-driven live-account protection is unaffected by removing the
+    redundant account_mode check -- assert_demo_account() (using the actual reported
+    account.trade_mode/server) still raises and the cycle is still blocked."""
+    service = MT5ExecutionService(fake_live_adapter())
+
+    blockers = asyncio.run(service.safety_blockers())
+
+    assert any(b.startswith("BROKER_NOT_READY") for b in blockers)
+    assert "CRITICAL_LIVE_ACCOUNT_DETECTED" not in blockers
+
+
 def test_mt5_forex_universe_uses_configured_live_symbols_and_includes_xauusd():
     adapter = fake_adapter()
 
@@ -359,12 +400,13 @@ def _xauusd_symbol_clean() -> "MT5Symbol":
 
 
 def test_xauusd_sizing_cross_validates_tick_value_against_contract_size():
-    # XAUUSD regression test (PART 19 #8): this is the exact live incident's numbers. With the
-    # canonical calculator now cross-validating all three methods (order_calc_profit included),
-    # the ~10x tick_value/contract_size disagreement is no longer silently self-corrected -- it
-    # is DETECTED and the entry is BLOCKED outright (PART 2: "XAUUSD's previous ~10x discrepancy
-    # must trigger the critical path"), which is strictly safer than the old "size to the larger
-    # estimate and proceed" behavior this test originally asserted.
+    # XAUUSD regression test: this is the exact live incident's numbers. The canonical
+    # calculator's tick_value <-> contract_size dimensional self-consistency check (see
+    # risk_calculator._validate_tick_value_self_consistency) now DETECTS that trade_tick_value
+    # is the broken field (order_calc_profit and trade_contract_size independently agree exactly
+    # on $2359/lot; trade_tick_value implies exactly 10x less), excludes it with a precise
+    # reason, and sizes correctly off the two agreeing, trusted methods instead of blocking a
+    # genuinely valid trade outright.
     adapter = fake_adapter()
     service = MT5ExecutionService(adapter)
     symbol = _xauusd_symbol_with_understated_tick_value()
@@ -376,11 +418,13 @@ def test_xauusd_sizing_cross_validates_tick_value_against_contract_size():
         )
     )
 
-    assert sizing.status == "REJECTED"
-    assert "SYMBOL_RISK_METADATA_CRITICAL_MISMATCH" in sizing.reasons
-    assert sizing.volume == Decimal("0")
-    assert sizing.risk_calculation_disagreement_pct is not None
-    assert sizing.risk_calculation_disagreement_pct >= 100.0
+    assert sizing.status == "APPROVED"
+    assert sizing.risk_calculation_method in {"order_calc_profit", "contract_size"}
+    assert sizing.risk_calculation_estimates["tick_value"]["available"] is False
+    assert "TICK_VALUE_INCONSISTENT_WITH_CONTRACT_SIZE" in sizing.risk_calculation_estimates["tick_value"]["detail"]
+    assert sizing.volume > Decimal("0")
+    # The malformed, 10x-too-small tick_value figure must never have been the one relied on.
+    assert sizing.risk_reward >= Decimal("1.5")
 
 
 def test_minimum_lot_blocked_when_it_exceeds_risk_budget():
@@ -461,13 +505,14 @@ def test_mt5_order_check_empty_response_keeps_request_and_last_error():
     assert adapter.client.mt5.order_send_calls == 0
 
 
-def test_mt5_order_comment_encodes_strategy_and_timeframe_within_mt5_limit():
-    comment = _mt5_order_comment("EUR/USD", datetime(2026, 8, 3, 17, 55, 51))
+def test_mt5_order_comment_encodes_strategy_within_mt5_limit():
+    candidate = {"canonical_pair": "EUR/USD", "context": {"strategy_id": "mtfai1"}}
+    comment = _mt5_order_comment(candidate, datetime(2026, 8, 3, 17, 55, 51))
 
-    assert comment == "BSM|MTFAI1|M15|EURUSD1755"
+    assert comment == "BSM|mtfai1|1755"
     assert len(comment) <= 31
     assert comment.isascii()
-    assert comment.startswith("BSM|MTFAI1|M15|")
+    assert comment.startswith("BSM|")
 
 
 def _candle(o, h, low, c):
@@ -546,19 +591,12 @@ def test_mt5_autonomous_no_trade_makes_zero_order_send(monkeypatch):
     adapter = fake_adapter()
     service = MT5AutonomousTradingService(adapter)
     monkeypatch.setattr(service, "_global_blockers", lambda: asyncio.sleep(0, result=[]))
-    monkeypatch.setattr(service, "_screen", lambda items: asyncio.sleep(0, result=[]))
+    monkeypatch.setattr(service, "_screen", lambda items, **kwargs: asyncio.sleep(0, result=[]))
 
     result = asyncio.run(service.run_cycle(owner="local"))
 
-    assert result["status"] in {"SKIPPED_NO_CANDIDATE", "SKIPPED_DUPLICATE_CANDLE"}
+    assert result["status"] in {"NO_TRADE", "SKIPPED_DUPLICATE_CANDLE"}
     assert adapter.client.mt5.order_send_calls == 0
-
-
-def test_mt5_ai_decision_parser_accepts_fenced_json():
-    decision, confidence = _parse_decision('```json\n{"decision":"SHORT","confidence":0.87}\n```')
-
-    assert decision == "SHORT"
-    assert confidence == 0.87
 
 
 def test_mt5_prop_risk_stricter_limit_wins():

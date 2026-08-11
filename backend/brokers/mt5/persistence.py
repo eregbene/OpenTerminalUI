@@ -286,6 +286,16 @@ def query_trade_memory(limit: int = 100, symbol: str | None = None, recommendati
         return [_orm_dict(row) for row in rows]
 
 
+def confidence_memory_for_symbol(symbol: str) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+    """(symbol_memory, global_memory) for the deterministic confidence engine
+    (backend/brokers/mt5/confidence.py) -- same MT5TradeMemorySnapshotORM data and
+    scope convention learning_context_for_candidate already uses, just returned
+    directly rather than folded into a guidance summary."""
+    symbol_memory = _first_memory(query_trade_memory(limit=50, symbol=symbol.upper()), scope="SYMBOL")
+    global_memory = _first_memory(query_trade_memory(limit=10), scope="GLOBAL")
+    return symbol_memory, global_memory
+
+
 def learning_context_for_candidate(candidate: dict[str, Any]) -> dict[str, Any]:
     symbol = str(candidate.get("canonical_pair") or candidate.get("symbol") or "").upper()
     session = str(candidate.get("session") or _session()).upper()
@@ -445,7 +455,11 @@ def _candidate_row(cycle_id: str, candidate: dict[str, Any]) -> MT5SchedulerCand
     row.asset_class = candidate.get("asset_class")
     row.direction = str(candidate.get("direction") or "NO_TRADE").upper()
     row.ranking_score = float(candidate.get("ranking_score") or 0)
+    trade_confidence = candidate.get("trade_confidence") or {}
+    row.trade_confidence_score = _float(trade_confidence.get("overall_score"))
+    row.rank = candidate.get("rank")
     row.rejection_reasons = list(candidate.get("rejection_reasons") or [])
+    row.selected = bool(row.rank == 1 and not row.rejection_reasons)
     row.rejected = bool(row.rejection_reasons or row.direction == "NO_TRADE")
     row.entry = _float(candidate.get("entry") or context.get("entry"))
     row.stop_loss = _float(candidate.get("stop_loss") or context.get("stop_loss"))

@@ -11,7 +11,7 @@ from backend.brokers.mt5.config import mt5_config
 from backend.brokers.mt5.persistence import query_trades
 from backend.economic_intelligence import calendar_guard, macro_context, news_guard, provider_health
 from backend.economic_intelligence.config import EconomicIntelligenceConfig, economic_intelligence_config
-from backend.economic_intelligence.event_mapping import normalize_broker_symbol
+from backend.economic_intelligence.event_mapping import normalize_broker_symbol, severity_label_for_event
 from backend.economic_intelligence.persistence import (
     event_revisions,
     event_snapshots,
@@ -62,6 +62,56 @@ def _parse_dt(value: Any) -> datetime | None:
         return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
     except Exception:
         return None
+
+
+_WINDOW_MINUTES_BY_SEVERITY = {
+    "CENTRAL_BANK_POLICY_CRITICAL": ("ff_central_bank_block_before_minutes", "ff_central_bank_delay_after_minutes"),
+    "MACRO_DATA_HIGH": ("ff_high_impact_block_before_minutes", "ff_high_impact_delay_after_minutes"),
+    "MACRO_DATA_MEDIUM": ("ff_medium_impact_block_before_minutes", "ff_medium_impact_delay_after_minutes"),
+}
+
+
+def _log_calendar_block(calendar_result: dict[str, Any], *, currencies: tuple[str, ...], config: EconomicIntelligenceConfig) -> None:
+    """Structured log line whenever the calendar guard restricts an entry/position -- makes it
+    obvious WHY a given event received the protection window it did (see the classification
+    refinement in event_mapping.is_central_bank_event / severity_label_for_event). Example:
+    'FOMC Rate Decision' -> CENTRAL_BANK_POLICY_CRITICAL -> 60m pre / 30m post, versus
+    'Cleveland Fed Inflation Expectations' -> MACRO_DATA_LOW -> no hard block.
+    """
+    if calendar_result.get("decision") == "ALLOW":
+        return
+    event = calendar_result.get("nearest_event")
+    if not event:
+        logger.warning(
+            "Economic guard %s (currencies=%s, reasons=%s) -- no single pinned calendar event (provider/spread condition, not a specific scheduled release)",
+            calendar_result.get("decision"), currencies, calendar_result.get("reason_codes"),
+        )
+        return
+    severity_label, reason = severity_label_for_event(event)
+    scheduled_at = event.get("scheduled_at_utc")
+    scheduled_dt = _parse_dt(scheduled_at)
+    window_fields = _WINDOW_MINUTES_BY_SEVERITY.get(severity_label)
+    block_start = block_end = None
+    if scheduled_dt is not None and window_fields is not None:
+        before_field, after_field = window_fields
+        block_start = (scheduled_dt - timedelta(minutes=getattr(config, before_field))).isoformat()
+        block_end = (scheduled_dt + timedelta(minutes=getattr(config, after_field))).isoformat()
+    logger.warning(
+        "Economic guard %s: event=%r source=%s category=%s provider_importance=%s severity=%s currencies=%s "
+        "event_time=%s block_start=%s block_end=%s classification_reason=%s rule=%s",
+        calendar_result.get("decision"),
+        event.get("raw_name") or event.get("normalized_name"),
+        event.get("provider"),
+        "central_bank_policy" if event.get("is_central_bank_event") else "scheduled_economic_release",
+        event.get("impact"),
+        severity_label,
+        currencies,
+        scheduled_at,
+        block_start,
+        block_end,
+        reason,
+        (calendar_result.get("reason_codes") or [None])[0],
+    )
 
 
 async def _acquire_lock(job: str, owner: str, ttl: int) -> bool:
@@ -317,15 +367,33 @@ class EconomicIntelligenceService:
         return provider_health.health_snapshot(self.config, next_due=self._next_due)
 
     async def evaluate_entry(self, *, canonical_pair: str, direction: str | None = None, candidate_id: str | None = None, spread: float | None = None) -> dict[str, Any]:
-        return await self._evaluate(symbol=canonical_pair, direction=direction, position_open=False, cycle_id=candidate_id, spread=spread)
+        """Dashboard/manual-testing entry point (see POST /api/economic-intelligence/evaluate-
+        entry) -- may use the OpenAI macro-advisory feature when
+        config.ff_openai_macro_classification_enabled is set. The MT5 autonomous execution path
+        must NEVER call this -- use evaluate_entry_deterministic instead, which is structurally
+        LLM-free regardless of that config flag."""
+        return await self._evaluate(symbol=canonical_pair, direction=direction, position_open=False, cycle_id=candidate_id, spread=spread, enable_llm_macro_advisory=True)
+
+    async def evaluate_entry_deterministic(self, *, canonical_pair: str, direction: str | None = None, candidate_id: str | None = None, spread: float | None = None) -> dict[str, Any]:
+        """THE ONLY economic-risk entry point the MT5 autonomous execution path may call.
+        `enable_llm_macro_advisory=False` is hardcoded here, not read from config -- so
+        ff_openai_macro_classification_enabled being True can never route an OpenAI call into
+        an MT5 cycle through this method, no matter how that flag is set. Calendar-guard
+        (scheduled economic events, central-bank classification) remains fully deterministic and
+        active; the unscheduled-news guard degrades to neutral ALLOW here (see _evaluate's
+        `enable_llm_macro_advisory` handling) because it currently has no deterministic
+        classification source of its own -- fails safe/explicit rather than silently keeping an
+        LLM-derived signal alive under a different code path."""
+        return await self._evaluate(symbol=canonical_pair, direction=direction, position_open=False, cycle_id=candidate_id, spread=spread, enable_llm_macro_advisory=False)
 
     async def evaluate_position(self, *, symbol: str, direction: str | None = None, opened_at: datetime | None = None) -> dict[str, Any]:
-        return await self._evaluate(symbol=symbol, direction=direction, position_open=True, cycle_id=None, spread=None)
+        return await self._evaluate(symbol=symbol, direction=direction, position_open=True, cycle_id=None, spread=None, enable_llm_macro_advisory=False)
 
     async def context_for_symbol(self, symbol: str) -> dict[str, Any]:
-        return await self._evaluate(symbol=symbol, direction=None, position_open=False, cycle_id=None, spread=None)
+        return await self._evaluate(symbol=symbol, direction=None, position_open=False, cycle_id=None, spread=None, enable_llm_macro_advisory=False)
 
-    async def _evaluate(self, *, symbol: str, direction: str | None, position_open: bool, cycle_id: str | None, spread: float | None) -> dict[str, Any]:
+    async def _evaluate(self, *, symbol: str, direction: str | None, position_open: bool, cycle_id: str | None, spread: float | None, enable_llm_macro_advisory: bool) -> dict[str, Any]:
+        _llm_call_count_before = macro_context.classify_call_count()
         now = utcnow()
         parts = normalize_broker_symbol(symbol)
         health = provider_health.health_snapshot(self.config)
@@ -337,9 +405,15 @@ class EconomicIntelligenceService:
         elif calendar_state["state"] in {provider_health.STALE, provider_health.DEGRADED}:
             downgrade = "REDUCE_SIZE" if calendar_state["state"] == provider_health.STALE else "MANAGE_EXISTING_ONLY"
             calendar_result = calendar_guard.combine(calendar_result, calendar_guard.empty_result(downgrade, [f"FF_CALENDAR_{calendar_state['state']}"]))
+        _log_calendar_block(calendar_result, currencies=parts.currencies, config=self.config)
         news_items = query_news(currencies=list(parts.currencies), max_age_minutes=self.config.ff_news_max_age_minutes, limit=20)
         advisory: dict[str, Any] | None = None
-        if self.config.ff_openai_macro_classification_enabled and (events or news_items) and cycle_id:
+        if not enable_llm_macro_advisory:
+            # Explicit, auditable "we deliberately did not attempt this" marker (never a silent
+            # omission) -- distinct from "skipped_by_config_or_no_data" below, which means the
+            # caller ALLOWED an LLM call but nothing qualified for one this time.
+            macro_classification_status = "MACRO_CLASSIFICATION_UNAVAILABLE"
+        elif self.config.ff_openai_macro_classification_enabled and (events or news_items) and cycle_id:
             context = macro_context.build_context(
                 candidate={"canonical_pair": parts.canonical_symbol, "direction": direction},
                 calendar_result=calendar_result,
@@ -352,6 +426,9 @@ class EconomicIntelligenceService:
                 open_positions=None,
             )
             advisory = await macro_context.classify(context, idempotency_key=f"macro:{cycle_id}", config=self.config)
+            macro_classification_status = "classified" if advisory else "unavailable_or_low_confidence"
+        else:
+            macro_classification_status = "skipped_by_config_or_no_data"
         pseudo_classification = {"risk_level": advisory["risk_level"], "confidence": advisory["confidence"], "urgency": "high" if advisory["risk_level"] in {"high", "critical"} else ""} if advisory else None
         news_result = news_guard.evaluate(pseudo_classification, spread_ratio=None, volatility_state=None, portfolio_exposure=None, position_open=position_open, config=self.config)
         combined = macro_context.combine_with_advisory(calendar_result, news_result, advisory=advisory)
@@ -368,6 +445,7 @@ class EconomicIntelligenceService:
                 "calendar_context": calendar_result,
                 "news_context": news_result,
                 "openai_context": advisory or {},
+                "macro_classification_status": macro_classification_status,
                 "deterministic_decision": combined["decision"],
                 "reason_codes": combined["reason_codes"],
                 "economic_guard_mode": mode,
@@ -388,6 +466,8 @@ class EconomicIntelligenceService:
             "calendar": calendar_result,
             "news": news_result,
             "macro_advisory": advisory,
+            "macro_classification_status": macro_classification_status,
+            "llm_calls_made": macro_context.classify_call_count() - _llm_call_count_before,
             "nearby_events": events[:10],
             "nearby_news": news_items[:10],
             "provider_state": calendar_state["state"],

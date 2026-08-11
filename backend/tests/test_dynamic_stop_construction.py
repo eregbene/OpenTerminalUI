@@ -98,6 +98,11 @@ def _symbol() -> MT5Symbol:
         trade_tick_value=Decimal("1.0"),
         trade_tick_value_loss=Decimal("1.0"),
         trade_tick_value_profit=Decimal("1.0"),
+        # trade_contract_size: a real broker always reports this for spot forex; omitting it
+        # left only ONE risk-sizing method (tick_value) available, which the explicit
+        # risk-method quorum policy (>=2 trusted methods required, see
+        # backend/brokers/mt5/risk_calculator.py) correctly now refuses to trust alone.
+        trade_contract_size=Decimal("100000"),
         volume_min=Decimal("0.01"),
         volume_max=Decimal("100"),
         volume_step=Decimal("0.01"),

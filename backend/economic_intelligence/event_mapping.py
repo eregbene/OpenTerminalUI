@@ -10,25 +10,84 @@ MAPPING_VERSION = "ff_currency_rules_v1"
 SUPPORTED_CURRENCIES = {"USD", "EUR", "GBP", "JPY", "AUD", "CAD", "CHF", "NZD"}
 _KNOWN_CURRENCIES = SUPPORTED_CURRENCIES | {"XAU", "XAG"}
 
-CENTRAL_BANK_TERMS: tuple[str, ...] = (
-    "fed",
+# Regional Federal Reserve Bank branches. Their research/survey publications must NEVER be
+# promoted to CENTRAL_BANK_EVENT_PRE_BLOCK merely because "fed" appears in the title -- e.g.
+# "Cleveland Fed Inflation Expectations" is a regional research release, not a monetary-policy
+# decision. Checked BEFORE the institution match below, as a hard veto.
+REGIONAL_FED_MARKERS: tuple[str, ...] = (
+    "boston fed",
+    "new york fed",
+    "ny fed",
+    "philadelphia fed",
+    "philly fed",
+    "cleveland fed",
+    "richmond fed",
+    "atlanta fed",
+    "chicago fed",
+    "st louis fed",
+    "st. louis fed",
+    "minneapolis fed",
+    "kansas city fed",
+    "kansas fed",
+    "dallas fed",
+    "san francisco fed",
+    "empire state",
+    "empire manufacturing",
+)
+
+# National/supranational monetary-policy authorities. Bare "fed" (Federal Reserve/FOMC
+# shorthand, e.g. "Fed Chair Powell Testimony") also counts as an institution match, but only
+# once REGIONAL_FED_MARKERS above has already been checked and ruled out.
+POLICY_INSTITUTIONS: tuple[str, ...] = (
     "fomc",
-    "federal funds rate",
+    "federal reserve",
     "ecb",
+    "european central bank",
     "boe",
+    "bank of england",
     "boj",
-    "rba",
+    "bank of japan",
     "boc",
-    "snb",
+    "bank of canada",
+    "rba",
+    "reserve bank of australia",
     "rbnz",
-    "press conference",
+    "reserve bank of new zealand",
+    "snb",
+    "swiss national bank",
+)
+
+# Genuine monetary-policy EVENT TYPES. Must co-occur with a POLICY_INSTITUTIONS match (or bare
+# "fed") to count -- the institution alone is never sufficient (that is the bug this replaces:
+# a regional research release or a generic "Fed" mention is not a policy decision).
+POLICY_EVENT_TYPES: tuple[str, ...] = (
+    "interest rate decision",
+    "rate decision",
     "rate statement",
     "monetary policy statement",
-    "interest rate decision",
-    "speaks",
-    "testimony",
-    "speech",
+    "monetary policy summary",
+    "policy statement",
+    "statement",
+    "press conference",
+    "minutes",
+    "federal funds rate",
+    "policy rate",
+    "cash rate",
+    "official cash rate",
 )
+
+# Explicitly scheduled major Chair/Governor/President testimony or monetary-policy speeches --
+# requires an institution match, a leadership title, AND a speech/testimony term together, so
+# an ordinary policymaker's routine remarks ("Fed Speaks") don't get promoted to critical.
+LEADERSHIP_TITLES: tuple[str, ...] = ("chair", "chairman", "chairwoman", "governor", "president")
+SPEECH_TERMS: tuple[str, ...] = ("testimony", "speaks", "speech")
+
+# Currently-serving central-bank chiefs whose calendar entries are sometimes titled with just
+# a surname (e.g. "Powell Speaks", with no "Fed"/"Chair" in the title at all). A surname match
+# plus a SPEECH_TERMS match is treated as equivalent to an institution+leadership-title match.
+# Maintenance note: this list goes stale on a leadership change and must be updated then --
+# it is deliberately small and explicit rather than a broad name-guessing heuristic.
+KNOWN_POLICYMAKER_SURNAMES: tuple[str, ...] = ("powell", "lagarde", "bailey", "ueda")
 
 # higher_is_positive: True => an actual above forecast is generally currency-positive.
 # False => an actual above forecast is generally currency-negative (e.g. unemployment).
@@ -90,8 +149,49 @@ def canonical_symbol(symbol: str) -> str:
 
 
 def is_central_bank_event(event_name: str) -> bool:
+    """True only for genuine monetary-policy events -- FOMC/ECB/BoE/BoJ/BoC/RBA/RBNZ/SNB rate
+    decisions, policy statements, minutes, press conferences, and explicitly scheduled major
+    Chair/Governor/President testimony or monetary-policy speeches.
+
+    Deliberately NOT triggered by a bare institution mention (e.g. "Fed", "central bank") or a
+    regional Federal Reserve Bank publication (e.g. "Cleveland Fed Inflation Expectations",
+    "Philly Fed Manufacturing Index") -- those get their protection window from the provider's
+    own impact classification instead (see calendar_guard._tier_for), not this central-bank
+    tier. A source containing "Federal Reserve" is not, by itself, evidence of a policy event;
+    the event TYPE must also be present.
+    """
     text = str(event_name or "").lower()
-    return any(term in text for term in CENTRAL_BANK_TERMS)
+    if any(marker in text for marker in REGIONAL_FED_MARKERS):
+        return False
+    has_speech_term = any(term in text for term in SPEECH_TERMS)
+    if has_speech_term and any(surname in text for surname in KNOWN_POLICYMAKER_SURNAMES):
+        return True
+    has_institution = any(institution in text for institution in POLICY_INSTITUTIONS) or "fed" in text
+    if not has_institution:
+        return False
+    if any(event_type in text for event_type in POLICY_EVENT_TYPES):
+        return True
+    if has_speech_term and any(title in text for title in LEADERSHIP_TITLES):
+        return True
+    return False
+
+
+def severity_label_for_event(event: dict) -> tuple[str, str]:
+    """(normalized_internal_severity, classification_reason) for structured block logging --
+    see backend/economic_intelligence/service.py's use at the point a BLOCK/DELAY/REDUCE_SIZE
+    decision is logged. Reads the event's ALREADY-persisted is_central_bank_event/impact
+    fields (set once at ingestion by is_central_bank_event() above) rather than reclassifying,
+    so the logged reason always matches the decision that was actually made."""
+    if event.get("is_central_bank_event"):
+        return "CENTRAL_BANK_POLICY_CRITICAL", "matched a monetary-policy event (institution + policy-event-type, or leadership testimony/speech)"
+    impact = str(event.get("impact") or "unknown").lower()
+    if impact == "high":
+        return "MACRO_DATA_HIGH", "provider-classified high-impact economic release"
+    if impact == "medium":
+        return "MACRO_DATA_MEDIUM", "provider-classified medium-impact economic release"
+    if impact == "low":
+        return "MACRO_DATA_LOW", "provider-classified low-impact release"
+    return "INFORMATIONAL", "no provider impact classification available; treated as informational"
 
 
 def normalize_event_name(raw_name: str) -> str:

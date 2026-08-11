@@ -29,7 +29,9 @@ from backend.services.us_tick_stream import get_us_tick_stream_service
 from backend.paper_trading import get_paper_engine
 from backend.intelligence.trading.runtime import auto_paper_service as ai_auto_paper_service
 from backend.brokers.mt5.autonomous import mt5_autonomous_service
+from backend.brokers.mt5.outcome_resolver import candidate_outcome_resolver
 from backend.adaptive_management.service import adaptive_management_service
+from backend.adaptive_management.outcome_resolver import adaptive_manager_outcome_resolver
 from backend.economic_intelligence.service import economic_intelligence_service
 from backend.portfolio_execution.service import portfolio_manager
 from backend.core.service_status import service_status_registry
@@ -57,6 +59,8 @@ _pcr_snapshot_service = None
 _scanner_alert_scheduler = None
 _ai_auto_paper_scheduler = None
 _mt5_autonomous_scheduler = None
+_candidate_outcome_resolver = None
+_adaptive_manager_outcome_resolver = None
 _adaptive_management_monitor = None
 _portfolio_execution_monitor = None
 _economic_intelligence_scheduler = None
@@ -72,7 +76,7 @@ _prefetch_enabled = (
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global _prefetch_worker, _instruments_loader, _news_ingestor, _pcr_snapshot_service, _scanner_alert_scheduler, _ai_auto_paper_scheduler, _mt5_autonomous_scheduler, _adaptive_management_monitor, _portfolio_execution_monitor, _economic_intelligence_scheduler
+    global _prefetch_worker, _instruments_loader, _news_ingestor, _pcr_snapshot_service, _scanner_alert_scheduler, _ai_auto_paper_scheduler, _mt5_autonomous_scheduler, _candidate_outcome_resolver, _adaptive_management_monitor, _adaptive_manager_outcome_resolver, _portfolio_execution_monitor, _economic_intelligence_scheduler
     validate_runtime_secrets()
     init_db()
 
@@ -111,10 +115,20 @@ async def lifespan(app: FastAPI):
     _mt5_autonomous_scheduler = mt5_autonomous_service
     if _mt5_autonomous_scheduler.config.autonomous_submission_enabled:
         await _mt5_autonomous_scheduler.start()
+        # Confidence Validation & Calibration layer (Parts 2/3) -- read-only shadow tracking
+        # and executed-trade linking. Only meaningful once the scheduler is actually producing
+        # candidate evaluations; never submits orders, never affects the scheduler above.
+        _candidate_outcome_resolver = candidate_outcome_resolver
+        await _candidate_outcome_resolver.start()
     _portfolio_execution_monitor = portfolio_manager
     await _portfolio_execution_monitor.start()
     _adaptive_management_monitor = adaptive_management_service
     await _adaptive_management_monitor.start()
+    # Adaptive Trade Manager Validation & Performance Analytics layer (Parts 8/13) --
+    # read-only counterfactual resolution. Never mutates a position, never feeds back into
+    # AdaptiveManagementService._monitor_cycle above.
+    _adaptive_manager_outcome_resolver = adaptive_manager_outcome_resolver
+    await _adaptive_manager_outcome_resolver.start()
     _economic_intelligence_scheduler = economic_intelligence_service
     await _economic_intelligence_scheduler.start()
 
@@ -122,10 +136,14 @@ async def lifespan(app: FastAPI):
 
     if _economic_intelligence_scheduler:
         await _economic_intelligence_scheduler.stop()
+    if _adaptive_manager_outcome_resolver:
+        await _adaptive_manager_outcome_resolver.stop()
     if _adaptive_management_monitor:
         await _adaptive_management_monitor.stop()
     if _portfolio_execution_monitor:
         await _portfolio_execution_monitor.stop()
+    if _candidate_outcome_resolver:
+        await _candidate_outcome_resolver.stop()
     if _mt5_autonomous_scheduler:
         await _mt5_autonomous_scheduler.stop()
     if _ai_auto_paper_scheduler:

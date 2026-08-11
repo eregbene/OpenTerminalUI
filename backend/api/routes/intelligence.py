@@ -5,6 +5,7 @@ from typing import Any
 from fastapi import APIRouter, Depends
 
 from backend.adaptive_management.decision_explainer import explain_entry_decision, explain_management_action
+from backend.adaptive_management.policy_library import ARCHETYPE_POLICIES, select_policy_for_strategy
 from backend.adaptive_management.service import adaptive_management_service
 from backend.auth.deps import get_current_user
 from backend.brokers.mt5.autonomous import mt5_autonomous_service
@@ -64,3 +65,14 @@ async def explain_action(action_id: str, current_user: User = Depends(get_curren
     if action is None:
         return {"status": "not_found", "action_id": action_id}
     return explain_management_action(action)
+
+
+@router.get("/policy-library")
+async def policy_library(strategy_id: str | None = None, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    """Part 7 Management Policy Library -- the 7 strategy-archetype profiles (risk/breakeven/
+    partials/trailing/TP-behavior/holding-time bundled per archetype) and, if strategy_id is
+    given, which one that strategy would select."""
+    result: dict[str, Any] = {"policies": ARCHETYPE_POLICIES}
+    if strategy_id:
+        result["selected_policy_id"] = select_policy_for_strategy(strategy_id)
+    return result

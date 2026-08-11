@@ -229,6 +229,11 @@ class MT5TradeIntent(MT5Model):
 class MT5RiskSizing(MT5Model):
     status: str
     volume: Decimal = Decimal("0")
+    # Sizing-audit trail (Part 12): the lot size BEFORE broker step/min/max normalization,
+    # alongside `volume` (the final, submitted lot size) -- so "why this many lots" is always
+    # answerable from persisted data without tracing code. raw_volume is 0 whenever sizing was
+    # rejected before a raw volume was ever computed (see calculate_risk_size).
+    raw_volume: Decimal = Decimal("0")
     effective_risk_usd: Decimal = Decimal("0")
     projected_loss_usd: Decimal = Decimal("0")
     projected_profit_usd: Decimal = Decimal("0")

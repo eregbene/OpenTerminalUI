@@ -3,6 +3,7 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
+import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
@@ -437,3 +438,73 @@ def test_trade_memory_prefers_profitable_symbol(monkeypatch):
     assert symbol_memory["recommendation"] == "PREFER"
     assert symbol_memory["win_rate"] == 1.0
     assert symbol_memory["expectancy"] == 15.0
+
+
+def test_deterministic_confidence_score_rank_and_components_are_persisted(monkeypatch):
+    """12. Confidence components are persisted -- proves the deterministic confidence
+    engine's output survives a real persist_cycle_result round-trip into the new
+    trade_confidence_score/rank columns (migration 0038) and the full component
+    breakdown into raw_payload, with no ai_decision/openai involvement."""
+    SessionLocal = _session_factory(monkeypatch)
+    winner_confidence = {
+        "overall_score": 82.5,
+        "band": "strong",
+        "rule_version": "deterministic_confidence_v1",
+        "components": [
+            {"name": "trend_multi_timeframe", "score": 85.0, "weight": 0.20, "contribution": 17.0, "reason": "M15/H1/H4 trend-alignment score 85.0", "inputs": {}},
+            {"name": "structure_confluence", "score": 78.0, "weight": 0.18, "contribution": 14.04, "reason": "SMC/ICT structure score 0.78", "inputs": {}},
+        ],
+    }
+    runner_up_confidence = {"overall_score": 76.0, "band": "valid_autonomous", "rule_version": "deterministic_confidence_v1", "components": []}
+    persistence.persist_cycle_result(
+        {
+            "cycle_id": "MT5_M5_202608101200",
+            "status": "ACCEPTED",
+            "openai_calls": 0,
+            "order_send_calls": 1,
+            "winner": {
+                "canonical_pair": "GBPUSD", "broker_symbol": "GBPUSD", "direction": "LONG", "ranking_score": 82.5,
+                "rank": 1, "trade_confidence": winner_confidence, "rejection_reasons": [],
+                "entry": "1.2700", "stop_loss": "1.2650", "take_profit": "1.2800", "risk_reward": "2.0",
+                "context_hash": "gbp-hash-1",
+            },
+            "candidates": [
+                {
+                    "canonical_pair": "GBPUSD", "broker_symbol": "GBPUSD", "direction": "LONG", "ranking_score": 82.5,
+                    "rank": 1, "trade_confidence": winner_confidence, "rejection_reasons": [],
+                    "entry": "1.2700", "stop_loss": "1.2650", "take_profit": "1.2800", "risk_reward": "2.0",
+                    "context_hash": "gbp-hash-1",
+                },
+                {
+                    "canonical_pair": "EURUSD", "broker_symbol": "EURUSD", "direction": "LONG", "ranking_score": 76.0,
+                    "rank": 2, "trade_confidence": runner_up_confidence, "rejection_reasons": ["LOWER_RANKED_CANDIDATE"],
+                    "context_hash": "eur-hash-1",
+                },
+            ],
+            "trade": {
+                "trade_id": "MT5AUTO_CONF_1",
+                "intent": {"intent_id": "MT5AUTO_CONF_1", "broker_symbol": "GBPUSD", "canonical_pair": "GBPUSD", "direction": "LONG", "volume": "0.1", "entry_price": "1.2700", "stop_loss": "1.2650", "take_profit": "1.2800"},
+                "risk": {"projected_loss_usd": "50", "risk_reward": "2.0"},
+                "submission": {"status": "ACCEPTED", "order_ticket": 99001, "deal_ticket": 99002, "fill_price": "1.2700"},
+                "open_timestamp": "2026-08-10T12:00:00+00:00",
+            },
+        }
+    )
+
+    with SessionLocal() as db:
+        cycle = db.get(MT5SchedulerCycleORM, "MT5_M5_202608101200")
+        assert cycle.openai_calls == 0
+        assert cycle.ai_decision_id is None  # no AI decision row -- deterministic cycle
+        rows = {row.symbol: row for row in db.query(MT5SchedulerCandidateORM).filter(MT5SchedulerCandidateORM.cycle_id == "MT5_M5_202608101200").all()}
+
+    winner_row = rows["GBPUSD"]
+    assert winner_row.trade_confidence_score == pytest.approx(82.5)
+    assert winner_row.rank == 1
+    assert winner_row.selected is True
+    assert winner_row.raw_payload["trade_confidence"]["components"][0]["name"] == "trend_multi_timeframe"
+
+    runner_up_row = rows["EURUSD"]
+    assert runner_up_row.trade_confidence_score == pytest.approx(76.0)
+    assert runner_up_row.rank == 2
+    assert runner_up_row.selected is False
+    assert "LOWER_RANKED_CANDIDATE" in runner_up_row.rejection_reasons

@@ -87,6 +87,12 @@ class MT5Config:
     max_correlated_positions: int = 3
     allow_opposing_same_symbol_positions: bool = False
     max_positions_per_symbol: int = 1
+    # Deterministic autonomous-entry confidence gate (backend/brokers/mt5/confidence.py).
+    # Replaces the removed OpenAI decision/min_confidence gate for the MT5 autonomous
+    # cycle only -- unrelated to ai_trading_config().min_confidence (a different, still-
+    # AI-based pipeline for IBKR/other flows, not touched by this change).
+    min_trade_confidence: float = 75.0
+    confidence_top_k_candidates: int = 8
     prop_profile: str = "GENERIC_PROP_CONSERVATIVE"
     request_timeout_ms: int = 60000
     default_history_count: int = 100
@@ -178,6 +184,8 @@ def mt5_config() -> MT5Config:
         max_correlated_positions=int(os.getenv("MT5_MAX_CORRELATED_POSITIONS", "3")),
         allow_opposing_same_symbol_positions=_bool("MT5_ALLOW_OPPOSING_SAME_SYMBOL_POSITIONS", False),
         max_positions_per_symbol=int(os.getenv("MT5_MAX_POSITIONS_PER_SYMBOL", "1")),
+        min_trade_confidence=float(os.getenv("MT5_MIN_TRADE_CONFIDENCE", "75.0")),
+        confidence_top_k_candidates=int(os.getenv("MT5_CONFIDENCE_TOP_K_CANDIDATES", "8")),
         prop_profile=(os.getenv("PROP_PROFILE") or "GENERIC_PROP_CONSERVATIVE").upper(),
         request_timeout_ms=timeout_ms,
         default_history_count=int(os.getenv("MT5_DEFAULT_HISTORY_COUNT", "100")),

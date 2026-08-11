@@ -11,6 +11,18 @@ from backend.economic_intelligence.config import EconomicIntelligenceConfig
 
 logger = logging.getLogger(__name__)
 
+# Real, measured OpenAI call telemetry (not a hardcoded literal elsewhere -- see
+# backend/brokers/mt5/autonomous.py::run_cycle's openai_calls). Incremented exactly once per
+# actual network call to the OpenAI provider, immediately before it happens -- callers that want
+# to know "did this window make a live OpenAI call" read the delta of classify_call_count()
+# across that window rather than assuming from which function they called.
+_classify_call_count = 0
+
+
+def classify_call_count() -> int:
+    return _classify_call_count
+
+
 _VALID_ALIGNMENT = {"supportive", "opposing", "neutral", "uncertain"}
 _VALID_RISK = {"low", "medium", "high", "critical"}
 _VALID_ACTION = {"allow", "delay", "block", "reduce_size", "manage_existing_only"}
@@ -89,7 +101,9 @@ async def classify(context: dict[str, Any], *, idempotency_key: str, config: Eco
         '"reasoning_summary":""}. Do not include full article text, only use the provided headlines/metadata. '
         + json.dumps(context, sort_keys=True, default=str)
     )
+    global _classify_call_count
     try:
+        _classify_call_count += 1
         response = await provider_registry.get("openai").complete(
             ProviderRequest(prompt=prompt, model=os.getenv("OPENAI_MODEL", "gpt-4.1-mini"), max_tokens=400, temperature=0, timeout_seconds=20, idempotency_key=idempotency_key)
         )
