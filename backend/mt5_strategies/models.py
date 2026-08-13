@@ -21,6 +21,20 @@ NOT_MT5_COMPATIBLE = "NOT_MT5_COMPATIBLE"
 _VALID_OVERRIDES = {ACTIVE_MT5, SHADOW_MT5, DISABLED}
 
 
+def normalize_strategy_id(raw: str | None) -> str:
+    """Canonical lowercase strategy identity for persistence/read boundaries, so e.g. "MTFAI1"
+    and "mtfai1" are always treated as the same strategy for grouping/comparison. The UNKNOWN
+    sentinel is passed through unchanged (uppercase) because some call sites retry-on-UNKNOWN
+    with an exact-case guard (e.g. AdaptivePositionStateORM sync) -- lowercasing it would make
+    that guard stop matching and silently disable the retry."""
+    if not raw:
+        return "UNKNOWN"
+    text = str(raw).strip()
+    if not text or text.upper() == "UNKNOWN":
+        return "UNKNOWN"
+    return text.lower()
+
+
 @dataclass(frozen=True)
 class StrategySignal:
     strategy_id: str

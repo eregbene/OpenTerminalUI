@@ -64,38 +64,11 @@ def _parse_symbols(symbols: str) -> list[str]:
 
 
 async def _fetch_yahoo_quotes(fetcher: Any, symbols: list[str], now_iso: str) -> list[dict[str, Any]]:
-    """Fetch quotes from Yahoo Finance for the given symbol list (as-is, no suffix added)."""
-    quotes: list[dict[str, Any]] = []
-    try:
-        rows = await fetcher.yahoo.get_quotes(symbols)
-        valid_set = {s.upper() for s in symbols}
-        for row in rows:
-            if not isinstance(row, dict):
-                continue
-            raw_symbol = str(row.get("symbol") or "").upper()
-            if raw_symbol not in valid_set:
-                continue
-            last = _to_float(row.get("regularMarketPrice"))
-            if last is None:
-                continue
-            change = _to_float(row.get("regularMarketChange"))
-            change_pct = _to_float(row.get("regularMarketChangePercent"))
-            epoch = row.get("regularMarketTime")
-            ts_iso = now_iso
-            if isinstance(epoch, (int, float)) and epoch > 0:
-                ts_iso = datetime.fromtimestamp(epoch, tz=timezone.utc).isoformat()
-            quotes.append(
-                {
-                    "symbol": raw_symbol,
-                    "last": last,
-                    "change": change if change is not None else 0.0,
-                    "changePct": change_pct if change_pct is not None else 0.0,
-                    "ts": ts_iso,
-                }
-            )
-    except Exception:
-        pass
-    return quotes
+    """No global-symbol/US-fallback quote source is wired in (the Yahoo Finance batch-quotes
+    endpoint this used to call was removed, with no replacement) -- always empty. Global
+    symbols (^NSEI, GC=F, USDINR=X, ...) and the US-market Finnhub-unconfigured fallback both
+    degrade to no quotes for those symbols rather than raising."""
+    return []
 
 
 @router.get("/quotes")
@@ -223,39 +196,8 @@ async def get_quotes(
         except Exception:
             pass
 
-    # --- India local symbols: Yahoo fallback (with .NS / .BO suffix) ---
-    if not local_quotes:
-        suffix = ".NS" if market_code == "NSE" else ".BO"
-        yahoo_symbols = [f"{symbol}{suffix}" for symbol in local_syms]
-        try:
-            rows = await fetcher.yahoo.get_quotes(yahoo_symbols)
-            for row in rows:
-                if not isinstance(row, dict):
-                    continue
-                raw_symbol = str(row.get("symbol") or "").upper()
-                symbol = raw_symbol.replace(".NS", "").replace(".BO", "")
-                if symbol not in local_syms:
-                    continue
-                last = _to_float(row.get("regularMarketPrice"))
-                if last is None:
-                    continue
-                change = _to_float(row.get("regularMarketChange"))
-                change_pct = _to_float(row.get("regularMarketChangePercent"))
-                epoch = row.get("regularMarketTime")
-                ts_iso = now_iso
-                if isinstance(epoch, (int, float)) and epoch > 0:
-                    ts_iso = datetime.fromtimestamp(epoch, tz=timezone.utc).isoformat()
-                local_quotes.append(
-                    {
-                        "symbol": symbol,
-                        "last": last,
-                        "change": change if change is not None else 0.0,
-                        "changePct": change_pct if change_pct is not None else 0.0,
-                        "ts": ts_iso,
-                    }
-                )
-        except Exception:
-            pass
+    # India local symbols with no Kite session: previously fell back to Yahoo (.NS/.BO suffix);
+    # no equivalent source is wired in now, so this stays empty rather than raising.
 
     all_quotes.extend(local_quotes)
     return {"market": market_code, "quotes": all_quotes}

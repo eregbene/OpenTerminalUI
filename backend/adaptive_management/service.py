@@ -37,13 +37,17 @@ from backend.adaptive_management.orm import (
 )
 from backend.brokers.mt5 import account_registry
 from backend.brokers.mt5.account_registry import AccountClassification
+from backend.brokers.mt5.multi_account import adapter_for_account
 from backend.brokers.mt5.adapter import mt5_adapter
 from backend.brokers.mt5.config import mt5_config
 from backend.brokers.mt5.persistence import sanitize
 from backend.brokers.mt5.risk_calculator import calculate_canonical_loss_per_lot, calculate_conservative_loss_per_lot_sync, record_mismatch_if_needed
+from backend.brokers.mt5.trading_costs import compute_trade_costs
 from backend.decision_context.service import decision_context_service
 from backend.economic_intelligence.service import economic_intelligence_service
 from backend.intelligence.trading.config import ai_trading_config
+from backend.mt5_strategies import redis_layer
+from backend.mt5_strategies.models import normalize_strategy_id
 from backend.portfolio_execution.orm import ExecutionOrderORM
 from backend.portfolio_execution.service import execution_manager
 from backend.shared.db import SessionLocal
@@ -199,7 +203,22 @@ DEFAULT_MINIMUMS = {
 
 
 class AdaptiveManagementService:
-    def __init__(self) -> None:
+    def __init__(self, adapter: Any | None = None, account_id: str = "demo_10k") -> None:
+        # adapter is stored as _explicit_adapter, not a plain self.adapter attribute -- see the
+        # `adapter`/`config` properties below for why: many existing tests monkeypatch the
+        # MODULE-level `mt5_adapter` name (backend.adaptive_management.service.mt5_adapter) and
+        # expect that to affect the default (demo_10k) service instance's behavior on every
+        # subsequent call, exactly like every method here already did before account-scoping
+        # existed (they read the bare global `mt5_adapter` name at call time, never cached it).
+        # Freezing `self.adapter = adapter or mt5_adapter` once in __init__ would silently break
+        # that -- the module-level singleton (adaptive_management_service.default_service) is
+        # constructed at IMPORT time, long before any test's monkeypatch runs. Properties give
+        # the default case (no explicit adapter -- real production usage AND every existing
+        # test) the same late-binding/live-lookup behavior as before, while still letting
+        # multi_account.adapter_for_account(...) bind a FIXED adapter for a specific non-default
+        # account, which is the whole point of this refactor.
+        self._explicit_adapter = adapter
+        self.account_id = account_id
         self._task: asyncio.Task | None = None
         self._stop_event = asyncio.Event()
         self._cycle_lock = asyncio.Lock()
@@ -215,6 +234,20 @@ class AdaptiveManagementService:
         # cheap, and the log line (see _record_position_evaluation_error) is the durable record.
         self._position_evaluation_errors_total: int = 0
         self._position_evaluation_errors_by_symbol: dict[str, int] = {}
+
+    @property
+    def adapter(self) -> Any:
+        return self._explicit_adapter or mt5_adapter
+
+    @property
+    def config(self) -> Any:
+        # getattr fallback (not a bare .adapter.config access): several existing tests inject a
+        # lightweight fake/mock adapter exposing only the specific methods that test cares about
+        # (e.g. .candles()) and never had a reason to carry a .config attribute before account-
+        # scoping existed. Real adapters (the global mt5_adapter, and every multi_account.
+        # adapter_for_account(...) instance) always have .config -- this only falls back to the
+        # global mt5_config() for adapters that predate this attribute.
+        return getattr(self.adapter, "config", None) or mt5_config()
 
     async def start(self) -> None:
         if self._task and not self._task.done():
@@ -243,10 +276,10 @@ class AdaptiveManagementService:
         return mode if mode in {"disabled", "shadow", "demo_active"} else "shadow"
 
     def status(self) -> dict[str, Any]:
-        cfg = mt5_config()
+        cfg = self.config
         with SessionLocal() as db:
-            activation = _active_activation(db)
-            breaker = _breaker(db)
+            activation = _active_activation(db, self.account_id)
+            breaker = _breaker(db, self.account_id)
             classification = _account_classification(activation.account_fingerprint) if activation else None
             return {
                 "enabled": os.getenv("ADAPTIVE_TRADE_MANAGEMENT_ENABLED", "true").lower() in {"1", "true", "yes", "on"},
@@ -258,7 +291,7 @@ class AdaptiveManagementService:
                 "supported_modes": ["disabled", "shadow", "demo_active"],
                 "live_trading_enabled": bool(cfg.live_trading_enabled),
                 "order_submission_config_unchanged": True,
-                "risk_config_observed_only": _effective_config(),
+                "risk_config_observed_only": _effective_config(config=self.config),
                 "monitor_running": bool(self._task and not self._task.done()),
                 "activation": _orm_dict(activation) if activation else None,
                 "circuit_breaker": _orm_dict(breaker),
@@ -282,11 +315,11 @@ class AdaptiveManagementService:
     ) -> dict[str, Any]:
         if self.mode() != "demo_active":
             return {"status": "REJECTED", "reason": "ADAPTIVE_TRADE_MANAGEMENT_MODE_MUST_BE_demo_active", "mode": self.mode()}
-        cfg = mt5_config()
+        cfg = self.config
         if cfg.live_trading_enabled:
             return {"status": "REJECTED", "reason": "LIVE_TRADING_BLOCKED"}
-        account = await mt5_adapter.mt5_account()
-        terminal = await mt5_adapter.terminal_status()
+        account = await self.adapter.mt5_account()
+        terminal = await self.adapter.terminal_status()
         if terminal.account_mode != "DEMO" or cfg.account_mode != "DEMO":
             return {"status": "REJECTED", "reason": "MT5_DEMO_ACCOUNT_REQUIRED"}
         fingerprint = account_registry.fingerprint_account(account)
@@ -301,10 +334,11 @@ class AdaptiveManagementService:
         now = utcnow()
         activation_id = "ADAPTIVE_ACT_" + _hash({"account": account.login, "policy": ACTIVE_POLICY_ID, "time": (effective_from or now).isoformat()})[:24]
         with SessionLocal() as db:
-            existing = _active_activation(db)
+            existing = _active_activation(db, self.account_id)
             if existing:
                 return {"status": "ALREADY_ACTIVE", "activation": _orm_dict(existing)}
             activation = AdaptiveActivationORM(activation_id=activation_id)
+            activation.account_id = self.account_id
             activation.policy_id = ACTIVE_POLICY_ID
             activation.policy_version = ACTIVE_POLICY_VERSION
             activation.mode = "demo_active"
@@ -318,10 +352,10 @@ class AdaptiveManagementService:
             activation.maximum_actions_per_hour = max(1, min(20, int(maximum_actions_per_hour)))
             activation.rollback_policy = {"on_breaker_open": "shadow_only", "preserve_broker_sl_tp": True}
             activation.emergency_state = "normal"
-            activation.configuration_snapshot = _effective_config(account.model_dump(mode="json"))
+            activation.configuration_snapshot = _effective_config(account.model_dump(mode="json"), config=self.config)
             activation.active = True
             db.merge(activation)
-            breaker = _breaker(db)
+            breaker = _breaker(db, self.account_id)
             breaker.state = "closed"
             breaker.reason = None
             breaker.failed_actions = 0
@@ -333,7 +367,7 @@ class AdaptiveManagementService:
 
     def deactivate(self, reason: str = "manual_deactivate") -> dict[str, Any]:
         with SessionLocal() as db:
-            activation = _active_activation(db)
+            activation = _active_activation(db, self.account_id)
             if not activation:
                 return {"status": "NO_ACTIVE_ACTIVATION"}
             activation.active = False
@@ -346,7 +380,7 @@ class AdaptiveManagementService:
 
     def reset_circuit_breaker(self, reason: str = "manual_reset") -> dict[str, Any]:
         with SessionLocal() as db:
-            breaker = _breaker(db)
+            breaker = _breaker(db, self.account_id)
             breaker.state = "closed"
             breaker.reason = reason
             breaker.failed_actions = 0
@@ -360,11 +394,12 @@ class AdaptiveManagementService:
 
     def adoption(self, position_id: str, approved_by: str = "local_api", reason: str = "") -> dict[str, Any]:
         with SessionLocal() as db:
-            activation = _active_activation(db)
+            activation = _active_activation(db, self.account_id)
             if not activation:
                 return {"status": "REJECTED", "reason": "NO_ACTIVE_ACTIVATION"}
             adoption_id = "ADOPT_" + _hash({"position": position_id, "activation": activation.activation_id})[:32]
             row = db.get(AdaptivePositionAdoptionORM, adoption_id) or AdaptivePositionAdoptionORM(adoption_id=adoption_id)
+            row.account_id = self.account_id
             row.position_id = position_id
             row.activation_id = activation.activation_id
             row.approved_by = approved_by
@@ -386,7 +421,7 @@ class AdaptiveManagementService:
         if self.mode() != "demo_active":
             return
         with SessionLocal() as db:
-            if _active_activation(db):
+            if _active_activation(db, self.account_id):
                 return
         symbols = _env_csv("ADAPTIVE_MANAGEMENT_ELIGIBLE_SYMBOLS") or _env_csv("MT5_TRADING_SYMBOLS")
         try:
@@ -401,14 +436,14 @@ class AdaptiveManagementService:
             logger.warning("Adaptive trade manager waiting for MT5 before env activation: %s", exc.__class__.__name__)
 
     async def open_positions(self) -> dict[str, Any]:
-        positions = await mt5_adapter.mt5_positions()
+        positions = await self.adapter.mt5_positions()
         with SessionLocal() as db:
             states = {row.position_id: _orm_dict(row) for row in db.query(AdaptivePositionStateORM).all()}
-        return {"items": [position.model_dump(mode="json") | {"adaptive_state": states.get(_position_id(position.model_dump(mode="json")))} for position in positions]}
+        return {"items": [position.model_dump(mode="json") | {"adaptive_state": states.get(_position_id(position.model_dump(mode="json"), self.account_id))} for position in positions]}
 
     async def position_detail(self, ticket: str) -> dict[str, Any]:
-        positions = await mt5_adapter.mt5_positions()
-        live = next((p for p in positions if _position_id(p.model_dump(mode="json")) == ticket), None)
+        positions = await self.adapter.mt5_positions()
+        live = next((p for p in positions if _position_id(p.model_dump(mode="json"), self.account_id) == ticket), None)
         with SessionLocal() as db:
             state = db.get(AdaptivePositionStateORM, ticket)
             audit = db.query(AdaptiveStopQualityAuditORM).filter(AdaptiveStopQualityAuditORM.position_id == ticket).first()
@@ -511,7 +546,7 @@ class AdaptiveManagementService:
         # Live broker re-verification -- a real mutation must never rely on cached DB state
         # alone for account identity or whether the position is even still open.
         try:
-            live_account = await mt5_adapter.mt5_account()
+            live_account = await self.adapter.mt5_account()
             current_fingerprint = account_registry.fingerprint_account(live_account).fingerprint_hash
         except Exception as exc:
             return {"status": "ACCOUNT_LOOKUP_FAILED", "position_id": position_id, "reason": exc.__class__.__name__}
@@ -519,10 +554,10 @@ class AdaptiveManagementService:
         if classification != AccountClassification.INTERNAL_DEMO.value:
             return {"status": "REJECTED", "position_id": position_id, "reason": "ACCOUNT_NOT_INTERNAL_DEMO", "classification": classification}
         try:
-            live_positions = await mt5_adapter.mt5_positions()
+            live_positions = await self.adapter.mt5_positions()
         except Exception as exc:
             return {"status": "BROKER_NOT_READY", "position_id": position_id, "reason": exc.__class__.__name__}
-        live_position = next((p for p in live_positions if _position_id(p.model_dump(mode="json")) == position_id), None)
+        live_position = next((p for p in live_positions if _position_id(p.model_dump(mode="json"), self.account_id) == position_id), None)
         if live_position is None:
             # Already closed at the broker by the time this ran (naturally hit SL/TP, or a
             # prior incomplete run already closed it) -- reconcile only, submit nothing.
@@ -538,8 +573,8 @@ class AdaptiveManagementService:
         if current_volume <= 0:
             return {"status": "NO_REMAINING_VOLUME", "position_id": position_id}
         with SessionLocal() as db:
-            activation = _active_activation(db)
-            breaker = _breaker(db)
+            activation = _active_activation(db, self.account_id)
+            breaker = _breaker(db, self.account_id)
             state = db.get(AdaptivePositionStateORM, position_id)
             if not activation:
                 return {"status": "REJECTED", "position_id": position_id, "reason": "NO_ACTIVE_ACTIVATION"}
@@ -745,7 +780,7 @@ class AdaptiveManagementService:
 
     def shadow_summary(self) -> dict[str, Any]:
         with SessionLocal() as db:
-            activation = _active_activation(db)
+            activation = _active_activation(db, self.account_id)
             # AdaptiveManagementActionORM predates account_fingerprint and has no account column
             # to filter on directly. A position can never span an account switch, so actions
             # created before the CURRENT activation started cannot belong to the currently
@@ -785,7 +820,7 @@ class AdaptiveManagementService:
 
     def activation(self) -> dict[str, Any]:
         with SessionLocal() as db:
-            activation = _active_activation(db)
+            activation = _active_activation(db, self.account_id)
             return {"activation": _orm_dict(activation) if activation else None, "mode": self.mode()}
 
     def actions(self) -> list[dict[str, Any]]:
@@ -797,10 +832,10 @@ class AdaptiveManagementService:
             return {"items": [_orm_dict(row) for row in db.query(AdaptiveBrokerActionResultORM).order_by(AdaptiveBrokerActionResultORM.created_at.desc()).limit(200).all()]}
 
     async def import_mt5_session(self, days: int = 7, session_id: str | None = None) -> dict[str, Any]:
-        history = await mt5_adapter.history(days=max(1, min(90, int(days))))
-        account = await mt5_adapter.mt5_account()
-        positions = await mt5_adapter.mt5_positions()
-        orders = await mt5_adapter.mt5_orders()
+        history = await self.adapter.history(days=max(1, min(90, int(days))))
+        account = await self.adapter.mt5_account()
+        positions = await self.adapter.mt5_positions()
+        orders = await self.adapter.mt5_orders()
         payload = {
             "session_id": session_id,
             "account_id": str(account.login),
@@ -810,23 +845,29 @@ class AdaptiveManagementService:
             "deals": [row.model_dump(mode="json") for row in history["deals"]],
             "open_positions": [row.model_dump(mode="json") for row in positions],
             "open_orders": [row.model_dump(mode="json") for row in orders],
-            "effective_config": _effective_config(account.model_dump(mode="json")),
+            "effective_config": _effective_config(account.model_dump(mode="json"), config=self.config),
         }
         return self.import_session(payload)
 
     def import_session(self, payload: dict[str, Any]) -> dict[str, Any]:
         session_id = str(payload.get("session_id") or f"MT5_SESSION_{utcnow().strftime('%Y%m%d%H%M%S')}")
-        deals = [_normalize_history_row(row, session_id, "DEAL") for row in payload.get("deals") or []]
-        orders = [_normalize_history_row(row, session_id, "ORDER") for row in payload.get("orders") or []]
-        positions = [_normalize_position_row(row, session_id) for row in payload.get("open_positions") or []]
+        deals = [{**_normalize_history_row(row, session_id, "DEAL"), "account_id": self.account_id} for row in payload.get("deals") or []]
+        orders = [{**_normalize_history_row(row, session_id, "ORDER"), "account_id": self.account_id} for row in payload.get("orders") or []]
+        positions = [{**_normalize_position_row(row, session_id), "account_id": self.account_id} for row in payload.get("open_positions") or []]
         events = deals + orders + positions
         event_times: list[datetime] = [row["utc_time"] for row in events if isinstance(row.get("utc_time"), datetime)]
         started_at = min(event_times) if event_times else None
         ended_at = max(event_times) if event_times else None
-        realized = sum(float(row.get("realized_pnl") or 0) + float(row.get("commission") or 0) + float(row.get("swap") or 0) + float(row.get("fee") or 0) for row in deals if _is_trade_symbol(row.get("symbol")))
+        trade_deals = [{"profit": row.get("realized_pnl"), "commission": row.get("commission"), "swap": row.get("swap"), "fee": row.get("fee"), "volume": row.get("volume")} for row in deals if _is_trade_symbol(row.get("symbol"))]
+        realized = compute_trade_costs(trade_deals).net_pnl
         with SessionLocal() as db:
             session = db.get(AdaptiveSessionORM, session_id) or AdaptiveSessionORM(session_id=session_id)
             session.source = "MT5"
+            # NOTE: this account_id is the broker LOGIN number (pre-existing semantic, from
+            # import_mt5_session's str(account.login)) -- distinct from the account PROFILE id
+            # ("demo_10k"/"ftmo_demo_25k"/...) used everywhere else in this file. Left as-is to
+            # avoid silently changing this table's existing meaning; import_session() is a
+            # manual/on-demand bookkeeping action, not part of the live monitor-cycle hot path.
             session.account_id = str(payload.get("account_id") or "")
             session.account_mode = str(payload.get("account_mode") or "DEMO").upper()
             session.server = payload.get("server")
@@ -836,7 +877,7 @@ class AdaptiveManagementService:
             session.imported_trades = len({row.get("trade_id") for row in deals if row.get("trade_id") and _is_trade_symbol(row.get("symbol"))})
             session.imported_orders = len(orders)
             session.imported_deals = len(deals)
-            session.effective_config = sanitize(payload.get("effective_config") or _effective_config())
+            session.effective_config = sanitize(payload.get("effective_config") or _effective_config(config=self.config))
             session.updated_at = utcnow()
             db.merge(session)
             for event in events:
@@ -860,7 +901,10 @@ class AdaptiveManagementService:
                 symbol, direction, strategy_id, setup_id, timeframe = key
                 thesis_id = "THESIS_" + _hash({"session": session_id, "key": key})[:32]
                 trade_ids = sorted({row.trade_id or row.position_id or row.deal_id or row.event_id for row in rows})
-                pnls = [float(row.realized_pnl or 0) + float(row.commission or 0) + float(row.swap or 0) + float(row.fee or 0) for row in rows]
+                # Per-row net P&L (not a single aggregate) -- first_entry_result/
+                # additional_entry_contribution below need the list positionally, so each row
+                # is run through compute_trade_costs individually rather than summed together.
+                pnls = [compute_trade_costs([{"profit": row.realized_pnl, "commission": row.commission, "swap": row.swap, "fee": row.fee, "volume": row.volume}]).net_pnl for row in rows]
                 volumes = [float(row.volume or 0) for row in rows]
                 first = pnls[0] if pnls else None
                 additional = sum(pnls[1:]) if len(pnls) > 1 else 0.0
@@ -1084,7 +1128,7 @@ class AdaptiveManagementService:
         records: list[dict[str, Any]] = []
         for state in states:
             deals = deals_by_position.get(state.position_id, [])
-            realized_pnl = sum(float(d.realized_pnl or 0) + float(d.commission or 0) + float(d.swap or 0) + float(d.fee or 0) for d in deals)
+            realized_pnl = compute_trade_costs([{"profit": d.realized_pnl, "commission": d.commission, "swap": d.swap, "fee": d.fee, "volume": d.volume} for d in deals]).net_pnl
             exit_reason = next((d.broker_exit_reason for d in deals if d.broker_exit_reason), None)
             comment = (state.raw_payload or {}).get("comment")
             strategy_id = state.strategy_id or next((d.strategy_id for d in deals if d.strategy_id and d.strategy_id != "UNKNOWN"), _lineage(comment, "strategy"))
@@ -1278,7 +1322,7 @@ class AdaptiveManagementService:
                 return {"status": "DISABLED", "broker_mutation_calls": 0}
             await self._ensure_env_activation()
             try:
-                positions = await mt5_adapter.mt5_positions()
+                positions = await self.adapter.mt5_positions()
             except Exception as exc:
                 self._open_breaker(f"BROKER_NOT_READY:{exc.__class__.__name__}")
                 return {"status": "BROKER_NOT_READY", "error": exc.__class__.__name__, "broker_mutation_calls": 0}
@@ -1287,7 +1331,7 @@ class AdaptiveManagementService:
             # after switching MT5 accounts. None on lookup failure fails safe: _can_execute
             # treats "can't determine the account" the same as "wrong account" (blocked).
             try:
-                live_account = await mt5_adapter.mt5_account()
+                live_account = await self.adapter.mt5_account()
                 current_fingerprint = account_registry.fingerprint_account(live_account).fingerprint_hash
             except Exception as exc:
                 # Was previously silent (bare `except Exception: current_fingerprint = None`),
@@ -1308,7 +1352,7 @@ class AdaptiveManagementService:
             except Exception:
                 account_equity = None
             try:
-                mt5_client = mt5_adapter.client.ensure_ready()
+                mt5_client = self.adapter.client.ensure_ready()
             except Exception:
                 mt5_client = None
             # Adaptive Trade Manager Validation & Performance Analytics layer (Part 1) --
@@ -1317,10 +1361,10 @@ class AdaptiveManagementService:
             # any decision path below.
             cycle_run_id = f"ADPT_{utcnow():%Y%m%d%H%M%S}"
             with SessionLocal() as db:
-                activation = _active_activation(db)
-                breaker = _breaker(db)
+                activation = _active_activation(db, self.account_id)
+                breaker = _breaker(db, self.account_id)
                 self._auto_recover_breaker(db, breaker)
-                currently_open_ids = {_position_id(position.model_dump(mode="json")) for position in positions}
+                currently_open_ids = {_position_id(position.model_dump(mode="json"), self.account_id) for position in positions}
                 await self._reconcile_recently_closed(db, currently_open_ids)
                 await self._auto_replay_recently_closed(db)
                 await self._reconcile_pending_partial_stages(db, currently_open_ids)
@@ -1329,7 +1373,7 @@ class AdaptiveManagementService:
                 for position in positions:
                     payload = position.model_dump(mode="json")
                     symbol = str(payload.get("symbol") or "UNKNOWN").upper()
-                    ticket = _position_id(payload)
+                    ticket = _position_id(payload, self.account_id)
                     # Incident hardening: this try/except is the crash boundary for ONE
                     # position's entire evaluation (sync -> candidate generation -> selection ->
                     # persistence -> execution). A bug specific to one ticket (e.g. the
@@ -1340,11 +1384,26 @@ class AdaptiveManagementService:
                     # AttributeError, etc.) never leaves the SQLAlchemy session itself in an
                     # invalid state, so earlier positions' already-`db.merge()`'d work in this
                     # same cycle/session must survive to the final db.commit() below.
+                    # Part 9: per-ticket Redis coordination lock -- improves multi-process
+                    # safety (two backend processes must never both evaluate/execute a
+                    # management action for the SAME position in the same window) WITHOUT
+                    # touching the actual hourly-counter/cooldown VALUES, which stay 100%
+                    # Postgres-backed and unchanged (AdaptiveCircuitBreakerORM.actions_this_hour,
+                    # AdaptivePositionStateORM.last_management_at) -- deliberately not mirrored
+                    # into Redis, so a Redis restart/loss can never cause a stale or diverged
+                    # counter to permit an unsafe repeated action; Postgres is re-read fresh
+                    # every cycle regardless of Redis's state. Short, self-expiring TTL (no
+                    # explicit release, same reasoning as the MT5 cycle lock) well under this
+                    # monitor's own cycle interval, so a single process never self-contends on
+                    # its own next cycle. Fail-open on a Redis outage: degrades to today's
+                    # single-process behavior, never blocks a position from being managed.
+                    if not await redis_layer.try_lock(f"mt5:adaptive-lock:{ticket}", f"adaptive:{id(self)}", 5, metric="adaptive_ticket_lock"):
+                        continue
                     try:
                         context = await context_for_trade(symbol, utcnow())
-                        candles = await _safe_candles(symbol)
+                        candles = await _safe_candles(symbol, adapter=self.adapter)
                         try:
-                            symbol_info = await mt5_adapter.symbol_info(symbol)
+                            symbol_info = await self.adapter.symbol_info(symbol)
                         except Exception:
                             symbol_info = None
                         # PART 5: original monetary risk is captured via the canonical
@@ -1369,13 +1428,24 @@ class AdaptiveManagementService:
                                         stop=Decimal(str(sl_price)),
                                         symbol_info=symbol_info,
                                         mt5_client=mt5_client,
-                                        warning_pct=mt5_config().risk_calculation_disagreement_pct,
-                                        critical_pct=mt5_config().risk_calculation_critical_disagreement_pct,
+                                        warning_pct=self.config.risk_calculation_disagreement_pct,
+                                        critical_pct=self.config.risk_calculation_critical_disagreement_pct,
                                     )
                                     record_mismatch_if_needed(original_risk_result, symbol=symbol, account_fingerprint=current_fingerprint, context="management_original_risk_capture")
                                 except Exception:
                                     original_risk_result = None
                         state = self._sync_position_state(db, payload, activation, context, candles, account_fingerprint=current_fingerprint, symbol_info=symbol_info, original_risk_result=original_risk_result, account_equity=account_equity)
+                        if existing_row is None:
+                            # mt5.position.opened: published exactly once, HERE -- the first
+                            # cycle this ticket is confirmed present in self.adapter.mt5_positions()
+                            # (real broker truth, fetched at the top of _monitor_cycle) AND has
+                            # just been reconciled into AdaptivePositionStateORM (existing_row was
+                            # None a few lines above, before _sync_position_state's db.merge()).
+                            # Distinct from mt5.order.accepted (autonomous.py::_submit, published
+                            # the moment the broker accepts the order_send request -- before this
+                            # confirmation) and never fired again for the same ticket on later
+                            # cycles, since existing_row is no longer None from here on.
+                            await redis_layer.publish_event("mt5.position.opened", {"symbol": symbol, "ticket": ticket, "direction": state.direction, "strategy": state.strategy_id, "entry_price": state.entry_price})
                         try:
                             economic_result = await economic_intelligence_service.evaluate_position(symbol=symbol, direction=state.direction, opened_at=state.opened_at)
                         except Exception as exc:
@@ -1385,11 +1455,14 @@ class AdaptiveManagementService:
                         choice = self._select_action(candidates)
                         action = self._persist_action(db, state, activation, choice, candidates, mode, breaker)
                         selected.append(_orm_dict(action))
+                        if action.action_type not in {"HOLD", "HOLD_WITH_GIVEBACK_RISK"}:
+                            await redis_layer.publish_event("mt5.adaptive.action.selected", {"symbol": symbol, "ticket": ticket, "action_type": action.action_type, "reason": choice.reason})
                         # Adaptive Trade Manager Validation & Performance Analytics layer
                         # (Parts 1/2) -- observation only, strictly downstream of the decision
                         # already made above (_can_execute/_execute_action run AFTER this).
                         # Failure here must never surface as a management-cycle error or block
                         # a real protective/trailing action.
+                        market_regime = (context.get("market_regime") or context.get("regime")) if isinstance(context, dict) else None
                         try:
                             capture_position_baseline(state=state)
                             capture_management_event(
@@ -1398,10 +1471,21 @@ class AdaptiveManagementService:
                                 payload=payload,
                                 action=action,
                                 reason=choice.reason,
-                                market_regime=(context.get("market_regime") or context.get("regime")) if isinstance(context, dict) else None,
+                                market_regime=market_regime,
                             )
                         except Exception as exc:
                             logger.warning("Adaptive management event/baseline capture failed: %s", exc.__class__.__name__)
+                        # Historical Intelligence Phase 3/4 (Part 21) -- STRICTLY OBSERVATION
+                        # ONLY, strictly downstream of the decision already made above
+                        # (_can_execute/_execute_action run AFTER this). Never influences
+                        # `action`/`choice`. Failure here must never surface as a management-
+                        # cycle error or block a real protective/trailing action.
+                        try:
+                            from backend.historical_intelligence.adaptive_intelligence import record_observation
+
+                            record_observation(cycle_run_id=cycle_run_id, state=state, action=action, market_regime=market_regime)
+                        except Exception as exc:
+                            logger.warning("Adaptive historical intelligence observation failed: %s", exc.__class__.__name__)
                         if self._can_execute(action, state, activation, breaker, mode, current_fingerprint):
                             partial_stage_row = None
                             if action.action_type == "PARTIAL_PROFIT":
@@ -1417,6 +1501,10 @@ class AdaptiveManagementService:
                             self._persist_result(db, action, result)
                             if partial_stage_row is not None:
                                 self._resolve_partial_stage_attempt(db, partial_stage_row, state, result)
+                            if result.get("status") == "ACCEPTED":
+                                await redis_layer.publish_event("mt5.adaptive.action.executed", {"symbol": symbol, "ticket": ticket, "action_type": action.action_type, "retcode": result.get("retcode")})
+                                if action.action_type in VOLUME_CLOSE_ACTION_TYPES and float(result.get("filled_volume") or 0) >= float(state.current_volume or 0) - 1e-9:
+                                    await redis_layer.publish_event("mt5.position.closed", {"symbol": symbol, "ticket": ticket, "reason": action.action_type})
                     except Exception as exc:
                         self._record_position_evaluation_error(ticket, symbol, exc)
                         continue
@@ -1500,7 +1588,7 @@ class AdaptiveManagementService:
                 if not deals:
                     continue
                 exit_deal = max(deals, key=lambda d: d.utc_time or row.closed_detected_at)
-                realized_pnl = sum(float(d.realized_pnl or 0) + float(d.commission or 0) + float(d.swap or 0) + float(d.fee or 0) for d in deals)
+                realized_pnl = compute_trade_costs([{"profit": d.realized_pnl, "commission": d.commission, "swap": d.swap, "fee": d.fee, "volume": d.volume} for d in deals]).net_pnl
                 trade = {
                     "trade_id": row.position_id,
                     "symbol": row.symbol,
@@ -1515,7 +1603,7 @@ class AdaptiveManagementService:
                     "strategy_id": row.strategy_id,
                     "timeframe": row.timeframe,
                 }
-                candles = await _replay_candles(row.symbol, row.timeframe or "M5", row.opened_at, trade["exit_time"])
+                candles = await _replay_candles(row.symbol, row.timeframe or "M5", row.opened_at, trade["exit_time"], adapter=self.adapter)
                 if not candles:
                     continue
                 self.replay(trade, candles, policy_ids=None)
@@ -1545,8 +1633,9 @@ class AdaptiveManagementService:
             db.merge(result_row)
 
     def _sync_position_state(self, db: Any, payload: dict[str, Any], activation: Any | None, context: dict[str, Any], candles: list[dict[str, Any]], account_fingerprint: str | None = None, symbol_info: Any | None = None, original_risk_result: Any | None = None, account_equity: float | None = None) -> AdaptivePositionStateORM:
-        position_id = _position_id(payload)
+        position_id = _position_id(payload, self.account_id)
         row = db.get(AdaptivePositionStateORM, position_id) or AdaptivePositionStateORM(position_id=position_id)
+        row.account_id = self.account_id
         direction = _position_direction(payload)
         opened_at = _position_time(payload)
         current_price = float(payload.get("price_current") or payload.get("price_open") or 0)
@@ -1603,7 +1692,7 @@ class AdaptiveManagementService:
         row.original_tp = row.original_tp if row.original_tp is not None else tp
         row.current_tp = tp
         if not row.strategy_id or row.strategy_id == "UNKNOWN":
-            row.strategy_id = _lineage(payload.get("comment"), "strategy")
+            row.strategy_id = normalize_strategy_id(_lineage(payload.get("comment"), "strategy"))
         if not row.timeframe or row.timeframe == "UNKNOWN":
             row.timeframe = _lineage(payload.get("comment"), "timeframe")
         # Self-healing sanity clamp: max_achieved_r/min_achieved_r are otherwise monotonic
@@ -1804,9 +1893,10 @@ class AdaptiveManagementService:
             min_spread_ratio=(1.0 / spread_to_stop_max_ratio) if spread_to_stop_max_ratio > 0 else 3.0,
         )
         audit = AdaptiveStopQualityAuditORM(audit_id="ASQ_" + _hash({"position": row.position_id})[:40])
+        audit.account_id = self.account_id
         audit.position_id = row.position_id
         audit.symbol = row.symbol
-        audit.strategy_id = _lineage(payload.get("comment"), "strategy")
+        audit.strategy_id = normalize_strategy_id(_lineage(payload.get("comment"), "strategy"))
         audit.timeframe = _lineage(payload.get("comment"), "timeframe")
         audit.direction = row.direction
         audit.sl_distance_price = sl_distance
@@ -2115,11 +2205,16 @@ class AdaptiveManagementService:
         return sorted(candidates, key=lambda row: row.priority)[0]
 
     def _persist_action(self, db: Any, state: AdaptivePositionStateORM, activation: Any | None, choice: ManagementCandidate, candidates: list[ManagementCandidate], mode: str, breaker: Any) -> AdaptiveManagementActionORM:
-        key = _idempotency_key(state.position_id, choice.action_type, choice.requested_volume, choice.requested_sl, choice.requested_tp)
-        existing = db.query(AdaptiveManagementActionORM).filter(AdaptiveManagementActionORM.idempotency_key == key).first()
+        key = _idempotency_key(self.account_id, state.position_id, choice.action_type, choice.requested_volume, choice.requested_sl, choice.requested_tp)
+        # account_id is filtered explicitly here, not left to be implied by position_id's own
+        # account-prefixing (demo_10k's position_id is deliberately the raw, unprefixed ticket --
+        # see _position_id's docstring) -- this is the account-scoping the audit required to be
+        # provable at the query level, not merely a side effect of a string format elsewhere.
+        existing = db.query(AdaptiveManagementActionORM).filter(AdaptiveManagementActionORM.account_id == self.account_id, AdaptiveManagementActionORM.idempotency_key == key).first()
         if existing:
             return existing
         action = AdaptiveManagementActionORM(action_id="AMA_" + _hash({"key": key})[:40])
+        action.account_id = self.account_id
         action.activation_id = activation.activation_id if activation else None
         action.position_id = state.position_id
         action.thesis_id = state.thesis_id
@@ -2167,7 +2262,7 @@ class AdaptiveManagementService:
         return db.merge(action)
 
     def _can_execute(self, action: AdaptiveManagementActionORM, state: AdaptivePositionStateORM, activation: Any | None, breaker: Any, mode: str, current_account_fingerprint: str | None = None) -> bool:
-        cfg = mt5_config()
+        cfg = self.config
         if action.action_type in {"HOLD", "HOLD_WITH_GIVEBACK_RISK"} or mode != "demo_active" or not activation or breaker.state != "closed":
             return False
         if action.broker_mutation_attempted or action.status in {"submitted", "rejected", "error"}:
@@ -2227,10 +2322,10 @@ class AdaptiveManagementService:
         the wrong volume, and a stale SLTP modification could silently overwrite a SL/TP another
         process already changed."""
         try:
-            live_positions = await mt5_adapter.mt5_positions()
+            live_positions = await self.adapter.mt5_positions()
         except Exception:
             return "STALE_POSITION_BROKER_UNAVAILABLE"
-        live = next((p for p in live_positions if _position_id(p.model_dump(mode="json")) == state.position_id), None)
+        live = next((p for p in live_positions if _position_id(p.model_dump(mode="json"), self.account_id) == state.position_id), None)
         if live is None:
             return "STALE_POSITION_CLOSED"
         fresh = live.model_dump(mode="json")
@@ -2267,19 +2362,20 @@ class AdaptiveManagementService:
             stale_reason = await self._check_position_freshness(action, state)
             if stale_reason is not None:
                 return {"status": "NOOP", "broker_mutation_attempted": False, "reason": stale_reason}
-            mt5 = mt5_adapter.client.ensure_ready()
-            symbol = await mt5_adapter.symbol_info(state.symbol)
-            quote = await mt5_adapter.latest_tick(state.symbol)
+            mt5 = self.adapter.client.ensure_ready()
+            symbol = await self.adapter.symbol_info(state.symbol)
+            quote = await self.adapter.latest_tick(state.symbol)
             request = await self._build_mt5_request(mt5, symbol, quote, action, state, payload)
             if not request:
                 return {"status": "NOOP", "broker_mutation_attempted": False}
             action.broker_mutation_attempted = True
             raw = await execution_manager.submit_mt5_request(
-                adapter=mt5_adapter,
+                adapter=self.adapter,
                 request=request,
                 idempotency_key=action.idempotency_key,
                 source="adaptive_trade_manager",
                 expected_price=float(request.get("price")) if request.get("price") is not None else None,
+                account_id=self.account_id,
             )
             data = _asdict(raw)
             retcode = data.get("retcode")
@@ -2307,7 +2403,7 @@ class AdaptiveManagementService:
                 "type": order_type,
                 "price": price,
                 "deviation": _env_int("ADAPTIVE_MT5_DEVIATION", 20, minimum=1, maximum=100),
-                "magic": mt5_config().bensim_magic,
+                "magic": self.config.bensim_magic,
                 "comment": _bsm_comment(state.strategy_id, state.timeframe, "EXIT"),
                 "type_time": getattr(mt5, "ORDER_TIME_GTC", 0),
                 "type_filling": filling_type,
@@ -2327,7 +2423,7 @@ class AdaptiveManagementService:
                 "symbol": state.symbol,
                 "sl": sl,
                 "tp": tp,
-                "magic": mt5_config().bensim_magic,
+                "magic": self.config.bensim_magic,
                 "comment": _bsm_comment(state.strategy_id, state.timeframe, "SLTP"),
             }
         return None
@@ -2383,6 +2479,7 @@ class AdaptiveManagementService:
             stage = (action.evidence or {}).get("stage")
             if state and action.action_type == "TP_PROGRESS_PARTIAL_PROTECT" and stage:
                 stage_row = AdaptivePartialExitStageORM(stage_id="APES_" + _hash({"position": action.position_id, "stage": stage})[:40])
+                stage_row.account_id = self.account_id
                 stage_row.position_id = action.position_id
                 stage_row.stage = stage
                 stage_row.trigger_tp_progress = float((action.evidence or {}).get("tp_progress") or 0)
@@ -2399,6 +2496,7 @@ class AdaptiveManagementService:
         the full attempt history survives, nothing is overwritten)."""
         target_stage = str((action.evidence or {}).get("target_stage") or "PARTIAL_1")
         row = AdaptivePartialProfitStageORM(stage_attempt_id="APPS_" + _hash({"action": action.action_id})[:40])
+        row.account_id = self.account_id
         row.position_id = state.position_id
         row.broker_ticket = state.broker_ticket
         row.account_fingerprint = state.account_fingerprint
@@ -2492,7 +2590,7 @@ class AdaptiveManagementService:
 
     def _record_action_failure(self, reason: str) -> None:
         with SessionLocal() as db:
-            breaker = _breaker(db)
+            breaker = _breaker(db, self.account_id)
             breaker.failed_actions += 1
             breaker.reason = reason
             if breaker.failed_actions >= _env_int("ADAPTIVE_BREAKER_FAILURE_LIMIT", 3, minimum=1, maximum=10):
@@ -2503,7 +2601,7 @@ class AdaptiveManagementService:
 
     def _open_breaker(self, reason: str) -> None:
         with SessionLocal() as db:
-            breaker = _breaker(db)
+            breaker = _breaker(db, self.account_id)
             breaker.state = "open"
             breaker.reason = reason
             breaker.opened_at = utcnow()
@@ -2820,7 +2918,14 @@ def _normalize_history_row(row: dict[str, Any], session_id: str, event_type: str
     deal_id = str(raw.get("ticket") or "") if event_type == "DEAL" else None
     position_id = str(raw.get("position_id") or raw.get("position") or raw.get("identifier") or order_id or "")
     comment = str(raw.get("comment") or "")
-    return {"event_id": "AE_" + _hash({"session": session_id, "type": event_type, "raw": raw})[:40], "session_id": session_id, "trade_id": position_id or order_id or deal_id, "ticket": str(raw.get("ticket") or ""), "order_id": order_id, "deal_id": deal_id, "position_id": position_id, "event_type": event_type, "symbol": symbol, "side": side, "volume": _float(raw.get("volume")), "price": _float(raw.get("price") or raw.get("price_open")), "stop_loss": _float(raw.get("sl")), "take_profit": _float(raw.get("tp")), "commission": _float(raw.get("commission")) or 0.0, "swap": _float(raw.get("swap")) or 0.0, "fee": _float(raw.get("fee")) or 0.0, "realized_pnl": _float(raw.get("profit")) or 0.0, "magic": _int(raw.get("magic")), "comment": comment, "strategy_id": _lineage(comment, "strategy"), "strategy_version": _lineage(comment, "strategy_version"), "setup_id": _lineage(comment, "setup"), "timeframe": _lineage(comment, "timeframe"), "broker_exit_reason": _broker_exit_reason(raw), "server_time": utc_time, "utc_time": utc_time, "actor": _actor(comment), "raw_payload": sanitize(raw)}
+    # Keyed on the deal/order's own broker ticket only (not session_id) so re-importing the same
+    # trailing window on every reconciliation cycle (_reconcile_recently_closed calls
+    # import_mt5_session with no session_id, so a new MT5_SESSION_<timestamp> is minted each
+    # time) upserts the existing row via db.merge() instead of inserting a fresh duplicate --
+    # previously this multiplied a closed position's realized P&L by however many cycles it sat
+    # inside the reconciliation lookback window.
+    stable_ticket = str(raw.get("ticket") or order_id or "")
+    return {"event_id": "AE_" + _hash({"type": event_type, "ticket": stable_ticket})[:40], "session_id": session_id, "trade_id": position_id or order_id or deal_id, "ticket": str(raw.get("ticket") or ""), "order_id": order_id, "deal_id": deal_id, "position_id": position_id, "event_type": event_type, "symbol": symbol, "side": side, "volume": _float(raw.get("volume")), "price": _float(raw.get("price") or raw.get("price_open")), "stop_loss": _float(raw.get("sl")), "take_profit": _float(raw.get("tp")), "commission": _float(raw.get("commission")) or 0.0, "swap": _float(raw.get("swap")) or 0.0, "fee": _float(raw.get("fee")) or 0.0, "realized_pnl": _float(raw.get("profit")) or 0.0, "magic": _int(raw.get("magic")), "comment": comment, "strategy_id": normalize_strategy_id(_lineage(comment, "strategy")), "strategy_version": _lineage(comment, "strategy_version"), "setup_id": _lineage(comment, "setup"), "timeframe": _lineage(comment, "timeframe"), "broker_exit_reason": _broker_exit_reason(raw), "server_time": utc_time, "utc_time": utc_time, "actor": _actor(comment), "raw_payload": sanitize(raw)}
 
 
 def _normalize_position_row(row: dict[str, Any], session_id: str) -> dict[str, Any]:
@@ -2828,7 +2933,10 @@ def _normalize_position_row(row: dict[str, Any], session_id: str) -> dict[str, A
     utc_time = _parse_dt(raw.get("time"))
     side = "LONG" if int(raw.get("type") or 0) == 0 else "SHORT"
     ticket = str(raw.get("ticket") or raw.get("identifier") or "")
-    return {"event_id": "AE_" + _hash({"session": session_id, "type": "POSITION", "raw": raw})[:40], "session_id": session_id, "trade_id": ticket, "ticket": ticket, "order_id": ticket, "deal_id": None, "position_id": str(raw.get("identifier") or ticket), "event_type": "POSITION", "symbol": str(raw.get("symbol") or "UNKNOWN").upper(), "side": side, "volume": _float(raw.get("volume")), "price": _float(raw.get("price_open")), "stop_loss": _float(raw.get("sl")), "take_profit": _float(raw.get("tp")), "commission": _float(raw.get("commission")) or 0.0, "swap": _float(raw.get("swap")) or 0.0, "fee": 0.0, "realized_pnl": _float(raw.get("profit")) or 0.0, "magic": _int(raw.get("magic")), "comment": raw.get("comment"), "strategy_id": _lineage(raw.get("comment"), "strategy"), "strategy_version": _lineage(raw.get("comment"), "strategy_version"), "setup_id": _lineage(raw.get("comment"), "setup"), "timeframe": _lineage(raw.get("comment"), "timeframe"), "broker_exit_reason": None, "server_time": utc_time, "utc_time": utc_time, "actor": _actor(raw.get("comment")), "raw_payload": sanitize(raw)}
+    # See _normalize_history_row: keyed on the position's own ticket only, so re-importing an
+    # open position's current snapshot every cycle upserts one row instead of accumulating one
+    # per import call.
+    return {"event_id": "AE_" + _hash({"type": "POSITION", "ticket": ticket})[:40], "session_id": session_id, "trade_id": ticket, "ticket": ticket, "order_id": ticket, "deal_id": None, "position_id": str(raw.get("identifier") or ticket), "event_type": "POSITION", "symbol": str(raw.get("symbol") or "UNKNOWN").upper(), "side": side, "volume": _float(raw.get("volume")), "price": _float(raw.get("price_open")), "stop_loss": _float(raw.get("sl")), "take_profit": _float(raw.get("tp")), "commission": _float(raw.get("commission")) or 0.0, "swap": _float(raw.get("swap")) or 0.0, "fee": 0.0, "realized_pnl": _float(raw.get("profit")) or 0.0, "magic": _int(raw.get("magic")), "comment": raw.get("comment"), "strategy_id": normalize_strategy_id(_lineage(raw.get("comment"), "strategy")), "strategy_version": _lineage(raw.get("comment"), "strategy_version"), "setup_id": _lineage(raw.get("comment"), "setup"), "timeframe": _lineage(raw.get("comment"), "timeframe"), "broker_exit_reason": None, "server_time": utc_time, "utc_time": utc_time, "actor": _actor(raw.get("comment")), "raw_payload": sanitize(raw)}
 
 
 def _event_orm(event: dict[str, Any]) -> AdaptiveTradeEventORM:
@@ -3012,8 +3120,11 @@ def _drift_state(values: list[float]) -> str:
     return "stable"
 
 
-def _effective_config(account: dict[str, Any] | None = None) -> dict[str, Any]:
-    cfg = mt5_config()
+def _effective_config(account: dict[str, Any] | None = None, config: Any | None = None) -> dict[str, Any]:
+    # config defaults to the global demo_10k config for callers outside AdaptiveManagementService
+    # (tests, scripts); class methods always pass self.config so this reflects the ACTUAL account
+    # being processed, not always demo_10k.
+    cfg = config or mt5_config()
     risk = ai_trading_config()
     return sanitize({"configuration_version": "adaptive_observation_v1", "strategy_version": "active_current_unchanged", "risk_version": "active_current_unchanged", "sizing_version": "active_current_unchanged", "mt5_autonomous_submission_enabled": cfg.autonomous_submission_enabled, "order_submission_enabled": cfg.order_submission_enabled, "live_trading_enabled": cfg.live_trading_enabled, "max_position_size_forex": str(risk.max_position_size_forex), "max_risk_percent": str(risk.max_risk_percent), "max_trade_loss_usd": str(risk.max_trade_loss_usd), "max_open_positions": str(risk.max_open_positions), "account": account or {}})
 
@@ -3028,45 +3139,119 @@ async def context_for_trade(symbol: str, timestamp: datetime | None = None) -> d
 _TIMEFRAME_MINUTES = {"M1": 1, "M5": 5, "M15": 15, "M30": 30, "H1": 60, "H4": 240, "D1": 1440}
 
 
-async def _replay_candles(symbol: str, timeframe: str, entry_time: datetime | None, exit_time: datetime | None) -> list[dict[str, Any]]:
-    """Fetches enough of the trade's own timeframe to cover its full lifetime (plus lead-in
-    context) for reconstruct_path/replay -- unlike _safe_candles (fixed 120-bar window for the
-    live management cycle), a closed trade needing replay can span far more bars than that."""
-    minutes = _TIMEFRAME_MINUTES.get(timeframe.upper(), 5)
-    span_minutes = 120.0
-    if entry_time and exit_time:
-        span_minutes = max(span_minutes, (_as_aware(exit_time) - _as_aware(entry_time)).total_seconds() / 60.0)
-    count = min(500, max(60, int(span_minutes / minutes) + 30))
-    try:
-        candles = await mt5_adapter.candles(symbol, timeframe.upper(), count=count)
-        return [row.model_dump(mode="json") for row in candles]
-    except Exception:
+async def _replay_candles(symbol: str, timeframe: str, entry_time: datetime | None, exit_time: datetime | None, adapter: Any | None = None) -> list[dict[str, Any]]:
+    """Point-in-time historical candle fetch for reconstruct_path/replay.
+
+    ROOT-CAUSE FIX (Forex/MT5 roadmap, profit-retention investigation): this function used to
+    call `adapter.candles(...)`, which wraps MT5's `copy_rates_from_pos(symbol, tf, start=1,
+    count)` -- a REAL-TIME fetch of the most recent `count` bars counting backward from NOW,
+    with no relationship whatsoever to `entry_time`/`exit_time`. For any trade that had already
+    closed by the time replay ran (i.e. every real trade replay ever processes), the returned
+    candles were entirely AFTER `exit_time`. reconstruct_path()'s own window filter
+    (`entry_time <= candle.time <= exit_time`) then correctly discarded every single one,
+    silently leaving `ordered=[]` for the entire replay -- so `mfe`/`mae`/`max_achieved_r` stayed
+    at their initial value of 0.0 for every real replayed trade (confirmed: all 36 real rows in
+    TradePathSnapshotORM showed exactly 0.0, not a small/plausible value). No exception was ever
+    raised, so this went undetected until directly compared against a real, expected MFE
+    distribution.
+
+    Fixed by reading the SAME revision-aware, point-in-time-safe candle tables Historical
+    Intelligence's own outcome labeling already reads (MT5CandleRevisionORM, preferring the
+    latest revision per bar; MT5CanonicalCandleORM as fallback for bars with no revision row yet)
+    -- bounded to [entry_time - lead_in, exit_time], using each table's UTC-corrected timestamp
+    column (`bar_timestamp_utc` / `timestamp_utc`, falling back to the raw broker-server
+    `timestamp` only when `timestamp_utc` was never backfilled) rather than the raw
+    broker-server-local one, exactly like outcomes.py's _future_candles_with_quality does for
+    live outcome resolution. adapter/mt5_adapter parameters are kept for call-site compatibility
+    but are no longer used -- this reads persisted history, never a live broker call."""
+    from backend.brokers.mt5.orm import MT5CanonicalCandleORM
+    from backend.historical_intelligence.orm import MT5CandleRevisionORM
+
+    if entry_time is None:
         return []
+    tf = timeframe.upper()
+    broker_symbol = symbol.upper()
+    minutes = _TIMEFRAME_MINUTES.get(tf, 5)
+    lead_in = timedelta(minutes=minutes * 30)  # ~30 bars of pre-entry context, same intent as the old count padding
+    start = _as_aware(entry_time) - lead_in
+    end = _as_aware(exit_time) if exit_time else utcnow()
+
+    resolved: dict[datetime, dict[str, Any]] = {}
+    with SessionLocal() as db:
+        revision_rows = (
+            db.query(MT5CandleRevisionORM)
+            .filter(
+                MT5CandleRevisionORM.provider == "MT5",
+                MT5CandleRevisionORM.broker_symbol == broker_symbol,
+                MT5CandleRevisionORM.timeframe == tf,
+                MT5CandleRevisionORM.bar_timestamp_utc >= start,
+                MT5CandleRevisionORM.bar_timestamp_utc <= end,
+            )
+            .order_by(MT5CandleRevisionORM.bar_timestamp_utc.asc(), MT5CandleRevisionORM.revision_number.asc())
+            .all()
+        )
+        for rev in revision_rows:
+            bar_time = _as_aware(rev.bar_timestamp_utc)
+            resolved[bar_time] = {"time": bar_time.isoformat(), "open": rev.open, "high": rev.high, "low": rev.low, "close": rev.close, "spread": rev.spread}
+
+        # Widened raw-timestamp bound (broker-server time can lead/lag UTC by a few hours) --
+        # the precise [start, end] cut happens below using each row's resolved UTC instant.
+        canonical_rows = (
+            db.query(MT5CanonicalCandleORM)
+            .filter(
+                MT5CanonicalCandleORM.provider == "MT5",
+                MT5CanonicalCandleORM.broker_symbol == broker_symbol,
+                MT5CanonicalCandleORM.timeframe == tf,
+                MT5CanonicalCandleORM.timestamp >= start - timedelta(hours=14),
+                MT5CanonicalCandleORM.timestamp <= end + timedelta(hours=14),
+                MT5CanonicalCandleORM.quality != "INVALID",
+            )
+            .order_by(MT5CanonicalCandleORM.timestamp.asc())
+            .all()
+        )
+        for row in canonical_rows:
+            bar_time = _as_aware(row.timestamp_utc or row.timestamp)
+            if bar_time < start or bar_time > end or bar_time in resolved:
+                continue
+            resolved[bar_time] = {"time": bar_time.isoformat(), "open": row.open, "high": row.high, "low": row.low, "close": row.close, "spread": row.spread}
+
+    return sorted(resolved.values(), key=lambda c: c["time"])
 
 
-async def _safe_candles(symbol: str) -> list[dict[str, Any]]:
+async def _safe_candles(symbol: str, adapter: Any | None = None) -> list[dict[str, Any]]:
     timeframe = os.getenv("ADAPTIVE_MANAGEMENT_TIMEFRAME", "M5").upper()
     try:
-        candles = await mt5_adapter.candles(symbol, timeframe, count=_env_int("ADAPTIVE_MANAGEMENT_CANDLE_COUNT", 120, minimum=20, maximum=500))
+        candles = await (adapter or mt5_adapter).candles(symbol, timeframe, count=_env_int("ADAPTIVE_MANAGEMENT_CANDLE_COUNT", 120, minimum=20, maximum=500))
         return [row.model_dump(mode="json") for row in candles]
     except Exception as exc:
         return [{"time": utcnow().isoformat(), "open": 0, "high": 0, "low": 0, "close": 0, "quality_flags": [exc.__class__.__name__]}]
 
 
-def _active_activation(db: Any) -> AdaptiveActivationORM | None:
+def _active_activation(db: Any, account_id: str = "demo_10k") -> AdaptiveActivationORM | None:
+    # account_id filter is load-bearing: without it, whichever account activated demo_active
+    # MOST RECENTLY would appear "active" for every other account's cycle too, potentially
+    # enabling broker mutation on an account nobody actually approved.
     return (
         db.query(AdaptiveActivationORM)
-        .filter(AdaptiveActivationORM.active.is_(True), AdaptiveActivationORM.mode == "demo_active")
+        .filter(AdaptiveActivationORM.active.is_(True), AdaptiveActivationORM.mode == "demo_active", AdaptiveActivationORM.account_id == account_id)
         .order_by(AdaptiveActivationORM.created_at.desc())
         .first()
     )
 
 
-def _breaker(db: Any) -> AdaptiveCircuitBreakerORM:
-    row = db.get(AdaptiveCircuitBreakerORM, "adaptive_demo_manager")
+def _breaker_id(account_id: str) -> str:
+    # demo_10k keeps the original unprefixed id (backward compatible with the existing single
+    # row); every other account gets its own breaker so one account's trips/resets can never
+    # affect another's -- previously ALL accounts shared this one global row.
+    return "adaptive_demo_manager" if account_id == "demo_10k" else f"adaptive_demo_manager:{account_id}"
+
+
+def _breaker(db: Any, account_id: str = "demo_10k") -> AdaptiveCircuitBreakerORM:
+    breaker_id = _breaker_id(account_id)
+    row = db.get(AdaptiveCircuitBreakerORM, breaker_id)
     if row:
         return row
-    row = AdaptiveCircuitBreakerORM(breaker_id="adaptive_demo_manager")
+    row = AdaptiveCircuitBreakerORM(breaker_id=breaker_id, account_id=account_id)
     row.state = "closed"
     db.add(row)
     db.flush()
@@ -3089,8 +3274,19 @@ def _rate_limit_ok(breaker: AdaptiveCircuitBreakerORM, maximum_actions_per_hour:
     return True
 
 
-def _position_id(payload: dict[str, Any]) -> str:
-    return str(payload.get("identifier") or payload.get("ticket") or _hash(payload)[:32])
+def _position_id(payload: dict[str, Any], account_id: str = "demo_10k") -> str:
+    """Broker position tickets are only unique WITHIN one MT5 account -- different
+    accounts/brokers routinely reuse the same small sequential ticket ranges, so without
+    scoping, Account A's ticket 12345 and Account B's ticket 12345 would collide on the same
+    AdaptivePositionStateORM/AdaptivePositionBaselineORM/AdaptiveManagerCounterfactualORM row
+    and silently merge their risk/management state. demo_10k keeps the raw, unprefixed ticket
+    exactly as before -- every existing row in the database already uses this format, and
+    demo_10k is (and always has been) the only account with real historical data, so changing
+    its id format would orphan every currently-tracked open position's history. Every other
+    account gets an account_id-prefixed id, which can never collide with demo_10k's raw tickets
+    or with another account's own prefixed ids."""
+    raw = str(payload.get("identifier") or payload.get("ticket") or _hash(payload)[:32])
+    return raw if account_id == "demo_10k" else f"{account_id}:{raw}"
 
 
 def _position_direction(payload: dict[str, Any]) -> str:
@@ -3121,9 +3317,12 @@ def _as_aware(value: datetime | None) -> datetime | None:
     return value if value.tzinfo else value.replace(tzinfo=timezone.utc)
 
 
-def _idempotency_key(position_id: str, action_type: str, volume: float | None, sl: float | None, tp: float | None) -> str:
+def _idempotency_key(account_id: str, position_id: str, action_type: str, volume: float | None, sl: float | None, tp: float | None) -> str:
+    # account_id is hashed explicitly, not left to be implied by position_id's own
+    # account-prefixing convention (see _position_id docstring) -- makes the key self-evidently
+    # account-scoped rather than depending on an invariant defined in a different function.
     bucket = utcnow().replace(second=0, microsecond=0).isoformat()
-    return "AMI_" + _hash({"position": position_id, "action": action_type, "volume": volume, "sl": sl, "tp": tp, "bucket": bucket})[:48]
+    return "AMI_" + _hash({"account": account_id, "position": position_id, "action": action_type, "volume": volume, "sl": sl, "tp": tp, "bucket": bucket})[:48]
 
 
 def _breakeven_price(state: AdaptivePositionStateORM, symbol_info: Any | None = None) -> float:
@@ -3553,4 +3752,78 @@ def _hash(payload: Any) -> str:
     return hashlib.sha256(json.dumps(sanitize(payload), sort_keys=True, default=str).encode("utf-8")).hexdigest()
 
 
-adaptive_management_service = AdaptiveManagementService()
+class AdaptiveManagementMultiAccountOrchestrator:
+    """Fans the Adaptive Trade Manager's monitor loop across every ENABLED MT5 account profile
+    -- mirrors backend.brokers.mt5.autonomous.MT5MultiAccountAutonomousOrchestrator exactly
+    (same _enabled_profiles/_enabled_services shape, same demo_10k-reuses-default_service
+    special case for backward compatibility with every existing route/test that imports
+    adaptive_management_service expecting a single AdaptiveManagementService).
+
+    Unlike the MT5 autonomous engine (which needs one shared M5-candle clock fanned out across
+    accounts), each AdaptiveManagementService instance already owns its own independent
+    asyncio.Task/polling loop (_monitor_loop) -- so this orchestrator only needs to start/stop
+    one such task per enabled account, not coordinate a shared cycle."""
+
+    def __init__(self, default_service: AdaptiveManagementService | None = None) -> None:
+        self.default_service = default_service or AdaptiveManagementService()
+        self._services: dict[str, AdaptiveManagementService] = {"demo_10k": self.default_service}
+
+    def __getattr__(self, name: str) -> Any:
+        return getattr(self.default_service, name)
+
+    def _enabled_profiles(self) -> list[account_registry.MT5AccountProfile]:
+        return [profile for profile in account_registry.configured_profiles() if profile.enabled]
+
+    def _enabled_services(self) -> dict[str, AdaptiveManagementService]:
+        services: dict[str, AdaptiveManagementService] = {}
+        for profile in self._enabled_profiles():
+            if profile.account_id == "demo_10k":
+                service = self.default_service
+            else:
+                service = self._services.get(profile.account_id)
+                if service is None:
+                    service = AdaptiveManagementService(adapter_for_account(profile.account_id), profile.account_id)
+                    self._services[profile.account_id] = service
+            services[profile.account_id] = service
+        return services
+
+    async def start(self) -> None:
+        services = self._enabled_services()
+        if not services:
+            logger.warning("Adaptive trade manager multi-account monitor not started: no enabled MT5 account profiles")
+            return
+        for service in services.values():
+            await service.start()
+        logger.warning("Adaptive trade manager multi-account monitor started accounts=%s", ",".join(services))
+
+    async def stop(self) -> None:
+        for service in self._services.values():
+            await service.stop()
+        logger.warning("Adaptive trade manager multi-account monitor stopped")
+
+    def account_status(self, account_id: str) -> dict[str, Any] | None:
+        service = self._enabled_services().get(account_id) or self._services.get(account_id)
+        return service.status() if service else None
+
+    def reset_circuit_breaker_for(self, account_id: str, reason: str = "manual_reset") -> dict[str, Any] | None:
+        # Bare .reset_circuit_breaker() (via __getattr__) only ever reaches default_service
+        # (demo_10k) -- this is the account-scoped equivalent, needed because a circuit breaker
+        # that tripped on a genuine broker rejection (MT5_REJECTED:*) has no auto-recovery path
+        # (see _auto_recover_breaker, which only clears BROKER_NOT_READY trips) and must be
+        # reset explicitly, per account.
+        service = self._enabled_services().get(account_id) or self._services.get(account_id)
+        return service.reset_circuit_breaker(reason) if service else None
+
+    def status(self) -> dict[str, Any]:
+        services = self._enabled_services()
+        accounts = {account_id: service.status() for account_id, service in services.items()}
+        default_status = self.default_service.status()
+        return {
+            **default_status,
+            "multi_account_enabled": True,
+            "enabled_accounts": list(accounts),
+            "accounts": accounts,
+        }
+
+
+adaptive_management_service = AdaptiveManagementMultiAccountOrchestrator(AdaptiveManagementService())

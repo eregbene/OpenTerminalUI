@@ -211,8 +211,8 @@ def _wire_common_cycle_mocks(monkeypatch: pytest.MonkeyPatch, service: MT5Autono
     monkeypatch.setattr(service, "_screen", lambda items, **kwargs: asyncio.sleep(0, result=candidates))
     monkeypatch.setattr(service, "_entry_quality_score", lambda candidate: asyncio.sleep(0, result={"status": "ok", "total_score": 0.9, "positive_contributors": [], "negative_contributors": [], "trend_state": "BULLISH"}))
     monkeypatch.setattr("backend.brokers.mt5.autonomous.confidence_memory_for_symbol", lambda symbol: (None, None))
-    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.exposure", lambda: {"currency": {}})
-    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.can_open_new_trade", lambda: (True, []))
+    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.exposure", lambda *args, **kwargs: {"currency": {}})
+    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.can_open_new_trade", lambda *args, **kwargs: (True, []))
     monkeypatch.setattr("backend.brokers.mt5.autonomous.decision_context_service.context_risk", lambda symbol: asyncio.sleep(0, result={"block_reasons": [], "acknowledgement_required": False}))
     monkeypatch.setattr("backend.brokers.mt5.autonomous.economic_intelligence_service.evaluate_entry_deterministic", _fake_economic_evaluate_allow)
 
@@ -278,7 +278,7 @@ def test_active_promoted_strategy_still_blocked_by_portfolio_guard(monkeypatch: 
         "stop_loss": "1.0950", "take_profit": "1.1150", "strategy_activation": ACTIVE_MT5,
     }
     _wire_common_cycle_mocks(monkeypatch, service, [active_candidate])
-    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.can_open_new_trade", lambda: (False, ["MAX_TOTAL_OPEN_RISK"]))
+    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.can_open_new_trade", lambda *args, **kwargs: (False, ["MAX_TOTAL_OPEN_RISK"]))
     result = asyncio.run(service.run_cycle(owner="portfolio-guard-test"))
     assert result["status"] == "PORTFOLIO_REJECTED"
 

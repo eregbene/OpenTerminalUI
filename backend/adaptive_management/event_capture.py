@@ -102,6 +102,7 @@ def capture_management_event(
     action_type = str(action.action_type or "HOLD")
 
     row = AdaptiveManagementEventORM(event_id="AME_" + _hash({"position_id": state.position_id, "action_id": action.action_id, "cycle_run_id": cycle_run_id})[:40])
+    row.account_id = getattr(state, "account_id", None) or "demo_10k"
     row.cycle_run_id = cycle_run_id
     row.created_at = utcnow()
     row.position_id = str(state.position_id)
@@ -171,6 +172,7 @@ def capture_position_baseline(*, state: Any) -> bool:
         original_confidence, confidence_band, candidate_rank = _confidence_join(state.broker_ticket)
 
         row = AdaptivePositionBaselineORM(position_id=str(state.position_id))
+        row.account_id = getattr(state, "account_id", None) or "demo_10k"
         row.broker_ticket = state.broker_ticket
         row.symbol = str(state.symbol or "").upper()
         row.direction = str(state.direction or "").upper()

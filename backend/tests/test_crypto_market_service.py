@@ -20,73 +20,45 @@ class _FakeCache:
         self.data[key] = value
 
 
-class _FakeYahoo:
-    def __init__(self) -> None:
-        self.quote_calls = 0
-
-    async def get_quotes(self, symbols: list[str]):  # noqa: ARG002
-        self.quote_calls += 1
-        return [
-            {
-                "symbol": "BTC-USD",
-                "regularMarketPrice": 50000,
-                "regularMarketChangePercent": 2.1,
-                "regularMarketVolume": 1000,
-                "regularMarketDayHigh": 51000,
-                "regularMarketDayLow": 49000,
-            },
-            {
-                "symbol": "ETH-USD",
-                "regularMarketPrice": 3000,
-                "regularMarketChangePercent": -1.2,
-                "regularMarketVolume": 800,
-                "regularMarketDayHigh": 3200,
-                "regularMarketDayLow": 2800,
-            },
-        ]
-
-    async def get_chart(self, symbol: str, range_str: str = "1mo", interval: str = "1d"):  # noqa: ARG002
-        return {
-            "chart": {
-                "result": [
-                    {
-                        "timestamp": [1735689600, 1735776000, 1735862400],
-                        "indicators": {
-                            "quote": [
-                                {
-                                    "open": [100, 101, 102],
-                                    "high": [101, 102, 103],
-                                    "low": [99, 100, 101],
-                                    "close": [100.5, 101.5, 102.5],
-                                    "volume": [10, 11, 12],
-                                }
-                            ]
-                        },
-                    }
-                ]
-            }
-        }
-
-
-class _RateLimitedYahoo:
-    async def get_quotes(self, symbols: list[str]):  # noqa: ARG002
-        raise RuntimeError("429 Too Many Requests")
-
-    async def get_chart(self, symbol: str, range_str: str = "1mo", interval: str = "1d"):  # noqa: ARG002
-        return {"chart": {"result": []}}
-
-
 class _FakeFetcher:
-    def __init__(self, yahoo: _FakeYahoo) -> None:
-        self.yahoo = yahoo
+    """No crypto quote-universe/candle source is wired into UnifiedFetcher anymore (the Yahoo
+    Finance endpoints this used to call were removed, with no replacement) -- CryptoMarketService
+    now only ever reads from cache/stale-cache. This stub stands in for the fetcher_factory
+    signature without needing to expose any live-source methods."""
 
 
-def test_crypto_service_market_cache_reuses_quotes() -> None:
+_UNIVERSE_ROW = {
+    "symbol": "BTC-USD",
+    "name": "Bitcoin",
+    "price": 50000,
+    "change_24h": 2.1,
+    "volume_24h": 1000,
+    "market_cap": 50000000,
+    "sector": "L1",
+    "day_high": 51000,
+    "day_low": 49000,
+}
+
+_UNIVERSE_ROW_ETH = {
+    "symbol": "ETH-USD",
+    "name": "Ethereum",
+    "price": 3000,
+    "change_24h": -1.2,
+    "volume_24h": 800,
+    "market_cap": 2400000,
+    "sector": "L1",
+    "day_high": 3200,
+    "day_low": 2800,
+}
+
+
+def test_crypto_service_market_reads_from_cache() -> None:
     cache = _FakeCache()
-    yahoo = _FakeYahoo()
+    cache_key = cache.build_key("crypto_quotes", "universe", {"limit": 300})
+    cache.data[cache_key] = [_UNIVERSE_ROW, _UNIVERSE_ROW_ETH]
 
     async def _fetcher():
-        return _FakeFetcher(yahoo)
+        return _FakeFetcher()
 
     service = CryptoMarketService(cache_backend=cache, fetcher_factory=_fetcher)
     first = asyncio.run(service.markets(limit=10))
@@ -94,15 +66,15 @@ def test_crypto_service_market_cache_reuses_quotes() -> None:
 
     assert first["items"]
     assert second["items"]
-    assert yahoo.quote_calls == 1
 
 
 def test_crypto_service_market_filter_and_sort() -> None:
     cache = _FakeCache()
-    yahoo = _FakeYahoo()
+    cache_key = cache.build_key("crypto_quotes", "universe", {"limit": 300})
+    cache.data[cache_key] = [_UNIVERSE_ROW, _UNIVERSE_ROW_ETH]
 
     async def _fetcher():
-        return _FakeFetcher(yahoo)
+        return _FakeFetcher()
 
     service = CryptoMarketService(cache_backend=cache, fetcher_factory=_fetcher)
     result = asyncio.run(
@@ -120,10 +92,11 @@ def test_crypto_service_market_filter_and_sort() -> None:
 
 def test_crypto_service_coin_detail_shape() -> None:
     cache = _FakeCache()
-    yahoo = _FakeYahoo()
+    cache_key = cache.build_key("crypto_quotes", "universe", {"limit": 300})
+    cache.data[cache_key] = [_UNIVERSE_ROW]
 
     async def _fetcher():
-        return _FakeFetcher(yahoo)
+        return _FakeFetcher()
 
     service = CryptoMarketService(
         cache_backend=cache,
@@ -135,10 +108,12 @@ def test_crypto_service_coin_detail_shape() -> None:
     assert detail["symbol"] == "BTC-USD"
     assert detail["high_24h"] == 51000
     assert detail["low_24h"] == 49000
-    assert detail["sparkline"] == [100.5, 101.5, 102.5]
+    # No crypto candle source is wired in (core/crypto_adapter.py always returns an empty
+    # chart payload now) -- the sparkline degrades to empty rather than fabricating one.
+    assert detail["sparkline"] == []
 
 
-def test_crypto_service_uses_stale_cache_when_rate_limited() -> None:
+def test_crypto_service_uses_stale_cache_when_universe_cache_is_empty() -> None:
     cache = _FakeCache()
     stale_payload = [
         {
@@ -157,10 +132,25 @@ def test_crypto_service_uses_stale_cache_when_rate_limited() -> None:
     cache.data[stale_key] = stale_payload
 
     async def _fetcher():
-        return _FakeFetcher(_RateLimitedYahoo())
+        return _FakeFetcher()
 
     service = CryptoMarketService(cache_backend=cache, fetcher_factory=_fetcher)
     result = asyncio.run(service.markets(limit=10))
 
     assert len(result["items"]) == 1
     assert result["items"][0]["symbol"] == "BTC-USD"
+
+
+def test_crypto_service_market_empty_when_no_cache_available() -> None:
+    # No crypto quote-universe source is wired in anymore -- with neither the live cache nor
+    # the stale-cache rescue populated, markets() degrades to an empty universe rather than
+    # raising.
+    cache = _FakeCache()
+
+    async def _fetcher():
+        return _FakeFetcher()
+
+    service = CryptoMarketService(cache_backend=cache, fetcher_factory=_fetcher)
+    result = asyncio.run(service.markets(limit=10))
+
+    assert result["items"] == []

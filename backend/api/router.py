@@ -13,6 +13,8 @@ from backend.api.routes.brokers import router as brokers_router
 from backend.api.routes.commodities import router as commodities_router
 from backend.api.routes.correlation import router as correlation_router
 from backend.api.routes.context import router as context_router
+from backend.api.routes.historical_intelligence import router as historical_intelligence_router
+from backend.api.routes.forex_ops import router as forex_ops_router
 from backend.api.routes.economic_intelligence import router as economic_intelligence_router
 from backend.api.routes.pair_trading import router as pair_trading_router
 from backend.api.routes.etf import router as etf_router
@@ -87,6 +89,8 @@ api_router.include_router(ai_router, prefix="/api")
 api_router.include_router(ai_trading_router)
 api_router.include_router(agent_router, prefix="/api")
 api_router.include_router(adaptive_management_router)
+api_router.include_router(historical_intelligence_router)
+api_router.include_router(forex_ops_router)
 api_router.include_router(portfolio_execution_router)
 api_router.include_router(economic_intelligence_router)
 api_router.include_router(brokers_router)

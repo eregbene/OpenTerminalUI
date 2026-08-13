@@ -16,6 +16,7 @@ class MT5SchedulerCycleORM(Base):
     __tablename__ = "mt5_scheduler_cycles"
 
     cycle_id: Mapped[str] = mapped_column(String(96), primary_key=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     status: Mapped[str] = mapped_column(String(48), nullable=False, index=True)
     candle_id: Mapped[str | None] = mapped_column(String(96), nullable=True, index=True)
     candle_timestamp: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True, index=True)
@@ -38,6 +39,7 @@ class MT5SchedulerCandidateORM(Base):
 
     candidate_id: Mapped[str] = mapped_column(String(128), primary_key=True)
     cycle_id: Mapped[str] = mapped_column(String(96), nullable=False, index=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     symbol: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
     broker_symbol: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
     asset_class: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
@@ -74,6 +76,7 @@ class MT5AIDecisionORM(Base):
 
     decision_id: Mapped[str] = mapped_column(String(128), primary_key=True)
     cycle_id: Mapped[str] = mapped_column(String(96), nullable=False, index=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     candidate_id: Mapped[str | None] = mapped_column(String(128), nullable=True, index=True)
     symbol: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
     decision: Mapped[str] = mapped_column(String(16), nullable=False, index=True)
@@ -92,6 +95,7 @@ class MT5OrderRecordORM(Base):
     __tablename__ = "mt5_order_records"
 
     order_id: Mapped[str] = mapped_column(String(128), primary_key=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     trade_id: Mapped[str | None] = mapped_column(String(128), nullable=True, index=True)
     cycle_id: Mapped[str | None] = mapped_column(String(96), nullable=True, index=True)
     candidate_id: Mapped[str | None] = mapped_column(String(128), nullable=True, index=True)
@@ -117,6 +121,7 @@ class MT5TradeRecordORM(Base):
     __tablename__ = "mt5_trade_records"
 
     trade_id: Mapped[str] = mapped_column(String(128), primary_key=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     cycle_id: Mapped[str] = mapped_column(String(96), nullable=False, index=True)
     candidate_id: Mapped[str | None] = mapped_column(String(128), nullable=True, index=True)
     ai_decision_id: Mapped[str | None] = mapped_column(String(128), nullable=True, index=True)
@@ -134,9 +139,17 @@ class MT5TradeRecordORM(Base):
     deal_tickets: Mapped[list] = mapped_column(JSON, nullable=False, default=list)
     fill_price: Mapped[float | None] = mapped_column(Float, nullable=True)
     current_pnl: Mapped[float | None] = mapped_column(Float, nullable=True)
+    # realized_pnl is NET of cost (gross_pnl + commission + swap + fee) -- see
+    # backend/brokers/mt5/trading_costs.py::compute_trade_costs, the single source of truth for
+    # this arithmetic across the codebase.
     realized_pnl: Mapped[float | None] = mapped_column(Float, nullable=True)
+    gross_pnl: Mapped[float | None] = mapped_column(Float, nullable=True)
     commission: Mapped[float | None] = mapped_column(Float, nullable=True)
     swap: Mapped[float | None] = mapped_column(Float, nullable=True)
+    fee: Mapped[float | None] = mapped_column(Float, nullable=True)
+    total_trading_cost: Mapped[float | None] = mapped_column(Float, nullable=True)
+    commission_per_lot_effective: Mapped[float | None] = mapped_column(Float, nullable=True)
+    commission_source: Mapped[str | None] = mapped_column(String(24), nullable=True)
     open_timestamp: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True, index=True)
     close_timestamp: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True, index=True)
     duration_seconds: Mapped[int | None] = mapped_column(Integer, nullable=True)
@@ -163,6 +176,7 @@ class MT5TradeMemorySnapshotORM(Base):
     __tablename__ = "mt5_trade_memory_snapshots"
 
     memory_id: Mapped[str] = mapped_column(String(128), primary_key=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     scope: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
     symbol: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
     session: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
@@ -215,6 +229,17 @@ class MT5CanonicalCandleORM(Base):
     fetched_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, onupdate=utcnow)
+    # Additive columns for historical_intelligence's point-in-time integrity work (never written
+    # or read by the live trading path -- backend/brokers/mt5/persistence.py::persist_candles
+    # leaves these at their defaults). `timestamp` above stays exactly as the live path has
+    # always written it (broker-server time for MT5, unchanged for backward compatibility);
+    # `timestamp_utc` is the same instant corrected via `broker_utc_offset_minutes` as detected
+    # at ingestion time -- NULL means "not yet corrected" (older rows / non-MT5-aware writers),
+    # never "confirmed equal to `timestamp`". `finalized` mirrors mt5_candle_revisions.finalized
+    # for this bar's CURRENT value -- see historical_intelligence/quality.py::is_finalized.
+    timestamp_utc: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    broker_utc_offset_minutes: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    finalized: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, index=True)
 
     __table_args__ = (
         UniqueConstraint("provider", "broker_symbol", "timeframe", "timestamp", name="uq_mt5_candle_provider_symbol_tf_ts"),
@@ -322,8 +347,20 @@ class MT5CandidateEvaluationORM(Base):
 
     evaluation_id: Mapped[str] = mapped_column(String(128), primary_key=True)
     cycle_id: Mapped[str] = mapped_column(String(96), nullable=False, index=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     candidate_id: Mapped[str] = mapped_column(String(128), nullable=False, unique=True, index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
+    # The exact timestamp of the last M15 bar actually used to build this candidate's
+    # StrategyContext (context["timestamp"] in autonomous.py::_screen, computed live but
+    # previously discarded after use) -- NOT the same instant as created_at, which is written
+    # later, after prefilter/scoring/confidence-calibration/DB-write for potentially many other
+    # symbols in the same cycle. historical_intelligence's replay/parity code prefers this column
+    # (when present) over created_at as its point-in-time anchor, since created_at's small lag
+    # behind the real market-data-fetch instant was identified as a likely source of residual
+    # reconstructed-tier replay imprecision for threshold-sensitive strategies (EMA100 alignment,
+    # non-session-anchored cumulative VWAP, short structural-recency windows). Nullable/additive;
+    # rows written before this column existed simply fall back to created_at.
+    market_data_as_of: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True, index=True)
 
     symbol: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
     broker_symbol: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
@@ -377,6 +414,13 @@ class MT5CandidateEvaluationORM(Base):
     open_positions_snapshot: Mapped[list] = mapped_column(JSON, nullable=False, default=list)
     correlated_exposure_snapshot: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
 
+    # DEMO-only MTFAI1 entry-quality experiment (backend.brokers.mt5.autonomous.
+    # _apply_mtfai1_confirmation_gate). Set only for the one executed candidate each cycle when
+    # it is MTFAI1 -- NULL/empty for every other row, including historical rows written before
+    # this experiment existed (never guessed after the fact).
+    mtfai1_confirmed: Mapped[bool | None] = mapped_column(Boolean, nullable=True, index=True)
+    mtfai1_confirming_strategy_ids: Mapped[list] = mapped_column(JSON, nullable=False, default=list)
+
     # --- Outcome tracking: NULL/PENDING at insert, filled in strictly afterward. ---
     # PENDING (not yet classified) | SHADOW (tracked via market data only, no order) |
     # EXECUTED (linked to a real MT5 position via broker_ticket).
@@ -391,7 +435,17 @@ class MT5CandidateEvaluationORM(Base):
     mae_r: Mapped[float | None] = mapped_column(Float, nullable=True)
     hypothetical_r: Mapped[float | None] = mapped_column(Float, nullable=True)
     realized_r: Mapped[float | None] = mapped_column(Float, nullable=True)
+    # realized_pnl here is NET of cost (matches mt5_trade_records.realized_pnl's meaning) --
+    # gross_pnl/commission/swap/fee are the same compute_trade_costs breakdown, only populated
+    # for outcome_type == EXECUTED rows (see outcome_resolver.py).
     realized_pnl: Mapped[float | None] = mapped_column(Float, nullable=True)
+    gross_pnl: Mapped[float | None] = mapped_column(Float, nullable=True)
+    commission: Mapped[float | None] = mapped_column(Float, nullable=True)
+    swap: Mapped[float | None] = mapped_column(Float, nullable=True)
+    fee: Mapped[float | None] = mapped_column(Float, nullable=True)
+    net_pnl: Mapped[float | None] = mapped_column(Float, nullable=True)
+    total_trading_cost: Mapped[float | None] = mapped_column(Float, nullable=True)
+    commission_source: Mapped[str | None] = mapped_column(String(24), nullable=True)
     time_to_tp_seconds: Mapped[float | None] = mapped_column(Float, nullable=True)
     time_to_sl_seconds: Mapped[float | None] = mapped_column(Float, nullable=True)
     time_to_mfe_seconds: Mapped[float | None] = mapped_column(Float, nullable=True)
@@ -408,5 +462,63 @@ class MT5CandidateEvaluationORM(Base):
 
     __table_args__ = (
         Index("ix_mt5_cand_eval_band_outcome", "confidence_band", "outcome_type", "outcome_status"),
+        Index("ix_mt5_cand_eval_account_cycle_rank", "account_id", "cycle_id", "rank"),
         Index("ix_mt5_cand_eval_cycle_rank", "cycle_id", "rank"),
     )
+
+
+class MT5PropDailyStateORM(Base):
+    """Per-account, per-trading-day baseline for prop daily-loss/max-loss protection.
+    `day_start_balance`/`day_start_equity` are captured EXACTLY ONCE, the first time an account
+    is observed on a given trading_day, and never updated afterward -- this is the real daily
+    baseline that challenge_status()/risk_status() must measure drawdown against, replacing the
+    previous bug where every caller passed profile.expected_initial_balance (the account's
+    original starting capital, never a true daily reset) as the daily baseline. `trading_day` is
+    computed in the account's own PropRiskProfile.daily_reset_timezone (see prop_state.py), not
+    server-local midnight or UTC, so the row naturally rolls to a new primary key at the correct
+    boundary without any scheduled job. Realized P&L for the day is deliberately NOT stored here
+    -- it is derived live from MT5TradeRecordORM.close_timestamp within the trading-day window,
+    so it can never drift out of sync with the trade ledger or double-count on a service restart.
+    """
+
+    __tablename__ = "mt5_prop_daily_state"
+
+    account_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    trading_day: Mapped[str] = mapped_column(String(10), primary_key=True)
+    reset_timezone: Mapped[str] = mapped_column(String(64), nullable=False)
+    day_start_balance: Mapped[float] = mapped_column(Float, nullable=False)
+    day_start_equity: Mapped[float] = mapped_column(Float, nullable=False)
+    captured_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
+
+
+class MT5AccountReconciliationStatusORM(Base):
+    """Latest reconciliation verdict for one account (Phase 3 -- broker/internal state
+    reconciliation watchdog). One row per account_id, upserted by reconciliation_watchdog.py's
+    reconcile_account(). `trustworthy=False` blocks NEW entries for this account via
+    is_account_state_trustworthy() -- it never touches existing-position management, which the
+    Adaptive Manager continues to run directly against live broker state."""
+
+    __tablename__ = "mt5_account_reconciliation_status"
+
+    account_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    trustworthy: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, index=True)
+    finding_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    last_checked_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
+
+
+class MT5AccountReconciliationFindingORM(Base):
+    """Append-only audit trail of every reconciliation discrepancy ever found (Phase 3) -- never
+    overwritten, so "what went wrong and when" is always answerable even after the account
+    returns to a trustworthy state on a later pass."""
+
+    __tablename__ = "mt5_account_reconciliation_findings"
+
+    finding_id: Mapped[str] = mapped_column(String(160), primary_key=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+    finding_type: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
+    position_id: Mapped[str | None] = mapped_column(String(96), nullable=True, index=True)
+    detail: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
+
+    __table_args__ = (Index("ix_mrf_account_time", "account_id", "created_at"),)

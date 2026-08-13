@@ -53,6 +53,16 @@ def _hash(payload: Any) -> str:
     return hashlib.sha256(json.dumps(payload, sort_keys=True, default=str).encode("utf-8")).hexdigest()
 
 
+def _parse_iso(value: Any) -> datetime | None:
+    if not value or not isinstance(value, str):
+        return None
+    try:
+        parsed = datetime.fromisoformat(value)
+    except ValueError:
+        return None
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+
+
 def capture_cycle_candidate_evaluations(result: dict[str, Any]) -> int:
     """Persist an immutable evaluation row for every candidate in `result["candidates"]` that
     reached full confidence scoring (has a "trade_confidence" key) -- selected, lower-ranked,
@@ -62,6 +72,7 @@ def capture_cycle_candidate_evaluations(result: dict[str, Any]) -> int:
     cycle_id = result.get("cycle_id")
     if not cycle_id:
         return 0
+    account_id = str(result.get("account_id") or _account_id_from_cycle_id(str(cycle_id)))
     candidates = [c for c in (result.get("candidates") or []) if isinstance(c, dict) and "trade_confidence" in c]
     if not candidates:
         return 0
@@ -70,12 +81,13 @@ def capture_cycle_candidate_evaluations(result: dict[str, Any]) -> int:
     status = str(result.get("status") or "")
     trade = result.get("trade") or {}
     submission = trade.get("submission") or {}
+    confirmation_gate = result.get("confirmation_gate") or {}
     extra_rejection_by_status = {
         "SKIPPED_CONTEXT_RISK": "CONTEXT_RISK",
         "SKIPPED_ECONOMIC_RISK": "ECONOMIC_RISK",
         "SKIPPED_STALE_RISK_REWARD": "STALE_SIGNAL",
     }
-    portfolio_state, open_positions, correlated_exposure = _decision_time_portfolio_context()
+    portfolio_state, open_positions, correlated_exposure = _decision_time_portfolio_context(account_id)
 
     written = 0
     now = utcnow()
@@ -109,8 +121,10 @@ def capture_cycle_candidate_evaluations(result: dict[str, Any]) -> int:
 
             row = MT5CandidateEvaluationORM(evaluation_id=_hash({"candidate_id": candidate_id})[:32])
             row.cycle_id = str(cycle_id)
+            row.account_id = account_id
             row.candidate_id = str(candidate_id)
             row.created_at = now
+            row.market_data_as_of = _parse_iso(context.get("timestamp"))
             row.symbol = str(candidate.get("canonical_pair") or candidate.get("symbol") or "").upper()
             row.broker_symbol = str(candidate.get("broker_symbol") or row.symbol).upper()
             row.direction = str(candidate.get("direction") or "").upper()
@@ -122,6 +136,14 @@ def capture_cycle_candidate_evaluations(result: dict[str, Any]) -> int:
             row.contributing_strategies = context.get("contributing_strategies") or []
             row.contributing_families = context.get("contributing_families") or []
             row.multi_strategy_confirmation = bool(context.get("multi_strategy_confirmation") or False)
+            # DEMO-only MTFAI1 entry-quality experiment: only meaningful for the one executed
+            # candidate this cycle when it's MTFAI1 -- confirmation_gate is a single, cycle-level
+            # verdict about whichever MTFAI1 candidate the gate actually evaluated as `best`,
+            # so it is only attached to that same winning, executed row (never guessed for any
+            # other candidate, including non-winning or non-executed MTFAI1 rows this cycle).
+            if is_winner and outcome_type == "EXECUTED" and row.strategy == "mtfai1" and confirmation_gate.get("applicable"):
+                row.mtfai1_confirmed = confirmation_gate.get("confirmed")
+                row.mtfai1_confirming_strategy_ids = confirmation_gate.get("confirming_strategy_ids") or []
             row.conflict_state = context.get("conflict_state") or "NONE"
             row.htf_direction_h4 = context.get("htf_trend_h4") or (context.get("smc_evidence") or {}).get("htf_direction_h4")
             row.htf_direction_h1 = (context.get("smc_evidence") or {}).get("htf_direction_h1")
@@ -158,15 +180,15 @@ def capture_cycle_candidate_evaluations(result: dict[str, Any]) -> int:
     return written
 
 
-def _decision_time_portfolio_context() -> tuple[dict[str, Any], list[Any], dict[str, Any]]:
+def _decision_time_portfolio_context(account_id: str | None = None) -> tuple[dict[str, Any], list[Any], dict[str, Any]]:
     """Best-effort, decision-time-only snapshot of portfolio state. Never raises -- a
     portfolio-context lookup failure must not prevent candidate evaluations from being
     recorded (the confidence/rank/rejection data is far more valuable than this context)."""
     try:
         from backend.portfolio_execution.service import portfolio_manager
 
-        latest = portfolio_manager.latest_snapshot() or {}
-        exposure = portfolio_manager.exposure()
+        latest = portfolio_manager.latest_snapshot(account_id) or {}
+        exposure = portfolio_manager.exposure(account_id)
         open_positions = latest.get("positions") or latest.get("open_positions") or []
         state_keys = ("equity", "balance", "open_risk", "margin_utilization", "worst_case_loss", "protection_state")
         portfolio_state = {key: latest.get(key) for key in state_keys}
@@ -174,6 +196,10 @@ def _decision_time_portfolio_context() -> tuple[dict[str, Any], list[Any], dict[
     except Exception as exc:
         logger.warning("MT5 candidate evaluation: portfolio context unavailable: %s", exc.__class__.__name__)
         return {}, [], {}
+
+
+def _account_id_from_cycle_id(cycle_id: str) -> str:
+    return cycle_id.split(":", 1)[0] if ":" in cycle_id else "demo_10k"
 
 
 def record_shadow_outcome(candidate_id: str, **fields: Any) -> bool:

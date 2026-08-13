@@ -15,6 +15,9 @@ from typing import Any
 
 from backend.adaptive_management.orm import AdaptiveManagementActionORM, AdaptiveManagementEventORM, AdaptiveManagerCounterfactualORM, AdaptivePositionBaselineORM, AdaptivePositionStateORM, AdaptiveTradeEventORM
 from backend.adaptive_management.outcome_resolver import AdaptiveManagerOutcomeResolver
+from backend.brokers.mt5.orm import MT5CandidateEvaluationORM
+from backend.brokers.mt5.trading_costs import commission_per_lot_round_turn, compute_trade_costs
+from backend.mt5_strategies.models import normalize_strategy_id
 from backend.shared.db import SessionLocal
 
 _HOLD_ACTION_TYPES = {"HOLD", "HOLD_WITH_GIVEBACK_RISK"}
@@ -112,15 +115,73 @@ def _derive_exit_category(*, exit_reason: str | None, final_sl: float | None, or
     return "UNKNOWN"
 
 
-def _position_records() -> list[dict[str, Any]]:
+def _deduped_deals(deals: list[AdaptiveTradeEventORM]) -> list[AdaptiveTradeEventORM]:
+    """Collapse duplicate DEAL rows for the same broker deal ticket down to one.
+
+    Historical rows written before the import-side event_id fix (session_id was baked into the
+    id, so every reconciliation cycle re-imported the same trailing window as brand-new rows)
+    can still have many duplicates per deal in the DB. Summing pnl/commission/swap/fee across
+    those duplicates without deduping would multiply a closed position's realized P&L by however
+    many cycles it sat inside the reconciliation lookback -- this is the read-side, non-mutating
+    counterpart to that fix so historical data reads correctly without rewriting stored rows."""
+    ordered = sorted(deals, key=lambda d: d.created_at or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
+    seen: set[str] = set()
+    result = []
+    for d in ordered:
+        key = d.deal_id or d.event_id
+        if key in seen:
+            continue
+        seen.add(key)
+        result.append(d)
+    return result
+
+
+def _profit_factor(values: list[float]) -> float | None:
+    wins = [v for v in values if v > 0]
+    losses = [v for v in values if v < 0]
+    loss_sum = abs(sum(losses))
+    return round(sum(wins) / loss_sum, 4) if loss_sum > 0 else None
+
+
+def _cost_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    gross_r = [r["gross_r"] for r in rows if r.get("gross_r") is not None]
+    net_r = [r["net_r"] for r in rows if r.get("net_r") is not None]
+    dollar_rows = [r for r in rows if r.get("net_pnl") is not None]
+    total_volume = sum(r.get("total_volume") or 0.0 for r in dollar_rows)
+    total_commission = round(sum(r.get("commission") or 0.0 for r in dollar_rows), 2)
+    return {
+        "gross_expectancy_r": round(statistics.fmean(gross_r), 4) if gross_r else None,
+        "net_expectancy_r": round(statistics.fmean(net_r), 4) if net_r else None,
+        "gross_profit_factor": _profit_factor(gross_r),
+        "net_profit_factor": _profit_factor(net_r),
+        "avg_gross_win_r": round(statistics.fmean([v for v in gross_r if v > 0]), 4) if any(v > 0 for v in gross_r) else None,
+        "avg_net_win_r": round(statistics.fmean([v for v in net_r if v > 0]), 4) if any(v > 0 for v in net_r) else None,
+        "avg_gross_loss_r": round(statistics.fmean([v for v in gross_r if v < 0]), 4) if any(v < 0 for v in gross_r) else None,
+        "avg_net_loss_r": round(statistics.fmean([v for v in net_r if v < 0]), 4) if any(v < 0 for v in net_r) else None,
+        "gross_pnl": round(sum(r.get("gross_pnl") or 0.0 for r in dollar_rows), 2),
+        "net_pnl": round(sum(r.get("net_pnl") or 0.0 for r in dollar_rows), 2),
+        "commission": total_commission,
+        "swap": round(sum(r.get("swap") or 0.0 for r in dollar_rows), 2),
+        "other_fees": round(sum(r.get("other_fees") or 0.0 for r in dollar_rows), 2),
+        "total_trading_cost": round(sum(r.get("total_trading_cost") or 0.0 for r in dollar_rows), 2),
+        "cost_per_trade": round(sum(r.get("total_trading_cost") or 0.0 for r in dollar_rows) / len(dollar_rows), 2) if dollar_rows else None,
+        "cost_per_lot": round((sum(r.get("total_trading_cost") or 0.0 for r in dollar_rows) / total_volume), 4) if total_volume > 0 else None,
+        "commission_per_lot_effective": round(total_commission / total_volume, 4) if total_volume > 0 else None,
+    }
+
+
+def _position_records(account_id: str | None = None) -> list[dict[str, Any]]:
     """One record per closed, non-contaminated, baselined position -- the dataset every report
-    function below operates on."""
+    function below operates on. account_id=None (the default, matching every existing caller's
+    prior behavior) returns ALL accounts blended together -- this was the only behavior possible
+    before AdaptivePositionStateORM had an account_id column at all. Pass an explicit account_id
+    to scope a report to one account (e.g. so a 25K FTMO account's strategy performance is never
+    diluted by demo_10k's, or vice versa)."""
     with SessionLocal() as db:
-        states = (
-            db.query(AdaptivePositionStateORM)
-            .filter(AdaptivePositionStateORM.closed_detected_at.isnot(None), AdaptivePositionStateORM.contaminated.is_(False))
-            .all()
-        )
+        query = db.query(AdaptivePositionStateORM).filter(AdaptivePositionStateORM.closed_detected_at.isnot(None), AdaptivePositionStateORM.contaminated.is_(False))
+        if account_id is not None:
+            query = query.filter(AdaptivePositionStateORM.account_id == account_id)
+        states = query.all()
         baselines = {row.position_id: row for row in db.query(AdaptivePositionBaselineORM).all()}
         counterfactuals = {row.position_id: row for row in db.query(AdaptiveManagerCounterfactualORM).all()}
         position_ids = [s.position_id for s in states if s.position_id in baselines]
@@ -142,12 +203,19 @@ def _position_records() -> list[dict[str, Any]]:
         baseline = baselines.get(state.position_id)
         if baseline is None:
             continue
-        deals = deals_by_position.get(state.position_id, [])
+        deals = _deduped_deals(deals_by_position.get(state.position_id, []))
         exit_deal = max(deals, key=lambda d: d.utc_time or datetime.min.replace(tzinfo=timezone.utc), default=None)
         exit_reason = next((d.broker_exit_reason for d in deals if d.broker_exit_reason), None)
-        realized_pnl = sum(float(d.realized_pnl or 0) + float(d.commission or 0) + float(d.swap or 0) + float(d.fee or 0) for d in deals) if deals else None
+        # AdaptiveTradeEventORM.realized_pnl is the deal-level field name but holds the RAW
+        # (gross, pre-cost) broker `profit` -- see _normalize_history_row. compute_trade_costs
+        # is the single canonical gross/commission/swap/fee/net aggregator (trading_costs.py);
+        # every other realized-P&L formula in the codebase now delegates to it too.
+        cost_breakdown = compute_trade_costs([{"profit": d.realized_pnl, "commission": d.commission, "swap": d.swap, "fee": d.fee, "volume": d.volume} for d in deals]) if deals else None
+        realized_pnl = cost_breakdown.net_pnl if cost_breakdown else None
+        gross_pnl = cost_breakdown.gross_pnl if cost_breakdown else None
         initial_risk_money = baseline.initial_risk_money
         realized_r = round(realized_pnl / abs(initial_risk_money), 4) if (realized_pnl is not None and initial_risk_money) else None
+        gross_r = round(gross_pnl / abs(initial_risk_money), 4) if (gross_pnl is not None and initial_risk_money) else None
         mfe_r = float(state.max_achieved_r) if state.max_achieved_r is not None else None
         mae_r = float(state.min_achieved_r) if state.min_achieved_r is not None else None
         exit_time = _aware(exit_deal.utc_time) if exit_deal else None
@@ -185,7 +253,7 @@ def _position_records() -> list[dict[str, Any]]:
             "position_id": state.position_id,
             "symbol": state.symbol,
             "direction": state.direction,
-            "strategy": baseline.original_strategy or "unknown",
+            "strategy": normalize_strategy_id(baseline.original_strategy) if baseline.original_strategy else "unknown",
             "market_regime": state.entry_regime or "unknown",
             "session": _session_label(opened_at),
             "confidence_band": baseline.confidence_band or "unknown",
@@ -200,6 +268,19 @@ def _position_records() -> list[dict[str, Any]]:
             "final_tp": state.current_tp,
             "realized_pnl": realized_pnl,
             "realized_r": realized_r,
+            # realized_pnl/realized_r above are (and always were intended to be) NET of cost --
+            # explicit net_* aliases plus the new gross_*/cost breakdown make that unambiguous.
+            "gross_pnl": gross_pnl,
+            "gross_r": gross_r,
+            "net_pnl": realized_pnl,
+            "net_r": realized_r,
+            "commission": cost_breakdown.commission if cost_breakdown else None,
+            "swap": cost_breakdown.swap if cost_breakdown else None,
+            "other_fees": cost_breakdown.other_fees if cost_breakdown else None,
+            "total_trading_cost": cost_breakdown.total_trading_cost if cost_breakdown else None,
+            "total_volume": cost_breakdown.total_volume if cost_breakdown else None,
+            "commission_per_lot_effective": cost_breakdown.commission_per_lot_effective if cost_breakdown else None,
+            "commission_source": cost_breakdown.commission_source if cost_breakdown else None,
             "mfe_r": mfe_r,
             "mae_r": mae_r,
             "capture_ratio": _capture_ratio(realized_r, mfe_r),
@@ -225,18 +306,44 @@ def _position_records() -> list[dict[str, Any]]:
             "post_exit_reached_plus_1r": cf.post_exit_reached_plus_1r if cf else None,
             "post_exit_reversed_strongly": cf.post_exit_reversed_strongly if cf else None,
             "post_exit_would_have_hit_original_sl": cf.post_exit_would_have_hit_original_sl if cf else None,
+            # Additive Part 8 fields (see outcome_resolver.py's _classify_post_exit) -- the four
+            # booleans above keep their original meaning unchanged.
+            "post_exit_mfe_r": cf.post_exit_mfe_r if cf else None,
+            "post_exit_mae_r": cf.post_exit_mae_r if cf else None,
+            "post_exit_additional_r_available": cf.post_exit_additional_r_available if cf else None,
+            "post_exit_time_to_continuation_seconds": cf.post_exit_time_to_continuation_seconds if cf else None,
+            "post_exit_time_to_reversal_seconds": cf.post_exit_time_to_reversal_seconds if cf else None,
+            "post_exit_classification": cf.post_exit_classification if cf else "PENDING",
         })
     return records
 
 
 # ---------------------------------------------------------------------- Part 14: core metrics ---
-def core_metrics_report() -> dict[str, Any]:
-    records = _position_records()
+def core_metrics_report(account_id: str | None = None) -> dict[str, Any]:
+    records = _position_records(account_id)
     resolved_r = [r["realized_r"] for r in records if r["realized_r"] is not None]
     wins = [r for r in resolved_r if r > 0]
     losses = [r for r in resolved_r if r < 0]
     gross_win = sum(wins) if wins else 0.0
     gross_loss = abs(sum(losses)) if losses else 0.0
+
+    # Net-of-cost R-multiple metrics above (realized_r IS net_r -- see _position_records). These
+    # parallel gross_r ones make the gross/net distinction explicit rather than implicit, per
+    # this feature's "primary headline performance must be NET, but gross must stay visible"
+    # requirement. A small gross winner that commission/swap turned net-negative is counted as
+    # a LOSS here (net_wins/net_losses), never reported as a profitable +R trade.
+    resolved_gross_r = [r["gross_r"] for r in records if r["gross_r"] is not None]
+    gross_wins = [r for r in resolved_gross_r if r > 0]
+    gross_losses = [r for r in resolved_gross_r if r < 0]
+    gross_win_sum = sum(gross_wins) if gross_wins else 0.0
+    gross_loss_sum = abs(sum(gross_losses)) if gross_losses else 0.0
+    dollar_records = [r for r in records if r["net_pnl"] is not None]
+    total_gross_pnl = round(sum(r["gross_pnl"] for r in dollar_records if r["gross_pnl"] is not None), 2)
+    total_commission = round(sum(r["commission"] for r in dollar_records if r["commission"] is not None), 2)
+    total_swap = round(sum(r["swap"] for r in dollar_records if r["swap"] is not None), 2)
+    total_other_fees = round(sum(r["other_fees"] for r in dollar_records if r["other_fees"] is not None), 2)
+    total_trading_cost = round(sum(r["total_trading_cost"] for r in dollar_records if r["total_trading_cost"] is not None), 2)
+    total_net_pnl = round(sum(r["net_pnl"] for r in dollar_records), 2)
     mfe_values = [r["mfe_r"] for r in records if r["mfe_r"] is not None]
     mae_values = [r["mae_r"] for r in records if r["mae_r"] is not None]
     capture_values = [r["capture_ratio"] for r in records if r["capture_ratio"] is not None]
@@ -264,6 +371,21 @@ def core_metrics_report() -> dict[str, Any]:
         "avg_r": managed_expectancy,
         "median_r": round(statistics.median(resolved_r), 4) if resolved_r else None,
         "profit_factor": round(gross_win / gross_loss, 4) if gross_loss > 0 else None,
+        # --- Explicit gross-vs-net cost accounting (dollar figures, whole-portfolio sums) ---
+        "gross_expectancy_r": round(statistics.fmean(resolved_gross_r), 4) if resolved_gross_r else None,
+        "net_expectancy_r": managed_expectancy,
+        "gross_profit_factor": round(gross_win_sum / gross_loss_sum, 4) if gross_loss_sum > 0 else None,
+        "net_profit_factor": round(gross_win / gross_loss, 4) if gross_loss > 0 else None,
+        "avg_gross_win_r": round(statistics.fmean(gross_wins), 4) if gross_wins else None,
+        "avg_net_win_r": round(statistics.fmean(wins), 4) if wins else None,
+        "avg_gross_loss_r": round(statistics.fmean(gross_losses), 4) if gross_losses else None,
+        "avg_net_loss_r": round(statistics.fmean(losses), 4) if losses else None,
+        "total_gross_pnl": total_gross_pnl,
+        "total_commission": total_commission,
+        "total_swap": total_swap,
+        "total_other_fees": total_other_fees,
+        "total_trading_cost": total_trading_cost,
+        "total_net_pnl": total_net_pnl,
         "average_mfe_r": round(statistics.fmean(mfe_values), 4) if mfe_values else None,
         "average_mae_r": round(statistics.fmean(mae_values), 4) if mae_values else None,
         "average_capture_ratio": round(statistics.fmean(capture_values), 4) if capture_values else None,
@@ -282,8 +404,8 @@ def core_metrics_report() -> dict[str, Any]:
 
 
 # ------------------------------------------------------------------ Part 4: break-even analysis ---
-def break_even_analysis_report() -> dict[str, Any]:
-    records = _position_records()
+def break_even_analysis_report(account_id: str | None = None) -> dict[str, Any]:
+    records = _position_records(account_id)
     be_trades = [r for r in records if r["be_activated"]]
     r_at_be = [r["r_at_be_activation"] for r in be_trades if r["r_at_be_activation"] is not None]
     time_to_be = [r["time_to_be_seconds"] for r in be_trades if r["time_to_be_seconds"] is not None]
@@ -291,6 +413,8 @@ def break_even_analysis_report() -> dict[str, Any]:
     realized_r_be = [r["realized_r"] for r in be_trades if r["realized_r"] is not None]
     mfe_r_be = [r["mfe_r"] for r in be_trades if r["mfe_r"] is not None]
     near_breakeven_exit = [r for r in be_trades if r["realized_r"] is not None and -0.15 <= r["realized_r"] <= 0.15]
+    gross_be_net_loss = [r for r in be_trades if r["gross_r"] is not None and r["net_r"] is not None and -0.05 <= r["gross_r"] <= 0.05 and r["net_r"] < 0]
+    true_breakeven = [r for r in be_trades if r["gross_r"] is not None and r["net_r"] is not None and -0.05 <= r["gross_r"] <= 0.05 and -0.05 <= r["net_r"] <= 0.05]
     would_have_reached_tp = [r for r in be_trades if r["no_be_applicable"] and r["no_be_outcome"] == "ORIGINAL_TP_FIRST"]
     stopped_at_be_then_continued = [r for r in be_trades if r["exit_category"] == "BREAK_EVEN" and (r["post_exit_reached_original_tp"] or r["post_exit_reached_plus_1r"])]
     resolved_no_be = [r for r in be_trades if r["no_be_applicable"] and r["no_be_outcome"] not in {"PENDING"}]
@@ -303,6 +427,9 @@ def break_even_analysis_report() -> dict[str, Any]:
         "median_r_at_be_activation": round(statistics.median(r_at_be), 4) if r_at_be else None,
         "avg_time_to_be_seconds": round(statistics.fmean(time_to_be), 1) if time_to_be else None,
         "pct_exited_at_or_near_breakeven": round(len(near_breakeven_exit) / n, 4) if n else None,
+        "gross_breakeven_net_loss_count": len(gross_be_net_loss),
+        "true_breakeven_count": len(true_breakeven),
+        **_cost_summary(be_trades),
         "avg_mfe_after_be": round(statistics.fmean(mfe_after_be), 4) if mfe_after_be else None,
         "pct_would_have_reached_original_tp": round(len(would_have_reached_tp) / len(resolved_no_be), 4) if resolved_no_be else None,
         "pct_stopped_at_be_before_continuing": round(len(stopped_at_be_then_continued) / n, 4) if n else None,
@@ -312,8 +439,8 @@ def break_even_analysis_report() -> dict[str, Any]:
 
 
 # --------------------------------------------------------------- Part 5: winner preservation ---
-def winner_preservation_report() -> list[dict[str, Any]]:
-    records = _position_records()
+def winner_preservation_report(account_id: str | None = None) -> list[dict[str, Any]]:
+    records = _position_records(account_id)
     results = []
     for threshold in WINNER_BUCKETS:
         bucket = [r for r in records if r["mfe_r"] is not None and r["mfe_r"] >= threshold]
@@ -333,6 +460,7 @@ def winner_preservation_report() -> list[dict[str, Any]]:
             "sample_label": sample_label(n),
             "avg_realized_r": round(statistics.fmean(realized), 4) if realized else None,
             "median_realized_r": round(statistics.median(realized), 4) if realized else None,
+            **_cost_summary(bucket),
             "avg_mfe": round(statistics.fmean(mfe_values), 4) if mfe_values else None,
             "avg_giveback": round(statistics.fmean(giveback), 4) if giveback else None,
             "avg_capture_ratio": round(statistics.fmean(capture), 4) if capture else None,
@@ -346,8 +474,8 @@ def winner_preservation_report() -> list[dict[str, Any]]:
 
 
 # ------------------------------------------------------------------ Part 6: loser protection ---
-def loser_protection_report() -> dict[str, Any]:
-    records = _position_records()
+def loser_protection_report(account_id: str | None = None) -> dict[str, Any]:
+    records = _position_records(account_id)
     losers = [r for r in records if r["realized_r"] is not None and r["realized_r"] < 0]
     mae_values = [r["mae_r"] for r in losers if r["mae_r"] is not None]
     realized_r = [r["realized_r"] for r in losers]
@@ -363,6 +491,7 @@ def loser_protection_report() -> dict[str, Any]:
         "sample_label": sample_label(n),
         "avg_mae_r": round(statistics.fmean(mae_values), 4) if mae_values else None,
         "avg_final_realized_r": round(statistics.fmean(realized_r), 4) if realized_r else None,
+        **_cost_summary(losers),
         "pct_manager_reduced_loss_vs_original_risk": round(len(reduced_loss) / n, 4) if n else None,
         "pct_sl_tightened_before_exit": round(len(tightened_before_exit) / n, 4) if n else None,
         "pct_exited_before_original_sl": round(len(exited_before_original_sl) / n, 4) if n else None,
@@ -372,8 +501,8 @@ def loser_protection_report() -> dict[str, Any]:
 
 
 # --------------------------------------------------------------------- Part 7: manager value-add ---
-def manager_value_add_report() -> dict[str, Any]:
-    records = _position_records()
+def manager_value_add_report(account_id: str | None = None) -> dict[str, Any]:
+    records = _position_records(account_id)
     resolved_baseline = [r for r in records if r["original_sltp_outcome"] not in {"PENDING", None} and r["realized_r"] is not None]
 
     protection_value = [r for r in resolved_baseline if r["realized_r"] > r["original_sltp_r"]]
@@ -396,10 +525,33 @@ def manager_value_add_report() -> dict[str, Any]:
         if r["no_be_applicable"] and r["no_be_outcome"] == "ORIGINAL_TP_FIRST"
     ]
 
+    # Explicit, additive breakdown of the Part 8 A/B/C/D post-exit classification -- kept
+    # separate from post_exit_opportunity_flags/potential_early_exit_flags above rather than
+    # redefining their existing (ambiguous, TP-or-+1R-only) filter semantics. Distinguishes:
+    #   A. IMMEDIATE_REVERSAL   -- manager exited and price immediately reversed
+    #   B. MILD_CONTINUATION    -- manager exited and price continued a little
+    #   C. TP_LATER_REACHED     -- manager exited and price later reached the original TP
+    #   D. SUBSTANTIAL_R_LEFT   -- manager exited and left substantial additional R on the table
+    post_exit_resolved = [r for r in records if r["post_exit_status"] == "RESOLVED"]
+    classification_counts: dict[str, int] = defaultdict(int)
+    for r in post_exit_resolved:
+        classification_counts[r["post_exit_classification"]] += 1
+    substantial_r_left_flags = [
+        {
+            "position_id": r["position_id"], "symbol": r["symbol"], "exit_category": r["exit_category"],
+            "realized_r": r["realized_r"], "post_exit_additional_r_available": r["post_exit_additional_r_available"],
+            "label": "SUBSTANTIAL_R_LEFT",
+        }
+        for r in post_exit_resolved
+        if r["post_exit_classification"] == "SUBSTANTIAL_R_LEFT"
+    ]
+
     n = len(resolved_baseline)
+    n_post_exit = len(post_exit_resolved)
     return {
         "sample_size": n,
         "sample_label": sample_label(n),
+        **_cost_summary(resolved_baseline),
         "protection_value_count": len(protection_value),
         "protection_value_rate": round(len(protection_value) / n, 4) if n else None,
         "protection_value_examples": [{"position_id": r["position_id"], "symbol": r["symbol"], "realized_r": r["realized_r"], "original_sltp_r": r["original_sltp_r"]} for r in protection_value[:20]],
@@ -409,12 +561,16 @@ def manager_value_add_report() -> dict[str, Any]:
         # original management decision was wrong (Part 7).
         "post_exit_opportunity_flags": post_exit_opportunities[:50],
         "potential_early_exit_flags": potential_early_exits[:50],
+        "post_exit_resolved_count": n_post_exit,
+        "post_exit_classification_counts": dict(classification_counts),
+        "post_exit_classification_rates": {k: round(v / n_post_exit, 4) for k, v in classification_counts.items()} if n_post_exit else {},
+        "substantial_r_left_flags": substantial_r_left_flags[:50],
     }
 
 
 # --------------------------------------------------------------------- Part 9: exit reason ---
-def exit_reason_analytics_report() -> list[dict[str, Any]]:
-    records = _position_records()
+def exit_reason_analytics_report(account_id: str | None = None) -> list[dict[str, Any]]:
+    records = _position_records(account_id)
     by_category: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for r in records:
         by_category[r["exit_category"]].append(r)
@@ -436,6 +592,7 @@ def exit_reason_analytics_report() -> list[dict[str, Any]]:
             "win_rate": round(len(wins) / len(realized), 4) if realized else None,
             "avg_r": round(statistics.fmean(realized), 4) if realized else None,
             "median_r": round(statistics.median(realized), 4) if realized else None,
+            **_cost_summary(rows),
             "avg_mfe": round(statistics.fmean(mfe_values), 4) if mfe_values else None,
             "avg_mae": round(statistics.fmean(mae_values), 4) if mae_values else None,
             "avg_capture_ratio": round(statistics.fmean(capture), 4) if capture else None,
@@ -446,8 +603,8 @@ def exit_reason_analytics_report() -> list[dict[str, Any]]:
 
 
 # ----------------------------------------------------------------- Part 10: intervention frequency ---
-def intervention_frequency_report() -> dict[str, Any]:
-    records = _position_records()
+def intervention_frequency_report(account_id: str | None = None) -> dict[str, Any]:
+    records = _position_records(account_id)
     interventions = [r["num_interventions"] for r in records]
     sl_mods = [r["num_sl_mods"] for r in records]
     tp_mods = [r["num_tp_mods"] for r in records]
@@ -482,8 +639,8 @@ def intervention_frequency_report() -> dict[str, Any]:
 
 
 # ------------------------------------------------------------- Part 11: confidence-band management ---
-def confidence_band_management_report() -> dict[str, Any]:
-    records = _position_records()
+def confidence_band_management_report(account_id: str | None = None) -> dict[str, Any]:
+    records = _position_records(account_id)
     by_band: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for r in records:
         band = r["confidence_band"] if r["confidence_band"] in {"70-74", "75-79", "80-84", "85-89", "90+"} else None
@@ -501,6 +658,7 @@ def confidence_band_management_report() -> dict[str, Any]:
             "count": n,
             "sample_label": sample_label(n),
             "avg_r": round(statistics.fmean(realized), 4) if realized else None,
+            **_cost_summary(rows),
             "break_even_rate": round(be_rate, 4) if be_rate is not None else None,
             "avg_capture_ratio": round(statistics.fmean(capture), 4) if capture else None,
             "avg_interventions": round(statistics.fmean([r["num_interventions"] for r in rows]), 4) if rows else None,
@@ -509,8 +667,8 @@ def confidence_band_management_report() -> dict[str, Any]:
 
 
 # --------------------------------------------------------- Part 12: symbol / strategy / regime ---
-def symbol_strategy_regime_report() -> dict[str, list[dict[str, Any]]]:
-    records = _position_records()
+def symbol_strategy_regime_report(account_id: str | None = None) -> dict[str, list[dict[str, Any]]]:
+    records = _position_records(account_id)
 
     def _group_by(key: str) -> list[dict[str, Any]]:
         groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -527,6 +685,7 @@ def symbol_strategy_regime_report() -> dict[str, list[dict[str, Any]]]:
                 "count": n,
                 "sample_label": sample_label(n),
                 "avg_r": round(statistics.fmean(realized), 4) if realized else None,
+                **_cost_summary(group),
                 "break_even_rate": round(be_rate, 4) if be_rate is not None else None,
                 "avg_capture_ratio": round(statistics.fmean(capture), 4) if capture else None,
             })
@@ -539,6 +698,146 @@ def symbol_strategy_regime_report() -> dict[str, list[dict[str, Any]]]:
         "session": _group_by("session"),
         "direction": _group_by("direction"),
     }
+
+
+def account_cost_summary_report(account_id: str | None = None) -> dict[str, Any]:
+    """Dashboard-friendly MT5 DEMO cost summary. NET is the primary account performance figure."""
+    records = _position_records(account_id)
+    summary = _cost_summary(records)
+    return {
+        "account_mode": "DEMO",
+        "closed_trades": len(records),
+        "gross_pnl": summary["gross_pnl"],
+        "trading_costs": summary["total_trading_cost"],
+        "net_pnl": summary["net_pnl"],
+        "commission": summary["commission"],
+        "swap": summary["swap"],
+        "other_fees": summary["other_fees"],
+        "cost_per_trade": summary["cost_per_trade"],
+        "cost_per_lot": summary["cost_per_lot"],
+        "net_expectancy_r": summary["net_expectancy_r"],
+        "gross_expectancy_r": summary["gross_expectancy_r"],
+    }
+
+
+def trade_cost_journal_report(limit: int = 250, account_id: str | None = None) -> list[dict[str, Any]]:
+    records = sorted(_position_records(account_id), key=lambda r: r.get("position_id") or "", reverse=True)[:limit]
+    return [
+        {
+            "position_id": r["position_id"],
+            "symbol": r["symbol"],
+            "direction": r["direction"],
+            "strategy": r["strategy"],
+            "gross_pnl": r["gross_pnl"],
+            "commission": r["commission"],
+            "swap": r["swap"],
+            "fees": r["other_fees"],
+            "total_trading_cost": r["total_trading_cost"],
+            "net_pnl": r["net_pnl"],
+            "gross_r": r["gross_r"],
+            "net_r": r["net_r"],
+            "total_volume": r["total_volume"],
+            "commission_source": r["commission_source"],
+        }
+        for r in records
+    ]
+
+
+def entry_quality_cost_report(cost_edge_threshold: float = 0.25, account_id: str | None = None) -> dict[str, Any]:
+    """Observation-only minimum-edge analytics; does not change strategy rules or gating."""
+    records = _position_records(account_id)
+    fallback_rate = abs(commission_per_lot_round_turn())
+    rows = []
+    for r in records:
+        initial_risk = abs(float(r["initial_risk_money"] or 0.0))
+        reward_risk = float(r["initial_reward_risk"] or 0.0)
+        expected_gross_edge = initial_risk * reward_risk if initial_risk > 0 and reward_risk > 0 else None
+        actual_cost = float(r["total_trading_cost"] or 0.0)
+        hypothetical_config_cost = fallback_rate * float(r["total_volume"] or 0.0)
+        cost_basis = actual_cost if actual_cost > 0 else hypothetical_config_cost
+        rows.append({
+            "position_id": r["position_id"],
+            "symbol": r["symbol"],
+            "strategy": r["strategy"],
+            "confidence_band": r["confidence_band"],
+            "expected_gross_edge": round(expected_gross_edge, 2) if expected_gross_edge is not None else None,
+            "actual_trading_cost": round(actual_cost, 2),
+            "hypothetical_config_commission_cost": round(hypothetical_config_cost, 2),
+            "cost_as_pct_expected_profit": round(cost_basis / expected_gross_edge, 4) if expected_gross_edge and expected_gross_edge > 0 else None,
+            "cost_as_pct_initial_risk": round(cost_basis / initial_risk, 4) if initial_risk > 0 else None,
+            "minimum_edge_flag": bool(expected_gross_edge and expected_gross_edge > 0 and (cost_basis / expected_gross_edge) >= cost_edge_threshold),
+            "gross_r": r["gross_r"],
+            "net_r": r["net_r"],
+            "net_pnl": r["net_pnl"],
+        })
+    flagged = [row for row in rows if row["minimum_edge_flag"]]
+    return {
+        "mode": "observation_only",
+        "threshold_cost_pct_expected_profit": cost_edge_threshold,
+        "description": "Flags trades where realized or configured fallback costs consume at least the threshold fraction of expected gross edge.",
+        "trades": len(rows),
+        "flagged_trades": len(flagged),
+        "flagged_rate": round(len(flagged) / len(rows), 4) if rows else None,
+        "items": rows,
+    }
+
+
+# --------------------------------------------------- MTFAI1 entry-quality experiment (DEMO) ---
+def mtfai1_confirmation_comparison_report(account_id: str | None = None) -> dict[str, Any]:
+    """Compares standalone-executed MTFAI1 trades against confirmed-executed MTFAI1 trades and
+    all non-MTFAI1 trades. Classification comes from MT5CandidateEvaluationORM.mtfai1_confirmed,
+    set at decision time by the confirmation gate (backend.brokers.mt5.autonomous.
+    _apply_mtfai1_confirmation_gate) -- never re-derived after the fact. Trades with no
+    evaluation row (all history predating this experiment, since the gate itself only started
+    tagging new executions going forward) fall into their own MTFAI1_UNCLASSIFIED bucket rather
+    than being silently dropped or assumed either way. Performance metrics (realized_r/mfe_r/
+    mae_r) are sourced from _position_records(account_id) -- not from MT5CandidateEvaluationORM's own
+    outcome columns, which currently read through MT5TradeRecordORM.realized_pnl (unpopulated,
+    a separate, not-yet-fixed data-completeness gap outside this experiment's scope)."""
+    records = _position_records(account_id)
+    with SessionLocal() as db:
+        rows = (
+            db.query(MT5CandidateEvaluationORM.broker_ticket, MT5CandidateEvaluationORM.mtfai1_confirmed)
+            .filter(MT5CandidateEvaluationORM.broker_ticket.isnot(None), MT5CandidateEvaluationORM.mtfai1_confirmed.isnot(None))
+            .all()
+        )
+    confirmed_by_ticket = {str(ticket): confirmed for ticket, confirmed in rows}
+
+    buckets: dict[str, list[dict[str, Any]]] = {"MTFAI1_STANDALONE": [], "MTFAI1_CONFIRMED": [], "MTFAI1_UNCLASSIFIED": [], "NON_MTFAI1": []}
+    for r in records:
+        if r["strategy"] != "mtfai1":
+            buckets["NON_MTFAI1"].append(r)
+            continue
+        confirmed = confirmed_by_ticket.get(str(r["position_id"]))
+        if confirmed is True:
+            buckets["MTFAI1_CONFIRMED"].append(r)
+        elif confirmed is False:
+            buckets["MTFAI1_STANDALONE"].append(r)
+        else:
+            buckets["MTFAI1_UNCLASSIFIED"].append(r)
+
+    def _summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
+        n = len(rows)
+        realized = [r["realized_r"] for r in rows if r["realized_r"] is not None]
+        wins = [r for r in realized if r > 0]
+        mfe_values = [r["mfe_r"] for r in rows if r["mfe_r"] is not None]
+        mae_values = [r["mae_r"] for r in rows if r["mae_r"] is not None]
+        reached_half_r = [r for r in rows if r["mfe_r"] is not None and r["mfe_r"] >= 0.5]
+        # "Never developed favorably" -- MFE never even touched positive territory.
+        immediate_failures = [r for r in rows if r["mfe_r"] is not None and r["mfe_r"] <= 0]
+        return {
+            "trades": n,
+            "sample_label": sample_label(n),
+            "win_rate": round(len(wins) / len(realized), 4) if realized else None,
+            "expectancy": round(statistics.fmean(realized), 4) if realized else None,
+            "avg_r": round(statistics.fmean(realized), 4) if realized else None,
+            "avg_mfe_r": round(statistics.fmean(mfe_values), 4) if mfe_values else None,
+            "avg_mae_r": round(statistics.fmean(mae_values), 4) if mae_values else None,
+            "pct_reaching_plus_0_5r": round(len(reached_half_r) / n, 4) if n else None,
+            "immediate_failure_rate": round(len(immediate_failures) / n, 4) if n else None,
+        }
+
+    return {bucket: _summarize(bucket_records) for bucket, bucket_records in buckets.items()}
 
 
 def recent_management_events(limit: int = 50) -> list[dict[str, Any]]:

@@ -529,14 +529,15 @@ async def get_capex_tracker(symbol: str) -> CapexTrackerResponse:
 
 @router.get("/v1/equity/overview/top-tickers", response_model=TopBarTickersResponse)
 async def get_top_bar_tickers() -> TopBarTickersResponse:
-    fetcher = await get_unified_fetcher()
     wanted = {
         "crude": ("Crude", "CL=F"),
         "gold": ("Gold", "GC=F"),
         "silver": ("Silver", "SI=F"),
     }
-    quotes = await fetcher.yahoo.get_quotes([v[1] for v in wanted.values()])
-    by_symbol = {str(row.get("symbol") or "").upper(): row for row in quotes if isinstance(row, dict)}
+    # No commodity-futures quote source is wired in (the Yahoo Finance batch-quotes endpoint
+    # this used to call was removed, with no replacement) -- items below all come back with
+    # price/change_pct=None rather than fabricating a value.
+    by_symbol: dict[str, dict[str, Any]] = {}
 
     items: list[TopBarTicker] = []
     for key, (label, symbol) in wanted.items():

@@ -129,23 +129,6 @@ def build_default_registry() -> MarketDataProviderRegistry:
     registry = MarketDataProviderRegistry()
     registry.register(
         ProviderRegistration(
-            provider_id="yahoo",
-            display_name="Yahoo Finance",
-            asset_classes=[AssetClass.EQUITY, AssetClass.ETF, AssetClass.INDEX, AssetClass.CRYPTO],
-            capabilities=[Capability.QUOTE, Capability.HISTORICAL_CANDLES, Capability.INSTRUMENT_REFERENCE],
-            data_types=["quote", "ohlcv", "instrument"],
-            priority=30,
-            enabled=True,
-            configured=True,
-            authenticated=False,
-            entitlement_status=EntitlementStatus.ENTITLED,
-            supports_historical=True,
-            rate_limit_policy=RateLimitPolicy(source="unknown"),
-            notes="Existing Yahoo/yfinance paths. Real-time entitlement is not claimed.",
-        )
-    )
-    registry.register(
-        ProviderRegistration(
             provider_id="nse",
             display_name="NSE public website",
             asset_classes=[AssetClass.EQUITY, AssetClass.INDEX, AssetClass.OPTION, AssetClass.FUTURE],

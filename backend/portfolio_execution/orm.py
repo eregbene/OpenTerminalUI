@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-from sqlalchemy import Boolean, DateTime, Float, Integer, JSON, String, Text
+from sqlalchemy import Boolean, DateTime, Float, Integer, JSON, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 from backend.shared.db import Base
@@ -16,7 +16,13 @@ class PortfolioSnapshotORM(Base):
     __tablename__ = "portfolio_execution_snapshots"
 
     snapshot_id: Mapped[str] = mapped_column(String(128), primary_key=True)
+    # Canonical logical account key (demo_10k / ftmo_demo_25k / ftmo_demo_50k / ftmo_demo_100k)
+    # -- the column every read (latest_snapshot/exposure/can_open_new_trade) filters on.
     account_id: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+    # Raw MT5 broker login number -- metadata only, never used as a lookup key. Previously this
+    # value was written INTO account_id itself (Bug 1: portfolio protection fail-open), so
+    # snapshot lookups keyed by the canonical profile id never matched any row.
+    mt5_login: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
     broker: Mapped[str] = mapped_column(String(32), nullable=False, default="MT5", index=True)
     account_mode: Mapped[str] = mapped_column(String(16), nullable=False, default="DEMO", index=True)
     balance: Mapped[float] = mapped_column(Float, nullable=False, default=0)
@@ -52,7 +58,8 @@ class ExecutionOrderORM(Base):
     __tablename__ = "portfolio_execution_orders"
 
     execution_id: Mapped[str] = mapped_column(String(160), primary_key=True)
-    idempotency_key: Mapped[str] = mapped_column(String(160), nullable=False, unique=True, index=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
+    idempotency_key: Mapped[str] = mapped_column(String(160), nullable=False, index=True)
     source: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
     broker: Mapped[str] = mapped_column(String(32), nullable=False, default="MT5", index=True)
     symbol: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
@@ -75,11 +82,14 @@ class ExecutionOrderORM(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, onupdate=utcnow)
 
+    __table_args__ = (UniqueConstraint("account_id", "idempotency_key", name="uq_portfolio_execution_orders_account_idempotency"),)
+
 
 class ExecutionStateTransitionORM(Base):
     __tablename__ = "portfolio_execution_state_transitions"
 
     transition_id: Mapped[str] = mapped_column(String(180), primary_key=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     execution_id: Mapped[str] = mapped_column(String(160), nullable=False, index=True)
     from_state: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
     to_state: Mapped[str] = mapped_column(String(32), nullable=False, index=True)

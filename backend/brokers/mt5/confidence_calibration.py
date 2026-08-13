@@ -84,6 +84,7 @@ def _all_rows() -> list[dict[str, Any]]:
 def _stats_for_group(rows: list[dict[str, Any]]) -> dict[str, Any]:
     resolved = [row for row in rows if _resolved(row)]
     r_values = [_effective_r(row) for row in resolved]
+    executed_with_costs = [row for row in resolved if row.get("outcome_type") == "EXECUTED" and row.get("net_pnl") is not None]
     wins = [r for r in r_values if r > 0]
     losses = [r for r in r_values if r < 0]
     breakeven = [r for r in r_values if r == 0]
@@ -94,6 +95,8 @@ def _stats_for_group(rows: list[dict[str, Any]]) -> dict[str, Any]:
     holding = [row["holding_duration_seconds"] for row in resolved if row.get("holding_duration_seconds") is not None]
     tp_hits = sum(1 for row in resolved if row.get("tp_hit"))
     sl_hits = sum(1 for row in resolved if row.get("sl_hit"))
+    total_volume_rows = [row for row in executed_with_costs if row.get("total_trading_cost") is not None]
+    total_cost = sum(row.get("total_trading_cost") or 0.0 for row in total_volume_rows)
     n = len(resolved)
     return {
         "candidates": len(rows),
@@ -106,6 +109,16 @@ def _stats_for_group(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "median_r": round(statistics.median(r_values), 4) if r_values else None,
         "expectancy": round(statistics.fmean(r_values), 4) if r_values else None,
         "profit_factor": round(gross_win / gross_loss, 4) if gross_loss > 0 else None,
+        "net_expectancy_r": round(statistics.fmean(r_values), 4) if r_values else None,
+        "executed_cost_trades": len(executed_with_costs),
+        "total_gross_pnl": round(sum(row.get("gross_pnl") or 0.0 for row in executed_with_costs), 2),
+        "total_commission": round(sum(row.get("commission") or 0.0 for row in executed_with_costs), 2),
+        "total_swap": round(sum(row.get("swap") or 0.0 for row in executed_with_costs), 2),
+        "total_fees": round(sum(row.get("fee") or 0.0 for row in executed_with_costs), 2),
+        "total_trading_cost": round(total_cost, 2),
+        "total_net_pnl": round(sum(row.get("net_pnl") or 0.0 for row in executed_with_costs), 2),
+        "cost_per_executed_trade": round(total_cost / len(executed_with_costs), 2) if executed_with_costs else None,
+        "net_profitable": (statistics.fmean(r_values) > 0) if r_values else None,
         "avg_mfe_r": round(statistics.fmean(mfe_values), 4) if mfe_values else None,
         "avg_mae_r": round(statistics.fmean(mae_values), 4) if mae_values else None,
         "avg_holding_seconds": round(statistics.fmean(holding), 1) if holding else None,

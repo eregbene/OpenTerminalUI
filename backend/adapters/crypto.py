@@ -7,13 +7,11 @@ import httpx
 
 from backend.adapters.base import DataAdapter, FuturesContract, Instrument, OHLCV, OptionChain, QuoteResponse
 from backend.core.crypto_adapter import CryptoAdapter
-from backend.core.yahoo_client import YahooClient
 
 
 class CryptoDataAdapter(DataAdapter):
-    def __init__(self, yahoo: YahooClient | None = None) -> None:
-        self.yahoo = yahoo or YahooClient()
-        self._core = CryptoAdapter(self.yahoo)
+    def __init__(self) -> None:
+        self._core = CryptoAdapter()
 
     async def get_quote(self, symbol: str) -> QuoteResponse | None:
         s = symbol.strip().upper().replace("CRYPTO:", "")
@@ -41,19 +39,7 @@ class CryptoDataAdapter(DataAdapter):
                     return QuoteResponse(symbol=pair, price=price, change=0.0, change_pct=chg, currency="USD", ts=datetime.now(timezone.utc).isoformat())
             except Exception:
                 pass
-        rows = await self.yahoo.get_quotes([pair])
-        row = rows[0] if rows else {}
-        price = row.get("regularMarketPrice")
-        if price is None:
-            return None
-        return QuoteResponse(
-            symbol=pair,
-            price=float(price),
-            change=float(row.get("regularMarketChange") or 0.0),
-            change_pct=float(row.get("regularMarketChangePercent") or 0.0),
-            currency="USD",
-            ts=datetime.now(timezone.utc).isoformat(),
-        )
+        return None
 
     async def get_history(self, symbol: str, timeframe: str, start: date, end: date) -> list[OHLCV]:
         s = symbol.strip().upper().replace("CRYPTO:", "")

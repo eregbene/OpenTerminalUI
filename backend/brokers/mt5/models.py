@@ -156,12 +156,16 @@ class MT5Order(MT5Model):
 class MT5HistoryItem(MT5Model):
     ticket: int
     order: int | None = None
+    position_id: int | None = None
     symbol: str | None = None
     type: int | None = None
     volume: Decimal | None = None
     price: Decimal | None = None
     profit: Decimal | None = None
     commission: Decimal | None = None
+    swap: Decimal | None = None
+    fee: Decimal | None = None
+    comment: str | None = None
     time: datetime | None = None
 
 
@@ -242,6 +246,17 @@ class MT5RiskSizing(MT5Model):
     equity_risk_cap_usd: Decimal = Decimal("0")
     trade_risk_cap_usd: Decimal = Decimal("0")
     risk_multiplier: Decimal = Decimal("1.0")
+    # Per-account risk-budget transparency (multi-account risk/protection audit, Bug 2): every
+    # constraint that fed the min()-of-caps decision, individually -- not just the winning
+    # effective_risk_usd -- so "why this many dollars, for THIS account" is answerable without
+    # tracing code, and so the same-candidate 10K/25K/50K/100K sizing comparison can be built
+    # directly from persisted/returned data.
+    account_equity_usd: Decimal = Decimal("0")
+    confidence_factor: Decimal | None = None
+    economic_factor: Decimal | None = None
+    portfolio_available_risk_usd: Decimal | None = None
+    prop_remaining_budget_usd: Decimal | None = None
+    projected_loss_pct_equity: Decimal | None = None
     # Canonical-risk-calculator diagnostics (backend/brokers/mt5/risk_calculator.py) -- populated
     # whenever the calculator ran, regardless of APPROVED/REJECTED outcome, so a caller/API can
     # always show which method was trusted and how much the estimates disagreed.

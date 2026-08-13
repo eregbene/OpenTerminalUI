@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 
 from backend.auth.deps import get_current_user
 from backend.models.user import User
@@ -17,18 +17,18 @@ async def portfolio_status(current_user: User = Depends(get_current_user)) -> di
 
 
 @router.get("/api/portfolio/exposure")
-async def portfolio_exposure(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
-    return portfolio_manager.exposure()
+async def portfolio_exposure(account_id: str | None = Query(None), current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return portfolio_manager.exposure(account_id)
 
 
 @router.get("/api/portfolio/risk")
-async def portfolio_risk(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
-    return portfolio_manager.risk()
+async def portfolio_risk(account_id: str | None = Query(None), current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return portfolio_manager.risk(account_id)
 
 
 @router.get("/api/portfolio/correlation")
-async def portfolio_correlation(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
-    latest = portfolio_manager.latest_snapshot() or {}
+async def portfolio_correlation(account_id: str | None = Query(None), current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    latest = portfolio_manager.latest_snapshot(account_id) or {}
     return latest.get("correlation_matrix") or await correlation_engine.matrix([])
 
 

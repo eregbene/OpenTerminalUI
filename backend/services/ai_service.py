@@ -83,10 +83,10 @@ class AIQueryService:
             results = []
             for t in tickers:
                 try:
-                    quote = await fetcher.yahoo.get_quotes([t])
+                    quote = await fetcher.fetch_quote(t)
                     if quote:
-                        results.append(quote[0])
-                except:
+                        results.append(quote)
+                except Exception:
                     continue
             return {
                 "type": "data_table",

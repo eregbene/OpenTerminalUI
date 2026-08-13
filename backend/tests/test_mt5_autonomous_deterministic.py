@@ -53,8 +53,8 @@ def _wire_common_mocks(monkeypatch: pytest.MonkeyPatch, service: MT5AutonomousTr
     monkeypatch.setattr(service, "_global_blockers", lambda: asyncio.sleep(0, result=[]))
     monkeypatch.setattr(service, "_entry_quality_score", lambda candidate: asyncio.sleep(0, result={"status": "ok", "total_score": entry_quality_score, "positive_contributors": [], "negative_contributors": [], "trend_state": "BULLISH"}))
     monkeypatch.setattr("backend.brokers.mt5.autonomous.confidence_memory_for_symbol", lambda symbol: (None, None))
-    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.exposure", lambda: {"currency": {}})
-    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.can_open_new_trade", lambda: (portfolio_allowed, [] if portfolio_allowed else ["MAX_TOTAL_OPEN_RISK"]))
+    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.exposure", lambda *args, **kwargs: {"currency": {}})
+    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.can_open_new_trade", lambda *args, **kwargs: (portfolio_allowed, [] if portfolio_allowed else ["MAX_TOTAL_OPEN_RISK"]))
     monkeypatch.setattr("backend.brokers.mt5.autonomous.decision_context_service.context_risk", lambda symbol: asyncio.sleep(0, result={"block_reasons": [], "acknowledgement_required": False}))
 
     async def _fake_economic_evaluate(**kwargs):

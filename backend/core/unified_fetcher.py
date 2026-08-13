@@ -12,7 +12,6 @@ from backend.core.finnhub_client import FinnhubClient
 from backend.core.fmp_client import FMPClient
 from backend.core.kite_client import KiteClient
 from backend.core.nse_client import NSEClient
-from backend.core.yahoo_client import YahooClient
 from backend.shared.market_classifier import market_classifier
 from backend.services.orderbook_service import service as orderbook_service
 from backend.api.schemas.market_data import MarketDepth, DepthLevel
@@ -134,7 +133,6 @@ async def _adapter_exchange_and_symbol(symbol: str) -> tuple[str, str]:
 @dataclass
 class UnifiedFetcher:
     nse: NSEClient
-    yahoo: YahooClient
     fmp: FMPClient
     finnhub: FinnhubClient
     kite: KiteClient
@@ -143,7 +141,6 @@ class UnifiedFetcher:
     def build_default(cls) -> "UnifiedFetcher":
         return cls(
             nse=NSEClient(),
-            yahoo=YahooClient(),
             fmp=FMPClient(),
             finnhub=FinnhubClient(),
             kite=KiteClient(),
@@ -156,7 +153,6 @@ class UnifiedFetcher:
     async def shutdown(self) -> None:
         await asyncio.gather(
             self.nse.close(),
-            self.yahoo.close(),
             self.fmp.close(),
             self.finnhub.close(),
             self.kite.close(),
@@ -165,11 +161,6 @@ class UnifiedFetcher:
 
     def _has_kite_live(self) -> bool:
         return bool(self.kite.api_key and self.kite.resolve_access_token())
-
-    def _has_yahoo_fundamentals(self, y_fund: Any) -> bool:
-        if not isinstance(y_fund, dict) or not y_fund:
-            return False
-        return any(k.startswith("annual") or k.startswith("quarterly") for k in y_fund.keys())
 
     async def fetch_history(self, ticker: str, range_str: str = "1y", interval: str = "1d") -> Dict[str, Any]:
         symbol = ticker.strip().upper()
@@ -183,14 +174,6 @@ class UnifiedFetcher:
                     return _chart_payload_from_rows(rows)
             except Exception as e:
                 logger.debug("Adapter history failed for %s via %s: %s", symbol, exchange, e)
-
-        try:
-            yahoo_sym = await market_classifier.yfinance_symbol(symbol)
-            data = await self.yahoo.get_chart(yahoo_sym, range_str, interval)
-            if data and "chart" in data:
-                return data
-        except Exception as e:
-            logger.warning(f"Yahoo history failed for {symbol}: {e}")
 
         try:
             fmp_data = await self.fmp.get_historical_price_full(symbol)
@@ -236,14 +219,6 @@ class UnifiedFetcher:
                  logger.debug(f"NSE quote failed for {symbol}: {e}")
 
         try:
-            yahoo_sym = await market_classifier.yfinance_symbol(symbol)
-            data = await self.yahoo.get_quotes([yahoo_sym])
-            if data:
-                return data[0]
-        except Exception as e:
-             logger.debug(f"Yahoo quote failed for {symbol}: {e}")
-
-        try:
             data = await self.fmp.get_quote(symbol)
             if data:
                 return data
@@ -256,26 +231,21 @@ class UnifiedFetcher:
     async def fetch_stock_snapshot(self, ticker: str) -> dict[str, Any]:
         symbol = ticker.strip().upper()
         cls = await market_classifier.classify(symbol)
-        ysym = await market_classifier.yfinance_symbol(symbol)
         quote_payload = await self.fetch_quote(symbol)
         price, change_pct, price_source = _extract_quote_price(quote_payload)
 
         # Launch parallel requests
         nse_task = self.nse.get_quote_equity(symbol) if cls.country_code == "IN" else asyncio.sleep(0, result={})
         nse_trade_task = self.nse.get_trade_info(symbol) if cls.country_code == "IN" else asyncio.sleep(0, result={})
-        yahoo_summary_task = self.yahoo.get_quote_summary(
-            ysym, ["financialData", "summaryDetail", "defaultKeyStatistics", "assetProfile"]
-        )
-        yahoo_quotes_task = self.yahoo.get_quotes([ysym])
         fmp_task = self.fmp.get_quote(symbol)
         finnhub_task = self.finnhub.get_company_profile(symbol)
 
         results = await asyncio.gather(
-            nse_task, nse_trade_task, yahoo_summary_task, yahoo_quotes_task, fmp_task, finnhub_task,
+            nse_task, nse_trade_task, fmp_task, finnhub_task,
             return_exceptions=True,
         )
 
-        nse_q, nse_t, yahoo_summary, yahoo_quotes, fmp_q, finnhub_p = results
+        nse_q, nse_t, fmp_q, finnhub_p = results
 
         # Helpers
         def _get_val(obj, *keys):
@@ -286,46 +256,22 @@ class UnifiedFetcher:
                     return None
             return obj
 
-        def _yraw(obj: dict, key: str) -> Optional[float]:
-            """Extract raw numeric value from Yahoo's {raw: N, fmt: '...'} format."""
-            v = obj.get(key)
-            if isinstance(v, dict):
-                return _to_float(v.get("raw"))
-            return _to_float(v)
-
         # Extract data
         nq = nse_q if isinstance(nse_q, dict) else {}
         nt = nse_t if isinstance(nse_t, dict) else {}
-        ys = yahoo_summary if isinstance(yahoo_summary, dict) else {}
-        yq_rows = yahoo_quotes if isinstance(yahoo_quotes, list) else []
-        yq = yq_rows[0] if yq_rows and isinstance(yq_rows[0], dict) else {}
         fq = fmp_q if isinstance(fmp_q, dict) else {}
         fp = finnhub_p if isinstance(finnhub_p, dict) else {}
 
-        # Yahoo quoteSummary modules
-        fd = ys.get("financialData", {})   # ROE, ROA, margins, growth
-        sd = ys.get("summaryDetail", {})   # PE, PB, div yield, beta, market cap
-        ks = ys.get("defaultKeyStatistics", {})  # EV, EV/EBITDA, forward PE
-        ap = ys.get("assetProfile", {})    # sector, industry
-
         # --- Synthesize fundamental fields ---
-        price = price or _to_float(_get_val(nq, "priceInfo", "lastPrice")) or _yraw(fd, "currentPrice") or _to_float(fq.get("price"))
+        price = price or _to_float(_get_val(nq, "priceInfo", "lastPrice")) or _to_float(fq.get("price"))
         change_pct = change_pct or _to_float(_get_val(nq, "priceInfo", "pChange"))
 
-        pe = _to_float(_get_val(nq, "metadata", "pdSymbolPe")) or \
-             _yraw(sd, "trailingPE") or \
-             _to_float(fq.get("pe"))
+        pe = _to_float(_get_val(nq, "metadata", "pdSymbolPe")) or _to_float(fq.get("pe"))
 
         market_cap_raw = _get_val(nt, "marketDeptOrderBook", "tradeInfo", "totalMarketCap")
-        market_cap = (float(market_cap_raw) * 10_000_000) if market_cap_raw else \
-                     _yraw(sd, "marketCap") or \
-                     _to_float(fq.get("marketCap"))
+        market_cap = (float(market_cap_raw) * 10_000_000) if market_cap_raw else _to_float(fq.get("marketCap"))
 
-        company_name = _get_val(nq, "info", "companyName") or \
-                       yq.get("shortName") or \
-                       yq.get("longName") or \
-                       fq.get("name") or \
-                       fp.get("name")
+        company_name = _get_val(nq, "info", "companyName") or fq.get("name") or fp.get("name")
         exchange = _get_val(nq, "info", "exchange") or _get_val(nq, "metadata", "exchange") or cls.exchange or "NSE"
         country_code = cls.country_code
         indices: list[str] = []
@@ -335,20 +281,11 @@ class UnifiedFetcher:
         elif isinstance(idx_meta, list):
             indices = [str(x).strip() for x in idx_meta if str(x).strip()]
 
-        forward_pe = _yraw(ks, "forwardPE") or _yraw(sd, "forwardPE")
-        pb = _yraw(ks, "priceToBook") or _yraw(sd, "priceToBook")
-        ps = _yraw(sd, "priceToSalesTrailing12Months")
-        ev_ebitda = _yraw(ks, "enterpriseToEbitda")
-        enterprise_value = _yraw(ks, "enterpriseValue")
-
-        roe = _yraw(fd, "returnOnEquity")
-        roa = _yraw(fd, "returnOnAssets")
-        op_margin = _yraw(fd, "operatingMargins")
-        net_margin = _yraw(fd, "profitMargins")
-        rev_growth = _yraw(fd, "revenueGrowth")
-        eps_growth = _yraw(fd, "earningsGrowth")
-        div_yield = _yraw(sd, "dividendYield") or _yraw(sd, "trailingAnnualDividendYield")
-        beta = _yraw(sd, "beta") or _to_float(fp.get("beta"))
+        # forward_pe/pb/ps/ev_ebitda/enterprise_value/roe/roa/margins/growth/div_yield had no
+        # source besides Yahoo's quoteSummary modules (financialData/summaryDetail/
+        # defaultKeyStatistics) -- no other configured provider covers them, so they stay None
+        # rather than fabricating a value. beta keeps its Finnhub fallback.
+        beta = _to_float(fp.get("beta"))
 
         return {
             "ticker": symbol,
@@ -356,22 +293,22 @@ class UnifiedFetcher:
             "current_price": price,
             "change_pct": change_pct,
             "market_cap": market_cap,
-            "enterprise_value": enterprise_value,
+            "enterprise_value": None,
             "pe": pe,
-            "forward_pe": forward_pe,
-            "pb": pb,
-            "ps": ps,
-            "ev_ebitda": ev_ebitda,
-            "roe_pct": roe * 100 if roe else None,
-            "roa_pct": roa * 100 if roa else None,
-            "op_margin_pct": op_margin * 100 if op_margin else None,
-            "net_margin_pct": net_margin * 100 if net_margin else None,
-            "rev_growth_pct": rev_growth * 100 if rev_growth else None,
-            "eps_growth_pct": eps_growth * 100 if eps_growth else None,
-            "div_yield_pct": div_yield * 100 if div_yield else None,
+            "forward_pe": None,
+            "pb": None,
+            "ps": None,
+            "ev_ebitda": None,
+            "roe_pct": None,
+            "roa_pct": None,
+            "op_margin_pct": None,
+            "net_margin_pct": None,
+            "rev_growth_pct": None,
+            "eps_growth_pct": None,
+            "div_yield_pct": None,
             "beta": beta,
-            "sector": ap.get("sector") or fp.get("finnhubIndustry"),
-            "industry": ap.get("industry") or fp.get("finnhubIndustry") or ap.get("sector"),
+            "sector": fp.get("finnhubIndustry"),
+            "industry": fp.get("finnhubIndustry"),
             "country_code": country_code,
             "exchange": str(exchange),
             "currency": cls.currency,
@@ -382,7 +319,6 @@ class UnifiedFetcher:
             "indices": indices,
             "details": {
                 "nse": bool(nq),
-                "yahoo": bool(ys),
                 "fmp": bool(fq),
                 "finnhub": bool(fp),
                 "kite": price_source in {"adapter", "nse"} and cls.country_code == "IN",
@@ -393,52 +329,33 @@ class UnifiedFetcher:
     # --- FUNDAMENTALS: Yahoo primary, FMP fallback only if Yahoo unavailable ---
     async def fetch_10yr_financials(self, ticker: str) -> Dict[str, Any]:
         symbol = ticker.strip().upper()
-        ysym = await market_classifier.yfinance_symbol(symbol)
-
-        y_fund: Any = {}
-        try:
-            y_fund = await self.yahoo.get_fundamentals_timeseries(ysym)
-        except Exception as exc:
-            logger.debug("Yahoo fundamentals failed for %s: %s", symbol, exc)
-
-        f_inc: Any = []
-        f_bal: Any = []
-        f_cf: Any = []
-        if not self._has_yahoo_fundamentals(y_fund):
-            results = await asyncio.gather(
-                self.fmp.get_income_statement(symbol, limit=20),
-                self.fmp.get_balance_sheet(symbol, limit=20),
-                self.fmp.get_cash_flow(symbol, limit=20),
-                return_exceptions=True,
-            )
-            f_inc, f_bal, f_cf = results
+        results = await asyncio.gather(
+            self.fmp.get_income_statement(symbol, limit=20),
+            self.fmp.get_balance_sheet(symbol, limit=20),
+            self.fmp.get_cash_flow(symbol, limit=20),
+            return_exceptions=True,
+        )
+        f_inc, f_bal, f_cf = results
 
         return {
             "symbol": symbol,
-            "yahoo_fundamentals": y_fund if not isinstance(y_fund, Exception) else {},
+            # No fundamentals-timeseries source is wired in (Yahoo's quoteSummary/fundamentals-
+            # timeseries endpoints this used to call were removed) -- always empty rather than
+            # fabricating years of history; fmp_* below is the real data source now.
+            "yahoo_fundamentals": {},
             "fmp_income": f_inc if not isinstance(f_inc, Exception) else [],
             "fmp_balance": f_bal if not isinstance(f_bal, Exception) else [],
             "fmp_cashflow": f_cf if not isinstance(f_cf, Exception) else [],
         }
 
     async def fetch_pit_fundamentals_records(self, ticker: str) -> list[dict[str, Any]]:
-        from backend.services.pit_fundamentals_service import (
-            _records_from_fmp_rows,
-            _records_from_yahoo_timeseries,
-        )
+        from backend.services.pit_fundamentals_service import _records_from_fmp_rows
 
         symbol = ticker.strip().upper()
         cls = await market_classifier.classify(symbol)
         market = cls.country_code
         ysym = await market_classifier.yfinance_symbol(symbol)
         records: list[dict[str, Any]] = []
-
-        try:
-            yahoo_payload = await self.yahoo.get_fundamentals_timeseries(ysym)
-            for record in _records_from_yahoo_timeseries(symbol, yahoo_payload, market):
-                records.append(record.__dict__)
-        except Exception as exc:
-            logger.debug("Yahoo PIT fundamentals failed for %s: %s", symbol, exc)
 
         fmp_symbol = ysym if market == "IN" else symbol
         try:
@@ -506,33 +423,9 @@ class UnifiedFetcher:
                     }
                 )
 
-        # Fallback: Yahoo major holders snapshot (single point, not historical trend).
-        if not history:
-            try:
-                ysym = await market_classifier.yfinance_symbol(symbol)
-                ysum = await self.yahoo.get_quote_summary(ysym, ["majorHoldersBreakdown"])
-                mh = ysum.get("majorHoldersBreakdown", {}) if isinstance(ysum, dict) else {}
-                insiders = _to_float((mh.get("heldPercentInsiders") or {}).get("raw") if isinstance(mh.get("heldPercentInsiders"), dict) else mh.get("heldPercentInsiders"))
-                institutions = _to_float((mh.get("heldPercentInstitutions") or {}).get("raw") if isinstance(mh.get("heldPercentInstitutions"), dict) else mh.get("heldPercentInstitutions"))
-                promoter = (insiders or 0.0) * 100.0
-                fii = (institutions or 0.0) * 100.0
-                dii = 0.0
-                public = max(0.0, 100.0 - promoter - fii - dii)
-                if insiders is not None or institutions is not None:
-                    history.append(
-                        {
-                            "date": "Latest",
-                            "promoter": promoter,
-                            "fii": fii,
-                            "dii": dii,
-                            "public": public,
-                        }
-                    )
-                    warning = (warning + " | " if warning else "") + "Showing Yahoo holders snapshot fallback"
-            except Exception as exc:
-                warning = (warning + " | " if warning else "") + f"Yahoo holders fallback unavailable: {exc}"
-
-        # Last-resort deterministic fallback so UI sections still render.
+        # Last-resort deterministic fallback so UI sections still render. (Previously there was
+        # an intermediate Yahoo major-holders-snapshot fallback here; no equivalent source is
+        # wired in anymore, so a missing NSE pattern falls straight through to this default.)
         if not history:
             history.append(
                 {
@@ -561,12 +454,9 @@ class UnifiedFetcher:
         q = str(query or "").strip()
         if not q:
             return []
-        try:
-            rows = await self.yahoo.search_news(q, limit=limit)
-            if isinstance(rows, list) and rows:
-                return [row for row in rows if isinstance(row, dict)][:limit]
-        except Exception as exc:
-            logger.debug("Yahoo news search failed for %s: %s", q, exc)
+        # No news-search source is wired in here (Yahoo's search endpoint this used to call was
+        # removed) -- callers (e.g. api/routes/news.py) layer their own Finnhub/FMP fallbacks on
+        # top of this method already, so this degrades to empty rather than raising.
         return []
 
     async def get_company_news(self, ticker: str, limit: int = 30) -> list[dict[str, Any]]:

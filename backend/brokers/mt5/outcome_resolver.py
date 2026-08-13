@@ -28,10 +28,11 @@ import logging
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from backend.adaptive_management.orm import AdaptivePositionStateORM
+from backend.adaptive_management.orm import AdaptivePositionBaselineORM, AdaptivePositionStateORM, AdaptiveTradeEventORM
 from backend.brokers.mt5.adapter import MT5Adapter, mt5_adapter
 from backend.brokers.mt5.candidate_evaluation import pending_executed_candidates, pending_shadow_candidates, record_executed_outcome, record_shadow_outcome
 from backend.brokers.mt5.orm import MT5TradeRecordORM
+from backend.brokers.mt5.trading_costs import compute_trade_costs
 from backend.shared.db import SessionLocal
 
 logger = logging.getLogger(__name__)
@@ -188,21 +189,42 @@ class CandidateOutcomeResolver:
             broker_ticket = candidate.get("broker_ticket")
             if not broker_ticket:
                 continue
-            outcome = self._executed_outcome_from_management_records(broker_ticket)
+            outcome = self._executed_outcome_from_management_records(candidate)
             if outcome is None:
                 continue
             record_executed_outcome(candidate["candidate_id"], **outcome)
             linked += 1
         return linked
 
-    def _executed_outcome_from_management_records(self, broker_ticket: str) -> dict[str, Any] | None:
+    def _executed_outcome_from_management_records(self, candidate: dict[str, Any]) -> dict[str, Any] | None:
+        broker_ticket = str(candidate.get("broker_ticket") or "")
+        if not broker_ticket:
+            return None
         with SessionLocal() as db:
             position = db.query(AdaptivePositionStateORM).filter(AdaptivePositionStateORM.broker_ticket == broker_ticket).first()
             if position is None or position.closed_detected_at is None:
                 return None  # Still open, or adaptive management hasn't adopted/detected it yet.
             trade_record = db.query(MT5TradeRecordORM).filter(MT5TradeRecordORM.order_ticket == broker_ticket).first()
+            baseline = db.query(AdaptivePositionBaselineORM).filter(AdaptivePositionBaselineORM.position_id == position.position_id).first()
+            deals = (
+                db.query(AdaptiveTradeEventORM)
+                .filter(AdaptiveTradeEventORM.event_type == "DEAL", AdaptiveTradeEventORM.position_id == position.position_id)
+                .all()
+            )
 
-            realized_pnl = float(trade_record.realized_pnl) if trade_record and trade_record.realized_pnl is not None else None
+            seen_deals: set[str] = set()
+            cost_rows = []
+            exit_deal = None
+            for deal in sorted(deals, key=lambda d: d.utc_time or d.created_at or datetime.min.replace(tzinfo=timezone.utc)):
+                key = deal.deal_id or deal.event_id
+                if key in seen_deals:
+                    continue
+                seen_deals.add(key)
+                cost_rows.append({"profit": deal.realized_pnl, "commission": deal.commission, "swap": deal.swap, "fee": deal.fee, "volume": deal.volume})
+                exit_deal = deal
+            cost_breakdown = compute_trade_costs(cost_rows) if cost_rows else None
+
+            realized_pnl = cost_breakdown.net_pnl if cost_breakdown else (float(trade_record.realized_pnl) if trade_record and trade_record.realized_pnl is not None else None)
             original_risk = float(position.original_risk_money) if position.original_risk_money else None
             realized_r = (realized_pnl / abs(original_risk)) if (realized_pnl is not None and original_risk) else None
             holding_seconds = None
@@ -210,6 +232,14 @@ class CandidateOutcomeResolver:
                 holding_seconds = (trade_record.close_timestamp - trade_record.open_timestamp).total_seconds()
             elif position.opened_at and position.closed_detected_at:
                 holding_seconds = (position.closed_detected_at - position.opened_at).total_seconds()
+            actual_entry = float(position.entry_price) if position.entry_price else candidate.get("actual_entry")
+            proposed_entry = candidate.get("proposed_entry") or (baseline.original_entry if baseline else None)
+            direction = str(candidate.get("direction") or position.direction or "").upper()
+            slippage = None
+            if actual_entry is not None and proposed_entry is not None:
+                actual_entry = float(actual_entry)
+                proposed_entry = float(proposed_entry)
+                slippage = actual_entry - proposed_entry if direction == "LONG" else proposed_entry - actual_entry
 
             return {
                 "outcome_status": "CLOSED",
@@ -217,11 +247,18 @@ class CandidateOutcomeResolver:
                 "mae_r": float(position.min_achieved_r) if position.min_achieved_r is not None else None,
                 "realized_r": round(realized_r, 4) if realized_r is not None else None,
                 "realized_pnl": realized_pnl,
+                "gross_pnl": cost_breakdown.gross_pnl if cost_breakdown else (float(trade_record.gross_pnl) if trade_record and trade_record.gross_pnl is not None else None),
+                "commission": cost_breakdown.commission if cost_breakdown else (float(trade_record.commission) if trade_record and trade_record.commission is not None else None),
+                "swap": cost_breakdown.swap if cost_breakdown else (float(trade_record.swap) if trade_record and trade_record.swap is not None else None),
+                "fee": cost_breakdown.other_fees if cost_breakdown else (float(trade_record.fee) if trade_record and trade_record.fee is not None else None),
+                "net_pnl": realized_pnl,
+                "total_trading_cost": cost_breakdown.total_trading_cost if cost_breakdown else (float(trade_record.total_trading_cost) if trade_record and trade_record.total_trading_cost is not None else None),
+                "commission_source": cost_breakdown.commission_source if cost_breakdown else (trade_record.commission_source if trade_record else None),
                 "holding_duration_seconds": holding_seconds,
                 "exit_reason": (trade_record.exit_reason if trade_record else None) or position.winner_classification,
-                "actual_entry": float(position.entry_price) if position.entry_price else None,
-                "slippage": None,
-                "final_exit_price": None,
+                "actual_entry": actual_entry,
+                "slippage": slippage,
+                "final_exit_price": float(exit_deal.price) if exit_deal and exit_deal.price is not None else None,
                 "outcome_resolved_at": utcnow(),
                 "outcome_payload": {"winner_classification": position.winner_classification, "r_source": position.r_source},
             }

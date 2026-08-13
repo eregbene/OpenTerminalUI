@@ -6,7 +6,11 @@ from decimal import Decimal
 from types import SimpleNamespace
 
 import pytest
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
 
+from backend.brokers.mt5 import account_registry
 from backend.brokers.models import BrokerOrderCommand
 from backend.brokers.mt5.autonomous import MT5AutonomousTradingService, _mt5_order_comment, _score_candidate, _swing_level
 from backend.brokers.mt5.adapter import MT5Adapter
@@ -15,11 +19,22 @@ from backend.brokers.mt5.config import MT5Config, mt5_config
 from backend.brokers.mt5.execution import MT5ExecutionService
 from backend.brokers.mt5.exceptions import MT5ReadOnlyViolation
 from backend.brokers.mt5.prop_risk import risk_status
+from backend.portfolio_execution import service as portfolio_execution_service
+from backend.shared.db import Base
 
 
 class FakeRow(SimpleNamespace):
     def _asdict(self):
         return dict(self.__dict__)
+
+
+def _execution_session_factory(monkeypatch):
+    engine = create_engine("sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool)
+    Base.metadata.create_all(bind=engine)
+    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    monkeypatch.setattr(portfolio_execution_service, "SessionLocal", SessionLocal)
+    monkeypatch.setattr(account_registry, "SessionLocal", SessionLocal)
+    return SessionLocal
 
 
 class FakeMT5:
@@ -574,7 +589,11 @@ def test_score_candidate_rejects_when_no_valid_stop_fits_bounds(monkeypatch):
     assert geometry["stop_loss"] == geometry["entry"]
 
 
-def test_mt5_order_send_called_exactly_once_for_approved_intent():
+def test_mt5_order_send_called_exactly_once_for_approved_intent(monkeypatch):
+    _execution_session_factory(monkeypatch)
+    # This test exercises order-send mechanics, not portfolio protection -- can_open_new_trade()
+    # now fails CLOSED (not open) when no snapshot exists yet, which no test in this file builds.
+    monkeypatch.setattr(portfolio_execution_service.portfolio_manager, "can_open_new_trade", lambda *args, **kwargs: (True, []))
     adapter = fake_adapter()
     service = MT5ExecutionService(adapter)
     intent = _intent(volume=Decimal("0.01"))

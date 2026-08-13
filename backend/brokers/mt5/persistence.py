@@ -19,6 +19,7 @@ from backend.brokers.mt5.orm import (
     MT5TradeMemorySnapshotORM,
     MT5TradeRecordORM,
 )
+from backend.brokers.mt5.trading_costs import compute_trade_costs
 from backend.shared.db import SessionLocal
 
 SENSITIVE_KEY_PARTS = ("password", "api_key", "apikey", "secret", "token", "authorization", "auth")
@@ -98,17 +99,19 @@ def persist_cycle_result(result: dict[str, Any]) -> None:
         return
     payload = sanitize(result)
     cycle_id = str(result["cycle_id"])
+    account_id = str(result.get("account_id") or _account_id_from_cycle_id(cycle_id))
     winner = result.get("winner") or {}
     trade = result.get("trade") or {}
     decision = result.get("ai_decision") or {}
     with SessionLocal() as db:
-        candidate_rows = [_candidate_row(cycle_id, candidate) for candidate in _result_candidates(result)]
+        candidate_rows = [_candidate_row(cycle_id, candidate, account_id) for candidate in _result_candidates(result)]
         winner_candidate_id = winner.get("candidate_id")
         if not winner_candidate_id and candidate_rows:
             winner_candidate_id = candidate_rows[0].candidate_id
         if decision and not decision.get("decision_id"):
             decision["decision_id"] = _hash({"cycle_id": cycle_id, "candidate": winner_candidate_id, "decision": decision})[:32]
         cycle = db.get(MT5SchedulerCycleORM, cycle_id) or MT5SchedulerCycleORM(cycle_id=cycle_id)
+        cycle.account_id = account_id
         cycle.status = str(result.get("status") or "UNKNOWN")
         cycle.candle_id = cycle_id
         cycle.candle_timestamp = _cycle_ts(cycle_id)
@@ -129,11 +132,11 @@ def persist_cycle_result(result: dict[str, Any]) -> None:
             db.merge(candidate_row)
 
         if decision:
-            db.merge(_decision_row(cycle_id, winner, decision))
+            db.merge(_decision_row(cycle_id, winner, decision, account_id))
         if trade:
-            order = _order_row(cycle_id, winner, decision, trade)
+            order = _order_row(cycle_id, winner, decision, trade, account_id)
             db.merge(order)
-            db.merge(_trade_row(cycle_id, winner, decision, trade, order.order_id))
+            db.merge(_trade_row(cycle_id, winner, decision, trade, order.order_id, account_id))
         _ensure_default_retention(db)
         db.commit()
 
@@ -142,17 +145,19 @@ def update_trade_reconciliation(reconciliation: dict[str, Any]) -> None:
     positions = reconciliation.get("positions") or []
     orders = reconciliation.get("orders") or []
     status = str(reconciliation.get("status") or "")
+    account_id = str(reconciliation.get("account_id") or "demo_10k")
     with SessionLocal() as db:
         for position in positions:
             ticket = str(position.get("ticket") or position.get("identifier") or "")
             if not ticket:
                 continue
-            row = db.query(MT5TradeRecordORM).filter(MT5TradeRecordORM.order_ticket == ticket).first()
+            row = db.query(MT5TradeRecordORM).filter(MT5TradeRecordORM.account_id == account_id, MT5TradeRecordORM.order_ticket == ticket).first()
             if not row:
-                row = db.query(MT5TradeRecordORM).filter(MT5TradeRecordORM.raw_payload["submission"]["order_ticket"].as_string() == ticket).first() if db.bind and db.bind.dialect.name == "postgresql" else None
+                row = db.query(MT5TradeRecordORM).filter(MT5TradeRecordORM.account_id == account_id, MT5TradeRecordORM.raw_payload["submission"]["order_ticket"].as_string() == ticket).first() if db.bind and db.bind.dialect.name == "postgresql" else None
             if not row:
-                row = MT5TradeRecordORM(trade_id=f"MT5POS_{ticket}", cycle_id="MT5_RECONCILIATION_OBSERVED", symbol=str(position.get("symbol") or "").upper(), broker_symbol=str(position.get("symbol") or "").upper(), direction=_position_direction(position), lot_size=float(position.get("volume") or 0))
+                row = MT5TradeRecordORM(trade_id=_scoped_id(account_id, f"MT5POS_{ticket}"), account_id=account_id, cycle_id="MT5_RECONCILIATION_OBSERVED", symbol=str(position.get("symbol") or "").upper(), broker_symbol=str(position.get("symbol") or "").upper(), direction=_position_direction(position), lot_size=float(position.get("volume") or 0))
                 db.add(row)
+            row.account_id = account_id
             row.entry = _float(position.get("price_open"))
             row.stop_loss = _float(position.get("sl"))
             row.take_profit = _float(position.get("tp"))
@@ -171,8 +176,10 @@ def update_trade_reconciliation(reconciliation: dict[str, Any]) -> None:
             ticket = str(order.get("ticket") or "")
             if not ticket:
                 continue
-            row = db.get(MT5OrderRecordORM, ticket) or MT5OrderRecordORM(order_id=ticket)
-            row.trade_id = f"MT5POS_{ticket}"
+            order_id = _scoped_id(account_id, ticket)
+            row = db.get(MT5OrderRecordORM, order_id) or MT5OrderRecordORM(order_id=order_id)
+            row.account_id = account_id
+            row.trade_id = _scoped_id(account_id, f"MT5POS_{ticket}")
             row.cycle_id = "MT5_RECONCILIATION_OBSERVED"
             row.symbol = str(order.get("symbol") or "").upper()
             row.direction = _order_direction(order)
@@ -185,28 +192,42 @@ def update_trade_reconciliation(reconciliation: dict[str, Any]) -> None:
         db.commit()
 
 
-def update_trade_history(deals: list[Any]) -> dict[str, Any]:
-    """Update persisted MT5 trades from broker history without placing orders."""
+def update_trade_history(deals: list[Any], account_id: str = "demo_10k") -> dict[str, Any]:
+    """Update persisted MT5 trades from broker history without placing orders. account_id scopes
+    both which trade records are eligible to match (a deal from Account A's history must never
+    close out Account B's trade record just because tickets/symbols happen to line up) and the
+    memory-snapshot refresh below (so one account's win-rate/expectancy memory never blends into
+    another's confidence scoring)."""
     normalized_deals = [_history_dict(deal) for deal in deals]
     updated = 0
     reviewed = 0
     with SessionLocal() as db:
-        rows = db.query(MT5TradeRecordORM).order_by(MT5TradeRecordORM.created_at.desc()).limit(500).all()
+        rows = db.query(MT5TradeRecordORM).filter(MT5TradeRecordORM.account_id == account_id).order_by(MT5TradeRecordORM.created_at.desc()).limit(500).all()
         for row in rows:
             matching = _matching_exit_deals(row, normalized_deals)
             if not matching:
                 continue
-            realized = sum((_float(deal.get("profit")) or 0.0) + (_float(deal.get("commission")) or 0.0) + (_float(deal.get("swap")) or 0.0) for deal in matching)
+            # Canonical gross/commission/swap/fee/net breakdown (backend/brokers/mt5/
+            # trading_costs.py) -- previously this summed only profit+commission+swap (no fee),
+            # inconsistent with the 4-term formula used elsewhere in the codebase for the same
+            # underlying deals.
+            cost_breakdown = compute_trade_costs([{"profit": deal.get("profit"), "commission": deal.get("commission"), "swap": deal.get("swap"), "fee": deal.get("fee"), "volume": deal.get("volume")} for deal in matching])
+            realized = cost_breakdown.net_pnl
             close_timestamp = max((_parse_dt(deal.get("time")) for deal in matching if _parse_dt(deal.get("time"))), default=None)
             close_price = _float(matching[-1].get("price"))
             row.realized_pnl = realized
+            row.gross_pnl = cost_breakdown.gross_pnl
             row.current_pnl = None
             row.close_timestamp = close_timestamp or row.close_timestamp
             if row.open_timestamp and row.close_timestamp:
                 row.duration_seconds = int((_aware_dt(row.close_timestamp) - _aware_dt(row.open_timestamp)).total_seconds())
             row.exit_reason = row.exit_reason or _exit_reason(row, realized, close_price)
-            row.commission = sum((_float(deal.get("commission")) or 0.0) for deal in matching)
-            row.swap = sum((_float(deal.get("swap")) or 0.0) for deal in matching)
+            row.commission = cost_breakdown.commission
+            row.swap = cost_breakdown.swap
+            row.fee = cost_breakdown.other_fees
+            row.total_trading_cost = cost_breakdown.total_trading_cost
+            row.commission_per_lot_effective = cost_breakdown.commission_per_lot_effective
+            row.commission_source = cost_breakdown.commission_source
             existing = row.raw_payload if isinstance(row.raw_payload, dict) else {}
             review = _review_for_trade(row)
             row.raw_payload = sanitize({**existing, "history_deals": matching, "outcome_review": review})
@@ -216,7 +237,7 @@ def update_trade_history(deals: list[Any]) -> dict[str, Any]:
             reviewed += 1
         if updated:
             db.flush()
-            _refresh_memory_snapshots(db)
+            _refresh_memory_snapshots(db, account_id)
         db.commit()
     return {"updated_trades": updated, "reviews_created": reviewed, "deals_seen": len(normalized_deals)}
 
@@ -275,9 +296,9 @@ def refresh_trade_memory() -> dict[str, Any]:
         return {"snapshots": snapshots, "updated_at": utcnow().isoformat()}
 
 
-def query_trade_memory(limit: int = 100, symbol: str | None = None, recommendation: str | None = None) -> list[dict[str, Any]]:
+def query_trade_memory(limit: int = 100, symbol: str | None = None, recommendation: str | None = None, account_id: str = "demo_10k") -> list[dict[str, Any]]:
     with SessionLocal() as db:
-        query = db.query(MT5TradeMemorySnapshotORM)
+        query = db.query(MT5TradeMemorySnapshotORM).filter(MT5TradeMemorySnapshotORM.account_id == account_id)
         if symbol:
             query = query.filter(MT5TradeMemorySnapshotORM.symbol == symbol.upper())
         if recommendation:
@@ -286,24 +307,25 @@ def query_trade_memory(limit: int = 100, symbol: str | None = None, recommendati
         return [_orm_dict(row) for row in rows]
 
 
-def confidence_memory_for_symbol(symbol: str) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+def confidence_memory_for_symbol(symbol: str, account_id: str = "demo_10k") -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
     """(symbol_memory, global_memory) for the deterministic confidence engine
     (backend/brokers/mt5/confidence.py) -- same MT5TradeMemorySnapshotORM data and
     scope convention learning_context_for_candidate already uses, just returned
-    directly rather than folded into a guidance summary."""
-    symbol_memory = _first_memory(query_trade_memory(limit=50, symbol=symbol.upper()), scope="SYMBOL")
-    global_memory = _first_memory(query_trade_memory(limit=10), scope="GLOBAL")
+    directly rather than folded into a guidance summary. account_id scoped so one account's
+    win-rate/expectancy memory never influences another account's confidence scoring."""
+    symbol_memory = _first_memory(query_trade_memory(limit=50, symbol=symbol.upper(), account_id=account_id), scope="SYMBOL")
+    global_memory = _first_memory(query_trade_memory(limit=10, account_id=account_id), scope="GLOBAL")
     return symbol_memory, global_memory
 
 
-def learning_context_for_candidate(candidate: dict[str, Any]) -> dict[str, Any]:
+def learning_context_for_candidate(candidate: dict[str, Any], account_id: str = "demo_10k") -> dict[str, Any]:
     symbol = str(candidate.get("canonical_pair") or candidate.get("symbol") or "").upper()
     session = str(candidate.get("session") or _session()).upper()
     regime = str(candidate.get("market_regime") or _regime(candidate.get("direction"))).upper()
-    memories = query_trade_memory(limit=50, symbol=symbol)
+    memories = query_trade_memory(limit=50, symbol=symbol, account_id=account_id)
     exact = _first_memory(memories, session=session, regime=regime)
     symbol_scope = _first_memory(memories, scope="SYMBOL")
-    global_scope = _first_memory(query_trade_memory(limit=10), scope="GLOBAL")
+    global_scope = _first_memory(query_trade_memory(limit=10, account_id=account_id), scope="GLOBAL")
     rows = [row for row in (exact, symbol_scope, global_scope) if row]
     blockers = [row for row in rows if row.get("recommendation") == "AVOID"]
     cautions = [row for row in rows if row.get("recommendation") == "REDUCE_RISK"]
@@ -444,12 +466,13 @@ def _contains_winner_candidate(candidates: list[dict[str, Any]], winner: dict[st
     return any((row.get("broker_symbol") or row.get("canonical_pair")) == winner_symbol and row.get("context_hash") == winner_hash for row in candidates)
 
 
-def _candidate_row(cycle_id: str, candidate: dict[str, Any]) -> MT5SchedulerCandidateORM:
+def _candidate_row(cycle_id: str, candidate: dict[str, Any], account_id: str) -> MT5SchedulerCandidateORM:
     candidate_id = _candidate_id(cycle_id, candidate)
     candidate["candidate_id"] = candidate_id
     context = candidate.get("context") or {}
     row = MT5SchedulerCandidateORM(candidate_id=candidate_id)
     row.cycle_id = cycle_id
+    row.account_id = account_id
     row.symbol = str(candidate.get("canonical_pair") or candidate.get("symbol") or "").upper()
     row.broker_symbol = str(candidate.get("broker_symbol") or row.symbol).upper()
     row.asset_class = candidate.get("asset_class")
@@ -476,11 +499,12 @@ def _candidate_row(cycle_id: str, candidate: dict[str, Any]) -> MT5SchedulerCand
     return row
 
 
-def _decision_row(cycle_id: str, winner: dict[str, Any], decision: dict[str, Any]) -> MT5AIDecisionORM:
+def _decision_row(cycle_id: str, winner: dict[str, Any], decision: dict[str, Any], account_id: str) -> MT5AIDecisionORM:
     decision_id = decision.get("decision_id") or _hash({"cycle_id": cycle_id, "candidate": winner.get("candidate_id"), "decision": decision})[:32]
     decision["decision_id"] = decision_id
     row = MT5AIDecisionORM(decision_id=decision_id)
     row.cycle_id = cycle_id
+    row.account_id = account_id
     row.candidate_id = winner.get("candidate_id")
     row.symbol = winner.get("canonical_pair")
     row.decision = str(decision.get("decision") or "NO_TRADE").upper()
@@ -495,11 +519,13 @@ def _decision_row(cycle_id: str, winner: dict[str, Any], decision: dict[str, Any
     return row
 
 
-def _order_row(cycle_id: str, winner: dict[str, Any], decision: dict[str, Any], trade: dict[str, Any]) -> MT5OrderRecordORM:
+def _order_row(cycle_id: str, winner: dict[str, Any], decision: dict[str, Any], trade: dict[str, Any], account_id: str) -> MT5OrderRecordORM:
     submission = trade.get("submission") or {}
     intent = trade.get("intent") or {}
-    order_id = str(submission.get("order_ticket") or intent.get("intent_id") or trade.get("trade_id") or _hash(trade)[:32])
+    raw_order_id = str(submission.get("order_ticket") or intent.get("intent_id") or trade.get("trade_id") or _hash(trade)[:32])
+    order_id = _scoped_id(account_id, raw_order_id)
     row = MT5OrderRecordORM(order_id=order_id)
+    row.account_id = account_id
     row.trade_id = trade.get("trade_id")
     row.cycle_id = cycle_id
     row.candidate_id = winner.get("candidate_id")
@@ -521,13 +547,14 @@ def _order_row(cycle_id: str, winner: dict[str, Any], decision: dict[str, Any], 
     return row
 
 
-def _trade_row(cycle_id: str, winner: dict[str, Any], decision: dict[str, Any], trade: dict[str, Any], order_id: str) -> MT5TradeRecordORM:
+def _trade_row(cycle_id: str, winner: dict[str, Any], decision: dict[str, Any], trade: dict[str, Any], order_id: str, account_id: str) -> MT5TradeRecordORM:
     intent = trade.get("intent") or {}
     risk = trade.get("risk") or {}
     submission = trade.get("submission") or {}
-    trade_id = trade.get("trade_id") or str(intent.get("intent_id") or order_id)
+    trade_id = _scoped_id(account_id, str(trade.get("trade_id") or intent.get("intent_id") or order_id))
     trade["trade_id"] = trade_id
     row = MT5TradeRecordORM(trade_id=trade_id)
+    row.account_id = account_id
     row.cycle_id = cycle_id
     row.candidate_id = winner.get("candidate_id")
     row.ai_decision_id = decision.get("decision_id")
@@ -693,8 +720,8 @@ def _review_for_trade(row: MT5TradeRecordORM) -> dict[str, Any]:
     }
 
 
-def _refresh_memory_snapshots(db: Any) -> int:
-    rows = db.query(MT5TradeRecordORM).filter(MT5TradeRecordORM.realized_pnl.isnot(None)).order_by(MT5TradeRecordORM.close_timestamp.desc()).limit(2000).all()
+def _refresh_memory_snapshots(db: Any, account_id: str = "demo_10k") -> int:
+    rows = db.query(MT5TradeRecordORM).filter(MT5TradeRecordORM.realized_pnl.isnot(None), MT5TradeRecordORM.account_id == account_id).order_by(MT5TradeRecordORM.close_timestamp.desc()).limit(2000).all()
     groups: dict[tuple[str, str | None, str | None, str | None], list[MT5TradeRecordORM]] = {("GLOBAL", None, None, None): rows}
     for row in rows:
         groups.setdefault(("SYMBOL", row.symbol, None, None), []).append(row)
@@ -705,8 +732,9 @@ def _refresh_memory_snapshots(db: Any) -> int:
     updated = 0
     for (scope, symbol, session, regime), trades in groups.items():
         memory = _memory_payload(scope, symbol, session, regime, trades)
-        memory_id = _memory_id(scope, symbol, session, regime)
+        memory_id = _memory_id(scope, symbol, session, regime, account_id)
         row = db.get(MT5TradeMemorySnapshotORM, memory_id) or MT5TradeMemorySnapshotORM(memory_id=memory_id)
+        row.account_id = account_id
         row.scope = scope
         row.symbol = symbol
         row.session = session
@@ -783,8 +811,15 @@ def _memory_recommendation(count: int, pnls: list[float], mistake_counts: dict[s
     return "PREFER"
 
 
-def _memory_id(scope: str, symbol: str | None, session: str | None, regime: str | None) -> str:
-    return "MT5MEM_" + _hash({"scope": scope, "symbol": symbol, "session": session, "regime": regime})[:32]
+def _memory_id(scope: str, symbol: str | None, session: str | None, regime: str | None, account_id: str = "demo_10k") -> str:
+    # account_id folded into the hash (not just appended) for every account except demo_10k, so
+    # existing demo_10k memory_ids are byte-identical to before this column existed -- without
+    # this, two accounts would compute the SAME memory_id for the same scope/symbol/session/
+    # regime combination and silently overwrite each other's win-rate/expectancy snapshot.
+    key = {"scope": scope, "symbol": symbol, "session": session, "regime": regime}
+    if account_id != "demo_10k":
+        key["account_id"] = account_id
+    return "MT5MEM_" + _hash(key)[:32]
 
 
 def _first_memory(rows: list[dict[str, Any]], *, scope: str | None = None, session: str | None = None, regime: str | None = None) -> dict[str, Any] | None:
@@ -825,6 +860,16 @@ def _candle_id(provider: str, symbol: str, timeframe: str, ts: datetime) -> str:
 
 def _candidate_id(cycle_id: str, candidate: dict[str, Any]) -> str:
     return candidate.get("candidate_id") or f"{cycle_id}:{candidate.get('broker_symbol') or candidate.get('canonical_pair')}:{_hash(candidate)[:16]}"
+
+
+def _account_id_from_cycle_id(cycle_id: str) -> str:
+    return cycle_id.split(":", 1)[0] if ":" in cycle_id else "demo_10k"
+
+
+def _scoped_id(account_id: str, value: str) -> str:
+    if account_id == "demo_10k" or value.startswith(f"{account_id}:"):
+        return value
+    return f"{account_id}:{value}"
 
 
 def _candle_quality(candle: MT5Candle, now: datetime) -> str:

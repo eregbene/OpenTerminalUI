@@ -61,8 +61,108 @@ PROFILES = {
 }
 
 
+CHALLENGE_STATES = {
+    "ACTIVE",
+    "TARGET_REACHED",
+    "MIN_DAYS_PENDING",
+    "PASSED",
+    "DAILY_LOSS_BREACHED",
+    "MAX_LOSS_BREACHED",
+    "DISABLED",
+}
+
+
 def active_profile(config: MT5Config) -> PropRiskProfile:
     return PROFILES.get(config.prop_profile, PROFILES["GENERIC_PROP_CONSERVATIVE"])
+
+
+def ftmo_2step_limits(initial_balance: Decimal, *, profit_target_percent: Decimal = Decimal("10"), daily_loss_percent: Decimal = Decimal("5"), max_loss_percent: Decimal = Decimal("10"), minimum_trading_days: int = 4) -> dict[str, Any]:
+    return {
+        "initial_balance": str(initial_balance),
+        "profit_target_percent": str(profit_target_percent),
+        "profit_target": str((initial_balance * profit_target_percent / Decimal("100")).quantize(Decimal("0.01"))),
+        "daily_loss_percent": str(daily_loss_percent),
+        "daily_loss_limit": str((initial_balance * daily_loss_percent / Decimal("100")).quantize(Decimal("0.01"))),
+        "max_loss_percent": str(max_loss_percent),
+        "max_loss_limit": str((initial_balance * max_loss_percent / Decimal("100")).quantize(Decimal("0.01"))),
+        "minimum_trading_days": minimum_trading_days,
+        "trading_period": "UNLIMITED",
+    }
+
+
+def challenge_status(
+    *,
+    initial_balance: Decimal,
+    daily_baseline_equity: Decimal,
+    current_balance: Decimal,
+    current_equity: Decimal,
+    trading_days_completed: int = 0,
+    enabled: bool = True,
+    profit_target_percent: Decimal = Decimal("10"),
+    daily_loss_percent: Decimal = Decimal("5"),
+    max_loss_percent: Decimal = Decimal("10"),
+    minimum_trading_days: int = 4,
+    daily_entry_block_utilization: Decimal = Decimal("0.80"),
+    max_loss_entry_block_utilization: Decimal = Decimal("0.80"),
+    next_daily_reset: str | None = None,
+) -> dict[str, Any]:
+    limits = ftmo_2step_limits(
+        initial_balance,
+        profit_target_percent=profit_target_percent,
+        daily_loss_percent=daily_loss_percent,
+        max_loss_percent=max_loss_percent,
+        minimum_trading_days=minimum_trading_days,
+    )
+    daily_limit = Decimal(limits["daily_loss_limit"])
+    max_limit = Decimal(limits["max_loss_limit"])
+    target = Decimal(limits["profit_target"])
+    daily_loss_used = max(Decimal("0"), daily_baseline_equity - current_equity).quantize(Decimal("0.01"))
+    max_loss_used = max(Decimal("0"), initial_balance - current_equity).quantize(Decimal("0.01"))
+    net_profit = (current_balance - initial_balance).quantize(Decimal("0.01"))
+    internal_daily_limit = (daily_limit * daily_entry_block_utilization).quantize(Decimal("0.01"))
+    internal_max_limit = (max_limit * max_loss_entry_block_utilization).quantize(Decimal("0.01"))
+    blockers: list[str] = []
+    if not enabled:
+        state = "DISABLED"
+        blockers.append("ACCOUNT_PROFILE_DISABLED")
+    elif daily_loss_used >= daily_limit:
+        state = "DAILY_LOSS_BREACHED"
+        blockers.append("PROP_DAILY_LOSS_BREACHED")
+    elif max_loss_used >= max_limit:
+        state = "MAX_LOSS_BREACHED"
+        blockers.append("PROP_MAX_LOSS_BREACHED")
+    elif net_profit >= target and trading_days_completed >= minimum_trading_days:
+        state = "PASSED"
+    elif net_profit >= target:
+        state = "MIN_DAYS_PENDING"
+    else:
+        state = "ACTIVE"
+    if daily_loss_used >= internal_daily_limit:
+        blockers.append("PROP_DAILY_LOSS_BUFFER")
+    if max_loss_used >= internal_max_limit:
+        blockers.append("PROP_MAX_LOSS_BUFFER")
+    return {
+        **limits,
+        "current_balance": str(current_balance),
+        "current_equity": str(current_equity),
+        "daily_baseline_equity": str(daily_baseline_equity),
+        "daily_loss_used": str(daily_loss_used),
+        "daily_loss_remaining": str(max(Decimal("0"), daily_limit - daily_loss_used).quantize(Decimal("0.01"))),
+        "daily_loss_percent_used": str(((daily_loss_used / daily_limit) * Decimal("100")).quantize(Decimal("0.01")) if daily_limit else Decimal("0")),
+        "max_loss_used": str(max_loss_used),
+        "max_loss_remaining": str(max(Decimal("0"), max_limit - max_loss_used).quantize(Decimal("0.01"))),
+        "max_loss_percent_used": str(((max_loss_used / max_limit) * Decimal("100")).quantize(Decimal("0.01")) if max_limit else Decimal("0")),
+        "official_daily_loss_limit": str(daily_limit),
+        "internal_daily_entry_limit": str(internal_daily_limit),
+        "official_max_loss_limit": str(max_limit),
+        "internal_max_loss_entry_limit": str(internal_max_limit),
+        "profit_target_progress": str(((net_profit / target) * Decimal("100")).quantize(Decimal("0.01")) if target else Decimal("0")),
+        "trading_days_completed": trading_days_completed,
+        "challenge_status": state,
+        "new_entries_allowed": not blockers,
+        "entry_blockers": sorted(set(blockers)),
+        "next_daily_reset": next_daily_reset,
+    }
 
 
 def risk_status(config: MT5Config, *, equity: Decimal, balance: Decimal, daily_pnl: Decimal = Decimal("0"), total_pnl: Decimal = Decimal("0")) -> dict[str, Any]:

@@ -6,22 +6,11 @@ from typing import Any, Callable
 
 from backend.core.finnhub_client import FinnhubClient
 from backend.forex_intelligence.instruments import FOREX_INSTRUMENTS, SUPPORTED_FOREX_CURRENCIES, get_forex_instrument
-from backend.core.yahoo_client import YahooClient
 from backend.shared.cache import cache as cache_instance
 
 SUPPORTED_CURRENCIES = list(SUPPORTED_FOREX_CURRENCIES)
 DEFAULT_PAIR_INTERVAL = "1d"
 DEFAULT_PAIR_RANGE = "3mo"
-
-_YAHOO_USD_REFERENCE_SYMBOLS: dict[str, tuple[str, bool]] = {
-    "EUR": ("EURUSD=X", False),
-    "GBP": ("GBPUSD=X", False),
-    "JPY": ("JPY=X", True),
-    "CHF": ("CHF=X", True),
-    "AUD": ("AUDUSD=X", False),
-    "CAD": ("CAD=X", True),
-    "NZD": ("NZDUSD=X", False),
-}
 
 _PAIR_RANGE_TO_DELTA: dict[str, timedelta] = {
     "1d": timedelta(days=1),
@@ -151,78 +140,6 @@ def _f(value: Any, default: float = 0.0) -> float:
         return default
 
 
-def _coerce_positive_price(row: dict[str, Any]) -> float:
-    for key in ("regularMarketPrice", "bid", "ask", "previousClose"):
-        value = _f(row.get(key))
-        if value > 0:
-            return value
-    return 0.0
-
-
-def _parse_yahoo_candles(payload: dict[str, Any], *, invert: bool = False) -> list[dict[str, Any]]:
-    chart = payload.get("chart") if isinstance(payload, dict) else None
-    result = chart.get("result") if isinstance(chart, dict) else None
-    if not isinstance(result, list) or not result:
-        return []
-
-    first = result[0] if isinstance(result[0], dict) else {}
-    timestamps = first.get("timestamp") if isinstance(first, dict) else None
-    indicators = first.get("indicators") if isinstance(first, dict) else {}
-    quotes = indicators.get("quote") if isinstance(indicators, dict) else None
-    if not isinstance(timestamps, list) or not isinstance(quotes, list) or not quotes:
-        return []
-
-    quote = quotes[0] if isinstance(quotes[0], dict) else {}
-    opens = quote.get("open") if isinstance(quote, dict) else None
-    highs = quote.get("high") if isinstance(quote, dict) else None
-    lows = quote.get("low") if isinstance(quote, dict) else None
-    closes = quote.get("close") if isinstance(quote, dict) else None
-    volumes = quote.get("volume") if isinstance(quote, dict) else None
-    if not all(isinstance(series, list) for series in (opens, highs, lows, closes)):
-        return []
-
-    if not isinstance(volumes, list):
-        volumes = [0] * len(timestamps)
-
-    length = min(len(timestamps), len(opens), len(highs), len(lows), len(closes), len(volumes))
-    candles: list[dict[str, Any]] = []
-    for idx in range(length):
-        timestamp = timestamps[idx]
-        open_price = _f(opens[idx], -1)
-        high_price = _f(highs[idx], -1)
-        low_price = _f(lows[idx], -1)
-        close_price = _f(closes[idx], -1)
-        volume = int(_f(volumes[idx], 0))
-        if not isinstance(timestamp, (int, float)):
-            continue
-        if min(open_price, high_price, low_price, close_price) <= 0:
-            continue
-
-        if invert:
-            candles.append(
-                {
-                    "t": int(timestamp),
-                    "o": round(1.0 / open_price, 6),
-                    "h": round(1.0 / low_price, 6),
-                    "l": round(1.0 / high_price, 6),
-                    "c": round(1.0 / close_price, 6),
-                    "v": volume,
-                }
-            )
-        else:
-            candles.append(
-                {
-                    "t": int(timestamp),
-                    "o": round(open_price, 6),
-                    "h": round(high_price, 6),
-                    "l": round(low_price, 6),
-                    "c": round(close_price, 6),
-                    "v": volume,
-                }
-            )
-    return candles
-
-
 def _parse_finnhub_candles(payload: dict[str, Any], *, invert: bool = False) -> list[dict[str, Any]]:
     if not isinstance(payload, dict):
         return []
@@ -288,12 +205,10 @@ class PairResolution:
 class ForexService:
     def __init__(
         self,
-        yahoo: YahooClient | None = None,
         finnhub: FinnhubClient | None = None,
         cache_backend: Any = cache_instance,
         now_factory: Callable[[], datetime] | None = None,
     ) -> None:
-        self._yahoo = yahoo or YahooClient()
         self._finnhub = finnhub or FinnhubClient()
         self._cache = cache_backend
         self._now_factory = now_factory or (lambda: datetime.now(timezone.utc))
@@ -368,35 +283,18 @@ class ForexService:
         return payload if isinstance(payload, dict) else {}
 
     async def _fetch_usd_reference_map(self) -> dict[str, float]:
-        symbols = [spec[0] for spec in _YAHOO_USD_REFERENCE_SYMBOLS.values()]
-        try:
-            yahoo_rows = await self._yahoo.get_quotes(symbols)
-        except Exception:
-            yahoo_rows = []
-        yahoo_by_symbol = {
-            str(row.get("symbol") or "").upper(): row
-            for row in yahoo_rows
-            if isinstance(row, dict)
-        }
-
+        # Finnhub is the sole reference-rate source now (previously tried Yahoo quotes first,
+        # falling back to Finnhub only for whatever Yahoo didn't cover).
         usd_per_unit: dict[str, float] = {"USD": 1.0}
-        missing: list[str] = []
-        for currency, (symbol, invert) in _YAHOO_USD_REFERENCE_SYMBOLS.items():
-            row = yahoo_by_symbol.get(symbol, {})
-            price = _coerce_positive_price(row)
-            if price <= 0:
-                missing.append(currency)
-                continue
-            usd_per_unit[currency] = (1.0 / price) if invert else price
-
-        if missing:
-            fallback = await self._finnhub_get_forex_rates("USD")
-            quotes = fallback.get("quote") if isinstance(fallback.get("quote"), dict) else fallback
-            if isinstance(quotes, dict):
-                for currency in missing:
-                    quote_value = _f(quotes.get(currency))
-                    if quote_value > 0:
-                        usd_per_unit[currency] = 1.0 / quote_value
+        fallback = await self._finnhub_get_forex_rates("USD")
+        quotes = fallback.get("quote") if isinstance(fallback.get("quote"), dict) else fallback
+        if isinstance(quotes, dict):
+            for currency in SUPPORTED_CURRENCIES:
+                if currency == "USD":
+                    continue
+                quote_value = _f(quotes.get(currency))
+                if quote_value > 0:
+                    usd_per_unit[currency] = 1.0 / quote_value
 
         unresolved = [currency for currency in SUPPORTED_CURRENCIES if currency not in usd_per_unit]
         if unresolved:
@@ -436,63 +334,35 @@ class ForexService:
     async def _build_pair_chart_payload(self, pair: str, interval: str | None, range_str: str | None) -> dict[str, Any]:
         normalized_pair, base_currency, quote_currency = self._resolve_pair(pair)
         resolution = self._pair_resolution(interval, range_str)
-        direct_symbol = _yahoo_symbol(base_currency, quote_currency)
-        inverse_symbol = _yahoo_symbol(quote_currency, base_currency)
+        candles: list[dict[str, Any]] = []
+        source_symbol = f"OANDA:{base_currency}_{quote_currency}"
 
-        direct_payload: dict[str, Any] = {}
-        inverse_payload: dict[str, Any] = {}
-
-        try:
-            direct_payload = await self._yahoo.get_chart(
-                direct_symbol,
-                range_str=resolution.range_str,
-                interval=resolution.interval,
+        # Finnhub is the sole chart source now (previously tried Yahoo's direct/inverse chart
+        # endpoints first, falling back to Finnhub OANDA-style candles only if both failed).
+        finnhub_resolution = _FINNHUB_RESOLUTION_MAP.get(resolution.interval)
+        if finnhub_resolution:
+            end_at = self._now()
+            start_at = end_at - _PAIR_RANGE_TO_DELTA.get(resolution.range_str, _PAIR_RANGE_TO_DELTA[DEFAULT_PAIR_RANGE])
+            direct_finnhub = await self._finnhub_get_forex_candles(
+                f"OANDA:{base_currency}_{quote_currency}",
+                finnhub_resolution,
+                int(start_at.timestamp()),
+                int(end_at.timestamp()),
             )
-        except Exception:
-            direct_payload = {}
+            candles = _parse_finnhub_candles(direct_finnhub)
+            source_symbol = f"OANDA:{base_currency}_{quote_currency}"
 
-        candles = _parse_yahoo_candles(direct_payload)
-        source_symbol = direct_symbol
-
-        if not candles:
-            try:
-                inverse_payload = await self._yahoo.get_chart(
-                    inverse_symbol,
-                    range_str=resolution.range_str,
-                    interval=resolution.interval,
-                )
-            except Exception:
-                inverse_payload = {}
-            inverse_candles = _parse_yahoo_candles(inverse_payload, invert=True)
-            if inverse_candles:
-                candles = inverse_candles
-                source_symbol = inverse_symbol
-
-        if not candles:
-            finnhub_resolution = _FINNHUB_RESOLUTION_MAP.get(resolution.interval)
-            if finnhub_resolution:
-                end_at = self._now()
-                start_at = end_at - _PAIR_RANGE_TO_DELTA.get(resolution.range_str, _PAIR_RANGE_TO_DELTA[DEFAULT_PAIR_RANGE])
-                direct_finnhub = await self._finnhub_get_forex_candles(
-                    f"OANDA:{base_currency}_{quote_currency}",
+            if not candles:
+                inverse_finnhub = await self._finnhub_get_forex_candles(
+                    f"OANDA:{quote_currency}_{base_currency}",
                     finnhub_resolution,
                     int(start_at.timestamp()),
                     int(end_at.timestamp()),
                 )
-                candles = _parse_finnhub_candles(direct_finnhub)
-                source_symbol = f"OANDA:{base_currency}_{quote_currency}"
-
-                if not candles:
-                    inverse_finnhub = await self._finnhub_get_forex_candles(
-                        f"OANDA:{quote_currency}_{base_currency}",
-                        finnhub_resolution,
-                        int(start_at.timestamp()),
-                        int(end_at.timestamp()),
-                    )
-                    inverse_candles = _parse_finnhub_candles(inverse_finnhub, invert=True)
-                    if inverse_candles:
-                        candles = inverse_candles
-                        source_symbol = f"OANDA:{quote_currency}_{base_currency}"
+                inverse_candles = _parse_finnhub_candles(inverse_finnhub, invert=True)
+                if inverse_candles:
+                    candles = inverse_candles
+                    source_symbol = f"OANDA:{quote_currency}_{base_currency}"
 
         if not candles:
             raise RuntimeError(f"No FX chart data available for {normalized_pair}")

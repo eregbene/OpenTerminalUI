@@ -655,32 +655,10 @@ class MarketDataHub:
             return []
 
         if market in IN_MARKETS:
-            suffix = ".NS" if market == "NSE" else ".BO"
-            yahoo_symbols = [f"{symbol}{suffix}" for symbol in symbol_list]
-            rows = await fetcher.yahoo.get_quotes(yahoo_symbols)
-            quotes = []
-            for row in rows:
-                if not isinstance(row, dict):
-                    continue
-                raw_symbol = str(row.get("symbol") or "").upper()
-                symbol = raw_symbol.replace(".NS", "").replace(".BO", "")
-                last = _to_float(row.get("regularMarketPrice"))
-                if symbol not in symbol_list or last is None:
-                    continue
-                epoch = row.get("regularMarketTime")
-                ts_iso = now_iso
-                if isinstance(epoch, (int, float)) and epoch > 0:
-                    ts_iso = datetime.fromtimestamp(epoch, tz=timezone.utc).isoformat()
-                quotes.append(
-                    {
-                        "symbol": symbol,
-                        "last": last,
-                        "change": _to_float(row.get("regularMarketChange")) or 0.0,
-                        "changePct": _to_float(row.get("regularMarketChangePercent")) or 0.0,
-                        "ts": ts_iso,
-                    }
-                )
-            return quotes
+            # No India local-quote source is wired in here (the Yahoo Finance batch-quotes
+            # endpoint this used to call, with .NS/.BO suffix, was removed with no replacement)
+            # -- degrades to no quotes rather than raising.
+            return []
 
         return []
 
@@ -740,33 +718,10 @@ class MarketDataHub:
                     "ts": str(chain.get("timestamp") or now_iso),
                 }
 
-        # Approximate FUT ticks from underlying spot when kite stream is unavailable.
-        for underlying, fut_symbols in fut_underlyings.items():
-            suffix = ".NS"
-            try:
-                rows = await fetcher.yahoo.get_quotes([f"{underlying}{suffix}"])
-            except Exception:
-                rows = []
-            last = None
-            change = 0.0
-            change_pct = 0.0
-            if isinstance(rows, list) and rows and isinstance(rows[0], dict):
-                row = rows[0]
-                last = _to_float(row.get("regularMarketPrice"))
-                change = _to_float(row.get("regularMarketChange")) or 0.0
-                change_pct = _to_float(row.get("regularMarketChangePercent")) or 0.0
-            if last is None:
-                continue
-            for fut_sym in fut_symbols:
-                self._nfo_quote_cache[fut_sym] = {
-                    "symbol": fut_sym,
-                    "last": last,
-                    "change": change,
-                    "changePct": change_pct,
-                    "oi": None,
-                    "volume": None,
-                    "ts": now_iso,
-                }
+        # Approximate FUT ticks from underlying spot when kite stream is unavailable: previously
+        # sourced from Yahoo Finance batch quotes (removed, no replacement), so this no longer
+        # populates the FUT cache -- those symbols simply stay absent from the result below,
+        # same as when Yahoo previously returned nothing for a given underlying.
 
         out: list[dict[str, Any]] = []
         for sym in symbols:

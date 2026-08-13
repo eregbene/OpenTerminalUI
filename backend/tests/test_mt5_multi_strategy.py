@@ -269,8 +269,8 @@ def test_shadow_strategy_never_submits_and_active_still_flows_through_all_gates(
     monkeypatch.setattr(service, "_screen", lambda items, **kwargs: asyncio.sleep(0, result=[shadow_candidate]))
     monkeypatch.setattr(service, "_entry_quality_score", lambda candidate: asyncio.sleep(0, result={"status": "ok", "total_score": 0.9, "positive_contributors": [], "negative_contributors": [], "trend_state": "BULLISH"}))
     monkeypatch.setattr("backend.brokers.mt5.autonomous.confidence_memory_for_symbol", lambda symbol: (None, None))
-    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.exposure", lambda: {"currency": {}})
-    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.can_open_new_trade", lambda: (True, []))
+    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.exposure", lambda *args, **kwargs: {"currency": {}})
+    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.can_open_new_trade", lambda *args, **kwargs: (True, []))
     monkeypatch.setattr("backend.brokers.mt5.autonomous.decision_context_service.context_risk", lambda symbol: asyncio.sleep(0, result={"block_reasons": [], "acknowledgement_required": False}))
 
     async def _fake_economic_evaluate(**kwargs):

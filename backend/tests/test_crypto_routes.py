@@ -1,36 +1,9 @@
 from __future__ import annotations
 
 import asyncio
-from datetime import datetime, timedelta, timezone
 
 from backend.api.routes import crypto
 from backend.realtime.binance_ws import get_binance_derivatives_state
-
-
-def _chart_payload(days: int = 8, start_price: float = 40000.0) -> dict:
-    start = datetime(2025, 1, 1, tzinfo=timezone.utc)
-    ts = [int((start + timedelta(days=i)).timestamp()) for i in range(days)]
-    close = [start_price + i * 100 for i in range(days)]
-    return {
-        "chart": {
-            "result": [
-                {
-                    "timestamp": ts,
-                    "indicators": {
-                        "quote": [
-                            {
-                                "open": close,
-                                "high": [c + 50 for c in close],
-                                "low": [c - 50 for c in close],
-                                "close": close,
-                                "volume": [1000 + i for i in range(days)],
-                            }
-                        ]
-                    },
-                }
-            ]
-        }
-    }
 
 
 def _quotes_payload() -> list[dict]:
@@ -43,27 +16,40 @@ def _quotes_payload() -> list[dict]:
     ]
 
 
-def _patch_fetcher(monkeypatch) -> None:
-    class _FakeYahoo:
-        quote_calls = 0
+def _fixed_rows() -> list["crypto._Row"]:
+    rows = []
+    for item in _quotes_payload():
+        symbol = item["symbol"]
+        meta = crypto._CRYPTO_META.get(symbol, {})
+        price = float(item["regularMarketPrice"])
+        volume = float(item["regularMarketVolume"])
+        rows.append(
+            crypto._Row(
+                symbol=symbol,
+                name=str(meta.get("name") or symbol),
+                price=price,
+                change_24h=float(item["regularMarketChangePercent"]),
+                volume_24h=volume,
+                market_cap=max(price * max(volume, 1.0), price * 1_000_000.0),
+                sector=str(meta.get("sector") or "Other"),
+            )
+        )
+    return rows
 
-        async def get_quotes(self, symbols: list[str]):  # noqa: ARG002
-            self.quote_calls += 1
-            return _quotes_payload()
 
-        async def get_chart(self, symbol: str, range_str: str = "6mo", interval: str = "1d"):  # noqa: ARG002
-            offset = 1000 if symbol == "ETH-USD" else 0
-            return _chart_payload(start_price=40000 + offset)
+def _patch_fetcher(monkeypatch):
+    """No crypto quote-universe/candle source is wired into UnifiedFetcher anymore (the Yahoo
+    Finance endpoints this used to call were removed, with no replacement) -- _load_rows now
+    only ever reads from cache. Every endpoint test below only cares that _load_rows returns a
+    stable dataset, not how -- so patch it directly rather than faking a live source. The two
+    tests that specifically exercise _load_rows' own cache/stale-cache behavior seed the real
+    cache instead (see test_crypto_markets_reuses_cached_universe_across_requests /
+    test_crypto_markets_uses_stale_cache_when_universe_cache_empty)."""
 
-    class _FakeFetcher:
-        yahoo = _FakeYahoo()
+    async def _fake_load_rows(limit: int = 100):  # noqa: ARG001
+        return _fixed_rows()
 
-    async def _fake_get_unified_fetcher():
-        return _FakeFetcher()
-
-    monkeypatch.setattr(crypto, "get_unified_fetcher", _fake_get_unified_fetcher)
-    monkeypatch.setattr(crypto.market_service, "_fetcher_factory", _fake_get_unified_fetcher)
-    return _FakeFetcher.yahoo
+    monkeypatch.setattr(crypto, "_load_rows", _fake_load_rows)
 
 
 def _clear_crypto_quote_cache(limit: int) -> None:
@@ -82,36 +68,23 @@ def _clear_crypto_quote_cache(limit: int) -> None:
             crypto.cache_instance._db_conn.commit()
 
 
-def test_crypto_search_returns_matches(monkeypatch) -> None:
-    class _FakeYahoo:
-        pass
-
-    class _FakeFetcher:
-        yahoo = _FakeYahoo()
-
-    async def _fake_get_unified_fetcher():
-        return _FakeFetcher()
-
-    monkeypatch.setattr(crypto, "get_unified_fetcher", _fake_get_unified_fetcher)
+def test_crypto_search_returns_matches() -> None:
+    # search() is a static instrument-list lookup with no data-source dependency at all.
     result = asyncio.run(crypto.search_crypto(q="btc", limit=10))
     assert any(item["symbol"] == "BTC-USD" for item in result["items"])
 
 
-def test_crypto_candles_returns_chart_response(monkeypatch) -> None:
-    class _FakeYahoo:
-        async def get_chart(self, symbol: str, range_str: str = "1y", interval: str = "1d"):  # noqa: ARG002
-            return _chart_payload()
+def test_crypto_candles_returns_404_with_no_source_wired_in() -> None:
+    # No crypto OHLCV source is wired in (core/crypto_adapter.py's candles() always returns an
+    # empty payload now, the Yahoo Finance chart endpoint it used to proxy through was removed
+    # with no replacement) -- this endpoint always 404s rather than fabricating bars.
+    from fastapi import HTTPException
 
-    class _FakeFetcher:
-        yahoo = _FakeYahoo()
-
-    async def _fake_get_unified_fetcher():
-        return _FakeFetcher()
-
-    monkeypatch.setattr(crypto, "get_unified_fetcher", _fake_get_unified_fetcher)
-    result = asyncio.run(crypto.crypto_candles(symbol="BTC-USD", interval="1d", range="1y"))
-    assert result.ticker == "BTC-USD"
-    assert len(result.data) == 8
+    try:
+        asyncio.run(crypto.crypto_candles(symbol="BTC-USD", interval="1d", range="1y"))
+        raise AssertionError("expected HTTPException")
+    except HTTPException as exc:
+        assert exc.status_code == 404
 
 
 def test_crypto_markets_returns_normalized_items(monkeypatch) -> None:
@@ -122,12 +95,30 @@ def test_crypto_markets_returns_normalized_items(monkeypatch) -> None:
     assert "count" in result
 
 
-def test_crypto_markets_is_cache_aware(monkeypatch) -> None:
-    fake_yahoo = _patch_fetcher(monkeypatch)
+def test_crypto_markets_reuses_cached_universe_across_requests() -> None:
+    # No crypto quote-universe source is wired into UnifiedFetcher anymore -- _load_rows now
+    # only ever reads from cache, so pre-seed it directly and confirm repeated requests return
+    # the identical cached payload without needing any live source.
     _clear_crypto_quote_cache(limit=17)
-    asyncio.run(crypto.crypto_markets(limit=17))
-    asyncio.run(crypto.crypto_markets(limit=17))
-    assert fake_yahoo.quote_calls == 1
+    cache_key = crypto.cache_instance.build_key("crypto_quotes", "universe", {"limit": 17})
+    seeded = [
+        {
+            "symbol": "BTC-USD",
+            "name": "Bitcoin",
+            "price": 50000,
+            "change_24h": 2.1,
+            "volume_24h": 1000,
+            "market_cap": 50000000,
+            "sector": "L1",
+        }
+    ]
+    asyncio.run(crypto.cache_instance.set(cache_key, seeded, ttl=300))
+
+    first = asyncio.run(crypto.crypto_markets(limit=17))
+    second = asyncio.run(crypto.crypto_markets(limit=17))
+
+    assert first["items"] == second["items"]
+    assert first["items"][0]["symbol"] == "BTC-USD"
 
 
 def test_crypto_markets_supports_filter_and_sort(monkeypatch) -> None:
@@ -202,6 +193,29 @@ def test_crypto_correlation_matrix_is_symmetric_and_bounded(monkeypatch) -> None
 
 def test_crypto_coin_detail_shape(monkeypatch) -> None:
     _patch_fetcher(monkeypatch)
+    # crypto_coin_detail routes through market_service (CryptoMarketService), a separate
+    # implementation from crypto.py's own _load_rows -- it shares the same underlying
+    # cache_instance though, so seed that directly rather than patching a second code path.
+    cache_key = crypto.cache_instance.build_key("crypto_quotes", "universe", {"limit": 300})
+    asyncio.run(
+        crypto.cache_instance.set(
+            cache_key,
+            [
+                {
+                    "symbol": "BTC-USD",
+                    "name": "Bitcoin",
+                    "price": 50000,
+                    "change_24h": 2.1,
+                    "volume_24h": 1000,
+                    "market_cap": 50000000,
+                    "sector": "L1",
+                    "day_high": 51000,
+                    "day_low": 49000,
+                }
+            ],
+            ttl=300,
+        )
+    )
     detail = asyncio.run(crypto.crypto_coin_detail("btc"))
     assert detail["symbol"] == "BTC-USD"
     assert detail["name"] == "Bitcoin"
@@ -209,18 +223,9 @@ def test_crypto_coin_detail_shape(monkeypatch) -> None:
     assert isinstance(detail["sparkline"], list)
 
 
-def test_crypto_markets_uses_stale_cache_when_rate_limited(monkeypatch) -> None:
-    class _RateLimitedYahoo:
-        async def get_quotes(self, symbols: list[str]):  # noqa: ARG002
-            raise RuntimeError("429 Too Many Requests")
-
-    class _FakeFetcher:
-        yahoo = _RateLimitedYahoo()
-
-    async def _fake_get_unified_fetcher():
-        return _FakeFetcher()
-
-    monkeypatch.setattr(crypto, "get_unified_fetcher", _fake_get_unified_fetcher)
+def test_crypto_markets_uses_stale_cache_when_universe_cache_empty() -> None:
+    # No crypto quote-universe source is wired into UnifiedFetcher anymore -- with the primary
+    # cache empty, _load_rows falls back to the stale cache rather than raising.
     crypto.cache_instance._l1_cache.clear()
     stale_key = crypto.cache_instance.build_key("crypto_quotes", "universe_stale", {"limit": 12})
     asyncio.run(

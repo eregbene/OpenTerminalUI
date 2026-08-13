@@ -56,6 +56,15 @@ class MultiTierCache:
         except Exception as e:
             logger.error("L3 Cache (SQLite) init failed: %s", e)
 
+    def get_client(self) -> Optional[aioredis.Redis]:
+        """Exposes the already-connected L2 Redis client (established in initialize(), called
+        from get_unified_fetcher() at app startup) for reuse by other subsystems -- e.g. the MT5
+        Redis integration layer (backend/mt5_strategies/redis_layer.py) -- so they share this
+        one connection pool instead of opening a second one. Returns None before initialize()
+        runs or whenever Redis is unavailable; every caller must treat None as "fall through to
+        the next tier," never as an error."""
+        return self._redis
+
     async def close(self):
         if self._redis:
             await self._redis.close()

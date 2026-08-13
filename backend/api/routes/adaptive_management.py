@@ -6,15 +6,19 @@ from fastapi import APIRouter, Depends
 from pydantic import BaseModel, Field
 
 from backend.adaptive_management.analytics import (
+    account_cost_summary_report,
     break_even_analysis_report,
     confidence_band_management_report,
     core_metrics_report,
+    entry_quality_cost_report,
     exit_reason_analytics_report,
     intervention_frequency_report,
     loser_protection_report,
     manager_value_add_report,
+    mtfai1_confirmation_comparison_report,
     recent_management_events,
     symbol_strategy_regime_report,
+    trade_cost_journal_report,
     winner_preservation_report,
 )
 from backend.adaptive_management.service import adaptive_management_service
@@ -222,7 +226,10 @@ async def deactivate(payload: DeactivateRequest, current_user: User = Depends(ge
 
 
 @router.post("/reset-circuit-breaker")
-async def reset_circuit_breaker(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+async def reset_circuit_breaker(account_id: str | None = None, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    if account_id:
+        result = adaptive_management_service.reset_circuit_breaker_for(account_id)
+        return result or {"status": "REJECTED", "reason": "UNKNOWN_OR_DISABLED_ACCOUNT"}
     return adaptive_management_service.reset_circuit_breaker()
 
 
@@ -273,6 +280,21 @@ async def validation_core_metrics(current_user: User = Depends(get_current_user)
     return core_metrics_report()
 
 
+@router.get("/validation/account-cost-summary")
+async def validation_account_cost_summary(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return account_cost_summary_report()
+
+
+@router.get("/validation/trade-cost-journal")
+async def validation_trade_cost_journal(limit: int = 250, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return {"items": trade_cost_journal_report(limit=max(1, min(1000, limit)))}
+
+
+@router.get("/validation/entry-quality-costs")
+async def validation_entry_quality_costs(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return entry_quality_cost_report()
+
+
 @router.get("/validation/break-even")
 async def validation_break_even(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
     return break_even_analysis_report()
@@ -316,3 +338,8 @@ async def validation_breakdown(current_user: User = Depends(get_current_user)) -
 @router.get("/validation/recent-events")
 async def validation_recent_events(limit: int = 50, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
     return {"items": recent_management_events(limit=max(1, min(500, limit)))}
+
+
+@router.get("/validation/mtfai1-confirmation")
+async def validation_mtfai1_confirmation(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    return mtfai1_confirmation_comparison_report()

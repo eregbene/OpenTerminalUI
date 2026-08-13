@@ -13,6 +13,7 @@ def _bool(name: str, default: bool = False) -> bool:
 
 @dataclass(frozen=True)
 class MT5Config:
+    account_id: str = "demo_10k"
     enabled: bool = False
     login: int | None = None
     password: str | None = None
@@ -109,6 +110,7 @@ def mt5_config() -> MT5Config:
     login_raw = os.getenv("MT5_LOGIN", "").strip()
     timeout_ms = int(os.getenv("MT5_TIMEOUT_MS", os.getenv("MT5_REQUEST_TIMEOUT_MS", "60000")))
     return MT5Config(
+        account_id=os.getenv("MT5_ACCOUNT_ID") or "demo_10k",
         enabled=_bool("MT5_ENABLED", False),
         login=int(login_raw) if login_raw.isdigit() else None,
         password=os.getenv("MT5_PASSWORD") or None,

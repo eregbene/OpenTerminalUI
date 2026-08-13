@@ -82,6 +82,7 @@ class MT5ExecutionService:
         target: Decimal,
         risk_budget_adjustment: dict[str, Any] | None = None,
         portfolio_available_risk_usd: Decimal | None = None,
+        prop_remaining_budget_usd: Decimal | None = None,
         account_fingerprint: str | None = None,
         account_currency: str | None = None,
     ) -> MT5RiskSizing:
@@ -92,17 +93,27 @@ class MT5ExecutionService:
         risk). `portfolio_available_risk_usd`, when provided, additionally caps sizing to
         whatever open-risk headroom the portfolio actually has left (optional/backward
         compatible -- omitted callers get identical behavior to before this parameter existed).
-        `account_currency` (defaults to "USD" when omitted) tells the canonical calculator's
-        contract_size method whether it's safe to run for this symbol -- see
-        risk_calculator._contract_size_estimate for why a cross whose profit currency isn't the
-        account currency (e.g. EURJPY on a USD account) must skip that method rather than
-        silently return a quote-currency figure mislabeled as USD."""
+        `prop_remaining_budget_usd`, when provided, caps sizing to the tightest remaining
+        dollar cushion across this account's official/internal daily-loss and max-loss prop
+        limits (backend/brokers/mt5/prop_state.py::remaining_safety_budget_usd) -- this REPLACES
+        the old flat, account-size-blind `config.max_daily_loss_usd`/`max_total_open_risk_usd`
+        constants that previously capped every account (10K/25K/50K/100K alike) at the same
+        absolute dollar figure regardless of equity. `account_currency` (defaults to "USD" when
+        omitted) tells the canonical calculator's contract_size method whether it's safe to run
+        for this symbol -- see risk_calculator._contract_size_estimate for why a cross whose
+        profit currency isn't the account currency (e.g. EURJPY on a USD account) must skip that
+        method rather than silently return a quote-currency figure mislabeled as USD."""
         reasons = _geometry_reasons(direction, entry, stop, target)
-        # 1. Configured monetary risk budget.
+        # 1. Base per-trade risk budget: account equity x configured risk-per-trade percent.
+        # This -- not a flat dollar constant -- is now the account's actual max-per-trade budget
+        # (also reported below as trade_risk_cap_usd), so it scales correctly across 10K/25K/
+        # 50K/100K without ever multiplying a 10K dollar figure by an account-size factor.
         equity_risk_cap = (account_equity * Decimal(str(self.config.risk_percent_per_trade)) / Decimal("100")).quantize(Decimal("0.01"))
-        trade_risk_cap = Decimal(str(self.config.max_risk_per_trade_usd))
+        trade_risk_cap = equity_risk_cap
         aggregate_percent_cap = account_equity * Decimal(str(self.config.max_total_open_risk_percent)) / Decimal("100")
-        cap_values = [equity_risk_cap, trade_risk_cap, Decimal(str(self.config.max_total_open_risk_usd)), Decimal(str(self.config.max_daily_loss_usd)), aggregate_percent_cap]
+        cap_values = [equity_risk_cap, aggregate_percent_cap]
+        if prop_remaining_budget_usd is not None:
+            cap_values.append(max(Decimal("0"), prop_remaining_budget_usd))
         if portfolio_available_risk_usd is not None:
             cap_values.append(max(Decimal("0"), portfolio_available_risk_usd))
         effective_risk = min(cap_values)
@@ -111,14 +122,25 @@ class MT5ExecutionService:
         # pass it get byte-identical behavior to before this parameter existed. See
         # backend/brokers/mt5/risk_budget.py::compute_risk_multiplier.
         risk_multiplier = 1.0
+        components: dict[str, Any] = {}
         if risk_budget_adjustment is not None:
             risk_multiplier = float(risk_budget_adjustment.get("multiplier", 1.0))
+            components = risk_budget_adjustment.get("components") or {}
             effective_risk = (effective_risk * Decimal(str(risk_multiplier))).quantize(Decimal("0.01"))
+        # Per-account transparency fields (Bug 2): reported on every return path, REJECTED or
+        # APPROVED, so a rejected candidate is exactly as auditable as an approved one.
+        exposure = dict(
+            account_equity_usd=account_equity,
+            confidence_factor=Decimal(str(components["strategy_confidence_factor"])) if "strategy_confidence_factor" in components else None,
+            economic_factor=Decimal(str(components["economic_risk_factor"])) if "economic_risk_factor" in components else None,
+            portfolio_available_risk_usd=portfolio_available_risk_usd,
+            prop_remaining_budget_usd=prop_remaining_budget_usd,
+        )
         step = symbol.volume_step or Decimal("0.01")
         minimum = symbol.volume_min or Decimal("0.01")
         maximum = symbol.volume_max or Decimal("100")
         if reasons:
-            return MT5RiskSizing(status="REJECTED", reasons=reasons, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap)
+            return MT5RiskSizing(status="REJECTED", reasons=reasons, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, **exposure)
 
         # 2. Canonical projected loss for 1.0 lot -- most-conservative-of-every-available-method.
         mt5_client = self._native_client()
@@ -142,7 +164,7 @@ class MT5ExecutionService:
         )
         if canonical.selected_loss_per_lot is None or canonical.selected_loss_per_lot <= 0:
             reasons.append("PROJECTED_LOSS_UNVERIFIABLE")
-            return MT5RiskSizing(status="REJECTED", reasons=reasons, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, **diagnostics)
+            return MT5RiskSizing(status="REJECTED", reasons=reasons, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, **diagnostics, **exposure)
         if canonical.blocked:
             # Critical broker-metadata disagreement (>= MT5_RISK_CALCULATION_CRITICAL_DISAGREEMENT_PCT)
             # blocks a NEW entry outright -- this is exactly the path that must catch a future
@@ -150,7 +172,7 @@ class MT5ExecutionService:
             # position MANAGEMENT (SL/TP modification, partial close) deliberately does NOT call
             # this method and is therefore never blocked by it -- see PART 2.
             reasons.append(canonical.block_reason or CRITICAL_MISMATCH)
-            return MT5RiskSizing(status="REJECTED", reasons=reasons, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, **diagnostics)
+            return MT5RiskSizing(status="REJECTED", reasons=reasons, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, **diagnostics, **exposure)
         loss_per_lot = canonical.selected_loss_per_lot
 
         # 3-4. raw_volume = budget / one_lot_loss, FLOORED to volume_step. Never rounded up.
@@ -164,7 +186,7 @@ class MT5ExecutionService:
         if volume < minimum:
             minimum_risk = (loss_per_lot * minimum).copy_abs().quantize(Decimal("0.01"))
             reasons.append("VOLUME_BELOW_MINIMUM_RISK_TOO_HIGH" if minimum_risk > effective_risk else "VOLUME_BELOW_MINIMUM")
-            return MT5RiskSizing(status="REJECTED", raw_volume=raw_volume, reasons=reasons, effective_risk_usd=effective_risk, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, **diagnostics)
+            return MT5RiskSizing(status="REJECTED", raw_volume=raw_volume, reasons=reasons, effective_risk_usd=effective_risk, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, **diagnostics, **exposure)
 
         # 7. Recalculate projected monetary loss at the normalized (post-floor) volume. MT5 lot
         # economics are linear in volume (broker-confirmed: order_calc_profit(0.1 lot) ==
@@ -197,6 +219,7 @@ class MT5ExecutionService:
         rr = (projected_profit / projected_loss).quantize(Decimal("0.01")) if projected_loss > 0 else Decimal("0")
         if rr < Decimal("1.5"):
             reasons.append("RISK_REWARD_TOO_LOW")
+        projected_loss_pct_equity = (projected_loss / account_equity * Decimal("100")).quantize(Decimal("0.0001")) if account_equity > 0 else None
         return MT5RiskSizing(
             status="APPROVED" if not reasons else "REJECTED",
             volume=volume,
@@ -209,7 +232,9 @@ class MT5ExecutionService:
             reasons=reasons,
             equity_risk_cap_usd=equity_risk_cap,
             trade_risk_cap_usd=trade_risk_cap,
+            projected_loss_pct_equity=projected_loss_pct_equity,
             **diagnostics,
+            **exposure,
         )
 
     def _native_client(self) -> Any | None:
@@ -275,10 +300,11 @@ class MT5ExecutionService:
         raw = await execution_manager.submit_mt5_request(
             adapter=self.adapter,
             request=request,
-            idempotency_key=f"mt5-entry:{intent.intent_id}:{intent.context_hash}",
+            idempotency_key=f"mt5-entry:{self.config.account_id}:{intent.intent_id}:{intent.context_hash}",
             source="mt5_autonomous_entry",
             expected_price=float(intent.entry_price),
             economic_context=economic_context,
+            account_id=self.config.account_id,
         )
         data = _asdict(raw)
         retcode = data.get("retcode")

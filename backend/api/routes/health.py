@@ -38,9 +38,6 @@ async def datasource_health() -> dict[str, Any]:
     # NSE: get_market_status (lightweight)
     checks_map.append(_probe("nse", fetcher.nse.get_market_status()))
 
-    # Yahoo: get_quotes (lightweight)
-    checks_map.append(_probe("yahoo", fetcher.yahoo.get_quotes(["RELIANCE.NS"])))
-
     # FMP: if key exists
     if fetcher.fmp.api_key:
         checks_map.append(_probe("fmp", fetcher.fmp.get_quote("RELIANCE")))

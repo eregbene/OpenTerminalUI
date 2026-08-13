@@ -353,6 +353,33 @@ def test_adaptive_manager_shadow_mode_does_not_send_orders(monkeypatch):
     assert all(action.status.startswith("shadow") or action.status == "hold" for action in actions)
 
 
+def test_position_opened_event_fires_once_on_first_reconciliation_not_again(monkeypatch):
+    """mt5.position.opened must publish exactly once -- the cycle a position is first seen and
+    reconciled into AdaptivePositionStateORM (existing_row is None) -- and never again on later
+    cycles for the same still-open ticket."""
+    _session_factory(monkeypatch)
+    fake = _FakeAdapter()
+    monkeypatch.setattr(service, "mt5_adapter", fake)
+    monkeypatch.setenv("ADAPTIVE_TRADE_MANAGEMENT_MODE", "shadow")
+    published = []
+
+    async def _fake_publish(topic, payload):
+        published.append((topic, payload))
+
+    monkeypatch.setattr(service.redis_layer, "publish_event", _fake_publish)
+
+    asyncio.run(adaptive_management_service.evaluate_now())  # first cycle -- position is new
+    opened_events_first_cycle = [p for p in published if p[0] == "mt5.position.opened"]
+    published.clear()
+    asyncio.run(adaptive_management_service.evaluate_now())  # second cycle -- same position, already tracked
+    opened_events_second_cycle = [p for p in published if p[0] == "mt5.position.opened"]
+
+    assert len(opened_events_first_cycle) == 1
+    assert opened_events_first_cycle[0][1]["ticket"] == "555"
+    assert opened_events_first_cycle[0][1]["symbol"] == "EURUSD"
+    assert opened_events_second_cycle == []  # not republished on a later cycle for the same ticket
+
+
 def test_adaptive_demo_activation_requires_explicit_mode(monkeypatch):
     _session_factory(monkeypatch)
     monkeypatch.setenv("ADAPTIVE_TRADE_MANAGEMENT_MODE", "shadow")
@@ -1237,9 +1264,9 @@ def test_sync_position_state_captures_strategy_and_timeframe_once(monkeypatch):
         db.commit()
         second_strategy, second_timeframe = state.strategy_id, state.timeframe
 
-    assert first_strategy == "MTFAI1"
+    assert first_strategy == "mtfai1"
     assert first_timeframe == "M15"
-    assert second_strategy == "MTFAI1"
+    assert second_strategy == "mtfai1"
     assert second_timeframe == "M15"
 
 
@@ -1296,15 +1323,20 @@ def test_exit_and_sltp_actions_carry_captured_lineage_in_comment():
 
 
 def test_reconcile_recently_closed_marks_and_triggers_import_once(monkeypatch):
+    # adaptive_management_service is AdaptiveManagementMultiAccountOrchestrator -- the actual
+    # _reconcile_recently_closed call below runs as a bound method of .default_service (self is
+    # default_service there), so patches need to land on that inner object, not the orchestrator
+    # wrapper (which only affects attribute lookups made ON the orchestrator itself, never
+    # internal `self.x` calls made from within default_service's own methods).
     SessionLocal = _session_factory(monkeypatch)
-    adaptive_management_service._last_reconciliation_at = None
+    adaptive_management_service.default_service._last_reconciliation_at = None
     calls = []
 
     async def _fake_import(*, days=7, session_id=None):
         calls.append(days)
         return {"status": "ok"}
 
-    monkeypatch.setattr(adaptive_management_service, "import_mt5_session", _fake_import)
+    monkeypatch.setattr(adaptive_management_service.default_service, "import_mt5_session", _fake_import)
 
     with SessionLocal() as db:
         first = AdaptivePositionStateORM(position_id="CLOSED_1")

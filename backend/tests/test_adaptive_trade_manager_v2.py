@@ -24,6 +24,14 @@ from backend.brokers.mt5 import account_registry
 from backend.brokers.mt5.account_registry import AccountClassification, MT5AccountProfileORM
 from backend.brokers.mt5.risk_budget import compute_risk_multiplier, effective_risk_budget_usd
 from backend.brokers.mt5.take_profit import select_take_profit
+# _replay_candles (adaptive_service) queries MT5CandleRevisionORM -- this import ensures that
+# table is registered on Base.metadata BEFORE _session_factory's create_all() runs, regardless of
+# which order pytest happens to collect test files in. Without it, whether this table exists in
+# the in-memory SQLite schema depends on whether some OTHER, alphabetically-earlier test file
+# happened to import backend.historical_intelligence.orm first -- a real, pre-existing test
+# isolation gap (not a production code defect) that surfaced as an intermittent OperationalError
+# ("no such table: mt5_candle_revisions") once new test files shifted collection order.
+import backend.historical_intelligence.orm  # noqa: F401
 from backend.shared.db import Base
 
 

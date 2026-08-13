@@ -75,11 +75,6 @@ def _f(v: Any, default: float = 0.0) -> float:
         return default
 
 
-def _is_rate_limited_error(exc: Exception) -> bool:
-    text = str(exc).lower()
-    return "429" in text or "rate limit" in text or "too many requests" in text
-
-
 class CryptoMarketService:
     def __init__(
         self,
@@ -106,7 +101,6 @@ class CryptoMarketService:
 
     async def _fetch_rows(self, universe_limit: int = 300) -> list[CryptoRow]:
         universe_limit = max(1, min(300, universe_limit))
-        symbols = list(_CRYPTO_META.keys())[:universe_limit]
         cache_key = self._cache.build_key("crypto_quotes", "universe", {"limit": universe_limit})
         stale_key = self._cache.build_key("crypto_quotes", "universe_stale", {"limit": universe_limit})
         cached = await self._cache.get(cache_key)
@@ -132,68 +126,32 @@ class CryptoMarketService:
             if rows:
                 return rows
 
-        try:
-            fetcher = await self._fetcher_factory()
-            quotes = await fetcher.yahoo.get_quotes(symbols)
-        except Exception as exc:
-            stale = await self._cache.get(stale_key)
-            if isinstance(stale, list):
-                rows: list[CryptoRow] = []
-                for row in stale:
-                    if not isinstance(row, dict):
-                        continue
-                    price = _f(row.get("price"))
-                    rows.append(
-                        CryptoRow(
-                            symbol=str(row.get("symbol") or ""),
-                            name=str(row.get("name") or ""),
-                            price=price,
-                            change_24h=_f(row.get("change_24h")),
-                            volume_24h=_f(row.get("volume_24h")),
-                            market_cap=_f(row.get("market_cap")),
-                            sector=str(row.get("sector") or "Other"),
-                            day_high=_f(row.get("day_high"), price),
-                            day_low=_f(row.get("day_low"), price),
-                        )
+        # No crypto quote-universe source is wired in (the Yahoo Finance batch-quotes endpoint
+        # this used to call was removed, with no replacement) -- fall back to whatever was last
+        # cached, otherwise return an empty universe rather than raising.
+        stale = await self._cache.get(stale_key)
+        if isinstance(stale, list):
+            rows: list[CryptoRow] = []
+            for row in stale:
+                if not isinstance(row, dict):
+                    continue
+                price = _f(row.get("price"))
+                rows.append(
+                    CryptoRow(
+                        symbol=str(row.get("symbol") or ""),
+                        name=str(row.get("name") or ""),
+                        price=price,
+                        change_24h=_f(row.get("change_24h")),
+                        volume_24h=_f(row.get("volume_24h")),
+                        market_cap=_f(row.get("market_cap")),
+                        sector=str(row.get("sector") or "Other"),
+                        day_high=_f(row.get("day_high"), price),
+                        day_low=_f(row.get("day_low"), price),
                     )
-                if rows:
-                    return rows
-            if _is_rate_limited_error(exc):
-                return []
-            raise
-        by_symbol = {(str(x.get("symbol") or "").upper()): x for x in quotes if isinstance(x, dict)}
-
-        rows: list[CryptoRow] = []
-        for sym in symbols:
-            q = by_symbol.get(sym, {})
-            meta = _CRYPTO_META.get(sym, {})
-            price = _f(q.get("regularMarketPrice"))
-            if price <= 0:
-                continue
-            change_pct = _f(q.get("regularMarketChangePercent"))
-            volume = _f(q.get("regularMarketVolume"))
-            market_cap_proxy = max(price * max(volume, 1.0), price * 1_000_000.0)
-            day_high = _f(q.get("regularMarketDayHigh"), price)
-            day_low = _f(q.get("regularMarketDayLow"), price)
-            rows.append(
-                CryptoRow(
-                    symbol=sym,
-                    name=str(meta.get("name") or sym),
-                    price=price,
-                    change_24h=change_pct,
-                    volume_24h=volume,
-                    market_cap=market_cap_proxy,
-                    sector=str(meta.get("sector") or "Other"),
-                    day_high=day_high if day_high > 0 else price,
-                    day_low=day_low if day_low > 0 else price,
                 )
-            )
-
-        ttl = self._ttl()
-        payload = [r.__dict__ for r in rows]
-        await self._cache.set(cache_key, payload, ttl=ttl)
-        await self._cache.set(stale_key, payload, ttl=max(ttl * 6, ttl))
-        return rows
+            if rows:
+                return rows
+        return []
 
     async def markets(
         self,
@@ -308,7 +266,9 @@ class CryptoMarketService:
         if row is None:
             return None
 
-        adapter = CryptoAdapter((await self._fetcher_factory()).yahoo)
+        # No crypto OHLCV source is wired in (see core/crypto_adapter.py) -- candles() always
+        # returns an empty payload now, so the sparkline stays empty rather than fabricating one.
+        adapter = CryptoAdapter()
         candles_payload = await adapter.candles(symbol=normalized, interval="1d", range_str="1mo")
         hist = _parse_yahoo_chart(candles_payload if isinstance(candles_payload, dict) else {})
         sparkline: list[float] = []

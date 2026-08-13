@@ -8,11 +8,10 @@ from typing import Any
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 
-from backend.api.deps import cache_instance, get_unified_fetcher
+from backend.api.deps import cache_instance
 from backend.api.routes.chart import _parse_yahoo_chart
 from backend.core.crypto_adapter import CryptoAdapter
 from backend.core.models import ChartResponse, OhlcvPoint
-from backend.core.ttl_policy import market_open_now, ttl_seconds
 from backend.services.crypto_market_service import CryptoMarketService
 
 router = APIRouter()
@@ -227,11 +226,6 @@ def _clamp(v: float, lo: float, hi: float) -> float:
     return max(lo, min(hi, v))
 
 
-def _is_rate_limited_error(exc: Exception) -> bool:
-    text = str(exc).lower()
-    return "429" in text or "rate limit" in text or "too many requests" in text
-
-
 def _depth_bucket(change_24h: float) -> str:
     if change_24h >= 5.0:
         return "surge"
@@ -278,7 +272,6 @@ def _corr(a: list[float], b: list[float]) -> float:
 
 async def _load_rows(limit: int = 100) -> list[_Row]:
     capped_limit = max(1, min(300, limit))
-    symbols = list(_CRYPTO_META.keys())[:capped_limit]
     cache_key = cache_instance.build_key("crypto_quotes", "universe", {"limit": capped_limit})
     stale_key = cache_instance.build_key("crypto_quotes", "universe_stale", {"limit": capped_limit})
     cached = await cache_instance.get(cache_key)
@@ -301,78 +294,36 @@ async def _load_rows(limit: int = 100) -> list[_Row]:
         if rows:
             return rows
 
-    try:
-        fetcher = await get_unified_fetcher()
-        quotes = await fetcher.yahoo.get_quotes(symbols)
-    except Exception as exc:
-        stale = await cache_instance.get(stale_key)
-        if isinstance(stale, list):
-            rows: list[_Row] = []
-            for item in stale:
-                if not isinstance(item, dict):
-                    continue
-                rows.append(
-                    _Row(
-                        symbol=str(item.get("symbol") or ""),
-                        name=str(item.get("name") or ""),
-                        price=_f(item.get("price")),
-                        change_24h=_f(item.get("change_24h")),
-                        volume_24h=_f(item.get("volume_24h")),
-                        market_cap=_f(item.get("market_cap")),
-                        sector=str(item.get("sector") or "Other"),
-                    )
+    # No crypto quote-universe source is wired in (the Yahoo Finance batch-quotes endpoint this
+    # used to call was removed, with no replacement) -- fall back to whatever was last cached,
+    # otherwise return an empty universe rather than raising.
+    stale = await cache_instance.get(stale_key)
+    if isinstance(stale, list):
+        rows: list[_Row] = []
+        for item in stale:
+            if not isinstance(item, dict):
+                continue
+            rows.append(
+                _Row(
+                    symbol=str(item.get("symbol") or ""),
+                    name=str(item.get("name") or ""),
+                    price=_f(item.get("price")),
+                    change_24h=_f(item.get("change_24h")),
+                    volume_24h=_f(item.get("volume_24h")),
+                    market_cap=_f(item.get("market_cap")),
+                    sector=str(item.get("sector") or "Other"),
                 )
-            if rows:
-                return rows
-        if _is_rate_limited_error(exc):
-            return []
-        raise
-    by_symbol = {(str(x.get("symbol") or "").upper()): x for x in quotes if isinstance(x, dict)}
-
-    rows: list[_Row] = []
-    for sym in symbols:
-        q = by_symbol.get(sym, {})
-        meta = _CRYPTO_META.get(sym, {})
-        price = _f(q.get("regularMarketPrice"))
-        if price <= 0:
-            continue
-        change_pct = _f(q.get("regularMarketChangePercent"))
-        volume = _f(q.get("regularMarketVolume"))
-        market_cap_proxy = max(price * max(volume, 1.0), price * 1_000_000.0)
-        rows.append(
-            _Row(
-                symbol=sym,
-                name=str(meta.get("name") or sym),
-                price=price,
-                change_24h=change_pct,
-                volume_24h=volume,
-                market_cap=market_cap_proxy,
-                sector=str(meta.get("sector") or "Other"),
             )
-        )
-
-    payload = [
-        {
-            "symbol": row.symbol,
-            "name": row.name,
-            "price": row.price,
-            "change_24h": row.change_24h,
-            "volume_24h": row.volume_24h,
-            "market_cap": row.market_cap,
-            "sector": row.sector,
-        }
-        for row in rows
-    ]
-    ttl = ttl_seconds("crypto", market_open_now())
-    await cache_instance.set(cache_key, payload, ttl=ttl)
-    await cache_instance.set(stale_key, payload, ttl=max(ttl * 6, ttl))
-    return rows
+        if rows:
+            return rows
+    return []
 
 
 async def _returns_from_charts(symbol: str, window: int) -> list[float]:
-    fetcher = await get_unified_fetcher()
-    payload = await fetcher.yahoo.get_chart(symbol, range_str="6mo", interval="1d")
-    hist = _parse_yahoo_chart(payload if isinstance(payload, dict) else {})
+    # No crypto chart source is wired in (the Yahoo Finance chart endpoint this used to call
+    # was removed, with no replacement) -- the caller already falls back to synthetic returns
+    # when this comes back too short, so an empty history degrades gracefully.
+    hist = _parse_yahoo_chart({})
     if hist.empty:
         return []
 
@@ -393,8 +344,7 @@ async def _returns_from_charts(symbol: str, window: int) -> list[float]:
 
 @router.get("/v1/crypto/search")
 async def search_crypto(q: str = Query(default=""), limit: int = Query(default=20, ge=1, le=100)):
-    fetcher = await get_unified_fetcher()
-    adapter = CryptoAdapter(fetcher.yahoo)
+    adapter = CryptoAdapter()
     return {"items": adapter.search(q, limit=limit)}
 
 
@@ -404,8 +354,9 @@ async def crypto_candles(
     interval: str = Query(default="1d"),
     range: str = Query(default="1y"),
 ) -> ChartResponse:
-    fetcher = await get_unified_fetcher()
-    adapter = CryptoAdapter(fetcher.yahoo)
+    # No crypto OHLCV source is wired in (see core/crypto_adapter.py) -- candles() always
+    # returns an empty payload now, so this always 404s rather than fabricating bars.
+    adapter = CryptoAdapter()
     payload = await adapter.candles(symbol=symbol, interval=interval, range_str=range)
     hist = _parse_yahoo_chart(payload if isinstance(payload, dict) else {})
     if hist.empty:

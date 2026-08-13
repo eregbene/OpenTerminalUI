@@ -20,7 +20,7 @@ async def get_data_health(_: User = Depends(require_role("admin"))):
             "stale_symbols": 12,
             "missing_bars_24h": 450,
             "outliers_detected": 3,
-            "adapter_latencies_ms": {"NSE": 45, "BSE": 120, "YAHOO": 850}
+            "adapter_latencies_ms": {"NSE": 45, "BSE": 120}
         },
         "issues": [
             {"level": "critical", "type": "adapter_down", "message": "Kite Stream disconnected for 5 minutes"},

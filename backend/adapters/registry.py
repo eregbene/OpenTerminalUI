@@ -11,7 +11,6 @@ from backend.adapters.alpaca import AlpacaAdapter
 from backend.adapters.crypto import CryptoDataAdapter
 from backend.adapters.kite import KiteAdapter
 from backend.adapters.mock import MockDataAdapter
-from backend.adapters.yahoo import YahooFinanceAdapter
 from backend.adapters.us_options_adapter import USOptionsAdapter
 from backend.core.failover import FailoverSlot, call_with_failover
 
@@ -33,7 +32,6 @@ class AdapterRegistry:
         self._factory = {
             "alpaca": lambda: AlpacaAdapter(),
             "kite": lambda: KiteAdapter(),
-            "yahoo": lambda: YahooFinanceAdapter(),
             "us_options": lambda: USOptionsAdapter(),
             "crypto": lambda: CryptoDataAdapter(),
             "mock": lambda: MockDataAdapter(),
@@ -42,14 +40,14 @@ class AdapterRegistry:
     def _load_config(self) -> dict[str, Any]:
         if not self.config_path.exists():
             return {
-                "default": {"primary": "kite", "fallback": ["yahoo"]},
+                "default": {"primary": "kite", "fallback": []},
                 "exchanges": {
-                    "NSE": {"primary": "kite", "fallback": ["yahoo"]},
-                    "BSE": {"primary": "kite", "fallback": ["yahoo"]},
-                    "NASDAQ": {"primary": "alpaca", "fallback": ["yahoo"]},
-                    "NYSE": {"primary": "alpaca", "fallback": ["yahoo"]},
-                    "AMEX": {"primary": "alpaca", "fallback": ["yahoo"]},
-                    "CRYPTO": {"primary": "crypto", "fallback": ["yahoo"]},
+                    "NSE": {"primary": "kite", "fallback": []},
+                    "BSE": {"primary": "kite", "fallback": []},
+                    "NASDAQ": {"primary": "alpaca", "fallback": []},
+                    "NYSE": {"primary": "alpaca", "fallback": []},
+                    "AMEX": {"primary": "alpaca", "fallback": []},
+                    "CRYPTO": {"primary": "crypto", "fallback": []},
                 },
             }
         return yaml.safe_load(self.config_path.read_text(encoding="utf-8")) or {}
@@ -57,14 +55,11 @@ class AdapterRegistry:
     def _chain_for_exchange(self, exchange: str) -> AdapterChain:
         ex = exchange.strip().upper()
         exchanges = self._config.get("exchanges", {})
-        row = exchanges.get(ex) or self._config.get("default") or {"primary": "kite", "fallback": ["yahoo"]}
+        row = exchanges.get(ex) or self._config.get("default") or {"primary": "kite", "fallback": []}
         primary = str(row.get("primary") or "kite").strip().lower()
         fallback = [str(x).strip().lower() for x in (row.get("fallback") or []) if str(x).strip()]
-        if ex in {"NASDAQ", "NYSE", "AMEX"}:
-            if primary != "alpaca":
-                primary = "alpaca"
-            if "yahoo" not in fallback:
-                fallback.append("yahoo")
+        if ex in {"NASDAQ", "NYSE", "AMEX"} and primary != "alpaca":
+            primary = "alpaca"
         return AdapterChain(primary=primary, fallback=fallback)
 
     def _instance(self, key: str) -> DataAdapter:

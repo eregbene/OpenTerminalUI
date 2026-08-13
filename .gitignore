@@ -93,3 +93,4 @@ frontend/public/landing/uploads/
 
 # Postgres backups (scripts/backup_postgres.ps1) -- never commit database dumps
 backups/
+.claude-history/

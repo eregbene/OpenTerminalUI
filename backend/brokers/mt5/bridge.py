@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import time
 from pathlib import Path
 import urllib.parse
 import urllib.request
@@ -149,12 +150,14 @@ class MT5BridgeClient:
         return tuple(self._request("GET", "/last-error", {}).get("last_error") or ())
 
     def _request(self, method: str, path: str, payload: dict[str, Any]) -> dict[str, Any]:
+        if method != "GET" and "account_id" not in payload:
+            payload = {"account_id": self.config.account_id, **payload}
         data = None if method == "GET" else json.dumps(payload).encode("utf-8")
         req = urllib.request.Request(
             f"{self.base_url}{path}",
             data=data,
             method=method,
-            headers={"Content-Type": "application/json", "X-MT5-Bridge-Key": self.config.bridge_api_key or ""},
+            headers={"Content-Type": "application/json", "X-MT5-Bridge-Key": self.config.bridge_api_key or "", "X-MT5-Account-ID": self.config.account_id},
         )
         try:
             with urllib.request.urlopen(req, timeout=self.config.timeout_ms / 1000) as resp:
@@ -166,7 +169,7 @@ class MT5BridgeClient:
                     f"{self.base_url}{query_path}",
                     data=b"{}",
                     method=method,
-                    headers={"Content-Type": "application/json", "X-MT5-Bridge-Key": self.config.bridge_api_key or ""},
+                    headers={"Content-Type": "application/json", "X-MT5-Bridge-Key": self.config.bridge_api_key or "", "X-MT5-Account-ID": self.config.account_id},
                 )
                 with urllib.request.urlopen(req, timeout=self.config.timeout_ms / 1000) as resp:
                     return json.loads(resp.read().decode("utf-8"))
@@ -186,106 +189,160 @@ class _Row(dict):
         return dict(self)
 
 
-def create_app():
+def create_app(account_id: str | None = None):
     from fastapi import Body, Depends, FastAPI, Header, HTTPException
+    from fastapi.responses import JSONResponse
+    from backend.brokers.mt5.account import account_from_raw
+    from backend.brokers.mt5 import account_registry
     from backend.brokers.mt5.client import MT5Client
     from backend.brokers.mt5.config import mt5_config
+    from backend.brokers.mt5.multi_account import config_for_profile
 
-    cfg = mt5_config()
+    account_id = account_id or os.getenv("MT5_ACCOUNT_ID") or "demo_10k"
+    profile = account_registry.profile_by_id(account_id)
+    cfg = config_for_profile(profile) if profile is not None else mt5_config()
     client = MT5Client(cfg)
     app = FastAPI(title="Bensim MT5 Bridge", version="1.0")
+
+    @app.middleware("http")
+    async def account_header_guard(request, call_next):
+        requested = request.headers.get("X-MT5-Account-ID")
+        if requested and requested != cfg.account_id:
+            return JSONResponse(
+                status_code=409,
+                content={"detail": {"code": "ACCOUNT_EXECUTION_CONTEXT_MISMATCH", "worker_account_id": cfg.account_id, "requested_account_id": requested}},
+            )
+        return await call_next(request)
 
     def auth(x_mt5_bridge_key: str = Header(default="")) -> None:
         if cfg.bridge_api_key and x_mt5_bridge_key != cfg.bridge_api_key:
             raise HTTPException(status_code=403, detail="invalid bridge key")
 
+    def request_account(payload: dict[str, Any] | None = None, x_mt5_account_id: str = Header(default="")) -> str:
+        requested = str((payload or {}).get("account_id") or x_mt5_account_id or cfg.account_id)
+        if requested != cfg.account_id:
+            raise HTTPException(status_code=409, detail={"code": "ACCOUNT_EXECUTION_CONTEXT_MISMATCH", "worker_account_id": cfg.account_id, "requested_account_id": requested})
+        return requested
+
+    def assert_worker_identity() -> dict[str, Any]:
+        account = client.account_info()
+        if not account:
+            raise HTTPException(status_code=503, detail={"code": "MT5_ACCOUNT_INFO_UNAVAILABLE", "account_id": cfg.account_id})
+        blockers: list[str] = []
+        if profile is not None:
+            blockers = account_registry.validate_profile_account(profile, account_from_raw(account))
+        if blockers:
+            raise HTTPException(status_code=409, detail={"code": "ACCOUNT_EXECUTION_CONTEXT_MISMATCH", "account_id": cfg.account_id, "blockers": blockers})
+        return account
+
+    def payload_for_account(payload: dict[str, Any]) -> dict[str, Any]:
+        request_account(payload)
+        return payload
+
+    def response(payload: dict[str, Any]) -> dict[str, Any]:
+        return {"account_id": cfg.account_id, **payload}
+
     @app.post("/connect", dependencies=[Depends(auth)])
     def connect(payload: dict[str, Any] | None = Body(default=None)):
-        return client.connect()
+        request_account(payload)
+        result = client.connect()
+        assert_worker_identity()
+        return response(result)
 
     @app.post("/login", dependencies=[Depends(auth)])
     def login(payload: dict[str, Any] | None = Body(default=None)):
-        return {"login_success": True}
+        request_account(payload)
+        return response({"login_success": True})
 
     @app.post("/shutdown", dependencies=[Depends(auth)])
     def shutdown():
         client.shutdown()
-        return {"shutdown": True}
+        return response({"shutdown": True})
 
     @app.get("/terminal", dependencies=[Depends(auth)])
     def terminal():
-        return client.terminal_info() or {}
+        return response(client.terminal_info() or {})
 
     @app.get("/version", dependencies=[Depends(auth)])
     def version():
-        return {"version": client.version()}
+        return response({"version": client.version()})
 
     @app.get("/account", dependencies=[Depends(auth)])
     def account():
-        return client.account_info() or {}
+        return response(assert_worker_identity())
 
     @app.get("/symbols", dependencies=[Depends(auth)])
     def symbols(group: str | None = None):
         mt5 = client.ensure_ready()
         rows = mt5.symbols_get(group=group) if group else mt5.symbols_get()
-        return {"items": [_asdict(row) for row in _rows(rows)]}
+        return response({"items": [_asdict(row) for row in _rows(rows)]})
 
     @app.get("/symbols/{symbol}", dependencies=[Depends(auth)])
     def symbol_info(symbol: str):
-        return _asdict(client.ensure_ready().symbol_info(symbol) or {})
+        return response(_asdict(client.ensure_ready().symbol_info(symbol) or {}))
 
     @app.post("/symbols/select", dependencies=[Depends(auth)])
     def symbol_select(payload: dict[str, Any] = Body(...)):
-        return {"selected": bool(client.ensure_ready().symbol_select(str(payload["symbol"]), bool(payload.get("enable", True))))}
+        payload_for_account(payload)
+        return response({"selected": bool(client.ensure_ready().symbol_select(str(payload["symbol"]), bool(payload.get("enable", True))))})
 
     @app.get("/ticks/{symbol}", dependencies=[Depends(auth)])
     def tick(symbol: str):
-        return _asdict(client.ensure_ready().symbol_info_tick(symbol) or {})
+        return response(_asdict(client.ensure_ready().symbol_info_tick(symbol) or {}))
 
     @app.post("/rates", dependencies=[Depends(auth)])
     def rates(payload: dict[str, Any] = Body(...)):
+        payload_for_account(payload)
         rows = client.ensure_ready().copy_rates_from_pos(
             str(payload["symbol"]),
             int(payload["timeframe"]),
             int(payload.get("start", 1)),
             int(payload.get("count", 100)),
         )
-        return {"items": [_asdict(row) for row in _rows(rows)]}
+        return response({"items": [_asdict(row) for row in _rows(rows)]})
 
     @app.get("/positions", dependencies=[Depends(auth)])
     def positions():
-        return {"items": [_asdict(row) for row in _rows(client.ensure_ready().positions_get())]}
+        return response({"items": [_asdict(row) for row in _rows(client.ensure_ready().positions_get())]})
 
     @app.get("/orders", dependencies=[Depends(auth)])
     def orders():
-        return {"items": [_asdict(row) for row in _rows(client.ensure_ready().orders_get())]}
+        return response({"items": [_asdict(row) for row in _rows(client.ensure_ready().orders_get())]})
 
     @app.post("/history/deals", dependencies=[Depends(auth)])
     def history_deals(payload: dict[str, Any] = Body(...)):
+        payload_for_account(payload)
         start, end = _date_range(payload)
-        return {"items": [_asdict(row) for row in _rows(client.ensure_ready().history_deals_get(start, end))]}
+        return response({"items": [_asdict(row) for row in _rows(client.ensure_ready().history_deals_get(start, end))]})
 
     @app.post("/history/orders", dependencies=[Depends(auth)])
     def history_orders(payload: dict[str, Any] = Body(...)):
+        payload_for_account(payload)
         start, end = _date_range(payload)
-        return {"items": [_asdict(row) for row in _rows(client.ensure_ready().history_orders_get(start, end))]}
+        return response({"items": [_asdict(row) for row in _rows(client.ensure_ready().history_orders_get(start, end))]})
 
     @app.post("/order-check", dependencies=[Depends(auth)])
     def order_check(payload: dict[str, Any] = Body(...)):
-        return _asdict(client.ensure_ready().order_check(payload["request"]) or {})
+        payload_for_account(payload)
+        assert_worker_identity()
+        return response(_asdict(client.ensure_ready().order_check(payload["request"]) or {}))
 
     @app.post("/order-calc-margin", dependencies=[Depends(auth)])
     def order_calc_margin(payload: dict[str, Any] = Body(...)):
+        payload_for_account(payload)
+        assert_worker_identity()
         value = client.ensure_ready().order_calc_margin(
             int(payload["order_type"]),
             str(payload["symbol"]),
             float(payload["volume"]),
             float(payload["price"]),
         )
-        return {"value": _json_safe(value)}
+        return response({"value": _json_safe(value)})
 
     @app.post("/order-calc-profit", dependencies=[Depends(auth)])
     def order_calc_profit(payload: dict[str, Any] = Body(...)):
+        payload_for_account(payload)
+        assert_worker_identity()
         value = client.ensure_ready().order_calc_profit(
             int(payload["order_type"]),
             str(payload["symbol"]),
@@ -293,35 +350,48 @@ def create_app():
             float(payload["price_open"]),
             float(payload["price_close"]),
         )
-        return {"value": _json_safe(value)}
+        return response({"value": _json_safe(value)})
 
     @app.post("/order-send", dependencies=[Depends(auth)])
     def order_send(payload: dict[str, Any] = Body(...)):
-        return _asdict(client.ensure_ready().order_send(payload["request"]) or {})
+        payload_for_account(payload)
+        assert_worker_identity()
+        # Phase 23 (corpus-expansion-throughput directive): order_send p95 latency observed at
+        # ~3.8s (real ExecutionOrderORM data), measured end-to-end (Linux container -> Docker
+        # network -> this Windows-side bridge -> MetaTrader5 Python API -> terminal -> broker
+        # server -> back). This timestamp isolates the ONE segment this bridge process can
+        # actually observe -- the real MetaTrader5.order_send() call itself -- from everything
+        # before/after it (network hop, FastAPI request handling, the client's own round-trip
+        # measurement). Observability only: never used to alter order routing/retry behavior.
+        mt5_call_t0 = time.perf_counter()
+        result = client.ensure_ready().order_send(payload["request"])
+        mt5_call_ms = (time.perf_counter() - mt5_call_t0) * 1000
+        return response({**_asdict(result or {}), "_bridge_mt5_call_ms": round(mt5_call_ms, 2)})
 
     @app.get("/last-error", dependencies=[Depends(auth)])
     def last_error():
-        return {"last_error": client.last_error()}
+        return response({"last_error": client.last_error()})
 
     @app.get("/calendar/status", dependencies=[Depends(auth)])
     def calendar_status():
         mt5 = client.ensure_ready()
         names = [name for name in dir(mt5) if name.lower().startswith("calendar")]
         file_available = bool(cfg.calendar_export_file and Path(cfg.calendar_export_file).exists())
-        return {"available": bool(names) or file_available, "methods": names, "mode": "READ_ONLY", "mql5_file_bridge": file_available}
+        return response({"available": bool(names) or file_available, "methods": names, "mode": "READ_ONLY", "mql5_file_bridge": file_available})
 
     @app.post("/calendar/values", dependencies=[Depends(auth)])
     def calendar_values(payload: dict[str, Any] = Body(...)):
+        payload_for_account(payload)
         mt5 = client.ensure_ready()
         if not hasattr(mt5, "calendar_value_history"):
             if cfg.calendar_export_file and Path(cfg.calendar_export_file).exists():
                 with Path(cfg.calendar_export_file).open("r", encoding="utf-8") as fh:
                     data = json.load(fh)
-                return {"items": data.get("items") or []}
+                return response({"items": data.get("items") or []})
             raise HTTPException(status_code=501, detail={"code": "MT5_CALENDAR_UNAVAILABLE", "message": "MetaTrader5 Python package does not expose calendar_value_history"})
         start, end = _date_range(payload)
         rows = mt5.calendar_value_history(start, end)
-        return {"items": [_asdict(row) for row in _rows(rows)]}
+        return response({"items": [_asdict(row) for row in _rows(rows)]})
 
     return app
 
@@ -330,10 +400,12 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--host", default=os.getenv("MT5_BRIDGE_HOST", "127.0.0.1"))
     parser.add_argument("--port", default=int(os.getenv("MT5_BRIDGE_PORT", "8765")), type=int)
+    parser.add_argument("--account-id", default=os.getenv("MT5_ACCOUNT_ID", "demo_10k"))
     args = parser.parse_args()
     import uvicorn
 
-    uvicorn.run(create_app(), host=args.host, port=args.port)
+    os.environ["MT5_ACCOUNT_ID"] = args.account_id
+    uvicorn.run(create_app(args.account_id), host=args.host, port=args.port)
 
 
 def _asdict(value: Any) -> dict[str, Any]:

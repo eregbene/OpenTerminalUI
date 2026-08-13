@@ -3,8 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from backend.core.yahoo_client import YahooClient
-
 
 @dataclass
 class CryptoInstrument:
@@ -15,8 +13,7 @@ class CryptoInstrument:
 
 
 class CryptoAdapter:
-    def __init__(self, yahoo: YahooClient) -> None:
-        self.yahoo = yahoo
+    def __init__(self) -> None:
         self._instruments: list[CryptoInstrument] = [
             CryptoInstrument(id="btc-usd", symbol="BTC-USD", name="Bitcoin", quote_symbol="BTC-USD"),
             CryptoInstrument(id="eth-usd", symbol="ETH-USD", name="Ethereum", quote_symbol="ETH-USD"),
@@ -33,5 +30,8 @@ class CryptoAdapter:
         return [{"id": r.id, "symbol": r.symbol, "name": r.name} for r in rows[: max(1, limit)]]
 
     async def candles(self, symbol: str, interval: str = "1d", range_str: str = "1y") -> dict[str, Any]:
-        normalized = symbol.strip().upper()
-        return await self.yahoo.get_chart(normalized, range_str=range_str, interval=interval)
+        # No crypto OHLCV source is wired in (the Yahoo Finance chart endpoint this used to
+        # proxy through was removed) -- returns an empty chart payload rather than fabricating
+        # bars. A CoinGecko OHLC endpoint would be the natural replacement if this is needed
+        # again.
+        return {}

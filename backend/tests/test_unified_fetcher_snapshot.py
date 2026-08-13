@@ -15,25 +15,6 @@ class _DummyNSE:
         return {}
 
 
-class _DummyYahoo:
-    async def get_quote_summary(self, _symbol: str, _modules):
-        return {
-            "assetProfile": {
-                "sector": "Consumer Defensive",
-                "industry": "Discount Stores",
-            }
-        }
-
-    async def get_quotes(self, _symbols):
-        return [{"shortName": "Costco Wholesale Corporation"}]
-
-    async def get_chart(self, _symbol: str, _range_str: str = "1y", _interval: str = "1d"):
-        return {"chart": {"result": []}}
-
-    async def search_news(self, _query: str, limit: int = 30):
-        return [{"title": "Headline", "link": "https://example.com/1"}][:limit]
-
-
 class _DummyFMP:
     async def get_quote(self, _symbol: str):
         return {}
@@ -90,20 +71,19 @@ def _us_classification(symbol: str) -> StockClassification:
     )
 
 
-def test_fetch_stock_snapshot_uses_yahoo_quote_name_for_us_symbols(monkeypatch) -> None:
+def test_fetch_stock_snapshot_uses_fmp_company_name_for_us_symbols(monkeypatch) -> None:
     async def _fake_classify(symbol: str):
         return _us_classification(symbol)
 
-    async def _fake_yfinance_symbol(symbol: str):
-        return symbol.strip().upper()
-
     monkeypatch.setattr(market_classifier, "classify", _fake_classify)
-    monkeypatch.setattr(market_classifier, "yfinance_symbol", _fake_yfinance_symbol)
+
+    class _NamedFMP(_DummyFMP):
+        async def get_quote(self, _symbol: str):
+            return {"name": "Costco Wholesale Corporation", "price": 900.0}
 
     fetcher = UnifiedFetcher(
         nse=_DummyNSE(),
-        yahoo=_DummyYahoo(),
-        fmp=_DummyFMP(),
+        fmp=_NamedFMP(),
         finnhub=_DummyFinnhub(),
         kite=_DummyKite(),
     )
@@ -127,7 +107,6 @@ def test_fetch_quote_uses_adapter_registry_and_preserves_payload_shape(monkeypat
 
     fetcher = UnifiedFetcher(
         nse=_DummyNSE(),
-        yahoo=_DummyYahoo(),
         fmp=_DummyFMP(),
         finnhub=_DummyFinnhub(),
         kite=_DummyKite(),
@@ -159,7 +138,6 @@ def test_fetch_history_uses_adapter_registry_and_returns_chart_payload(monkeypat
 
     fetcher = UnifiedFetcher(
         nse=_DummyNSE(),
-        yahoo=_DummyYahoo(),
         fmp=_DummyFMP(),
         finnhub=_DummyFinnhub(),
         kite=_DummyKite(),
@@ -178,11 +156,7 @@ def test_fetch_stock_snapshot_uses_unified_quote_path_for_price(monkeypatch) -> 
     async def _fake_classify(symbol: str):
         return _us_classification(symbol)
 
-    async def _fake_yfinance_symbol(symbol: str):
-        return symbol.strip().upper()
-
     monkeypatch.setattr(market_classifier, "classify", _fake_classify)
-    monkeypatch.setattr(market_classifier, "yfinance_symbol", _fake_yfinance_symbol)
     monkeypatch.setattr(
         "backend.core.unified_fetcher.get_adapter_registry",
         lambda: _RegistryStub(quote=QuoteResponse(symbol="COST", price=999.0, change=10.0, change_pct=1.5, currency="USD")),
@@ -190,7 +164,6 @@ def test_fetch_stock_snapshot_uses_unified_quote_path_for_price(monkeypatch) -> 
 
     fetcher = UnifiedFetcher(
         nse=_DummyNSE(),
-        yahoo=_DummyYahoo(),
         fmp=_DummyFMP(),
         finnhub=_DummyFinnhub(),
         kite=_DummyKite(),
@@ -203,10 +176,13 @@ def test_fetch_stock_snapshot_uses_unified_quote_path_for_price(monkeypatch) -> 
     assert snapshot["details"]["price_source"] == "adapter"
 
 
-def test_search_news_uses_yahoo_wrapper() -> None:
+def test_search_news_has_no_source_and_returns_empty() -> None:
+    # No news-search source is wired into UnifiedFetcher.search_news itself anymore (the Yahoo
+    # Finance endpoint it used to call was removed) -- callers layer their own Finnhub/FMP
+    # fallbacks on top (see api/routes/news.py), so this always degrades to empty rather than
+    # raising.
     fetcher = UnifiedFetcher(
         nse=_DummyNSE(),
-        yahoo=_DummyYahoo(),
         fmp=_DummyFMP(),
         finnhub=_DummyFinnhub(),
         kite=_DummyKite(),
@@ -214,14 +190,12 @@ def test_search_news_uses_yahoo_wrapper() -> None:
 
     rows = asyncio.run(fetcher.search_news("nvidia", limit=5))
 
-    assert len(rows) == 1
-    assert rows[0]["title"] == "Headline"
+    assert rows == []
 
 
 def test_get_company_news_uses_finnhub_wrapper() -> None:
     fetcher = UnifiedFetcher(
         nse=_DummyNSE(),
-        yahoo=_DummyYahoo(),
         fmp=_DummyFMP(),
         finnhub=_DummyFinnhub(),
         kite=_DummyKite(),
@@ -236,7 +210,6 @@ def test_get_company_news_uses_finnhub_wrapper() -> None:
 def test_get_market_news_uses_finnhub_wrapper() -> None:
     fetcher = UnifiedFetcher(
         nse=_DummyNSE(),
-        yahoo=_DummyYahoo(),
         fmp=_DummyFMP(),
         finnhub=_DummyFinnhub(),
         kite=_DummyKite(),

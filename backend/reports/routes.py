@@ -130,20 +130,19 @@ async def market_status() -> Dict[str, Any]:
     # Concurrent tasks for speed
     nse_market_task = fetcher.nse.get_market_status()
     nse_indices_task = fetcher.nse.get_index_quote("NIFTY 50")
-    yahoo_quotes_task = fetcher.yahoo.get_quotes(
-        ["^NSEI", "^BSESN", "^GSPC", "^IXIC", "^DJI", "^FTSE", "^GDAXI", "^N225", "^HSI", "INRUSD=X", "USDINR=X", "BTC-USD", "ETH-USD"]
-    )
 
     results = await asyncio.gather(
         nse_market_task,
         nse_indices_task,
-        yahoo_quotes_task,
         return_exceptions=True,
     )
 
     nse_market_raw = results[0] if not isinstance(results[0], Exception) else {}
     indices_payload = results[1] if not isinstance(results[1], Exception) else {}
-    yahoo_quotes = results[2] if not isinstance(results[2], Exception) else []
+    # No global-indices/commodity/crypto quote source is wired in (the Yahoo Finance batch-
+    # quotes endpoint this used to call was removed, with no replacement) -- every yahoo_map
+    # lookup below degrades to {} -> None via the existing fallback logic, rather than raising.
+    yahoo_quotes: list[dict[str, Any]] = []
 
     nifty, nifty_pct = _extract_index_metrics(indices_payload, {"NIFTY 50", "NIFTY50", "NIFTY"})
     sensex, sensex_pct = _extract_index_metrics(indices_payload, {"SENSEX", "BSE SENSEX"})

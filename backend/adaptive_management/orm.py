@@ -36,6 +36,9 @@ class AdaptiveTradeEventORM(Base):
     __tablename__ = "adaptive_trade_events"
 
     event_id: Mapped[str] = mapped_column(String(160), primary_key=True)
+    # Which MT5 account profile (account_registry.MT5AccountProfile.account_id, e.g. "demo_10k")
+    # this event belongs to -- position_id/trade_id/ticket are only unique WITHIN one account.
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     session_id: Mapped[str] = mapped_column(String(128), nullable=False, index=True)
     trade_id: Mapped[str | None] = mapped_column(String(128), nullable=True, index=True)
     ticket: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
@@ -294,6 +297,7 @@ class AdaptiveActivationORM(Base):
     __tablename__ = "adaptive_management_activations"
 
     activation_id: Mapped[str] = mapped_column(String(128), primary_key=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     policy_id: Mapped[str] = mapped_column(String(128), nullable=False, index=True)
     policy_version: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
     mode: Mapped[str] = mapped_column(String(16), nullable=False, default="shadow", index=True)
@@ -321,6 +325,11 @@ class AdaptivePositionStateORM(Base):
     __tablename__ = "adaptive_position_states"
 
     position_id: Mapped[str] = mapped_column(String(96), primary_key=True)
+    # position_id ITSELF is now account-scoped for every account except demo_10k (see
+    # backend.adaptive_management.service._position_id) -- demo_10k keeps the raw ticket for
+    # backward compatibility with existing rows, so account_id is still required here as the
+    # authoritative scoping column (not derivable from position_id alone for that one account).
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     activation_id: Mapped[str | None] = mapped_column(String(128), nullable=True, index=True)
     # sha256(login:server) -- scopes state isolation per MT5 account. broker ticket numbers can
     # collide across different accounts/brokers, so this (not just position_id) is what
@@ -433,6 +442,7 @@ class AdaptiveStopQualityAuditORM(Base):
     __tablename__ = "adaptive_stop_quality_audits"
 
     audit_id: Mapped[str] = mapped_column(String(128), primary_key=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     position_id: Mapped[str] = mapped_column(String(96), nullable=False, index=True)
     symbol: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
     strategy_id: Mapped[str] = mapped_column(String(64), nullable=False, default="UNKNOWN", index=True)
@@ -459,6 +469,7 @@ class AdaptivePartialExitStageORM(Base):
     __tablename__ = "adaptive_partial_exit_stages"
 
     stage_id: Mapped[str] = mapped_column(String(160), primary_key=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     position_id: Mapped[str] = mapped_column(String(96), nullable=False, index=True)
     stage: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
     trigger_tp_progress: Mapped[float] = mapped_column(Float, nullable=False, default=0)
@@ -484,6 +495,7 @@ class AdaptivePartialProfitStageORM(Base):
     __tablename__ = "adaptive_partial_profit_stages"
 
     stage_attempt_id: Mapped[str] = mapped_column(String(160), primary_key=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     position_id: Mapped[str] = mapped_column(String(96), nullable=False, index=True)
     broker_ticket: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
     account_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
@@ -494,7 +506,11 @@ class AdaptivePartialProfitStageORM(Base):
     executed_volume: Mapped[float | None] = mapped_column(Float, nullable=True)
     broker_deal_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
     broker_order_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
-    idempotency_key: Mapped[str] = mapped_column(String(160), nullable=False, unique=True, index=True)
+    # Composite with account_id (Bug 5) -- idempotency_key alone was globally unique, relying
+    # entirely on position_id's own account-prefixing convention (see _position_id's docstring)
+    # to keep two accounts from ever computing the same key. Making the DB constraint itself
+    # composite makes that account-scoping an enforced invariant, not an implicit side effect.
+    idempotency_key: Mapped[str] = mapped_column(String(160), nullable=False, index=True)
     requested_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow)
     executed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     remaining_broker_volume: Mapped[float | None] = mapped_column(Float, nullable=True)
@@ -503,11 +519,14 @@ class AdaptivePartialProfitStageORM(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, onupdate=utcnow)
 
+    __table_args__ = (UniqueConstraint("account_id", "idempotency_key", name="uq_adaptive_partial_profit_account_idempotency"),)
+
 
 class AdaptiveManagementActionORM(Base):
     __tablename__ = "adaptive_management_actions"
 
     action_id: Mapped[str] = mapped_column(String(160), primary_key=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     activation_id: Mapped[str | None] = mapped_column(String(128), nullable=True, index=True)
     position_id: Mapped[str] = mapped_column(String(96), nullable=False, index=True)
     thesis_id: Mapped[str | None] = mapped_column(String(128), nullable=True, index=True)
@@ -516,7 +535,10 @@ class AdaptiveManagementActionORM(Base):
     priority: Mapped[int] = mapped_column(Integer, nullable=False, index=True)
     mode: Mapped[str] = mapped_column(String(16), nullable=False, index=True)
     status: Mapped[str] = mapped_column(String(32), nullable=False, default="selected", index=True)
-    idempotency_key: Mapped[str] = mapped_column(String(160), nullable=False, unique=True, index=True)
+    # Composite with account_id (Bug 5) -- see AdaptivePartialProfitStageORM.idempotency_key's
+    # comment for why a single-column unique constraint here relied on an implicit invariant
+    # (position_id's account-prefixing) rather than enforcing account-scoping directly.
+    idempotency_key: Mapped[str] = mapped_column(String(160), nullable=False, index=True)
     requested_volume: Mapped[float | None] = mapped_column(Float, nullable=True)
     requested_sl: Mapped[float | None] = mapped_column(Float, nullable=True)
     requested_tp: Mapped[float | None] = mapped_column(Float, nullable=True)
@@ -528,6 +550,8 @@ class AdaptiveManagementActionORM(Base):
     broker_mutation_attempted: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, onupdate=utcnow)
+
+    __table_args__ = (UniqueConstraint("account_id", "idempotency_key", name="uq_adaptive_management_action_account_idempotency"),)
 
 
 class AdaptiveBrokerActionResultORM(Base):
@@ -553,7 +577,13 @@ class AdaptiveBrokerActionResultORM(Base):
 class AdaptiveCircuitBreakerORM(Base):
     __tablename__ = "adaptive_circuit_breakers"
 
+    # breaker_id is "adaptive_demo_manager" for demo_10k (unchanged, backward compatible with
+    # the existing single row) and "adaptive_demo_manager:{account_id}" for every other account
+    # -- previously this was a single global row shared by ALL accounts, so one account's
+    # failures could trip (or one account's manual reset could clear) every other account's
+    # circuit breaker.
     breaker_id: Mapped[str] = mapped_column(String(96), primary_key=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     state: Mapped[str] = mapped_column(String(32), nullable=False, default="closed", index=True)
     reason: Mapped[str | None] = mapped_column(Text, nullable=True)
     failed_actions: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
@@ -570,6 +600,7 @@ class AdaptivePositionAdoptionORM(Base):
     __tablename__ = "adaptive_position_adoptions"
 
     adoption_id: Mapped[str] = mapped_column(String(128), primary_key=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     position_id: Mapped[str] = mapped_column(String(96), nullable=False, index=True)
     activation_id: Mapped[str] = mapped_column(String(128), nullable=False, index=True)
     approved_by: Mapped[str] = mapped_column(String(128), nullable=False)
@@ -607,6 +638,7 @@ class AdaptiveManagementEventORM(Base):
     __tablename__ = "adaptive_management_events"
 
     event_id: Mapped[str] = mapped_column(String(160), primary_key=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     cycle_run_id: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
     position_id: Mapped[str] = mapped_column(String(96), nullable=False, index=True)
@@ -658,6 +690,7 @@ class AdaptivePositionBaselineORM(Base):
     __tablename__ = "adaptive_position_baselines"
 
     position_id: Mapped[str] = mapped_column(String(96), primary_key=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     broker_ticket: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
     symbol: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
     direction: Mapped[str] = mapped_column(String(16), nullable=False, index=True)
@@ -687,6 +720,7 @@ class AdaptiveManagerCounterfactualORM(Base):
     __tablename__ = "adaptive_manager_counterfactuals"
 
     position_id: Mapped[str] = mapped_column(String(96), primary_key=True)
+    account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
     symbol: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
 
     # Part 13: what would have happened if the ORIGINAL sl/tp had simply been left in place.
@@ -703,11 +737,33 @@ class AdaptiveManagerCounterfactualORM(Base):
     no_be_resolved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
     # Part 8: post-exit shadow tracking, from the manager's ACTUAL exit price/time forward.
+    # PENDING | RESOLVED | UNRESOLVABLE_NO_DATA (the evidence window fully elapsed but the
+    # broker/bridge never returned a single candle for it -- kept distinct from RESOLVED so a
+    # data gap can never be silently read as "price didn't move").
     post_exit_status: Mapped[str] = mapped_column(String(24), nullable=False, default="PENDING", index=True)
     post_exit_reached_original_tp: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
     post_exit_reached_plus_1r: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
     post_exit_reversed_strongly: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
     post_exit_would_have_hit_original_sl: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    # Maximum favorable / adverse excursion after exit, in units of the position's original 1R
+    # (initial_stop_distance) -- e.g. post_exit_mfe_r == 1.8 means price moved 1.8R further in
+    # the trade's favor at its best point after the manager exited.
+    post_exit_mfe_r: Mapped[float | None] = mapped_column(Float, nullable=True)
+    post_exit_mae_r: Mapped[float | None] = mapped_column(Float, nullable=True)
+    # "Potential additional R available after exit" (Part 8 spec) -- an explicit alias of
+    # post_exit_mfe_r kept as its own column so callers never have to know that equivalence to
+    # read the field the spec asked for by name.
+    post_exit_additional_r_available: Mapped[float | None] = mapped_column(Float, nullable=True)
+    post_exit_time_to_continuation_seconds: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    post_exit_time_to_reversal_seconds: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    # Deterministic A/B/C/D-style bucket (see AdaptiveManagerOutcomeResolver._classify_post_exit
+    # for the exact precedence rule and conservative same-candle tie-break):
+    # PENDING | IMMEDIATE_REVERSAL (A) | MILD_CONTINUATION (B) | TP_LATER_REACHED (C) |
+    # SUBSTANTIAL_R_LEFT (D) | NO_SIGNIFICANT_MOVE. Additive alongside the four booleans above,
+    # which keep their original meaning unchanged.
+    post_exit_classification: Mapped[str] = mapped_column(String(32), nullable=False, default="PENDING", index=True)
+    post_exit_candles_scanned: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    post_exit_data_note: Mapped[str | None] = mapped_column(String(64), nullable=True)
     post_exit_resolved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
     expiry_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True, index=True)

@@ -42,10 +42,9 @@ class MT5Client:
         self.initialized = ok
         if not ok:
             raise MT5UnavailableError(f"MT5 initialize failed: {self.last_error()}")
-        if self.config.login is not None:
+        if self.config.login is not None and self.config.password:
             login_kwargs = {"login": self.config.login}
-            if self.config.password:
-                login_kwargs["password"] = self.config.password
+            login_kwargs["password"] = self.config.password
             if self.config.server:
                 login_kwargs["server"] = self.config.server
             if not bool(mt5.login(**login_kwargs)):

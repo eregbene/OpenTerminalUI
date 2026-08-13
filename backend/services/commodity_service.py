@@ -10,7 +10,6 @@ from typing import Any, Awaitable, Callable, Literal
 from pydantic import BaseModel, Field
 
 from backend.api.deps import cache_instance, get_unified_fetcher
-from backend.api.routes.chart import _parse_yahoo_chart
 
 CommodityCategory = Literal["energy", "metals", "agriculture"]
 FetcherFactory = Callable[[], Awaitable[Any]]
@@ -226,35 +225,6 @@ class CommodityService:
             raise ValueError(f"Unsupported commodity symbol: {normalized}")
         return item
 
-    def _quote_from_yahoo(self, item: CommodityDefinition, row: dict[str, Any]) -> CommodityQuote | None:
-        price = _coerce_float(row.get("regularMarketPrice"))
-        if price is None or price <= 0:
-            return None
-        previous_close = _coerce_float(row.get("regularMarketPreviousClose"))
-        change = _coerce_float(row.get("regularMarketChange"))
-        if previous_close is None and change is not None:
-            previous_close = price - change
-        if previous_close is None or previous_close <= 0:
-            previous_close = price
-        if change is None:
-            change = price - previous_close
-        change_pct = _coerce_float(row.get("regularMarketChangePercent"))
-        if change_pct is None:
-            change_pct = (change / previous_close) * 100.0 if previous_close else 0.0
-        return CommodityQuote(
-            symbol=item.yahoo_symbol,
-            name=str(row.get("shortName") or row.get("longName") or item.name),
-            category=item.category,
-            price=round(price, 4),
-            change=round(change, 4),
-            change_pct=round(change_pct, 4),
-            volume=_coerce_int(row.get("regularMarketVolume")),
-            sparkline=self._build_sparkline(item.yahoo_symbol, price, previous_close),
-            previous_close=round(previous_close, 4),
-            currency=str(row.get("currency") or item.currency or "USD"),
-            source="yahoo",
-        )
-
     def _quote_from_fmp(self, item: CommodityDefinition, row: dict[str, Any]) -> CommodityQuote | None:
         price = _coerce_float(row.get("price"))
         if price is None or price <= 0:
@@ -352,33 +322,22 @@ class CommodityService:
 
     async def _fetch_live_quotes(self) -> CommodityQuotesResponse:
         fetcher = await self._fetcher_factory()
-        yahoo_rows = await fetcher.yahoo.get_quotes([item.yahoo_symbol for item in _COMMODITIES])
-        by_symbol = {
-            str(row.get("symbol") or "").upper(): row
-            for row in yahoo_rows
-            if isinstance(row, dict)
-        }
-
+        # No commodity quote source besides FMP is wired in anymore (the Yahoo Finance batch-
+        # quotes endpoint this used to try first was removed) -- every item is treated as
+        # "missing" so it goes straight through the existing FMP fallback path below.
         quotes: list[CommodityQuote] = []
-        missing: list[CommodityDefinition] = []
-        for item in _COMMODITIES:
-            quote = self._quote_from_yahoo(item, by_symbol.get(item.yahoo_symbol, {}))
+        missing: list[CommodityDefinition] = list(_COMMODITIES)
+
+        fallback_rows = await asyncio.gather(
+            *(self._fetch_fmp_quote(fetcher, item) for item in missing)
+        )
+        for item, payload in zip(missing, fallback_rows):
+            quote = self._quote_from_fmp(item, payload if isinstance(payload, dict) else {})
             if quote is not None:
                 quotes.append(quote)
-            else:
-                missing.append(item)
-
-        if missing:
-            fallback_rows = await asyncio.gather(
-                *(self._fetch_fmp_quote(fetcher, item) for item in missing)
-            )
-            for item, payload in zip(missing, fallback_rows):
-                quote = self._quote_from_fmp(item, payload if isinstance(payload, dict) else {})
-                if quote is not None:
-                    quotes.append(quote)
 
         if not quotes:
-            raise RuntimeError("No commodity quotes available from Yahoo Finance or FMP")
+            raise RuntimeError("No commodity quotes available from FMP")
 
         ordered_quotes = [
             next(quote for quote in quotes if quote.symbol == item.yahoo_symbol)
@@ -409,38 +368,6 @@ class CommodityService:
                 )
             )
         return schedule
-
-    def _chain_point_from_yahoo(
-        self,
-        request: _ContractRequest,
-        row: dict[str, Any],
-    ) -> CommodityFuturesPoint | None:
-        price = _coerce_float(row.get("regularMarketPrice"))
-        if price is None or price <= 0:
-            return None
-        previous_close = _coerce_float(row.get("regularMarketPreviousClose"))
-        change = _coerce_float(row.get("regularMarketChange"))
-        if previous_close is None and change is not None:
-            previous_close = price - change
-        if previous_close is None or previous_close <= 0:
-            previous_close = price
-        if change is None:
-            change = price - previous_close
-        change_pct = _coerce_float(row.get("regularMarketChangePercent"))
-        if change_pct is None:
-            change_pct = (change / previous_close) * 100.0 if previous_close else 0.0
-        return CommodityFuturesPoint(
-            contract=request.contract,
-            contract_symbol=request.contract_symbol,
-            months_out=request.months_out,
-            expiry=request.expiry,
-            price=round(price, 4),
-            change=round(change, 4),
-            change_pct=round(change_pct, 4),
-            open_interest=_coerce_int(row.get("openInterest")),
-            volume=_coerce_int(row.get("regularMarketVolume")),
-            source="yahoo",
-        )
 
     def _chain_point_from_fmp(
         self,
@@ -500,46 +427,26 @@ class CommodityService:
     async def _fetch_live_futures_chain(self, item: CommodityDefinition) -> CommodityFuturesChainResponse:
         fetcher = await self._fetcher_factory()
         schedule = self._contract_schedule(item)
-        yahoo_rows = await fetcher.yahoo.get_quotes([entry.contract_symbol for entry in schedule])
-        by_symbol = {
-            str(row.get("symbol") or "").upper(): row
-            for row in yahoo_rows
-            if isinstance(row, dict)
-        }
-
+        # No per-contract futures-quote source besides FMP's front-month quote is wired in
+        # anymore (the Yahoo Finance batch-quotes endpoint this used to try first was removed)
+        # -- every month beyond the front one falls through to the existing projected-curve
+        # path below, same as when Yahoo simply had no data for a given contract.
         points_by_month: dict[int, CommodityFuturesPoint] = {}
-        for entry in schedule:
-            point = self._chain_point_from_yahoo(entry, by_symbol.get(entry.contract_symbol.upper(), {}))
-            if point is not None:
-                points_by_month[entry.months_out] = point
 
-        source = "yahoo"
-        front_point = points_by_month.get(1)
-        if front_point is None:
-            fmp_row = await self._fetch_fmp_quote(fetcher, item)
-            front_point = self._chain_point_from_fmp(schedule[0], fmp_row)
-            if front_point is not None:
-                points_by_month[1] = front_point
-                source = "fmp"
-
+        fmp_row = await self._fetch_fmp_quote(fetcher, item)
+        front_point = self._chain_point_from_fmp(schedule[0], fmp_row)
         if front_point is None:
             raise RuntimeError(f"No futures-chain data available for {item.yahoo_symbol}")
-
-        ordered_actual = sorted(points_by_month.values(), key=lambda point: point.months_out)
-        if len(ordered_actual) >= 2:
-            first = ordered_actual[0]
-            last = ordered_actual[-1]
-            divisor = max(1, last.months_out - first.months_out)
-            curve_step = (last.price - first.price) / divisor
-        else:
-            curve_step = item.curve_step
+        points_by_month[1] = front_point
+        source = "fmp"
+        curve_step = item.curve_step
 
         points: list[CommodityFuturesPoint] = []
         for entry in schedule:
             point = points_by_month.get(entry.months_out)
             if point is None:
                 point = self._project_chain_point(entry, front_point, curve_step)
-                source = "mixed" if source == "yahoo" else source
+                source = "mixed"
             points.append(point)
 
         return CommodityFuturesChainResponse(
@@ -549,23 +456,6 @@ class CommodityService:
             source=source,
             points=points,
         )
-
-    def _yahoo_monthly_closes(self, payload: dict[str, Any]) -> list[tuple[datetime, float]]:
-        frame = _parse_yahoo_chart(payload if isinstance(payload, dict) else {})
-        if frame.empty or "Close" not in frame:
-            return []
-        rows: list[tuple[datetime, float]] = []
-        for index, row in frame.iterrows():
-            close = _coerce_float(row.get("Close"))
-            if close is None or close <= 0:
-                continue
-            dt = index.to_pydatetime()
-            if dt.tzinfo is None:
-                dt = dt.replace(tzinfo=timezone.utc)
-            else:
-                dt = dt.astimezone(timezone.utc)
-            rows.append((dt, close))
-        return rows
 
     def _fmp_monthly_closes(self, payload: dict[str, Any]) -> list[tuple[datetime, float]]:
         rows = payload.get("historical") if isinstance(payload.get("historical"), list) else []
@@ -645,11 +535,8 @@ class CommodityService:
 
     async def _fetch_live_seasonal(self, item: CommodityDefinition) -> CommoditySeasonalResponse:
         fetcher = await self._fetcher_factory()
-        yahoo_payload = await fetcher.yahoo.get_chart(item.yahoo_symbol, range_str="10y", interval="1mo")
-        monthly_closes = self._yahoo_monthly_closes(yahoo_payload if isinstance(yahoo_payload, dict) else {})
-        if len(monthly_closes) >= 60:
-            return self._build_seasonal_response(item, monthly_closes, source="yahoo")
-
+        # No monthly-history source besides FMP is wired in anymore (the Yahoo Finance chart
+        # endpoint this used to try first was removed) -- always uses FMP now.
         fmp_payload = await self._fetch_fmp_history(fetcher, item)
         monthly_closes = self._fmp_monthly_closes(fmp_payload)
         if len(monthly_closes) >= 60:

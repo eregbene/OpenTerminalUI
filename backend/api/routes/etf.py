@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from typing import Any, List, Optional
 from fastapi import APIRouter, HTTPException, Query
-from backend.api.deps import get_unified_fetcher
 from backend.core.models import (
     ETFScreenerResponse,
     ETFHoldingsResponse,
@@ -34,34 +33,16 @@ async def etf_screener(category: Optional[str] = None):
 
 @router.get("/holdings", response_model=ETFHoldingsResponse)
 async def etf_holdings(ticker: str):
-    fetcher = await get_unified_fetcher()
-    # Yahoo modules for ETF: topHoldings
-    try:
-        summary = await fetcher.yahoo.get_quote_summary(ticker, modules=["topHoldings"])
-        holdings_data = summary.get("topHoldings", {})
-        holdings_list = holdings_data.get("holdings", [])
-
-        result_holdings = []
-        for h in holdings_list:
-            result_holdings.append(ETFHolding(
-                symbol=h.get("symbol", ""),
-                name=h.get("holdingName", ""),
-                weight=h.get("holdingPercent", {}).get("raw", 0.0) * 100 if isinstance(h.get("holdingPercent"), dict) else (h.get("holdingPercent", 0.0) * 100)
-            ))
-
-        if not result_holdings:
-            # Fallback mock data if Yahoo fails or returns empty
-            result_holdings = [
-                ETFHolding(symbol="AAPL", name="Apple Inc.", weight=7.5),
-                ETFHolding(symbol="MSFT", name="Microsoft Corp.", weight=6.8),
-                ETFHolding(symbol="AMZN", name="Amazon.com Inc.", weight=3.5),
-                ETFHolding(symbol="NVDA", name="NVIDIA Corp.", weight=3.2),
-                ETFHolding(symbol="GOOGL", name="Alphabet Inc. Class A", weight=2.8),
-            ]
-
-        return ETFHoldingsResponse(ticker=ticker.upper(), holdings=result_holdings)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to fetch holdings: {str(e)}")
+    # No ETF top-holdings source is wired in (the Yahoo Finance quoteSummary endpoint this used
+    # to call was removed, with no replacement) -- always falls straight to the mock data below.
+    result_holdings = [
+        ETFHolding(symbol="AAPL", name="Apple Inc.", weight=7.5),
+        ETFHolding(symbol="MSFT", name="Microsoft Corp.", weight=6.8),
+        ETFHolding(symbol="AMZN", name="Amazon.com Inc.", weight=3.5),
+        ETFHolding(symbol="NVDA", name="NVIDIA Corp.", weight=3.2),
+        ETFHolding(symbol="GOOGL", name="Alphabet Inc. Class A", weight=2.8),
+    ]
+    return ETFHoldingsResponse(ticker=ticker.upper(), holdings=result_holdings)
 
 @router.get("/overlap", response_model=ETFOverlapResponse)
 async def etf_overlap(tickers: str = Query(...)):
@@ -69,26 +50,9 @@ async def etf_overlap(tickers: str = Query(...)):
     if len(ticker_list) < 2:
         raise HTTPException(status_code=400, detail="Provide at least two tickers for overlap analysis")
 
-    fetcher = await get_unified_fetcher()
-
-    all_holdings = {}
-    for ticker in ticker_list:
-        try:
-            summary = await fetcher.yahoo.get_quote_summary(ticker, modules=["topHoldings"])
-            holdings_data = summary.get("topHoldings", {})
-            holdings_list = holdings_data.get("holdings", [])
-
-            ticker_holdings = {}
-            for h in holdings_list:
-                symbol = h.get("symbol", "")
-                if symbol:
-                    ticker_holdings[symbol] = {
-                        "name": h.get("holdingName", ""),
-                        "weight": h.get("holdingPercent", {}).get("raw", 0.0) * 100 if isinstance(h.get("holdingPercent"), dict) else (h.get("holdingPercent", 0.0) * 100)
-                    }
-            all_holdings[ticker] = ticker_holdings
-        except Exception:
-            all_holdings[ticker] = {}
+    # No ETF top-holdings source is wired in (see etf_holdings above) -- every ticker degrades
+    # to an empty holdings set, so overlap always comes back with zero common holdings.
+    all_holdings: dict[str, dict[str, Any]] = {ticker: {} for ticker in ticker_list}
 
     # Calculate overlap between the first two for now
     t1, t2 = ticker_list[0], ticker_list[1]

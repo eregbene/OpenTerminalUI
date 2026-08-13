@@ -8,6 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
 from backend.brokers.mt5 import account_registry
+from backend.brokers.mt5.config import MT5Config
 from backend.portfolio_execution import service
 from backend.portfolio_execution.orm import ExecutionOrderORM, ExecutionStateTransitionORM
 from backend.portfolio_execution.service import execution_manager, portfolio_manager
@@ -45,6 +46,8 @@ class FakeSymbol:
 
 class FakeQuote:
     spread = Decimal("1")
+    bid = Decimal("1.10095")
+    ask = Decimal("1.10115")
 
 
 class FakeMT5:
@@ -81,9 +84,11 @@ class FakeAccount:
 
 
 class FakeAdapter:
-    def __init__(self):
+    def __init__(self, account_id="unit_test", login=123456, server="Bensim-Demo"):
         self.mt5 = FakeMT5()
         self.client = FakeClient(self.mt5)
+        self.config = MT5Config(account_id=account_id, account_mode="DEMO")
+        self.account = type("ScopedFakeAccount", (), {"login": login, "server": server, "company": "Bensim", "currency": "USD", "trade_mode": 0})()
 
     async def terminal_status(self):
         return FakeTerminal()
@@ -95,7 +100,7 @@ class FakeAdapter:
         return FakeQuote()
 
     async def mt5_account(self):
-        return FakeAccount()
+        return self.account
 
 
 def _session_factory(monkeypatch):
@@ -150,6 +155,57 @@ def test_execution_manager_journals_state_and_prevents_duplicates(monkeypatch):
     assert adapter.mt5.calls == 1
     assert len(orders) == 1
     assert {row.to_state for row in transitions} >= {"PENDING", "SUBMITTED", "ACCEPTED"}
+
+
+def test_spread_paid_captured_from_fresh_tick_at_submission(monkeypatch):
+    """Phase 22 (corpus-expansion-throughput directive): spread_paid used to be read from
+    request.get("spread_paid") -- request is the raw MT5 order_send payload, which no caller
+    ever populates with that key, so the column was always NULL. Now a fresh tick is fetched via
+    adapter.latest_tick() immediately before submission and the real bid/ask spread is
+    persisted."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("MT5_LIVE_TRADING_ENABLED", "false")
+    adapter = FakeAdapter()
+    request = {"action": 1, "symbol": "EURUSD", "volume": 1.0, "price": 1.1}
+
+    service.asyncio.run(execution_manager.submit_mt5_request(adapter=adapter, request=request, idempotency_key="SPREAD_KEY", source="adaptive_trade_manager", expected_price=1.1))
+
+    with SessionLocal() as db:
+        row = db.query(ExecutionOrderORM).filter(ExecutionOrderORM.idempotency_key == "SPREAD_KEY").one()
+    assert row.spread_paid is not None
+    assert row.spread_paid == pytest.approx(float(FakeQuote.ask - FakeQuote.bid))
+
+
+def test_spread_paid_stays_null_on_tick_fetch_failure_never_fabricated(monkeypatch):
+    """If the fresh tick fetch specifically for spread_paid fails, spread_paid must stay None --
+    never fabricated from a cached/historical value or a guess. _preflight() ALSO calls
+    latest_tick() (a pre-existing, unrelated spread-sanity check) -- that first call must keep
+    succeeding, or the order gets rejected before ever reaching order_send at all; only the
+    SECOND call (this fix's own fresh-tick fetch, immediately before submission) fails here, to
+    isolate the property under test."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("MT5_LIVE_TRADING_ENABLED", "false")
+    adapter = FakeAdapter()
+
+    call_count = {"n": 0}
+    real_tick = adapter.latest_tick
+
+    async def _tick_fails_on_second_call(symbol):
+        call_count["n"] += 1
+        if call_count["n"] >= 2:
+            raise RuntimeError("tick unavailable")
+        return await real_tick(symbol)
+
+    monkeypatch.setattr(adapter, "latest_tick", _tick_fails_on_second_call)
+    request = {"action": 1, "symbol": "EURUSD", "volume": 1.0, "price": 1.1}
+
+    result = service.asyncio.run(execution_manager.submit_mt5_request(adapter=adapter, request=request, idempotency_key="SPREAD_FAIL_KEY", source="adaptive_trade_manager", expected_price=1.1))
+
+    assert result["retcode"] == 10009  # order submission itself is unaffected by the second tick-fetch failure
+    assert call_count["n"] >= 2  # confirms the spread-capture call site was actually reached
+    with SessionLocal() as db:
+        row = db.query(ExecutionOrderORM).filter(ExecutionOrderORM.idempotency_key == "SPREAD_FAIL_KEY").one()
+    assert row.spread_paid is None
 
 
 class FakeQuoteTick:
@@ -264,3 +320,57 @@ def test_live_trading_is_blocked(monkeypatch):
     assert result["status"] == "REJECTED"
     assert result["comment"] == "LIVE_TRADING_BLOCKED"
     assert adapter.mt5.calls == 0
+
+
+def test_execution_idempotency_is_account_scoped(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("MT5_LIVE_TRADING_ENABLED", "false")
+    request = {"action": 1, "symbol": "EURUSD", "volume": 1.0, "price": 1.1}
+    first_adapter = FakeAdapter(account_id="ftmo_demo_25k", login=250001, server="FTMO-Demo")
+    second_adapter = FakeAdapter(account_id="ftmo_demo_50k", login=500001, server="FTMO-Demo")
+    monkeypatch.setenv("MT5_ACCOUNT_25K_LOGIN", "250001")
+    monkeypatch.setenv("MT5_ACCOUNT_25K_SERVER", "FTMO-Demo")
+    monkeypatch.setenv("MT5_ACCOUNT_50K_LOGIN", "500001")
+    monkeypatch.setenv("MT5_ACCOUNT_50K_SERVER", "FTMO-Demo")
+
+    first = service.asyncio.run(execution_manager.submit_mt5_request(adapter=first_adapter, request=request, idempotency_key="SAME", source="adaptive_trade_manager"))
+    second = service.asyncio.run(execution_manager.submit_mt5_request(adapter=second_adapter, request=request, idempotency_key="SAME", source="adaptive_trade_manager"))
+
+    with SessionLocal() as db:
+        orders = db.query(ExecutionOrderORM).order_by(ExecutionOrderORM.account_id).all()
+    assert first["retcode"] == 10009
+    assert second["retcode"] == 10009
+    assert [(row.account_id, row.idempotency_key) for row in orders] == [("ftmo_demo_25k", "SAME"), ("ftmo_demo_50k", "SAME")]
+    assert first_adapter.mt5.calls == 1
+    assert second_adapter.mt5.calls == 1
+
+
+def test_execution_revalidates_account_before_order_send(monkeypatch):
+    _session_factory(monkeypatch)
+    monkeypatch.setenv("MT5_ACCOUNT_25K_LOGIN", "250001")
+    monkeypatch.setenv("MT5_ACCOUNT_25K_SERVER", "FTMO-Demo")
+    adapter = FakeAdapter(account_id="ftmo_demo_25k", login=999999, server="FTMO-Demo")
+
+    result = service.asyncio.run(execution_manager.submit_mt5_request(adapter=adapter, request={"symbol": "EURUSD", "volume": 1}, idempotency_key="WRONG", source="adaptive_trade_manager"))
+
+    assert result["status"] == "REJECTED"
+    assert "ACCOUNT_EXECUTION_CONTEXT_MISMATCH" in result["comment"]
+    assert adapter.mt5.calls == 0
+
+
+def test_redis_execution_lock_key_includes_account(monkeypatch):
+    calls = []
+
+    class _Redis:
+        async def set(self, key, owner, nx=True, ex=30):
+            calls.append(key)
+            return True
+
+    monkeypatch.setattr(service.redis_layer, "get_client", lambda: _Redis())
+    service.asyncio.run(service.redis_layer.try_execution_lock("SAME", account_id="ftmo_demo_25k"))
+    service.asyncio.run(service.redis_layer.try_execution_lock("SAME", account_id="ftmo_demo_50k"))
+
+    assert calls == [
+        "mt5:account:ftmo_demo_25k:execution-lock:SAME",
+        "mt5:account:ftmo_demo_50k:execution-lock:SAME",
+    ]

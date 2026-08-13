@@ -48,6 +48,13 @@ class StrategyContext:
     # symbol_info.point), None when unknown -- see build_strategy_context's `symbol_info` param
     # and families.py::_dynamic_stop. Never guessed; only ever set from real broker metadata.
     broker_min_stop_distance: Decimal | None = None
+    # Never read by any strategy (only htf_trend_h1/h4's derived label above is) -- carried here
+    # purely so the caller (autonomous.py::_screen, running in the main event loop) can write a
+    # freshly-computed H1/H4 snapshot back to the Redis deterministic-computation cache after
+    # this context returns from its asyncio.to_thread() worker. Redis calls never happen inside
+    # this module or inside the thread pool -- see redis_layer.py's module docstring for why.
+    h1_snapshot: MarketStructureSnapshot | None = None
+    h4_snapshot: MarketStructureSnapshot | None = None
 
 
 def quick_regime(m15_rows: list[dict[str, Any]]) -> dict[str, Any]:
@@ -102,6 +109,9 @@ def build_strategy_context(
     now: datetime | None = None,
     regime_info: dict[str, Any] | None = None,
     symbol_info: Any = None,
+    m15_snapshot: MarketStructureSnapshot | None = None,
+    h1_snapshot: MarketStructureSnapshot | None = None,
+    h4_snapshot: MarketStructureSnapshot | None = None,
 ) -> StrategyContext | None:
     """Returns None (not a partial/degraded context) when there isn't enough history for the
     SMC engine's minimum swing window -- callers must skip strategy evaluation entirely rather
@@ -115,14 +125,23 @@ def build_strategy_context(
     attributes, e.g. MT5Symbol) -- when provided, derives `broker_min_stop_distance` so every
     strategy's stop construction can respect the broker's actual minimum stop level instead of
     only an ATR/spread-derived floor. Omitted (None) callers get identical behavior to before
-    this parameter existed."""
+    this parameter existed.
+
+    `m15_snapshot`/`h1_snapshot`/`h4_snapshot`: optional pre-computed analyze_bars() results
+    (Part 5's Redis deterministic-computation cache -- see backend.mt5_strategies.redis_layer
+    .cached_analyze_bars). analyze_bars() is a pure function of its input rows, so a caller-
+    supplied snapshot is byte-identical to what recomputing it here would produce; this function
+    itself makes no Redis calls (it runs inside autonomous.py's asyncio.to_thread() worker,
+    which must never touch the main event loop's Redis connection -- see redis_layer.py's
+    module docstring). Omitted (None, the default) callers get identical behavior to before
+    these parameters existed."""
     if len(m15_rows) < 20 or len(h1_rows) < 10 or len(h4_rows) < 10:
         return None
     now = now or datetime.now(timezone.utc)
 
-    m15_snapshot = analyze_bars(m15_rows, symbol=broker_symbol, timeframe="M15")
-    h1_snapshot = analyze_bars(h1_rows, symbol=broker_symbol, timeframe="H1")
-    h4_snapshot = analyze_bars(h4_rows, symbol=broker_symbol, timeframe="H4")
+    m15_snapshot = m15_snapshot if m15_snapshot is not None else analyze_bars(m15_rows, symbol=broker_symbol, timeframe="M15")
+    h1_snapshot = h1_snapshot if h1_snapshot is not None else analyze_bars(h1_rows, symbol=broker_symbol, timeframe="H1")
+    h4_snapshot = h4_snapshot if h4_snapshot is not None else analyze_bars(h4_rows, symbol=broker_symbol, timeframe="H4")
 
     regime_info = regime_info if regime_info is not None else detect_regime(m15_rows)
 
@@ -157,6 +176,8 @@ def build_strategy_context(
         ask=ask,
         spread=spread,
         broker_min_stop_distance=broker_min_stop_distance,
+        h1_snapshot=h1_snapshot,
+        h4_snapshot=h4_snapshot,
     )
 
 

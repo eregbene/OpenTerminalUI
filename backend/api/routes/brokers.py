@@ -14,6 +14,7 @@ from backend.auth.deps import get_current_user
 from backend.brokers import broker_registry
 from backend.brokers.errors import BrokerError
 from backend.brokers.mt5.autonomous import mt5_autonomous_service
+from backend.brokers.mt5 import account_registry
 from backend.brokers.mt5.confidence_calibration import (
     calibration_reliability_report,
     component_effectiveness_report,
@@ -24,6 +25,9 @@ from backend.brokers.mt5.confidence_calibration import (
     threshold_simulation_report,
 )
 from backend.brokers.mt5.config import mt5_config
+from backend.brokers.mt5.multi_account import adapter_for_account, config_for_profile
+from backend.brokers.mt5.prop_state import evaluate_entry_protection
+from backend.shared.db import SessionLocal
 from backend.brokers.mt5.risk_calculator import calculate_canonical_loss_per_lot
 from backend.brokers.mt5.persistence import (
     history_availability,
@@ -152,6 +156,141 @@ async def mt5_status(current_user: User = Depends(get_current_user)) -> dict[str
 @router.get("/mt5/account")
 async def mt5_account(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
     return (await _adapter("mt5").mt5_account()).model_dump(mode="json")
+
+
+@router.get("/mt5/accounts")
+async def mt5_accounts(current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    registry = account_registry.registry_health()
+    registry["items"] = [await _mt5_account_health(item["account_id"]) for item in registry["items"]]
+    return registry
+
+
+@router.get("/mt5/accounts/{account_id}/prop-status")
+async def mt5_account_prop_status(account_id: str, current_user: User = Depends(get_current_user)) -> dict[str, Any]:
+    profile = account_registry.profile_by_id(account_id)
+    if profile is None:
+        raise HTTPException(status_code=404, detail="unknown account_id")
+    if profile.prop_profile not in {"FTMO_2_STEP"}:
+        return {
+            "account": account_registry.profile_health(profile),
+            "prop_status": {
+                "account_id": account_id,
+                "prop_profile": profile.prop_profile,
+                "challenge_status": "DISABLED",
+                "message": "non-prop demo account",
+                "new_entries_allowed": profile.enabled,
+            },
+        }
+    live = await _live_mt5_account_values(profile)
+    balance = Decimal(str(live.get("balance") if live.get("balance") is not None else profile.expected_initial_balance))
+    equity = Decimal(str(live.get("equity") if live.get("equity") is not None else profile.expected_initial_balance))
+    with SessionLocal() as db:
+        protection = evaluate_entry_protection(db, account_id, config_for_profile(profile), balance=balance, equity=equity)
+    return {
+        "account": account_registry.profile_health(profile),
+        "prop_status": protection["challenge_status"],
+        "daily_state": {
+            "trading_day": protection["trading_day"],
+            "reset_timezone": protection["reset_timezone"],
+            "day_start_balance": str(protection["day_start_balance"]),
+            "day_start_equity": str(protection["day_start_equity"]),
+            "realized_pnl_today": str(protection["realized_pnl_today"]),
+            "commission_today": str(protection["commission_today"]),
+            "swap_today": str(protection["swap_today"]),
+            "fee_today": str(protection["fee_today"]),
+            "floating_pnl": str(protection["floating_pnl"]),
+            "daily_pnl_total": str(protection["daily_pnl_total"]),
+        },
+        "entry_block_reasons": protection["entry_block_reasons"],
+    }
+
+
+async def _mt5_account_health(account_id: str) -> dict[str, Any]:
+    profile = account_registry.profile_by_id(account_id)
+    if profile is None:
+        return {"account_id": account_id, "health": "BLOCKED", "blockers": ["UNKNOWN_ACCOUNT"]}
+    base = account_registry.profile_health(profile)
+    base["masked_login"] = base.pop("expected_login_masked", None)
+    base["bridge_health"] = "DISABLED" if not profile.enabled else "UNKNOWN"
+    base["terminal_health"] = "DISABLED" if not profile.enabled else "UNKNOWN"
+    base["connected"] = False
+    base["account_classification"] = profile.account_mode
+    base["balance"] = None
+    base["equity"] = None
+    base["floating_pnl"] = None
+    base["daily_pnl"] = None
+    base["open_positions"] = None
+    base["open_risk"] = None
+    base["adaptive_manager_status"] = "ISOLATED_BY_ACCOUNT_CONTEXT"
+    autonomous_status = mt5_autonomous_service.account_status(account_id) if hasattr(mt5_autonomous_service, "account_status") else mt5_autonomous_service.status()
+    base["autonomous_scheduler"] = {
+        "scheduler_running": bool(autonomous_status.get("scheduler_running")) if autonomous_status else False,
+        "current_state": autonomous_status.get("current_state") if autonomous_status else None,
+        "last_cycle_time": autonomous_status.get("last_cycle_time") if autonomous_status else None,
+        "next_cycle_time": autonomous_status.get("next_cycle_time") if autonomous_status else None,
+        "last_result": autonomous_status.get("last_result") if autonomous_status else None,
+        "emergency_disable": bool(autonomous_status.get("emergency_disable")) if autonomous_status else False,
+    }
+    if not profile.enabled:
+        snapshot = _prop_snapshot(profile, balance=profile.expected_initial_balance, equity=profile.expected_initial_balance)
+        base["current_prop_status"] = snapshot["prop_status"]
+        base["entry_block_reasons"] = snapshot["entry_block_reasons"]
+        return base
+    live = await _live_mt5_account_values(profile)
+    base.update({key: live.get(key) for key in ("connected", "balance", "equity", "floating_pnl", "daily_pnl", "open_positions", "open_risk")})
+    base["server"] = live.get("server") or profile.expected_server
+    base["terminal_health"] = "OK" if live.get("connected") else "DISCONNECTED"
+    base["bridge_health"] = "OK" if live.get("connected") else "DISCONNECTED"
+    base["blockers"] = sorted(set((base.get("blockers") or []) + (live.get("blockers") or [])))
+    base["health"] = "BLOCKED" if base["blockers"] else ("OK" if live.get("connected") else "DEGRADED")
+    snapshot = _prop_snapshot(
+        profile,
+        balance=Decimal(str(live.get("balance") if live.get("balance") is not None else profile.expected_initial_balance)),
+        equity=Decimal(str(live.get("equity") if live.get("equity") is not None else profile.expected_initial_balance)),
+    )
+    base["current_prop_status"] = snapshot["prop_status"]
+    base["entry_block_reasons"] = snapshot["entry_block_reasons"]
+    if live.get("connected"):
+        base["daily_pnl"] = str(snapshot["daily_pnl_total"])
+    return base
+
+
+async def _live_mt5_account_values(profile: account_registry.MT5AccountProfile) -> dict[str, Any]:
+    try:
+        adapter = _adapter("mt5") if profile.account_id == "demo_10k" else adapter_for_account(profile.account_id)
+        account = await adapter.mt5_account()
+        blockers = account_registry.validate_profile_account(profile, account)
+        positions = await adapter.mt5_positions()
+        floating = sum(Decimal(str(row.profit or 0)) + Decimal(str(row.swap or 0)) for row in positions)
+        return {
+            "connected": True,
+            "server": account.server,
+            "balance": str(account.balance),
+            "equity": str(account.equity),
+            "floating_pnl": str(floating),
+            "daily_pnl": None,
+            "open_positions": len(positions),
+            "open_risk": None,
+            "blockers": blockers,
+        }
+    except Exception as exc:
+        return {"connected": False, "blockers": [f"ACCOUNT_BRIDGE_UNAVAILABLE:{exc.__class__.__name__}"]}
+
+
+def _prop_snapshot(profile: account_registry.MT5AccountProfile, *, balance: Decimal, equity: Decimal) -> dict[str, Any]:
+    if profile.prop_profile != "FTMO_2_STEP":
+        return {
+            "prop_status": {"account_id": profile.account_id, "prop_profile": profile.prop_profile, "challenge_status": "DISABLED", "new_entries_allowed": profile.enabled},
+            "entry_block_reasons": [],
+            "daily_pnl_total": Decimal("0"),
+        }
+    with SessionLocal() as db:
+        protection = evaluate_entry_protection(db, profile.account_id, config_for_profile(profile), balance=balance, equity=equity)
+    return {
+        "prop_status": protection["challenge_status"],
+        "entry_block_reasons": protection["entry_block_reasons"],
+        "daily_pnl_total": protection["daily_pnl_total"],
+    }
 
 
 @router.get("/mt5/terminal")
