@@ -25,9 +25,90 @@ from backend.historical_intelligence.statistics import reliability_label
 from backend.shared.db import SessionLocal
 
 
-def _collect_rows() -> list[dict[str, Any]]:
+_MAX_HISTORICAL_ROWS_PER_QUERY = 3000
+
+
+def _collect_historical_rows(*, strategy: str | None = None, symbol: str | None = None, direction: str | None = None, limit: int = _MAX_HISTORICAL_ROWS_PER_QUERY) -> list[dict[str, Any]]:
+    """Historical-backfill counterpart to _collect_rows (Adaptive-Historical-Intelligence-
+    Backfill directive, Phase 1/7): reads HistoricalAdaptiveStateORM/HistoricalAdaptiveOutcomeORM
+    (built by adaptive_backfill.py from the entry-side replay corpus) rather than real managed
+    positions. Unlike _collect_rows, the hard-match filter (strategy/symbol/direction) is pushed
+    down to SQL -- the historical corpus is orders of magnitude larger than the real-position
+    table _collect_rows was designed around, so loading it unfiltered into Python on every call
+    would not scale. Returns the SAME row shape ({"fields", "counterfactual"} plus
+    "source_trade_id" for same-trade dedup) so callers can merge real and historical neighbors
+    through IDENTICAL downstream code.
+
+    `limit` (Part 21 -- real, measured finding: an unbounded query against a corpus of tens of
+    thousands of states took 16.4s, unacceptable for a live per-cycle call) bounds the raw
+    candidate pool to the `limit` MOST RECENT matching states, ordered by state_time DESC. This
+    caps worst-case latency independent of how large the corpus grows -- top_k neighbor selection
+    (50-200) never needed every historical state that ever existed, only a large-enough,
+    reasonably representative pool to find its best matches from."""
+    from backend.historical_intelligence.orm import HistoricalAdaptiveOutcomeORM, HistoricalAdaptiveStateORM
+
     with SessionLocal() as db:
-        events = db.query(AdaptiveManagementEventORM).all()
+        q = db.query(HistoricalAdaptiveStateORM)
+        if strategy is not None:
+            q = q.filter(HistoricalAdaptiveStateORM.strategy == strategy)
+        if symbol is not None:
+            q = q.filter(HistoricalAdaptiveStateORM.canonical_symbol == symbol.upper())
+        if direction is not None:
+            q = q.filter(HistoricalAdaptiveStateORM.direction == direction.upper())
+        q = q.order_by(HistoricalAdaptiveStateORM.state_time.desc()).limit(limit)
+        states = q.all()
+        if not states:
+            return []
+        state_ids = [s.state_id for s in states]
+        outcomes_by_state = {o.state_id: o for o in db.query(HistoricalAdaptiveOutcomeORM).filter(HistoricalAdaptiveOutcomeORM.state_id.in_(state_ids)).all()}
+
+    rows: list[dict[str, Any]] = []
+    for state in states:
+        fields = build_state_fingerprint(
+            strategy=state.strategy, symbol=state.canonical_symbol, direction=state.direction,
+            original_regime=state.original_regime, current_regime=state.current_regime, current_r=state.current_r,
+            max_achieved_r=state.max_achieved_r, min_achieved_r=state.min_achieved_r, elapsed_seconds=state.elapsed_seconds,
+            is_at_or_beyond_breakeven=state.is_at_or_beyond_breakeven, is_trailing_action=state.is_trailing_action, now=state.state_time,
+        )
+        # Extra dimensions (Phase 7's high-weight list: giveback, structure state, BOS/CHoCH/MSS)
+        # that build_state_fingerprint doesn't know about -- added alongside its own output
+        # rather than changing that shared, entry-agnostic function's contract.
+        fields["giveback_bucket"] = _bucket_giveback(state.giveback_from_mfe_r)
+        fields["structure_intact"] = state.structure_intact
+        fields["structure_against_trade"] = bool(state.bos_against_trade or state.choch_against_trade or state.mss_against_trade)
+        fields["atr_regime"] = state.atr_regime
+        counterfactual = outcomes_by_state.get(state.state_id)
+        rows.append({"fields": fields, "counterfactual": counterfactual, "source_trade_id": state.source_fingerprint_id, "state_time": state.state_time})
+    return rows
+
+
+def _bucket_giveback(giveback: float | None) -> str | None:
+    if giveback is None:
+        return None
+    if giveback < 0.1:
+        return "MINIMAL"
+    if giveback < 0.25:
+        return "MODERATE"
+    return "SIGNIFICANT"
+
+
+_MAX_REAL_EVENTS_PER_QUERY = 2000
+
+
+def _collect_rows(*, limit: int = _MAX_REAL_EVENTS_PER_QUERY) -> list[dict[str, Any]]:
+    """Real, measured finding (Adaptive-Historical-Intelligence-Backfill directive, Part 21): an
+    unbounded `.all()` here took 6.46s against 31,279 real AdaptiveManagementEventORM rows (the
+    append-only per-cycle-per-position journal, accumulated over the whole engagement's real
+    DEMO trading history) -- this function is called on EVERY real Adaptive Manager cycle for
+    EVERY managed position (via evaluate_adaptive_intelligence -> state_statistics), so this cost
+    was already being paid live, silently, before this fix (a pre-existing bug, not something
+    the historical-backfill work introduced -- only newly measured because of it). Bounding to
+    the `limit` most recent events preserves this function's exact existing semantics (still
+    includes PENDING states, not just RESOLVED ones -- state_statistics's total_states_observed
+    metric is unchanged) while capping worst-case latency independent of how large the real
+    event journal grows."""
+    with SessionLocal() as db:
+        events = db.query(AdaptiveManagementEventORM).order_by(AdaptiveManagementEventORM.created_at.desc()).limit(limit).all()
         baselines = {b.position_id: b for b in db.query(AdaptivePositionBaselineORM).all()}
         counterfactuals = {c.position_id: c for c in db.query(AdaptiveManagerCounterfactualORM).all()}
 

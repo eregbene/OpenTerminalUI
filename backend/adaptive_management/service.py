@@ -1483,7 +1483,15 @@ class AdaptiveManagementService:
                         try:
                             from backend.historical_intelligence.adaptive_intelligence import record_observation
 
-                            record_observation(cycle_run_id=cycle_run_id, state=state, action=action, market_regime=market_regime)
+                            # Real, measured finding (Adaptive-Historical-Intelligence-Backfill
+                            # directive, Part 21): this synchronous DB-bound call costs up to
+                            # ~1s (down from an 18.5s pre-fix worst case) -- off the main thread
+                            # via asyncio.to_thread so it never blocks the event loop other
+                            # concurrent account cycles may be running on, even though this
+                            # position's own cycle still awaits it (a deliberate, conservative
+                            # choice over fire-and-forget, matching the same pattern already used
+                            # for the live order_send call elsewhere in this codebase).
+                            await asyncio.to_thread(record_observation, cycle_run_id=cycle_run_id, state=state, action=action, market_regime=market_regime)
                         except Exception as exc:
                             logger.warning("Adaptive historical intelligence observation failed: %s", exc.__class__.__name__)
                         if self._can_execute(action, state, activation, breaker, mode, current_fingerprint):
@@ -2747,6 +2755,7 @@ def default_policies() -> list[dict[str, Any]]:
         base | {"policy_id": "improved_breakeven_structure_v1", "name": "Stricter structure-aware breakeven", "family": "breakeven", "description": "Shadow breakeven requiring a higher achieved-R trigger than the flat 0.75R baseline, approximating the multi-condition structure gate.", "parameters": {"trigger_r": 1.2}},
         base | {"policy_id": "atr_structure_stop_wider_v1", "name": "Wider ATR/structure stop, risk-normalized volume", "family": "atr_structure_stop", "description": "Shadow counterfactual: initial stop 1.5x wider (risk-normalized volume, same monetary risk), rescaling realized R.", "parameters": {"risk_multiple": 1.5}},
         base | {"policy_id": "atr_structure_stop_tighter_v1", "name": "Tighter ATR/structure stop, risk-normalized volume", "family": "atr_structure_stop", "description": "Shadow counterfactual: initial stop 0.75x tighter (risk-normalized volume, same monetary risk), rescaling realized R.", "parameters": {"risk_multiple": 0.75}},
+        base | {"policy_id": "historical_analog_v1", "name": "Historical-analog adaptive policy", "family": "historical_analog", "description": "Shadow counterfactual: exits at the first +0.25R/+0.5R/+0.75R/+1R/+1.5R/+2R milestone where the live Historical Adaptive Intelligence multi-neighbor model (Adaptive-Historical-Intelligence-Backfill directive) recommends LIGHT_PROTECTION or PROTECT_TRAIL_EXIT rather than HOLD, using the SAME weighted state statistics the real Adaptive Manager cycle would consult.", "parameters": {"min_effective_sample": 20}},
         base
         | {
             "policy_id": ACTIVE_POLICY_ID,
@@ -2869,6 +2878,56 @@ def simulate_policy(case: TradeCase, path: dict[str, Any], policy: dict[str, Any
             exit_r = (float(timeline[-1].get("r") or 0) if timeline else exit_r) / risk_multiple
             action = "ATR_STRUCTURE_STOP_RESCALED_SHADOW"
             reason = "initial_stop_rescaled_risk_normalized_volume"
+    elif family == "historical_analog":
+        # Adaptive-Historical-Intelligence-Backfill directive, Phase 12: "D. Historical-analog
+        # Adaptive Policy" -- the ONE new shadow family added for this comparison. Walks the
+        # SAME already-reconstructed, lookahead-safe timeline every other family reads, checking
+        # ONLY the fixed +0.25R/+0.5R/+0.75R/+1R/+1.5R/+2R milestone checkpoints (adaptive_
+        # backfill.py's own sampling grid) rather than every candle -- bounds this to at most 6
+        # Redis/Postgres lookups per trade instead of one per candle. At the first milestone
+        # where the live Historical Adaptive Intelligence model
+        # (adaptive_similarity.historical_management_recommendation, the SAME function the real
+        # Adaptive Manager cycle would consult) recommends protecting rather than holding, exits
+        # there -- never invents a new decision rule, just replays the real one against this
+        # trade's own real path. Never touches the broker; purely a Postgres-persisted
+        # counterfactual PnL, exactly like every other family here.
+        from backend.historical_intelligence import adaptive_cache
+        from backend.historical_intelligence.adaptive_fingerprint import build_state_fingerprint
+        from backend.historical_intelligence.adaptive_similarity import historical_management_recommendation
+
+        # The historical backfill corpus stores strategy identity via normalize_strategy_id
+        # (canonical lowercase, e.g. "mtfai1") -- TradeCase.strategy_id comes straight from the
+        # raw order comment and is frequently uppercase ("MTFAI1"). Without normalizing here,
+        # find_similar_states'/adaptive_similarity's hard strategy-match filter never matches a
+        # real backfilled state even when one genuinely exists for that strategy.
+        strategy_id = normalize_strategy_id(case.strategy_id)
+        min_effective_sample = float(params.get("min_effective_sample", 20))
+        for milestone_r in (0.25, 0.5, 0.75, 1.0, 1.5, 2.0):
+            hit = _first_timeline(timeline, lambda row, m=milestone_r: float(row.get("r") or 0) >= m)
+            if not hit:
+                continue
+            try:
+                elapsed_seconds = (datetime.fromisoformat(hit["timestamp"]) - case.entry_time).total_seconds()
+            except Exception:
+                elapsed_seconds = None
+            query_fields = build_state_fingerprint(
+                strategy=strategy_id, symbol=case.symbol, direction=case.direction,
+                original_regime=None, current_regime=hit.get("regime"), current_r=float(hit.get("r") or 0),
+                max_achieved_r=float(hit.get("mfe_r") or 0), min_achieved_r=float(hit.get("mae_r") or 0),
+                elapsed_seconds=elapsed_seconds, is_at_or_beyond_breakeven=float(hit.get("r") or 0) >= 0,
+                is_trailing_action=False,
+            )
+            try:
+                stats = adaptive_cache.cached_weighted_state_statistics(strategy=strategy_id, symbol=case.symbol, direction=case.direction, query_fields=query_fields)
+                recommendation = historical_management_recommendation(stats, min_effective_sample=min_effective_sample)
+            except Exception:
+                recommendation = "HIST_INTEL_INSUFFICIENT"
+            if recommendation in ("LIGHT_PROTECTION", "PROTECT_TRAIL_EXIT"):
+                exit_row = hit
+                exit_r = float(hit.get("r") or 0)
+                action = "HISTORICAL_ANALOG_PROTECT_SHADOW" if recommendation == "PROTECT_TRAIL_EXIT" else "HISTORICAL_ANALOG_LIGHT_PROTECTION_SHADOW"
+                reason = f"historical_analog_recommendation={recommendation}_at_r={milestone_r}"
+                break
     hypothetical_pnl = _pnl_from_r(case, exit_r)
     actual_pnl = case.actual_pnl
     difference = hypothetical_pnl - actual_pnl
@@ -3169,7 +3228,21 @@ async def _replay_candles(symbol: str, timeframe: str, entry_time: datetime | No
 
     if entry_time is None:
         return []
+    # Real, measured finding (Adaptive-Historical-Intelligence-Backfill directive): ~83% of real
+    # closed positions with deal data carry a CORRUPTED AdaptivePositionStateORM.timeframe value
+    # (e.g. "0415", "2215" -- HH:MM-shaped strings, not MT5 timeframe codes; root cause traced to
+    # _lineage()/_parse_bsm_comment()'s order-comment parsing, a separate, pre-existing bug in
+    # the position-sync path, out of scope to fix here). Passed through unchanged, `tf` would
+    # never match any stored MT5CandleRevisionORM/MT5CanonicalCandleORM row below (timeframe is
+    # an exact-match filter), so every one of those trades silently replayed as ordered=[] --
+    # this is the SAME reason the live, already-deployed auto-replay counterfactual engine has
+    # been unable to replay most of the closed-trade corpus, not something new. Falls back to
+    # "M5" -- the SAME fallback both call sites already use for a missing/empty timeframe --
+    # whenever the stored value isn't one of the recognized MT5 codes, rather than silently
+    # querying for a value that can never match.
     tf = timeframe.upper()
+    if tf not in _TIMEFRAME_MINUTES:
+        tf = "M5"
     broker_symbol = symbol.upper()
     minutes = _TIMEFRAME_MINUTES.get(tf, 5)
     lead_in = timedelta(minutes=minutes * 30)  # ~30 bars of pre-entry context, same intent as the old count padding

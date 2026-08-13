@@ -458,6 +458,16 @@ class AdaptiveIntelligenceObservationORM(Base):
     probability_round_trip: Mapped[float | None] = mapped_column(Float, nullable=True)
     expected_additional_r: Mapped[float | None] = mapped_column(Float, nullable=True)
 
+    # Adaptive-Historical-Intelligence-Backfill directive, Phase 25: which evidence source this
+    # evaluation actually used (EXACT_PEER_GROUP | SIMILARITY_WEIGHTED -- see
+    # adaptive_intelligence.py's dual-source evaluate_adaptive_intelligence), and how much
+    # evidence that source had, so "was this ever influenced by the historical backfill
+    # specifically" is directly observable rather than inferred.
+    evaluation_source: Mapped[str | None] = mapped_column(String(24), nullable=True, index=True)
+    raw_neighbor_count: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    independent_neighbor_count: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    lookup_latency_ms: Mapped[float | None] = mapped_column(Float, nullable=True)
+
     actual_action_type: Mapped[str] = mapped_column(String(64), nullable=False)
     recommended_action_type: Mapped[str | None] = mapped_column(String(64), nullable=True)
     recommendation_applied: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
@@ -498,3 +508,129 @@ class HistoricalWalkForwardResultORM(Base):
     computed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
 
     __table_args__ = (Index("ix_hwfr_strategy_computed", "anchor_strategy", "computed_at"),)
+
+
+# Adaptive Historical Intelligence backfill (corpus-expansion directive, Phase 2): bumped whenever
+# the STATE reconstruction/milestone-sampling logic changes in a way that could alter which
+# checkpoints get generated or how a state's own fields are computed -- consumers (adaptive_
+# similarity.py) must never silently blend states built under different definitions. NOT bumped
+# for the historical corpus simply growing.
+ADAPTIVE_STATE_MODEL_VERSION = "asm-v1"
+
+
+class HistoricalAdaptiveStateORM(Base):
+    """One row per RECONSTRUCTED intermediate state of a historical trade occurrence (Part 2/3 of
+    the Adaptive Historical Intelligence backfill directive) -- e.g. "this mtfai1 EURUSD LONG
+    trade, replayed from historical_pattern_fingerprints, was at +0.55R with structure intact 40
+    minutes after entry." Deliberately a SEPARATE table from AdaptiveManagementEventORM/
+    AdaptivePositionBaselineORM (which describe REAL, broker-ticket-linked managed positions) --
+    reconstructing a synthetic position_id into those tables would risk real per-account
+    reconciliation/freshness/circuit-breaker logic scanning them ever seeing a fabricated
+    position, which Part 23 explicitly forbids. Field NAMES are chosen to match
+    adaptive_fingerprint.build_state_fingerprint's own output exactly (current_r/max_achieved_r/
+    min_achieved_r/elapsed_seconds/is_at_or_beyond_breakeven/is_trailing_action/current_regime/
+    original_regime/peer_group_hash) so adaptive_similarity.py's existing state_similarity_score
+    and weighted_state_statistics consume historical AND real rows through the IDENTICAL code
+    path -- see adaptive_statistics.py::_collect_historical_rows.
+
+    Built ONLY from information available at `state_time` (Part 2's explicit "no future candle
+    may influence the state itself") -- current_regime/structure/BOS-CHoCH-MSS fields are computed
+    via replay.py's already-no-lookahead-proven bars_as_of/build_strategy_context/analyze_bars,
+    the SAME functions the entry-side replay engine uses, not a second parallel computation."""
+
+    __tablename__ = "historical_adaptive_states"
+
+    state_id: Mapped[str] = mapped_column(String(160), primary_key=True)
+    source_fingerprint_id: Mapped[str] = mapped_column(String(160), nullable=False, index=True)
+    historical_intelligence_version: Mapped[str] = mapped_column(String(32), nullable=False, index=True, default=HISTORICAL_INTELLIGENCE_VERSION)
+    adaptive_state_model_version: Mapped[str] = mapped_column(String(32), nullable=False, index=True, default=ADAPTIVE_STATE_MODEL_VERSION)
+    strategy_version: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+
+    canonical_symbol: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
+    broker_symbol: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+    direction: Mapped[str] = mapped_column(String(16), nullable=False, index=True)
+    strategy: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+
+    original_regime: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    current_regime: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+
+    state_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
+    current_r: Mapped[float | None] = mapped_column(Float, nullable=True)
+    max_achieved_r: Mapped[float | None] = mapped_column(Float, nullable=True)  # MFE up to T
+    min_achieved_r: Mapped[float | None] = mapped_column(Float, nullable=True)  # MAE up to T (negative)
+    elapsed_seconds: Mapped[float | None] = mapped_column(Float, nullable=True)
+    is_at_or_beyond_breakeven: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    # Always False: no real trailing-stop history exists for a synthetic historical checkpoint --
+    # never fabricated as True.
+    is_trailing_action: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+
+    # Part 3: which checkpoint rule produced this row -- R_0_25/R_0_50/R_0_75/R_1_00/R_1_50/
+    # R_2_00/ADVERSE_MOVE/GIVEBACK/STRUCTURE_BREAK/REGIME_CHANGE. Never one row per bar.
+    milestone_label: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
+    # Part 6's explicit giveback distinction: max_achieved_r (MFE-to-T) minus current_r. A trade
+    # at +0.55R with MFE +0.82R (giveback 0.27) is a materially different state than +0.55R with
+    # MFE +0.56R (giveback 0.01) -- this field makes that distinction queryable/weightable
+    # directly rather than requiring every consumer to re-derive it from two other columns.
+    giveback_from_mfe_r: Mapped[float | None] = mapped_column(Float, nullable=True)
+
+    structure_intact: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    bos_against_trade: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    choch_against_trade: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    mss_against_trade: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    atr_regime: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    session: Mapped[str | None] = mapped_column(String(32), nullable=True, index=True)
+
+    peer_group_hash: Mapped[str] = mapped_column(String(64), nullable=False, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
+
+    __table_args__ = (
+        UniqueConstraint("source_fingerprint_id", "milestone_label", "adaptive_state_model_version", name="uq_has_fingerprint_milestone_version"),
+        Index("ix_has_strategy_symbol_dir", "strategy", "canonical_symbol", "direction"),
+    )
+
+
+class HistoricalAdaptiveOutcomeORM(Base):
+    """Resolution of "what happened AFTER this historical state" (Part 5) -- one row per
+    HistoricalAdaptiveStateORM, upserted by state_id. Column names deliberately mirror
+    AdaptiveManagerCounterfactualORM's post_exit_* fields EXACTLY (post_exit_reached_plus_1r/
+    post_exit_reversed_strongly/post_exit_additional_r_available/post_exit_mfe_r/post_exit_mae_r/
+    post_exit_status) so adaptive_similarity.py's _weighted_probability/weighted_state_statistics
+    read historical and real rows through the SAME getattr() calls, with zero special-casing --
+    genuine reuse, not a parallel statistics implementation. "post_exit" here means "after this
+    intermediate state", not "after the real position was closed" (there is no close for a
+    mid-trade historical checkpoint) -- the semantics (additional R available FROM this point
+    forward) are otherwise identical."""
+
+    __tablename__ = "historical_adaptive_outcomes"
+
+    outcome_id: Mapped[str] = mapped_column(String(160), primary_key=True)
+    state_id: Mapped[str] = mapped_column(String(160), nullable=False, index=True)
+
+    post_exit_status: Mapped[str] = mapped_column(String(24), nullable=False, default="PENDING", index=True)
+    post_exit_reached_original_tp: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    post_exit_reached_plus_1r: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    post_exit_reversed_strongly: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    post_exit_would_have_hit_original_sl: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    post_exit_mfe_r: Mapped[float | None] = mapped_column(Float, nullable=True)
+    post_exit_mae_r: Mapped[float | None] = mapped_column(Float, nullable=True)
+    post_exit_additional_r_available: Mapped[float | None] = mapped_column(Float, nullable=True)
+    post_exit_time_to_continuation_seconds: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    post_exit_time_to_reversal_seconds: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    post_exit_classification: Mapped[str | None] = mapped_column(String(32), nullable=True)
+
+    # Additional, finer milestone booleans this backfill can afford to compute (Part 5) that the
+    # real-position resolver doesn't track -- purely additive, never read by the real-position
+    # code path.
+    reached_plus_0_25r_additional: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    reached_plus_0_5r_additional: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    reached_plus_0_75r_additional: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    reached_plus_1_5r_additional: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    reached_plus_2r_additional: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    round_trip_to_breakeven: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    round_trip_to_loss: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    final_r: Mapped[float | None] = mapped_column(Float, nullable=True)  # eventual static outcome for the whole trade
+
+    data_quality: Mapped[str | None] = mapped_column(String(24), nullable=True)
+    bars_scanned: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    resolved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)

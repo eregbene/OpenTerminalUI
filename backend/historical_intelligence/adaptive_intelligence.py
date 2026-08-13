@@ -28,10 +28,10 @@ from __future__ import annotations
 
 import hashlib
 import logging
+import time
 from datetime import datetime, timezone
 from typing import Any
 
-from backend.historical_intelligence import adaptive_statistics
 from backend.historical_intelligence.adaptive_fingerprint import build_state_fingerprint
 from backend.historical_intelligence.modes import demo_active_enabled
 from backend.historical_intelligence.orm import AdaptiveIntelligenceObservationORM
@@ -71,8 +71,20 @@ def evaluate_adaptive_intelligence(
     elapsed_seconds: float | None, is_at_or_beyond_breakeven: bool, is_trailing_action: bool,
     actual_action_type: str,
 ) -> dict[str, Any]:
-    """Pure-ish (one Postgres aggregate read via adaptive_statistics) evaluation -- no broker
-    calls, never mutates AdaptivePositionStateORM or any operational table."""
+    """Pure-ish (one or two Postgres aggregate reads) evaluation -- no broker calls, never
+    mutates AdaptivePositionStateORM or any operational table.
+
+    Dual-source (Adaptive-Historical-Intelligence-Backfill directive, Phase 7/19/24 -- mirrors
+    entry_intelligence.py's own EXACT_PEER_GROUP / SIMILARITY_WEIGHTED pattern exactly, applied
+    here for the first time): tries the EXACT peer-group hash first (adaptive_statistics.
+    state_statistics, real-managed-positions only, unchanged); if that doesn't clear the SAME,
+    UNCHANGED reliability/sample-size bar, falls back to the weighted multi-neighbor model
+    (adaptive_similarity.weighted_state_statistics, real + historical-backfilled states merged).
+    The threshold itself (_MIN_SAMPLE_FOR_RECOMMENDATION / reliability in _RELIABLE_LEVELS) is
+    NEVER changed by this fallback -- only which evidence source is checked against it. This is
+    the mechanism that lets the historical backfill's evidence volume actually reach a live
+    recommendation once it's real and reliable, without touching the gate itself."""
+    t0 = time.perf_counter()
     try:
         if not demo_active_enabled():
             return {"status": "UNAVAILABLE", "reason": "HISTORICAL_INTELLIGENCE_MODE_NOT_DEMO_ACTIVE", "recommended_action_type": None}
@@ -83,24 +95,64 @@ def evaluate_adaptive_intelligence(
             is_at_or_beyond_breakeven=is_at_or_beyond_breakeven, is_trailing_action=is_trailing_action,
         )
         peer_group_hash = fields["peer_group_hash"]
-        stats = adaptive_statistics.state_statistics(peer_group_hash)
-        reliability = stats.get("reliability")
-        sample_size = stats.get("resolved_sample_size") or 0
+        from backend.historical_intelligence import adaptive_cache
 
-        result = {
-            "status": "EVALUATED", "reason": None, "reliability": reliability, "resolved_sample_size": sample_size,
-            "probability_reach_original_tp": stats.get("probability_reach_original_tp"),
-            "probability_reach_plus_1r": stats.get("probability_reach_plus_1r"),
-            "probability_reversal": stats.get("probability_reversal"),
-            "probability_round_trip": stats.get("probability_round_trip"),
-            "expected_additional_r": stats.get("expected_additional_r"),
-            "peer_group_hash": peer_group_hash, "recommended_action_type": None,
-        }
-        if reliability not in _RELIABLE_LEVELS or sample_size < _MIN_SAMPLE_FOR_RECOMMENDATION:
+        exact_stats = adaptive_cache.cached_exact_state_statistics(peer_group_hash)
+        exact_reliability = exact_stats.get("reliability")
+        exact_sample_size = exact_stats.get("resolved_sample_size") or 0
+        exact_reliable = exact_reliability in _RELIABLE_LEVELS and exact_sample_size >= _MIN_SAMPLE_FOR_RECOMMENDATION
+
+        similarity_stats = None
+        if not exact_reliable:
+            from backend.historical_intelligence import adaptive_cache
+
+            # Redis-fronted (Phase 21/22): evaluate_adaptive_intelligence runs inside
+            # asyncio.to_thread (see service.py's call site), so this uses the sync-Redis cache
+            # -- see adaptive_cache.py's docstring for why. A cache hit here is the "low-
+            # millisecond" live path the backfill directive targets; a miss still falls through
+            # to the SAME Postgres merge+dedup+score computation as before.
+            similarity_stats = adaptive_cache.cached_weighted_state_statistics(strategy=strategy, symbol=symbol, direction=direction, query_fields=fields)
+
+        if exact_reliable or similarity_stats is None or similarity_stats.get("status") != "OK":
+            evaluation_source = "EXACT_PEER_GROUP"
+            reliability = exact_reliability
+            sample_size = exact_sample_size
+            result = {
+                "status": "EVALUATED", "reason": None, "evaluation_source": evaluation_source, "reliability": reliability, "resolved_sample_size": sample_size,
+                "raw_neighbor_count": None, "independent_neighbor_count": None,
+                "probability_reach_original_tp": exact_stats.get("probability_reach_original_tp"),
+                "probability_reach_plus_1r": exact_stats.get("probability_reach_plus_1r"),
+                "probability_reversal": exact_stats.get("probability_reversal"),
+                "probability_round_trip": exact_stats.get("probability_round_trip"),
+                "expected_additional_r": exact_stats.get("expected_additional_r"),
+                "peer_group_hash": peer_group_hash, "recommended_action_type": None,
+            }
+            reliable_enough = exact_reliable
+            stats_for_recommendation = exact_stats
+        else:
+            evaluation_source = "SIMILARITY_WEIGHTED"
+            reliability = similarity_stats.get("reliability")
+            sample_size = int(similarity_stats.get("effective_sample_size") or 0)
+            reliable_enough = reliability in _RELIABLE_LEVELS and (similarity_stats.get("effective_sample_size") or 0) >= _MIN_SAMPLE_FOR_RECOMMENDATION
+            result = {
+                "status": "EVALUATED", "reason": None, "evaluation_source": evaluation_source, "reliability": reliability, "resolved_sample_size": sample_size,
+                "raw_neighbor_count": similarity_stats.get("raw_neighbor_count"), "independent_neighbor_count": similarity_stats.get("independent_neighbor_count"),
+                "probability_reach_original_tp": similarity_stats.get("probability_original_tp"),
+                "probability_reach_plus_1r": similarity_stats.get("probability_reach_plus_1r"),
+                "probability_reversal": similarity_stats.get("probability_reversal"),
+                "probability_round_trip": similarity_stats.get("probability_round_trip"),
+                "expected_additional_r": similarity_stats.get("expected_additional_r"),
+                "peer_group_hash": peer_group_hash, "recommended_action_type": None,
+            }
+            stats_for_recommendation = similarity_stats
+
+        result["lookup_latency_ms"] = round((time.perf_counter() - t0) * 1000, 2)
+
+        if not reliable_enough:
             result.update({"status": "UNAVAILABLE", "reason": "STATE_SAMPLE_INSUFFICIENT"})
             return result
 
-        result["recommended_action_type"] = _recommend_action(stats=stats, current_r=current_r, is_at_or_beyond_breakeven=is_at_or_beyond_breakeven)
+        result["recommended_action_type"] = _recommend_action(stats=stats_for_recommendation, current_r=current_r, is_at_or_beyond_breakeven=is_at_or_beyond_breakeven)
         return result
     except Exception as exc:
         logger.warning("Adaptive historical intelligence evaluation failed for symbol=%s: %s", symbol, exc.__class__.__name__)
@@ -158,6 +210,10 @@ def record_observation(*, cycle_run_id: str, state: Any, action: Any, market_reg
             probability_reversal=evaluation.get("probability_reversal"),
             probability_round_trip=evaluation.get("probability_round_trip"),
             expected_additional_r=evaluation.get("expected_additional_r"),
+            evaluation_source=evaluation.get("evaluation_source"),
+            raw_neighbor_count=evaluation.get("raw_neighbor_count"),
+            independent_neighbor_count=evaluation.get("independent_neighbor_count"),
+            lookup_latency_ms=evaluation.get("lookup_latency_ms"),
             actual_action_type=action.action_type, recommended_action_type=evaluation.get("recommended_action_type"),
             recommendation_applied=False, peer_group_hash=evaluation.get("peer_group_hash"),
             created_at=datetime.now(timezone.utc),

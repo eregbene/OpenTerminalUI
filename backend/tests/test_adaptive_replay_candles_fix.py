@@ -117,6 +117,48 @@ def test_replay_candles_returns_empty_without_entry_time(monkeypatch):
     assert asyncio.run(adaptive_service._replay_candles("EURUSD", "M5", None, EXIT)) == []
 
 
+def test_replay_candles_falls_back_to_m5_for_a_corrupted_timeframe_value(monkeypatch):
+    """Real, measured finding (Adaptive-Historical-Intelligence-Backfill directive): ~83% of
+    real closed positions with deal data carry a CORRUPTED AdaptivePositionStateORM.timeframe
+    value (e.g. "0415", "2215" -- HH:MM-shaped strings from a pre-existing order-comment-parsing
+    bug in _lineage()/_parse_bsm_comment(), not an MT5 timeframe code). Passed straight through
+    to the exact-match `timeframe == tf` filter, it can never match a stored M5 candle row,
+    silently returning ordered=[] for the whole replay with no exception -- this is why the
+    live, already-deployed auto-replay counterfactual engine has been unable to replay most of
+    the closed-trade corpus. Fixed: a value that isn't a recognized MT5 timeframe code falls
+    back to "M5", the same fallback both call sites already use for a missing/empty value."""
+    SessionLocal = _session_factory(monkeypatch)
+    with SessionLocal() as db:
+        _revision(db, bar_time=ENTRY, high=1.1010, low=1.0995, close=1.1005, idx=1)
+        _revision(db, bar_time=EXIT, high=1.1020, low=1.1005, close=1.1010, idx=2)
+        db.commit()
+
+    import asyncio
+
+    result = asyncio.run(adaptive_service._replay_candles("EURUSD", "0415", ENTRY, EXIT))
+    assert len(result) == 2  # matched the real M5 rows despite the corrupted "0415" timeframe value
+
+
+def test_replay_candles_still_respects_a_genuinely_different_valid_timeframe(monkeypatch):
+    """The M5 fallback must only kick in for UNRECOGNIZED values -- a real, valid non-M5
+    timeframe (e.g. M15) must still be honored, never silently coerced to M5."""
+    SessionLocal = _session_factory(monkeypatch)
+    with SessionLocal() as db:
+        db.add(MT5CandleRevisionORM(
+            revision_id="REV_M15", provider="MT5", canonical_symbol="EURUSD", broker_symbol="EURUSD", timeframe="M15",
+            bar_timestamp=ENTRY, bar_timestamp_utc=ENTRY, observed_at=ENTRY, revision_number=1,
+            open=1.1000, high=1.1010, low=1.0995, close=1.1005, finalized=True,
+        ))
+        _revision(db, bar_time=ENTRY, high=1.2000, low=1.1990, close=1.1995, idx=99)  # a real M5 row at the same instant -- must NOT be returned
+        db.commit()
+
+    import asyncio
+
+    result = asyncio.run(adaptive_service._replay_candles("EURUSD", "M15", ENTRY, EXIT))
+    assert len(result) == 1
+    assert abs(result[0]["high"] - 1.1010) < 1e-9  # the M15 row, not the M5 decoy
+
+
 def test_reconstruct_path_now_computes_real_nonzero_mfe(monkeypatch):
     """End-to-end proof: with real historical candles available, reconstruct_path() (the
     function whose output was silently always 0.0) now produces a genuine, non-zero

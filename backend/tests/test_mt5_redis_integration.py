@@ -721,16 +721,21 @@ def test_circuit_breaker_sync_client_is_a_single_shared_instance(monkeypatch):
 
 
 def test_no_other_sync_redis_client_exists_to_consolidate_with():
-    """Verifies the documented conclusion in circuit_breaker.py's module docstring: it is the
-    ONLY sync redis.Redis usage anywhere in the backend, so there is nothing left to
-    consolidate. If this ever fails, a genuine consolidation opportunity has appeared and the
-    module docstring's claim needs revisiting."""
+    """Verifies the documented, deliberate exceptions to "one Redis subsystem, not two" are
+    exactly the KNOWN ones -- circuit_breaker.py (Redis integration Part 10) and
+    historical_intelligence/adaptive_cache.py (Adaptive-Historical-Intelligence-Backfill
+    directive, Phase 21/22 -- evaluate_adaptive_intelligence runs inside asyncio.to_thread, a
+    plain OS thread with no event loop, so it cannot await the shared async client either; see
+    that module's docstring for the same justification circuit_breaker.py already established).
+    If this ever fails on a THIRD file, a genuine consolidation opportunity has appeared and
+    both modules' docstrings need revisiting."""
     import pathlib
 
     backend_root = pathlib.Path(__file__).resolve().parents[1]
+    known_sync_redis_modules = {"circuit_breaker.py", "adaptive_cache.py"}
     hits = []
     for path in backend_root.rglob("*.py"):
-        if path.name == "test_mt5_redis_integration.py" or "circuit_breaker.py" == path.name:
+        if path.name == "test_mt5_redis_integration.py" or path.name in known_sync_redis_modules:
             continue
         try:
             text = path.read_text(encoding="utf-8")

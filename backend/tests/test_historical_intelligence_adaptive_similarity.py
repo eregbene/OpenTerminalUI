@@ -6,7 +6,7 @@ NO_GOOD_HISTORICAL_ANALOG when nothing qualifies, and the recommendation functio
 returns an existing action-family label (never invents a new one)."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -32,9 +32,14 @@ def _seed(db, *, idx: int, strategy: str = "mtfai1", symbol: str = "EURUSD", dir
           regime: str = "trending_up", current_r: float = 0.6, max_achieved_r: float = 0.8,
           post_exit_status: str = "RESOLVED", reached_plus_1r: bool = True, reversed_strongly: bool = False, additional_r: float = 0.3):
     position_id = f"POS{idx}"
-    db.add(AdaptivePositionBaselineORM(position_id=position_id, account_id="demo_10k", symbol=symbol, direction=direction, original_strategy=strategy, created_at=NOW))
+    # created_at spaced 7h apart per idx (never < the module's 6h temporal-cluster dedup window,
+    # for any pair of indices) -- adaptive_similarity.py's new Phase 4 dedup correctly treats
+    # same-timestamp fixture rows as one contiguous market move, which these tests deliberately
+    # want to remain independent, distinguishable neighbors.
+    row_time = NOW + timedelta(hours=7 * idx)
+    db.add(AdaptivePositionBaselineORM(position_id=position_id, account_id="demo_10k", symbol=symbol, direction=direction, original_strategy=strategy, created_at=row_time))
     db.add(AdaptiveManagementEventORM(
-        event_id=f"EVT{idx}", account_id="demo_10k", cycle_run_id="C1", created_at=NOW, position_id=position_id, symbol=symbol, direction=direction,
+        event_id=f"EVT{idx}", account_id="demo_10k", cycle_run_id="C1", created_at=row_time, position_id=position_id, symbol=symbol, direction=direction,
         current_r=current_r, max_achieved_r=max_achieved_r, min_achieved_r=0.0, action_type="HOLD", action_category="NO_ACTION", action_status="OK",
         market_regime=regime, is_at_or_beyond_breakeven=False, is_trailing_action=False, strategy=strategy,
     ))
