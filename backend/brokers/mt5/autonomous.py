@@ -636,6 +636,55 @@ class MT5AutonomousTradingService:
             self._record_cycle(result, dry_run=dry_run)
             return result
 
+    async def _apply_historical_intelligence(self, candidate: dict[str, Any], confidence: dict[str, Any]) -> None:
+        """Historical-Intelligence-Semantics-Audit directive: the live-influencing evaluation
+        path (historical_intelligence.entry_intelligence.evaluate_historical_intelligence) was
+        fully built, tested, and documented as "called from the live screening path" -- but had
+        NO actual caller anywhere in production; the only real caller was record_observations()
+        (backend/historical_intelligence/entry_intelligence.py), which runs strictly AFTER a
+        cycle's decision is already finalized, for persistence only. This is the fix: called
+        HERE, before the confidence-threshold eligibility check below, so real POSITIVE evidence
+        can nudge a borderline candidate's score up, real NEGATIVE evidence can nudge it down or
+        (for the strongest, most reliable negative signal) flag it for exclusion the same way
+        BELOW_CONFIDENCE_THRESHOLD already does -- and MIXED/INSUFFICIENT evidence changes
+        nothing, exactly as entry_intelligence.py's own gating already guarantees.
+
+        Bounded, observation-safe, and never a hard override: the adjustment is capped at
+        +/-10 points (entry_intelligence._MAX_LIVE_RANKING_ADJUSTMENT) on a confidence score
+        that itself has an independent threshold gate, and a REJECT verdict only ever ADDS a
+        rejection reason -- it never bypasses the confidence check, portfolio/risk blockers,
+        FTMO limits, or execution safety, all of which run downstream of this, unchanged. Any
+        failure here (missing context, Redis/Postgres error, mode not DEMO_ACTIVE) degrades to
+        a strict no-op, matching entry_intelligence.py's own fail-open contract -- this method
+        never raises."""
+        try:
+            from backend.historical_intelligence.entry_intelligence import evaluate_historical_intelligence
+
+            broker_symbol = candidate.get("broker_symbol")
+            cached_ctx = self._cycle_context_cache.get(broker_symbol)
+            context = candidate.get("context") or {}
+            strategy_id = context.get("strategy_id")
+            if cached_ctx is None or not strategy_id:
+                return
+            evaluation = await evaluate_historical_intelligence(
+                ctx=cached_ctx, strategy_id=str(strategy_id),
+                contributing_strategies=list(context.get("contributing_strategies") or [strategy_id]),
+                strategy_family=context.get("strategy_family"),
+                entry=float(candidate["entry"]), stop_loss=float(candidate["stop_loss"]), take_profit=float(candidate["take_profit"]),
+                entry_time=utcnow(), confidence_band=confidence.get("band"),
+            )
+        except Exception as exc:
+            logger.warning("Historical intelligence ranking evaluation failed for %s (non-fatal, candidate unaffected): %s", candidate.get("broker_symbol"), exc.__class__.__name__)
+            return
+
+        candidate["historical_intelligence"] = evaluation
+        adjustment = float(evaluation.get("ranking_adjustment") or 0.0)
+        if adjustment:
+            confidence["overall_score"] = max(0.0, min(100.0, confidence["overall_score"] + adjustment))
+            candidate["ranking_score"] = confidence["overall_score"]
+        if evaluation.get("defer_reject_reason"):
+            candidate["rejection_reasons"] = sorted(set((candidate.get("rejection_reasons") or []) + ["HISTORICAL_EVIDENCE_STRONGLY_NEGATIVE"]))
+
     async def _rank_candidates_by_confidence(self, cycle_id: str, top_k: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Deep-scores each of the top-K screened candidates (SMC/ICT structure score,
         recorded symbol/strategy performance, portfolio correlation) into a deterministic
@@ -669,6 +718,7 @@ class MT5AutonomousTradingService:
             )
             candidate["trade_confidence"] = confidence
             candidate["ranking_score"] = confidence["overall_score"]
+            await self._apply_historical_intelligence(candidate, confidence)
             if not is_autonomous_eligible(confidence["overall_score"], min_trade_confidence=self.config.min_trade_confidence):
                 candidate["rejection_reasons"] = sorted(set((candidate.get("rejection_reasons") or []) + ["BELOW_CONFIDENCE_THRESHOLD"]))
             scored.append(candidate)

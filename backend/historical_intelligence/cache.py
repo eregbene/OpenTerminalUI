@@ -155,6 +155,74 @@ async def cached_similarity_statistics(
     return {**result, "_cache_source": "postgres"}
 
 
+_GATE_TTL_SECONDS = 120  # Historical-Intelligence-Semantics-Audit directive: real, measured
+# finding -- these three gate checks (trust/edge-stability/combination-edge) are simple PK/
+# indexed-order-by-limit-1 reads, individually cheap, but under real concurrent Postgres load
+# (a background corpus worker writing continuously) a fresh SessionLocal() per call measured
+# ~300ms, and this now runs once per top-K candidate on EVERY live ranking cycle (previously
+# zero real callers existed at all -- see entry_intelligence.py's own history). A short TTL is
+# appropriate: these results only change when someone re-runs trust/walk-forward recomputation,
+# not per-cycle, so a cache miss is rare in steady state and a stale hit is bounded to 2 minutes.
+
+
+def _gate_key(kind: str, *parts: str) -> str:
+    return f"{KEY_PREFIX}:gate:{kind}:" + ":".join(str(p) for p in parts)
+
+
+async def cached_trust_state(strategy_id: str, *, ttl_seconds: int = _GATE_TTL_SECONDS) -> dict[str, Any]:
+    from backend.historical_intelligence import trust_gating
+
+    key = _gate_key("trust", strategy_id)
+    try:
+        cached = await cache_get(key)
+        if cached is not None:
+            return cached
+    except Exception as exc:
+        logger.debug("Trust-state Redis cache_get failed, falling back to Postgres: %s", exc.__class__.__name__)
+    result = trust_gating.get_trust_state(strategy_id)
+    try:
+        await cache_set(key, result, ttl_seconds)
+    except Exception as exc:
+        logger.debug("Trust-state Redis cache_set failed (result still returned): %s", exc.__class__.__name__)
+    return result
+
+
+async def cached_edge_stability(anchor_strategy: str, *, ttl_seconds: int = _GATE_TTL_SECONDS) -> dict[str, Any]:
+    from backend.historical_intelligence import walk_forward
+
+    key = _gate_key("edge", anchor_strategy)
+    try:
+        cached = await cache_get(key)
+        if cached is not None:
+            return cached
+    except Exception as exc:
+        logger.debug("Edge-stability Redis cache_get failed, falling back to Postgres: %s", exc.__class__.__name__)
+    result = walk_forward.latest_edge_stability(anchor_strategy=anchor_strategy)
+    try:
+        await cache_set(key, result, ttl_seconds)
+    except Exception as exc:
+        logger.debug("Edge-stability Redis cache_set failed (result still returned): %s", exc.__class__.__name__)
+    return result
+
+
+async def cached_combination_edge_stability(anchor_strategy: str, canonical_symbol: str, *, ttl_seconds: int = _GATE_TTL_SECONDS) -> dict[str, Any]:
+    from backend.historical_intelligence import walk_forward
+
+    key = _gate_key("combo_edge", anchor_strategy, canonical_symbol.upper())
+    try:
+        cached = await cache_get(key)
+        if cached is not None:
+            return cached
+    except Exception as exc:
+        logger.debug("Combination-edge Redis cache_get failed, falling back to Postgres: %s", exc.__class__.__name__)
+    result = walk_forward.latest_edge_stability_for_symbol(anchor_strategy=anchor_strategy, canonical_symbol=canonical_symbol)
+    try:
+        await cache_set(key, result, ttl_seconds)
+    except Exception as exc:
+        logger.debug("Combination-edge Redis cache_set failed (result still returned): %s", exc.__class__.__name__)
+    return result
+
+
 async def warm_cache(*, strategy_version: str, fingerprint_version: str = FINGERPRINT_VERSION) -> int:
     """Precomputes and populates Redis for every DISTINCT peer_group_hash currently in
     historical_pattern_fingerprints under this version (Workstream 11/15 -- "do not recompute

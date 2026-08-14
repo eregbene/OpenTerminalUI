@@ -496,6 +496,11 @@ class HistoricalWalkForwardResultORM(Base):
     peer_group_hash: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
 
     edge_stability: Mapped[str] = mapped_column(String(24), nullable=False, index=True)
+    # Sign-agreement classification (walk_forward.classify_directional_edge) -- separate question
+    # from edge_stability's retention-fraction logic: POSITIVE_EDGE/NEGATIVE_EDGE/NEUTRAL_EDGE/
+    # UNSTABLE/INSUFFICIENT. Lets a reliably, reproducibly NEGATIVE strategy still be distinguished
+    # from a genuinely unstable one, instead of both collapsing into FAILED_OOS.
+    directional_edge: Mapped[str | None] = mapped_column(String(24), nullable=True, index=True)
     total_n: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     train_n: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     oos_n: Mapped[int] = mapped_column(Integer, nullable=False, default=0)

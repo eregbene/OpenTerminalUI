@@ -41,8 +41,53 @@ EDGE_DEGRADED = "DEGRADED"
 EDGE_FAILED_OOS = "FAILED_OOS"
 EDGE_INSUFFICIENT_SAMPLE = "INSUFFICIENT_SAMPLE"
 
+# Directional-edge taxonomy (Historical-Intelligence-Semantics-Audit directive): classify_edge_
+# stability's own STRONG/ACCEPTABLE/DEGRADED/FAILED_OOS vocabulary is a RETENTION metric ("did a
+# positive in-sample edge survive OOS") -- it has no way to say "no positive edge ever existed,
+# but the strategy is RELIABLY, REPRODUCIBLY negative in both windows", which is real, useful,
+# actionable intelligence (Part 3: do not collapse "reliably negative" and "unstable/no signal"
+# into the same FAILED_OOS label). This is a SEPARATE, additive classification over the exact
+# same train/oos expectancy pair -- classify_edge_stability's own contract and every existing
+# caller of it are unchanged.
+DIRECTIONAL_POSITIVE_EDGE = "POSITIVE_EDGE"
+DIRECTIONAL_NEGATIVE_EDGE = "NEGATIVE_EDGE"
+DIRECTIONAL_NEUTRAL_EDGE = "NEUTRAL_EDGE"
+DIRECTIONAL_UNSTABLE = "UNSTABLE"
+DIRECTIONAL_INSUFFICIENT = "INSUFFICIENT"
+# Below this magnitude (in R), an expectancy is treated as "practically zero" for directional
+# classification purposes -- neither a real edge to lean on nor a real pattern to avoid.
+_NEUTRAL_EXPECTANCY_BAND_R = 0.05
+
 _MIN_TRAIN_SAMPLE = 20
 _MIN_OOS_SAMPLE = 10
+
+
+def classify_directional_edge(*, train: dict[str, Any], oos: dict[str, Any], min_train: int = _MIN_TRAIN_SAMPLE, min_oos: int = _MIN_OOS_SAMPLE, neutral_band_r: float = _NEUTRAL_EXPECTANCY_BAND_R) -> str:
+    """Sign-agreement classification, deliberately separate from classify_edge_stability's
+    retention-fraction logic above. Both windows must independently clear the SAME sample-size
+    floor as the retention classifier -- this is not a lower bar, only a different QUESTION asked
+    of the identical evidence:
+      - both windows clearly positive (> neutral_band_r)  -> POSITIVE_EDGE
+      - both windows clearly negative (< -neutral_band_r) -> NEGATIVE_EDGE (a reproducible,
+        actionable NEGATIVE pattern -- real intelligence, not "no information")
+      - both windows inside the neutral band              -> NEUTRAL_EDGE
+      - the windows disagree in sign / straddle the band   -> UNSTABLE (genuinely no reliable
+        directional conclusion -- this is the ONLY case that should block candidate-level
+        evidence outright, not "not a positive retained edge")
+    """
+    if train["n"] < min_train or oos["n"] < min_oos or train["expectancy_r"] is None or oos["expectancy_r"] is None:
+        return DIRECTIONAL_INSUFFICIENT
+    train_r = train["expectancy_r"]
+    oos_r = oos["expectancy_r"]
+    train_sign = 1 if train_r > neutral_band_r else (-1 if train_r < -neutral_band_r else 0)
+    oos_sign = 1 if oos_r > neutral_band_r else (-1 if oos_r < -neutral_band_r else 0)
+    if train_sign == 1 and oos_sign == 1:
+        return DIRECTIONAL_POSITIVE_EDGE
+    if train_sign == -1 and oos_sign == -1:
+        return DIRECTIONAL_NEGATIVE_EDGE
+    if train_sign == 0 and oos_sign == 0:
+        return DIRECTIONAL_NEUTRAL_EDGE
+    return DIRECTIONAL_UNSTABLE
 
 
 def _stats_for_rows(outcomes: list[HistoricalSetupOutcomeORM]) -> dict[str, Any]:
@@ -138,7 +183,7 @@ def run_walk_forward(
     rows = _fetch_trusted_rows(anchor_strategy=anchor_strategy, canonical_symbol=canonical_symbol, regime=regime, session=session, confidence_band=confidence_band, peer_group_hash=peer_group_hash)
     total_n = len(rows)
     if total_n == 0:
-        return {"edge_stability": EDGE_INSUFFICIENT_SAMPLE, "total_n": 0, "train": _stats_for_rows([]), "oos": _stats_for_rows([]), "filters": _filters_dict(anchor_strategy, canonical_symbol, regime, session, confidence_band, peer_group_hash)}
+        return {"edge_stability": EDGE_INSUFFICIENT_SAMPLE, "directional_edge": DIRECTIONAL_INSUFFICIENT, "total_n": 0, "train": _stats_for_rows([]), "oos": _stats_for_rows([]), "filters": _filters_dict(anchor_strategy, canonical_symbol, regime, session, confidence_band, peer_group_hash)}
 
     split_index = int(total_n * train_fraction)
     split_index = max(1, min(total_n - 1, split_index))
@@ -151,6 +196,7 @@ def run_walk_forward(
     train_stats = _stats_for_rows(train_rows)
     oos_stats = _stats_for_rows(oos_rows)
     edge_stability = classify_edge_stability(train=train_stats, oos=oos_stats)
+    directional_edge = classify_directional_edge(train=train_stats, oos=oos_stats)
 
     degradation_pct = None
     if train_stats["expectancy_r"] not in (None, 0) and oos_stats["expectancy_r"] is not None:
@@ -158,6 +204,7 @@ def run_walk_forward(
 
     result = {
         "edge_stability": edge_stability,
+        "directional_edge": directional_edge,
         "total_n": total_n,
         "purged_n": purged_count,
         "split_time": split_time.isoformat(),
@@ -184,6 +231,7 @@ def _persist(*, anchor_strategy, canonical_symbol, regime, session, confidence_b
             row = HistoricalWalkForwardResultORM(result_id=result_id, anchor_strategy=anchor_strategy, canonical_symbol=canonical_symbol, regime=regime, session=session, confidence_band=confidence_band, peer_group_hash=peer_group_hash)
             db.add(row)
         row.edge_stability = result["edge_stability"]
+        row.directional_edge = result.get("directional_edge")
         row.total_n = result["total_n"]
         row.train_n = result["train"]["n"]
         row.oos_n = result["oos"]["n"]
@@ -208,8 +256,8 @@ def latest_edge_stability(*, anchor_strategy: str) -> dict[str, Any]:
             .first()
         )
     if row is None:
-        return {"edge_stability": EDGE_INSUFFICIENT_SAMPLE, "reason": "no walk-forward run recorded for this strategy yet"}
-    return {"edge_stability": row.edge_stability, "train_n": row.train_n, "oos_n": row.oos_n, "train_expectancy_r": row.train_expectancy_r, "oos_expectancy_r": row.oos_expectancy_r, "degradation_pct": row.degradation_pct, "computed_at": row.computed_at.isoformat()}
+        return {"edge_stability": EDGE_INSUFFICIENT_SAMPLE, "directional_edge": DIRECTIONAL_INSUFFICIENT, "reason": "no walk-forward run recorded for this strategy yet"}
+    return {"edge_stability": row.edge_stability, "directional_edge": row.directional_edge or DIRECTIONAL_INSUFFICIENT, "train_n": row.train_n, "oos_n": row.oos_n, "train_expectancy_r": row.train_expectancy_r, "oos_expectancy_r": row.oos_expectancy_r, "degradation_pct": row.degradation_pct, "computed_at": row.computed_at.isoformat()}
 
 
 def latest_edge_stability_for_symbol(*, anchor_strategy: str, canonical_symbol: str) -> dict[str, Any]:
@@ -234,8 +282,8 @@ def latest_edge_stability_for_symbol(*, anchor_strategy: str, canonical_symbol: 
             .first()
         )
     if row is None:
-        return {"edge_stability": EDGE_INSUFFICIENT_SAMPLE, "reason": "no combination-level walk-forward run recorded for this strategy+symbol pair yet"}
-    return {"edge_stability": row.edge_stability, "train_n": row.train_n, "oos_n": row.oos_n, "train_expectancy_r": row.train_expectancy_r, "oos_expectancy_r": row.oos_expectancy_r, "degradation_pct": row.degradation_pct, "computed_at": row.computed_at.isoformat()}
+        return {"edge_stability": EDGE_INSUFFICIENT_SAMPLE, "directional_edge": DIRECTIONAL_INSUFFICIENT, "reason": "no combination-level walk-forward run recorded for this strategy+symbol pair yet"}
+    return {"edge_stability": row.edge_stability, "directional_edge": row.directional_edge or DIRECTIONAL_INSUFFICIENT, "train_n": row.train_n, "oos_n": row.oos_n, "train_expectancy_r": row.train_expectancy_r, "oos_expectancy_r": row.oos_expectancy_r, "degradation_pct": row.degradation_pct, "computed_at": row.computed_at.isoformat()}
 
 
 def _filters_dict(anchor_strategy, canonical_symbol, regime, session, confidence_band, peer_group_hash) -> dict[str, Any]:

@@ -52,6 +52,14 @@ _RELIABLE_LEVELS = {"USEFUL", "STRONG"}
 # may influence a live decision. FAILED_OOS and DEGRADED are excluded outright; INSUFFICIENT_
 # SAMPLE is ALSO excluded (never assume stability that hasn't been demonstrated).
 _EDGE_STABLE_LEVELS = {"STRONG", "ACCEPTABLE"}
+# Historical-Intelligence-Semantics-Audit directive: the retention-fraction gate above
+# (_EDGE_STABLE_LEVELS) answers "did a positive edge survive OOS" -- it has no way to let a
+# STRATEGY that is reliably, reproducibly NEGATIVE both in-sample and out-of-sample (real,
+# actionable intelligence -- see walk_forward.classify_directional_edge) reach candidate-level
+# evaluation at all, even though such a strategy could legitimately REJECT/DEFER a matching
+# candidate. Only genuinely unreliable/contradictory strategy-level evidence should block
+# candidate-level evaluation outright.
+_DIRECTIONAL_GATE_BLOCKED = {walk_forward.DIRECTIONAL_UNSTABLE, walk_forward.DIRECTIONAL_INSUFFICIENT}
 # Configurable top-K for the multi-neighbor similarity search (section 1 of the analog-
 # intelligence directive) -- kept modest for the live hot path; a larger K can be requested
 # explicitly via similarity.similarity_statistics/find_similar_setups for offline analysis.
@@ -230,18 +238,27 @@ async def evaluate_historical_intelligence(
         if not demo_active_enabled():
             return _unavailable("HISTORICAL_INTELLIGENCE_MODE_NOT_DEMO_ACTIVE")
 
-        trust = trust_gating.get_trust_state(strategy_id)
+        # Redis-fronted (Historical-Intelligence-Semantics-Audit directive, real measured fix):
+        # these three gate reads are individually cheap PK/indexed-limit-1 queries, but a fresh
+        # SessionLocal() per call measured ~300ms under real concurrent Postgres load (a
+        # background corpus worker writing continuously) -- and this now runs once per top-K
+        # candidate on every live ranking cycle. Cached, short TTL (results only change when
+        # trust/walk-forward is recomputed, not per-cycle).
+        trust = await cache.cached_trust_state(strategy_id)
         if trust["trust_state"] != trust_gating.HIST_INTEL_ACTIVE:
             return _unavailable("STRATEGY_REPLAY_UNTRUSTED", trust_state=trust["trust_state"])
 
-        # Third gate (Phase 1 -- walk-forward/OOS): a strategy whose historical edge does not
-        # survive out-of-sample must never influence a live decision, even if replay-trust and
-        # pattern sample size both look fine -- those two say "we can reproduce/measure this
-        # strategy accurately," not "this strategy has a real edge." Read-only lookup of the
-        # latest persisted walk_forward.run_walk_forward result; never recomputed on the hot path.
-        edge = walk_forward.latest_edge_stability(anchor_strategy=strategy_id)
-        if edge["edge_stability"] not in _EDGE_STABLE_LEVELS:
-            return _unavailable("EDGE_NOT_OOS_STABLE", trust_state=trust["trust_state"], edge_stability=edge["edge_stability"])
+        # Third gate (Phase 1 -- walk-forward/OOS), directional-edge form (Historical-
+        # Intelligence-Semantics-Audit directive): a strategy whose OOS evidence is genuinely
+        # UNSTABLE (train/OOS disagree in sign) or INSUFFICIENT must never influence a live
+        # decision -- but a strategy that is reliably, reproducibly NEGATIVE (both windows agree)
+        # is real, actionable intelligence and MAY reach candidate-level evaluation below, where
+        # it can only ever produce RANK_ADJUST/DEFER/REJECT, never a fabricated SUPPORT (see
+        # _historical_score -- it is driven by the candidate's OWN peer-group/similarity stats,
+        # not by this strategy-level label).
+        edge = await cache.cached_edge_stability(strategy_id)
+        if edge["directional_edge"] in _DIRECTIONAL_GATE_BLOCKED:
+            return _unavailable("STRATEGY_EDGE_UNSTABLE_OR_INSUFFICIENT", trust_state=trust["trust_state"], edge_stability=edge["edge_stability"], directional_edge=edge["directional_edge"])
 
         fields = fingerprint_mod.build_fingerprint(
             ctx=ctx, strategy_id=strategy_id, contributing_strategies=contributing_strategies, strategy_family=strategy_family,
@@ -249,15 +266,14 @@ async def evaluate_historical_intelligence(
             entry=entry, stop_loss=stop_loss, take_profit=take_profit, entry_time=entry_time, confidence_band=confidence_band,
         )
 
-        # Combination-level gate (edge-quality investigation, Phase D): a strategy can pass the
-        # STRATEGY-level walk-forward gate above on aggregate while still having a proven-negative
-        # edge on ONE specific symbol (see segment_matrix.py). Strictly additive -- only blocks
-        # when a combination-level run has actually persisted a NEGATIVE_OOS result for this exact
-        # (strategy, symbol) pair; absence of a combination-level result never blocks anything
-        # beyond what the strategy-level gate above already decided.
-        combo_edge = walk_forward.latest_edge_stability_for_symbol(anchor_strategy=strategy_id, canonical_symbol=fields["canonical_symbol"])
-        if combo_edge["edge_stability"] == walk_forward.EDGE_FAILED_OOS:
-            return _unavailable("OOS_EDGE_NEGATIVE", trust_state=trust["trust_state"], edge_stability=edge["edge_stability"], combination_edge_stability=combo_edge["edge_stability"])
+        # Combination-level gate (edge-quality investigation, Phase D), same directional-edge
+        # treatment: a genuinely UNSTABLE/INSUFFICIENT combination-level result still blocks
+        # candidate-level evaluation for that exact (strategy, symbol) pair; a reliably NEGATIVE
+        # combination-level result (e.g. mtfai1+EURUSD+SHORT+REVERSAL) is allowed through so it
+        # can inform a REJECT/DEFER decision downstream instead of being silently discarded.
+        combo_edge = await cache.cached_combination_edge_stability(strategy_id, fields["canonical_symbol"])
+        if combo_edge["directional_edge"] in _DIRECTIONAL_GATE_BLOCKED and combo_edge["directional_edge"] != walk_forward.DIRECTIONAL_INSUFFICIENT:
+            return _unavailable("COMBINATION_EDGE_UNSTABLE", trust_state=trust["trust_state"], edge_stability=edge["edge_stability"], directional_edge=edge["directional_edge"], combination_directional_edge=combo_edge["directional_edge"])
 
         peer_group_hash = fields["peer_group_hash"]
         exact_stats = await cache.cached_pattern_statistics(peer_group_hash, strategy_version=STRATEGY_REPLAY_VERSION)
@@ -311,8 +327,8 @@ def evaluate_historical_intelligence_sync(
             return _unavailable("STRATEGY_REPLAY_UNTRUSTED", trust_state=trust["trust_state"])
 
         edge = walk_forward.latest_edge_stability(anchor_strategy=strategy_id)
-        if edge["edge_stability"] not in _EDGE_STABLE_LEVELS:
-            return _unavailable("EDGE_NOT_OOS_STABLE", trust_state=trust["trust_state"], edge_stability=edge["edge_stability"])
+        if edge["directional_edge"] in _DIRECTIONAL_GATE_BLOCKED:
+            return _unavailable("STRATEGY_EDGE_UNSTABLE_OR_INSUFFICIENT", trust_state=trust["trust_state"], edge_stability=edge["edge_stability"], directional_edge=edge["directional_edge"])
 
         fields = fingerprint_mod.build_fingerprint(
             ctx=ctx, strategy_id=strategy_id, contributing_strategies=contributing_strategies, strategy_family=strategy_family,
@@ -322,8 +338,8 @@ def evaluate_historical_intelligence_sync(
 
         # Combination-level gate -- see the async twin's identical comment above.
         combo_edge = walk_forward.latest_edge_stability_for_symbol(anchor_strategy=strategy_id, canonical_symbol=fields["canonical_symbol"])
-        if combo_edge["edge_stability"] == walk_forward.EDGE_FAILED_OOS:
-            return _unavailable("OOS_EDGE_NEGATIVE", trust_state=trust["trust_state"], edge_stability=edge["edge_stability"], combination_edge_stability=combo_edge["edge_stability"])
+        if combo_edge["directional_edge"] in _DIRECTIONAL_GATE_BLOCKED and combo_edge["directional_edge"] != walk_forward.DIRECTIONAL_INSUFFICIENT:
+            return _unavailable("COMBINATION_EDGE_UNSTABLE", trust_state=trust["trust_state"], edge_stability=edge["edge_stability"], directional_edge=edge["directional_edge"], combination_directional_edge=combo_edge["directional_edge"])
 
         peer_group_hash = fields["peer_group_hash"]
         exact_stats = statistics.pattern_statistics(peer_group_hash, strategy_version=STRATEGY_REPLAY_VERSION)

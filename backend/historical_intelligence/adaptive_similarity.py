@@ -31,6 +31,7 @@ STATE_DIMENSION_WEIGHTS: dict[str, float] = {
     "mfe_bucket": 2.0,
     "current_r_bucket": 1.5,
     "giveback_bucket": 1.5,
+    "symbol": 2.0,
     "session": 1.0,
     "structure_intact": 1.2,
     "structure_against_trade": 1.2,
@@ -38,7 +39,17 @@ STATE_DIMENSION_WEIGHTS: dict[str, float] = {
     "be_state": 1.0,
     "atr_regime": 0.75,
 }
-ADAPTIVE_SIMILARITY_MODEL_VERSION = "adaptive-sim-v1"
+# Adaptive-Historical-Intelligence-Backfill directive, Phase 5: real, chronological OOS test
+# (train->purge->OOS on the SAME adaptive_oos.py methodology, symbol-exact vs strategy+direction
+# pooled across all symbols) showed pooling measurably IMPROVES calibration error at 5 of 6 real
+# milestones (deltas -0.009 to -0.037), not merely raises N -- the directive's explicit bar for
+# using cross-symbol evidence at all ("may ONLY be used if chronological OOS tests show that it
+# improves prediction/calibration... do not enable it merely because it increases N"). symbol
+# moved from a hard SQL/Python filter to a WEIGHTED dimension here: strategy and direction remain
+# hard filters (no evidence yet tests relaxing those), a near-perfect cross-symbol analog
+# (matches every other dimension) scores ~0.88 (above _MIN_SIMILARITY_THRESHOLD), a symbol-only
+# match with nothing else in common scores ~0.12 (below it, correctly excluded).
+ADAPTIVE_SIMILARITY_MODEL_VERSION = "adaptive-sim-v2"
 _MIN_SIMILARITY_THRESHOLD = 0.6
 _DEFAULT_TOP_K = 50
 _SAME_TRADE_DEDUP = True
@@ -149,12 +160,16 @@ def _gather_and_score_neighbors(
     from backend.historical_intelligence.adaptive_statistics import _collect_historical_rows, _collect_rows
 
     real_rows = _collect_rows()
-    historical_rows = _collect_historical_rows(strategy=strategy, symbol=symbol, direction=direction) if include_historical else []
+    # symbol is a WEIGHTED dimension (STATE_DIMENSION_WEIGHTS["symbol"]), not a hard filter --
+    # see that dict's docstring for the real, chronological OOS evidence justifying this.
+    # strategy/direction remain hard filters below (unchanged, no evidence yet tests relaxing
+    # those).
+    historical_rows = _collect_historical_rows(strategy=strategy, symbol=None, direction=direction) if include_historical else []
 
     neighbors = []
     for row in real_rows:
         fields = row["fields"]
-        if fields.get("strategy") != strategy or fields.get("symbol") != symbol or fields.get("direction") != direction:
+        if fields.get("strategy") != strategy or fields.get("direction") != direction:
             continue
         counterfactual = row["counterfactual"]
         if counterfactual is None or counterfactual.post_exit_status != "RESOLVED":
