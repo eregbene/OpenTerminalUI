@@ -636,6 +636,52 @@ class MT5AutonomousTradingService:
             self._record_cycle(result, dry_run=dry_run)
             return result
 
+    async def _build_context_for_historical_intelligence(self, candidate: dict[str, Any]) -> Any | None:
+        """Coverage-gap fix (Historical-Intelligence-Semantics-Audit directive, Phase 2): real
+        root cause traced -- self._cycle_context_cache is populated ONLY for instruments where
+        _screen()'s cheap_prefilter/regime_compatible check decided a full multi-strategy SMC
+        context was worth building (Part 4's documented, deliberate optimization: "no compatible
+        family for this regime -> the full context would be built only to feed strategies that
+        evaluate_all() would skip anyway, so skip building it at all"). MTFAI1 candidates are
+        scored WITHOUT that context (its own trend/SMA logic doesn't need it) and are exempted
+        from that same regime-compatibility check -- so whenever the regime happens to be
+        incompatible with every OTHER strategy family, an mtfai1 candidate reaches this ranking
+        loop with no cached ctx at all, and Historical Intelligence (which DOES need ctx for
+        fingerprinting: regime_broad, ATR, structure) silently had nothing to evaluate.
+
+        This mirrors _entry_quality_score's own established cache-miss fallback exactly: refetch
+        M15/H1/H4 candles (the SAME redis_layer.cached_candles L2 cache _screen() already
+        populated this cycle -- a real cache hit, not a fresh broker call) and build a real
+        StrategyContext fresh. Bounded to the handful of candidates that reach THIS ranking loop
+        (top_k, not every discovered instrument), so this does not reintroduce the per-instrument
+        cost Part 4's optimization was written to avoid. Returns None (never fabricates a partial
+        context) if candles/quote aren't available or don't clear the SMC engine's minimum
+        window -- build_strategy_context's own contract."""
+        broker_symbol = candidate.get("broker_symbol")
+        context = candidate.get("context") or {}
+        canonical_symbol = context.get("symbol") or candidate.get("canonical_pair") or broker_symbol
+        if not broker_symbol:
+            return None
+        try:
+            m15 = await redis_layer.cached_candles(self.adapter, broker_symbol, "M15", count=100)
+            h1 = await redis_layer.cached_candles(self.adapter, broker_symbol, "H1", count=100)
+            h4 = await redis_layer.cached_candles(self.adapter, broker_symbol, "H4", count=100)
+            bid = Decimal(str(context.get("bid"))) if context.get("bid") is not None else None
+            ask = Decimal(str(context.get("ask"))) if context.get("ask") is not None else None
+            spread = Decimal(str(context.get("spread"))) if context.get("spread") is not None else None
+            if bid is None or ask is None:
+                quote = await redis_layer.cached_latest_tick(self.adapter, broker_symbol)
+                bid, ask, spread = quote.bid, quote.ask, quote.spread
+            if bid is None or ask is None or len(m15) < 60 or len(h1) < 50 or len(h4) < 30:
+                return None
+            m15_rows = [row.model_dump(mode="json") for row in m15]
+            h1_rows = [row.model_dump(mode="json") for row in h1]
+            h4_rows = [row.model_dump(mode="json") for row in h4]
+            return build_strategy_context(symbol=str(canonical_symbol), broker_symbol=str(broker_symbol), m15_rows=m15_rows, h1_rows=h1_rows, h4_rows=h4_rows, bid=bid, ask=ask, spread=spread or Decimal("0"))
+        except Exception as exc:
+            logger.warning("Historical intelligence fallback context build failed for %s (non-fatal): %s", broker_symbol, exc.__class__.__name__)
+            return None
+
     async def _apply_historical_intelligence(self, candidate: dict[str, Any], confidence: dict[str, Any]) -> None:
         """Historical-Intelligence-Semantics-Audit directive: the live-influencing evaluation
         path (historical_intelligence.entry_intelligence.evaluate_historical_intelligence) was
@@ -656,16 +702,33 @@ class MT5AutonomousTradingService:
         FTMO limits, or execution safety, all of which run downstream of this, unchanged. Any
         failure here (missing context, Redis/Postgres error, mode not DEMO_ACTIVE) degrades to
         a strict no-op, matching entry_intelligence.py's own fail-open contract -- this method
-        never raises."""
+        never raises.
+
+        Every eligible candidate that reaches this method ends up with a non-None
+        candidate["historical_intelligence"] dict (Phase 3 -- "do not silently skip candidates
+        because cycle context is unavailable"): either a real evaluation, or an explicit
+        {"status": "UNAVAILABLE", "reason": "HIST_INTEL_CONTEXT_UNAVAILABLE"} when context truly
+        could not be reconstructed -- never fabricated, never left unset."""
+        rank_before = candidate.get("ranking_score")
         try:
             from backend.historical_intelligence.entry_intelligence import evaluate_historical_intelligence
 
             broker_symbol = candidate.get("broker_symbol")
-            cached_ctx = self._cycle_context_cache.get(broker_symbol)
             context = candidate.get("context") or {}
             strategy_id = context.get("strategy_id")
-            if cached_ctx is None or not strategy_id:
+            if not broker_symbol or not strategy_id:
+                candidate["historical_intelligence"] = {"status": "UNAVAILABLE", "reason": "HIST_INTEL_CONTEXT_UNAVAILABLE", "ranking_adjustment": 0.0, "defer_reject_reason": None, "rank_before": rank_before, "rank_after": rank_before}
                 return
+
+            cached_ctx = self._cycle_context_cache.get(broker_symbol)
+            context_source = "cycle_cache"
+            if cached_ctx is None:
+                cached_ctx = await self._build_context_for_historical_intelligence(candidate)
+                context_source = "fallback_rebuild" if cached_ctx is not None else "unavailable"
+            if cached_ctx is None:
+                candidate["historical_intelligence"] = {"status": "UNAVAILABLE", "reason": "HIST_INTEL_CONTEXT_UNAVAILABLE", "ranking_adjustment": 0.0, "defer_reject_reason": None, "context_source": context_source, "rank_before": rank_before, "rank_after": rank_before}
+                return
+
             evaluation = await evaluate_historical_intelligence(
                 ctx=cached_ctx, strategy_id=str(strategy_id),
                 contributing_strategies=list(context.get("contributing_strategies") or [strategy_id]),
@@ -673,17 +736,21 @@ class MT5AutonomousTradingService:
                 entry=float(candidate["entry"]), stop_loss=float(candidate["stop_loss"]), take_profit=float(candidate["take_profit"]),
                 entry_time=utcnow(), confidence_band=confidence.get("band"),
             )
+            evaluation["context_source"] = context_source
         except Exception as exc:
             logger.warning("Historical intelligence ranking evaluation failed for %s (non-fatal, candidate unaffected): %s", candidate.get("broker_symbol"), exc.__class__.__name__)
+            candidate["historical_intelligence"] = {"status": "UNAVAILABLE", "reason": f"HISTORICAL_INTELLIGENCE_UNAVAILABLE:{exc.__class__.__name__}", "ranking_adjustment": 0.0, "defer_reject_reason": None, "rank_before": rank_before, "rank_after": rank_before}
             return
 
-        candidate["historical_intelligence"] = evaluation
         adjustment = float(evaluation.get("ranking_adjustment") or 0.0)
         if adjustment:
             confidence["overall_score"] = max(0.0, min(100.0, confidence["overall_score"] + adjustment))
             candidate["ranking_score"] = confidence["overall_score"]
         if evaluation.get("defer_reject_reason"):
             candidate["rejection_reasons"] = sorted(set((candidate.get("rejection_reasons") or []) + ["HISTORICAL_EVIDENCE_STRONGLY_NEGATIVE"]))
+        evaluation["rank_before"] = rank_before
+        evaluation["rank_after"] = candidate.get("ranking_score")
+        candidate["historical_intelligence"] = evaluation
 
     async def _rank_candidates_by_confidence(self, cycle_id: str, top_k: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Deep-scores each of the top-K screened candidates (SMC/ICT structure score,
@@ -718,7 +785,20 @@ class MT5AutonomousTradingService:
             )
             candidate["trade_confidence"] = confidence
             candidate["ranking_score"] = confidence["overall_score"]
-            await self._apply_historical_intelligence(candidate, confidence)
+            # Hard timeout (Part 15/24 -- "must not materially delay M5 cycles", "throttle
+            # historical workers if they degrade M5 cadence"): a real M5 cycle stalled well
+            # beyond any previously observed duration on the very first live run of this new
+            # evaluation path -- root cause not yet isolated (a Redis/Postgres connection-pool
+            # wait with no explicit timeout is the leading suspect, but unconfirmed). Rather
+            # than risk repeating that stall indefinitely while investigating, this bounds the
+            # call so a single candidate's historical-intelligence evaluation can never hold up
+            # the cycle past a few seconds -- a timeout here degrades to the SAME safe no-op
+            # _apply_historical_intelligence's own except-Exception path already produces.
+            try:
+                await asyncio.wait_for(self._apply_historical_intelligence(candidate, confidence), timeout=5.0)
+            except asyncio.TimeoutError:
+                logger.warning("Historical intelligence evaluation timed out for %s (candidate unaffected, cycle continues)", candidate.get("broker_symbol"))
+                candidate.setdefault("historical_intelligence", {"status": "UNAVAILABLE", "reason": "HISTORICAL_INTELLIGENCE_TIMEOUT", "ranking_adjustment": 0.0, "defer_reject_reason": None})
             if not is_autonomous_eligible(confidence["overall_score"], min_trade_confidence=self.config.min_trade_confidence):
                 candidate["rejection_reasons"] = sorted(set((candidate.get("rejection_reasons") or []) + ["BELOW_CONFIDENCE_THRESHOLD"]))
             scored.append(candidate)
