@@ -241,7 +241,14 @@ async def bars_as_of(*, canonical_symbol: str, broker_symbol: str, timeframe: st
                 MT5CandleRevisionORM.timeframe == tf,
                 MT5CandleRevisionORM.bar_timestamp_utc <= cutoff_utc,
             )
-            .order_by(MT5CandleRevisionORM.bar_timestamp_utc.desc())
+            # Regime-determinism directive: a real, root-caused non-determinism bug -- with no
+            # secondary sort key, Postgres does not guarantee stable row order for bar_timestamp_
+            # utc ties, and combined with the LIMIT below, two identical queries could select a
+            # DIFFERENT subset of revision rows for a bar sitting at the truncation boundary,
+            # changing that bar's resolved OHLC (and, downstream, regime/ATR/trend classification)
+            # between otherwise-identical replay runs. revision_id (primary key, unique) makes the
+            # ordering -- and therefore which rows the LIMIT keeps -- fully deterministic.
+            .order_by(MT5CandleRevisionORM.bar_timestamp_utc.desc(), MT5CandleRevisionORM.revision_id.asc())
             .limit(count * 12)  # generous headroom: several revisions can exist per bar
             .all()
         )
@@ -279,7 +286,9 @@ async def bars_as_of(*, canonical_symbol: str, broker_symbol: str, timeframe: st
                     MT5CanonicalCandleORM.timestamp <= cutoff_utc + legacy_offset,
                     MT5CanonicalCandleORM.quality != "INVALID",
                 )
-                .order_by(MT5CanonicalCandleORM.timestamp.desc())
+                # Same determinism fix as the revision query above -- candle_id (primary key)
+                # breaks ties on `timestamp` deterministically.
+                .order_by(MT5CanonicalCandleORM.timestamp.desc(), MT5CanonicalCandleORM.candle_id.asc())
                 .limit(count * 2)
                 .all()
             )

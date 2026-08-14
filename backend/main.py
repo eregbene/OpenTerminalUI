@@ -52,6 +52,41 @@ if sys.platform.startswith("win"):
 
 settings = get_settings()
 
+# Deployment-correctness directive (this engagement's own real incident: docker cp updates a
+# file on disk but never reloads an already-running process's imported modules -- "deployed"
+# was reported and believed multiple times when the live process was actually still running old
+# code). _PROCESS_STARTED_AT is set once, at import time, so /version can prove how long THIS
+# process has actually been alive; _loaded_module_fingerprints hashes the ACTUAL in-memory
+# source of a few frequently-hot-patched modules (via inspect.getsource, not a file read) so a
+# caller can independently confirm the running process's code matches a specific commit/file,
+# rather than trusting that a copy step happened.
+_PROCESS_STARTED_AT = datetime.now(timezone.utc)
+
+
+def _loaded_module_fingerprints() -> dict[str, str]:
+    import hashlib
+    import inspect
+
+    modules = {
+        "brokers.mt5.autonomous": "backend.brokers.mt5.autonomous",
+        "historical_intelligence.entry_intelligence": "backend.historical_intelligence.entry_intelligence",
+        "historical_intelligence.walk_forward": "backend.historical_intelligence.walk_forward",
+        "historical_intelligence.cache": "backend.historical_intelligence.cache",
+    }
+    fingerprints: dict[str, str] = {}
+    for label, module_path in modules.items():
+        try:
+            module = sys.modules.get(module_path)
+            if module is None:
+                fingerprints[label] = "NOT_LOADED"
+                continue
+            source = inspect.getsource(module)
+            fingerprints[label] = hashlib.sha256(source.encode("utf-8")).hexdigest()[:16]
+        except Exception as exc:
+            fingerprints[label] = f"ERROR:{exc.__class__.__name__}"
+    return fingerprints
+
+
 _prefetch_worker = None
 _instruments_loader = None
 _news_ingestor = None
@@ -205,6 +240,23 @@ app.include_router(api_router)
 @app.get("/health", tags=["health"])
 def health() -> dict[str, str]:
     return {"status": "ok"}
+
+
+@app.get("/version", tags=["health"])
+def version() -> dict[str, object]:
+    """Deployment-correctness directive: the one honest answer to "is the change actually
+    live" -- process_started_at proves how long this exact process has been running (a docker
+    cp with no restart leaves this unchanged no matter how recently a file was edited);
+    module_fingerprints hashes the ACTUAL in-memory source of a few frequently-changed modules,
+    so a caller can independently verify the running process's code, not just what's on disk.
+    Never report "deployed" from a file timestamp or docker cp exit code alone -- compare this
+    endpoint's fingerprint against a fresh hash of the intended source file instead."""
+    now = datetime.now(timezone.utc)
+    return {
+        "process_started_at": _PROCESS_STARTED_AT.isoformat(),
+        "process_uptime_seconds": round((now - _PROCESS_STARTED_AT).total_seconds(), 1),
+        "module_fingerprints": _loaded_module_fingerprints(),
+    }
 
 
 @app.get("/livez", tags=["health"])
