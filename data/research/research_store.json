@@ -15821,6 +15821,189 @@
       "run_id": "bt_cba022cc7062fa95",
       "started_at": "2026-07-23T18:49:45.357366Z",
       "status": "completed"
+    },
+    "eurusd_backtest_2026-08-14_4542": {
+      "artifact": {
+        "artifact_id": "artifact_4c33129a11448c2d",
+        "artifact_type": "eurusd_backtest_4542",
+        "content_hash": "035339c74b914d63",
+        "created_at": "2026-08-15T08:34:11.401148Z",
+        "metadata": {
+          "candidate_count": 4542,
+          "code_revision": "10f678e",
+          "code_revision_note": "Captured from the host checkout at the time run_eurusd_backtest.py was committed and this preservation step was run. The backtest itself (2026-08-14 22:00 UTC) ran before that commit, while the driver script was still untracked -- so this revision identifies the code as re-committed/preserved, not a run-time-embedded stamp.",
+          "date_range": {
+            "end": "2026-08-13T04:25:42.714527+00:00",
+            "start": "2018-08-07T22:45:00+00:00"
+          },
+          "ess_formula_version": "sim-v2",
+          "ess_thresholds_evaluated": [
+            20,
+            30,
+            50,
+            75,
+            100,
+            150
+          ],
+          "min_sample_for_live_influence": 100,
+          "preserved_at": "2026-08-15T08:34:10.932875+00:00",
+          "provider_set": [
+            "FOREXSB",
+            "MT5"
+          ],
+          "sample_stride": 15,
+          "sample_stride_note": "run_eurusd_backtest.py samples every Nth chronological candidate (SAMPLE_STRIDE=15) out of the full resolved EURUSD corpus -- 4,542 is a stride-15 subsample, not the full corpus.",
+          "similarity_threshold": 0.6,
+          "source_files": {
+            "driver": "run_eurusd_backtest.py",
+            "raw_progress": "/data/research/raw_extracts/eurusd_backtest_2026-08-14/eurusd_backtest_progress.json",
+            "raw_records": "/data/research/raw_extracts/eurusd_backtest_2026-08-14/eurusd_backtest_records.json"
+          },
+          "strategy_set": [
+            "breakout",
+            "ema_trend",
+            "liquidity_sweep_reversal",
+            "mean_reversion",
+            "momentum",
+            "mtfai1",
+            "session_breakout",
+            "smc_continuation",
+            "support_resistance_bounce",
+            "trend_pullback",
+            "vwap_reversion"
+          ],
+          "symbol": "EURUSD",
+          "timeframe": "M5 entry signals over the full point-in-time corpus (multi-timeframe strategy context)",
+          "top_k": 100,
+          "top_k_note": "run_eurusd_backtest.py passes top_k=100 as a literal, which matches similarity._DEFAULT_TOP_K today but is not imported from it. The live entry-decision path uses a smaller, separately-declared entry_intelligence._SIMILARITY_TOP_K=50 for its live hot path -- this backtest used the module's own default, not the live value.",
+          "walk_forward_semantics": "Each candidate's evidence is restricted to analogs strictly earlier than entry_time - purge_window (purge_window=12:00:00, imported from walk_forward._PURGE_WINDOW). The script calls similarity.similarity_statistics/entry_intelligence directly and does not invoke walk_forward.run_walk_forward's own train/OOS split machinery -- only the purge-window constant is shared."
+        },
+        "path": "/data/research/artifacts/artifact_4c33129a11448c2d.json"
+      },
+      "created_at": "2026-08-15T08:34:11.401163+00:00",
+      "git_revision": "10f678e",
+      "metadata": {
+        "candidate_count": 4542,
+        "code_revision": "10f678e",
+        "code_revision_note": "Captured from the host checkout at the time run_eurusd_backtest.py was committed and this preservation step was run. The backtest itself (2026-08-14 22:00 UTC) ran before that commit, while the driver script was still untracked -- so this revision identifies the code as re-committed/preserved, not a run-time-embedded stamp.",
+        "date_range": {
+          "end": "2026-08-13T04:25:42.714527+00:00",
+          "start": "2018-08-07T22:45:00+00:00"
+        },
+        "ess_formula_version": "sim-v2",
+        "ess_thresholds_evaluated": [
+          20,
+          30,
+          50,
+          75,
+          100,
+          150
+        ],
+        "min_sample_for_live_influence": 100,
+        "preserved_at": "2026-08-15T08:34:10.932875+00:00",
+        "provider_set": [
+          "FOREXSB",
+          "MT5"
+        ],
+        "sample_stride": 15,
+        "sample_stride_note": "run_eurusd_backtest.py samples every Nth chronological candidate (SAMPLE_STRIDE=15) out of the full resolved EURUSD corpus -- 4,542 is a stride-15 subsample, not the full corpus.",
+        "similarity_threshold": 0.6,
+        "source_files": {
+          "driver": "run_eurusd_backtest.py",
+          "raw_progress": "/data/research/raw_extracts/eurusd_backtest_2026-08-14/eurusd_backtest_progress.json",
+          "raw_records": "/data/research/raw_extracts/eurusd_backtest_2026-08-14/eurusd_backtest_records.json"
+        },
+        "strategy_set": [
+          "breakout",
+          "ema_trend",
+          "liquidity_sweep_reversal",
+          "mean_reversion",
+          "momentum",
+          "mtfai1",
+          "session_breakout",
+          "smc_continuation",
+          "support_resistance_bounce",
+          "trend_pullback",
+          "vwap_reversion"
+        ],
+        "symbol": "EURUSD",
+        "timeframe": "M5 entry signals over the full point-in-time corpus (multi-timeframe strategy context)",
+        "top_k": 100,
+        "top_k_note": "run_eurusd_backtest.py passes top_k=100 as a literal, which matches similarity._DEFAULT_TOP_K today but is not imported from it. The live entry-decision path uses a smaller, separately-declared entry_intelligence._SIMILARITY_TOP_K=50 for its live hot path -- this backtest used the module's own default, not the live value.",
+        "walk_forward_semantics": "Each candidate's evidence is restricted to analogs strictly earlier than entry_time - purge_window (purge_window=12:00:00, imported from walk_forward._PURGE_WINDOW). The script calls similarity.similarity_statistics/entry_intelligence directly and does not invoke walk_forward.run_walk_forward's own train/OOS split machinery -- only the purge-window constant is shared."
+      },
+      "result_type": "eurusd_backtest_4542",
+      "run_id": "eurusd_backtest_2026-08-14_4542",
+      "summary": {
+        "candidate_count": 4542,
+        "effective_sample_size_max": 90.72,
+        "effective_sample_size_median": 74.48,
+        "effective_sample_size_min": 0.0,
+        "ess_threshold_analysis": {
+          "100": {
+            "n": 0
+          },
+          "150": {
+            "n": 0
+          },
+          "20": {
+            "actual_reach_1r_rate": 0.4316,
+            "brier_score_p1r": 0.1979,
+            "calibration_mae_p1r": 0.0012,
+            "mean_actual_expectancy_r": -0.1717,
+            "mean_predicted_expectancy_r": -0.1708,
+            "mean_predicted_p_1r": 0.4328,
+            "n": 3978
+          },
+          "30": {
+            "actual_reach_1r_rate": 0.4325,
+            "brier_score_p1r": 0.1986,
+            "calibration_mae_p1r": 0.0011,
+            "mean_actual_expectancy_r": -0.1658,
+            "mean_predicted_expectancy_r": -0.1783,
+            "mean_predicted_p_1r": 0.4314,
+            "n": 3709
+          },
+          "50": {
+            "actual_reach_1r_rate": 0.4399,
+            "brier_score_p1r": 0.2008,
+            "calibration_mae_p1r": 0.0097,
+            "mean_actual_expectancy_r": -0.1619,
+            "mean_predicted_expectancy_r": -0.1875,
+            "mean_predicted_p_1r": 0.4301,
+            "n": 3210
+          },
+          "75": {
+            "actual_reach_1r_rate": 0.4089,
+            "brier_score_p1r": 0.2096,
+            "calibration_mae_p1r": 0.0014,
+            "mean_actual_expectancy_r": -0.2555,
+            "mean_predicted_expectancy_r": -0.2358,
+            "mean_predicted_p_1r": 0.4103,
+            "n": 2189
+          }
+        },
+        "mt5_only_vs_combined": {
+          "both_had_prediction_n": 4227,
+          "combined_expectancy_mean_abs_error": 1.0074,
+          "combined_mean_ess": 61.27,
+          "combined_more_accurate": false,
+          "combined_unavailable_rate": 1.0,
+          "mt5_only_expectancy_mean_abs_error": 0.9398,
+          "mt5_only_mean_ess": 55.92,
+          "mt5_only_unavailable_rate": 0.0,
+          "n": 4542
+        },
+        "raw_neighbor_count_ge_100": 2736,
+        "verdict_breakdown": {
+          "HIST_INTEL_INSUFFICIENT": {
+            "count": 4542,
+            "mean_actual_outcome_r": -0.1685,
+            "mean_predicted_expectancy_r": -0.1503,
+            "resolved_n": 4542
+          }
+        }
+      }
     }
   },
   "candidates": {

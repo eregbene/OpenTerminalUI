@@ -30,6 +30,7 @@ frontend/.env.development
 data/bars/
 data/ai_assistant/
 data/research/artifacts/
+data/research/raw_extracts/
 data/research_agent/
 reports/*.xlsx
 reports/*.csv
