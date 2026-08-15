@@ -30,6 +30,13 @@ from backend.historical_intelligence.orm import HistoricalPatternFingerprintORM,
 from backend.historical_intelligence.walk_forward import _PURGE_WINDOW
 from backend.shared.db import SessionLocal
 
+# Checkpoint/output directory: volume-mounted (survives container recreation), not /app (the
+# container's writable layer, which is NOT volume-mounted -- see
+# docs/HISTORICAL_INTELLIGENCE_PERSISTENCE_AUDIT.md for the durability gap this closes).
+_OUTPUT_DIR = "/data/historical_intelligence"
+RECORDS_PATH = f"{_OUTPUT_DIR}/eurusd_backtest_records.json"
+PROGRESS_PATH = f"{_OUTPUT_DIR}/eurusd_backtest_progress.json"
+
 SYMBOL = "EURUSD"
 ESS_THRESHOLDS = [20, 30, 50, 75, 100, 150]
 # Each candidate costs 2 real similarity_statistics DB queries -- evaluating the FULL corpus
@@ -208,11 +215,13 @@ def main() -> None:
     # Resume support: candidate order is deterministic (same query, same stride), so on restart
     # after a crash we reload any already-checkpointed records and skip re-evaluating them --
     # this is a resume of already-computed results, not a change to what gets computed.
+    os.makedirs(_OUTPUT_DIR, exist_ok=True)
+
     records: list[dict] = []
     start_index = 0
-    if os.path.exists("/app/eurusd_backtest_records.json"):
+    if os.path.exists(RECORDS_PATH):
         try:
-            with open("/app/eurusd_backtest_records.json") as f:
+            with open(RECORDS_PATH) as f:
                 prior = json.load(f)
             if isinstance(prior, list) and prior and all(
                 r.get("fingerprint_id") == rows[idx][0].fingerprint_id for idx, r in enumerate(prior)
@@ -236,13 +245,13 @@ def main() -> None:
         # reboot, etc.) never loses more than 500 candidates of already-completed evaluation.
         # Written atomically (temp file + rename) so a crash mid-write can't corrupt the file.
         if (i + 1) % 500 == 0 or (i + 1) == len(rows):
-            tmp_path = "/app/eurusd_backtest_records.json.tmp"
+            tmp_path = f"{RECORDS_PATH}.tmp"
             with open(tmp_path, "w") as f:
                 json.dump(records, f, indent=2, default=str)
-            os.replace(tmp_path, "/app/eurusd_backtest_records.json")
-            with open("/app/eurusd_backtest_progress.json", "w") as f:
+            os.replace(tmp_path, RECORDS_PATH)
+            with open(PROGRESS_PATH, "w") as f:
                 json.dump({"evaluated": i + 1, "total": len(rows)}, f)
-            print(f"  [checkpoint] {i + 1}/{len(rows)} written to /app/eurusd_backtest_records.json", flush=True)
+            print(f"  [checkpoint] {i + 1}/{len(rows)} written to {RECORDS_PATH}", flush=True)
 
     print(f"\nEvaluated {len(records)} candidates.", flush=True)
     print("\n=== ESS THRESHOLD ANALYSIS ===", flush=True)
@@ -260,9 +269,9 @@ def main() -> None:
     if ess_dist:
         print(f"Effective sample size distribution: min={ess_dist[0]:.1f} median={ess_dist[len(ess_dist)//2]:.1f} max={ess_dist[-1]:.1f}", flush=True)
 
-    with open("/app/eurusd_backtest_records.json", "w") as f:
+    with open(RECORDS_PATH, "w") as f:
         json.dump(records, f, indent=2, default=str)
-    print("\nFull per-candidate records written to /app/eurusd_backtest_records.json", flush=True)
+    print(f"\nFull per-candidate records written to {RECORDS_PATH}", flush=True)
 
 
 if __name__ == "__main__":

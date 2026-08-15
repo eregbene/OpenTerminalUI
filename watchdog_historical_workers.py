@@ -7,21 +7,41 @@ idempotent/resumable by construction (candle backfill and fingerprint/adaptive g
 from DB watermarks; the backtest now checkpoints its own records.json and resumes from it) -- so a
 blind restart never redoes completed work or restarts any corpus from zero.
 
-Status is written to /app/watchdog_status.json every cycle: RUNNING / COMPLETED / CRASHED_RESTARTED
-/ STALE, with last-seen and restart-count, so it can be inspected without reading raw logs.
+Status/log paths live under /data/historical_intelligence/ (the volume-mounted directory), not
+/app -- /app is the container's writable layer and is NOT volume-mounted, so restart-count/
+liveness history written there is silently lost on any container recreation (see
+docs/HISTORICAL_INTELLIGENCE_PERSISTENCE_AUDIT.md). Status is written every cycle: RUNNING /
+COMPLETED / CRASHED_RESTARTED, with last-seen and restart-count, so it can be inspected without
+reading raw logs.
+
+A prior STALE_AFTER_SECONDS/STALE status was declared but never actually checked anywhere in the
+loop below (last_seen is updated on every cycle a worker is found alive, so there was never a
+code path that compared elapsed time against it) -- removed rather than left as dead,
+misleading-looking code. Genuine hang/stall detection would need each worker's own log parsed for
+a real progress marker (there's no single generic one across all 5 workers), which is a
+meaningfully bigger feature than this watchdog's "not an orchestration platform" scope covers.
 """
 from __future__ import annotations
 
 import json
 import os
 import subprocess
+import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 CHECK_INTERVAL_SECONDS = 90
-STALE_AFTER_SECONDS = 25 * 60
-STATUS_PATH = "/app/watchdog_status.json"
-WATCHDOG_LOG = "/app/watchdog.log"
+STATUS_DIR = "/data/historical_intelligence"
+STATUS_PATH = f"{STATUS_DIR}/watchdog_status.json"
+WATCHDOG_LOG = f"{STATUS_DIR}/watchdog.log"
+
+# How close a bounded worker's ingested watermark must be to its target end boundary before it's
+# considered COMPLETED, not still catching up. Matches the tolerance already used by
+# run_forexsb_intelligence_pipeline.py's own _symbol_ready readiness check.
+_BOUNDARY_TOLERANCE = timedelta(hours=6)
 
 
 def _now() -> str:
@@ -29,10 +49,51 @@ def _now() -> str:
 
 
 def _log(msg: str) -> None:
+    os.makedirs(STATUS_DIR, exist_ok=True)
     line = f"[{_now()}] {msg}"
     print(line, flush=True)
     with open(WATCHDOG_LOG, "a") as f:
         f.write(line + "\n")
+
+
+def _forexsb_fingerprint_watermark(canonical_symbol: str):
+    """Max entry_time of FOREXSB-provider fingerprints for a symbol, or None if none exist yet.
+    Import is deferred into the function so the watchdog can still start (and report status) even
+    if the DB isn't reachable yet at process startup."""
+    from sqlalchemy import func
+
+    from backend.historical_intelligence.orm import HistoricalPatternFingerprintORM
+    from backend.shared.db import SessionLocal
+
+    with SessionLocal() as db:
+        return db.query(func.max(HistoricalPatternFingerprintORM.entry_time)).filter(
+            HistoricalPatternFingerprintORM.canonical_symbol == canonical_symbol,
+            HistoricalPatternFingerprintORM.provider == "FOREXSB",
+        ).scalar()
+
+
+def _bulk_replay_forexsb_complete(canonical_symbol: str, target_end: datetime):
+    def _check() -> bool:
+        try:
+            watermark = _forexsb_fingerprint_watermark(canonical_symbol)
+        except Exception:
+            return False
+        if watermark is None:
+            return False
+        if watermark.tzinfo is None:
+            watermark = watermark.replace(tzinfo=timezone.utc)
+        return watermark >= target_end - _BOUNDARY_TOLERANCE
+    return _check
+
+
+def _eurusd_adaptive_backfill_perpetual() -> bool:
+    """Intentionally always False: unlike the bulk_replay workers above, this worker's relaunch
+    command passes no `provider`/end boundary -- by design it re-scans ALL of EURUSD's fingerprints
+    (both the still-growing ForexSB historical corpus and the continuously-arriving live MT5
+    corpus) every time it runs, to backfill adaptive states for whatever's newly available. It has
+    no natural end state while either upstream feed is still active, so it is meant to be
+    relaunched indefinitely, not a bug to be "fixed" into reporting COMPLETED."""
+    return False
 
 
 def _proc_cmdlines() -> dict[int, str]:
@@ -72,7 +133,7 @@ def _spawn(shell_cmd: str, log_path: str) -> None:
 
 def _backtest_complete() -> bool:
     try:
-        with open("/app/eurusd_backtest_progress.json") as f:
+        with open(f"{STATUS_DIR}/eurusd_backtest_progress.json") as f:
             p = json.load(f)
         return p.get("evaluated", 0) >= p.get("total", 1)
     except (OSError, json.JSONDecodeError):
@@ -81,18 +142,26 @@ def _backtest_complete() -> bool:
 
 def _backfill_complete() -> bool:
     try:
-        with open("/app/forexsb_backfill.log") as f:
+        with open(f"{STATUS_DIR}/forexsb_backfill.log") as f:
             content = f.read()
         return "ALL SYMBOLS COMPLETE" in content
     except OSError:
         return False
 
 
+# EURUSD's ForexSB bulk-replay walk is bounded to stop exactly where MT5's own native corpus
+# starts (run_forexsb_backfill.py's MT5_M15_START["EURUSD"]); GBPUSD's boundary is later since its
+# own native MT5 corpus starts later. Kept here (not imported) because run_forexsb_backfill.py's
+# MT5_M15_START dict has entries for symbols this watchdog doesn't run a bulk_replay worker for at
+# all -- importing it would suggest a broader coupling than actually exists.
+_EURUSD_FOREXSB_END = datetime(2022, 8, 4, 22, 45, tzinfo=timezone.utc)
+_GBPUSD_FOREXSB_END = datetime(2024, 8, 7, 11, 15, tzinfo=timezone.utc)
+
 WORKERS = {
     "eurusd_backtest": {
         "match": ["run_eurusd_backtest.py"],
         "relaunch": "python run_eurusd_backtest.py",
-        "log": "/app/eurusd_backtest_run.log",
+        "log": f"{STATUS_DIR}/eurusd_backtest_run.log",
         "complete_check": _backtest_complete,
     },
     "eurusd_bulk_replay_forexsb": {
@@ -112,8 +181,8 @@ WORKERS = {
             "asyncio.run(main())\n"
             "\""
         ),
-        "log": "/app/eurusd_bulk_replay.log",
-        "complete_check": lambda: False,
+        "log": f"{STATUS_DIR}/eurusd_bulk_replay.log",
+        "complete_check": _bulk_replay_forexsb_complete("EURUSD", _EURUSD_FOREXSB_END),
     },
     "eurusd_adaptive_backfill": {
         "match": ["run_adaptive_backfill", "EURUSD"],
@@ -127,8 +196,8 @@ WORKERS = {
             "asyncio.run(main())\n"
             "\""
         ),
-        "log": "/app/eurusd_adaptive_backfill.log",
-        "complete_check": lambda: False,
+        "log": f"{STATUS_DIR}/eurusd_adaptive_backfill.log",
+        "complete_check": _eurusd_adaptive_backfill_perpetual,
     },
     "gbpusd_bulk_replay_forexsb": {
         "match": ["replay_symbol_history_fast", "GBPUSD"],
@@ -147,13 +216,13 @@ WORKERS = {
             "asyncio.run(main())\n"
             "\""
         ),
-        "log": "/app/gbpusd_bulk_replay.log",
-        "complete_check": lambda: False,
+        "log": f"{STATUS_DIR}/gbpusd_bulk_replay.log",
+        "complete_check": _bulk_replay_forexsb_complete("GBPUSD", _GBPUSD_FOREXSB_END),
     },
     "forexsb_multi_symbol_backfill": {
         "match": ["run_forexsb_backfill.py"],
         "relaunch": "python run_forexsb_backfill.py USDJPY AUDUSD USDCAD USDCHF NZDUSD EURJPY GBPJPY XAUUSD",
-        "log": "/app/forexsb_backfill.log",
+        "log": f"{STATUS_DIR}/forexsb_backfill.log",
         "complete_check": _backfill_complete,
     },
 }
@@ -175,7 +244,14 @@ def main() -> None:
     status: dict[str, dict] = {}
     for name in WORKERS:
         old = prior.get(name)
-        if old and old.get("status") != "COMPLETED":
+        if old and old.get("status") == "COMPLETED":
+            # A prior COMPLETED verdict must stick across watchdog restarts -- previously this
+            # branch was unreachable (the condition below caught COMPLETED too, via its `else`),
+            # which silently reset a genuinely-finished worker back to RUNNING and caused a real
+            # incident: eurusd_backtest got relaunched from scratch on a watchdog restart even
+            # though it had already evaluated all 4,542 candidates.
+            status[name] = old
+        elif old:
             status[name] = {**old, "status": "RUNNING", "last_seen": _now()}
         else:
             status[name] = {"status": "RUNNING", "restarts": 0, "last_seen": _now(), "last_restart": None}

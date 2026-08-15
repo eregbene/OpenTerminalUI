@@ -151,6 +151,12 @@ services:
       # not itself a blanket activation switch, and has no path to MT5_LIVE_TRADING_ENABLED
       # (independent, unrelated gate, unchanged above).
       HISTORICAL_INTELLIGENCE_MODE: "${HISTORICAL_INTELLIGENCE_MODE:-DEMO_ACTIVE}"
+      # Opt-in launch of watchdog_historical_workers.py from entrypoint.sh (supervises the
+      # long-running ForexSB/adaptive-backfill corpus-expansion workers so they survive a
+      # container recreation). Off by default so other containers built from this same image
+      # (docker-compose.test.yml, a future replica, etc.) don't unconditionally spawn
+      # multi-hour background jobs; set to "1" on the environment that actually owns this work.
+      ENABLE_HISTORICAL_WATCHDOG: "${ENABLE_HISTORICAL_WATCHDOG:-0}"
       MT5_ORDER_SUBMISSION_ENABLED: "${MT5_ORDER_SUBMISSION_ENABLED:-false}"
       MT5_AUTONOMOUS_SUBMISSION_ENABLED: "${MT5_AUTONOMOUS_SUBMISSION_ENABLED:-false}"
       MT5_MANUAL_ACCEPTANCE_ENABLED: "${MT5_MANUAL_ACCEPTANCE_ENABLED:-false}"
