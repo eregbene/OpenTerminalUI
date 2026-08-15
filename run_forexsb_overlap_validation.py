@@ -18,7 +18,12 @@ from datetime import datetime, timedelta, timezone
 from backend.historical_intelligence import ingestion
 from backend.historical_intelligence.providers.forexsb_provider import ForexSBHistoricalProvider
 
-SYMBOLS = ["EURUSD", "GBPJPY", "XAUUSD"]
+# All 10 Forex/MT5 symbols with a ForexSB backfill (see run_forexsb_backfill.py's own SYMBOLS
+# list). Originally only 3 (EURUSD, GBPJPY, XAUUSD) had overlap validation; extended to the
+# remaining 7 so every symbol gets the same MT5-vs-ForexSB data-quality confidence. Re-running
+# the original 3 is cheap/idempotent (ingestion.backfill only fetches gaps) and backfills their
+# rows with the newer p95/missing-bar-rate/timestamp-alignment/OHLC-consistency metrics too.
+SYMBOLS = ["EURUSD", "GBPUSD", "USDJPY", "AUDUSD", "USDCAD", "USDCHF", "NZDUSD", "EURJPY", "GBPJPY", "XAUUSD"]
 WINDOW_DAYS = 60
 
 

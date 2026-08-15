@@ -133,33 +133,74 @@ def classify_batch(bars: list[HistoricalBar], *, now: datetime | None = None) ->
     return results
 
 
+# Expected minute-grid spacing per timeframe, used only for the additive timestamp_alignment_rate
+# metric below -- never for filtering/rejecting bars.
+_TIMEFRAME_GRID_MINUTES = {"M5": 5, "M15": 15, "M30": 30, "H1": 60, "H4": 240, "D1": 1440}
+
+
+def _percentile(values: list[float], pct: float) -> float:
+    """Nearest-rank percentile (no interpolation) -- deterministic, no numpy dependency needed
+    for this coarse a diagnostic."""
+    ordered = sorted(values)
+    if not ordered:
+        return 0.0
+    idx = min(len(ordered) - 1, max(0, round(pct / 100.0 * (len(ordered) - 1))))
+    return ordered[idx]
+
+
 def compare_provider_overlap(
     left: list[HistoricalBar], left_name: str,
     right: list[HistoricalBar], right_name: str,
+    *, timeframe: str | None = None,
 ) -> dict[str, Any]:
     """Statistical comparison of two providers' bars over their OVERLAPPING timestamps only.
     Deliberately does not require identical prices (different providers/spreads/feeds
     legitimately disagree by small amounts) -- reports the disagreement distribution so a
     caller can judge "close enough to be the same market" vs "obviously incompatible", per the
-    explicit instruction not to demand exact equality."""
+    explicit instruction not to demand exact equality.
+
+    `timeframe` is optional (only used to compute timestamp_alignment_rate below) so existing
+    callers that don't pass it keep working unchanged. The four additional fields below
+    (p95_relative_diff, missing_bar_rate, timestamp_alignment_rate, ohlc_consistency_median_diff)
+    are purely additive diagnostics -- they never affect `status`, which is computed exactly as
+    before, from median/max close-price diff only."""
     left_by_time = {b.time: b for b in left}
     right_by_time = {b.time: b for b in right}
     common_times = sorted(set(left_by_time) & set(right_by_time))
+
+    missing_bar_rate = None
+    widest_side = max(len(left_by_time), len(right_by_time))
+    if widest_side > 0:
+        missing_bar_rate = round(1.0 - (len(common_times) / widest_side), 6)
+
+    timestamp_alignment_rate = None
+    if timeframe and common_times:
+        grid_minutes = _TIMEFRAME_GRID_MINUTES.get(timeframe.upper())
+        if grid_minutes:
+            aligned = sum(1 for t in common_times if (t.hour * 60 + t.minute) % grid_minutes == 0)
+            timestamp_alignment_rate = round(aligned / len(common_times), 6)
+
     if not common_times:
         return {
             "left_provider": left_name, "right_provider": right_name,
             "overlapping_bars": 0, "status": "NO_OVERLAP",
+            "missing_bar_rate": missing_bar_rate, "timestamp_alignment_rate": timestamp_alignment_rate,
         }
     diffs = []
+    ohlc_diffs = []
     for t in common_times:
         l, r = left_by_time[t], right_by_time[t]
         if l.close <= 0 or r.close <= 0:
             continue
         diffs.append(abs(l.close - r.close) / ((l.close + r.close) / 2.0))
+        for l_val, r_val in ((l.open, r.open), (l.high, r.high), (l.low, r.low)):
+            if l_val > 0 and r_val > 0:
+                ohlc_diffs.append(abs(l_val - r_val) / ((l_val + r_val) / 2.0))
     if not diffs:
         return {
             "left_provider": left_name, "right_provider": right_name,
             "overlapping_bars": len(common_times), "status": "NO_COMPARABLE_PRICES",
+            "missing_bar_rate": missing_bar_rate, "timestamp_alignment_rate": timestamp_alignment_rate,
         }
     median_diff = statistics.median(diffs)
     max_diff = max(diffs)
@@ -179,5 +220,9 @@ def compare_provider_overlap(
         "median_relative_diff": round(median_diff, 6),
         "mean_relative_diff": round(mean_diff, 6),
         "max_relative_diff": round(max_diff, 6),
+        "p95_relative_diff": round(_percentile(diffs, 95), 6),
+        "missing_bar_rate": missing_bar_rate,
+        "timestamp_alignment_rate": timestamp_alignment_rate,
+        "ohlc_consistency_median_diff": round(statistics.median(ohlc_diffs), 6) if ohlc_diffs else None,
         "status": status,
     }

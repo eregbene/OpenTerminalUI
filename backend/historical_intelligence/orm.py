@@ -59,6 +59,12 @@ class HistoricalProviderReconciliationORM(Base):
     median_relative_diff: Mapped[float | None] = mapped_column(Float, nullable=True)
     mean_relative_diff: Mapped[float | None] = mapped_column(Float, nullable=True)
     max_relative_diff: Mapped[float | None] = mapped_column(Float, nullable=True)
+    # Additive diagnostics (migration 0065) -- never used to compute `status` below, which is
+    # still derived from median/max_relative_diff alone, unchanged.
+    p95_relative_diff: Mapped[float | None] = mapped_column(Float, nullable=True)
+    missing_bar_rate: Mapped[float | None] = mapped_column(Float, nullable=True)
+    timestamp_alignment_rate: Mapped[float | None] = mapped_column(Float, nullable=True)
+    ohlc_consistency_median_diff: Mapped[float | None] = mapped_column(Float, nullable=True)
     # NO_OVERLAP | NO_COMPARABLE_PRICES | CONSISTENT | DIVERGENT | INCOMPATIBLE
     status: Mapped[str] = mapped_column(String(24), nullable=False, index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)

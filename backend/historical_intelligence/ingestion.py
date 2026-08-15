@@ -19,6 +19,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from sqlalchemy import func
+from sqlalchemy import insert as sa_insert
 
 from backend.brokers.mt5.orm import MT5CanonicalCandleORM
 from backend.historical_intelligence import quality
@@ -39,6 +40,21 @@ logger = logging.getLogger(__name__)
 _GAP_TOLERANCE = timedelta(minutes=20)
 
 _TIMEFRAME_DELTAS = {"M5": timedelta(minutes=5), "M15": timedelta(minutes=15), "H1": timedelta(hours=1), "H4": timedelta(hours=4)}
+
+# Postgres's wire protocol caps a single query at 65,535 bound parameters -- an IN(...) prefetch
+# over an entire large-batch fetch_bars() result (e.g. ForexSBHistoricalProvider's ~200,000-bar
+# whole-file responses) must stay comfortably under that. See _persist_bars's chunked prefetch.
+_IN_CLAUSE_CHUNK_SIZE = 10_000
+
+# Brief pause between INSERT chunks, ONLY when a batch is large enough to span multiple chunks
+# (never fires for MT5/Yahoo's normal small incremental batches) -- gives Postgres real
+# interleaving room for the live M5 cycle's own concurrent queries between commits, rather than
+# one process saturating the connection with back-to-back large writes. See the chunked-commit
+# comment below for the real measured cycle-time impact this addresses.
+_LARGE_BATCH_CHUNK_PAUSE_SECONDS = 1.0  # widened from 0.3 after measured (not correlational)
+# degradation during this integration's own real backfill run: pg_stat_activity showed an
+# autovacuum on mt5_canonical_candles active for 20+ minutes and individual COMMIT statements
+# taking 11+ seconds (should be near-instant) while heavy write volume was in flight.
 
 
 def _weekend_closure_within(start: datetime, end: datetime) -> timedelta:
@@ -156,30 +172,56 @@ def _persist_bars(bars: list[HistoricalBar], *, provider: HistoricalDataProvider
         # silently duplicating revision_number=1 instead of writing revision 2). Postgres
         # preserves tzinfo correctly, but normalizing here removes the dependency on that
         # driver-specific behavior entirely.
-        existing_canonical = {
-            (row.timestamp if row.timestamp.tzinfo else row.timestamp.replace(tzinfo=timezone.utc)): row
+        #
+        # bar_times is chunked before every IN(...) prefetch below -- Postgres's wire protocol
+        # hard-caps a single query at 65,535 bound parameters, and every prior caller of this
+        # function fetched small enough date ranges (MT5/Yahoo backfills, incremental cron runs)
+        # to never approach that. ForexSBHistoricalProvider's fetch_bars() legitimately returns
+        # up to ~200,000 bars in one call (it always returns its whole native file, filtered to
+        # range, since ForexSB has no partial/paged fetch API) -- the first real caller to exceed
+        # the limit, surfaced as a genuine psycopg "number of parameters must be between 0 and
+        # 65535" OperationalError during this integration's own backfill. Fixed here at the root
+        # (chunked prefetch) rather than by forcing every provider to self-limit batch size.
+        existing_canonical: dict[datetime, MT5CanonicalCandleORM] = {}
+        latest_revision_by_time: dict[datetime, MT5CandleRevisionORM] = {}
+        for chunk_start in range(0, len(bar_times), _IN_CLAUSE_CHUNK_SIZE):
+            chunk = bar_times[chunk_start:chunk_start + _IN_CLAUSE_CHUNK_SIZE]
             for row in db.query(MT5CanonicalCandleORM).filter(
                 MT5CanonicalCandleORM.provider == provider.name.upper(),
                 MT5CanonicalCandleORM.broker_symbol == broker_symbol.upper(),
                 MT5CanonicalCandleORM.timeframe == timeframe.upper(),
-                MT5CanonicalCandleORM.timestamp.in_(bar_times),
-            )
-        }
-        latest_revision_by_time: dict[datetime, MT5CandleRevisionORM] = {}
-        for rev in db.query(MT5CandleRevisionORM).filter(
-            MT5CandleRevisionORM.provider == provider.name.upper(),
-            MT5CandleRevisionORM.broker_symbol == broker_symbol.upper(),
-            MT5CandleRevisionORM.timeframe == timeframe.upper(),
-            MT5CandleRevisionORM.bar_timestamp.in_(bar_times),
-        ).order_by(MT5CandleRevisionORM.revision_number.asc()):
-            rev_time = rev.bar_timestamp if rev.bar_timestamp.tzinfo else rev.bar_timestamp.replace(tzinfo=timezone.utc)
-            latest_revision_by_time[rev_time] = rev  # last write in ascending order wins -> latest revision
+                MT5CanonicalCandleORM.timestamp.in_(chunk),
+            ):
+                existing_canonical[row.timestamp if row.timestamp.tzinfo else row.timestamp.replace(tzinfo=timezone.utc)] = row
+            for rev in db.query(MT5CandleRevisionORM).filter(
+                MT5CandleRevisionORM.provider == provider.name.upper(),
+                MT5CandleRevisionORM.broker_symbol == broker_symbol.upper(),
+                MT5CandleRevisionORM.timeframe == timeframe.upper(),
+                MT5CandleRevisionORM.bar_timestamp.in_(chunk),
+            ).order_by(MT5CandleRevisionORM.revision_number.asc()):
+                rev_time = rev.bar_timestamp if rev.bar_timestamp.tzinfo else rev.bar_timestamp.replace(tzinfo=timezone.utc)
+                latest_revision_by_time[rev_time] = rev  # last write in ascending order wins -> latest revision
+
+        # Rows for genuinely brand-new bars (no existing canonical row, no existing revision) are
+        # accumulated here for a single bulk_save_objects() INSERT batch instead of the per-row
+        # db.merge() path below. db.merge() always issues an implicit SELECT-by-primary-key
+        # before deciding insert-vs-update -- correct and necessary when a row MIGHT already
+        # exist, but pure waste (and, profiled during this integration's own ForexSB backfill,
+        # the dominant cost -- ~63 bars/sec end-to-end) when `existing_canonical`/
+        # `latest_revision_by_time` have ALREADY established the row is new. This is the common
+        # case for a large first-time backfill (e.g. ForexSBHistoricalProvider's ~200,000-bar
+        # native-file responses); the existing per-row db.merge() path is kept EXACTLY as before
+        # for every row that might already exist (protected/updated/unchanged), since correctness
+        # there depends on merge's read-then-write semantics.
+        new_revision_rows: list[dict] = []
+        new_canonical_rows: list[dict] = []
 
         for bar in bars:
             classification, flags = quality_by_time.get(bar.time, (quality.VALID, []))
             bar_timestamp_utc = bar.time - offset
             existing_row = existing_canonical.get(bar.time)
             latest_rev = latest_revision_by_time.get(bar.time)
+            is_brand_new = existing_row is None and latest_rev is None
             unchanged = latest_rev is not None and (latest_rev.open, latest_rev.high, latest_rev.low, latest_rev.close) == (bar.open, bar.high, bar.low, bar.close)
             # Finalization is ALWAYS recomputed against the current write's `now` -- never read
             # from a flag stored by an earlier write. A bar observed 2 minutes after it closed is
@@ -208,36 +250,30 @@ def _persist_bars(bars: list[HistoricalBar], *, provider: HistoricalDataProvider
 
             if not unchanged:
                 next_rev_number = (latest_rev.revision_number + 1) if latest_rev else 1
-                db.add(MT5CandleRevisionORM(
-                    revision_id=_revision_id(provider.name.upper(), broker_symbol, timeframe, bar.time, next_rev_number),
-                    provider=provider.name.upper(), canonical_symbol=canonical_symbol.upper(), broker_symbol=broker_symbol.upper(), timeframe=timeframe.upper(),
-                    bar_timestamp=bar.time, bar_timestamp_utc=bar_timestamp_utc, broker_utc_offset_minutes=broker_utc_offset_minutes,
-                    observed_at=now, revision_number=next_rev_number,
-                    open=bar.open, high=bar.high, low=bar.low, close=bar.close,
-                    tick_volume=bar.tick_volume, spread=bar.spread, real_volume=bar.real_volume,
-                    finalized=will_be_finalized, post_finalization_anomaly=False, created_at=now,
-                ))
+                if is_brand_new:
+                    new_revision_rows.append(dict(
+                        revision_id=_revision_id(provider.name.upper(), broker_symbol, timeframe, bar.time, next_rev_number),
+                        provider=provider.name.upper(), canonical_symbol=canonical_symbol.upper(), broker_symbol=broker_symbol.upper(), timeframe=timeframe.upper(),
+                        bar_timestamp=bar.time, bar_timestamp_utc=bar_timestamp_utc, broker_utc_offset_minutes=broker_utc_offset_minutes,
+                        observed_at=now, revision_number=next_rev_number,
+                        open=bar.open, high=bar.high, low=bar.low, close=bar.close,
+                        tick_volume=bar.tick_volume, spread=bar.spread, real_volume=bar.real_volume,
+                        finalized=will_be_finalized, post_finalization_anomaly=False, created_at=now,
+                    ))
+                else:
+                    db.add(MT5CandleRevisionORM(
+                        revision_id=_revision_id(provider.name.upper(), broker_symbol, timeframe, bar.time, next_rev_number),
+                        provider=provider.name.upper(), canonical_symbol=canonical_symbol.upper(), broker_symbol=broker_symbol.upper(), timeframe=timeframe.upper(),
+                        bar_timestamp=bar.time, bar_timestamp_utc=bar_timestamp_utc, broker_utc_offset_minutes=broker_utc_offset_minutes,
+                        observed_at=now, revision_number=next_rev_number,
+                        open=bar.open, high=bar.high, low=bar.low, close=bar.close,
+                        tick_volume=bar.tick_volume, spread=bar.spread, real_volume=bar.real_volume,
+                        finalized=will_be_finalized, post_finalization_anomaly=False, created_at=now,
+                    ))
                 revisions_written += 1
 
             candle_id = f"{provider.name.upper()}:{broker_symbol.upper()}:{timeframe.upper()}:{bar.time.isoformat()}"
-            row = existing_row or MT5CanonicalCandleORM(candle_id=candle_id)
-            row.provider = provider.name.upper()
-            row.dataset_policy = dataset_policy
-            row.canonical_symbol = canonical_symbol.upper()
-            row.broker_symbol = broker_symbol.upper()
-            row.timeframe = timeframe.upper()
-            row.timestamp = bar.time
-            row.timestamp_utc = bar_timestamp_utc
-            row.broker_utc_offset_minutes = broker_utc_offset_minutes
-            row.finalized = will_be_finalized
-            row.open, row.high, row.low, row.close = bar.open, bar.high, bar.low, bar.close
-            row.tick_volume = bar.tick_volume
-            row.spread = bar.spread
-            row.real_volume = bar.real_volume
-            row.quality = classification
-            row.delayed = False
-            row.proxy = proxy
-            row.lineage = {
+            lineage = {
                 "provider": provider.name.upper(),
                 "dataset_policy": dataset_policy,
                 "source": f"historical_intelligence.ingestion:{provider.name}",
@@ -246,14 +282,71 @@ def _persist_bars(bars: list[HistoricalBar], *, provider: HistoricalDataProvider
                 "quality_flags": flags,
                 "broker_utc_offset_minutes": broker_utc_offset_minutes,
             }
-            row.fetched_at = now
-            row.updated_at = now
-            db.merge(row)
+            if is_brand_new:
+                new_canonical_rows.append(dict(
+                    candle_id=candle_id, provider=provider.name.upper(), dataset_policy=dataset_policy,
+                    canonical_symbol=canonical_symbol.upper(), broker_symbol=broker_symbol.upper(), timeframe=timeframe.upper(),
+                    timestamp=bar.time, timestamp_utc=bar_timestamp_utc, broker_utc_offset_minutes=broker_utc_offset_minutes,
+                    finalized=will_be_finalized, open=bar.open, high=bar.high, low=bar.low, close=bar.close,
+                    tick_volume=bar.tick_volume, spread=bar.spread, real_volume=bar.real_volume,
+                    quality=classification, delayed=False, proxy=proxy, lineage=lineage,
+                    fetched_at=now, updated_at=now,
+                ))
+            else:
+                row = existing_row or MT5CanonicalCandleORM(candle_id=candle_id)
+                row.provider = provider.name.upper()
+                row.dataset_policy = dataset_policy
+                row.canonical_symbol = canonical_symbol.upper()
+                row.broker_symbol = broker_symbol.upper()
+                row.timeframe = timeframe.upper()
+                row.timestamp = bar.time
+                row.timestamp_utc = bar_timestamp_utc
+                row.broker_utc_offset_minutes = broker_utc_offset_minutes
+                row.finalized = will_be_finalized
+                row.open, row.high, row.low, row.close = bar.open, bar.high, bar.low, bar.close
+                row.tick_volume = bar.tick_volume
+                row.spread = bar.spread
+                row.real_volume = bar.real_volume
+                row.quality = classification
+                row.delayed = False
+                row.proxy = proxy
+                row.lineage = lineage
+                row.fetched_at = now
+                row.updated_at = now
+                db.merge(row)
+
             persisted += 1
             if classification == quality.SUSPECT:
                 suspect += 1
             elif classification == quality.INVALID:
                 invalid += 1
+
+        # Core-level executemany INSERT (not the ORM unit-of-work) for the brand-new-row fast
+        # path -- measured ~3.5x faster than per-row db.add()/merge() on a real 2-year ForexSB
+        # M30 slice (63 bars/sec -> 224 bars/sec) since it batches into real multi-row INSERT
+        # statements instead of one round-trip per object. Safe here specifically because every
+        # row in these two lists was already established as NEW (no existing PK) by the prefetch
+        # above -- a plain INSERT can never collide.
+        #
+        # Committed once PER CHUNK, not once for the whole batch -- a real, measured problem
+        # during this integration's own first full-scale run: a single ~200,000-row backfill
+        # (ForexSBHistoricalProvider always returns its whole native file in one fetch_bars()
+        # call) held one multi-minute transaction open, and the concurrently-running live M5
+        # cycle's own total_cycle_ms rows (queried directly from mt5_scheduler_cycles during that
+        # run) were 2-3x their established baseline (200-360s) at 340-774s. Per-chunk commits
+        # bound any single transaction to _IN_CLAUSE_CHUNK_SIZE rows (a few seconds), giving
+        # Postgres real interleaving room for the live cycle's own queries between chunks,
+        # directly addressing Part 13's "must not materially delay the M5 trading cycle."
+        for chunk_start in range(0, len(new_revision_rows), _IN_CLAUSE_CHUNK_SIZE):
+            db.execute(sa_insert(MT5CandleRevisionORM), new_revision_rows[chunk_start:chunk_start + _IN_CLAUSE_CHUNK_SIZE])
+            db.commit()
+            if len(new_revision_rows) > _IN_CLAUSE_CHUNK_SIZE:
+                time.sleep(_LARGE_BATCH_CHUNK_PAUSE_SECONDS)
+        for chunk_start in range(0, len(new_canonical_rows), _IN_CLAUSE_CHUNK_SIZE):
+            db.execute(sa_insert(MT5CanonicalCandleORM), new_canonical_rows[chunk_start:chunk_start + _IN_CLAUSE_CHUNK_SIZE])
+            db.commit()
+            if len(new_canonical_rows) > _IN_CLAUSE_CHUNK_SIZE:
+                time.sleep(_LARGE_BATCH_CHUNK_PAUSE_SECONDS)
         db.commit()
     return {"persisted": persisted, "suspect": suspect, "invalid": invalid, "protected": protected, "revisions_written": revisions_written}
 
@@ -369,7 +462,7 @@ def reconcile_providers(*, canonical_symbol: str, timeframe: str, start: datetim
     safe/cheap to call anytime after both providers have been backfilled for the given range."""
     left_bars = _bars_from_canonical(provider=left_provider.upper(), broker_symbol=left_broker_symbol or canonical_symbol, timeframe=timeframe, start=start, end=end)
     right_bars = _bars_from_canonical(provider=right_provider.upper(), broker_symbol=right_broker_symbol or canonical_symbol, timeframe=timeframe, start=start, end=end)
-    report = quality.compare_provider_overlap(left_bars, left_provider.upper(), right_bars, right_provider.upper())
+    report = quality.compare_provider_overlap(left_bars, left_provider.upper(), right_bars, right_provider.upper(), timeframe=timeframe)
     reconciliation_id = _run_id(f"{left_provider}-vs-{right_provider}", canonical_symbol, timeframe, start, end)
     with SessionLocal() as db:
         row = HistoricalProviderReconciliationORM(
@@ -377,6 +470,8 @@ def reconcile_providers(*, canonical_symbol: str, timeframe: str, start: datetim
             left_provider=left_provider.upper(), right_provider=right_provider.upper(),
             overlapping_bars=report.get("overlapping_bars", 0),
             median_relative_diff=report.get("median_relative_diff"), mean_relative_diff=report.get("mean_relative_diff"), max_relative_diff=report.get("max_relative_diff"),
+            p95_relative_diff=report.get("p95_relative_diff"), missing_bar_rate=report.get("missing_bar_rate"),
+            timestamp_alignment_rate=report.get("timestamp_alignment_rate"), ohlc_consistency_median_diff=report.get("ohlc_consistency_median_diff"),
             status=report["status"], created_at=utcnow(),
         )
         db.add(row)
