@@ -123,3 +123,125 @@ def test_latest_edge_stability_insufficient_when_no_run_recorded(monkeypatch):
     _session_factory(monkeypatch)
     lookup = walk_forward.latest_edge_stability(anchor_strategy="never_run_strategy")
     assert lookup["edge_stability"] == walk_forward.EDGE_INSUFFICIENT_SAMPLE
+
+
+# --- classify_directional_edge (pure, deterministic) --------------------------------------------
+
+
+def test_directional_positive_edge_when_both_windows_clearly_positive():
+    train = {"n": 50, "expectancy_r": 0.4}
+    oos = {"n": 20, "expectancy_r": 0.3}
+    assert walk_forward.classify_directional_edge(train=train, oos=oos) == walk_forward.DIRECTIONAL_POSITIVE_EDGE
+
+
+def test_directional_negative_edge_when_both_windows_clearly_negative():
+    """A reliably, reproducibly NEGATIVE strategy is real, actionable intelligence -- distinct
+    from UNSTABLE/no-signal, per the module docstring's explicit reasoning for this taxonomy."""
+    train = {"n": 50, "expectancy_r": -0.6}
+    oos = {"n": 20, "expectancy_r": -0.4}
+    assert walk_forward.classify_directional_edge(train=train, oos=oos) == walk_forward.DIRECTIONAL_NEGATIVE_EDGE
+
+
+def test_directional_neutral_edge_when_both_windows_inside_the_band():
+    train = {"n": 50, "expectancy_r": 0.02}
+    oos = {"n": 20, "expectancy_r": -0.01}
+    assert walk_forward.classify_directional_edge(train=train, oos=oos) == walk_forward.DIRECTIONAL_NEUTRAL_EDGE
+
+
+def test_directional_unstable_when_signs_disagree():
+    train = {"n": 50, "expectancy_r": 0.5}
+    oos = {"n": 20, "expectancy_r": -0.3}
+    assert walk_forward.classify_directional_edge(train=train, oos=oos) == walk_forward.DIRECTIONAL_UNSTABLE
+
+
+def test_directional_unstable_when_one_window_straddles_the_band():
+    """Train sits inside the neutral band (sign 0) while OOS is clearly positive (sign 1) --
+    signs don't both agree on a real direction, so this must NOT be reported POSITIVE_EDGE."""
+    train = {"n": 50, "expectancy_r": 0.03}
+    oos = {"n": 20, "expectancy_r": 0.5}
+    assert walk_forward.classify_directional_edge(train=train, oos=oos) == walk_forward.DIRECTIONAL_UNSTABLE
+
+
+def test_directional_insufficient_when_train_below_min_sample():
+    train = {"n": 19, "expectancy_r": 0.5}  # one below _MIN_TRAIN_SAMPLE=20
+    oos = {"n": 20, "expectancy_r": 0.5}
+    assert walk_forward.classify_directional_edge(train=train, oos=oos) == walk_forward.DIRECTIONAL_INSUFFICIENT
+
+
+def test_directional_insufficient_when_oos_below_min_sample():
+    train = {"n": 50, "expectancy_r": 0.5}
+    oos = {"n": 9, "expectancy_r": 0.5}  # one below _MIN_OOS_SAMPLE=10
+    assert walk_forward.classify_directional_edge(train=train, oos=oos) == walk_forward.DIRECTIONAL_INSUFFICIENT
+
+
+def test_directional_insufficient_when_either_expectancy_is_none():
+    train = {"n": 50, "expectancy_r": None}
+    oos = {"n": 20, "expectancy_r": 0.5}
+    assert walk_forward.classify_directional_edge(train=train, oos=oos) == walk_forward.DIRECTIONAL_INSUFFICIENT
+    train2 = {"n": 50, "expectancy_r": 0.5}
+    oos2 = {"n": 20, "expectancy_r": None}
+    assert walk_forward.classify_directional_edge(train=train2, oos=oos2) == walk_forward.DIRECTIONAL_INSUFFICIENT
+
+
+def test_directional_boundary_expectancy_exactly_at_neutral_band_is_not_positive():
+    """The sign comparison is strict (> neutral_band_r), so a value exactly AT the band edge is
+    sign 0, not sign 1 -- both windows exactly at the boundary must classify NEUTRAL_EDGE, not
+    POSITIVE_EDGE, since neither strictly clears the band."""
+    train = {"n": 50, "expectancy_r": 0.05}
+    oos = {"n": 20, "expectancy_r": 0.05}
+    assert walk_forward.classify_directional_edge(train=train, oos=oos) == walk_forward.DIRECTIONAL_NEUTRAL_EDGE
+
+
+def test_directional_edge_respects_custom_thresholds():
+    """Confirms min_train/min_oos/neutral_band_r are genuinely honored, not just defaulted --
+    a sample that clears the DEFAULT floor but not a stricter caller-supplied one must still be
+    INSUFFICIENT, and a value inside the default band but outside a narrower caller-supplied one
+    must classify directionally."""
+    train = {"n": 25, "expectancy_r": 0.5}
+    oos = {"n": 15, "expectancy_r": 0.5}
+    assert walk_forward.classify_directional_edge(train=train, oos=oos, min_train=30) == walk_forward.DIRECTIONAL_INSUFFICIENT
+    train2 = {"n": 50, "expectancy_r": 0.03}
+    oos2 = {"n": 20, "expectancy_r": 0.03}
+    assert walk_forward.classify_directional_edge(train=train2, oos=oos2, neutral_band_r=0.01) == walk_forward.DIRECTIONAL_POSITIVE_EDGE
+
+
+# --- classify_directional_edge via run_walk_forward / latest_edge_stability (chronological/OOS) -
+
+
+def test_run_walk_forward_reports_negative_edge_for_a_reliably_losing_strategy(monkeypatch):
+    """End-to-end: a strategy that loses consistently in BOTH the train and OOS windows must be
+    labeled NEGATIVE_EDGE by run_walk_forward's own directional_edge output, not lumped into
+    edge_stability's FAILED_OOS -- the two classifications answer different questions over the
+    identical seeded evidence."""
+    SessionLocal = _session_factory(monkeypatch)
+    r_values = [-1.0] * 30 + [-0.9] * 30  # consistently negative in both windows
+    with SessionLocal() as db:
+        _seed(db, n=60, strategy="directional_negative_test", start=NOW, spacing=timedelta(hours=1), r_values=r_values)
+        db.commit()
+
+    result = walk_forward.run_walk_forward(anchor_strategy="directional_negative_test", train_fraction=0.5, purge=timedelta(minutes=1))
+    assert result["directional_edge"] == walk_forward.DIRECTIONAL_NEGATIVE_EDGE
+    # And edge_stability's own, separate question ("did edge survive OOS") is FAILED_OOS/DEGRADED
+    # here too since train itself never had a positive edge -- confirms the two labels are
+    # computed from the same evidence without one silently overriding the other.
+    assert result["edge_stability"] in {walk_forward.EDGE_FAILED_OOS, walk_forward.EDGE_DEGRADED, walk_forward.EDGE_ACCEPTABLE}
+
+
+def test_latest_edge_stability_read_back_includes_directional_edge(monkeypatch):
+    """Confirms the persisted directional_edge column round-trips through latest_edge_stability,
+    the same read path entry_intelligence.py's _DIRECTIONAL_GATE_BLOCKED gate consumes."""
+    SessionLocal = _session_factory(monkeypatch)
+    r_values = [-1.0] * 30 + [-0.9] * 30
+    with SessionLocal() as db:
+        _seed(db, n=60, strategy="directional_persist_test", start=NOW, spacing=timedelta(hours=1), r_values=r_values)
+        db.commit()
+
+    walk_forward.run_walk_forward(anchor_strategy="directional_persist_test", train_fraction=0.5, purge=timedelta(minutes=1))
+    lookup = walk_forward.latest_edge_stability(anchor_strategy="directional_persist_test")
+    assert lookup["directional_edge"] == walk_forward.DIRECTIONAL_NEGATIVE_EDGE
+
+
+def test_latest_edge_stability_directional_edge_insufficient_when_no_run_recorded(monkeypatch):
+    _session_factory(monkeypatch)
+    lookup = walk_forward.latest_edge_stability(anchor_strategy="never_run_strategy_directional")
+    assert lookup["directional_edge"] == walk_forward.DIRECTIONAL_INSUFFICIENT
