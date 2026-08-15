@@ -45,12 +45,16 @@ from backend.shared.db import SessionLocal
 
 logger = logging.getLogger(__name__)
 
-_R_MILESTONES = (0.25, 0.5, 0.75, 1.0, 1.5, 2.0)
+_R_MILESTONES = outcomes._R_MILESTONES
 _MILESTONE_LABELS = {0.25: "R_0_25", 0.5: "R_0_50", 0.75: "R_0_75", 1.0: "R_1_00", 1.5: "R_1_50", 2.0: "R_2_00"}
-_ADVERSE_FRACTION = 0.8  # matches outcomes.py's _IMMEDIATE_FAILURE_ADVERSE_FRACTION convention
+_ADVERSE_FRACTION = outcomes._IMMEDIATE_FAILURE_ADVERSE_FRACTION
 _GIVEBACK_THRESHOLD_R = 0.25  # minimum giveback (MFE - current) to trigger a GIVEBACK checkpoint
 _GIVEBACK_MIN_MFE_R = 0.5  # only meaningful once real profit existed to give back
-_MAX_LOOKFORWARD_BARS = 800
+_MAX_LOOKFORWARD_BARS = outcomes._MAX_LOOKFORWARD_BARS
+# Postgres caps a single query at 65,535 bound parameters -- the EURUSD candidate corpus alone
+# has already crossed that with resume=False (no checkpoint filter, full-history scan). Chunk the
+# same way ingestion.py's _persist_bars() does for its IN(...) prefetches.
+_IN_CLAUSE_CHUNK_SIZE = 10_000
 
 
 def _state_id(source_fingerprint_id: str, milestone_label: str) -> str:
@@ -65,14 +69,23 @@ def _ensure_utc(dt: datetime) -> datetime:
     return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
 
 
-async def _structure_snapshot_at(*, canonical_symbol: str, broker_symbol: str, at: datetime, direction: str) -> dict[str, Any]:
+async def _structure_snapshot_at(*, canonical_symbol: str, broker_symbol: str, at: datetime, direction: str, provider: str = "MT5") -> dict[str, Any]:
     """Real, no-lookahead structure/regime snapshot AT `at` -- reuses replay.py's already-proven
     bars_as_of/build_strategy_context (byte-identical to the entry-side replay path), never a
     second parallel computation. Returns status=INSUFFICIENT_HISTORY honestly rather than
-    guessing when there isn't enough trailing data at `at`."""
-    m15 = await bars_as_of(canonical_symbol=canonical_symbol, broker_symbol=broker_symbol, timeframe="M15", at=at, count=required_lookback(timeframe="M15"), provider="MT5")
-    h1 = await bars_as_of(canonical_symbol=canonical_symbol, broker_symbol=broker_symbol, timeframe="H1", at=at, count=required_lookback(timeframe="H1"), provider="MT5")
-    h4 = await bars_as_of(canonical_symbol=canonical_symbol, broker_symbol=broker_symbol, timeframe="H4", at=at, count=required_lookback(timeframe="H4"), provider="MT5")
+    guessing when there isn't enough trailing data at `at`.
+
+    `provider` MUST match the fingerprint's own source provider (see backfill_trade's caller) --
+    a bug found auditing this module for the ForexSB corpus-expansion directive: this previously
+    hardcoded provider="MT5" unconditionally, so every checkpoint reconstructed for a
+    non-MT5-sourced (e.g. FOREXSB) historical trade would silently fail this lookup for any `at`
+    before MT5's own corpus starts (~2022-08) -- not incorrect data, but a silent
+    INSUFFICIENT_HISTORY that would have discarded structure/regime context for the entire deep
+    ForexSB-sourced corpus instead of actually reconstructing it from the same provider the trade
+    itself came from."""
+    m15 = await bars_as_of(canonical_symbol=canonical_symbol, broker_symbol=broker_symbol, timeframe="M15", at=at, count=required_lookback(timeframe="M15"), provider=provider)
+    h1 = await bars_as_of(canonical_symbol=canonical_symbol, broker_symbol=broker_symbol, timeframe="H1", at=at, count=required_lookback(timeframe="H1"), provider=provider)
+    h4 = await bars_as_of(canonical_symbol=canonical_symbol, broker_symbol=broker_symbol, timeframe="H4", at=at, count=required_lookback(timeframe="H4"), provider=provider)
     if len(m15) < 60 or len(h1) < 50 or len(h4) < 30:
         return {"status": "INSUFFICIENT_HISTORY"}
 
@@ -326,7 +339,7 @@ async def backfill_trade(fingerprint: HistoricalPatternFingerprintORM, outcome: 
             try:
                 structure = await _structure_snapshot_at(
                     canonical_symbol=fingerprint.canonical_symbol, broker_symbol=fingerprint.canonical_symbol,
-                    at=_ensure_utc(cp["candle_time"]), direction=direction,
+                    at=_ensure_utc(cp["candle_time"]), direction=direction, provider=fingerprint.provider,
                 )
             except Exception as exc:
                 logger.debug("adaptive_backfill: structure snapshot failed for %s/%s: %s", fingerprint.fingerprint_id, cp["milestone_label"], exc.__class__.__name__)
@@ -399,25 +412,62 @@ async def backfill_trade(fingerprint: HistoricalPatternFingerprintORM, outcome: 
     return written
 
 
-def _checkpoint_progress(anchor_strategy: str | None) -> datetime | None:
+def _checkpoint_progress(anchor_strategy: str | None, canonical_symbol: str | None = None, provider: str | None = None) -> datetime | None:
     """Restart-safety (Phase 20): resume from the newest source fingerprint's entry_time already
-    covered by this backfill, per anchor_strategy, so re-running is a cheap no-op for
-    already-processed trades."""
+    covered by this backfill, per anchor_strategy AND canonical_symbol, so re-running is a cheap
+    no-op for already-processed trades.
+
+    Real bug found/fixed during the ForexSB integration directive: this previously scoped the
+    checkpoint by anchor_strategy ONLY, never by canonical_symbol, even though
+    run_adaptive_backfill's own fingerprint query filters by both when both are given. Calling
+    this per-symbol (exactly what pipelining the ForexSB corpus-expansion backfill requires --
+    running adaptive backfill for one newly-completed symbol at a time rather than waiting for
+    all ten) would compute a checkpoint from the GLOBAL max state_time across every symbol, then
+    apply it as an entry_time floor to a query already filtered to ONE symbol -- silently
+    excluding every fingerprint for a symbol whose real history is older than whatever the
+    globally-newest adaptive state happens to be. Confirmed this would have fired immediately:
+    157,174 existing adaptive states already reach state_time 2026-08-13, which would have
+    floored out every 2018-2022 ForexSB-sourced fingerprint with zero error, zero warning --
+    exactly the kind of silent no-op this whole directive explicitly warns against.
+
+    Second real bug, found later the same directive: per-symbol scoping alone is still not
+    enough. EURUSD (like every symbol) has BOTH live MT5-sourced adaptive states (state_time
+    reaching today) AND historical FOREXSB-sourced ones (state_time in 2018-2022) under the SAME
+    canonical_symbol. Without a provider filter, a FOREXSB-scoped backfill run's checkpoint would
+    still resolve to EURUSD's newest state regardless of which provider sourced it -- inheriting
+    today's live MT5 watermark and floaring out the entire ForexSB corpus, same failure mode as
+    the cross-symbol bug, just one dimension narrower. `provider` filters via a join to the
+    SOURCING fingerprint's own provider (HistoricalAdaptiveStateORM has no provider column of its
+    own -- it is a derived/reconstructed record, not raw evidence)."""
     with SessionLocal() as db:
         q = db.query(HistoricalAdaptiveStateORM.state_time).order_by(HistoricalAdaptiveStateORM.state_time.desc())
         if anchor_strategy:
             q = q.filter(HistoricalAdaptiveStateORM.strategy == anchor_strategy)
+        if canonical_symbol:
+            q = q.filter(HistoricalAdaptiveStateORM.canonical_symbol == canonical_symbol.upper())
+        if provider:
+            q = q.join(
+                HistoricalPatternFingerprintORM,
+                HistoricalPatternFingerprintORM.fingerprint_id == HistoricalAdaptiveStateORM.source_fingerprint_id,
+            ).filter(HistoricalPatternFingerprintORM.provider == provider.upper())
         latest = q.first()
     return latest[0] if latest else None
 
 
 async def run_adaptive_backfill(
-    *, anchor_strategy: str | None = None, canonical_symbol: str | None = None, limit: int | None = None,
+    *, anchor_strategy: str | None = None, canonical_symbol: str | None = None, provider: str | None = None,
+    limit: int | None = None,
     commit_batch_size: int = 20, compute_structure: bool = True, resume: bool = True, progress_every: int = 200,
 ) -> dict[str, Any]:
     """Bulk driver (Phase 20) -- restart-safe, idempotent, batch-committed, mirrors
     bulk_replay.py's replay_symbol_history_fast pattern exactly (one session held open per
-    batch, committed once per `commit_batch_size` trades, never per-row)."""
+    batch, committed once per `commit_batch_size` trades, never per-row).
+
+    `provider`, when given, scopes BOTH the fingerprint scan (so a FOREXSB-only run doesn't also
+    walk every MT5 fingerprint for the symbol) AND the resume checkpoint (so it can never inherit
+    a different provider's watermark for the same symbol -- see _checkpoint_progress's docstring
+    for the bug this fixes). Omitting it preserves existing behavior exactly: every provider is
+    scanned together, checkpointed together, same as before this parameter existed."""
     resumed_from = None
     with SessionLocal() as scan_db:
         q = scan_db.query(HistoricalPatternFingerprintORM).order_by(HistoricalPatternFingerprintORM.entry_time.asc())
@@ -425,8 +475,10 @@ async def run_adaptive_backfill(
             q = q.filter(HistoricalPatternFingerprintORM.anchor_strategy == anchor_strategy)
         if canonical_symbol:
             q = q.filter(HistoricalPatternFingerprintORM.canonical_symbol == canonical_symbol)
+        if provider:
+            q = q.filter(HistoricalPatternFingerprintORM.provider == provider.upper())
         if resume:
-            checkpoint = _checkpoint_progress(anchor_strategy)
+            checkpoint = _checkpoint_progress(anchor_strategy, canonical_symbol, provider)
             if checkpoint is not None:
                 q = q.filter(HistoricalPatternFingerprintORM.entry_time > checkpoint)
                 resumed_from = checkpoint.isoformat()
@@ -436,8 +488,10 @@ async def run_adaptive_backfill(
         outcome_map = {}
         if fingerprints:
             fp_ids = [f.fingerprint_id for f in fingerprints]
-            for o in scan_db.query(HistoricalSetupOutcomeORM).filter(HistoricalSetupOutcomeORM.fingerprint_id.in_(fp_ids)).all():
-                outcome_map[o.fingerprint_id] = o
+            for chunk_start in range(0, len(fp_ids), _IN_CLAUSE_CHUNK_SIZE):
+                chunk = fp_ids[chunk_start:chunk_start + _IN_CLAUSE_CHUNK_SIZE]
+                for o in scan_db.query(HistoricalSetupOutcomeORM).filter(HistoricalSetupOutcomeORM.fingerprint_id.in_(chunk)).all():
+                    outcome_map[o.fingerprint_id] = o
 
     trades_processed = 0
     states_written = 0
@@ -475,7 +529,7 @@ async def run_adaptive_backfill(
 
     elapsed = time.perf_counter() - t0
     return {
-        "anchor_strategy": anchor_strategy, "canonical_symbol": canonical_symbol, "resumed_from": resumed_from,
+        "anchor_strategy": anchor_strategy, "canonical_symbol": canonical_symbol, "provider": provider, "resumed_from": resumed_from,
         "trades_processed": trades_processed, "states_written": states_written, "errors": errors,
         "elapsed_seconds": round(elapsed, 2),
         "avg_ms_per_trade": round((elapsed / trades_processed) * 1000, 2) if trades_processed else None,
