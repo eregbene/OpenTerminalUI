@@ -52,8 +52,12 @@ STATE_DIMENSION_WEIGHTS: dict[str, float] = {
 ADAPTIVE_SIMILARITY_MODEL_VERSION = "adaptive-sim-v2"
 _MIN_SIMILARITY_THRESHOLD = 0.6
 _DEFAULT_TOP_K = 50
-_SAME_TRADE_DEDUP = True
 _CLUSTER_WINDOW = timedelta(hours=6)  # mirrors similarity.py's entry-side temporal-cluster window
+# Default gate for historical_management_recommendation's own effective-sample-size floor --
+# named here (not just an inline function-default literal) so backend/adaptive_management/
+# service.py's "historical_analog" shadow-policy family can import the SAME value instead of
+# re-declaring its own params.get("min_effective_sample", 20) fallback.
+_DEFAULT_MIN_EFFECTIVE_SAMPLE = 20
 
 
 def state_similarity_score(query: dict[str, Any], candidate: dict[str, Any]) -> float:
@@ -289,7 +293,7 @@ RECOMMENDATION_PROTECT_TRAIL_EXIT = "PROTECT_TRAIL_EXIT"
 RECOMMENDATION_INSUFFICIENT = "HIST_INTEL_INSUFFICIENT"
 
 
-def historical_management_recommendation(stats: dict[str, Any], *, min_effective_sample: int = 20) -> str:
+def historical_management_recommendation(stats: dict[str, Any], *, min_effective_sample: int = _DEFAULT_MIN_EFFECTIVE_SAMPLE) -> str:
     """Deterministic, transparent -- no one-metric rule (mirrors entry_intelligence.py's
     _historical_decision). Never selects an action outside HOLD/LIGHT_PROTECTION/
     PROTECT_TRAIL_EXIT -- the caller maps these onto the Adaptive Manager's OWN existing action

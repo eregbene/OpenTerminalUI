@@ -2739,6 +2739,8 @@ def detect_regime(candles: list[dict[str, Any]], context: dict[str, Any] | None 
 
 
 def default_policies() -> list[dict[str, Any]]:
+    from backend.historical_intelligence.adaptive_similarity import _DEFAULT_MIN_EFFECTIVE_SAMPLE
+
     base = {"version": "v1", "eligible_strategies": [], "eligible_symbols": [], "eligible_timeframes": [], "eligible_regimes": [], "minimum_data_requirements": DEFAULT_MINIMUMS, "validation_status": "research", "scorecard": {}, "evidence_artifacts": []}
     return [
         base | {"policy_id": "static_baseline_v1", "name": "Static baseline", "family": "static", "description": "Original SL/TP, no intervention.", "parameters": {}},
@@ -2755,7 +2757,7 @@ def default_policies() -> list[dict[str, Any]]:
         base | {"policy_id": "improved_breakeven_structure_v1", "name": "Stricter structure-aware breakeven", "family": "breakeven", "description": "Shadow breakeven requiring a higher achieved-R trigger than the flat 0.75R baseline, approximating the multi-condition structure gate.", "parameters": {"trigger_r": 1.2}},
         base | {"policy_id": "atr_structure_stop_wider_v1", "name": "Wider ATR/structure stop, risk-normalized volume", "family": "atr_structure_stop", "description": "Shadow counterfactual: initial stop 1.5x wider (risk-normalized volume, same monetary risk), rescaling realized R.", "parameters": {"risk_multiple": 1.5}},
         base | {"policy_id": "atr_structure_stop_tighter_v1", "name": "Tighter ATR/structure stop, risk-normalized volume", "family": "atr_structure_stop", "description": "Shadow counterfactual: initial stop 0.75x tighter (risk-normalized volume, same monetary risk), rescaling realized R.", "parameters": {"risk_multiple": 0.75}},
-        base | {"policy_id": "historical_analog_v1", "name": "Historical-analog adaptive policy", "family": "historical_analog", "description": "Shadow counterfactual: exits at the first +0.25R/+0.5R/+0.75R/+1R/+1.5R/+2R milestone where the live Historical Adaptive Intelligence multi-neighbor model (Adaptive-Historical-Intelligence-Backfill directive) recommends LIGHT_PROTECTION or PROTECT_TRAIL_EXIT rather than HOLD, using the SAME weighted state statistics the real Adaptive Manager cycle would consult.", "parameters": {"min_effective_sample": 20}},
+        base | {"policy_id": "historical_analog_v1", "name": "Historical-analog adaptive policy", "family": "historical_analog", "description": "Shadow counterfactual: exits at the first +0.25R/+0.5R/+0.75R/+1R/+1.5R/+2R milestone where the live Historical Adaptive Intelligence multi-neighbor model (Adaptive-Historical-Intelligence-Backfill directive) recommends LIGHT_PROTECTION or PROTECT_TRAIL_EXIT rather than HOLD, using the SAME weighted state statistics the real Adaptive Manager cycle would consult.", "parameters": {"min_effective_sample": _DEFAULT_MIN_EFFECTIVE_SAMPLE}},
         base
         | {
             "policy_id": ACTIVE_POLICY_ID,
@@ -2893,7 +2895,7 @@ def simulate_policy(case: TradeCase, path: dict[str, Any], policy: dict[str, Any
         # counterfactual PnL, exactly like every other family here.
         from backend.historical_intelligence import adaptive_cache
         from backend.historical_intelligence.adaptive_fingerprint import build_state_fingerprint
-        from backend.historical_intelligence.adaptive_similarity import historical_management_recommendation
+        from backend.historical_intelligence.adaptive_similarity import _DEFAULT_MIN_EFFECTIVE_SAMPLE, historical_management_recommendation
 
         # The historical backfill corpus stores strategy identity via normalize_strategy_id
         # (canonical lowercase, e.g. "mtfai1") -- TradeCase.strategy_id comes straight from the
@@ -2901,7 +2903,7 @@ def simulate_policy(case: TradeCase, path: dict[str, Any], policy: dict[str, Any
         # find_similar_states'/adaptive_similarity's hard strategy-match filter never matches a
         # real backfilled state even when one genuinely exists for that strategy.
         strategy_id = normalize_strategy_id(case.strategy_id)
-        min_effective_sample = float(params.get("min_effective_sample", 20))
+        min_effective_sample = float(params.get("min_effective_sample", _DEFAULT_MIN_EFFECTIVE_SAMPLE))
         for milestone_r in (0.25, 0.5, 0.75, 1.0, 1.5, 2.0):
             hit = _first_timeline(timeline, lambda row, m=milestone_r: float(row.get("r") or 0) >= m)
             if not hit:

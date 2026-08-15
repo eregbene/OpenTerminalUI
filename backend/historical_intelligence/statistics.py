@@ -21,7 +21,11 @@ from typing import Any
 from backend.historical_intelligence.orm import HistoricalPatternFingerprintORM, HistoricalSetupOutcomeORM
 from backend.shared.db import SessionLocal
 
-RELIABILITY_LEVELS = ("UNTRUSTED", "INSUFFICIENT", "LOW_CONFIDENCE", "PRELIMINARY", "USEFUL", "STRONG")
+# The subset of reliability_label()'s 6-tier scale considered reliable enough to influence a
+# live decision. Single source for both entry_intelligence.py's and adaptive_intelligence.py's
+# own local `_RELIABLE_LEVELS` names, which previously each independently declared the identical
+# {"USEFUL", "STRONG"} set.
+RELIABLE_TIER_LEVELS = {"USEFUL", "STRONG"}
 
 
 def reliability_label(n: int, *, quality_ok_fraction: float = 1.0) -> str:

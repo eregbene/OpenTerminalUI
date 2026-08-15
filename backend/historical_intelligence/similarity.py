@@ -77,7 +77,6 @@ DIMENSION_WEIGHTS: dict[str, float] = {
     # CONTEXTUAL
     "spread_regime": 0.5,
 }
-_TOTAL_WEIGHT = sum(DIMENSION_WEIGHTS.values())
 
 # Bumped whenever DIMENSION_WEIGHTS, the hard-filter set, or the ranking/dedup algorithm changes
 # -- Redis cache keys embed this (see cache.py::similarity_stats_key) so a model change can never
@@ -173,6 +172,7 @@ def find_similar_setups(
     query_dims: dict[str, Any], regime_broad: str | None = None, min_similarity: float = _MIN_SIMILARITY_THRESHOLD,
     top_k: int = _DEFAULT_TOP_K, dedup_clusters: bool = True, half_life_days: float | None = None,
     allow_related_symbols: bool = False, related_symbol_penalty: float = 0.5, as_of: datetime | None = None,
+    providers: set[str] | None = None,
 ) -> list[dict[str, Any]]:
     """Hard-filters to (symbol, direction, anchor_strategy, strategy_version, regime_broad --
     REGIME AWARENESS, see module docstring), ranks by similarity_score against `query_dims`,
@@ -188,7 +188,15 @@ def find_similar_setups(
 
     as_of (point-in-time cutoff, used by similarity_oos.py's walk-forward calibration -- never
     passed by the live entry path): restricts the neighbor pool to fingerprints with
-    entry_time <= as_of, so an OOS-period query can never see future-relative-to-it evidence."""
+    entry_time <= as_of, so an OOS-period query can never see future-relative-to-it evidence.
+
+    providers (default None = no filter, EVERY live/production caller): restricts the neighbor
+    pool to fingerprints from the given provider set, e.g. {"MT5"} -- added specifically for
+    offline analysis (ForexSB integration directive, Part 9's "does MT5+ForexSB outperform
+    MT5-only" comparison), so the same real candidates can be evaluated against a narrower
+    corpus WITHOUT duplicating this query/ranking logic in a separate script. Never used by
+    entry_intelligence.py or any live gate -- passing it is an explicit, deliberate choice by an
+    offline caller only."""
     with SessionLocal() as db:
         query = db.query(HistoricalPatternFingerprintORM, HistoricalSetupOutcomeORM).join(
             HistoricalSetupOutcomeORM, HistoricalSetupOutcomeORM.fingerprint_id == HistoricalPatternFingerprintORM.fingerprint_id
@@ -203,6 +211,8 @@ def find_similar_setups(
             query = query.filter(HistoricalPatternFingerprintORM.regime_broad == regime_broad)
         if as_of is not None:
             query = query.filter(HistoricalPatternFingerprintORM.entry_time <= as_of)
+        if providers:
+            query = query.filter(HistoricalPatternFingerprintORM.provider.in_({p.upper() for p in providers}))
         if allow_related_symbols:
             rows = query.limit(5000).all()
         else:
@@ -236,16 +246,20 @@ def similarity_statistics(
     *, canonical_symbol: str, direction: str, anchor_strategy: str, strategy_version: str, query_dims: dict[str, Any],
     regime_broad: str | None = None, top_k: int = _DEFAULT_TOP_K, half_life_days: float | None = None,
     allow_related_symbols: bool = False, min_similarity: float = _MIN_SIMILARITY_THRESHOLD, as_of: datetime | None = None,
+    providers: set[str] | None = None,
 ) -> dict[str, Any]:
     """The similarity-weighted counterpart to statistics.pattern_statistics -- 'effective_
     sample_size' is the sum of similarity (x recency, if enabled) weights AFTER temporal-cluster
     dedup, never a raw neighbor count. Reports the exact/very-close vs broader-neighbor split,
-    weight distribution, and every weighted outcome metric the multi-neighbor model needs."""
+    weight distribution, and every weighted outcome metric the multi-neighbor model needs.
+
+    providers: see find_similar_setups -- offline-analysis-only corpus restriction, never used
+    by a live gate."""
     neighbors = find_similar_setups(
         canonical_symbol=canonical_symbol, direction=direction, anchor_strategy=anchor_strategy,
         strategy_version=strategy_version, query_dims=query_dims, regime_broad=regime_broad,
         top_k=top_k, half_life_days=half_life_days, allow_related_symbols=allow_related_symbols,
-        min_similarity=min_similarity, as_of=as_of,
+        min_similarity=min_similarity, as_of=as_of, providers=providers,
     )
     if not neighbors:
         return {

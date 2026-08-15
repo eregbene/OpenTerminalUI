@@ -47,7 +47,7 @@ logger = logging.getLogger(__name__)
 # already enforces >=100 for USEFUL, this constant exists purely so the floor is visible and
 # tunable in ONE place without having to also touch statistics.py's general-purpose thresholds.
 _MIN_SAMPLE_FOR_LIVE_INFLUENCE = 100
-_RELIABLE_LEVELS = {"USEFUL", "STRONG"}
+_RELIABLE_LEVELS = statistics.RELIABLE_TIER_LEVELS
 # Phase 1 (walk-forward/OOS) gate: only a strategy whose historical edge held up out-of-sample
 # may influence a live decision. FAILED_OOS and DEGRADED are excluded outright; INSUFFICIENT_
 # SAMPLE is ALSO excluded (never assume stability that hasn't been demonstrated).

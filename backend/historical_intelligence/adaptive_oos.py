@@ -30,11 +30,14 @@ import statistics as pystats
 from typing import Any
 
 from backend.historical_intelligence.orm import HistoricalAdaptiveOutcomeORM, HistoricalAdaptiveStateORM
-from backend.historical_intelligence.walk_forward import _PURGE_WINDOW, EDGE_INSUFFICIENT_SAMPLE, classify_edge_stability
+from backend.historical_intelligence.walk_forward import (
+    _MIN_OOS_SAMPLE,
+    _MIN_TRAIN_SAMPLE,
+    _PURGE_WINDOW,
+    EDGE_INSUFFICIENT_SAMPLE,
+    classify_edge_stability,
+)
 from backend.shared.db import SessionLocal
-
-_MIN_TRAIN_SAMPLE = 20
-_MIN_OOS_SAMPLE = 10
 
 
 def _stats_for_outcomes(outcomes: list[HistoricalAdaptiveOutcomeORM]) -> dict[str, Any]:

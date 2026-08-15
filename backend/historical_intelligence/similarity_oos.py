@@ -23,10 +23,10 @@ from datetime import timedelta
 from typing import Any
 
 from backend.historical_intelligence import similarity
+from backend.historical_intelligence.entry_intelligence import _MIN_SAMPLE_FOR_LIVE_INFLUENCE
+from backend.historical_intelligence.walk_forward import _MIN_OOS_SAMPLE as _MIN_OOS_EVAL
+from backend.historical_intelligence.walk_forward import _MIN_TRAIN_SAMPLE as _MIN_TRAIN_HISTORY
 from backend.historical_intelligence.walk_forward import _PURGE_WINDOW, _fetch_trusted_rows
-
-_MIN_TRAIN_HISTORY = 20
-_MIN_OOS_EVAL = 10
 
 
 def _dims(fp: Any) -> dict[str, Any]:
@@ -129,7 +129,7 @@ def compare_peer_group_vs_similarity(
         exact_group = train_by_peer_group.get(fp.peer_group_hash, [])
         exact_n = len(exact_group)
         exact_prediction = None
-        if exact_n >= 100:
+        if exact_n >= _MIN_SAMPLE_FOR_LIVE_INFLUENCE:
             exact_usable += 1
             r_values = [o.outcome_r for o in exact_group if o.outcome_r is not None]
             exact_prediction = sum(r_values) / len(r_values) if r_values else None
@@ -139,7 +139,7 @@ def compare_peer_group_vs_similarity(
             strategy_version=fp.strategy_version, query_dims=_dims(fp), regime_broad=fp.regime_broad, top_k=top_k, as_of=as_of,
         )
         sim_prediction = None
-        if sim_stats.get("status") == "OK" and sim_stats.get("effective_sample_size", 0) >= 100:
+        if sim_stats.get("status") == "OK" and sim_stats.get("effective_sample_size", 0) >= _MIN_SAMPLE_FOR_LIVE_INFLUENCE:
             similarity_usable += 1
             sim_prediction = sim_stats.get("weighted_expectancy_r")
 

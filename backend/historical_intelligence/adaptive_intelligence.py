@@ -32,6 +32,7 @@ import time
 from datetime import datetime, timezone
 from typing import Any
 
+from backend.historical_intelligence import statistics
 from backend.historical_intelligence.adaptive_fingerprint import build_state_fingerprint
 from backend.historical_intelligence.modes import demo_active_enabled
 from backend.historical_intelligence.orm import AdaptiveIntelligenceObservationORM
@@ -41,7 +42,7 @@ logger = logging.getLogger(__name__)
 
 _EXISTING_ACTIONS = {"HOLD", "MOVE_SL_TO_REDUCED_RISK", "MOVE_SL_BREAKEVEN", "TRAIL_STOP", "PARTIAL_PROFIT", "MFE_PROTECTION_CLOSE", "THESIS_INVALIDATION_CLOSE"}
 _MIN_SAMPLE_FOR_RECOMMENDATION = 30
-_RELIABLE_LEVELS = {"USEFUL", "STRONG"}
+_RELIABLE_LEVELS = statistics.RELIABLE_TIER_LEVELS
 
 
 def _recommend_action(*, stats: dict[str, Any], current_r: float | None, is_at_or_beyond_breakeven: bool) -> str | None:
