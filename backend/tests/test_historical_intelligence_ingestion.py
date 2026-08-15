@@ -221,3 +221,60 @@ def test_reconcile_providers_accepts_small_divergence(monkeypatch):
 
     report = ingestion.reconcile_providers(canonical_symbol="EURUSD", timeframe="H1", start=t - timedelta(minutes=1), end=t + timedelta(minutes=1), left_broker_symbol="EURUSD", right_broker_symbol="EURUSD")
     assert report["status"] == "CONSISTENT"
+
+
+def test_persist_bars_chunked_prefetch_handles_batch_larger_than_chunk_size(monkeypatch):
+    """Regression test for the ForexSB integration's real Postgres failure: a single fetch_bars()
+    response large enough to exceed the 65,535-bound-parameter limit on an IN(...) prefetch. Uses
+    a monkeypatched tiny _IN_CLAUSE_CHUNK_SIZE so the multi-chunk code path is actually exercised
+    without needing tens of thousands of real rows in a unit test."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setattr(ingestion, "_IN_CLAUSE_CHUNK_SIZE", 3)
+    provider = FakeProvider()
+    start = datetime(2026, 1, 5, 0, 0, tzinfo=timezone.utc)
+    end = start + timedelta(minutes=15 * 10)  # 10 bars, spanning 4 chunks of size 3
+
+    result = asyncio.run(ingestion.backfill(provider, canonical_symbol="EURUSD", broker_symbol="EURUSD", timeframe="M15", start=start, end=end))
+    assert result["bars_persisted"] == 10
+
+    with SessionLocal() as db:
+        rows = db.query(MT5CanonicalCandleORM).filter(MT5CanonicalCandleORM.provider == "FAKE").all()
+        assert len(rows) == 10
+        assert len(set(r.timestamp for r in rows)) == 10  # no duplicate/collapsed timestamps across chunk boundaries
+
+
+def test_persist_bars_mixed_new_and_existing_rows_in_one_batch(monkeypatch):
+    """The brand-new-row fast path (bulk Core INSERT) and the existing-row slow path (db.merge)
+    must coexist correctly within a single _persist_bars call -- a real scenario whenever a
+    backfill's requested range partially overlaps already-ingested data. Calls _persist_bars
+    directly (bypassing backfill()'s gap detection, which would otherwise simply exclude the
+    already-covered timestamp from the fetch range and never exercise the mixed-batch path at
+    all) with one bar matching a pre-existing, NOT-yet-finalized row (so it takes the update path,
+    not the separate protected-anomaly path) and four genuinely new bars."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setattr(ingestion, "SessionLocal", SessionLocal)
+    now = datetime.now(timezone.utc)
+    t_existing = now - timedelta(minutes=5)  # recent -- within M15's 45-minute finalization window, so still updatable
+    with SessionLocal() as db:
+        db.add(MT5CanonicalCandleORM(candle_id="FAKE:EURUSD:M15:old", provider="FAKE", canonical_symbol="EURUSD", broker_symbol="EURUSD", timeframe="M15", timestamp=t_existing, open=1.0, high=1.0, low=1.0, close=1.0, finalized=False))
+        db.commit()
+
+    provider = FakeProvider()
+    bars = [_bar(t_existing, close=1.2345)] + [_bar(t_existing + timedelta(minutes=15 * i), close=1.3000 + i * 0.001) for i in range(1, 5)]
+    outcome = ingestion._persist_bars(bars, provider=provider, canonical_symbol="EURUSD", broker_symbol="EURUSD", timeframe="M15", dataset_policy="TEST")
+    assert outcome["persisted"] == 5
+    assert outcome["protected"] == 0
+
+    with SessionLocal() as db:
+        all_rows = db.query(MT5CanonicalCandleORM).filter(MT5CanonicalCandleORM.provider == "FAKE").order_by(MT5CanonicalCandleORM.timestamp.asc()).all()
+        assert len(all_rows) == 5
+        closes = [r.close for r in all_rows]
+        # The pre-existing (not finalized) row was UPDATED via the merge path -- new close applied
+        # (never left at the old fixture value of 1.0), and the four brand-new bars' closes are
+        # all present too (order-independent check, robust to SQLite's DateTime round-trip
+        # dropping tzinfo/microsecond precision on the primary key column).
+        assert abs(min(closes, key=lambda c: abs(c - 1.2345)) - 1.2345) < 1e-9
+        assert 1.0 not in [round(c, 4) for c in closes]
+        for i in range(1, 5):
+            expected = 1.3000 + i * 0.001
+            assert abs(min(closes, key=lambda c: abs(c - expected)) - expected) < 1e-9
