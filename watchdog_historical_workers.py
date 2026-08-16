@@ -60,6 +60,11 @@ def _forexsb_fingerprint_watermark(canonical_symbol: str):
     """Max entry_time of FOREXSB-provider fingerprints for a symbol, or None if none exist yet.
     Import is deferred into the function so the watchdog can still start (and report status) even
     if the DB isn't reachable yet at process startup."""
+    return _fingerprint_watermark(canonical_symbol, provider="FOREXSB")
+
+
+def _fingerprint_watermark(canonical_symbol: str, *, provider: str):
+    """Max entry_time of `provider`-sourced fingerprints for a symbol, or None if none exist yet."""
     from sqlalchemy import func
 
     from backend.historical_intelligence.orm import HistoricalPatternFingerprintORM
@@ -68,14 +73,60 @@ def _forexsb_fingerprint_watermark(canonical_symbol: str):
     with SessionLocal() as db:
         return db.query(func.max(HistoricalPatternFingerprintORM.entry_time)).filter(
             HistoricalPatternFingerprintORM.canonical_symbol == canonical_symbol,
-            HistoricalPatternFingerprintORM.provider == "FOREXSB",
+            HistoricalPatternFingerprintORM.provider == provider,
         ).scalar()
 
 
-def _bulk_replay_forexsb_complete(canonical_symbol: str, target_end: datetime):
+def _fingerprint_span_within_range(canonical_symbol: str, *, provider: str, window_start: datetime, window_end: datetime):
+    """(min entry_time, max entry_time, count) of `provider`-sourced fingerprints STRICTLY WITHIN
+    [window_start, window_end). Returns the actual span, not just a max -- a bare max is NOT a
+    safe completion signal for a worker whose provider+symbol combination can also be touched by
+    something else near the window's edge (e.g. the live trading cycle's very first real
+    MT5-provider EURUSD fingerprint happens to sit within _BOUNDARY_TOLERANCE of a past gap-fill
+    window's end purely by coincidence -- an unbounded-or-max-only check reads that ONE stray
+    edge fingerprint as "gap filled" when the count is 1 and nothing between window_start and
+    window_end was ever actually walked. Requiring the MIN to also be near window_start proves
+    genuine start-to-end coverage, not a boundary artifact."""
+    from sqlalchemy import func
+
+    from backend.historical_intelligence.orm import HistoricalPatternFingerprintORM
+    from backend.shared.db import SessionLocal
+
+    with SessionLocal() as db:
+        return db.query(
+            func.min(HistoricalPatternFingerprintORM.entry_time),
+            func.max(HistoricalPatternFingerprintORM.entry_time),
+            func.count(),
+        ).filter(
+            HistoricalPatternFingerprintORM.canonical_symbol == canonical_symbol,
+            HistoricalPatternFingerprintORM.provider == provider,
+            HistoricalPatternFingerprintORM.entry_time >= window_start,
+            HistoricalPatternFingerprintORM.entry_time < window_end,
+        ).first()
+
+
+def _bounded_bulk_replay_complete(canonical_symbol: str, *, provider: str, window_start: datetime, window_end: datetime):
     def _check() -> bool:
         try:
-            watermark = _forexsb_fingerprint_watermark(canonical_symbol)
+            earliest, latest, count = _fingerprint_span_within_range(canonical_symbol, provider=provider, window_start=window_start, window_end=window_end)
+        except Exception:
+            return False
+        if earliest is None or latest is None or not count:
+            return False
+        if earliest.tzinfo is None:
+            earliest = earliest.replace(tzinfo=timezone.utc)
+        if latest.tzinfo is None:
+            latest = latest.replace(tzinfo=timezone.utc)
+        started_near_beginning = earliest <= window_start + _BOUNDARY_TOLERANCE
+        reached_near_end = latest >= window_end - _BOUNDARY_TOLERANCE
+        return started_near_beginning and reached_near_end
+    return _check
+
+
+def _bulk_replay_complete(canonical_symbol: str, target_end: datetime, *, provider: str = "FOREXSB"):
+    def _check() -> bool:
+        try:
+            watermark = _fingerprint_watermark(canonical_symbol, provider=provider)
         except Exception:
             return False
         if watermark is None:
@@ -84,6 +135,10 @@ def _bulk_replay_forexsb_complete(canonical_symbol: str, target_end: datetime):
             watermark = watermark.replace(tzinfo=timezone.utc)
         return watermark >= target_end - _BOUNDARY_TOLERANCE
     return _check
+
+
+# Backwards-compatible alias -- existing WORKERS entries below reference this name.
+_bulk_replay_forexsb_complete = _bulk_replay_complete
 
 
 def _eurusd_adaptive_backfill_perpetual() -> bool:
@@ -156,6 +211,17 @@ def _backfill_complete() -> bool:
 # all -- importing it would suggest a broader coupling than actually exists.
 _EURUSD_FOREXSB_END = datetime(2022, 8, 4, 22, 45, tzinfo=timezone.utc)
 _GBPUSD_FOREXSB_END = datetime(2024, 8, 7, 11, 15, tzinfo=timezone.utc)
+# EURUSD's MT5-provider fingerprint gap-fill window (2026-08-17: closes the ~2-year hole between
+# ForexSB's end boundary and when live-trading fingerprint generation began). End is deliberately
+# a full day BEFORE the live corpus's actual first fingerprint (2024-08-08 00:30) rather than
+# exactly at it -- the two dates being close enough to fall in the same _BOUNDARY_TOLERANCE window
+# caused a real bug: the live corpus's very first fingerprint sitting inside a window ending
+# exactly at 2024-08-08 00:45 fooled BOTH replay_symbol_history_fast's own resume checkpoint
+# (jumped straight to the window end, walking zero instants) and this watchdog's completion check
+# (falsely read one coincidental edge fingerprint as "gap filled"). A day of safety margin avoids
+# the collision entirely; the resulting few-hours-wide sliver of missing coverage right at the
+# seam is negligible against a ~2-year gap.
+_EURUSD_MT5_GAP_END = datetime(2024, 8, 7, 0, 0, tzinfo=timezone.utc)
 
 WORKERS = {
     "eurusd_backtest": {
@@ -183,6 +249,46 @@ WORKERS = {
         ),
         "log": f"{STATUS_DIR}/eurusd_bulk_replay.log",
         "complete_check": _bulk_replay_forexsb_complete("EURUSD", _EURUSD_FOREXSB_END),
+    },
+    "eurusd_bulk_replay_mt5_gap": {
+        # Closes a real gap found 2026-08-17: MT5-native EURUSD M15 candles exist continuously
+        # from 2022-08-04 (MT5_M15_START) onward, but fingerprint generation against them
+        # (bulk_replay, provider=MT5) only ever started from 2024-08-08 -- the date live trading
+        # itself began -- never backfilled for the ~2-year window in between, even though the
+        # raw candle data for it has been sitting in mt5_canonical_candles the whole time. This
+        # worker walks that gap with the SAME resumable, idempotent replay_symbol_history_fast
+        # used for the ForexSB-era corpus, just with provider="MT5" and a narrower date range.
+        # Match substring is the literal END-date args (2024,8,7,0,0) -- NOT the start date:
+        # this worker's start (2022,8,4,22,45) is deliberately identical to eurusd_bulk_replay_
+        # forexsb's END date (chronological continuity), so matching on start caused a real
+        # false-positive collision (both processes' cmdlines contained that substring, and
+        # _is_alive() picked whichever PID /proc happened to enumerate first for BOTH worker
+        # entries -- found and fixed before this worker was ever correctly tracked). The end date
+        # is unique to this worker. broker_symbol must stay the REAL 'EURUSD' (that's what
+        # candles are actually keyed under in mt5_canonical_candles); a fake symbol there would
+        # silently return zero candles.
+        "match": ["replay_symbol_history_fast", "2024,8,7,0,0"],
+        "relaunch": (
+            "python -c \""
+            "import asyncio\n"
+            "from datetime import datetime, timezone\n"
+            "from backend.historical_intelligence.bulk_replay import replay_symbol_history_fast\n"
+            "async def main():\n"
+            "    result = await replay_symbol_history_fast(\n"
+            "        canonical_symbol='EURUSD', broker_symbol='EURUSD',\n"
+            "        start=datetime(2022,8,4,22,45,tzinfo=timezone.utc), end=datetime(2024,8,7,0,0,tzinfo=timezone.utc),\n"
+            "        provider='MT5',\n"
+            "    )\n"
+            "    print('EURUSD MT5-gap bulk_replay result:', result, flush=True)\n"
+            "asyncio.run(main())\n"
+            "\""
+        ),
+        "log": f"{STATUS_DIR}/eurusd_bulk_replay_mt5_gap.log",
+        "complete_check": _bounded_bulk_replay_complete(
+            "EURUSD", provider="MT5",
+            window_start=datetime(2022, 8, 4, 22, 45, tzinfo=timezone.utc),
+            window_end=_EURUSD_MT5_GAP_END,
+        ),
     },
     "eurusd_adaptive_backfill": {
         "match": ["run_adaptive_backfill", "EURUSD"],
