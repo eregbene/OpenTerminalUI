@@ -25,6 +25,7 @@ from backend.adaptive_management.service import detect_regime
 from backend.market_structure.bar_utils import average_true_range, normalize_bars
 from backend.market_structure.engine import analyze_bars
 from backend.market_structure.models import MarketStructureSnapshot, TrendLabel
+from backend.market_structure.squeeze_momentum import bollinger_bands, keltner_channels, squeeze_momentum, squeeze_states
 
 
 @dataclass(frozen=True)
@@ -55,6 +56,14 @@ class StrategyContext:
     # this module or inside the thread pool -- see redis_layer.py's module docstring for why.
     h1_snapshot: MarketStructureSnapshot | None = None
     h4_snapshot: MarketStructureSnapshot | None = None
+    # Squeeze/momentum research feature (2026-08-17, docs/EXTERNAL_INDICATOR_REDUNDANCY_AUDIT.md)
+    # -- computed here so BOTH the live strategy engine and Historical Intelligence fingerprint
+    # generation see the SAME values from one calculation, per the explicit requirement to test
+    # standalone/confirmation-filter/HI-feature/combined roles from a single shared feature. NOT
+    # read by any existing strategy or any live decision path yet -- presence in StrategyContext
+    # is availability, not activation. See squeeze_momentum.py's module docstring.
+    squeeze_state: str | None = None
+    squeeze_momentum_value: float | None = None
 
 
 def quick_regime(m15_rows: list[dict[str, Any]]) -> dict[str, Any]:
@@ -149,6 +158,16 @@ def build_strategy_context(
     atrs = average_true_range(m15_bars, 14)
     atr_m15 = atrs[-1] if atrs else None
 
+    squeeze_state_value: str | None = None
+    squeeze_momentum_current: float | None = None
+    if len(m15_bars) >= 20:
+        bb = bollinger_bands(m15_bars)
+        kc = keltner_channels(m15_bars)
+        states = squeeze_states(bb, kc)
+        squeeze_state_value = states[-1] if states else None
+        momentum_series = squeeze_momentum(m15_bars)
+        squeeze_momentum_current = momentum_series[-1] if momentum_series else None
+
     broker_min_stop_distance = None
     if symbol_info is not None:
         stops_level = getattr(symbol_info, "trade_stops_level", None)
@@ -178,6 +197,8 @@ def build_strategy_context(
         broker_min_stop_distance=broker_min_stop_distance,
         h1_snapshot=h1_snapshot,
         h4_snapshot=h4_snapshot,
+        squeeze_state=squeeze_state_value,
+        squeeze_momentum_value=squeeze_momentum_current,
     )
 
 
