@@ -16004,6 +16004,177 @@
           }
         }
       }
+    },
+    "eurusd_backtest_2026-08-16_10633": {
+      "artifact": {
+        "artifact_id": "artifact_cb7b9d2a6be4427f",
+        "artifact_type": "eurusd_backtest_10633",
+        "content_hash": "10b2f484b02fc37c",
+        "created_at": "2026-08-17T00:53:09.939229Z",
+        "metadata": {
+          "candidate_count": 10633,
+          "code_revision": "e8e402c",
+          "code_revision_note": "Host git HEAD at the time this re-run was preserved (2026-08-16/17).",
+          "comparison_to_prior_run": "Second EURUSD backtest run (first: 2026-08-14, 4542 candidates). Corpus grew substantially in the interim (ForexSB replay progress + new MT5-gap-fill worker), this run reflects 10633 candidates from a 159483-candidate corpus.",
+          "date_range": {
+            "end": "2026-08-13T04:22:52.086545+00:00",
+            "start": "2018-08-07T22:45:00+00:00"
+          },
+          "ess_formula_version": "sim-v2",
+          "ess_thresholds_evaluated": [
+            20,
+            30,
+            50,
+            75,
+            100,
+            150
+          ],
+          "min_sample_for_live_influence": 100,
+          "preserved_at": "2026-08-17T00:53:08.884028+00:00",
+          "provider_set": [
+            "FOREXSB",
+            "MT5"
+          ],
+          "sample_stride": 15,
+          "sample_stride_note": "Stride-15 subsample of the full resolved EURUSD corpus (159,483 candidates at run time), not the full corpus.",
+          "similarity_threshold": 0.6,
+          "strategy_set": [
+            "breakout",
+            "ema_trend",
+            "liquidity_sweep_reversal",
+            "mean_reversion",
+            "momentum",
+            "mtfai1",
+            "session_breakout",
+            "smc_continuation",
+            "support_resistance_bounce",
+            "trend_pullback",
+            "vwap_reversion"
+          ],
+          "symbol": "EURUSD",
+          "top_k": 100,
+          "walk_forward_semantics": "purge_window=12:00:00, imported from walk_forward._PURGE_WINDOW; direct similarity.py/entry_intelligence.py calls, not walk_forward.run_walk_forward."
+        },
+        "path": "/data/research/artifacts/artifact_cb7b9d2a6be4427f.json"
+      },
+      "created_at": "2026-08-17T00:53:09.939247+00:00",
+      "git_revision": "e8e402c",
+      "metadata": {
+        "candidate_count": 10633,
+        "code_revision": "e8e402c",
+        "code_revision_note": "Host git HEAD at the time this re-run was preserved (2026-08-16/17).",
+        "comparison_to_prior_run": "Second EURUSD backtest run (first: 2026-08-14, 4542 candidates). Corpus grew substantially in the interim (ForexSB replay progress + new MT5-gap-fill worker), this run reflects 10633 candidates from a 159483-candidate corpus.",
+        "date_range": {
+          "end": "2026-08-13T04:22:52.086545+00:00",
+          "start": "2018-08-07T22:45:00+00:00"
+        },
+        "ess_formula_version": "sim-v2",
+        "ess_thresholds_evaluated": [
+          20,
+          30,
+          50,
+          75,
+          100,
+          150
+        ],
+        "min_sample_for_live_influence": 100,
+        "preserved_at": "2026-08-17T00:53:08.884028+00:00",
+        "provider_set": [
+          "FOREXSB",
+          "MT5"
+        ],
+        "sample_stride": 15,
+        "sample_stride_note": "Stride-15 subsample of the full resolved EURUSD corpus (159,483 candidates at run time), not the full corpus.",
+        "similarity_threshold": 0.6,
+        "strategy_set": [
+          "breakout",
+          "ema_trend",
+          "liquidity_sweep_reversal",
+          "mean_reversion",
+          "momentum",
+          "mtfai1",
+          "session_breakout",
+          "smc_continuation",
+          "support_resistance_bounce",
+          "trend_pullback",
+          "vwap_reversion"
+        ],
+        "symbol": "EURUSD",
+        "top_k": 100,
+        "walk_forward_semantics": "purge_window=12:00:00, imported from walk_forward._PURGE_WINDOW; direct similarity.py/entry_intelligence.py calls, not walk_forward.run_walk_forward."
+      },
+      "result_type": "eurusd_backtest_10633",
+      "run_id": "eurusd_backtest_2026-08-16_10633",
+      "summary": {
+        "candidate_count": 10633,
+        "effective_sample_size_max": 94.55,
+        "effective_sample_size_median": 80.48,
+        "effective_sample_size_min": 0.0,
+        "ess_threshold_analysis": {
+          "100": {
+            "n": 0
+          },
+          "150": {
+            "n": 0
+          },
+          "20": {
+            "actual_reach_1r_rate": 0.4663,
+            "brier_score_p1r": 0.2369,
+            "calibration_mae_p1r": 0.015,
+            "mean_actual_expectancy_r": -0.0303,
+            "mean_predicted_expectancy_r": -0.0232,
+            "mean_predicted_p_1r": 0.4812,
+            "n": 10026
+          },
+          "30": {
+            "actual_reach_1r_rate": 0.4668,
+            "brier_score_p1r": 0.2366,
+            "calibration_mae_p1r": 0.0145,
+            "mean_actual_expectancy_r": -0.03,
+            "mean_predicted_expectancy_r": -0.0232,
+            "mean_predicted_p_1r": 0.4813,
+            "n": 9816
+          },
+          "50": {
+            "actual_reach_1r_rate": 0.4682,
+            "brier_score_p1r": 0.236,
+            "calibration_mae_p1r": 0.0133,
+            "mean_actual_expectancy_r": -0.0265,
+            "mean_predicted_expectancy_r": -0.0238,
+            "mean_predicted_p_1r": 0.4816,
+            "n": 9154
+          },
+          "75": {
+            "actual_reach_1r_rate": 0.4584,
+            "brier_score_p1r": 0.2346,
+            "calibration_mae_p1r": 0.0213,
+            "mean_actual_expectancy_r": -0.0647,
+            "mean_predicted_expectancy_r": -0.031,
+            "mean_predicted_p_1r": 0.4796,
+            "n": 7568
+          }
+        },
+        "mt5_only_vs_combined": {
+          "both_had_prediction_n": 4266,
+          "combined_expectancy_mean_abs_error": 1.1607,
+          "combined_mean_ess": 72.87,
+          "combined_more_accurate": false,
+          "combined_unavailable_rate": 1.0,
+          "mt5_only_expectancy_mean_abs_error": 0.9383,
+          "mt5_only_mean_ess": 24.98,
+          "mt5_only_unavailable_rate": 0.0,
+          "n": 10633
+        },
+        "raw_neighbor_count_ge_100": 8582,
+        "verdict_breakdown": {
+          "HIST_INTEL_INSUFFICIENT": {
+            "count": 10633,
+            "mean_actual_outcome_r": -0.0304,
+            "mean_predicted_expectancy_r": -0.0172,
+            "resolved_n": 10633
+          }
+        }
+      }
     }
   },
   "candidates": {
