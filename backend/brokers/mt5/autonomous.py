@@ -1888,6 +1888,7 @@ _STRATEGY_SHORT_CODES: dict[str, str] = {
     "momentum": "momentum",
     "session_breakout": "sessbrk",
     "vwap_reversion": "vwaprev",
+    "wyckoff": "wyckoff",
 }
 _COMMENT_TOTAL_MAX = 31
 _COMMENT_PREFIX = "BSM|"

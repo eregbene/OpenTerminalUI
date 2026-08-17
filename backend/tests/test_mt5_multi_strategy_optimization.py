@@ -145,10 +145,19 @@ def test_regime_routing_skips_incompatible_strategy_entirely():
 
 # 7. All 10 canonical strategies can be ACTIVE_MT5 in demo config (and default to it).
 def test_all_ten_canonical_strategies_default_active_on_demo():
-    non_mtfai1 = [sid for sid in STRATEGY_FAMILIES if sid != "mtfai1"]
+    # "wyckoff" (2026-08-17) is deliberately excluded from this Stage-1-complete cohort -- it
+    # defaults to DISABLED pending historical/OOS validation and explicit promotion (see its own
+    # STRATEGY_FAMILIES entry's comment), unlike the 10 families this test covers, which already
+    # completed that evaluation period. See test_wyckoff_defaults_to_disabled below.
+    non_mtfai1 = [sid for sid in STRATEGY_FAMILIES if sid not in {"mtfai1", "wyckoff"}]
     assert len(non_mtfai1) == 10
     assert all(STRATEGY_FAMILIES[sid]["default_activation"] == ACTIVE_MT5 for sid in non_mtfai1)
     assert all(activation_status(sid) == ACTIVE_MT5 for sid in non_mtfai1)
+
+
+def test_wyckoff_defaults_to_disabled_pending_validation():
+    assert STRATEGY_FAMILIES["wyckoff"]["default_activation"] == DISABLED
+    assert activation_status("wyckoff") == DISABLED
 
 
 # 8. MTFAI1 remains active.

@@ -47,6 +47,16 @@ implementation per family):
                                  backend/core/strategy_runner.py::_generate_vwap_reversion_signals
                                  (NOT intelligence/trading::VWAPStrategy, which the audit found
                                  is mislabeled -- it actually uses EMA20, not a VWAP formula)
+  wyckoff                              <- NEW canonical implementation (2026-08-17), an
+                                 independent strategy family, not a label added to an existing
+                                 one -- composes backend.market_structure.wyckoff's point-in-time-
+                                 safe accumulation/distribution schematic engine (itself built on
+                                 the SAME swings/breaks/liquidity-sweep primitives every other
+                                 family here already uses, see that module's own docstring for the
+                                 volume-representation and lookback-window caveats it documents)
+                                 into two explicit setups: a Spring/UTAD -> successful test ->
+                                 SOS/SOW -> LPS/LPSY pullback entry, and a separate Phase-D/E
+                                 continuation entry -- see evaluate_wyckoff's own docstring.
 """
 from __future__ import annotations
 
@@ -62,6 +72,7 @@ from backend.core.technicals import rsi as _rsi_series
 from backend.mt5_strategies.context import StrategyContext
 from backend.mt5_strategies.models import StrategySignal, invalid_signal
 from backend.market_structure.models import StructureBreakKind
+from backend.market_structure.wyckoff import analyze_wyckoff
 
 _MIN_REWARD_MULTIPLE = Decimal("1.5")
 
@@ -605,6 +616,99 @@ def evaluate_vwap_reversion(ctx: StrategyContext) -> StrategySignal:
                     metadata=_geometry_metadata(ctx, entry, stop, None, atr, 1.2, 1.2))
 
 
+# --------------------------------------------------------------------------------- wyckoff ---
+def evaluate_wyckoff(ctx: StrategyContext) -> StrategySignal:
+    """Wyckoff accumulation/distribution schematic strategy -- an INDEPENDENT strategy family
+    (not a label added to an existing one). All schematic/phase/event detection lives in
+    backend.market_structure.wyckoff::analyze_wyckoff (point-in-time-safe, itself built only on
+    the same swings/structure-breaks/liquidity-sweeps every other family here already reuses --
+    see that module's docstring for the volume-representation and ~100-bar-window caveats). This
+    function only decides, given that analysis, whether a TRADEABLE setup exists right now.
+
+    Two explicit, separately-tagged setups (evidence["setup"]):
+      spring_sos_lps       -- Spring (accumulation) or Upthrust/UTAD (distribution) has occurred
+                               AND been successfully tested (phase reached C or later -- a failed
+                               test means analysis.invalidated and this function already returned
+                               NO_TRADE above), AND Sign-of-Strength/Weakness has confirmed (phase
+                               D/E). Entered at the LPS/LPSY pullback price when that swing has
+                               already confirmed, or, if it hasn't confirmed yet, at a live
+                               pullback currently holding the just-broken SOS/SOW level within one
+                               ATR -- avoids waiting for a swing's own right-bar confirmation delay
+                               to chase an entry that has already run away.
+      phase_d_continuation -- SOS/SOW has confirmed (phase D or E) but price is NOT at a specific
+                               pullback right now -- a plain continuation entry. Deliberately
+                               tagged separately from spring_sos_lps so historical validation can
+                               tell whether this weaker-evidence entry independently holds up
+                               rather than assuming it shares the other setup's edge.
+
+    A schematic with no Automatic Rally yet, no climax at all, an invalidated Spring/UTAD (broke
+    past the tested extreme), or no SOS/SOW confirmation yet (phase A/B/C_untested/C) produces
+    NO_TRADE -- this strategy only trades a schematic that has already earned BOTH a successful
+    extreme test AND a strength/weakness confirmation, never an in-progress range on spec."""
+    analysis = analyze_wyckoff(ctx.m15_rows, ctx.m15_snapshot, symbol=ctx.broker_symbol, timeframe="M15")
+    if analysis.schematic == "none":
+        return _no_signal(ctx, strategy_id="wyckoff", family="wyckoff", timeframe="M15", reason="no_schematic_detected")
+    if analysis.invalidated:
+        return _no_signal(ctx, strategy_id="wyckoff", family="wyckoff", timeframe="M15", reason=analysis.invalidation_reason or "spring_or_utad_invalidated")
+    if analysis.phase not in {"D", "E"}:
+        return _no_signal(ctx, strategy_id="wyckoff", family="wyckoff", timeframe="M15", reason=f"phase_{analysis.phase}_not_yet_tradeable")
+
+    direction = "LONG" if analysis.schematic == "accumulation" else "SHORT"
+    sos_event = analysis.event("SOS") if direction == "LONG" else analysis.event("SOW")
+    if sos_event is None:
+        return _no_signal(ctx, strategy_id="wyckoff", family="wyckoff", timeframe="M15", reason="no_sos_sow_confirmation")
+
+    price = float(_closes(ctx.m15_rows).iloc[-1])
+    atr = ctx.atr_m15 or Decimal("0.0001")
+    atr_f = float(atr)
+    tolerance = atr_f * 1.0
+
+    lps_event = analysis.event("LPS") if direction == "LONG" else analysis.event("LPSY")
+    spring_event = analysis.event("SPRING") if direction == "LONG" else analysis.event("UTAD")
+    broken_level = sos_event.evidence.get("broken_level")
+
+    at_lps = lps_event is not None and abs(price - lps_event.price) <= tolerance
+    holding_broken_level = broken_level is not None and (
+        (direction == "LONG" and price >= broken_level and (price - broken_level) <= tolerance)
+        or (direction == "SHORT" and price <= broken_level and (broken_level - price) <= tolerance)
+    )
+
+    if at_lps or holding_broken_level:
+        setup = "spring_sos_lps"
+        structure_ref = lps_event.price if lps_event is not None else (broken_level if broken_level is not None else (spring_event.price if spring_event is not None else None))
+        min_mult, max_mult = 1.0, 3.0
+    else:
+        setup = "phase_d_continuation"
+        structure_ref = broken_level if broken_level is not None else (spring_event.price if spring_event is not None else None)
+        min_mult, max_mult = 1.5, 3.0
+
+    entry = Decimal(str(price))
+    stop, stop_reason = _dynamic_stop(ctx, direction, entry, structure_ref, atr, min_atr_mult=min_mult, max_atr_mult=max_mult)
+    if stop is None:
+        return _no_signal(ctx, strategy_id="wyckoff", family="wyckoff", timeframe="M15", reason=stop_reason)
+
+    # Wyckoff-native target: project the trading range's own width ("cause") from the breakout as
+    # the expected move ("effect") -- a simplified point-and-figure-style count using data this
+    # module already has, rather than a bare ATR multiple. Floored at 2x ATR so a narrow range
+    # never produces a target inside ordinary noise.
+    range_span = (analysis.range_high - analysis.range_low) if (analysis.range_high is not None and analysis.range_low is not None) else 0.0
+    projected_move = Decimal(str(max(range_span, atr_f * 2.0)))
+    target = entry + projected_move if direction == "LONG" else entry - projected_move
+
+    eqh_eql_side = "sell_side" if direction == "LONG" else "buy_side"
+    strength = 62.0 + (15.0 if setup == "spring_sos_lps" else 0.0) + (10.0 if lps_event is not None or analysis.phase == "D" else 0.0)
+    evidence = {
+        "setup": setup, "schematic": analysis.schematic, "phase": analysis.phase,
+        "range_low": analysis.range_low, "range_high": analysis.range_high, "range_position": analysis.range_position,
+        "events": [{"type": e.event_type, "bar_index": e.bar_index, "price": e.price, "evidence": e.evidence} for e in analysis.events],
+        "eqh_eql_touch_count": _eqh_eql_touch_count(ctx, side=eqh_eql_side, price=price, atr=atr_f),
+    }
+    evidence.update(_squeeze_evidence(ctx))
+    return _signal(ctx, strategy_id="wyckoff", family="wyckoff", timeframe="M15", direction=direction, strength=min(100.0, strength),
+                    entry=entry, stop=stop, target=target, evidence=evidence,
+                    metadata=_geometry_metadata(ctx, entry, stop, structure_ref, atr, min_mult, max_mult))
+
+
 EVALUATORS: dict[str, Any] = {
     "ema_trend": evaluate_ema_trend,
     "trend_pullback": evaluate_trend_pullback,
@@ -616,6 +720,7 @@ EVALUATORS: dict[str, Any] = {
     "momentum": evaluate_momentum,
     "session_breakout": evaluate_session_breakout,
     "vwap_reversion": evaluate_vwap_reversion,
+    "wyckoff": evaluate_wyckoff,
 }
 
 

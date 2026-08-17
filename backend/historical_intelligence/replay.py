@@ -113,6 +113,7 @@ STRATEGY_LOOKBACK: dict[str, dict[str, int]] = {
     "momentum": {"M15": 100, "H1": 100, "H4": 100},
     "session_breakout": {"M15": 100, "H1": 100, "H4": 100},
     "vwap_reversion": {"M15": 100, "H1": 100, "H4": 100},
+    "wyckoff": {"M15": 100, "H1": 100, "H4": 100},  # same window as every other family -- see wyckoff.py's own module docstring for the scope this implies
 }
 _DEFAULT_LOOKBACK = {"M15": 100, "H1": 100, "H4": 100}
 

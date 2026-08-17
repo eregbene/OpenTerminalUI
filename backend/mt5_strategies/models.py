@@ -120,6 +120,25 @@ STRATEGY_FAMILIES: dict[str, dict[str, Any]] = {
         "family": "vwap_reversion", "default_activation": ACTIVE_MT5,
         "timeframes": ("M15",), "regimes": ("ranging", "low_volatility"),
     },
+    "wyckoff": {
+        # 2026-08-17: new independent strategy family, registered here (rather than left
+        # unregistered) specifically so backend.historical_intelligence.replay's canonical
+        # point-in-time-safe replay pipeline can reach evaluate_wyckoff -- replay.py's whole
+        # guarantee is that it NEVER reimplements a strategy, only calls evaluate_all() for
+        # whatever IS registered. default_activation is deliberately DISABLED (not SHADOW_MT5
+        # like the other 10 families' own Stage-1 precedent) so the LIVE running DEMO backend's
+        # own per-cycle evaluate_all() never evaluates or shadow-tracks it at all -- zero live
+        # footprint -- until explicit historical/OOS validation evidence is reported and
+        # promotion is approved (see docs/ WYCKOFF_STRATEGY_VALIDATION report once it exists).
+        # Historical validation runs reach the real evaluator anyway by setting
+        # MT5_STRATEGY_ACTIVATION_WYCKOFF=SHADOW_MT5 as a process-local env var scoped to the
+        # offline replay/backfill script's own process only -- never deployed to the live
+        # container's .env/docker-compose. Promote to SHADOW_MT5 (live calibration, still
+        # non-executing) or ACTIVE_MT5 (real DEMO order authority) only via a later, explicit
+        # deploy once validation supports it.
+        "family": "wyckoff", "default_activation": DISABLED,
+        "timeframes": ("M15", "H1"), "regimes": ("ranging", "reversal", "unstable_transition", "low_volatility", "breakout"),
+    },
 }
 
 
