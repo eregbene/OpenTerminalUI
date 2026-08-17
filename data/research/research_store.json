@@ -1,6 +1,47 @@
 {
   "artifacts": {},
   "backtests": {
+    "audusd_backtest_2026-08-17_2787": {
+      "artifact": {
+        "artifact_id": "artifact_d95224f37324f816",
+        "artifact_type": "audusd_backtest",
+        "content_hash": "03b6110fb97ca31f",
+        "created_at": "2026-08-17T07:47:17.395182Z",
+        "metadata": {
+          "candidate_count": 2787,
+          "code_revision": "9314139",
+          "date_range": {
+            "end": "2026-08-13T04:25:42.714527+00:00",
+            "start": "2024-08-08T01:15:00+00:00"
+          },
+          "preserved_at": "2026-08-17T07:47:17.246799+00:00",
+          "purpose": "Thin-pair tiered-ESS check, 2026-08-17 -- exploratory only, insufficient corpus depth.",
+          "sample_stride": 1,
+          "symbol": "AUDUSD"
+        },
+        "path": "/data/research/artifacts/artifact_d95224f37324f816.json"
+      },
+      "created_at": "2026-08-17T07:47:17.395197+00:00",
+      "git_revision": "9314139",
+      "metadata": {
+        "candidate_count": 2787,
+        "code_revision": "9314139",
+        "date_range": {
+          "end": "2026-08-13T04:25:42.714527+00:00",
+          "start": "2024-08-08T01:15:00+00:00"
+        },
+        "preserved_at": "2026-08-17T07:47:17.246799+00:00",
+        "purpose": "Thin-pair tiered-ESS check, 2026-08-17 -- exploratory only, insufficient corpus depth.",
+        "sample_stride": 1,
+        "symbol": "AUDUSD"
+      },
+      "result_type": "audusd_backtest",
+      "run_id": "audusd_backtest_2026-08-17_2787",
+      "summary": {
+        "candidate_count": 2787,
+        "note": "thin corpus (2787 total) -- 2780/2787 fall in INSUFFICIENT tier, no meaningful WEAK/MODERATE/STRONG data"
+      }
+    },
     "bt_0664de7e49041f29": {
       "artifacts": [
         {
@@ -15822,6 +15863,47 @@
       "started_at": "2026-07-23T18:49:45.357366Z",
       "status": "completed"
     },
+    "eurjpy_backtest_2026-08-17_181": {
+      "artifact": {
+        "artifact_id": "artifact_ae1fbdfe33af5f87",
+        "artifact_type": "eurjpy_backtest",
+        "content_hash": "d0693e0522493515",
+        "created_at": "2026-08-17T07:50:39.830574Z",
+        "metadata": {
+          "candidate_count": 181,
+          "code_revision": "9314139",
+          "date_range": {
+            "end": "2026-08-12T06:27:05.391854+00:00",
+            "start": "2026-08-10T18:58:20.362834+00:00"
+          },
+          "preserved_at": "2026-08-17T07:50:39.822015+00:00",
+          "purpose": "Thin-pair tiered-ESS check, 2026-08-17 -- exploratory only.",
+          "sample_stride": 1,
+          "symbol": "EURJPY"
+        },
+        "path": "/data/research/artifacts/artifact_ae1fbdfe33af5f87.json"
+      },
+      "created_at": "2026-08-17T07:50:39.830583+00:00",
+      "git_revision": "9314139",
+      "metadata": {
+        "candidate_count": 181,
+        "code_revision": "9314139",
+        "date_range": {
+          "end": "2026-08-12T06:27:05.391854+00:00",
+          "start": "2026-08-10T18:58:20.362834+00:00"
+        },
+        "preserved_at": "2026-08-17T07:50:39.822015+00:00",
+        "purpose": "Thin-pair tiered-ESS check, 2026-08-17 -- exploratory only.",
+        "sample_stride": 1,
+        "symbol": "EURJPY"
+      },
+      "result_type": "eurjpy_backtest",
+      "run_id": "eurjpy_backtest_2026-08-17_181",
+      "summary": {
+        "candidate_count": 181,
+        "note": "thin corpus (181 total, live-trading-only) -- all fall in INSUFFICIENT tier"
+      }
+    },
     "eurusd_backtest_2026-08-14_4542": {
       "artifact": {
         "artifact_id": "artifact_4c33129a11448c2d",
@@ -16174,6 +16256,350 @@
             "resolved_n": 10633
           }
         }
+      }
+    },
+    "gbpjpy_backtest_2026-08-17_195": {
+      "artifact": {
+        "artifact_id": "artifact_ba2967277da95f51",
+        "artifact_type": "gbpjpy_backtest",
+        "content_hash": "a4b587039b52d682",
+        "created_at": "2026-08-17T07:50:10.604429Z",
+        "metadata": {
+          "candidate_count": 195,
+          "code_revision": "9314139",
+          "date_range": {
+            "end": "2026-08-12T20:24:28.230671+00:00",
+            "start": "2026-08-10T18:58:20.362834+00:00"
+          },
+          "preserved_at": "2026-08-17T07:50:10.591901+00:00",
+          "purpose": "Thin-pair tiered-ESS check, 2026-08-17 -- exploratory only.",
+          "sample_stride": 1,
+          "symbol": "GBPJPY"
+        },
+        "path": "/data/research/artifacts/artifact_ba2967277da95f51.json"
+      },
+      "created_at": "2026-08-17T07:50:10.604443+00:00",
+      "git_revision": "9314139",
+      "metadata": {
+        "candidate_count": 195,
+        "code_revision": "9314139",
+        "date_range": {
+          "end": "2026-08-12T20:24:28.230671+00:00",
+          "start": "2026-08-10T18:58:20.362834+00:00"
+        },
+        "preserved_at": "2026-08-17T07:50:10.591901+00:00",
+        "purpose": "Thin-pair tiered-ESS check, 2026-08-17 -- exploratory only.",
+        "sample_stride": 1,
+        "symbol": "GBPJPY"
+      },
+      "result_type": "gbpjpy_backtest",
+      "run_id": "gbpjpy_backtest_2026-08-17_195",
+      "summary": {
+        "candidate_count": 195,
+        "note": "thin corpus (195 total, live-trading-only fingerprints, no dedicated bulk_replay ever run) -- all fall in INSUFFICIENT tier"
+      }
+    },
+    "gbpusd_backtest_2026-08-17_10617": {
+      "artifact": {
+        "artifact_id": "artifact_7df0e919c97af317",
+        "artifact_type": "gbpusd_backtest",
+        "content_hash": "fabc3a25a3cd12ed",
+        "created_at": "2026-08-17T07:36:09.731637Z",
+        "metadata": {
+          "candidate_count": 10617,
+          "code_revision": "9314139",
+          "date_range": {
+            "end": "2026-08-13T04:15:35.586944+00:00",
+            "start": "2018-08-07T12:15:00+00:00"
+          },
+          "ess_formula_version": "sim-v2",
+          "min_sample_for_live_influence": 100,
+          "preserved_at": "2026-08-17T07:36:09.128472+00:00",
+          "provider_set": [
+            "FOREXSB",
+            "MT5"
+          ],
+          "purpose": "Independent replication of tiered-ESS validation alongside EURUSD, 2026-08-17.",
+          "sample_stride": 15,
+          "similarity_threshold": 0.6,
+          "strategy_set": [
+            "breakout",
+            "ema_trend",
+            "liquidity_sweep_reversal",
+            "mean_reversion",
+            "momentum",
+            "mtfai1",
+            "session_breakout",
+            "smc_continuation",
+            "support_resistance_bounce",
+            "trend_pullback",
+            "vwap_reversion"
+          ],
+          "symbol": "GBPUSD",
+          "top_k": 100
+        },
+        "path": "/data/research/artifacts/artifact_7df0e919c97af317.json"
+      },
+      "created_at": "2026-08-17T07:36:09.731657+00:00",
+      "git_revision": "9314139",
+      "metadata": {
+        "candidate_count": 10617,
+        "code_revision": "9314139",
+        "date_range": {
+          "end": "2026-08-13T04:15:35.586944+00:00",
+          "start": "2018-08-07T12:15:00+00:00"
+        },
+        "ess_formula_version": "sim-v2",
+        "min_sample_for_live_influence": 100,
+        "preserved_at": "2026-08-17T07:36:09.128472+00:00",
+        "provider_set": [
+          "FOREXSB",
+          "MT5"
+        ],
+        "purpose": "Independent replication of tiered-ESS validation alongside EURUSD, 2026-08-17.",
+        "sample_stride": 15,
+        "similarity_threshold": 0.6,
+        "strategy_set": [
+          "breakout",
+          "ema_trend",
+          "liquidity_sweep_reversal",
+          "mean_reversion",
+          "momentum",
+          "mtfai1",
+          "session_breakout",
+          "smc_continuation",
+          "support_resistance_bounce",
+          "trend_pullback",
+          "vwap_reversion"
+        ],
+        "symbol": "GBPUSD",
+        "top_k": 100
+      },
+      "result_type": "gbpusd_backtest",
+      "run_id": "gbpusd_backtest_2026-08-17_10617",
+      "summary": {
+        "candidate_count": 10617,
+        "effective_sample_size_max": 95.21,
+        "effective_sample_size_median": 80.38,
+        "effective_sample_size_min": 0.0,
+        "raw_neighbor_count_ge_100": 8630,
+        "tier_validation": "see docs/tiered-ess-validation discussion 2026-08-17"
+      }
+    },
+    "nzdusd_backtest_2026-08-17_110": {
+      "artifact": {
+        "artifact_id": "artifact_810e8d391366c6b8",
+        "artifact_type": "nzdusd_backtest",
+        "content_hash": "7c379d11d4b42aa2",
+        "created_at": "2026-08-17T07:51:16.348792Z",
+        "metadata": {
+          "candidate_count": 110,
+          "code_revision": "9314139",
+          "date_range": {
+            "end": "2026-08-13T03:48:29.432093+00:00",
+            "start": "2026-08-12T00:50:18.565961+00:00"
+          },
+          "preserved_at": "2026-08-17T07:51:16.342312+00:00",
+          "purpose": "Thin-pair tiered-ESS check, 2026-08-17 -- exploratory only.",
+          "sample_stride": 1,
+          "symbol": "NZDUSD"
+        },
+        "path": "/data/research/artifacts/artifact_810e8d391366c6b8.json"
+      },
+      "created_at": "2026-08-17T07:51:16.348802+00:00",
+      "git_revision": "9314139",
+      "metadata": {
+        "candidate_count": 110,
+        "code_revision": "9314139",
+        "date_range": {
+          "end": "2026-08-13T03:48:29.432093+00:00",
+          "start": "2026-08-12T00:50:18.565961+00:00"
+        },
+        "preserved_at": "2026-08-17T07:51:16.342312+00:00",
+        "purpose": "Thin-pair tiered-ESS check, 2026-08-17 -- exploratory only.",
+        "sample_stride": 1,
+        "symbol": "NZDUSD"
+      },
+      "result_type": "nzdusd_backtest",
+      "run_id": "nzdusd_backtest_2026-08-17_110",
+      "summary": {
+        "candidate_count": 110,
+        "note": "thin corpus (110 total, live-trading-only, smallest of all 10 symbols) -- all fall in INSUFFICIENT tier"
+      }
+    },
+    "usdcad_backtest_2026-08-17_141": {
+      "artifact": {
+        "artifact_id": "artifact_efae583d22abd031",
+        "artifact_type": "usdcad_backtest",
+        "content_hash": "2451b5fd6ce5e82a",
+        "created_at": "2026-08-17T07:51:16.338499Z",
+        "metadata": {
+          "candidate_count": 141,
+          "code_revision": "9314139",
+          "date_range": {
+            "end": "2026-08-13T04:22:52.086545+00:00",
+            "start": "2026-08-10T18:58:20.362834+00:00"
+          },
+          "preserved_at": "2026-08-17T07:51:16.332343+00:00",
+          "purpose": "Thin-pair tiered-ESS check, 2026-08-17 -- exploratory only.",
+          "sample_stride": 1,
+          "symbol": "USDCAD"
+        },
+        "path": "/data/research/artifacts/artifact_efae583d22abd031.json"
+      },
+      "created_at": "2026-08-17T07:51:16.338516+00:00",
+      "git_revision": "9314139",
+      "metadata": {
+        "candidate_count": 141,
+        "code_revision": "9314139",
+        "date_range": {
+          "end": "2026-08-13T04:22:52.086545+00:00",
+          "start": "2026-08-10T18:58:20.362834+00:00"
+        },
+        "preserved_at": "2026-08-17T07:51:16.332343+00:00",
+        "purpose": "Thin-pair tiered-ESS check, 2026-08-17 -- exploratory only.",
+        "sample_stride": 1,
+        "symbol": "USDCAD"
+      },
+      "result_type": "usdcad_backtest",
+      "run_id": "usdcad_backtest_2026-08-17_141",
+      "summary": {
+        "candidate_count": 141,
+        "note": "thin corpus (141 total, live-trading-only) -- all fall in INSUFFICIENT tier"
+      }
+    },
+    "usdchf_backtest_2026-08-17_1539": {
+      "artifact": {
+        "artifact_id": "artifact_f9cff589bd7135ae",
+        "artifact_type": "usdchf_backtest",
+        "content_hash": "5f613386548d4dcc",
+        "created_at": "2026-08-17T07:48:18.893156Z",
+        "metadata": {
+          "candidate_count": 1539,
+          "code_revision": "9314139",
+          "date_range": {
+            "end": "2026-08-13T04:25:42.714527+00:00",
+            "start": "2024-08-08T02:00:00+00:00"
+          },
+          "preserved_at": "2026-08-17T07:48:18.802845+00:00",
+          "purpose": "Thin-pair tiered-ESS check, 2026-08-17 -- exploratory only.",
+          "sample_stride": 1,
+          "symbol": "USDCHF"
+        },
+        "path": "/data/research/artifacts/artifact_f9cff589bd7135ae.json"
+      },
+      "created_at": "2026-08-17T07:48:18.893179+00:00",
+      "git_revision": "9314139",
+      "metadata": {
+        "candidate_count": 1539,
+        "code_revision": "9314139",
+        "date_range": {
+          "end": "2026-08-13T04:25:42.714527+00:00",
+          "start": "2024-08-08T02:00:00+00:00"
+        },
+        "preserved_at": "2026-08-17T07:48:18.802845+00:00",
+        "purpose": "Thin-pair tiered-ESS check, 2026-08-17 -- exploratory only.",
+        "sample_stride": 1,
+        "symbol": "USDCHF"
+      },
+      "result_type": "usdchf_backtest",
+      "run_id": "usdchf_backtest_2026-08-17_1539",
+      "summary": {
+        "candidate_count": 1539,
+        "note": "thin corpus (1539 total) -- all fall in INSUFFICIENT tier, no meaningful data above ESS 30"
+      }
+    },
+    "usdjpy_backtest_2026-08-17_3414": {
+      "artifact": {
+        "artifact_id": "artifact_8eca6bdb205e9056",
+        "artifact_type": "usdjpy_backtest",
+        "content_hash": "9acf2581990526b9",
+        "created_at": "2026-08-17T07:45:52.291526Z",
+        "metadata": {
+          "candidate_count": 3414,
+          "code_revision": "9314139",
+          "date_range": {
+            "end": "2026-08-13T04:24:33.108948+00:00",
+            "start": "2024-08-08T01:45:00+00:00"
+          },
+          "ess_formula_version": "sim-v2",
+          "min_sample_for_live_influence": 100,
+          "preserved_at": "2026-08-17T07:45:52.099066+00:00",
+          "purpose": "Third independent pair for tiered-ESS validation, 2026-08-17 -- contradicts EUR/GBP WEAK-tier positive signal.",
+          "sample_stride": 15,
+          "similarity_threshold": 0.6,
+          "symbol": "USDJPY",
+          "top_k": 100
+        },
+        "path": "/data/research/artifacts/artifact_8eca6bdb205e9056.json"
+      },
+      "created_at": "2026-08-17T07:45:52.291541+00:00",
+      "git_revision": "9314139",
+      "metadata": {
+        "candidate_count": 3414,
+        "code_revision": "9314139",
+        "date_range": {
+          "end": "2026-08-13T04:24:33.108948+00:00",
+          "start": "2024-08-08T01:45:00+00:00"
+        },
+        "ess_formula_version": "sim-v2",
+        "min_sample_for_live_influence": 100,
+        "preserved_at": "2026-08-17T07:45:52.099066+00:00",
+        "purpose": "Third independent pair for tiered-ESS validation, 2026-08-17 -- contradicts EUR/GBP WEAK-tier positive signal.",
+        "sample_stride": 15,
+        "similarity_threshold": 0.6,
+        "symbol": "USDJPY",
+        "top_k": 100
+      },
+      "result_type": "usdjpy_backtest",
+      "run_id": "usdjpy_backtest_2026-08-17_3414",
+      "summary": {
+        "candidate_count": 3414,
+        "effective_sample_size_max": 90.33,
+        "effective_sample_size_median": 70.96,
+        "effective_sample_size_min": 0.0,
+        "raw_neighbor_count_ge_100": 1717
+      }
+    },
+    "xauusd_backtest_2026-08-17_230": {
+      "artifact": {
+        "artifact_id": "artifact_248324c4682496e9",
+        "artifact_type": "xauusd_backtest",
+        "content_hash": "3cc98a4ebbb29c7f",
+        "created_at": "2026-08-17T07:49:01.380436Z",
+        "metadata": {
+          "candidate_count": 230,
+          "code_revision": "9314139",
+          "date_range": {
+            "end": "2026-08-12T16:57:27.089726+00:00",
+            "start": "2026-08-10T18:58:20.362834+00:00"
+          },
+          "preserved_at": "2026-08-17T07:49:01.367900+00:00",
+          "purpose": "Thin-pair tiered-ESS check, 2026-08-17 -- exploratory only.",
+          "sample_stride": 1,
+          "symbol": "XAUUSD"
+        },
+        "path": "/data/research/artifacts/artifact_248324c4682496e9.json"
+      },
+      "created_at": "2026-08-17T07:49:01.380454+00:00",
+      "git_revision": "9314139",
+      "metadata": {
+        "candidate_count": 230,
+        "code_revision": "9314139",
+        "date_range": {
+          "end": "2026-08-12T16:57:27.089726+00:00",
+          "start": "2026-08-10T18:58:20.362834+00:00"
+        },
+        "preserved_at": "2026-08-17T07:49:01.367900+00:00",
+        "purpose": "Thin-pair tiered-ESS check, 2026-08-17 -- exploratory only.",
+        "sample_stride": 1,
+        "symbol": "XAUUSD"
+      },
+      "result_type": "xauusd_backtest",
+      "run_id": "xauusd_backtest_2026-08-17_230",
+      "summary": {
+        "candidate_count": 230,
+        "note": "thin corpus (230 total) -- all fall in INSUFFICIENT tier"
       }
     }
   },
