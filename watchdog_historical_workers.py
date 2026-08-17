@@ -230,6 +230,56 @@ _GBPUSD_FOREXSB_END = datetime(2024, 8, 7, 11, 15, tzinfo=timezone.utc)
 # COMPLETED instead of spinning on a stretch that will never produce anything to persist.
 _EURUSD_MT5_GAP_END = datetime(2024, 8, 6, 6, 45, tzinfo=timezone.utc)
 
+# The remaining 8 symbols (all but EURUSD/GBPUSD, which already have dedicated workers above):
+# ForexSB M15 candle backfill completed for all 10 symbols on 2026-08-17 (forexsb_multi_symbol_
+# backfill), but -- exactly like EURUSD/GBPUSD before this -- no bulk_replay/fingerprint
+# generation has ever been run against that history for these 8. start = each symbol's own real
+# earliest ForexSB M15 candle (queried directly, 2026-08-17, varies by symbol -- ForexSB's own
+# M15 floor is ~2018, not the wider M30/H1/H4 floor of ~2010); end = run_forexsb_backfill.py's own
+# MT5_M15_START boundary (where the live-native MT5 corpus begins for that symbol).
+_REMAINING_PAIR_WINDOWS = {
+    "USDJPY": (datetime(2018, 8, 7, 13, 30, tzinfo=timezone.utc), datetime(2024, 8, 7, 13, 15, tzinfo=timezone.utc)),
+    "AUDUSD": (datetime(2018, 8, 7, 11, 0, tzinfo=timezone.utc), datetime(2024, 8, 7, 12, 45, tzinfo=timezone.utc)),
+    "USDCAD": (datetime(2018, 8, 7, 8, 0, tzinfo=timezone.utc), datetime(2024, 8, 7, 13, 15, tzinfo=timezone.utc)),
+    "USDCHF": (datetime(2018, 8, 6, 19, 30, tzinfo=timezone.utc), datetime(2024, 8, 7, 13, 30, tzinfo=timezone.utc)),
+    "NZDUSD": (datetime(2018, 8, 6, 16, 45, tzinfo=timezone.utc), datetime(2024, 8, 7, 13, 15, tzinfo=timezone.utc)),
+    "EURJPY": (datetime(2018, 8, 7, 6, 30, tzinfo=timezone.utc), datetime(2024, 8, 7, 12, 15, tzinfo=timezone.utc)),
+    "GBPJPY": (datetime(2018, 8, 7, 3, 30, tzinfo=timezone.utc), datetime(2024, 8, 7, 13, 15, tzinfo=timezone.utc)),
+    "XAUUSD": (datetime(2018, 2, 28, 3, 30, tzinfo=timezone.utc), datetime(2024, 6, 25, 18, 0, tzinfo=timezone.utc)),
+}
+
+
+def _remaining_pair_bulk_replay_workers() -> dict:
+    workers = {}
+    for symbol, (start, end) in _REMAINING_PAIR_WINDOWS.items():
+        # Match substring is the END date (unique per symbol, like EURUSD/GBPUSD's own workers) --
+        # never the start date, which is a real, distinct-per-symbol ForexSB floor here so no
+        # cross-worker collision risk exists the way EURUSD's two workers had.
+        end_match = f"{end.year},{end.month},{end.day},{end.hour},{end.minute}"
+        workers[f"{symbol.lower()}_bulk_replay_forexsb"] = {
+            "match": ["replay_symbol_history_fast", end_match],
+            "relaunch": (
+                "python -c \""
+                "import asyncio\n"
+                "from datetime import datetime, timezone\n"
+                "from backend.historical_intelligence.bulk_replay import replay_symbol_history_fast\n"
+                "async def main():\n"
+                "    result = await replay_symbol_history_fast(\n"
+                f"        canonical_symbol='{symbol}', broker_symbol='{symbol}',\n"
+                f"        start=datetime({start.year},{start.month},{start.day},{start.hour},{start.minute},tzinfo=timezone.utc), "
+                f"end=datetime({end.year},{end.month},{end.day},{end.hour},{end.minute},tzinfo=timezone.utc),\n"
+                "        provider='FOREXSB',\n"
+                "    )\n"
+                f"    print('{symbol} FOREXSB bulk_replay result:', result, flush=True)\n"
+                "asyncio.run(main())\n"
+                "\""
+            ),
+            "log": f"{STATUS_DIR}/{symbol.lower()}_bulk_replay.log",
+            "complete_check": _bounded_bulk_replay_complete(symbol, provider="FOREXSB", window_start=start, window_end=end),
+        }
+    return workers
+
+
 WORKERS = {
     "eurusd_backtest": {
         "match": ["run_eurusd_backtest.py"],
@@ -338,6 +388,7 @@ WORKERS = {
         "log": f"{STATUS_DIR}/forexsb_backfill.log",
         "complete_check": _backfill_complete,
     },
+    **_remaining_pair_bulk_replay_workers(),
 }
 
 
