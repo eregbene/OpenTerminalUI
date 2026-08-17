@@ -256,4 +256,11 @@ def summarize_smc_evidence(ctx: StrategyContext) -> dict[str, Any]:
         "eql_present": any(lvl.side == "sell_side" for lvl in snap.equal_levels),
         "eqh_swept_present": any(s.side == "buy_side" and s.bar_index >= recent_window for s in snap.equal_level_sweeps),
         "eql_swept_present": any(s.side == "sell_side" and s.bar_index >= recent_window for s in snap.equal_level_sweeps),
+        # LazyBear squeeze/momentum (2026-08-17) -- broadcast here (not just families.py's own
+        # per-strategy evidence) so MTFAI1 gets it too via _build_multi_strategy_analysis's
+        # existing smc_evidence broadcast to every candidate, without a separate autonomous.py
+        # change. Observability only everywhere -- see families.py::_squeeze_evidence's docstring
+        # for the negative Stage-2 OOS finding this must never contradict.
+        "squeeze_state": ctx.squeeze_state,
+        "squeeze_momentum_value": ctx.squeeze_momentum_value,
     }

@@ -257,8 +257,16 @@ def evaluate_ema_trend(ctx: StrategyContext) -> StrategySignal:
         return _no_signal(ctx, strategy_id="ema_trend", family="ema_trend", timeframe="M15", reason=stop_reason)
     target = entry + atr * Decimal("3.0") if direction == "LONG" else entry - atr * Decimal("3.0")
     strength = min(100.0, 60.0 + abs(slope20) / max(float(atr), 1e-9) * 20.0)
+    # EQH/EQL + squeeze: evidence-only for this strategy (not yet OOS-validated here specifically
+    # -- see _eqh_eql_touch_count/_squeeze_evidence docstrings). Never adjusts strength.
+    eqh_eql_side = "sell_side" if direction == "LONG" else "buy_side"
+    evidence = {
+        "ema20": float(ema20.iloc[-1]), "ema50": float(ema50.iloc[-1]), "ema100": float(ema100.iloc[-1]), "slope20": slope20,
+        "eqh_eql_touch_count": _eqh_eql_touch_count(ctx, side=eqh_eql_side, price=price, atr=float(atr)),
+    }
+    evidence.update(_squeeze_evidence(ctx))
     return _signal(ctx, strategy_id="ema_trend", family="ema_trend", timeframe="M15", direction=direction, strength=strength,
-                    entry=entry, stop=stop, target=target, evidence={"ema20": float(ema20.iloc[-1]), "ema50": float(ema50.iloc[-1]), "ema100": float(ema100.iloc[-1]), "slope20": slope20},
+                    entry=entry, stop=stop, target=target, evidence=evidence,
                     metadata=_geometry_metadata(ctx, entry, stop, None, atr, 1.5, 1.5))
 
 
@@ -286,8 +294,14 @@ def evaluate_trend_pullback(ctx: StrategyContext) -> StrategySignal:
     if stop is None:
         return _no_signal(ctx, strategy_id="trend_pullback", family="trend_pullback", timeframe="M15", reason=stop_reason)
     target = entry + atr_d * Decimal("2.5") if direction == "LONG" else entry - atr_d * Decimal("2.5")
+    eqh_eql_side = "sell_side" if direction == "LONG" else "buy_side"
+    evidence = {
+        "ema20": float(ema20.iloc[-1]), "ema50": float(ema50.iloc[-1]), "htf_trend_h1": ctx.htf_trend_h1,
+        "eqh_eql_touch_count": _eqh_eql_touch_count(ctx, side=eqh_eql_side, price=price, atr=atr),
+    }
+    evidence.update(_squeeze_evidence(ctx))
     return _signal(ctx, strategy_id="trend_pullback", family="trend_pullback", timeframe="M15", direction=direction, strength=70.0,
-                    entry=entry, stop=stop, target=target, evidence={"ema20": float(ema20.iloc[-1]), "ema50": float(ema50.iloc[-1]), "htf_trend_h1": ctx.htf_trend_h1},
+                    entry=entry, stop=stop, target=target, evidence=evidence,
                     metadata=_geometry_metadata(ctx, entry, stop, None, atr_d, 1.2, 1.2))
 
 
@@ -345,8 +359,11 @@ def evaluate_mean_reversion(ctx: StrategyContext) -> StrategySignal:
         return _no_signal(ctx, strategy_id="mean_reversion", family="mean_reversion", timeframe="M15", reason=stop_reason)
     target = entry + atr * Decimal("1.8") if direction == "LONG" else entry - atr * Decimal("1.8")
     strength = 55.0 + min(25.0, abs(50.0 - latest_rsi) - 20.0)
+    eqh_eql_side = "sell_side" if direction == "LONG" else "buy_side"
+    evidence = {"rsi14": latest_rsi, "eqh_eql_touch_count": _eqh_eql_touch_count(ctx, side=eqh_eql_side, price=price, atr=float(atr))}
+    evidence.update(_squeeze_evidence(ctx))
     return _signal(ctx, strategy_id="mean_reversion", family="mean_reversion", timeframe="M15", direction=direction, strength=max(50.0, strength),
-                    entry=entry, stop=stop, target=target, evidence={"rsi14": latest_rsi},
+                    entry=entry, stop=stop, target=target, evidence=evidence,
                     metadata=_geometry_metadata(ctx, entry, stop, None, atr, 1.2, 1.2))
 
 
@@ -388,13 +405,14 @@ def evaluate_liquidity_sweep_reversal(ctx: StrategyContext) -> StrategySignal:
     # EQH/EQL pool (cross-referencing the separate equal_level_sweeps list by bar/side), not just
     # a single-touch swing.
     swept_level_is_eqh_eql = any(s.bar_index == latest_sweep.bar_index and s.side == latest_sweep.side for s in ctx.m15_snapshot.equal_level_sweeps)
+    evidence = {
+        "sweep_id": latest_sweep.id, "displacement_id": displacement.id, "structure_shift_id": shift.id,
+        "structure_shift_kind": shift.break_kind, "bars_since_shift": bars_since_shift,
+        "swept_level_is_eqh_eql": swept_level_is_eqh_eql,
+    }
+    evidence.update(_squeeze_evidence(ctx))
     return _signal(ctx, strategy_id="liquidity_sweep_reversal", family="liquidity_sweep_reversal", timeframe="M15", direction=direction, strength=min(100.0, strength),
-                    entry=entry, stop=stop, target=target,
-                    evidence={
-                        "sweep_id": latest_sweep.id, "displacement_id": displacement.id, "structure_shift_id": shift.id,
-                        "structure_shift_kind": shift.break_kind, "bars_since_shift": bars_since_shift,
-                        "swept_level_is_eqh_eql": swept_level_is_eqh_eql,
-                    },
+                    entry=entry, stop=stop, target=target, evidence=evidence,
                     metadata=_geometry_metadata(ctx, entry, stop, latest_sweep.swept_price, atr, 1.0, 3.0))
 
 
@@ -468,9 +486,10 @@ def evaluate_support_resistance_bounce(ctx: StrategyContext) -> StrategySignal:
     target = entry + atr_d * Decimal("2.2") if direction == "LONG" else entry - atr_d * Decimal("2.2")
     eqh_eql_touches = _eqh_eql_touch_count(ctx, side=nearest.side, price=price, atr=atr)
     strength = 68.0 + (12.0 if eqh_eql_touches >= 2 else 0.0)
+    evidence = {"level_id": nearest.id, "level": float(nearest.level), "side": nearest.side, "eqh_eql_touch_count": eqh_eql_touches}
+    evidence.update(_squeeze_evidence(ctx))
     return _signal(ctx, strategy_id="support_resistance_bounce", family="support_resistance_bounce", timeframe="M15", direction=direction, strength=min(100.0, strength),
-                    entry=entry, stop=stop, target=target,
-                    evidence={"level_id": nearest.id, "level": float(nearest.level), "side": nearest.side, "eqh_eql_touch_count": eqh_eql_touches},
+                    entry=entry, stop=stop, target=target, evidence=evidence,
                     metadata=_geometry_metadata(ctx, entry, stop, None, atr_d, 1.2, 1.2))
 
 
@@ -497,7 +516,11 @@ def evaluate_momentum(ctx: StrategyContext) -> StrategySignal:
         return _no_signal(ctx, strategy_id="momentum", family="momentum", timeframe="M15", reason=stop_reason)
     target = entry + atr * Decimal("2.5") if direction == "LONG" else entry - atr * Decimal("2.5")
     strength = 60.0 + min(30.0, abs(macd_line - signal_line) / max(abs(macd_line), 1e-9) * 30.0)
-    evidence = {"rsi14": latest_rsi, "macd": macd_line, "macd_signal": signal_line}
+    eqh_eql_side = "sell_side" if direction == "LONG" else "buy_side"
+    evidence = {
+        "rsi14": latest_rsi, "macd": macd_line, "macd_signal": signal_line,
+        "eqh_eql_touch_count": _eqh_eql_touch_count(ctx, side=eqh_eql_side, price=price, atr=float(atr)),
+    }
     evidence.update(_squeeze_evidence(ctx))  # observability only -- see _squeeze_evidence's docstring
     return _signal(ctx, strategy_id="momentum", family="momentum", timeframe="M15", direction=direction, strength=min(100.0, strength),
                     entry=entry, stop=stop, target=target, evidence=evidence,
@@ -528,7 +551,11 @@ def evaluate_session_breakout(ctx: StrategyContext) -> StrategySignal:
     if stop is None:
         return _no_signal(ctx, strategy_id="session_breakout", family="session_breakout", timeframe="M15", reason=stop_reason)
     target = entry + atr * Decimal("2.5") if direction == "LONG" else entry - atr * Decimal("2.5")
-    evidence = {"session": reference.session_name, "level_name": reference.level_name, "level": float(reference.level)}
+    eqh_eql_side = "sell_side" if direction == "LONG" else "buy_side"
+    evidence = {
+        "session": reference.session_name, "level_name": reference.level_name, "level": float(reference.level),
+        "eqh_eql_touch_count": _eqh_eql_touch_count(ctx, side=eqh_eql_side, price=price, atr=float(atr)),
+    }
     evidence.update(_squeeze_evidence(ctx))  # observability only -- see _squeeze_evidence's docstring
     return _signal(ctx, strategy_id="session_breakout", family="session_breakout", timeframe="M15", direction=direction, strength=64.0,
                     entry=entry, stop=stop, target=target, evidence=evidence,
@@ -567,8 +594,14 @@ def evaluate_vwap_reversion(ctx: StrategyContext) -> StrategySignal:
     if stop is None:
         return _no_signal(ctx, strategy_id="vwap_reversion", family="vwap_reversion", timeframe="M15", reason=stop_reason)
     target = Decimal(str(vwap_now))
+    eqh_eql_side = "sell_side" if direction == "LONG" else "buy_side"
+    evidence = {
+        "vwap": vwap_now, "deviation_pct": deviation_pct, "volume_confirmed": volume_confirmed,
+        "eqh_eql_touch_count": _eqh_eql_touch_count(ctx, side=eqh_eql_side, price=price, atr=float(atr)),
+    }
+    evidence.update(_squeeze_evidence(ctx))
     return _signal(ctx, strategy_id="vwap_reversion", family="vwap_reversion", timeframe="M15", direction=direction, strength=58.0,
-                    entry=entry, stop=stop, target=target, evidence={"vwap": vwap_now, "deviation_pct": deviation_pct, "volume_confirmed": volume_confirmed},
+                    entry=entry, stop=stop, target=target, evidence=evidence,
                     metadata=_geometry_metadata(ctx, entry, stop, None, atr, 1.2, 1.2))
 
 

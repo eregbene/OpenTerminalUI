@@ -29,6 +29,12 @@ COPY nlp/ ./nlp/
 COPY data/ ./data/
 COPY plugins/ ./plugins/
 COPY scripts/ ./scripts/
+# Root-level Historical Intelligence corpus driver/watchdog scripts (2026-08-17 fix -- a prior
+# rebuild silently dropped all 14 background corpus workers because this Dockerfile never copied
+# them at all; they had only ever existed in the running container via ad-hoc `docker cp` during
+# development, invisible until the next real rebuild). *.py glob, not an enumerated list, so a
+# future new root-level driver script doesn't silently repeat this exact gap.
+COPY *.py ./
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
 RUN sed -i 's/\r$//' backend/entrypoint.sh && chmod +x backend/entrypoint.sh
 
