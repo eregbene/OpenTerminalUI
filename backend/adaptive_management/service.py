@@ -46,6 +46,11 @@ from backend.brokers.mt5.trading_costs import compute_trade_costs
 from backend.decision_context.service import decision_context_service
 from backend.economic_intelligence.service import economic_intelligence_service
 from backend.intelligence.trading.config import ai_trading_config
+from backend.market_structure.bar_utils import normalize_bars
+from backend.market_structure.liquidity import detect_equal_levels, detect_liquidity_sweeps
+from backend.market_structure.squeeze_momentum import bollinger_bands, keltner_channels, squeeze_momentum, squeeze_states
+from backend.market_structure.swings import detect_swings
+from backend.market_structure.configuration import get_profile
 from backend.mt5_strategies import redis_layer
 from backend.mt5_strategies.models import normalize_strategy_id
 from backend.portfolio_execution.orm import ExecutionOrderORM
@@ -1402,6 +1407,9 @@ class AdaptiveManagementService:
                     try:
                         context = await context_for_trade(symbol, utcnow())
                         candles = await _safe_candles(symbol, adapter=self.adapter)
+                        context["market_structure_evidence"] = _market_structure_evidence(
+                            candles, symbol=symbol, timeframe=os.getenv("ADAPTIVE_MANAGEMENT_TIMEFRAME", "M5").upper()
+                        )
                         try:
                             symbol_info = await self.adapter.symbol_info(symbol)
                         except Exception:
@@ -3300,6 +3308,45 @@ async def _safe_candles(symbol: str, adapter: Any | None = None) -> list[dict[st
         return [row.model_dump(mode="json") for row in candles]
     except Exception as exc:
         return [{"time": utcnow().isoformat(), "open": 0, "high": 0, "low": 0, "close": 0, "quality_flags": [exc.__class__.__name__]}]
+
+
+# 2026-08-17: the same shared market_structure features the entry-strategy engine already
+# consumes via StrategyContext (squeeze_momentum.py, liquidity.py::detect_equal_levels), computed
+# here from the SAME candles this monitor cycle already fetched (_safe_candles, ADAPTIVE_
+# MANAGEMENT_TIMEFRAME -- M5 by default, NOT the M15 those features were chronologically OOS
+# validated against; labeled explicitly below so nothing downstream mistakes this for the
+# validated M15 signal). OBSERVABILITY ONLY: attached to `context` for audit/future-validation
+# visibility, never read by any trailing-stop/exit/risk decision in this module. Neither squeeze
+# (negative OOS result, see the [Stage 2] commit) nor EQH/EQL (positive but entry-decision-only
+# validation, never tested in a position-MANAGEMENT role) has evidence supporting management
+# decision authority -- see docs/EXTERNAL_INDICATOR_REDUNDANCY_AUDIT.md.
+_MARKET_STRUCTURE_EVIDENCE_MIN_BARS = 40
+
+
+def _market_structure_evidence(candles: list[dict[str, Any]], *, symbol: str, timeframe: str) -> dict[str, Any] | None:
+    if len(candles) < _MARKET_STRUCTURE_EVIDENCE_MIN_BARS:
+        return None
+    try:
+        bars = normalize_bars(candles, symbol=symbol, timeframe=timeframe)
+        bb, kc = bollinger_bands(bars), keltner_channels(bars)
+        states = squeeze_states(bb, kc)
+        momentum = squeeze_momentum(bars)
+        config = get_profile("balanced")
+        swings = detect_swings(bars, config, symbol=symbol, timeframe=timeframe)
+        equal_levels = detect_equal_levels(bars, swings, config, symbol=symbol, timeframe=timeframe)
+        equal_level_sweeps = detect_liquidity_sweeps(bars, equal_levels, config, symbol=symbol, timeframe=timeframe)
+        swept_ids = {s.level_id for s in equal_level_sweeps}
+        eqh_active = any(lvl.side == "buy_side" and lvl.id not in swept_ids for lvl in equal_levels)
+        eql_active = any(lvl.side == "sell_side" and lvl.id not in swept_ids for lvl in equal_levels)
+        return {
+            "timeframe": timeframe,
+            "squeeze_state": states[-1] if states else None,
+            "squeeze_momentum_value": momentum[-1] if momentum else None,
+            "eqh_active": eqh_active,
+            "eql_active": eql_active,
+        }
+    except Exception as exc:
+        return {"unavailable": True, "error": exc.__class__.__name__}
 
 
 def _active_activation(db: Any, account_id: str = "demo_10k") -> AdaptiveActivationORM | None:
