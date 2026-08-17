@@ -88,13 +88,17 @@ def evaluate_one(fp, outcome) -> dict:
 
 def main() -> None:
     symbol = sys.argv[1].upper()
+    # Optional stride override (arg 2): thin-corpus pairs (a few hundred to a few thousand total
+    # resolved candidates) shouldn't discard 93% of an already-scarce sample the way stride=15
+    # sensibly does for EURUSD/GBPUSD's 150K+ corpora -- pass 1 to evaluate every candidate.
+    stride = int(sys.argv[2]) if len(sys.argv) > 2 else SAMPLE_STRIDE
     records_path = f"{_OUTPUT_DIR}/{symbol.lower()}_backtest_records.json"
     progress_path = f"{_OUTPUT_DIR}/{symbol.lower()}_backtest_progress.json"
     os.makedirs(_OUTPUT_DIR, exist_ok=True)
 
     all_rows = load_candidates(symbol)
-    rows = all_rows[::SAMPLE_STRIDE] if SAMPLE_STRIDE > 1 else all_rows
-    print(f"Loaded {len(all_rows)} resolved {symbol} candidates (any provider); sampling every {SAMPLE_STRIDE} chronologically -> {len(rows)} to evaluate", flush=True)
+    rows = all_rows[::stride] if stride > 1 else all_rows
+    print(f"Loaded {len(all_rows)} resolved {symbol} candidates (any provider); sampling every {stride} chronologically -> {len(rows)} to evaluate", flush=True)
     if not rows:
         print("NO CANDIDATES AVAILABLE YET -- corpus not ready for this symbol.", flush=True)
         return
