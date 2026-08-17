@@ -606,6 +606,11 @@ def test_live_account_mode_blocks_execution_regardless_of_other_checks(monkeypat
 
 
 def test_move_sl_to_reduced_risk_only_tightens_never_widens(monkeypatch):
+    # Pin the reduced-risk window explicitly: the ambient env (ADAPTIVE_BREAKEVEN_R=0.5 in
+    # DEMO since the 2026-08-17 audit) would otherwise collapse [reduced_risk_r, breakeven_r)
+    # to empty and make this test about env leakage rather than the tighten-never-widen rule.
+    monkeypatch.setenv("ADAPTIVE_REDUCED_RISK_R", "0.5")
+    monkeypatch.setenv("ADAPTIVE_BREAKEVEN_R", "1.0")
     svc = adaptive_service.AdaptiveManagementService()
     state = _base_state(direction="LONG", entry_price=1.1000, current_sl=1.0950, winner_classification="healthy_pullback")
 
@@ -684,6 +689,9 @@ class _FakeExecManager:
 def test_move_sl_to_reduced_risk_executes_end_to_end_for_internal_demo_with_default_env(monkeypatch):
     SessionLocal = _session_factory(monkeypatch)
     monkeypatch.delenv("ADAPTIVE_MANAGEMENT_MODE", raising=False)  # default: 'shadow'
+    # Pin the reduced-risk window explicitly -- see test_move_sl_to_reduced_risk_only_tightens_never_widens.
+    monkeypatch.setenv("ADAPTIVE_REDUCED_RISK_R", "0.5")
+    monkeypatch.setenv("ADAPTIVE_BREAKEVEN_R", "1.0")
     monkeypatch.setattr(adaptive_service, "mt5_config", lambda: type("Cfg", (), {"live_trading_enabled": False, "account_mode": "DEMO", "bensim_magic": 5601001})())
     fake_adapter = _FakeExecAdapter()
     fake_execution = _FakeExecManager()

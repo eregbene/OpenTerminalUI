@@ -133,6 +133,26 @@ def v2_mode() -> str:
     return value if value in {"disabled", "shadow", "enforce"} else "shadow"
 
 
+def _thesis_invalidation_enabled(account_fingerprint: str | None) -> bool:
+    """DEMO-only, reversible feature flag (2026-08-17 forensic Adaptive Manager audit --
+    scratch_adaptive_manager_invalidation_causal_check.py found THESIS_INVALIDATION_CLOSE's bare
+    opposing-candle rule net-costs -1.82R vs simply not firing, across 78 real closed DEMO
+    trades). Code is NEVER removed by this flag -- see _evaluate_position's own THESIS_
+    INVALIDATION_CLOSE branch, which still builds the candidate and always logs a shadow
+    counterfactual (ShadowDecisionORM) when suppressed, so the decision can keep being measured
+    on a growing sample rather than thrown away.
+
+    Defaults to enabled (today's unchanged behavior) everywhere. Only actually suppresses the
+    real candidate when BOTH (a) the operator has explicitly set ADAPTIVE_THESIS_INVALIDATION_
+    ENABLED to a falsy value AND (b) the account is classified INTERNAL_DEMO -- a misconfigured
+    env var can never suppress this on a real/prop account, mirroring v2_mode()'s own
+    INTERNAL_DEMO-only scoping in _can_execute()."""
+    flag_value = os.getenv("ADAPTIVE_THESIS_INVALIDATION_ENABLED", "true").strip().lower()
+    if flag_value not in {"false", "0", "disabled", "off"}:
+        return True
+    return _account_classification(account_fingerprint) != AccountClassification.INTERNAL_DEMO.value
+
+
 def _account_classification(fingerprint_hash: str | None) -> str:
     """Looks up the persisted AccountClassification (backend.brokers.mt5.account_registry) for
     an account fingerprint. No fingerprint, or no profile row yet, fails closed to UNKNOWN --
@@ -1961,7 +1981,22 @@ class AdaptiveManagementService:
             candidates.extend(self._account_scaled_profit_protection(state, payload, candidates, 0.0, 0.0, "insufficient_data", account_equity))
             return candidates
         if _opposing_candles(candles, state.direction) >= 2 and r_now < -0.25:
-            candidates.append(ManagementCandidate("THESIS_INVALIDATION_CLOSE", 10, requested_volume=float(state.current_volume), reason="two_completed_opposing_candles_after_adverse_move", evidence={"r": r_now}))
+            invalidation_candidate = ManagementCandidate("THESIS_INVALIDATION_CLOSE", 10, requested_volume=float(state.current_volume), reason="two_completed_opposing_candles_after_adverse_move", evidence={"r": r_now})
+            if _thesis_invalidation_enabled(state.account_fingerprint):
+                candidates.append(invalidation_candidate)
+            else:
+                # DEMO-only shadow counterfactual -- see _thesis_invalidation_enabled's docstring.
+                # Never added to `candidates`, so it can never be selected/executed here; still
+                # persisted so realized R/PF/drawdown/stop-outs/MFE-capture/+2R+3R-retention/
+                # how-often-it-would-have-fired keep being measurable on the growing real sample.
+                db.merge(_shadow_decision_orm({
+                    "decision_id": "SHADOW_INVALIDATION_" + _hash({"position": state.position_id, "time": utcnow().isoformat()})[:32],
+                    "trade_id": state.position_id, "policy_id": "thesis_invalidation_shadow_disabled_v1",
+                    "timestamp": utcnow(), "proposed_action": invalidation_candidate.action_type,
+                    "proposed_volume_fraction": 1.0, "proposed_price": None,
+                    "reason": invalidation_candidate.reason, "evidence": invalidation_candidate.evidence,
+                    "would_mutate_broker": False,
+                }))
         event_risk = str(context.get("scheduled_event_risk") or context.get("headline_risk") or "").lower()
         if ("high" in event_risk or "elevated" in event_risk) and r_now > 0.2:
             candidates.append(ManagementCandidate("EVENT_RISK_REDUCTION", 20, requested_volume=float(state.current_volume) * 0.25, reason="elevated_event_risk_reduce_exposure", evidence={"r": r_now, "context": context}))
