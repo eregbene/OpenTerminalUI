@@ -239,7 +239,9 @@ def test_jpy_cross_currency_risk_fix_remains_correct():
 
 # 16. Strategy engine (canonical strategy registry) unchanged by this task.
 def test_strategy_engine_unchanged():
-    non_mtfai1 = [sid for sid in STRATEGY_FAMILIES if sid != "mtfai1"]
+    # "wyckoff" (2026-08-17) is excluded from this count -- it's a later addition, pending
+    # historical/OOS validation, not part of the Stage-1-complete cohort this test covers.
+    non_mtfai1 = [sid for sid in STRATEGY_FAMILIES if sid not in {"mtfai1", "wyckoff"}]
     assert len(non_mtfai1) == 10
     assert "mtfai1" in STRATEGY_FAMILIES
 

@@ -375,7 +375,9 @@ def test_24_confidence_threshold_remains_75():
 def test_25_multi_strategy_engine_unchanged():
     from backend.mt5_strategies.models import STRATEGY_FAMILIES
 
-    assert len([sid for sid in STRATEGY_FAMILIES if sid != "mtfai1"]) == 10
+    # "wyckoff" (2026-08-17) is excluded -- it's a later addition, pending historical/OOS
+    # validation, not part of the Stage-1-complete cohort this test covers.
+    assert len([sid for sid in STRATEGY_FAMILIES if sid not in {"mtfai1", "wyckoff"}]) == 10
     assert "mtfai1" in STRATEGY_FAMILIES
 
 

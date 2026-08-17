@@ -533,9 +533,12 @@ def test_all_eleven_strategies_remain_active():
     from backend.mt5_strategies.families import EVALUATORS
     from backend.mt5_strategies.models import ACTIVE_MT5, activation_status
 
-    all_ids = ["mtfai1"] + list(EVALUATORS.keys())
+    # "wyckoff" (2026-08-17) is excluded -- it's a later addition, pending historical/OOS
+    # validation, deliberately DISABLED by default, not part of this Stage-1-complete cohort.
+    stage1_ids = [sid for sid in EVALUATORS if sid != "wyckoff"]
+    all_ids = ["mtfai1"] + stage1_ids
     assert len(all_ids) == 11
-    for strategy_id in EVALUATORS.keys():
+    for strategy_id in stage1_ids:
         assert activation_status(strategy_id) == ACTIVE_MT5
 
 

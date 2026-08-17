@@ -25,7 +25,7 @@ from backend.brokers.mt5.confidence import compute_trade_confidence, is_autonomo
 from backend.mt5_strategies.context import build_strategy_context, cheap_prefilter, quick_regime, summarize_smc_evidence
 from backend.mt5_strategies.families import evaluate_all
 from backend.mt5_strategies.fusion import build_candidates
-from backend.mt5_strategies.models import ACTIVE_MT5, all_strategy_ids, multi_strategy_enabled, normalize_strategy_id, regime_compatible
+from backend.mt5_strategies.models import ACTIVE_MT5, activation_status, all_strategy_ids, multi_strategy_enabled, normalize_strategy_id, regime_compatible
 from backend.mt5_strategies import redis_layer
 from backend.brokers.mt5.execution import MT5ExecutionService
 from backend.brokers.mt5.market_data import candle_quality
@@ -961,7 +961,16 @@ class MT5AutonomousTradingService:
                 "smc_evidence": {},
                 **geometry,
             }
-            row = {**_candidate(instrument, reasons), "direction": direction, "ranking_score": score, "context": context, "context_hash": _hash(context), "strategy_activation": "ACTIVE_MT5", **geometry}
+            # 2026-08-17: was hardcoded "ACTIVE_MT5" -- MTFAI1 was the only strategy in the whole
+            # multi-strategy layer with NO working activation kill switch (its own scoring is
+            # inline here, entirely outside STRATEGY_FAMILIES/EVALUATORS, so it never went
+            # through activation_status() the way every other family already does). This wires it
+            # into the SAME gate mechanism just below (eligible_for_execution's shadow check,
+            # "MTFAI1's own rows always carry it explicitly now" -- that comment predates this
+            # fix and was aspirational until now). MT5_STRATEGY_ACTIVATION_MTFAI1=SHADOW_MT5 now
+            # actually demotes it (still scored/tracked for calibration, never executed) instead
+            # of silently doing nothing.
+            row = {**_candidate(instrument, reasons), "direction": direction, "ranking_score": score, "context": context, "context_hash": _hash(context), "strategy_activation": activation_status("mtfai1"), **geometry}
             rows.append(row)
 
             if should_analyze:
