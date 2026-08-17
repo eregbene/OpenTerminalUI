@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
 
 from backend.historical_intelligence import entry_intelligence, similarity
@@ -24,6 +25,13 @@ from backend.shared.db import SessionLocal
 
 _OUTPUT_DIR = "/data/historical_intelligence"
 SAMPLE_STRIDE = 15
+# evaluate_one is pure read + return (each call opens its own SessionLocal() session inside
+# similarity_statistics/find_similar_setups, no shared mutable state across candidates) -- safe
+# to run concurrently. 6 workers: real headroom confirmed 2026-08-17 (host has 8 CPUs, backend
+# container using ~2; Postgres max_connections=100, ~17 in use) without touching similarity.py's
+# actual computation at all, just running more of the same unchanged calls at once. Bounded well
+# under the default SQLAlchemy pool (5 + 10 overflow = 15 per process) and Postgres's own limit.
+_MAX_WORKERS = 6
 
 
 def _dims(fp):
@@ -118,23 +126,33 @@ def main() -> None:
         except (json.JSONDecodeError, OSError, IndexError):
             print("Checkpoint file present but unusable -- starting fresh.", flush=True)
 
-    for i, (fp, outcome) in enumerate(rows):
-        if i < start_index:
-            continue
+    def _safe_evaluate(item):
+        fp, outcome = item
         try:
-            records.append(evaluate_one(fp, outcome))
+            return evaluate_one(fp, outcome)
         except Exception as exc:
-            print(f"  [{i}] evaluation failed for {fp.fingerprint_id}: {exc.__class__.__name__}: {exc}", flush=True)
-        if (i + 1) % 200 == 0:
-            print(f"  ...evaluated {i + 1}/{len(rows)}", flush=True)
-        if (i + 1) % 500 == 0 or (i + 1) == len(rows):
-            tmp_path = f"{records_path}.tmp"
-            with open(tmp_path, "w") as f:
-                json.dump(records, f, indent=2, default=str)
-            os.replace(tmp_path, records_path)
-            with open(progress_path, "w") as f:
-                json.dump({"evaluated": i + 1, "total": len(rows)}, f)
-            print(f"  [checkpoint] {i + 1}/{len(rows)} written to {records_path}", flush=True)
+            print(f"  evaluation failed for {fp.fingerprint_id}: {exc.__class__.__name__}: {exc}", flush=True)
+            return None
+
+    pending = rows[start_index:]
+    with ThreadPoolExecutor(max_workers=_MAX_WORKERS) as pool:
+        # .map() preserves input order in its output even though workers run concurrently --
+        # checkpointing/resume below still assumes records[idx] <-> rows[idx] positional
+        # alignment, exactly as the original sequential loop did.
+        for offset, result in enumerate(pool.map(_safe_evaluate, pending)):
+            i = start_index + offset
+            if result is not None:
+                records.append(result)
+            if (i + 1) % 200 == 0:
+                print(f"  ...evaluated {i + 1}/{len(rows)}", flush=True)
+            if (i + 1) % 500 == 0 or (i + 1) == len(rows):
+                tmp_path = f"{records_path}.tmp"
+                with open(tmp_path, "w") as f:
+                    json.dump(records, f, indent=2, default=str)
+                os.replace(tmp_path, records_path)
+                with open(progress_path, "w") as f:
+                    json.dump({"evaluated": i + 1, "total": len(rows)}, f)
+                print(f"  [checkpoint] {i + 1}/{len(rows)} written to {records_path}", flush=True)
 
     print(f"\nEvaluated {len(records)} candidates for {symbol}.", flush=True)
     print(f"Full per-candidate records written to {records_path}", flush=True)
