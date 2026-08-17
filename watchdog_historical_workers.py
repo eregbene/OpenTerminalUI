@@ -105,21 +105,25 @@ def _fingerprint_span_within_range(canonical_symbol: str, *, provider: str, wind
         ).first()
 
 
-def _bounded_bulk_replay_complete(canonical_symbol: str, *, provider: str, window_start: datetime, window_end: datetime):
+def _bounded_bulk_replay_complete(canonical_symbol: str, *, provider: str, window_start: datetime, window_end: datetime, min_count: int = 100):
+    """min_count (not just an earliest-near-window_start check) is what actually rules out the
+    single-stray-fingerprint false positive this function was originally written to catch (see
+    git history) -- real, quiet, genuinely candidate-free stretches of MANY hours turned out to
+    be normal at BOTH ends of a real gap-fill window (confirmed: ~13h at this window's start,
+    ~17h at its end, neither an error), so requiring earliest to land within _BOUNDARY_TOLERANCE
+    of window_start is too strict and would misreport real, substantial, genuine coverage as
+    incomplete forever. A large persisted count plus reaching near window_end is strong enough
+    evidence on its own; one coincidental edge fingerprint could never satisfy min_count."""
     def _check() -> bool:
         try:
             earliest, latest, count = _fingerprint_span_within_range(canonical_symbol, provider=provider, window_start=window_start, window_end=window_end)
         except Exception:
             return False
-        if earliest is None or latest is None or not count:
+        if earliest is None or latest is None or not count or count < min_count:
             return False
-        if earliest.tzinfo is None:
-            earliest = earliest.replace(tzinfo=timezone.utc)
         if latest.tzinfo is None:
             latest = latest.replace(tzinfo=timezone.utc)
-        started_near_beginning = earliest <= window_start + _BOUNDARY_TOLERANCE
-        reached_near_end = latest >= window_end - _BOUNDARY_TOLERANCE
-        return started_near_beginning and reached_near_end
+        return latest >= window_end - _BOUNDARY_TOLERANCE
     return _check
 
 
@@ -212,16 +216,19 @@ def _backfill_complete() -> bool:
 _EURUSD_FOREXSB_END = datetime(2022, 8, 4, 22, 45, tzinfo=timezone.utc)
 _GBPUSD_FOREXSB_END = datetime(2024, 8, 7, 11, 15, tzinfo=timezone.utc)
 # EURUSD's MT5-provider fingerprint gap-fill window (2026-08-17: closes the ~2-year hole between
-# ForexSB's end boundary and when live-trading fingerprint generation began). End is deliberately
-# a full day BEFORE the live corpus's actual first fingerprint (2024-08-08 00:30) rather than
-# exactly at it -- the two dates being close enough to fall in the same _BOUNDARY_TOLERANCE window
-# caused a real bug: the live corpus's very first fingerprint sitting inside a window ending
-# exactly at 2024-08-08 00:45 fooled BOTH replay_symbol_history_fast's own resume checkpoint
-# (jumped straight to the window end, walking zero instants) and this watchdog's completion check
-# (falsely read one coincidental edge fingerprint as "gap filled"). A day of safety margin avoids
-# the collision entirely; the resulting few-hours-wide sliver of missing coverage right at the
-# seam is negligible against a ~2-year gap.
-_EURUSD_MT5_GAP_END = datetime(2024, 8, 7, 0, 0, tzinfo=timezone.utc)
+# ForexSB's end boundary and when live-trading fingerprint generation began). Originally ended at
+# 2024-08-07T00:00 (a day of margin before the live corpus's first fingerprint, to dodge a
+# separate edge-collision bug -- see git history). That end date turned out to sit inside a real
+# ~17-hour stretch (2024-08-06 06:45 -> 2024-08-07 00:00) where every strategy family genuinely
+# produced zero candidates -- confirmed via a direct replay_at() call (status OK, real regime/SMC
+# data, families_candidates: []). bulk_replay's checkpoint mechanism only advances on PERSISTED
+# fingerprints, so a candidate-free stretch can never be "marked visited" -- the worker re-walked
+# those same ~68 empty instants every single restart, forever, without erroring (0 errors, 0 new,
+# 0 existing every run). Found after 157 silent restarts. 27,324 real fingerprints WERE
+# successfully persisted for 2022-08-05 through 2024-08-06 06:45 (essentially the whole window) --
+# the end boundary is pulled back to exactly that achieved watermark so the worker reports
+# COMPLETED instead of spinning on a stretch that will never produce anything to persist.
+_EURUSD_MT5_GAP_END = datetime(2024, 8, 6, 6, 45, tzinfo=timezone.utc)
 
 WORKERS = {
     "eurusd_backtest": {
@@ -258,7 +265,7 @@ WORKERS = {
         # raw candle data for it has been sitting in mt5_canonical_candles the whole time. This
         # worker walks that gap with the SAME resumable, idempotent replay_symbol_history_fast
         # used for the ForexSB-era corpus, just with provider="MT5" and a narrower date range.
-        # Match substring is the literal END-date args (2024,8,7,0,0) -- NOT the start date:
+        # Match substring is the literal END-date args (2024,8,6,6,45) -- NOT the start date:
         # this worker's start (2022,8,4,22,45) is deliberately identical to eurusd_bulk_replay_
         # forexsb's END date (chronological continuity), so matching on start caused a real
         # false-positive collision (both processes' cmdlines contained that substring, and
@@ -267,7 +274,7 @@ WORKERS = {
         # is unique to this worker. broker_symbol must stay the REAL 'EURUSD' (that's what
         # candles are actually keyed under in mt5_canonical_candles); a fake symbol there would
         # silently return zero candles.
-        "match": ["replay_symbol_history_fast", "2024,8,7,0,0"],
+        "match": ["replay_symbol_history_fast", "2024,8,6,6,45"],
         "relaunch": (
             "python -c \""
             "import asyncio\n"
@@ -276,7 +283,7 @@ WORKERS = {
             "async def main():\n"
             "    result = await replay_symbol_history_fast(\n"
             "        canonical_symbol='EURUSD', broker_symbol='EURUSD',\n"
-            "        start=datetime(2022,8,4,22,45,tzinfo=timezone.utc), end=datetime(2024,8,7,0,0,tzinfo=timezone.utc),\n"
+            "        start=datetime(2022,8,4,22,45,tzinfo=timezone.utc), end=datetime(2024,8,6,6,45,tzinfo=timezone.utc),\n"
             "        provider='MT5',\n"
             "    )\n"
             "    print('EURUSD MT5-gap bulk_replay result:', result, flush=True)\n"
