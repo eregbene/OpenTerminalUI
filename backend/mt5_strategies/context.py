@@ -25,6 +25,7 @@ from backend.adaptive_management.service import detect_regime
 from backend.market_structure.bar_utils import average_true_range, normalize_bars
 from backend.market_structure.engine import analyze_bars
 from backend.market_structure.models import MarketStructureSnapshot, TrendLabel
+from backend.market_structure.oscillators import lorentzian_feature_series
 from backend.market_structure.squeeze_momentum import bollinger_bands, keltner_channels, squeeze_momentum, squeeze_states
 
 
@@ -64,6 +65,14 @@ class StrategyContext:
     # is availability, not activation. See squeeze_momentum.py's module docstring.
     squeeze_state: str | None = None
     squeeze_momentum_value: float | None = None
+    # jdehorty Lorentzian Classification's public feature set (RSI/WaveTrend/CCI/ADX, each
+    # rolling-normalized to [0,1] -- market_structure/oscillators.py::lorentzian_feature_series),
+    # independently implemented (2026-08-17, docs/EXTERNAL_INDICATOR_REDUNDANCY_AUDIT.md). Same
+    # "compute once, available to both live strategies and HI fingerprints, not itself an
+    # activation" pattern as squeeze_state/squeeze_momentum_value above -- NOT read by any
+    # existing strategy. See backend/historical_intelligence/lorentzian_similarity.py for the
+    # distance/kNN engine built on top of this feature.
+    lorentzian_features: tuple[float, float, float, float] | None = None
 
 
 def quick_regime(m15_rows: list[dict[str, Any]]) -> dict[str, Any]:
@@ -168,6 +177,15 @@ def build_strategy_context(
         momentum_series = squeeze_momentum(m15_bars)
         squeeze_momentum_current = momentum_series[-1] if momentum_series else None
 
+    lorentzian_features_current: tuple[float, float, float, float] | None = None
+    if len(m15_bars) >= 20:
+        # normalize_window=100 matches the actual M15 history live/replay ever have available
+        # (STRATEGY_LOOKBACK/_MIN_BARS in replay.py -- every strategy fetches exactly 100 M15
+        # bars), not oscillators.py's larger 200-bar default, so a live/replay computation and a
+        # full-corpus backfill computation over the same instant agree.
+        lorentzian_series = lorentzian_feature_series(m15_bars, normalize_window=100)
+        lorentzian_features_current = lorentzian_series[-1] if lorentzian_series else None
+
     broker_min_stop_distance = None
     if symbol_info is not None:
         stops_level = getattr(symbol_info, "trade_stops_level", None)
@@ -199,6 +217,7 @@ def build_strategy_context(
         h4_snapshot=h4_snapshot,
         squeeze_state=squeeze_state_value,
         squeeze_momentum_value=squeeze_momentum_current,
+        lorentzian_features=lorentzian_features_current,
     )
 
 
@@ -231,4 +250,10 @@ def summarize_smc_evidence(ctx: StrategyContext) -> dict[str, Any]:
         "session_levels_available": bool(snap.session_levels),
         "htf_direction_h4": ctx.htf_trend_h4,
         "htf_direction_h1": ctx.htf_trend_h1,
+        # EQH/EQL liquidity pools (2026-08-17 -- see market_structure/liquidity.py::
+        # detect_equal_levels' docstring). Additive only: no existing key above changes meaning.
+        "eqh_present": any(lvl.side == "buy_side" for lvl in snap.equal_levels),
+        "eql_present": any(lvl.side == "sell_side" for lvl in snap.equal_levels),
+        "eqh_swept_present": any(s.side == "buy_side" and s.bar_index >= recent_window for s in snap.equal_level_sweeps),
+        "eql_swept_present": any(s.side == "sell_side" and s.bar_index >= recent_window for s in snap.equal_level_sweeps),
     }

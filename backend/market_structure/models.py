@@ -336,6 +336,12 @@ class MarketStructureSnapshot(BaseModel):
     displacements: list[DisplacementEvent] = Field(default_factory=list)
     liquidity_levels: list[LiquidityLevel] = Field(default_factory=list)
     liquidity_sweeps: list[LiquiditySweep] = Field(default_factory=list)
+    # EQH/EQL liquidity pools (2026-08-17 audit -- genuinely missing before now, see
+    # liquidity.py::detect_equal_levels' docstring). Deliberately SEPARATE from liquidity_levels/
+    # liquidity_sweeps above -- every existing strategy/HI code that already reads those two
+    # fields is unaffected; nothing here changes what they contain.
+    equal_levels: list[LiquidityLevel] = Field(default_factory=list)
+    equal_level_sweeps: list[LiquiditySweep] = Field(default_factory=list)
     imbalances: list[ImbalanceZone] = Field(default_factory=list)
     order_blocks: list[OrderBlock] = Field(default_factory=list)
     dealing_ranges: list[DealingRange] = Field(default_factory=list)

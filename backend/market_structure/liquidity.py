@@ -60,6 +60,115 @@ def detect_liquidity_levels(
     return levels
 
 
+def detect_equal_levels(
+    bars: list[StructureBar],
+    swings: list[SwingPoint],
+    config: MarketStructureConfig,
+    *,
+    symbol: str,
+    timeframe: str,
+    source_dataset_id: str | None = None,
+) -> list[LiquidityLevel]:
+    """Equal-Highs/Equal-Lows liquidity pools (LuxAlgo's public EQH/EQL concept, independently
+    implemented -- see docs/EXTERNAL_INDICATOR_REDUNDANCY_AUDIT.md addendum). Genuinely missing
+    from this engine before now: detect_liquidity_levels above treats every swing as its own
+    single-touch level (touch_count always defaults to 1, never incremented), and detect_swings
+    actively COLLAPSES a new pivot into the prior one when they're too close together rather than
+    recognizing repeated near-equal touches as a strengthened liquidity pool -- confirmed by
+    config.equal_levels.minimum_touches (declared, `>= 2`) having zero call sites anywhere in this
+    codebase before this function. This reuses that same already-declared, previously-dead config
+    knob, and the existing LiquidityLevel model's own touch_count/source fields (also previously
+    always 1 / "confirmed_swing") -- no new model, no schema change.
+
+    Clustering: chronological single pass per swing_type ("high"/"low" separately -- highs and
+    lows never merge into the same pool). A new swing joins the most recent still-open cluster of
+    the same type if it falls within that cluster's tolerance band (the SAME _tolerance() used for
+    single-touch sweep detection, so an EQH/EQL pool's own tolerance is never wider or narrower
+    than what already governs whether a price "reclaimed" or "breached" a single swing); otherwise
+    it starts a new cluster. `level` is the running average of all clustered swing prices (not the
+    first touch, not the last) -- keeps the pool centered as more touches confirm it, matching how
+    LuxAlgo's own indicator re-centers its equal-level line on each new confirming touch.
+
+    No-lookahead: a cluster is only emitted once it reaches config.equal_levels.minimum_touches
+    members, with confirmation_time set to the confirming (Nth) swing's own confirmation_time --
+    never backdated to the first touch. Before that Nth touch, the pool simply does not exist yet
+    from a replay's point of view, exactly like every other concept in this engine."""
+    atrs = average_true_range(bars, config.displacement.atr_period)
+    min_touches = config.equal_levels.minimum_touches
+    # Bounds the active-cluster scan to the same ~100-bar window every live cycle already fetches
+    # (replay.py/autonomous.py fetch M15 with count=100) -- keeps live and backfilled/replayed
+    # results identical (a live cycle never sees an older swing to cluster against anyway) and
+    # avoids the unbounded-list O(n^2) scan detect_liquidity_sweeps already guards against
+    # (`active = remaining[-500:]`, same file) over a full-history backfill pass.
+    _LOOKBACK_BARS = 100
+
+    class _Cluster:
+        __slots__ = ("swings", "sum_price")
+
+        def __init__(self, first: SwingPoint) -> None:
+            self.swings: list[SwingPoint] = [first]
+            self.sum_price: Decimal = first.price
+
+        @property
+        def level(self) -> Decimal:
+            return self.sum_price / Decimal(len(self.swings))
+
+    levels: list[LiquidityLevel] = []
+    clusters: dict[str, list[_Cluster]] = {"high": [], "low": []}
+    emitted_at_count: dict[int, int] = {}  # id(cluster) -> touch count already emitted, avoids re-emitting on every subsequent touch
+
+    for swing in sorted(swings, key=lambda s: s.bar_index):
+        if swing.swing_type not in clusters:
+            continue
+        atr = atrs[swing.bar_index] if swing.bar_index < len(atrs) else None
+        active = [c for c in clusters[swing.swing_type] if swing.bar_index - c.swings[-1].bar_index <= _LOOKBACK_BARS]
+        clusters[swing.swing_type] = active
+        joined: _Cluster | None = None
+        for cluster in active:
+            tol = _tolerance(cluster.level, atr, config)
+            if abs(swing.price - cluster.level) <= tol:
+                joined = cluster
+                break
+        if joined is None:
+            clusters[swing.swing_type].append(_Cluster(swing))
+            continue
+        joined.swings.append(swing)
+        joined.sum_price += swing.price
+        touch_count = len(joined.swings)
+        if touch_count >= min_touches and emitted_at_count.get(id(joined), 0) < touch_count:
+            emitted_at_count[id(joined)] = touch_count
+            side = LiquiditySide.BUY_SIDE if swing.swing_type == "high" else LiquiditySide.SELL_SIDE
+            level_price = joined.level
+            member_indexes = [s.bar_index for s in joined.swings]
+            levels.append(
+                LiquidityLevel(
+                    id=stable_id("eql", symbol, timeframe, swing.swing_type, swing.id, touch_count, config.configuration_hash()),
+                    symbol=symbol,
+                    timeframe=timeframe,
+                    start_time=joined.swings[0].start_time,
+                    end_time=swing.end_time,
+                    detected_time=swing.confirmation_time or swing.detected_time,
+                    confirmation_time=swing.confirmation_time,
+                    price_low=level_price,
+                    price_high=level_price,
+                    direction=Direction.BULLISH if side == LiquiditySide.BUY_SIDE else Direction.BEARISH,
+                    status=ConceptStatus.ACTIVE,
+                    quality_score=min(1.0, 0.6 + 0.1 * touch_count),
+                    configuration_version=config.version,
+                    configuration_hash=config.configuration_hash(),
+                    source_dataset_id=source_dataset_id,
+                    supporting_bar_indexes=member_indexes,
+                    supporting_event_ids=[s.id for s in joined.swings],
+                    side=side,
+                    level=level_price,
+                    touch_count=touch_count,
+                    source="equal_level",
+                    tolerance=_tolerance(level_price, atr, config),
+                )
+            )
+    return levels
+
+
 def detect_liquidity_sweeps(
     bars: list[StructureBar],
     levels: list[LiquidityLevel],

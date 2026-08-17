@@ -11,7 +11,7 @@ from backend.market_structure.displacement import detect_displacements
 from backend.market_structure.events import build_events
 from backend.market_structure.explanations import explain_snapshot
 from backend.market_structure.imbalance import detect_fair_value_gaps
-from backend.market_structure.liquidity import detect_liquidity_levels, detect_liquidity_sweeps
+from backend.market_structure.liquidity import detect_equal_levels, detect_liquidity_levels, detect_liquidity_sweeps
 from backend.market_structure.models import EngineState, FeatureRow, MarketStructureSnapshot, StructureBreakKind, stable_id
 from backend.market_structure.scoring import score_snapshot
 from backend.market_structure.serialization import build_overlays
@@ -51,6 +51,8 @@ class MarketStructureEngine:
         breaks = detect_structure_breaks(bars, swings, trend, displacements, self.config, symbol=symbol, timeframe=timeframe, source_dataset_id=source_dataset_id)
         liquidity_levels = detect_liquidity_levels(bars, swings, self.config, symbol=symbol, timeframe=timeframe, source_dataset_id=source_dataset_id)
         liquidity_sweeps = detect_liquidity_sweeps(bars, liquidity_levels, self.config, symbol=symbol, timeframe=timeframe, source_dataset_id=source_dataset_id)
+        equal_levels = detect_equal_levels(bars, swings, self.config, symbol=symbol, timeframe=timeframe, source_dataset_id=source_dataset_id)
+        equal_level_sweeps = detect_liquidity_sweeps(bars, equal_levels, self.config, symbol=symbol, timeframe=timeframe, source_dataset_id=source_dataset_id)
         imbalances = detect_fair_value_gaps(bars, self.config, symbol=symbol, timeframe=timeframe, source_dataset_id=source_dataset_id)
         order_blocks = detect_order_blocks(bars, breaks, self.config, symbol=symbol, timeframe=timeframe, source_dataset_id=source_dataset_id)
         dealing_ranges, premium_discount_zones = build_dealing_ranges(bars, swings, self.config, symbol=symbol, timeframe=timeframe, source_dataset_id=source_dataset_id)
@@ -84,6 +86,8 @@ class MarketStructureEngine:
             displacements=displacements,
             liquidity_levels=liquidity_levels,
             liquidity_sweeps=liquidity_sweeps,
+            equal_levels=equal_levels,
+            equal_level_sweeps=equal_level_sweeps,
             imbalances=imbalances,
             order_blocks=order_blocks,
             dealing_ranges=dealing_ranges,
