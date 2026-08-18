@@ -2,92 +2,57 @@ from __future__ import annotations
 
 from fastapi import APIRouter
 
-from backend.api.routes.agent import router as agent_router
 from backend.api.routes.adaptive_management import router as adaptive_management_router
-from backend.api.routes.ai import router as ai_router
-from backend.api.routes.ai_trading import router as ai_trading_router
-from backend.api.routes.alpha_zoo import router as alpha_zoo_router
+from backend.api.routes.admin import router as admin_router
 from backend.api.routes.analytics import router as analytics_router
-from backend.api.routes.bonds import router as bonds_router
+from backend.api.routes.api_keys import router as api_keys_router
+from backend.api.routes.audit import router as audit_router
 from backend.api.routes.brokers import router as brokers_router
-from backend.api.routes.commodities import router as commodities_router
-from backend.api.routes.correlation import router as correlation_router
 from backend.api.routes.context import router as context_router
-from backend.api.routes.historical_intelligence import router as historical_intelligence_router
-from backend.api.routes.forex_ops import router as forex_ops_router
 from backend.api.routes.economic_intelligence import router as economic_intelligence_router
-from backend.api.routes.pair_trading import router as pair_trading_router
-from backend.api.routes.etf import router as etf_router
-from backend.api.routes.factor_analysis import router as factor_analysis_router
-from backend.api.routes.fixed_income import router as fixed_income_router
-from backend.api.routes.forex import router as forex_router
-from backend.api.routes.forex_frameworks import router as forex_frameworks_router
-from backend.api.routes.forex_strategies import router as forex_strategies_router
-from backend.api.routes.forex_intelligence import router as forex_intelligence_router
-from backend.api.routes.framework import router as framework_router
-from backend.api.routes.heatmap import router as heatmap_router
-from backend.api.routes.insider import router as insider_router
+from backend.api.routes.forex_ops import router as forex_ops_router
+from backend.api.routes.health import router as health_router
+from backend.api.routes.historical_intelligence import router as historical_intelligence_router
 from backend.api.routes.intelligence import router as intelligence_router
-from backend.api.routes.journal import router as journal_router
 from backend.api.routes.market_structure import router as market_structure_router
-from backend.api.routes.model_lab_robustness import router as model_lab_robustness_router
 from backend.api.routes.notifications import router as notifications_router
-from backend.api.routes.phase12 import router as phase12_router
-from backend.api.routes.portfolio_optimizer import router as portfolio_optimizer_router
 from backend.api.routes.portfolio_execution import router as portfolio_execution_router
-from backend.api.routes.prop_firms import router as prop_firms_router
-from backend.api.routes.research import router as research_router
-from backend.api.routes.research_agent import router as research_agent_router
-from backend.api.routes.research_autopilot import router as research_autopilot_router
-from backend.api.routes.shadow_account import router as shadow_account_router
-from backend.api.routes.statlab import router as statlab_router
-from backend.api.routes.strategy_export import router as strategy_export_router
-from backend.api.routes.strategies import router as strategies_router
-from backend.api.routes.strategy_research import router as strategy_research_router
-from backend.api.routes.stress_test import router as stress_test_router
+from backend.api.routes.public_api import router as public_api_router
+from backend.api.routes.quotes import router as quotes_router
+from backend.api.routes.search import router as search_router
 from backend.api.routes.system_providers import router as system_providers_router
-from backend.api.routes.tape import router as tape_router
-from backend.api.routes.trading import router as trading_router
+from backend.api.routes.user_layouts import router as user_layouts_router
 from backend.api.routes.watchlists import router as watchlists_router
-from backend.cockpit.routes import router as cockpit_router
+from backend.alerts.routes import router as alerts_router
+from backend.equity.routes.auth import router as auth_router
 from backend.data_quality.admin_routes import router as admin_data_quality_router
-from backend.data_quality.routes import router as data_quality_router
-from backend.equity.routes import equity_router
-from backend.experiments.routes import router as experiments_router
-from backend.fno.routes import fno_router
-from backend.fno.routes.flow import router as fno_flow_router
-from backend.instruments.routes import router as instruments_router
-from backend.nlp.routes import router as conviction_router
-from backend.portfolio_backtests.routes import router as portfolio_backtests_router
-from backend.reports.tearsheet_routes import tearsheet_router
-from backend.screener.factor_routes import router as factor_ideas_router
-from backend.risk_engine.routes import router as risk_router
-from backend.routers.chart_workstation import router as chart_workstation_router
-from backend.routers.charts import router as charts_router
-from backend.saved_views.routes import router as saved_views_router
-from backend.tca.routes import router as tca_router
 
 api_router = APIRouter()
 
-# Multi-watchlist routes must register BEFORE equity_router — its legacy portfolio
-# router also defines GET /api/watchlists and would otherwise shadow the real handler.
+# Multi-watchlist routes must register BEFORE any other router that might define a
+# conflicting GET /api/watchlists handler.
 api_router.include_router(watchlists_router)
-api_router.include_router(equity_router)
-api_router.include_router(fno_router)
-api_router.include_router(commodities_router, prefix="/api")
-api_router.include_router(forex_router, prefix="/api")
-api_router.include_router(forex_intelligence_router)
-api_router.include_router(forex_frameworks_router)
-api_router.include_router(forex_strategies_router)
-api_router.include_router(factor_analysis_router, prefix="/api")
-api_router.include_router(model_lab_robustness_router, prefix="/api")
-api_router.include_router(alpha_zoo_router, prefix="/api")
-api_router.include_router(strategy_export_router, prefix="/api")
-api_router.include_router(strategies_router)
-api_router.include_router(strategy_research_router)
-api_router.include_router(ai_router, prefix="/api")
-api_router.include_router(ai_trading_router)
-api_router.include_router(agent_router, prefix="/api")
+
+# --- Auth & shared infra. These carried an internal "/api/..." prefix and were, before
+# Stage 2 of the MT5-only cleanup, only reachable transitively through equity_router
+# (backend/equity/routes/__init__.py -> backend/api/routes/{health,admin,audit,api_keys,
+# public_api,user_layouts,search,quotes}.py and backend/alerts/routes.py). equity_router
+# itself is a non-MT5 (equities) aggregator being unregistered in this stage, so these are
+# now registered directly here to keep them alive -- dropping them silently would have taken
+# login (auth_router) and the kept Alerts page (alerts_router) down with it. See Stage 2
+# report for details.
+api_router.include_router(auth_router)
+api_router.include_router(health_router, prefix="/api")
+api_router.include_router(admin_router, prefix="/api")
+api_router.include_router(audit_router, prefix="/api")
+api_router.include_router(api_keys_router, prefix="/api")
+api_router.include_router(public_api_router, prefix="/api")
+api_router.include_router(user_layouts_router, prefix="/api")
+api_router.include_router(search_router, prefix="/api")
+api_router.include_router(quotes_router, prefix="/api")
+api_router.include_router(alerts_router, prefix="/api")
+
+# --- MT5-core routes ---
 api_router.include_router(adaptive_management_router)
 api_router.include_router(historical_intelligence_router)
 api_router.include_router(forex_ops_router)
@@ -97,64 +62,12 @@ api_router.include_router(brokers_router)
 api_router.include_router(context_router)
 api_router.include_router(market_structure_router)
 api_router.include_router(system_providers_router)
-api_router.include_router(trading_router)
+api_router.include_router(intelligence_router)
+
 # These routers already carry their full "/api/..." prefix internally,
 # so they must be included WITHOUT an extra prefix (avoids "/api/api/...").
 api_router.include_router(analytics_router)
-# correlation router carries its own "/api/correlation" prefix. It was imported but never
-# mounted, leaving the Correlation Dashboard's POST /api/correlation/{matrix,rolling,clusters}
-# a 405 (every matrix/rolling/cluster request failed).
-api_router.include_router(correlation_router)
-# pair trading router carries its own "/api/pairs" prefix.
-api_router.include_router(pair_trading_router)
-api_router.include_router(research_router)
-api_router.include_router(prop_firms_router)
-api_router.include_router(research_agent_router, prefix="/api")
-api_router.include_router(fno_flow_router)
-api_router.include_router(heatmap_router, prefix="/api/heatmap")
-api_router.include_router(journal_router)
-api_router.include_router(research_autopilot_router)
-api_router.include_router(shadow_account_router)
 api_router.include_router(notifications_router)
-api_router.include_router(stress_test_router, prefix="/api")
-api_router.include_router(insider_router)
-api_router.include_router(intelligence_router)
-api_router.include_router(etf_router, prefix="/api")
-api_router.include_router(tape_router, prefix="/api/tape")
 api_router.include_router(admin_data_quality_router)
-
-# Quant Feature Pack Routers (Swarm 0 Stubs)
-api_router.include_router(cockpit_router, prefix="/api")
-api_router.include_router(portfolio_backtests_router, prefix="/api")
-api_router.include_router(risk_router, prefix="/api")
-api_router.include_router(experiments_router, prefix="/api")
-api_router.include_router(instruments_router, prefix="/api")
-api_router.include_router(data_quality_router, prefix="/api")
-api_router.include_router(tca_router, prefix="/api")
-api_router.include_router(chart_workstation_router)
-api_router.include_router(charts_router)
-
-# Product Feature Pack (Wave 1): backtesting + stock-picking
-api_router.include_router(tearsheet_router, prefix="/api")
-api_router.include_router(factor_ideas_router, prefix="/api")
-api_router.include_router(conviction_router, prefix="/api")
-api_router.include_router(saved_views_router, prefix="/api")
-
-# Fixed income & bonds: these routers already carry their full "/api/..." prefix
-# internally, so include them WITHOUT an extra prefix. (Previously imported but
-# never mounted, leaving every /api/fixed-income/* and /api/bonds/* endpoint a 404.)
-api_router.include_router(fixed_income_router)
-api_router.include_router(bonds_router)
-
-# Lean-inspired Algorithm Framework (modular alpha/PC/risk/execution backtest pipeline).
-# Router carries its own "/api/framework" prefix internally.
-api_router.include_router(framework_router)
-
-# Portfolio Optimizer API
-api_router.include_router(portfolio_optimizer_router)
-api_router.include_router(phase12_router)
-
-# Statlab API
-api_router.include_router(statlab_router)
 
 __all__ = ["api_router"]

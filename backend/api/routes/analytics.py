@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from fastapi import APIRouter, HTTPException, Query, Depends
 from typing import Any, Dict, List
 from pydantic import BaseModel, Field
@@ -8,10 +9,69 @@ from backend.auth.deps import get_current_user
 from backend.models import Holding, User
 from backend.services.sector_rotation import fetch_sector_rotation
 from backend.risk_engine.scenario_engine import scenario_engine
-from backend.api.routes.chart import _parse_yahoo_chart
 import pandas as pd
 
 router = APIRouter(prefix="/api/analytics", tags=["analytics"])
+
+
+def _parse_yahoo_chart(data: Dict[str, Any]) -> pd.DataFrame:
+    # Inlined from the (Stage-2-removed) backend/api/routes/chart.py -- this was the only
+    # piece of that module still needed, by _load_returns() below. Parses the raw Yahoo Chart
+    # API response into a DataFrame. Expected structure:
+    # {"chart": {"result": [{"timestamp": [...], "indicators": {"quote": [...]}}]}}
+    try:
+        chart_result = (data.get("chart") or {}).get("result")
+        if not chart_result or not isinstance(chart_result, list):
+            return pd.DataFrame()
+
+        res = chart_result[0]
+        timestamps = res.get("timestamp")
+        if not timestamps:
+            return pd.DataFrame()
+
+        quote = (res.get("indicators") or {}).get("quote")
+        if not quote or not isinstance(quote, list):
+            return pd.DataFrame()
+
+        q = quote[0]
+
+        opens = q.get("open") or []
+        highs = q.get("high") or []
+        lows = q.get("low") or []
+        closes = q.get("close") or []
+        volumes = q.get("volume") or []
+
+        length = len(timestamps)
+        if not (len(opens) == length and len(highs) == length and len(lows) == length and len(closes) == length):
+            return pd.DataFrame()
+
+        rows = []
+        utc_dates = []
+        for i in range(length):
+            ts = timestamps[i]
+            o, h, l, c, v = opens[i], highs[i], lows[i], closes[i], volumes[i]
+
+            if None in (o, h, l, c):
+                continue
+
+            dt = datetime.fromtimestamp(ts, tz=timezone.utc)
+            rows.append({
+                "Open": float(o),
+                "High": float(h),
+                "Low": float(l),
+                "Close": float(c),
+                "Volume": float(v) if v is not None else 0.0
+            })
+            utc_dates.append(dt)
+
+        if not rows:
+            return pd.DataFrame()
+
+        df = pd.DataFrame(rows, index=pd.DatetimeIndex(utc_dates))
+        return df
+
+    except Exception:
+        return pd.DataFrame()
 
 class StressTestRequest(BaseModel):
     scenario_type: str = Field(..., description="Scenario type: parallel_shift, volatility_spike, flash_crash")

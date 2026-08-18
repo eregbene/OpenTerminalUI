@@ -2,76 +2,29 @@ from __future__ import annotations
 
 from fastapi import APIRouter
 
-from backend.api.routes import (
-    admin, backtest, backtests, chart, crypto, data,
-    commodities, depth, export, forex, fundamentals, health, hotlists, indicators,
-    kite, news, emotion, ai_insights, paper, peers, plugins, portfolio, quotes,
-    screener, scripting, search, shareholding, stocks,
-    stream, valuation, options, audit, data_layer, governance, patterns,
-    user_layouts, portfolios,
-    ops, risk,
-    api_keys, dividends, rs, public_api
-)
-from backend.alerts import routes as alerts
+# NOTE (MT5-only cleanup, Stage 2): equity_router itself is no longer registered anywhere
+# (backend/api/router.py dropped it -- it was the non-MT5 equities aggregator). This module is
+# still imported, though, purely so `backend.equity.routes.auth` (the login/register/refresh
+# router, needed by every kept page, MT5 included) remains importable as a submodule of this
+# package -- importing any submodule of `backend.equity.routes` runs this __init__.py first.
+#
+# Everything this __init__.py used to also pull in (backend.api.routes.* flat files like
+# admin/health/quotes/search/audit/user_layouts/api_keys/public_api, backend.alerts.routes,
+# backend.model_lab, backend.oms, backend.portfolio_lab, backend.reports, backend.screener) has
+# been dropped from here: those shared-infra routers are now registered directly in
+# backend/api/router.py instead (see the "Auth & shared infra" block there), and the rest
+# (model_lab/oms/portfolio_lab/reports/screener) are non-MT5 REMOVE-scope packages that don't
+# need to be reachable at all. Trying to keep them wired through this file was actively
+# dangerous: backend.screener transitively imports backend.scanner_engine.runner, which itself
+# imported backend.api.routes.chart -- a file Stage 2 deleted -- so leaving that import chain in
+# place would have broken this module (and therefore login) at process startup.
+#
+# `equity_router` is now built from only earnings/events/mutual_funds/auth (equities-specific
+# except auth) and is not registered by backend/api/router.py -- dead weight, safe to delete
+# along with the rest of this package in Stage 3.
 from backend.equity.routes import earnings, events, mutual_funds, auth
-from backend.model_lab import router as model_lab_router
-from backend.oms import routes as oms
-from backend.portfolio_lab import router as portfolio_lab_router
-from backend.reports import routes as reports
-from backend.screener import legacy_router as screener_v1_router
-from backend.screener.router import router as screener_revamped_router
 
 equity_router = APIRouter()
-equity_router.include_router(stocks.router, prefix="/api", tags=["stocks"])
-equity_router.include_router(chart.router, prefix="/api", tags=["chart"])
-equity_router.include_router(screener.router, prefix="/api", tags=["screener"])
-equity_router.include_router(screener_revamped_router, prefix="/api", tags=["screener-revamped"])
-equity_router.include_router(screener_v1_router, prefix="/api", tags=["screener-v1"])
-equity_router.include_router(valuation.router, prefix="/api", tags=["valuation"])
-equity_router.include_router(fundamentals.router, prefix="/api", tags=["fundamentals"])
-equity_router.include_router(peers.router, prefix="/api", tags=["peers"])
-equity_router.include_router(search.router, prefix="/api", tags=["search"])
-equity_router.include_router(quotes.router, prefix="/api", tags=["quotes"])
-equity_router.include_router(portfolio.router, prefix="/api", tags=["portfolio"])
-equity_router.include_router(backtest.router, prefix="/api", tags=["backtest"])
-equity_router.include_router(backtests.router, prefix="/api", tags=["backtests"])
-equity_router.include_router(alerts.router, prefix="/api", tags=["alerts"])
-equity_router.include_router(reports.router, prefix="/api", tags=["reports"])
-equity_router.include_router(export.router, prefix="/api", tags=["export"])
-equity_router.include_router(api_keys.router, prefix="/api", tags=["api-keys"])
-equity_router.include_router(dividends.router, prefix="/api", tags=["dividends"])
-equity_router.include_router(rs.router, prefix="/api", tags=["rs"])
-equity_router.include_router(public_api.router, prefix="/api", tags=["public-api"])
-equity_router.include_router(plugins.router, prefix="/api", tags=["plugins"])
-equity_router.include_router(data.router, prefix="/api", tags=["data"])
-equity_router.include_router(news.router, prefix="/api", tags=["news"])
-equity_router.include_router(emotion.router, prefix="/api", tags=["emotion"])
-equity_router.include_router(ai_insights.router, prefix="/api", tags=["ai-insights"])
-equity_router.include_router(health.router, prefix="/api", tags=["health"])
-equity_router.include_router(kite.router, prefix="/api", tags=["kite"])
-equity_router.include_router(admin.router, prefix="/api", tags=["admin"])
-equity_router.include_router(stream.router, prefix="/api", tags=["stream"])
-equity_router.include_router(indicators.router, prefix="/api", tags=["indicators"])
-equity_router.include_router(crypto.router, prefix="/api", tags=["crypto"])
-equity_router.include_router(commodities.router, prefix="/api", tags=["commodities"])
-equity_router.include_router(forex.router, prefix="/api", tags=["forex"])
-equity_router.include_router(hotlists.router, prefix="/api", tags=["hotlists"])
-equity_router.include_router(depth.router, prefix="/api", tags=["depth"])
-equity_router.include_router(patterns.router, tags=["patterns"])
-equity_router.include_router(paper.router, prefix="/api", tags=["paper"])
-equity_router.include_router(portfolios.router, prefix="/api", tags=["portfolios"])
-equity_router.include_router(scripting.router, prefix="/api", tags=["scripting"])
-equity_router.include_router(shareholding.router, prefix="/api", tags=["shareholding"])
-equity_router.include_router(options.router)
-equity_router.include_router(data_layer.router, prefix="/api", tags=["data-layer"])
-equity_router.include_router(risk.router, prefix="/api", tags=["risk"])
-equity_router.include_router(oms.router, prefix="/api", tags=["oms"])
-equity_router.include_router(audit.router, prefix="/api", tags=["audit"])
-equity_router.include_router(governance.router, prefix="/api", tags=["governance"])
-equity_router.include_router(user_layouts.router, prefix="/api", tags=["user-layouts"])
-equity_router.include_router(ops.router, prefix="/api", tags=["ops"])
-equity_router.include_router(model_lab_router, prefix="/api", tags=["model-lab"])
-equity_router.include_router(portfolio_lab_router, prefix="/api", tags=["portfolio-lab"])
 equity_router.include_router(mutual_funds.router)
 equity_router.include_router(events.router)
 equity_router.include_router(earnings.router)
