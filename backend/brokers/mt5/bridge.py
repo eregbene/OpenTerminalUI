@@ -397,8 +397,20 @@ def create_app(account_id: str | None = None):
 
 
 def main() -> None:
+    # 2026-08-18 fix: MT5_BRIDGE_HOST is the CLIENT-facing config (how the Docker container
+    # reaches this process, e.g. "host.docker.internal") -- account_registry.py/multi_account.py
+    # read it that way. This --host default used to read that exact same env var for the
+    # SERVER's own uvicorn bind address, which is a genuinely different thing: a real
+    # observed failure was uvicorn trying to bind() to "host.docker.internal" itself, which
+    # only resolves inside a Docker container's network, never on the native Windows host this
+    # process actually runs on -- "[Errno 11001] getaddrinfo failed" every time MT5_BRIDGE_HOST
+    # was set (which it always is, since the container needs it). Now a separate,
+    # server-side-only env var, defaulting to 0.0.0.0 (bind all interfaces) rather than the old
+    # 127.0.0.1 default -- 127.0.0.1 would ALSO have been wrong here even without the collision,
+    # since a loopback-only bind can never accept the Docker container's incoming connection
+    # either, only connections from the Windows host itself.
     parser = argparse.ArgumentParser()
-    parser.add_argument("--host", default=os.getenv("MT5_BRIDGE_HOST", "127.0.0.1"))
+    parser.add_argument("--host", default=os.getenv("MT5_BRIDGE_BIND_HOST", "0.0.0.0"))
     parser.add_argument("--port", default=int(os.getenv("MT5_BRIDGE_PORT", "8765")), type=int)
     parser.add_argument("--account-id", default=os.getenv("MT5_ACCOUNT_ID", "demo_10k"))
     args = parser.parse_args()
