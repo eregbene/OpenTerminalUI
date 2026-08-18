@@ -2087,7 +2087,15 @@ class AdaptiveManagementService:
         elif partial_stage == "PARTIAL_1_EXECUTED" and r_now >= _env_float("ADAPTIVE_PARTIAL_PROFIT_2_R", 1.0):
             candidates.append(ManagementCandidate("PARTIAL_PROFIT", 40, requested_volume=float(state.current_volume) * _env_float("ADAPTIVE_PARTIAL_PROFIT_2_FRACTION", 0.33), reason="partial_profit_stage2_threshold", evidence={"r": r_now, "target_stage": "PARTIAL_2", "requested_fraction": _env_float("ADAPTIVE_PARTIAL_PROFIT_2_FRACTION", 0.33)}))
 
-        if zone in {"zone_75_85", "zone_85_95", "zone_95_plus"} and state.winner_classification in {"strong_continuation", "healthy_pullback"} and cooldown_ok and not manage_existing_only:
+        # 2026-08-18: extended from {75_85,85_95,95_plus} to also include zone_60_75 -- the prior
+        # bound meant a genuinely strong trade sat on a bare breakeven stop with no active
+        # trailing until it had already covered 75% of the distance to its original TP. ATR-based
+        # structure trailing (the "let winners run" mechanism -- see construct_dynamic_stop's
+        # 1.5x ATR ceiling, matching standard trailing-stop guidance) now engages as soon as a
+        # trade both reaches 60% TP progress AND is independently classified strong_continuation/
+        # healthy_pullback -- weakening/invalidated trades are unaffected, still governed by the
+        # faster MFE_PROTECTION_CLOSE/partial-profit gates above, unchanged.
+        if zone in {"zone_60_75", "zone_75_85", "zone_85_95", "zone_95_plus"} and state.winner_classification in {"strong_continuation", "healthy_pullback"} and cooldown_ok and not manage_existing_only:
             structure_level = _swing_structure_level(normalized_candles, state.direction)
             spread = regime_info.get("features", {}).get("spread")
             protective = tp_protection.construct_dynamic_stop(
