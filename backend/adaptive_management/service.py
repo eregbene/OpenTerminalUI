@@ -86,13 +86,13 @@ SLTP_MODIFY_ACTION_TYPES = {"MOVE_SL_BREAKEVEN", "TRAIL_STOP", "TP_PROGRESS_STRU
 # existed. _can_execute() now enforces the same cooldown against these at the EXECUTION gate
 # (not generation, so the candidate is still visible/logged during cooldown) as defense-in-depth,
 # independent of whatever upstream bug might someday make R wrong again.
-VOLUME_MUTATING_COOLDOWN_ACTION_TYPES = {"PARTIAL_PROFIT", "THESIS_INVALIDATION_CLOSE", "EVENT_RISK_REDUCTION", "ECONOMIC_REDUCE_SIZE", "TP_PROGRESS_PROFIT_LOCK", "MFE_PROTECTION_CLOSE"}
+VOLUME_MUTATING_COOLDOWN_ACTION_TYPES = {"PARTIAL_PROFIT", "THESIS_INVALIDATION_CLOSE", "EVENT_RISK_REDUCTION", "ECONOMIC_REDUCE_SIZE", "TP_PROGRESS_PROFIT_LOCK", "MFE_PROTECTION_CLOSE", "ACCOUNT_PROFIT_LOCK"}
 
 # Every action type that closes/reduces volume via TRADE_ACTION_DEAL (mirrors the literal set in
 # _build_mt5_request, kept separate/duplicated rather than shared so that function's own source
 # is untouched by this addition) -- used by _check_position_freshness so a stale-volume position
 # is never used to build a partial/full close request.
-VOLUME_CLOSE_ACTION_TYPES = {"PARTIAL_PROFIT", "EVENT_RISK_REDUCTION", "MFE_PROTECTION_CLOSE", "TIME_EXIT", "THESIS_INVALIDATION_CLOSE", "TP_PROGRESS_PROFIT_LOCK", "TP_PROGRESS_PARTIAL_PROTECT", "ECONOMIC_REDUCE_SIZE", "VALIDATION_INCIDENT_CLOSE"}
+VOLUME_CLOSE_ACTION_TYPES = {"PARTIAL_PROFIT", "EVENT_RISK_REDUCTION", "MFE_PROTECTION_CLOSE", "TIME_EXIT", "THESIS_INVALIDATION_CLOSE", "TP_PROGRESS_PROFIT_LOCK", "TP_PROGRESS_PARTIAL_PROTECT", "ECONOMIC_REDUCE_SIZE", "VALIDATION_INCIDENT_CLOSE", "ACCOUNT_PROFIT_LOCK"}
 
 # Action types exempt from ADAPTIVE_MAX_ACTIONS_PER_HOUR (see _rate_limit_ok / _can_execute):
 # genuinely emergency/protective FULL-position exits, not profit-management. A cap sized to
@@ -2181,13 +2181,21 @@ class AdaptiveManagementService:
         both reach the same R can carry very different real dollar/equity exposure. Expressed as
         % of current account equity (not a fixed $100/$50) so it scales correctly across account
         sizes -- see ADAPTIVE_PROFIT_REASSESS_EQUITY_PCT/ADAPTIVE_PROFIT_PROTECT_EQUITY_PCT/
-        ADAPTIVE_STRONG_PROFIT_EQUITY_PCT. This never closes or resizes anything by itself: it
-        either (a) does nothing, because a stronger R-based/structure-based protective candidate
-        already fired this cycle, or (b) persists an explicit HOLD_WITH_GIVEBACK_RISK candidate
-        recording current profit, MFE, and the giveback being tolerated, so "the manager chose to
-        let a meaningfully-profitable trade breathe" is always a logged decision with a reason,
-        never silence. Priority 90: loses to every real protective/closing candidate (all <90)
-        but wins over the generic no-trigger HOLD(100)."""
+        ADAPTIVE_STRONG_PROFIT_EQUITY_PCT.
+
+        2026-08-18: previously this NEVER closed or resized anything -- the "protect" and
+        "strong" tiers both only persisted a HOLD_WITH_GIVEBACK_RISK log entry. User request: a
+        position whose open profit reaches a real, account-size-scaled dollar amount (their
+        example: ~$100-200 on a ~$100k account) should actually have some of it taken, not just
+        be logged as "being watched." The "protect" tier now returns a real ACCOUNT_PROFIT_LOCK
+        partial-close candidate (ADAPTIVE_ACCOUNT_PROFIT_LOCK_FRACTION of current volume, default
+        0.30 -- same shape as every other partial-close action in this file). The "reassess" tier
+        (profit is up but below the protect threshold) still only logs HOLD_WITH_GIVEBACK_RISK,
+        unchanged. Priority 55: below every genuinely urgent protective/closing candidate
+        (giveback protection 30, structure trailing 45) and below breakeven (50) -- those all
+        still win if also eligible this cycle -- but above the generic no-trigger HOLD(100), so
+        this account-level rule is what actually fires on a cycle where nothing more urgent is
+        happening."""
         if not account_equity or account_equity <= 0:
             return []
         profit_usd = float(payload.get("profit") or 0)
@@ -2202,27 +2210,37 @@ class AdaptiveManagementService:
         strong_pct = _env_float("ADAPTIVE_STRONG_PROFIT_EQUITY_PCT", 1.00)
         tier = "strong_profit_no_explicit_protection" if equity_profit_pct >= strong_pct else ("protect_eligible" if equity_profit_pct >= protect_pct else "reassess")
         giveback_r = max(0.0, max_r - r_now)
+        common_evidence = {
+            "profit_usd": profit_usd,
+            "account_equity": account_equity,
+            "equity_profit_pct": equity_profit_pct,
+            "reassess_equity_pct": reassess_pct,
+            "protect_equity_pct": protect_pct,
+            "strong_equity_pct": strong_pct,
+            "tier": tier,
+            "r": r_now,
+            "max_r": max_r,
+            "giveback_r": giveback_r,
+            "winner_classification": state.winner_classification,
+            "regime": regime,
+            "tp_progress": state.tp_progress,
+        }
+        if tier != "reassess":
+            return [
+                ManagementCandidate(
+                    "ACCOUNT_PROFIT_LOCK",
+                    55,
+                    requested_volume=float(state.current_volume) * _env_float("ADAPTIVE_ACCOUNT_PROFIT_LOCK_FRACTION", 0.30),
+                    reason=f"equity_profit_{tier}_tier_account_scaled_lock",
+                    evidence=common_evidence,
+                )
+            ]
         return [
             ManagementCandidate(
                 "HOLD_WITH_GIVEBACK_RISK",
                 90,
                 reason=f"equity_profit_{tier}_tier_reassessed_no_stronger_protection_selected",
-                evidence={
-                    "profit_usd": profit_usd,
-                    "account_equity": account_equity,
-                    "equity_profit_pct": equity_profit_pct,
-                    "reassess_equity_pct": reassess_pct,
-                    "protect_equity_pct": protect_pct,
-                    "strong_equity_pct": strong_pct,
-                    "tier": tier,
-                    "r": r_now,
-                    "max_r": max_r,
-                    "giveback_r": giveback_r,
-                    "winner_classification": state.winner_classification,
-                    "regime": regime,
-                    "tp_progress": state.tp_progress,
-                    "next_evaluation_seconds": _env_int("ADAPTIVE_INTERVAL_PROFIT_SECONDS", 15, minimum=5, maximum=60),
-                },
+                evidence={**common_evidence, "next_evaluation_seconds": _env_int("ADAPTIVE_INTERVAL_PROFIT_SECONDS", 15, minimum=5, maximum=60)},
             )
         ]
 
@@ -2468,7 +2486,7 @@ class AdaptiveManagementService:
             return {"status": "ERROR", "reason": exc.__class__.__name__, "broker_mutation_attempted": False}
 
     async def _build_mt5_request(self, mt5: Any, symbol: Any, quote: Any, action: AdaptiveManagementActionORM, state: AdaptivePositionStateORM, payload: dict[str, Any]) -> dict[str, Any] | None:
-        if action.action_type in {"PARTIAL_PROFIT", "EVENT_RISK_REDUCTION", "MFE_PROTECTION_CLOSE", "TIME_EXIT", "THESIS_INVALIDATION_CLOSE", "TP_PROGRESS_PROFIT_LOCK", "TP_PROGRESS_PARTIAL_PROTECT", "ECONOMIC_REDUCE_SIZE", "VALIDATION_INCIDENT_CLOSE"}:
+        if action.action_type in VOLUME_CLOSE_ACTION_TYPES:
             volume = _normalize_volume(action.requested_volume or state.current_volume, symbol)
             if volume <= 0:
                 return None

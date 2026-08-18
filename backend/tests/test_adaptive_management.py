@@ -807,6 +807,13 @@ def test_r_unavailable_when_no_sl_and_no_original_risk(monkeypatch):
 
 
 def test_r_unavailable_skips_r_threshold_candidates_but_keeps_equity_layer(monkeypatch):
+    # Pinned explicitly: real deployed .env now lowers these thresholds (2026-08-18, user-
+    # requested account-level profit lock) below this test's own $200/$10,000=2% scenario, which
+    # would otherwise still land in the "protect"/"strong" tier either way -- pinned to the
+    # historically-documented defaults so this test verifies the tier logic, not today's tuning.
+    monkeypatch.setenv("ADAPTIVE_PROFIT_REASSESS_EQUITY_PCT", "0.50")
+    monkeypatch.setenv("ADAPTIVE_PROFIT_PROTECT_EQUITY_PCT", "0.75")
+    monkeypatch.setenv("ADAPTIVE_STRONG_PROFIT_EQUITY_PCT", "1.00")
     SessionLocal = _session_factory(monkeypatch)
     state = _managed_state("R_UNAVAIL2")
     state.original_sl = None  # SL exists (current_sl set in _managed_state) but no ORIGINAL sl and no original_risk_money
@@ -819,8 +826,10 @@ def test_r_unavailable_skips_r_threshold_candidates_but_keeps_equity_layer(monke
     hold = next(c for c in candidates if c.action_type == "HOLD")
     assert hold.evidence["r_source"] == "UNAVAILABLE"
     assert not any(c.action_type == "PARTIAL_PROFIT" for c in candidates)
-    # The account-scaled equity layer is R-independent and must still be able to reassess.
-    assert any(c.action_type == "HOLD_WITH_GIVEBACK_RISK" for c in candidates)
+    # The account-scaled equity layer is R-independent and must still be able to reassess. 2% of
+    # equity is above the "strong" tier (1.00%), so this now fires a real ACCOUNT_PROFIT_LOCK
+    # partial close (2026-08-18 change) rather than the old passive-only HOLD_WITH_GIVEBACK_RISK.
+    assert any(c.action_type == "ACCOUNT_PROFIT_LOCK" for c in candidates)
 
 
 def test_legacy_position_reconstructs_original_risk_once(monkeypatch):
@@ -1002,12 +1011,19 @@ def test_breakeven_price_uses_real_symbol_point_not_generic_fx_guess():
     assert real_price > generic_guess_price
 
 
-def test_equity_profit_reassess_threshold_generates_hold_with_giveback_risk(monkeypatch):
+def test_equity_profit_strong_tier_generates_account_profit_lock(monkeypatch):
     # $100 profit on a $10,000 account is exactly the 1.00% ADAPTIVE_STRONG_PROFIT_EQUITY_PCT
     # tier -- this is the account-scaled second protection layer, independent of R, that the
     # XAUUSD incident showed was missing: a trade can reach a meaningful fraction of account
     # equity while still below this manager's R-based thresholds for THIS trade's own (possibly
-    # oversized) initial risk.
+    # oversized) initial risk. 2026-08-18: this tier now fires a real ACCOUNT_PROFIT_LOCK partial
+    # close (previously only logged HOLD_WITH_GIVEBACK_RISK, never executed) -- user-requested,
+    # account-size-scaled profit taking. Pinned explicitly since real .env now lowers these
+    # thresholds; this test verifies the tier boundary logic, not today's specific tuning.
+    monkeypatch.setenv("ADAPTIVE_PROFIT_REASSESS_EQUITY_PCT", "0.50")
+    monkeypatch.setenv("ADAPTIVE_PROFIT_PROTECT_EQUITY_PCT", "0.75")
+    monkeypatch.setenv("ADAPTIVE_STRONG_PROFIT_EQUITY_PCT", "1.00")
+    monkeypatch.setenv("ADAPTIVE_ACCOUNT_PROFIT_LOCK_FRACTION", "0.30")
     SessionLocal = _session_factory(monkeypatch)
     state = _managed_state("EQ1")
     state.max_achieved_r = 0.3
@@ -1017,15 +1033,22 @@ def test_equity_profit_reassess_threshold_generates_hold_with_giveback_risk(monk
     with SessionLocal() as db:
         candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [], account_equity=10000.0)
 
-    hold_candidates = [c for c in candidates if c.action_type == "HOLD_WITH_GIVEBACK_RISK"]
-    assert len(hold_candidates) == 1
-    evidence = hold_candidates[0].evidence
+    lock_candidates = [c for c in candidates if c.action_type == "ACCOUNT_PROFIT_LOCK"]
+    assert len(lock_candidates) == 1
+    assert not [c for c in candidates if c.action_type == "HOLD_WITH_GIVEBACK_RISK"]
+    lock = lock_candidates[0]
+    evidence = lock.evidence
     assert evidence["equity_profit_pct"] == pytest.approx(1.0)
     assert evidence["tier"] == "strong_profit_no_explicit_protection"
     assert evidence["profit_usd"] == 100.0
+    assert lock.requested_volume == pytest.approx(float(state.current_volume) * 0.30)
 
 
 def test_equity_profit_below_reassess_threshold_does_not_trigger(monkeypatch):
+    # Pinned: real .env now sets ADAPTIVE_PROFIT_REASSESS_EQUITY_PCT=0.10, which this test's own
+    # 0.10%-of-equity scenario would land exactly ON (not below) -- pinned to the historically-
+    # documented default so this verifies the "below floor" boundary case specifically.
+    monkeypatch.setenv("ADAPTIVE_PROFIT_REASSESS_EQUITY_PCT", "0.50")
     SessionLocal = _session_factory(monkeypatch)
     state = _managed_state("EQ2")
     payload = {"price_current": 4001.0, "profit": 10.0}  # 0.10% of 10k, below the 0.50% floor
