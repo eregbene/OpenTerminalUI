@@ -13,7 +13,9 @@ def test_tp_progress_buy_and_sell_directional():
 
 def test_progress_zone_boundaries():
     assert tp_protection.progress_zone(None) == "none"
-    assert tp_protection.progress_zone(0.10) == "below_60"
+    assert tp_protection.progress_zone(0.10) == "below_25"
+    assert tp_protection.progress_zone(0.25) == "zone_25_60"
+    assert tp_protection.progress_zone(0.599) == "zone_25_60"
     assert tp_protection.progress_zone(0.60) == "zone_60_75"
     assert tp_protection.progress_zone(0.749) == "zone_60_75"
     assert tp_protection.progress_zone(0.75) == "zone_75_85"

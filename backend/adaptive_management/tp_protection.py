@@ -56,10 +56,18 @@ def tp_progress(direction: str, entry: float, current_price: float, tp: float | 
 
 
 def progress_zone(progress: float | None) -> str:
+    # 2026-08-18: added zone_25_60 below the prior floor (zones used to start at 60% TP
+    # progress) -- user feedback from a real trade that peaked around ~30% progress and gave
+    # the whole move back before ever reaching 60%: FX moves are choppy enough that waiting for
+    # 60%+ before any zone-based management kicks in misses most real trades. zone_25_60 is
+    # wired into both the staged partial-profit-protect logic and the ATR structure-trailing
+    # logic in service.py, same as every other zone.
     if progress is None:
         return "none"
+    if progress < 0.25:
+        return "below_25"
     if progress < 0.60:
-        return "below_60"
+        return "zone_25_60"
     if progress < 0.75:
         return "zone_60_75"
     if progress < 0.85:
