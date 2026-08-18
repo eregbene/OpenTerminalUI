@@ -15,8 +15,20 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
+import pytest
+
 from backend.brokers.mt5 import autonomous
 from backend.brokers.mt5.autonomous import MT5AutonomousTradingService
+
+
+@pytest.fixture(autouse=True)
+def _pin_confirmation_gate_enabled(monkeypatch):
+    # 2026-08-18: MT5_MTFAI1_CONFIRMATION_REQUIRED is a module-level constant (resolved once at
+    # import time), and the real deployed .env now sets it to false (user-requested bypass, see
+    # commit 3770370) -- every test in this file assumes the gate is ACTIVE (the historical,
+    # tested default), so pin the already-imported module's resolved constant back to True rather
+    # than the env var (which would have no effect post-import).
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_CONFIRMATION_REQUIRED", True)
 
 
 def _mk_service(account_mode: str = "DEMO") -> MT5AutonomousTradingService:

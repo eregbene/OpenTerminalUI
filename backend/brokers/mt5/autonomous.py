@@ -13,7 +13,12 @@ from decimal import Decimal
 from typing import Any
 
 from backend.adaptive_management.tp_protection import classify_stop_quality_v2, construct_dynamic_stop
+from backend.market_structure.bar_utils import normalize_bars
+from backend.market_structure.configuration import MarketStructureConfig
 from backend.market_structure.engine import analyze_bars
+from backend.market_structure.models import TrendLabel
+from backend.market_structure.swings import detect_swings
+from backend.market_structure.trend import classify_trend
 from backend.brokers.mt5 import account_registry
 from backend.brokers.mt5.adapter import MT5Adapter, mt5_adapter
 from backend.brokers.mt5.config import MT5Config
@@ -1847,6 +1852,40 @@ def _build_multi_strategy_analysis(
     return ctx.regime, smc_evidence, candidates, ctx, len(signals)
 
 
+_MTFAI1_STRUCTURE_CONFIG = MarketStructureConfig()
+
+# 2026-08-18: user-requested -- mtfai1's own direction call is pure moving-average alignment
+# (fast/slow SMA crossover on M15, confirmed by H1/H4 close-vs-average); it never looked at real
+# swing-point structure (higher-high/higher-low vs lower-high/lower-low), unlike smc_continuation/
+# breakout/etc which already go through the full market_structure engine. This adds a lightweight
+# swing-trend confirmation -- detect_swings()+classify_trend() only, NOT the full analyze_bars()
+# pipeline (BOS/CHOCH/liquidity/dealing-range) mtfai1 was deliberately built to skip for
+# performance (see the "never MTFAI1's own trend/SMA" comment above). Fails OPEN (does not block
+# mtfai1) on any error or on RANGING/TRANSITIONAL/UNKNOWN/insufficient-swings states -- only an
+# outright DISAGREEMENT (bearish structure under a LONG SMA signal, or vice versa) blocks the
+# trade. Reversible via MT5_MTFAI1_TREND_STRUCTURE_CONFIRMATION_REQUIRED (default true).
+MT5_MTFAI1_TREND_STRUCTURE_CONFIRMATION_REQUIRED = os.getenv("MT5_MTFAI1_TREND_STRUCTURE_CONFIRMATION_REQUIRED", "true").strip().lower() not in {"false", "0", "off", "no"}
+
+
+def _mtfai1_trend_structure_agrees(m15: list[Any], direction: str, symbol: str) -> bool:
+    if not MT5_MTFAI1_TREND_STRUCTURE_CONFIRMATION_REQUIRED or direction not in {"LONG", "SHORT"}:
+        return True
+    try:
+        rows = [row.model_dump(mode="json") if hasattr(row, "model_dump") else row for row in m15]
+        bars = normalize_bars(rows, symbol=symbol, timeframe="M15")
+        swings = detect_swings(bars, _MTFAI1_STRUCTURE_CONFIG, symbol=symbol, timeframe="M15")
+        trend = classify_trend(bars, swings, _MTFAI1_STRUCTURE_CONFIG, symbol=symbol, timeframe="M15")
+    except Exception as exc:
+        logger.warning("MT5 mtfai1 trend-structure check failed for %s (fails open, mtfai1 unaffected): %s", symbol, exc.__class__.__name__)
+        return True
+    state = trend.state.value if hasattr(trend.state, "value") else trend.state
+    if direction == "LONG" and state == TrendLabel.BEARISH.value:
+        return False
+    if direction == "SHORT" and state == TrendLabel.BULLISH.value:
+        return False
+    return True
+
+
 def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any], symbol_info: Any = None) -> tuple[float, str, dict[str, str]]:
     closes = [Decimal(str(c.close)) for c in m15[-50:]]
     h1_close = Decimal(str(h1[-1].close))
@@ -1856,6 +1895,9 @@ def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any], s
     fast = sum(closes[-10:]) / Decimal("10")
     slow = sum(closes[-30:]) / Decimal("30")
     direction = "LONG" if fast > slow and h1_close > h1_avg and h4_close > h4_avg else "SHORT" if fast < slow and h1_close < h1_avg and h4_close < h4_avg else "NO_TRADE"
+    symbol_label = symbol_info if isinstance(symbol_info, str) else getattr(symbol_info, "name", "UNKNOWN")
+    if direction != "NO_TRADE" and not _mtfai1_trend_structure_agrees(m15, direction, symbol_label):
+        direction = "NO_TRADE"
     entry = Decimal(str(quote.ask if direction == "LONG" else quote.bid or closes[-1]))
     atr = sum(abs(Decimal(str(c.high)) - Decimal(str(c.low))) for c in m15[-14:]) / Decimal("14")
     if atr <= 0 or direction == "NO_TRADE":
