@@ -48,6 +48,29 @@ logger = logging.getLogger(__name__)
 # tunable in ONE place without having to also touch statistics.py's general-purpose thresholds.
 _MIN_SAMPLE_FOR_LIVE_INFLUENCE = 100
 _RELIABLE_LEVELS = statistics.RELIABLE_TIER_LEVELS
+
+# 2026-08-18: research review of published guidance on minimum trade counts for statistically
+# meaningful backtests (30 = bare floor for basic inference via CLT; 100+ = commonly called
+# "reliable" for preliminary/retail validation; 200-500 = institutional standard) confirmed that
+# n=100 is already on the LENIENT end, not a bar worth lowering outright. Rather than dropping
+# the floor to 50 across the board (which would let a thinner, noisier sample carry the same
+# weight as a 300+ sample), PRELIMINARY (n=50-99, statistics.reliability_label's own existing,
+# already-computed tier -- see that function) is let through here at REDUCED weight only,
+# LOCAL to this module: statistics.RELIABLE_TIER_LEVELS itself is left untouched (it is shared
+# with adaptive_intelligence.py's own, independent gating -- changing it here would silently
+# also loosen that unrelated system). See _historical_score's reliability_weight dict for the
+# actual weight (0.35, roughly half of USEFUL's 0.7) and _MIN_SAMPLE_BY_RELIABILITY below for
+# the per-tier sample floor.
+_MIN_SAMPLE_BY_RELIABILITY = {"PRELIMINARY": 50, "USEFUL": _MIN_SAMPLE_FOR_LIVE_INFLUENCE, "STRONG": _MIN_SAMPLE_FOR_LIVE_INFLUENCE}
+_LIVE_INFLUENCE_LEVELS = _RELIABLE_LEVELS | {"PRELIMINARY"}
+
+
+def _meets_live_influence_bar(reliability: str | None, sample_size: int) -> bool:
+    """Single tiered gate shared by every call site below (_pick_evaluation_source and
+    _evaluate_from_stats) so the PRELIMINARY-at-reduced-weight policy can never drift between
+    them -- one is never accidentally stricter or looser than the other."""
+    required_n = _MIN_SAMPLE_BY_RELIABILITY.get(reliability or "")
+    return required_n is not None and sample_size >= required_n
 # Phase 1 (walk-forward/OOS) gate: only a strategy whose historical edge held up out-of-sample
 # may influence a live decision. FAILED_OOS and DEGRADED are excluded outright; INSUFFICIENT_
 # SAMPLE is ALSO excluded (never assume stability that hasn't been demonstrated).
@@ -126,7 +149,10 @@ def _historical_score(stats: dict[str, Any]) -> float:
     failure_component = -(immediate_failure_rate or 0.0) * 20.0
     continuation_component = (p1r or 0.0) * 20.0
 
-    reliability_weight = {"USEFUL": 0.7, "STRONG": 1.0}.get(stats.get("reliability"), 0.0)
+    # PRELIMINARY (n=50-99) is deliberately weighted well below USEFUL, not just "a bit less" --
+    # see the _MIN_SAMPLE_BY_RELIABILITY module comment for why 100 was kept as the bar for full
+    # weight rather than lowered outright.
+    reliability_weight = {"PRELIMINARY": 0.35, "USEFUL": 0.7, "STRONG": 1.0}.get(stats.get("reliability"), 0.0)
     raw = (expectancy_component + pf_component + failure_component + continuation_component) * reliability_weight
     return round(max(-50.0, min(50.0, raw)), 2)
 
@@ -167,11 +193,11 @@ def _pick_evaluation_source(exact_stats: dict[str, Any], similarity_stats: dict[
     (Workstream 9 -- effective sample size is never a way to lower the 100-sample requirement,
     only an additional, equally-conservative lens). The two are never blended into one number;
     whichever source is actually used is always reported (`evaluation_source`)."""
-    exact_reliable = exact_stats.get("reliability") in _RELIABLE_LEVELS and (exact_stats.get("sample_size") or 0) >= _MIN_SAMPLE_FOR_LIVE_INFLUENCE
+    exact_reliable = _meets_live_influence_bar(exact_stats.get("reliability"), exact_stats.get("sample_size") or 0)
     if exact_reliable or similarity_stats is None:
         return "EXACT_PEER_GROUP", exact_stats
     normalized = _normalize_similarity_stats(similarity_stats)
-    similarity_reliable = normalized["reliability"] in _RELIABLE_LEVELS and normalized["sample_size"] >= _MIN_SAMPLE_FOR_LIVE_INFLUENCE
+    similarity_reliable = _meets_live_influence_bar(normalized["reliability"], normalized["sample_size"])
     if similarity_reliable:
         return "SIMILARITY_WEIGHTED", normalized
     return "EXACT_PEER_GROUP", exact_stats
@@ -195,7 +221,7 @@ def _evaluate_from_stats(*, trust_state: str, stats: dict[str, Any], peer_group_
         "peer_group_hash": peer_group_hash, "source": source, "evaluation_source": evaluation_source,
     }
 
-    if reliability not in _RELIABLE_LEVELS or sample_size < _MIN_SAMPLE_FOR_LIVE_INFLUENCE:
+    if not _meets_live_influence_bar(reliability, sample_size):
         result.update({"status": "UNAVAILABLE", "reason": "PATTERN_SAMPLE_INSUFFICIENT", "historical_score": 0.0, "ranking_adjustment": 0.0, "defer_reject_reason": None})
         result["historical_decision"] = _historical_decision(status="UNAVAILABLE", reason="PATTERN_SAMPLE_INSUFFICIENT", historical_score=0.0, defer_reject_reason=None)
         return result
@@ -277,7 +303,7 @@ async def evaluate_historical_intelligence(
 
         peer_group_hash = fields["peer_group_hash"]
         exact_stats = await cache.cached_pattern_statistics(peer_group_hash, strategy_version=STRATEGY_REPLAY_VERSION)
-        exact_reliable = exact_stats.get("reliability") in _RELIABLE_LEVELS and (exact_stats.get("sample_size") or 0) >= _MIN_SAMPLE_FOR_LIVE_INFLUENCE
+        exact_reliable = _meets_live_influence_bar(exact_stats.get("reliability"), exact_stats.get("sample_size") or 0)
 
         similarity_stats = None
         if not exact_reliable:
@@ -343,7 +369,7 @@ def evaluate_historical_intelligence_sync(
 
         peer_group_hash = fields["peer_group_hash"]
         exact_stats = statistics.pattern_statistics(peer_group_hash, strategy_version=STRATEGY_REPLAY_VERSION)
-        exact_reliable = exact_stats.get("reliability") in _RELIABLE_LEVELS and (exact_stats.get("sample_size") or 0) >= _MIN_SAMPLE_FOR_LIVE_INFLUENCE
+        exact_reliable = _meets_live_influence_bar(exact_stats.get("reliability"), exact_stats.get("sample_size") or 0)
 
         similarity_stats = None
         if not exact_reliable:

@@ -274,6 +274,7 @@ def test_dynamic_lookback_registry():
     assert set(replay.STRATEGY_LOOKBACK.keys()) == {
         "mtfai1", "ema_trend", "trend_pullback", "breakout", "mean_reversion", "liquidity_sweep_reversal",
         "smc_continuation", "support_resistance_bounce", "momentum", "session_breakout", "vwap_reversion",
+        "wyckoff",  # 2026-08-17: later addition, registered so replay can reach it (see its own STRATEGY_FAMILIES entry)
     }
     # A hypothetical strategy needing MORE history would raise the max for a scoped lookup
     # without affecting any other strategy's own declared requirement.
