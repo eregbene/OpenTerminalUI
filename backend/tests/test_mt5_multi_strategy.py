@@ -368,6 +368,11 @@ def test_evaluators_registry_covers_every_declared_non_mtfai1_family():
 def test_activation_status_defaults_and_env_override(monkeypatch: pytest.MonkeyPatch):
     # Part 7: all 10 canonical families default to ACTIVE_MT5 on the demo account now that
     # Stage 1 (SHADOW_MT5) optimization/regression validation is complete.
+    # mtfai1 is pinned explicitly: the real container env has MT5_STRATEGY_ACTIVATION_MTFAI1=
+    # SHADOW_MT5 deployed (2026-08-18 real-trade forensic demotion) since mtfai1.py:964's own
+    # activation gate fix made that override actually take effect for the first time -- this
+    # test is about the DEFAULT/override MECHANISM, not today's real deployed value.
+    monkeypatch.delenv("MT5_STRATEGY_ACTIVATION_MTFAI1", raising=False)
     assert activation_status("mtfai1") == ACTIVE_MT5
     assert activation_status("ema_trend") == ACTIVE_MT5
     monkeypatch.setenv("MT5_STRATEGY_ACTIVATION_EMA_TREND", "SHADOW_MT5")

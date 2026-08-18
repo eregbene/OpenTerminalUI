@@ -144,7 +144,7 @@ def test_regime_routing_skips_incompatible_strategy_entirely():
 
 
 # 7. All 10 canonical strategies can be ACTIVE_MT5 in demo config (and default to it).
-def test_all_ten_canonical_strategies_default_active_on_demo():
+def test_all_ten_canonical_strategies_default_active_on_demo(monkeypatch):
     # "wyckoff" (2026-08-17) is deliberately excluded from this Stage-1-complete cohort -- it
     # defaults to DISABLED pending historical/OOS validation and explicit promotion (see its own
     # STRATEGY_FAMILIES entry's comment), unlike the 10 families this test covers, which already
@@ -152,6 +152,11 @@ def test_all_ten_canonical_strategies_default_active_on_demo():
     non_mtfai1 = [sid for sid in STRATEGY_FAMILIES if sid not in {"mtfai1", "wyckoff"}]
     assert len(non_mtfai1) == 10
     assert all(STRATEGY_FAMILIES[sid]["default_activation"] == ACTIVE_MT5 for sid in non_mtfai1)
+    # session_breakout/support_resistance_bounce are pinned explicitly: the real container env
+    # has both demoted to SHADOW_MT5 (2026-08-18 real-trade forensic demotion) -- this test is
+    # about the CODED DEFAULT, not today's real deployed override.
+    for sid in non_mtfai1:
+        monkeypatch.delenv(f"MT5_STRATEGY_ACTIVATION_{sid.upper()}", raising=False)
     assert all(activation_status(sid) == ACTIVE_MT5 for sid in non_mtfai1)
 
 
@@ -161,7 +166,11 @@ def test_wyckoff_defaults_to_disabled_pending_validation():
 
 
 # 8. MTFAI1 remains active.
-def test_mtfai1_remains_active():
+def test_mtfai1_remains_active(monkeypatch):
+    # Pinned explicitly: the real container env has MT5_STRATEGY_ACTIVATION_MTFAI1=SHADOW_MT5
+    # deployed (2026-08-18 real-trade forensic demotion) -- this test is about the CODED
+    # DEFAULT, not today's real deployed override.
+    monkeypatch.delenv("MT5_STRATEGY_ACTIVATION_MTFAI1", raising=False)
     assert activation_status("mtfai1") == ACTIVE_MT5
 
 

@@ -1,0 +1,214 @@
+"""Strategy performance monitor (2026-08-18) -- recurring, decision-support-only re-evaluation
+of each strategy's recent real/shadow-tracked performance. Covers: real-trade stats computation
+(position-level, no duplication), shadow-tracking stats computation, the demote/promote/no-change
+decision thresholds (including the insufficient-sample guard and the asymmetric hysteresis
+between demote and promote bars), and that a recommendation NEVER touches activation -- only
+persists a PENDING_REVIEW row.
+"""
+from __future__ import annotations
+
+import itertools
+from datetime import datetime, timedelta, timezone
+
+import pytest
+
+from backend.adaptive_management.orm import AdaptivePositionStateORM
+from backend.brokers.mt5.orm import MT5CandidateEvaluationORM
+from backend.mt5_strategies.orm import StrategyPerformanceRecommendationORM
+from backend.mt5_strategies.performance_monitor import (
+    DEMOTE_EXPECTANCY_R_THRESHOLD,
+    MIN_SAMPLE_FOR_RECOMMENDATION,
+    PROMOTE_EXPECTANCY_R_THRESHOLD,
+    _decide,
+    _persist,
+    _real_trade_stats,
+    _shadow_stats,
+    compute_recommendations,
+)
+from backend.shared.test_db_safety import redirect_shared_db_to_isolated_sqlite
+
+NOW = datetime.now(timezone.utc)
+_id_counter = itertools.count()
+
+
+def _position(strategy_id: str, *, realized_r: float, risk_money: float = 100.0, closed_days_ago: int = 1) -> AdaptivePositionStateORM:
+    # Matches real production semantics (verified directly against closed positions):
+    # max_achieved_r floors at 0 (never goes negative even for a straight-to-loss trade), and
+    # current_giveback_r captures the full adverse excursion regardless of whether there was
+    # ever a favorable peak to give back from -- so realized_r = max_achieved_r - giveback still
+    # recovers the real outcome (e.g. max_achieved_r=0.0, giveback=0.99 => realized_r=-0.99).
+    max_achieved_r = max(realized_r, 0.0)
+    giveback_r = max_achieved_r - realized_r
+    return AdaptivePositionStateORM(
+        position_id=f"POS_{strategy_id}_{next(_id_counter)}",
+        symbol="EURUSD", direction="LONG", broker_ticket="1", opened_at=NOW - timedelta(days=closed_days_ago, hours=1),
+        original_volume=0.1, current_volume=0.1, entry_price=1.1000, original_sl=1.0950, current_sl=1.0950,
+        strategy_id=strategy_id, closed_detected_at=NOW - timedelta(days=closed_days_ago),
+        max_achieved_r=max_achieved_r, current_giveback_r=giveback_r,
+        original_risk_money=risk_money, account_id="demo_10k",
+    )
+
+
+def _shadow_eval(strategy_id: str, *, realized_r: float, realized_pnl: float, days_ago: int = 1) -> MT5CandidateEvaluationORM:
+    seq = next(_id_counter)
+    return MT5CandidateEvaluationORM(
+        evaluation_id=f"EVAL_{strategy_id}_{seq}", cycle_id="C1", account_id="demo_10k",
+        candidate_id=f"CAND_{strategy_id}_{seq}", created_at=NOW - timedelta(days=days_ago),
+        symbol="EURUSD", broker_symbol="EURUSD", direction="LONG", timeframe="M15", strategy=strategy_id,
+        overall_confidence=75.0, confidence_band="MODERATE", outcome_type="SHADOW", realized_r=realized_r, realized_pnl=realized_pnl,
+    )
+
+
+def test_real_trade_stats_computes_position_level_r_and_usd(monkeypatch: pytest.MonkeyPatch):
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    with SessionLocal() as db:
+        db.add(_position("ema_trend", realized_r=1.0, risk_money=50.0))
+        db.add(_position("ema_trend", realized_r=-1.0, risk_money=50.0))
+        db.commit()
+
+    stats = _real_trade_stats("ema_trend", NOW - timedelta(days=14))
+    assert stats["sample_size"] == 2
+    assert stats["expectancy_r"] == 0.0
+    assert stats["realized_usd"] == 0.0
+
+
+def test_real_trade_stats_excludes_fused_combo_rows(monkeypatch: pytest.MonkeyPatch):
+    """A position whose strategy_id is a fused label ("ema_trend+momentum") must never be
+    counted toward ema_trend's own solo performance -- see module docstring on attribution."""
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    with SessionLocal() as db:
+        db.add(_position("ema_trend", realized_r=1.0))
+        db.add(_position("ema_trend+momentum", realized_r=-5.0))
+        db.commit()
+
+    stats = _real_trade_stats("ema_trend", NOW - timedelta(days=14))
+    assert stats["sample_size"] == 1
+    assert stats["expectancy_r"] == 1.0
+
+
+def test_real_trade_stats_excludes_outside_window(monkeypatch: pytest.MonkeyPatch):
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    with SessionLocal() as db:
+        db.add(_position("ema_trend", realized_r=1.0, closed_days_ago=1))
+        db.add(_position("ema_trend", realized_r=-1.0, closed_days_ago=30))
+        db.commit()
+
+    stats = _real_trade_stats("ema_trend", NOW - timedelta(days=14))
+    assert stats["sample_size"] == 1
+    assert stats["expectancy_r"] == 1.0
+
+
+def test_shadow_stats_uses_realized_r(monkeypatch: pytest.MonkeyPatch):
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    with SessionLocal() as db:
+        db.add(_shadow_eval("mtfai1", realized_r=0.5, realized_pnl=25.0))
+        db.add(_shadow_eval("mtfai1", realized_r=-1.0, realized_pnl=-50.0))
+        db.commit()
+
+    stats = _shadow_stats("mtfai1", NOW - timedelta(days=14))
+    assert stats["sample_size"] == 2
+    assert stats["expectancy_r"] == pytest.approx(-0.25)
+    assert stats["realized_usd"] == pytest.approx(-25.0)
+
+
+def test_decide_insufficient_sample_never_recommends_change():
+    stats = {"sample_size": MIN_SAMPLE_FOR_RECOMMENDATION - 1, "expectancy_r": -5.0, "realized_usd": -500.0, "avg_realized_usd": -50.0, "win_rate": 0.1}
+    recommended, reasoning = _decide(current="ACTIVE_MT5", stats=stats)
+    assert recommended == "ACTIVE_MT5"
+    assert "INSUFFICIENT_SAMPLE" in reasoning
+
+
+def test_decide_recommends_demotion_for_active_losing_strategy():
+    stats = {"sample_size": 50, "expectancy_r": DEMOTE_EXPECTANCY_R_THRESHOLD - 0.05, "realized_usd": -500.0, "avg_realized_usd": -10.0, "win_rate": 0.2}
+    recommended, reasoning = _decide(current="ACTIVE_MT5", stats=stats)
+    assert recommended == "SHADOW_MT5"
+    assert "demot" in reasoning.lower() or "SHADOW_MT5" in reasoning
+
+
+def test_decide_never_recommends_disabled_only_shadow():
+    stats = {"sample_size": 500, "expectancy_r": -2.0, "realized_usd": -5000.0, "avg_realized_usd": -50.0, "win_rate": 0.05}
+    recommended, _ = _decide(current="ACTIVE_MT5", stats=stats)
+    assert recommended == "SHADOW_MT5"
+    assert recommended != "DISABLED"
+
+
+def test_decide_recommends_promotion_for_shadow_winning_strategy():
+    stats = {"sample_size": 30, "expectancy_r": PROMOTE_EXPECTANCY_R_THRESHOLD + 0.05, "realized_usd": 400.0, "avg_realized_usd": 13.0, "win_rate": 0.6}
+    recommended, reasoning = _decide(current="SHADOW_MT5", stats=stats)
+    assert recommended == "ACTIVE_MT5"
+
+
+def test_decide_asymmetric_thresholds_damp_flip_flop():
+    """A mildly positive shadow strategy (above the demote bar but below the promote bar) must
+    NOT be recommended for reinstatement -- the promote bar is deliberately higher than the
+    demote bar to avoid oscillating a strategy back and forth on noise near zero."""
+    mildly_positive_r = (DEMOTE_EXPECTANCY_R_THRESHOLD + PROMOTE_EXPECTANCY_R_THRESHOLD) / 2
+    assert DEMOTE_EXPECTANCY_R_THRESHOLD < mildly_positive_r < PROMOTE_EXPECTANCY_R_THRESHOLD
+    stats = {"sample_size": 30, "expectancy_r": mildly_positive_r, "realized_usd": 10.0, "avg_realized_usd": 0.3, "win_rate": 0.4}
+    recommended, _ = _decide(current="SHADOW_MT5", stats=stats)
+    assert recommended == "SHADOW_MT5"
+
+
+def test_decide_no_change_when_active_and_positive():
+    stats = {"sample_size": 40, "expectancy_r": 0.5, "realized_usd": 500.0, "avg_realized_usd": 12.5, "win_rate": 0.6}
+    recommended, reasoning = _decide(current="ACTIVE_MT5", stats=stats)
+    assert recommended == "ACTIVE_MT5"
+    assert "no change" in reasoning.lower()
+
+
+def test_compute_recommendations_never_touches_activation(monkeypatch: pytest.MonkeyPatch):
+    """The one non-negotiable invariant: computing (and persisting) recommendations must never
+    itself change what activation_status() returns for any strategy."""
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    monkeypatch.delenv("MT5_STRATEGY_ACTIVATION_EMA_TREND", raising=False)
+    with SessionLocal() as db:
+        for i in range(25):
+            db.add(_position("ema_trend", realized_r=-1.0, closed_days_ago=1))
+        db.commit()
+
+    from backend.mt5_strategies.models import activation_status
+
+    before = activation_status("ema_trend")
+    recs = compute_recommendations()
+    written = _persist(recs)
+    after = activation_status("ema_trend")
+
+    assert before == after == "ACTIVE_MT5"
+    ema_rec = next(r for r in recs if r["strategy_id"] == "ema_trend")
+    assert ema_rec["recommended_activation"] == "SHADOW_MT5"  # the RECOMMENDATION differs...
+    assert written > 0
+
+    with SessionLocal() as db:
+        row = db.query(StrategyPerformanceRecommendationORM).filter(StrategyPerformanceRecommendationORM.strategy_id == "ema_trend").first()
+        assert row is not None
+        assert row.status == "PENDING_REVIEW"
+        assert row.recommended_activation == "SHADOW_MT5"
+        assert row.current_activation == "ACTIVE_MT5"  # ...but current_activation (the REAL state) is unchanged
+
+
+def test_persist_preserves_human_review_decision_across_reruns(monkeypatch: pytest.MonkeyPatch):
+    """Once a human has reviewed a recommendation (status != PENDING_REVIEW), a later run must
+    refresh the numbers but must never silently reset that review decision."""
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    rec = {
+        "strategy_id": "ema_trend", "data_source": "REAL_TRADES", "window_days": 14,
+        "current_activation": "ACTIVE_MT5", "recommended_activation": "SHADOW_MT5", "reasoning": "first pass",
+        "sample_size": 25, "win_rate": 0.1, "expectancy_r": -0.5, "realized_usd": -500.0, "avg_realized_usd": -20.0,
+    }
+    _persist([rec])
+    with SessionLocal() as db:
+        from datetime import datetime as _dt
+
+        row = db.query(StrategyPerformanceRecommendationORM).filter(StrategyPerformanceRecommendationORM.strategy_id == "ema_trend").first()
+        row.status = "REJECTED"
+        row.reviewed_by = "user"
+        row.reviewed_at = _dt.now(timezone.utc)
+        db.commit()
+
+    rec2 = {**rec, "reasoning": "second pass, fresher numbers"}
+    _persist([rec2])
+    with SessionLocal() as db:
+        row = db.query(StrategyPerformanceRecommendationORM).filter(StrategyPerformanceRecommendationORM.strategy_id == "ema_trend").first()
+        assert row.status == "REJECTED"
+        assert row.reviewed_by == "user"
+        assert row.reasoning == "second pass, fresher numbers"

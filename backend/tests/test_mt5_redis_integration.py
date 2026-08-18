@@ -529,7 +529,7 @@ def test_confidence_threshold_remains_75():
 # ---------------------------------------------------------------------------
 
 
-def test_all_eleven_strategies_remain_active():
+def test_all_eleven_strategies_remain_active(monkeypatch):
     from backend.mt5_strategies.families import EVALUATORS
     from backend.mt5_strategies.models import ACTIVE_MT5, activation_status
 
@@ -538,6 +538,11 @@ def test_all_eleven_strategies_remain_active():
     stage1_ids = [sid for sid in EVALUATORS if sid != "wyckoff"]
     all_ids = ["mtfai1"] + stage1_ids
     assert len(all_ids) == 11
+    # session_breakout/support_resistance_bounce are pinned explicitly: the real container env
+    # has both demoted to SHADOW_MT5 (2026-08-18 real-trade forensic demotion) -- this test is
+    # about the CODED DEFAULT, not today's real deployed override.
+    for strategy_id in stage1_ids:
+        monkeypatch.delenv(f"MT5_STRATEGY_ACTIVATION_{strategy_id.upper()}", raising=False)
     for strategy_id in stage1_ids:
         assert activation_status(strategy_id) == ACTIVE_MT5
 

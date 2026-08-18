@@ -33,6 +33,7 @@ from backend.brokers.mt5.outcome_resolver import candidate_outcome_resolver
 from backend.adaptive_management.service import adaptive_management_service
 from backend.adaptive_management.outcome_resolver import adaptive_manager_outcome_resolver
 from backend.economic_intelligence.service import economic_intelligence_service
+from backend.mt5_strategies.performance_monitor import strategy_performance_monitor
 from backend.portfolio_execution.service import portfolio_manager
 from backend.core.service_status import service_status_registry
 from backend.config.env import load_local_env
@@ -99,6 +100,7 @@ _adaptive_manager_outcome_resolver = None
 _adaptive_management_monitor = None
 _portfolio_execution_monitor = None
 _economic_intelligence_scheduler = None
+_strategy_performance_monitor = None
 _prefetch_enabled = (
     os.getenv("BENSIM_PREFETCH_ENABLED")
     or
@@ -111,7 +113,7 @@ _prefetch_enabled = (
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global _prefetch_worker, _instruments_loader, _news_ingestor, _pcr_snapshot_service, _scanner_alert_scheduler, _ai_auto_paper_scheduler, _mt5_autonomous_scheduler, _candidate_outcome_resolver, _adaptive_management_monitor, _adaptive_manager_outcome_resolver, _portfolio_execution_monitor, _economic_intelligence_scheduler
+    global _prefetch_worker, _instruments_loader, _news_ingestor, _pcr_snapshot_service, _scanner_alert_scheduler, _ai_auto_paper_scheduler, _mt5_autonomous_scheduler, _candidate_outcome_resolver, _adaptive_management_monitor, _adaptive_manager_outcome_resolver, _portfolio_execution_monitor, _economic_intelligence_scheduler, _strategy_performance_monitor
     validate_runtime_secrets()
     init_db()
 
@@ -166,9 +168,18 @@ async def lifespan(app: FastAPI):
     await _adaptive_manager_outcome_resolver.start()
     _economic_intelligence_scheduler = economic_intelligence_service
     await _economic_intelligence_scheduler.start()
+    # Strategy performance monitor (2026-08-18) -- read-only, recurring re-evaluation of each
+    # strategy's recent real/shadow-tracked performance. Only ever writes recommendation rows
+    # (strategy_performance_recommendations, status=PENDING_REVIEW); never touches an
+    # MT5_STRATEGY_ACTIVATION_<ID> value or anything that could change what actually executes --
+    # see performance_monitor.py's own module docstring.
+    _strategy_performance_monitor = strategy_performance_monitor
+    await _strategy_performance_monitor.start()
 
     yield
 
+    if _strategy_performance_monitor:
+        await _strategy_performance_monitor.stop()
     if _economic_intelligence_scheduler:
         await _economic_intelligence_scheduler.stop()
     if _adaptive_manager_outcome_resolver:
