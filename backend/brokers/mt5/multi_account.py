@@ -22,6 +22,7 @@ def config_for_profile(profile: MT5AccountProfile) -> MT5Config:
             "bridge_host": profile.bridge_host,
             "bridge_port": profile.bridge_port,
             "bridge_api_key": _bridge_key(profile),
+            "password": _account_password(profile),
             "read_only": True,
         }
     )
@@ -37,3 +38,14 @@ def adapter_for_account(account_id: str) -> MT5Adapter:
 def _bridge_key(profile: MT5AccountProfile) -> str | None:
     suffix = profile.account_id.upper().replace("FTMO_DEMO_", "").replace("DEMO_", "")
     return os.getenv(f"MT5_ACCOUNT_{suffix}_BRIDGE_API_KEY") or os.getenv(f"MT5_{suffix}_BRIDGE_API_KEY") or os.getenv("MT5_BRIDGE_API_KEY") or None
+
+
+def _account_password(profile: MT5AccountProfile) -> str | None:
+    # demo_10k IS the base account -- its password is the bare MT5_PASSWORD var, nothing
+    # prefixed. Every other account must NOT fall back to MT5_PASSWORD: that fallback used to
+    # happen implicitly via **base.__dict__ in config_for_profile, causing every other account's
+    # mt5.login() call to silently authenticate with demo_10k's password instead of its own.
+    if profile.account_id == "demo_10k":
+        return os.getenv("MT5_PASSWORD") or None
+    suffix = profile.account_id.upper().replace("FTMO_DEMO_", "").replace("DEMO_", "")
+    return os.getenv(f"MT5_ACCOUNT_{suffix}_PASSWORD") or os.getenv(f"MT5_{suffix}_PASSWORD") or None

@@ -55,6 +55,11 @@ def test_account_specific_bridge_ports_and_config(monkeypatch):
     monkeypatch.delenv("MT5_ACCOUNT_25K_LOGIN", raising=False)
     monkeypatch.delenv("MT5_ACCOUNT_25K_SERVER", raising=False)
     monkeypatch.delenv("MT5_ACCOUNT_25K_BRIDGE_PORT", raising=False)
+    # 2026-08-18: the real container env now has MT5_ACCOUNT_25K_ENABLED=false (temporarily
+    # disabled to stop its portfolio-execution-monitor background loop from repeatedly disrupting
+    # a live broker re-login) -- this takes priority over the MT5_25K_ENABLED alias this test
+    # sets, per _env_bool_alias's fallback order, so it must be explicitly cleared here too.
+    monkeypatch.delenv("MT5_ACCOUNT_25K_ENABLED", raising=False)
     monkeypatch.setenv("MT5_25K_ENABLED", "true")
     monkeypatch.setenv("MT5_25K_LOGIN", "250001")
     monkeypatch.setenv("MT5_25K_SERVER", "FTMO-Demo")
@@ -72,6 +77,7 @@ def test_account_specific_bridge_ports_and_config(monkeypatch):
 
 
 def test_enabled_ftmo_profile_fails_closed_without_expected_identity(monkeypatch):
+    monkeypatch.delenv("MT5_ACCOUNT_25K_ENABLED", raising=False)
     monkeypatch.setenv("MT5_25K_ENABLED", "true")
     monkeypatch.delenv("MT5_ACCOUNT_25K_LOGIN", raising=False)
     monkeypatch.delenv("MT5_ACCOUNT_25K_SERVER", raising=False)

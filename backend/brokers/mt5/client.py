@@ -38,11 +38,21 @@ class MT5Client:
             init_kwargs["path"] = self.config.path
         init_kwargs["timeout"] = self.config.timeout_ms
         init_kwargs["portable"] = self.config.portable
+        credentials_passed_to_initialize = self.config.login is not None and self.config.password
+        if credentials_passed_to_initialize:
+            # mt5.initialize() accepts login/password/server directly and performs the full
+            # connect+auth handshake atomically -- required for accounts whose terminal instance
+            # isn't already GUI-authenticated (a bare initialize() then fails with a generic
+            # "Authorization failed" before a separate mt5.login() is ever reached).
+            init_kwargs["login"] = self.config.login
+            init_kwargs["password"] = self.config.password
+            if self.config.server:
+                init_kwargs["server"] = self.config.server
         ok = bool(mt5.initialize(**init_kwargs))
         self.initialized = ok
         if not ok:
             raise MT5UnavailableError(f"MT5 initialize failed: {self.last_error()}")
-        if self.config.login is not None and self.config.password:
+        if self.config.login is not None and self.config.password and not credentials_passed_to_initialize:
             login_kwargs = {"login": self.config.login}
             login_kwargs["password"] = self.config.password
             if self.config.server:
