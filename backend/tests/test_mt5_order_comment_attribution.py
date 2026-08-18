@@ -84,6 +84,16 @@ def test_comment_never_exceeds_mt5_length_limit():
 # 6. Order submission behavior is otherwise unchanged -- same ACCEPTED/order_send_calls outcome
 # as before this fix, with a real (non-mtfai1, fused) strategy attribution now on the request.
 def test_order_submission_behavior_unchanged(monkeypatch: pytest.MonkeyPatch):
+    # Pinned explicitly: the real container env now has MT5_LOGIN/MT5_SERVER set to the real
+    # demo_10k account (2026-08-18 broker migration to ICMarketsSC-Demo) -- fake_adapter()'s
+    # FakeAccount hardcodes login=123456/server="MetaQuotes-Demo", so a real deployed login/
+    # server here would trip account_registry's live ACCOUNT_EXECUTION_CONTEXT_MISMATCH/
+    # ACCOUNT_SERVER_MISMATCH safety check (a real, working check -- see account_registry.py's
+    # own account-match validation) and reject the order for reasons unrelated to what this test
+    # actually covers (order-comment strategy attribution). MT5_LOGIN was previously always
+    # empty/unset in this environment, which is what this test was written and validated against.
+    monkeypatch.delenv("MT5_LOGIN", raising=False)
+    monkeypatch.delenv("MT5_SERVER", raising=False)
     adapter = fake_adapter()
     service = MT5AutonomousTradingService(adapter)
     _wire_common_mocks(monkeypatch, service, entry_quality_score=0.9)

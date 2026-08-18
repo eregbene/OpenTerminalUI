@@ -24,6 +24,13 @@ class _Account:
 
 def test_four_mt5_profiles_register_independently(monkeypatch):
     monkeypatch.setenv("MT5_ENABLED", "true")
+    # Pinned explicitly: the real container env has these three overridden (2026-08-18 broker
+    # migration to ICMarketsSC-Demo changed real balances to 35k/60k/101k without renaming the
+    # internal account_id/prefix) -- this test is about the CODED DEFAULT, not today's real
+    # deployed override.
+    for prefix in ("25K", "50K", "100K"):
+        monkeypatch.delenv(f"MT5_ACCOUNT_{prefix}_INITIAL_BALANCE", raising=False)
+        monkeypatch.delenv(f"MT5_{prefix}_INITIAL_BALANCE", raising=False)
 
     profiles = account_registry.configured_profiles()
 

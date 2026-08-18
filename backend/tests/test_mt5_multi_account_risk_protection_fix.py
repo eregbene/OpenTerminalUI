@@ -37,6 +37,19 @@ from backend.shared.db import Base
 # Shared fakes / fixtures
 # --------------------------------------------------------------------------------------
 
+@pytest.fixture(autouse=True)
+def _pin_ftmo_initial_balances(monkeypatch):
+    """This whole file's prop-rule math (5% daily loss on 25000 = 1250, 10% max loss on 25000 =
+    2500, etc) is built around account_registry's CODED DEFAULT initial balances (25k/50k/100k).
+    The real container env has these overridden (2026-08-18 broker migration to ICMarketsSC-Demo
+    changed real balances to 35k/60k/101k without renaming the internal account_id/prefix) --
+    pin them off for every test in this file so prop-limit calculations use the coded defaults
+    these tests were written against, not today's real deployed override."""
+    for prefix in ("25K", "50K", "100K"):
+        monkeypatch.delenv(f"MT5_ACCOUNT_{prefix}_INITIAL_BALANCE", raising=False)
+        monkeypatch.delenv(f"MT5_{prefix}_INITIAL_BALANCE", raising=False)
+
+
 def _session_factory(monkeypatch):
     engine = create_engine("sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool)
     Base.metadata.create_all(bind=engine)

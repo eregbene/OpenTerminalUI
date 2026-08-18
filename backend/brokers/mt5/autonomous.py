@@ -611,6 +611,16 @@ class MT5AutonomousTradingService:
                 result = await _finalize({"cycle_id": cycle_id, "status": "PORTFOLIO_REJECTED", "winner": best, "candidates": ranked, "blockers": portfolio_blockers, "diversity_cap": diversity_cap, "confirmation_gate": confirmation_gate, "order_send_calls": 0})
                 self._record_cycle(result, mark_processed=False, dry_run=dry_run)
                 return result
+            # 2026-08-18 fix: max_trades_per_day/max_trades_per_symbol_per_day/
+            # post_trade_cooldown_minutes were declared in config.py but never enforced anywhere
+            # in this file -- see _trade_frequency_blockers' own docstring. Same binary-gate
+            # pattern as the portfolio check just above.
+            trade_frequency_blockers = self._trade_frequency_blockers(best)
+            if trade_frequency_blockers:
+                best["rejection_reasons"] = sorted(set((best.get("rejection_reasons") or []) + trade_frequency_blockers))
+                result = await _finalize({"cycle_id": cycle_id, "status": "TRADE_FREQUENCY_LIMITED", "winner": best, "candidates": ranked, "blockers": trade_frequency_blockers, "diversity_cap": diversity_cap, "confirmation_gate": confirmation_gate, "order_send_calls": 0})
+                self._record_cycle(result, mark_processed=False, dry_run=dry_run)
+                return result
             # Reward:risk is a pure price-geometry ratio, independent of confidence, so it can
             # be re-verified against a FRESH quote before submitting. stop_loss/take_profit
             # were fixed at screening time against an earlier quote; by the time _submit()
@@ -1302,8 +1312,16 @@ class MT5AutonomousTradingService:
         }
         self.state.trades.insert(0, trade | {"created_at": utcnow().isoformat()})
         if result.status == "ACCEPTED":
-            store = self._stored()
+            store = self._daily_trade_state()
             store["entries_submitted_today"] = int(store.get("entries_submitted_today") or 0) + 1
+            symbol = candidate.get("broker_symbol")
+            if symbol:
+                entries_by_symbol = dict(store.get("entries_by_symbol") or {})
+                entries_by_symbol[symbol] = int(entries_by_symbol.get(symbol) or 0) + 1
+                store["entries_by_symbol"] = entries_by_symbol
+                last_entry_at_by_symbol = dict(store.get("last_entry_at_by_symbol") or {})
+                last_entry_at_by_symbol[symbol] = utcnow().isoformat()
+                store["last_entry_at_by_symbol"] = last_entry_at_by_symbol
             self._set_stored(store)
         return trade | {"status": result.status}
 
@@ -1313,6 +1331,50 @@ class MT5AutonomousTradingService:
         if decision in {"BLOCK", "DELAY"}:
             return sorted(set(f"ECONOMIC_{decision}:{reason}" for reason in (guard.get("reason_codes") or [decision])))
         return []
+
+    def _daily_trade_state(self) -> dict[str, Any]:
+        """Day-boundary-aware trade-frequency counters (2026-08-18 fix -- config.py's
+        max_trades_per_day/max_trades_per_symbol_per_day/post_trade_cooldown_minutes were
+        declared but never enforced anywhere in this file: entries_submitted_today was
+        incremented in _submit() but never compared against max_trades_per_day, and the DB-backed
+        get_state/set_state store it lives in has no TTL/expiry, so the counter never reset at a
+        day boundary either -- confirmed live: 65-85 real entries on single days against a
+        nominal cap of 20. Mirrors backend.intelligence.trading.auto_paper.py's own
+        _ensure_daily_state pattern (same underlying get_state/set_state store), which already
+        enforces the identical fields correctly for the AI paper-trading path.
+
+        Resets entries_submitted_today/entries_by_symbol/last_entry_at_by_symbol whenever the
+        stored date no longer matches today's UTC date, and persists the reset immediately."""
+        store = self._stored()
+        today = utcnow().date().isoformat()
+        if store.get("trade_cap_date") != today:
+            store["trade_cap_date"] = today
+            store["entries_submitted_today"] = 0
+            store["entries_by_symbol"] = {}
+            store["last_entry_at_by_symbol"] = {}
+            self._set_stored(store)
+        return store
+
+    def _trade_frequency_blockers(self, candidate: dict[str, Any]) -> list[str]:
+        """Binary gate, independent of confidence -- same pattern as _context_blockers/
+        _economic_blockers/portfolio_manager.can_open_new_trade, called alongside them in
+        run_cycle. Never partially enforced: a candidate is either allowed through cleanly or
+        rejected with an explicit reason, exactly matching auto_paper.py's DAILY_TRADE_LIMIT/
+        SYMBOL_DAILY_TRADE_LIMIT/COOLDOWN vocabulary."""
+        store = self._daily_trade_state()
+        blockers: list[str] = []
+        if int(store.get("entries_submitted_today") or 0) >= self.config.max_trades_per_day:
+            blockers.append("DAILY_TRADE_LIMIT")
+        symbol = candidate.get("broker_symbol")
+        if symbol:
+            entries_by_symbol = store.get("entries_by_symbol") or {}
+            if int(entries_by_symbol.get(symbol) or 0) >= self.config.max_trades_per_symbol_per_day:
+                blockers.append("SYMBOL_DAILY_TRADE_LIMIT")
+            last_entry_raw = (store.get("last_entry_at_by_symbol") or {}).get(symbol)
+            last_entry_at = _parse_dt(last_entry_raw) if last_entry_raw else None
+            if last_entry_at and utcnow() < last_entry_at + timedelta(minutes=self.config.post_trade_cooldown_minutes):
+                blockers.append("COOLDOWN")
+        return blockers
 
     def _context_blockers(self, context_risk: dict[str, Any]) -> list[str]:
         blockers = list(context_risk.get("block_reasons") or [])

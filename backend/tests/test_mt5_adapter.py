@@ -594,6 +594,14 @@ def test_mt5_order_send_called_exactly_once_for_approved_intent(monkeypatch):
     # This test exercises order-send mechanics, not portfolio protection -- can_open_new_trade()
     # now fails CLOSED (not open) when no snapshot exists yet, which no test in this file builds.
     monkeypatch.setattr(portfolio_execution_service.portfolio_manager, "can_open_new_trade", lambda *args, **kwargs: (True, []))
+    # Pinned explicitly: the real container env now has MT5_LOGIN/MT5_SERVER set to the real
+    # demo_10k account (2026-08-18 broker migration) -- fake_adapter()'s FakeAccount hardcodes
+    # login=123456/server="MetaQuotes-Demo", so a real deployed login/server would trip
+    # account_registry's live account-match safety check and reject the order for reasons
+    # unrelated to what this test covers (order-send mechanics). MT5_LOGIN was previously always
+    # empty/unset in this environment, which is what this test was written and validated against.
+    monkeypatch.delenv("MT5_LOGIN", raising=False)
+    monkeypatch.delenv("MT5_SERVER", raising=False)
     adapter = fake_adapter()
     service = MT5ExecutionService(adapter)
     intent = _intent(volume=Decimal("0.01"))
