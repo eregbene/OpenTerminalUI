@@ -2050,14 +2050,33 @@ class AdaptiveManagementService:
         elif max_r >= 1.0:
             allowance_fraction = min(allowance_fraction, _env_float("MFE_GIVEBACK_LIMIT_AFTER_1R", 0.50))
         allowance_r = allowance_fraction * max_r
-        if max_r >= _env_float("ADAPTIVE_MFE_MIN_R", 0.5) and giveback_r > allowance_r:
+        if max_r >= _env_float("ADAPTIVE_MFE_MIN_R", 0.25) and giveback_r > allowance_r:
+            # 2026-08-18: backtested against 80 real closed trades (2026-08-13/14) before this
+            # split existed -- a bare full close with ADAPTIVE_MFE_MIN_R lowered to 0.25 to catch
+            # early giveback tested net -2.895R worse than not lowering it at all: it correctly
+            # saved 4 real trades that had round-tripped a modest peak into a loss, but a FULL
+            # close firing that early also cut short 7 winners that would have kept running.
+            # Reverting the threshold alone (keeping a full close) recovered those 7 but silently
+            # gave back the 4 real saves too -- zone_25_60's gentler partial-protect logic has its
+            # own, different trigger conditions (structure break / opposing candles / winner
+            # classification) that never fired on any of those 4 trades, so it can't substitute.
+            # Splitting the ACTION itself instead: below ADAPTIVE_MFE_FULL_CLOSE_R the trade hasn't
+            # proven enough yet to justify a full exit on a volatility-normal retracement, so only
+            # take a partial slice off (protects real profit, keeps the trade alive if it resumes);
+            # at/above that R a full close remains correct (same as before this change, byte-
+            # identical behavior for max_r >= 1.0).
+            full_close_r = _env_float("ADAPTIVE_MFE_FULL_CLOSE_R", 1.0)
+            if max_r >= full_close_r:
+                requested_volume = float(state.current_volume)
+            else:
+                requested_volume = float(state.current_volume) * _env_float("ADAPTIVE_MFE_EARLY_PARTIAL_FRACTION", 0.5)
             candidates.append(
                 ManagementCandidate(
                     "MFE_PROTECTION_CLOSE",
                     30,
-                    requested_volume=float(state.current_volume),
+                    requested_volume=requested_volume,
                     reason="profit_giveback_exceeds_volatility_aware_allowance",
-                    evidence={"r": r_now, "max_r": max_r, "giveback_r": giveback_r, "allowance_r": allowance_r, "allowance_fraction": allowance_fraction, "regime": regime},
+                    evidence={"r": r_now, "max_r": max_r, "giveback_r": giveback_r, "allowance_r": allowance_r, "allowance_fraction": allowance_fraction, "regime": regime, "full_close": max_r >= full_close_r},
                 )
             )
 
