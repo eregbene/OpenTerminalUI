@@ -13,6 +13,7 @@ fail-open behavior, the kill switch), not about re-testing detect_swings/classif
 """
 from __future__ import annotations
 
+from decimal import Decimal
 from types import SimpleNamespace
 
 import pytest
@@ -81,6 +82,67 @@ def test_kill_switch_disables_check_entirely(monkeypatch):
 def test_no_trade_direction_is_never_evaluated(monkeypatch):
     _patch_trend(monkeypatch, TrendLabel.BEARISH.value)
     assert autonomous._mtfai1_trend_structure_agrees(_bars(), "NO_TRADE", "EURUSD") is True
+
+
+def _level(side: str, price: float, touch_count: int = 2):
+    return SimpleNamespace(side=side, level=price, touch_count=touch_count)
+
+
+@pytest.fixture(autouse=True)
+def _enable_equal_level_gate(monkeypatch):
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_EQUAL_LEVEL_CONFIRMATION_REQUIRED", True)
+
+
+def _patch_levels(monkeypatch, levels):
+    monkeypatch.setattr(autonomous, "detect_equal_levels", lambda *a, **k: levels)
+    monkeypatch.setattr(autonomous, "detect_swings", lambda *a, **k: [])
+
+
+def test_nearby_resistance_blocks_long(monkeypatch):
+    _patch_levels(monkeypatch, [_level("buy_side", 1.1010)])  # 10 pips above entry
+    entry = Decimal("1.1000")
+    atr = Decimal("0.0030")  # 0.5x ATR = 15 pips, level is 10 pips away -> inside band
+    assert autonomous._mtfai1_equal_level_clear(_bars(), "LONG", "EURUSD", entry, atr) is False
+
+
+def test_distant_resistance_does_not_block_long(monkeypatch):
+    _patch_levels(monkeypatch, [_level("buy_side", 1.1100)])  # 100 pips above entry
+    entry = Decimal("1.1000")
+    atr = Decimal("0.0030")
+    assert autonomous._mtfai1_equal_level_clear(_bars(), "LONG", "EURUSD", entry, atr) is True
+
+
+def test_nearby_support_blocks_short(monkeypatch):
+    _patch_levels(monkeypatch, [_level("sell_side", 1.0990)])  # 10 pips below entry
+    entry = Decimal("1.1000")
+    atr = Decimal("0.0030")
+    assert autonomous._mtfai1_equal_level_clear(_bars(), "SHORT", "EURUSD", entry, atr) is False
+
+
+def test_opposing_side_level_never_blocks(monkeypatch):
+    # A sell_side (equal-low) level near a LONG's entry is behind it, not ahead -- irrelevant.
+    _patch_levels(monkeypatch, [_level("sell_side", 1.0995)])
+    entry = Decimal("1.1000")
+    atr = Decimal("0.0030")
+    assert autonomous._mtfai1_equal_level_clear(_bars(), "LONG", "EURUSD", entry, atr) is True
+
+
+def test_equal_level_kill_switch_disables_check(monkeypatch):
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_EQUAL_LEVEL_CONFIRMATION_REQUIRED", False)
+    _patch_levels(monkeypatch, [_level("buy_side", 1.1010)])
+    entry = Decimal("1.1000")
+    atr = Decimal("0.0030")
+    assert autonomous._mtfai1_equal_level_clear(_bars(), "LONG", "EURUSD", entry, atr) is True
+
+
+def test_equal_level_fails_open_on_exception(monkeypatch):
+    def _boom(*a, **k):
+        raise RuntimeError("boom")
+
+    monkeypatch.setattr(autonomous, "normalize_bars", _boom)
+    entry = Decimal("1.1000")
+    atr = Decimal("0.0030")
+    assert autonomous._mtfai1_equal_level_clear(_bars(), "LONG", "EURUSD", entry, atr) is True
 
 
 def test_score_candidate_forces_no_trade_when_structure_disagrees(monkeypatch):

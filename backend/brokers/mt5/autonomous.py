@@ -16,7 +16,8 @@ from backend.adaptive_management.tp_protection import classify_stop_quality_v2, 
 from backend.market_structure.bar_utils import normalize_bars
 from backend.market_structure.configuration import MarketStructureConfig
 from backend.market_structure.engine import analyze_bars
-from backend.market_structure.models import TrendLabel
+from backend.market_structure.liquidity import detect_equal_levels
+from backend.market_structure.models import LiquiditySide, TrendLabel
 from backend.market_structure.swings import detect_swings
 from backend.market_structure.trend import classify_trend
 from backend.brokers.mt5 import account_registry
@@ -1886,6 +1887,46 @@ def _mtfai1_trend_structure_agrees(m15: list[Any], direction: str, symbol: str) 
     return True
 
 
+# 2026-08-18: user-requested follow-up to the trend-structure confirmation above -- equal-highs/
+# equal-lows (EQH/EQL) liquidity pools, same ICT/SMC concept liquidity_sweep_reversal already
+# trades off of (see detect_equal_levels' docstring). Applied here as a proximity check, not a
+# sweep-and-displacement entry trigger like that strategy (mtfai1 is a trend-following model, not
+# a reversal one): an UNSWEPT equal-level sitting immediately ahead of price in the trade's own
+# direction is real, concrete resistance/support the trade would have to fight through right at
+# entry -- almost always where price gets drawn to and often reverses, since that's the whole
+# point of a liquidity pool. Blocks only when one sits within MT5_MTFAI1_EQUAL_LEVEL_MIN_ATR_MULT
+# (default 0.5) ATRs of entry; fails open (does not block) on any error, no swings, or no equal
+# levels detected -- same posture as the trend-structure check. Reversible via
+# MT5_MTFAI1_EQUAL_LEVEL_CONFIRMATION_REQUIRED (default true).
+MT5_MTFAI1_EQUAL_LEVEL_CONFIRMATION_REQUIRED = os.getenv("MT5_MTFAI1_EQUAL_LEVEL_CONFIRMATION_REQUIRED", "true").strip().lower() not in {"false", "0", "off", "no"}
+
+
+def _mtfai1_equal_level_clear(m15: list[Any], direction: str, symbol: str, entry: Decimal, atr: Decimal) -> bool:
+    if not MT5_MTFAI1_EQUAL_LEVEL_CONFIRMATION_REQUIRED or direction not in {"LONG", "SHORT"} or atr <= 0:
+        return True
+    try:
+        rows = [row.model_dump(mode="json") if hasattr(row, "model_dump") else row for row in m15]
+        bars = normalize_bars(rows, symbol=symbol, timeframe="M15")
+        swings = detect_swings(bars, _MTFAI1_STRUCTURE_CONFIG, symbol=symbol, timeframe="M15")
+        levels = detect_equal_levels(bars, swings, _MTFAI1_STRUCTURE_CONFIG, symbol=symbol, timeframe="M15")
+    except Exception as exc:
+        logger.warning("MT5 mtfai1 equal-level check failed for %s (fails open, mtfai1 unaffected): %s", symbol, exc.__class__.__name__)
+        return True
+    # LONG runs into resistance at an equal-HIGH (BUY_SIDE liquidity, per detect_equal_levels'
+    # own swing-high->BUY_SIDE convention) above entry; SHORT runs into support at an equal-LOW
+    # (SELL_SIDE) below entry.
+    ahead_side = LiquiditySide.BUY_SIDE if direction == "LONG" else LiquiditySide.SELL_SIDE
+    min_mult = Decimal(str(_env_float("MT5_MTFAI1_EQUAL_LEVEL_MIN_ATR_MULT", 0.5)))
+    for level in levels:
+        if level.side != ahead_side:
+            continue
+        price = Decimal(str(level.level))
+        ahead = (price > entry) if direction == "LONG" else (price < entry)
+        if ahead and abs(price - entry) < atr * min_mult:
+            return False
+    return True
+
+
 def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any], symbol_info: Any = None) -> tuple[float, str, dict[str, str]]:
     closes = [Decimal(str(c.close)) for c in m15[-50:]]
     h1_close = Decimal(str(h1[-1].close))
@@ -1900,6 +1941,8 @@ def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any], s
         direction = "NO_TRADE"
     entry = Decimal(str(quote.ask if direction == "LONG" else quote.bid or closes[-1]))
     atr = sum(abs(Decimal(str(c.high)) - Decimal(str(c.low))) for c in m15[-14:]) / Decimal("14")
+    if direction != "NO_TRADE" and atr > 0 and not _mtfai1_equal_level_clear(m15, direction, symbol_label, entry, atr):
+        direction = "NO_TRADE"
     if atr <= 0 or direction == "NO_TRADE":
         return 0, "NO_TRADE", {"entry": str(entry), "stop_loss": str(entry), "take_profit": str(entry)}
     spread = Decimal(str(quote.spread or "0"))
