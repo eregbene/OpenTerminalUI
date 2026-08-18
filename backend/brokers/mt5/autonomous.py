@@ -72,6 +72,12 @@ MTFAI1_STRATEGY_ID = "mtfai1"
 # standalone MTFAI1 candidate is allowed to become `best`, exactly like the diversity cap above.
 MTFAI1_CONFIRMING_STRATEGY_IDS = {"momentum", "smc_continuation", "breakout", "trend_pullback", "liquidity_sweep_reversal"}
 
+# 2026-08-18: user-requested kill switch for the confirmation gate itself, distinct from
+# MT5_STRATEGY_ACTIVATION_MTFAI1 (which controls whether mtfai1 can execute at all). Defaults to
+# "true" (today's unchanged behavior: standalone mtfai1 still needs independent confirmation).
+# Set to a falsy value to let mtfai1 execute alone again, same as before this gate existed.
+MT5_MTFAI1_CONFIRMATION_REQUIRED = os.getenv("MT5_MTFAI1_CONFIRMATION_REQUIRED", "true").strip().lower() not in {"false", "0", "off", "no"}
+
 
 @dataclass
 class MT5AutonomousState:
@@ -387,6 +393,9 @@ class MT5AutonomousTradingService:
             return best, gate
         best_strategy_id = (best.get("context") or {}).get("strategy_id")
         if best_strategy_id != MTFAI1_STRATEGY_ID:
+            return best, gate
+        if not MT5_MTFAI1_CONFIRMATION_REQUIRED:
+            gate["enabled"] = False
             return best, gate
 
         gate["applicable"] = True
