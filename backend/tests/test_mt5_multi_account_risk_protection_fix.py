@@ -300,9 +300,17 @@ def test_09_accounts_use_independent_risk_budgets_not_a_shared_flat_dollar_cap()
 
 
 def test_10_same_candidate_produces_independently_calculated_volume():
+    # 2026-08-18: target widened from 4430 (RR=1.5, exactly at the RISK_REWARD_TOO_LOW floor) to
+    # 4460 (RR=3.0) -- calculate_risk_size now folds real per-lot commission into both sides of
+    # the RR check (backend/brokers/mt5/trading_costs.py's configured round-turn rate), and RR is
+    # volume-independent (both loss_per_lot and commission_per_lot scale the same way with
+    # volume), so a marginal RR=1.5 setup correctly rejects post-commission regardless of account
+    # size -- this test's actual purpose (volume scales independently per account) needs a
+    # geometry that clears the real-cost-adjusted threshold with margin, not one sitting exactly
+    # on the pre-commission boundary.
     svc = MT5ExecutionService(FakeExecutionAdapter("demo_10k", login=1))
     symbol = _fake_symbol()
-    kwargs = dict(symbol=symbol, direction="LONG", entry=Decimal("4400"), stop=Decimal("4380"), target=Decimal("4430"))
+    kwargs = dict(symbol=symbol, direction="LONG", entry=Decimal("4400"), stop=Decimal("4380"), target=Decimal("4460"))
 
     result_25k = asyncio.run(svc.calculate_risk_size(account_equity=Decimal("25000"), **kwargs))
     result_100k = asyncio.run(svc.calculate_risk_size(account_equity=Decimal("100000"), **kwargs))

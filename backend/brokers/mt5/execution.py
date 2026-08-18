@@ -9,6 +9,7 @@ from backend.brokers.mt5.diagnostics import assert_demo_account
 from backend.brokers.mt5.exceptions import MT5ReadOnlyViolation
 from backend.brokers.mt5.models import MT5OrderCheckResult, MT5OrderSubmissionResult, MT5RiskSizing, MT5Symbol, MT5TradeIntent
 from backend.brokers.mt5.risk_calculator import CRITICAL_MISMATCH, calculate_canonical_loss_per_lot, record_mismatch_if_needed
+from backend.brokers.mt5.trading_costs import commission_per_lot_round_turn
 from backend.portfolio_execution.service import execution_manager
 
 
@@ -174,25 +175,39 @@ class MT5ExecutionService:
             reasons.append(canonical.block_reason or CRITICAL_MISMATCH)
             return MT5RiskSizing(status="REJECTED", reasons=reasons, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, **diagnostics, **exposure)
         loss_per_lot = canonical.selected_loss_per_lot
+        # 2026-08-18: real broker round-turn commission (backend/brokers/mt5/trading_costs.py's
+        # own configured rate -- single source of truth, same $ figure the post-trade cost
+        # accounting reconciles against) is charged whether the trade wins or loses. Sizing was
+        # previously blind to it entirely: budget/loss_per_lot alone means the REAL total loss on
+        # a stop-out (price loss + commission) can exceed the account's intended risk-per-trade
+        # cap, and the risk:reward filter below could pass a setup that only clears its threshold
+        # on paper, before costs. Folded in at the loss_per_lot level (not bolted on after) so
+        # every downstream calculation -- sizing, minimum-volume rejection, the final RR check --
+        # is consistently cost-aware.
+        commission_per_lot = Decimal(str(commission_per_lot_round_turn()))
+        loss_per_lot_with_costs = loss_per_lot + commission_per_lot
 
-        # 3-4. raw_volume = budget / one_lot_loss, FLOORED to volume_step. Never rounded up.
-        raw_volume = effective_risk / loss_per_lot
+        # 3-4. raw_volume = budget / one_lot_loss (cost-inclusive), FLOORED to volume_step. Never
+        # rounded up.
+        raw_volume = effective_risk / loss_per_lot_with_costs
         capped = min(raw_volume, maximum)
         volume = _round_down(capped, step)
 
-        # 5-6. volume_min / volume_max bounds. If even volume_min's monetary risk exceeds the
-        # budget, BLOCK -- never round up merely to satisfy volume_min (this is the exact
-        # invariant the XAUUSD incident violated).
+        # 5-6. volume_min / volume_max bounds. If even volume_min's monetary risk (price loss +
+        # commission) exceeds the budget, BLOCK -- never round up merely to satisfy volume_min
+        # (this is the exact invariant the XAUUSD incident violated).
         if volume < minimum:
-            minimum_risk = (loss_per_lot * minimum).copy_abs().quantize(Decimal("0.01"))
+            minimum_risk = (loss_per_lot_with_costs * minimum).copy_abs().quantize(Decimal("0.01"))
             reasons.append("VOLUME_BELOW_MINIMUM_RISK_TOO_HIGH" if minimum_risk > effective_risk else "VOLUME_BELOW_MINIMUM")
-            return MT5RiskSizing(status="REJECTED", raw_volume=raw_volume, reasons=reasons, effective_risk_usd=effective_risk, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, **diagnostics, **exposure)
+            return MT5RiskSizing(status="REJECTED", raw_volume=raw_volume, reasons=reasons, effective_risk_usd=effective_risk, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, estimated_commission_usd=(commission_per_lot * minimum).quantize(Decimal("0.01")), **diagnostics, **exposure)
 
-        # 7. Recalculate projected monetary loss at the normalized (post-floor) volume. MT5 lot
-        # economics are linear in volume (broker-confirmed: order_calc_profit(0.1 lot) ==
-        # order_calc_profit(1.0 lot)/10 exactly), so this is the same selected-method figure
-        # scaled to `volume` -- not a second broker round trip for no additional information.
-        projected_loss = (loss_per_lot * volume).copy_abs().quantize(Decimal("0.01"))
+        # 7. Recalculate projected monetary loss at the normalized (post-floor) volume, commission
+        # included. MT5 lot economics are linear in volume (broker-confirmed: order_calc_profit
+        # (0.1 lot) == order_calc_profit(1.0 lot)/10 exactly), so this is the same selected-method
+        # figure scaled to `volume` -- not a second broker round trip for no additional
+        # information.
+        estimated_commission = (commission_per_lot * volume).quantize(Decimal("0.01"))
+        projected_loss = ((loss_per_lot * volume).copy_abs() + estimated_commission).quantize(Decimal("0.01"))
         # projected_profit MUST be derived from the SAME canonical, cross-validated loss_per_lot
         # -- not re-read from symbol.trade_tick_value directly. That field is exactly the one a
         # broken/misconfigured broker can misreport (the XAUUSD incident this whole calculator
@@ -200,10 +215,14 @@ class MT5ExecutionService:
         # of bug into the reward:risk check even after the loss side was correctly cross-checked
         # and cleared. stop_distance/loss_per_lot gives a validated $-per-price-unit rate; scaling
         # that by the reward distance keeps both sides of the RR ratio dimensionally consistent.
+        # Commission is subtracted here too -- it's charged on the winning side of the trade just
+        # as much as the losing side, so the reward side of RR must be cost-adjusted as well or
+        # the filter below only prices in half of what a real round-turn actually costs.
         stop_distance = abs(entry - stop)
         rate_per_price_unit = (loss_per_lot / stop_distance) if stop_distance > 0 else None
         if rate_per_price_unit and rate_per_price_unit > 0:
-            projected_profit = (abs(target - entry) * rate_per_price_unit * volume).copy_abs().quantize(Decimal("0.01"))
+            gross_profit = (abs(target - entry) * rate_per_price_unit * volume).copy_abs()
+            projected_profit = max(Decimal("0.00"), (gross_profit - estimated_commission).quantize(Decimal("0.01")))
         else:
             projected_profit = Decimal("0.00")
 
@@ -233,6 +252,7 @@ class MT5ExecutionService:
             equity_risk_cap_usd=equity_risk_cap,
             trade_risk_cap_usd=trade_risk_cap,
             projected_loss_pct_equity=projected_loss_pct_equity,
+            estimated_commission_usd=estimated_commission,
             **diagnostics,
             **exposure,
         )

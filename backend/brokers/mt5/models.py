@@ -246,6 +246,12 @@ class MT5RiskSizing(MT5Model):
     equity_risk_cap_usd: Decimal = Decimal("0")
     trade_risk_cap_usd: Decimal = Decimal("0")
     risk_multiplier: Decimal = Decimal("1.0")
+    # 2026-08-18: real broker round-turn commission (backend/brokers/mt5/trading_costs.py's own
+    # configured MT5_COMMISSION_PER_STANDARD_LOT_ROUND_TURN rate, single source of truth) now
+    # factored into sizing/risk_reward itself -- see calculate_risk_size. Exposed here so "how
+    # much commission did this trade's sizing account for" is answerable without tracing code,
+    # same convention as every other cost/factor on this model.
+    estimated_commission_usd: Decimal = Decimal("0")
     # Per-account risk-budget transparency (multi-account risk/protection audit, Bug 2): every
     # constraint that fed the min()-of-caps decision, individually -- not just the winning
     # effective_risk_usd -- so "why this many dollars, for THIS account" is answerable without
