@@ -17,17 +17,8 @@ from fastapi.responses import FileResponse, JSONResponse
 from sqlalchemy import text
 
 from backend.api.deps import shutdown_unified_fetcher
-from backend.alerts import get_alert_evaluator_service
 from backend.auth.middleware import AuthMiddleware
-from backend.adapters.registry import get_adapter_registry
-from backend.bg_services.instruments_loader import get_instruments_loader
-from backend.bg_services.news_ingestor import get_news_ingestor
-from backend.bg_services.pcr_snapshot import get_pcr_snapshot_service
-from backend.bg_services.scanner_alert_scheduler import get_scanner_alert_scheduler_service
 from backend.services.prefetch_worker import get_prefetch_worker
-from backend.services.us_tick_stream import get_us_tick_stream_service
-from backend.paper_trading import get_paper_engine
-from backend.intelligence.trading.runtime import auto_paper_service as ai_auto_paper_service
 from backend.brokers.mt5.autonomous import mt5_autonomous_service
 from backend.brokers.mt5.outcome_resolver import candidate_outcome_resolver
 from backend.adaptive_management.service import adaptive_management_service
@@ -43,7 +34,6 @@ from backend.core.contracts.api import APIErrorEnvelope, APIErrorPayload, Bensim
 from backend.core.observability import configure_logging, get_request_id, request_context_middleware
 from backend.shared.cache import cache as cache_instance
 from backend.shared.db import SessionLocal, init_db
-from backend.shared.ws_manager import get_marketdata_hub
 
 load_local_env()
 configure_logging()
@@ -89,11 +79,6 @@ def _loaded_module_fingerprints() -> dict[str, str]:
 
 
 _prefetch_worker = None
-_instruments_loader = None
-_news_ingestor = None
-_pcr_snapshot_service = None
-_scanner_alert_scheduler = None
-_ai_auto_paper_scheduler = None
 _mt5_autonomous_scheduler = None
 _candidate_outcome_resolver = None
 _adaptive_manager_outcome_resolver = None
@@ -113,7 +98,7 @@ _prefetch_enabled = (
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global _prefetch_worker, _instruments_loader, _news_ingestor, _pcr_snapshot_service, _scanner_alert_scheduler, _ai_auto_paper_scheduler, _mt5_autonomous_scheduler, _candidate_outcome_resolver, _adaptive_management_monitor, _adaptive_manager_outcome_resolver, _portfolio_execution_monitor, _economic_intelligence_scheduler, _strategy_performance_monitor
+    global _prefetch_worker, _mt5_autonomous_scheduler, _candidate_outcome_resolver, _adaptive_management_monitor, _adaptive_manager_outcome_resolver, _portfolio_execution_monitor, _economic_intelligence_scheduler, _strategy_performance_monitor
     validate_runtime_secrets()
     init_db()
 
@@ -121,34 +106,10 @@ async def lifespan(app: FastAPI):
     fetcher = await get_unified_fetcher()
 
     _prefetch_worker = get_prefetch_worker(fetcher)
-    _instruments_loader = get_instruments_loader()
-    _news_ingestor = get_news_ingestor()
-    _pcr_snapshot_service = get_pcr_snapshot_service()
-    _scanner_alert_scheduler = get_scanner_alert_scheduler_service()
 
     if _prefetch_enabled:
         await _prefetch_worker.start()
-    if _instruments_loader:
-        await _instruments_loader.start()
-    if _news_ingestor:
-        await _news_ingestor.start()
-    if _pcr_snapshot_service:
-        await _pcr_snapshot_service.start()
 
-    hub = get_marketdata_hub()
-    await hub.start()
-
-    get_alert_evaluator_service().start(hub)
-    get_paper_engine().start(hub)
-
-    if _scanner_alert_scheduler:
-        await _scanner_alert_scheduler.start(hub, interval_seconds=900)
-    _ai_auto_paper_scheduler = ai_auto_paper_service
-    forex_execution_provider = os.getenv("FOREX_EXECUTION_PROVIDER", "").strip().upper()
-    ibkr_forex_scheduler_enabled = forex_execution_provider != "MT5"
-    if ibkr_forex_scheduler_enabled and _ai_auto_paper_scheduler.config.scheduler_enabled:
-        await _ai_auto_paper_scheduler.initialize_broker_readiness(timeout_seconds=45)
-        await _ai_auto_paper_scheduler.start_scheduler()
     _mt5_autonomous_scheduler = mt5_autonomous_service
     if _mt5_autonomous_scheduler.config.autonomous_submission_enabled:
         await _mt5_autonomous_scheduler.start()
@@ -192,18 +153,8 @@ async def lifespan(app: FastAPI):
         await _candidate_outcome_resolver.stop()
     if _mt5_autonomous_scheduler:
         await _mt5_autonomous_scheduler.stop()
-    if _ai_auto_paper_scheduler:
-        await _ai_auto_paper_scheduler.stop_scheduler()
     if _prefetch_worker:
         await _prefetch_worker.stop()
-    if _instruments_loader:
-        await _instruments_loader.stop()
-    if _news_ingestor:
-        await _news_ingestor.stop()
-    if _pcr_snapshot_service:
-        await _pcr_snapshot_service.stop()
-    if _scanner_alert_scheduler:
-        await _scanner_alert_scheduler.stop()
 
     try:
         from backend.brokers import broker_registry
@@ -214,7 +165,6 @@ async def lifespan(app: FastAPI):
     except Exception:
         pass
 
-    await hub.shutdown()
     await shutdown_unified_fetcher()
 
 
