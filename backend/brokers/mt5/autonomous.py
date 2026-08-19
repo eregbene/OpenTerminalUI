@@ -647,6 +647,16 @@ class MT5AutonomousTradingService:
                 result = await _finalize({"cycle_id": cycle_id, "status": "SYMBOL_DIRECTION_LOSING_STREAK", "winner": best, "candidates": ranked, "blockers": losing_streak_blockers, "diversity_cap": diversity_cap, "confirmation_gate": confirmation_gate, "order_send_calls": 0})
                 self._record_cycle(result, mark_processed=False, dry_run=dry_run)
                 return result
+            # 2026-08-19: companion to the losing-streak gate above, for the case that gate can't
+            # catch -- accounts piling into the SAME symbol+direction near-simultaneously, before
+            # any of them has closed a losing trade yet to trip the streak check. See
+            # _cross_account_concurrent_exposure_blockers' own docstring.
+            concurrent_exposure_blockers = self._cross_account_concurrent_exposure_blockers(best)
+            if concurrent_exposure_blockers:
+                best["rejection_reasons"] = sorted(set((best.get("rejection_reasons") or []) + concurrent_exposure_blockers))
+                result = await _finalize({"cycle_id": cycle_id, "status": "CROSS_ACCOUNT_CONCURRENT_EXPOSURE", "winner": best, "candidates": ranked, "blockers": concurrent_exposure_blockers, "diversity_cap": diversity_cap, "confirmation_gate": confirmation_gate, "order_send_calls": 0})
+                self._record_cycle(result, mark_processed=False, dry_run=dry_run)
+                return result
             # Reward:risk is a pure price-geometry ratio, independent of confidence, so it can
             # be re-verified against a FRESH quote before submitting. stop_loss/take_profit
             # were fixed at screening time against an earlier quote; by the time _submit()
@@ -1453,6 +1463,61 @@ class MT5AutonomousTradingService:
             most_recent_adverse_at = most_recent_adverse_at.replace(tzinfo=timezone.utc)
         if most_recent_adverse_at and utcnow() < most_recent_adverse_at + timedelta(hours=cooldown_hours):
             return ["SYMBOL_DIRECTION_LOSING_STREAK"]
+        return []
+
+    def _cross_account_concurrent_exposure_blockers(self, candidate: dict[str, Any]) -> list[str]:
+        """2026-08-19: same incident as _symbol_direction_losing_streak_blockers, but that gate
+        only fires AFTER MT5_LOSING_STREAK_THRESHOLD unanimous adverse closes accumulate.
+        Tonight's actual gold cluster was near-simultaneous instead: ftmo_demo_100k and
+        ftmo_demo_25k both went SHORT XAUUSD (mtfai1) 18 minutes apart, independently, before
+        either had a losing trade on record -- the losing-streak gate would not have caught
+        that. Each of the 4 accounts runs its own independent run_cycle() (see
+        MT5MultiAccountAutonomousOrchestrator.run_cycle), so nothing previously stopped them
+        from turning one directional read into several separately-sized copies of the same bet,
+        multiplying the loss when that read was wrong.
+
+        Reads each OTHER account's latest PortfolioSnapshotORM (refreshed independently every
+        ~15s by PortfolioManager -- a cheap DB read, not a live MT5 round-trip) and counts how
+        many already hold an open position in this exact symbol+direction. Once that count
+        reaches MT5_CONCURRENT_EXPOSURE_MAX_ACCOUNTS (default 2 -- shared conviction across a
+        couple of accounts is fine, but a hard stop on every account piling into one idea),
+        new entries into it from any additional account are blocked. A stale or missing
+        snapshot for another account excludes that account from the count rather than blocking
+        (fails open per-account) -- a snapshot gap elsewhere must not stop trading here; this is
+        the opposite of can_open_new_trade's fail-CLOSED staleness rule, which protects the
+        SAME account's own margin/risk state, not a best-effort cross-account read. Reversible
+        via MT5_CONCURRENT_EXPOSURE_CONFIRMATION_REQUIRED (default true)."""
+        if os.getenv("MT5_CONCURRENT_EXPOSURE_CONFIRMATION_REQUIRED", "true").strip().lower() in {"false", "0", "off", "no"}:
+            return []
+        symbol = candidate.get("broker_symbol")
+        direction = candidate.get("direction")
+        if not symbol or direction not in {"LONG", "SHORT"}:
+            return []
+        max_accounts = _env_int("MT5_CONCURRENT_EXPOSURE_MAX_ACCOUNTS", 2)
+        snapshot_max_age_seconds = _env_float("MT5_CONCURRENT_EXPOSURE_SNAPSHOT_MAX_AGE_SECONDS", 180.0)
+        wanted_type = 0 if direction == "LONG" else 1
+        holder_accounts: set[str] = set()
+        for profile in account_registry.configured_profiles():
+            if not profile.enabled or profile.account_id == self.account_id:
+                continue
+            try:
+                snapshot = portfolio_manager.latest_snapshot(profile.account_id)
+            except Exception as exc:
+                logger.warning("MT5 concurrent-exposure check failed reading snapshot for %s (excluded, fails open): %s", profile.account_id, exc.__class__.__name__)
+                continue
+            if not snapshot:
+                continue
+            created_at = _parse_dt(snapshot.get("created_at"))
+            if created_at is not None:
+                if created_at.tzinfo is None:
+                    created_at = created_at.replace(tzinfo=timezone.utc)
+                if (utcnow() - created_at).total_seconds() > snapshot_max_age_seconds:
+                    continue
+            positions = (snapshot.get("raw_payload") or {}).get("positions") or []
+            if any(pos.get("symbol") == symbol and pos.get("type") == wanted_type for pos in positions):
+                holder_accounts.add(profile.account_id)
+        if len(holder_accounts) >= max_accounts:
+            return ["CROSS_ACCOUNT_CONCURRENT_EXPOSURE"]
         return []
 
     def _context_blockers(self, context_risk: dict[str, Any]) -> list[str]:
