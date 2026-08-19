@@ -8,7 +8,7 @@ import os
 import socket
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from typing import Any
 
@@ -36,6 +36,7 @@ from backend.mt5_strategies import redis_layer
 from backend.brokers.mt5.execution import MT5ExecutionService
 from backend.brokers.mt5.market_data import candle_quality
 from backend.brokers.mt5.models import MT5ForexInstrument, MT5TradeIntent
+from backend.brokers.mt5.orm import MT5CandidateEvaluationORM
 from backend.brokers.mt5.persistence import confidence_memory_for_symbol, persist_cycle_result, trade_performance_summary, update_trade_history, update_trade_reconciliation
 from backend.brokers.mt5.prop_risk import risk_status
 from backend.brokers.mt5.prop_state import evaluate_entry_protection, remaining_safety_budget_usd
@@ -634,6 +635,16 @@ class MT5AutonomousTradingService:
             if trade_frequency_blockers:
                 best["rejection_reasons"] = sorted(set((best.get("rejection_reasons") or []) + trade_frequency_blockers))
                 result = await _finalize({"cycle_id": cycle_id, "status": "TRADE_FREQUENCY_LIMITED", "winner": best, "candidates": ranked, "blockers": trade_frequency_blockers, "diversity_cap": diversity_cap, "confirmation_gate": confirmation_gate, "order_send_calls": 0})
+                self._record_cycle(result, mark_processed=False, dry_run=dry_run)
+                return result
+            # 2026-08-19 fix: real incident -- three independent strategies each shorted the same
+            # symbol repeatedly through a sustained adverse move, each getting invalidated in
+            # turn, across multiple accounts. See _symbol_direction_losing_streak_blockers'
+            # own docstring.
+            losing_streak_blockers = self._symbol_direction_losing_streak_blockers(best)
+            if losing_streak_blockers:
+                best["rejection_reasons"] = sorted(set((best.get("rejection_reasons") or []) + losing_streak_blockers))
+                result = await _finalize({"cycle_id": cycle_id, "status": "SYMBOL_DIRECTION_LOSING_STREAK", "winner": best, "candidates": ranked, "blockers": losing_streak_blockers, "diversity_cap": diversity_cap, "confirmation_gate": confirmation_gate, "order_send_calls": 0})
                 self._record_cycle(result, mark_processed=False, dry_run=dry_run)
                 return result
             # Reward:risk is a pure price-geometry ratio, independent of confidence, so it can
@@ -1391,6 +1402,59 @@ class MT5AutonomousTradingService:
                 blockers.append("COOLDOWN")
         return blockers
 
+    def _symbol_direction_losing_streak_blockers(self, candidate: dict[str, Any]) -> list[str]:
+        """2026-08-19: user-reported real incident -- three independent strategies
+        (ema_trend/smc_continuation/mtfai1) each shorted XAUUSD overnight, across multiple
+        accounts, while gold ground higher through a sustained (choppy but net-bullish) move;
+        each got invalidated/critical in turn and a fresh SHORT was re-entered anyway. No
+        existing gate looks at this -- trade-frequency limits cap volume, not direction; the
+        adaptive manager cuts a bad trade AFTER entry but has no say over the NEXT entry.
+
+        Binary gate, same pattern as _trade_frequency_blockers: if the last
+        MT5_LOSING_STREAK_THRESHOLD (default 3) CLOSED trades on this exact symbol+direction --
+        across every account, not just this one, since the incident hit several accounts making
+        the identical directional call independently -- all ended with an adverse thesis
+        classification (exit_reason invalidated/critical), new entries in that SAME direction on
+        that symbol are blocked for MT5_LOSING_STREAK_COOLDOWN_HOURS (default 2) from the most
+        recent one. The OPPOSITE direction on the same symbol is untouched -- this is a
+        directional read-check, not a symbol-wide pause. Fails open (never blocks) on any error,
+        insufficient history, or a mixed streak -- one healthy exit anywhere in the last N breaks
+        it. Reversible via MT5_LOSING_STREAK_CONFIRMATION_REQUIRED (default true)."""
+        if os.getenv("MT5_LOSING_STREAK_CONFIRMATION_REQUIRED", "true").strip().lower() in {"false", "0", "off", "no"}:
+            return []
+        symbol = candidate.get("broker_symbol")
+        direction = candidate.get("direction")
+        if not symbol or direction not in {"LONG", "SHORT"}:
+            return []
+        threshold = _env_int("MT5_LOSING_STREAK_THRESHOLD", 3)
+        cooldown_hours = _env_float("MT5_LOSING_STREAK_COOLDOWN_HOURS", 2.0)
+        adverse_reasons = {"invalidated", "critical"}
+        try:
+            with SessionLocal() as db:
+                rows = (
+                    db.query(MT5CandidateEvaluationORM.exit_reason, MT5CandidateEvaluationORM.created_at)
+                    .filter(
+                        MT5CandidateEvaluationORM.broker_symbol == symbol,
+                        MT5CandidateEvaluationORM.direction == direction,
+                        MT5CandidateEvaluationORM.outcome_type == "EXECUTED",
+                        MT5CandidateEvaluationORM.outcome_status == "CLOSED",
+                    )
+                    .order_by(MT5CandidateEvaluationORM.created_at.desc())
+                    .limit(threshold)
+                    .all()
+                )
+        except Exception as exc:
+            logger.warning("MT5 losing-streak check failed for %s %s (fails open): %s", symbol, direction, exc.__class__.__name__)
+            return []
+        if len(rows) < threshold or any(reason not in adverse_reasons for reason, _created_at in rows):
+            return []
+        most_recent_adverse_at = rows[0][1]
+        if most_recent_adverse_at and most_recent_adverse_at.tzinfo is None:
+            most_recent_adverse_at = most_recent_adverse_at.replace(tzinfo=timezone.utc)
+        if most_recent_adverse_at and utcnow() < most_recent_adverse_at + timedelta(hours=cooldown_hours):
+            return ["SYMBOL_DIRECTION_LOSING_STREAK"]
+        return []
+
     def _context_blockers(self, context_risk: dict[str, Any]) -> list[str]:
         blockers = list(context_risk.get("block_reasons") or [])
         if not self.config.block_on_calendar_unavailable:
@@ -2002,6 +2066,13 @@ def _swing_level(candles: list[Any], direction: str, lookback: int = 20) -> Deci
 def _env_float(name: str, default: float) -> float:
     try:
         return float(os.getenv(name, str(default)))
+    except Exception:
+        return default
+
+
+def _env_int(name: str, default: int) -> int:
+    try:
+        return int(os.getenv(name, str(default)))
     except Exception:
         return default
 
