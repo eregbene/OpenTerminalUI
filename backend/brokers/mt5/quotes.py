@@ -1,13 +1,13 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from typing import Any
 
 from backend.brokers.mt5.models import MT5Quote
 
 
-def quote_from_tick(symbol: str, tick: Any) -> MT5Quote:
+def quote_from_tick(symbol: str, tick: Any, *, broker_utc_offset: timedelta = timedelta(0)) -> MT5Quote:
     data = tick._asdict() if hasattr(tick, "_asdict") else dict(tick)
     bid = _dec_or_none(data.get("bid"))
     ask = _dec_or_none(data.get("ask"))
@@ -17,14 +17,14 @@ def quote_from_tick(symbol: str, tick: Any) -> MT5Quote:
         ask=ask,
         last=_dec_or_none(data.get("last")),
         spread=(ask - bid) if ask is not None and bid is not None else None,
-        time=_time(data.get("time")),
+        time=_time(data.get("time"), broker_utc_offset),
     )
 
 
-def _time(value: Any) -> datetime | None:
+def _time(value: Any, broker_utc_offset: timedelta = timedelta(0)) -> datetime | None:
     if value in {None, 0}:
         return None
-    return datetime.fromtimestamp(int(value), tz=timezone.utc)
+    return datetime.fromtimestamp(int(value), tz=timezone.utc) - broker_utc_offset
 
 
 def _dec_or_none(value: Any) -> Decimal | None:

@@ -270,7 +270,8 @@ class MT5Adapter:
         tick = await asyncio.to_thread(mt5.symbol_info_tick, symbol)
         if tick is None:
             raise MT5UnavailableError(f"MT5 tick unavailable for {symbol}: {self.client.last_error()}")
-        return quote_from_tick(symbol, tick)
+        offset = await asyncio.to_thread(self.client.broker_utc_offset)
+        return quote_from_tick(symbol, tick, broker_utc_offset=offset)
 
     async def quotes(self, symbols: list[str] | tuple[str, ...] | None = None) -> list[MT5Quote]:
         selected = list(symbols or [row.broker_symbol for row in (await self.forex_universe()).items if row.eligible])
@@ -297,7 +298,8 @@ class MT5Adapter:
         start = 1 if completed_only else 0
         account = await self.mt5_account()
         rows = await asyncio.to_thread(mt5.copy_rates_from_pos, symbol, tf, start, count)
-        candles = [candle_from_raw(symbol, timeframe, row, server=account.server, complete_override=True if completed_only else None) for row in _rows(rows)]
+        offset = await asyncio.to_thread(self.client.broker_utc_offset)
+        candles = [candle_from_raw(symbol, timeframe, row, server=account.server, complete_override=True if completed_only else None, broker_utc_offset=offset) for row in _rows(rows)]
         _persist_mt5_candles(candles, symbol=symbol)
         return candles
 
@@ -324,7 +326,8 @@ class MT5Adapter:
         tf = mt5_timeframe(mt5, timeframe)
         account = await self.mt5_account()
         rows = await asyncio.to_thread(mt5.copy_rates_from_pos, symbol, tf, max(0, start), count)
-        candles = [candle_from_raw(symbol, timeframe, row, server=account.server, complete_override=start > 0) for row in _rows(rows)]
+        offset = await asyncio.to_thread(self.client.broker_utc_offset)
+        candles = [candle_from_raw(symbol, timeframe, row, server=account.server, complete_override=start > 0, broker_utc_offset=offset) for row in _rows(rows)]
         _persist_mt5_candles(candles, symbol=symbol)
         return candles
 
@@ -371,7 +374,8 @@ class MT5Adapter:
     async def mt5_positions(self) -> list[MT5Position]:
         mt5 = self.client.ensure_ready()
         rows = await asyncio.to_thread(mt5.positions_get)
-        return [position_from_raw(row) for row in _rows(rows)]
+        offset = await asyncio.to_thread(self.client.broker_utc_offset)
+        return [position_from_raw(row, broker_utc_offset=offset) for row in _rows(rows)]
 
     async def open_orders(self, account_id: str) -> list[BrokerOrder]:
         return []
@@ -379,7 +383,8 @@ class MT5Adapter:
     async def mt5_orders(self) -> list[MT5Order]:
         mt5 = self.client.ensure_ready()
         rows = await asyncio.to_thread(mt5.orders_get)
-        return [order_from_raw(row) for row in _rows(rows)]
+        offset = await asyncio.to_thread(self.client.broker_utc_offset)
+        return [order_from_raw(row, broker_utc_offset=offset) for row in _rows(rows)]
 
     async def history(self, days: int = 30) -> dict[str, list[MT5HistoryItem]]:
         mt5 = self.client.ensure_ready()
@@ -387,9 +392,10 @@ class MT5Adapter:
         from_date = to_date - timedelta(days=days)
         deals = await asyncio.to_thread(mt5.history_deals_get, from_date, to_date)
         orders = await asyncio.to_thread(mt5.history_orders_get, from_date, to_date)
+        offset = await asyncio.to_thread(self.client.broker_utc_offset)
         return {
-            "deals": [history_item_from_raw(row) for row in _rows(deals)],
-            "orders": [history_item_from_raw(row) for row in _rows(orders)],
+            "deals": [history_item_from_raw(row, broker_utc_offset=offset) for row in _rows(deals)],
+            "orders": [history_item_from_raw(row, broker_utc_offset=offset) for row in _rows(orders)],
         }
 
     async def history_orders(self, days: int = 30) -> list[MT5HistoryItem]:

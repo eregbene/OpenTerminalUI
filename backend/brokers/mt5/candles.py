@@ -37,10 +37,10 @@ def mt5_timeframe(mt5: Any, timeframe: str) -> int:
     return int(getattr(mt5, name))
 
 
-def candle_from_raw(symbol: str, timeframe: str, row: Any, *, server: str | None = None, complete_override: bool | None = None) -> MT5Candle:
+def candle_from_raw(symbol: str, timeframe: str, row: Any, *, server: str | None = None, complete_override: bool | None = None, broker_utc_offset: timedelta = timedelta(0)) -> MT5Candle:
     data = row if isinstance(row, dict) else {key: row[key] for key in row.dtype.names}
     normalized_timeframe = timeframe.upper()
-    open_time = datetime.fromtimestamp(int(data["time"]), tz=timezone.utc)
+    open_time = datetime.fromtimestamp(int(data["time"]), tz=timezone.utc) - broker_utc_offset
     close_time = open_time + timedelta(seconds=TIMEFRAME_SECONDS.get(normalized_timeframe, 900))
     now = datetime.now(timezone.utc)
     return MT5Candle(

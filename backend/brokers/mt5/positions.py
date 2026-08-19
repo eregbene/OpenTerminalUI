@@ -7,7 +7,7 @@ from typing import Any
 from backend.brokers.mt5.models import MT5Position
 
 
-def position_from_raw(raw: Any) -> MT5Position:
+def position_from_raw(raw: Any, *, broker_utc_offset: timedelta = timedelta(0)) -> MT5Position:
     data = raw._asdict() if hasattr(raw, "_asdict") else dict(raw)
     return MT5Position(
         ticket=int(data.get("ticket") or 0),
@@ -24,17 +24,11 @@ def position_from_raw(raw: Any) -> MT5Position:
         magic=int(data.get("magic")) if data.get("magic") is not None else None,
         comment=str(data.get("comment")) if data.get("comment") is not None else None,
         identifier=int(data.get("identifier")) if data.get("identifier") is not None else None,
-        time=_time(data.get("time")),
+        time=_time(data.get("time"), broker_utc_offset),
     )
 
 
-def _time(value: Any) -> datetime | None:
+def _time(value: Any, broker_utc_offset: timedelta = timedelta(0)) -> datetime | None:
     if not value:
         return None
-    parsed = datetime.fromtimestamp(int(value), tz=timezone.utc)
-    now = datetime.now(timezone.utc)
-    if parsed <= now + timedelta(minutes=5):
-        return parsed
-    local_offset = datetime.now().astimezone().utcoffset() or timedelta(0)
-    adjusted = parsed - local_offset
-    return adjusted if adjusted <= now + timedelta(minutes=5) else parsed
+    return datetime.fromtimestamp(int(value), tz=timezone.utc) - broker_utc_offset

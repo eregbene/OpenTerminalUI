@@ -7,7 +7,7 @@ from typing import Any
 from backend.brokers.mt5.models import MT5HistoryItem
 
 
-def history_item_from_raw(raw: Any) -> MT5HistoryItem:
+def history_item_from_raw(raw: Any, *, broker_utc_offset: timedelta = timedelta(0)) -> MT5HistoryItem:
     data = raw._asdict() if hasattr(raw, "_asdict") else dict(raw)
     return MT5HistoryItem(
         ticket=int(data.get("ticket") or 0),
@@ -22,17 +22,11 @@ def history_item_from_raw(raw: Any) -> MT5HistoryItem:
         swap=Decimal(str(data.get("swap"))) if data.get("swap") is not None else None,
         fee=Decimal(str(data.get("fee"))) if data.get("fee") is not None else None,
         comment=data.get("comment"),
-        time=_time(data.get("time")),
+        time=_time(data.get("time"), broker_utc_offset),
     )
 
 
-def _time(value: Any) -> datetime | None:
+def _time(value: Any, broker_utc_offset: timedelta = timedelta(0)) -> datetime | None:
     if not value:
         return None
-    parsed = datetime.fromtimestamp(int(value), tz=timezone.utc)
-    now = datetime.now(timezone.utc)
-    if parsed <= now + timedelta(minutes=5):
-        return parsed
-    local_offset = datetime.now().astimezone().utcoffset() or timedelta(0)
-    adjusted = parsed - local_offset
-    return adjusted if adjusted <= now + timedelta(minutes=5) else parsed
+    return datetime.fromtimestamp(int(value), tz=timezone.utc) - broker_utc_offset
