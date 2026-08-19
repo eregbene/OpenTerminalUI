@@ -20,6 +20,7 @@ from backend.api.deps import shutdown_unified_fetcher
 from backend.auth.middleware import AuthMiddleware
 from backend.services.prefetch_worker import get_prefetch_worker
 from backend.brokers.mt5.autonomous import mt5_autonomous_service
+from backend.brokers.mt5.liveness import mt5_liveness_monitor
 from backend.brokers.mt5.outcome_resolver import candidate_outcome_resolver
 from backend.adaptive_management.service import adaptive_management_service
 from backend.adaptive_management.outcome_resolver import adaptive_manager_outcome_resolver
@@ -80,6 +81,7 @@ def _loaded_module_fingerprints() -> dict[str, str]:
 
 _prefetch_worker = None
 _mt5_autonomous_scheduler = None
+_mt5_liveness_monitor = None
 _candidate_outcome_resolver = None
 _adaptive_manager_outcome_resolver = None
 _adaptive_management_monitor = None
@@ -98,7 +100,7 @@ _prefetch_enabled = (
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global _prefetch_worker, _mt5_autonomous_scheduler, _candidate_outcome_resolver, _adaptive_management_monitor, _adaptive_manager_outcome_resolver, _portfolio_execution_monitor, _economic_intelligence_scheduler, _strategy_performance_monitor
+    global _prefetch_worker, _mt5_autonomous_scheduler, _mt5_liveness_monitor, _candidate_outcome_resolver, _adaptive_management_monitor, _adaptive_manager_outcome_resolver, _portfolio_execution_monitor, _economic_intelligence_scheduler, _strategy_performance_monitor
     validate_runtime_secrets()
     init_db()
 
@@ -118,6 +120,12 @@ async def lifespan(app: FastAPI):
         # candidate evaluations; never submits orders, never affects the scheduler above.
         _candidate_outcome_resolver = candidate_outcome_resolver
         await _candidate_outcome_resolver.start()
+        # 2026-08-19: heartbeat check for the scheduler above -- alerts (log + in-app
+        # notification) if it stops completing cycles for MT5_LIVENESS_STALE_THRESHOLD_SECONDS
+        # (default 15min), which previously went undetected for ~3h during a real incident.
+        # See liveness.py's own module docstring.
+        _mt5_liveness_monitor = mt5_liveness_monitor
+        await _mt5_liveness_monitor.start()
     _portfolio_execution_monitor = portfolio_manager
     await _portfolio_execution_monitor.start()
     _adaptive_management_monitor = adaptive_management_service
@@ -149,6 +157,8 @@ async def lifespan(app: FastAPI):
         await _adaptive_management_monitor.stop()
     if _portfolio_execution_monitor:
         await _portfolio_execution_monitor.stop()
+    if _mt5_liveness_monitor:
+        await _mt5_liveness_monitor.stop()
     if _candidate_outcome_resolver:
         await _candidate_outcome_resolver.stop()
     if _mt5_autonomous_scheduler:
