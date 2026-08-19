@@ -225,6 +225,21 @@ class CandidateOutcomeResolver:
             cost_breakdown = compute_trade_costs(cost_rows) if cost_rows else None
 
             realized_pnl = cost_breakdown.net_pnl if cost_breakdown else (float(trade_record.realized_pnl) if trade_record and trade_record.realized_pnl is not None else None)
+            if realized_pnl is None:
+                # 2026-08-19 fix: closed_detected_at is set from utcnow() (true UTC) but compared,
+                # elsewhere, against position timestamps parsed from raw MT5 epoch values that are
+                # actually broker SERVER time, not UTC (a ~3h skew for this broker) -- so
+                # closed_detected_at routinely fires before the broker's deal data has actually
+                # synced for a position that only just closed. Finalizing here anyway (as this
+                # function used to) permanently wrote outcome_status=CLOSED with every P&L field
+                # NULL, and pending_executed_candidates() only ever returns outcome_status=PENDING
+                # rows -- so a trade resolved at this exact wrong moment could never be revisited,
+                # even once its real deal data existed minutes later. Returning None instead
+                # leaves outcome_status untouched (PENDING), so _link_executed_outcomes retries it
+                # on every future 5-minute poll until compute_trade_costs actually has data --
+                # mirrors _auto_replay_recently_closed's identical retry-until-data-exists gate in
+                # backend.adaptive_management.service.
+                return None
             original_risk = float(position.original_risk_money) if position.original_risk_money else None
             realized_r = (realized_pnl / abs(original_risk)) if (realized_pnl is not None and original_risk) else None
             holding_seconds = None
