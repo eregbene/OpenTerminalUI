@@ -1083,6 +1083,27 @@ class _FakeReplayAdapter:
         return [_FakeReplayCandle(row) for row in _replay_candles()]
 
 
+def _seed_replay_candles(db, *, symbol: str = "EURUSD", timeframe: str = "M5"):
+    """_replay_candles() (adaptive_management/service.py, commit 31709c6e) was rewritten to read
+    point-in-time-safe candles from MT5CandleRevisionORM/MT5CanonicalCandleORM instead of calling
+    the broker adapter (a deliberate, documented fix for the MFE/MAE-always-0.0 bug -- see that
+    function's own "ROOT-CAUSE FIX" docstring) -- the `adapter` parameter is kept only for call-
+    site compatibility and is no longer read. Auto-replay tests must seed real candle rows
+    covering [entry_time - lead_in, exit_time] for the trade to actually resolve, or _replay_
+    candles() correctly (if silently, by design) returns [] and the position is retried on a
+    later cycle rather than marked replayed."""
+    from backend.historical_intelligence.orm import MT5CandleRevisionORM
+    for i, row in enumerate(_replay_candles()):
+        bar_time = datetime.fromisoformat(row["time"])
+        db.add(MT5CandleRevisionORM(
+            revision_id=f"MT5:{symbol}:{timeframe}:replay_test:{i}", provider="MT5", canonical_symbol=symbol, broker_symbol=symbol,
+            timeframe=timeframe, bar_timestamp=bar_time, bar_timestamp_utc=bar_time, broker_utc_offset_minutes=0,
+            observed_at=bar_time + timedelta(minutes=1), revision_number=1, open=row["open"], high=row["high"], low=row["low"],
+            close=row["close"], tick_volume=10, spread=row.get("spread", 1), real_volume=0, finalized=True,
+            post_finalization_anomaly=False, created_at=bar_time,
+        ))
+
+
 def _closed_deal(position_id: str, price: float, utc_time: datetime, realized_pnl: float = 40.0):
     return AdaptiveTradeEventORM(
         event_id=f"DEAL_{position_id}",
@@ -1106,6 +1127,7 @@ def test_auto_replay_runs_for_closed_trade_with_deal_data(monkeypatch):
     with SessionLocal() as db:
         db.add(_base_state(position_id="CLOSED1", direction="LONG", entry_price=1.1000, current_sl=1.0980, original_sl=1.0980, original_tp=1.1040, opened_at=entry_time, closed_detected_at=exit_time, strategy_id="BENSIM_AUTO", timeframe="M5"))
         db.add(_closed_deal("CLOSED1", 1.1040, exit_time))
+        _seed_replay_candles(db)
         db.commit()
 
     with SessionLocal() as db:
@@ -1141,7 +1163,11 @@ def test_auto_replay_skips_trade_with_no_deal_data_yet(monkeypatch):
 def test_auto_replay_never_touches_broker(monkeypatch):
     # _FakeReplayAdapter exposes ONLY .candles() -- no client/mt5/order_send/positions method
     # exists on it at all, so any code path that tried to read positions or submit an order
-    # would raise AttributeError and fail this test, rather than silently doing nothing.
+    # would raise AttributeError and fail this test, rather than silently doing nothing. (Note:
+    # _replay_candles() itself no longer calls the adapter at all as of commit 31709c6e -- it
+    # reads point-in-time candles from the DB -- so this fixture is now a defense-in-depth check
+    # against a FUTURE regression reintroducing a broker call, not the mechanism the real candle
+    # data comes from; see _seed_replay_candles's docstring.)
     SessionLocal = _session_factory(monkeypatch)
     monkeypatch.setattr(adaptive_service, "mt5_adapter", _FakeReplayAdapter())
     svc = adaptive_service.AdaptiveManagementService()
@@ -1150,6 +1176,7 @@ def test_auto_replay_never_touches_broker(monkeypatch):
     with SessionLocal() as db:
         db.add(_base_state(position_id="CLOSED3", direction="LONG", entry_price=1.1000, current_sl=1.0980, original_sl=1.0980, original_tp=1.1040, opened_at=entry_time, closed_detected_at=exit_time))
         db.add(_closed_deal("CLOSED3", 1.1040, exit_time))
+        _seed_replay_candles(db)
         db.commit()
 
     with SessionLocal() as db:
