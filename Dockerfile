@@ -17,6 +17,14 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 COPY backend/requirements*.txt /tmp/
 RUN pip install -r /tmp/requirements-dev.txt
+# ctrader-open-api exact-pins pyOpenSSL==24.1.0 (pulling in an old cryptography transitively via
+# Twisted), which leaves `service-identity` unable to import and degrades Twisted's TLS hostname
+# verification for the cTrader connection (TLS-wrapped despite the SDK's "TcpProtocol" name --
+# see backend/requirements-core.txt's own comment). A single combined pip-install pass refuses to
+# resolve a newer pyOpenSSL alongside that exact pin, so this upgrade runs as its OWN, separate
+# pass instead -- empirically verified (2026-08-21) that ctrader_open_api + twisted.internet.ssl +
+# service_identity + the full test suite all still work correctly with the newer versions.
+RUN pip install --upgrade "cryptography>=47" "pyOpenSSL>=25"
 # Forex Factory calendar/news scraper providers (backend/economic_intelligence/providers)
 # use headless Chromium via Playwright for background ingestion jobs only -- never on the
 # trading-cycle hot path. Real build-time cost: ~300-400MB extra image size.
