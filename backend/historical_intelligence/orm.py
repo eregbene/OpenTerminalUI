@@ -325,6 +325,17 @@ class HistoricalSetupOutcomeORM(Base):
 
     outcome_r: Mapped[float | None] = mapped_column(Float, nullable=True)
     net_outcome_r: Mapped[float | None] = mapped_column(Float, nullable=True)  # None when cost cannot be honestly modeled (see outcomes.py)
+
+    # Execution-cost provenance (QuantConnect/LEAN gap-analysis roadmap Phase 1) -- see
+    # execution_costs.py's module docstring for the exact tier definitions. real_spread_price is
+    # persisted ONLY for genuine OBSERVED values (never an estimate), so it can safely seed future
+    # HISTORICAL_ESTIMATE point-in-time lookups for other setups of the same symbol.
+    real_spread_price: Mapped[float | None] = mapped_column(Float, nullable=True)
+    spread_cost_r: Mapped[float | None] = mapped_column(Float, nullable=True)
+    spread_cost_provenance: Mapped[str] = mapped_column(String(24), nullable=False, default="UNKNOWN", index=True)
+    commission_cost_r: Mapped[float | None] = mapped_column(Float, nullable=True)
+    commission_cost_provenance: Mapped[str] = mapped_column(String(24), nullable=False, default="UNKNOWN")
+
     mfe_r: Mapped[float | None] = mapped_column(Float, nullable=True)
     mae_r: Mapped[float | None] = mapped_column(Float, nullable=True)
     tp_hit: Mapped[bool | None] = mapped_column(Boolean, nullable=True)

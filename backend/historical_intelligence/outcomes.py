@@ -48,6 +48,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 from backend.brokers.mt5.orm import MT5CanonicalCandleORM
+from backend.historical_intelligence import execution_costs
 from backend.historical_intelligence.orm import HistoricalSetupOutcomeORM, MT5CandleRevisionORM
 from backend.historical_intelligence.quality import is_finalized
 from backend.shared.db import SessionLocal
@@ -181,9 +182,13 @@ def label_outcome(
 ) -> dict[str, Any]:
     """Computes and PERSISTS (upserts by fingerprint_id) a HistoricalSetupOutcomeORM row. Pure
     read of future candles + deterministic walk-forward -- no broker calls, no mutation of any
-    other table. `real_spread`: when known (e.g. from a decision snapshot), used for a single
-    round-trip spread deduction to compute net_outcome_r; left None (never fabricated) when the
-    caller cannot supply a real value, in which case net_outcome_r is also None.
+    other table. `real_spread`: when known (e.g. from a decision snapshot), used as the OBSERVED-
+    tier spread cost. When None, execution_costs.resolve_spread_cost() falls through its own
+    point-in-time-safe HISTORICAL_ESTIMATE / CONFIG_FALLBACK / UNKNOWN tiers (see that module's
+    docstring) rather than fabricating a value -- net_outcome_r is only ever computed when the
+    spread component resolves to something other than UNKNOWN; gross outcome_r is always
+    preserved regardless. spread_cost_provenance/commission_cost_provenance on the persisted row
+    record exactly which tier was used.
 
     `db` (optional, default None): when omitted, behavior is EXACTLY as before -- opens and
     commits its own short-lived session per call. When a caller supplies an existing session
@@ -261,7 +266,7 @@ def label_outcome(
         base["tp_hit"] = resolution["tp_hit"]
         base["sl_hit"] = resolution["sl_hit"]
         base["holding_duration_seconds"] = (resolution["resolved_at_candle"] - entry_time).total_seconds()
-        base["net_outcome_r"] = _net_r(outcome_r, risk, real_spread)
+        base.update(_cost_fields(outcome_r, canonical_symbol=canonical_symbol, entry_time=entry_time, risk=risk, real_spread=real_spread, db=db))
         base["resolution_status"] = "RESOLVED"
         base["resolved_at"] = utcnow()
     elif len(candles) >= _MAX_LOOKFORWARD_BARS:
@@ -272,9 +277,9 @@ def label_outcome(
         base.update({
             "outcome_r": round(mtm_r, 4), "tp_hit": False, "sl_hit": False,
             "holding_duration_seconds": (candles[-1].timestamp - entry_time).total_seconds(),
-            "net_outcome_r": _net_r(mtm_r, risk, real_spread),
             "resolution_status": "RESOLVED", "resolved_at": utcnow(),
         })
+        base.update(_cost_fields(mtm_r, canonical_symbol=canonical_symbol, entry_time=entry_time, risk=risk, real_spread=real_spread, db=db))
     else:
         # Neither level touched and history doesn't yet extend far enough to know -- genuinely
         # pending, not a failure to resolve.
@@ -283,15 +288,28 @@ def label_outcome(
     return _persist(fingerprint_id, base, db=db)
 
 
-def _net_r(gross_r: float, risk: float, real_spread: float | None) -> float | None:
-    """Never fabricates a cost when the real spread isn't known (Part 6: "do not fake historical
-    spread"). Models exactly one round-trip spread cost as a fraction of R -- commission is
-    deliberately NOT estimated here (would require a lot-size/pip-value assumption this module
-    has no honest basis for), so net_outcome_r is a conservative-but-partial cost adjustment,
-    not a complete cost model."""
-    if real_spread is None or real_spread <= 0 or risk <= 0:
-        return None
-    return round(gross_r - (real_spread / risk), 4)
+def _cost_fields(gross_r: float, *, canonical_symbol: str, entry_time: datetime, risk: float, real_spread: float | None, db: Any) -> dict[str, Any]:
+    """Computes and labels the full execution-cost picture for one resolved outcome (QuantConnect/
+    LEAN gap-analysis roadmap Phase 1, item 1) -- see execution_costs.py's module docstring for
+    the exact provenance-tier definitions. net_outcome_r requires the spread component to be at
+    least HISTORICAL_ESTIMATE-or-better known (never computed from commission alone); commission
+    is deducted on top when it is known (currently always a real, verified $0 for this account --
+    see execution_costs.resolve_commission_cost_r), and simply omitted (not guessed) otherwise."""
+    spread = execution_costs.resolve_spread_cost(canonical_symbol=canonical_symbol, entry_time=entry_time, risk=risk, real_spread=real_spread, db=db)
+    commission = execution_costs.resolve_commission_cost_r(db=db)
+
+    net_r = None
+    if spread.spread_cost_r is not None:
+        net_r = gross_r - spread.spread_cost_r - (commission.commission_cost_r or 0.0)
+
+    return {
+        "net_outcome_r": round(net_r, 4) if net_r is not None else None,
+        "real_spread_price": spread.real_spread_price,
+        "spread_cost_r": spread.spread_cost_r,
+        "spread_cost_provenance": spread.provenance,
+        "commission_cost_r": commission.commission_cost_r,
+        "commission_cost_provenance": commission.provenance,
+    }
 
 
 def _persist(fingerprint_id: str, fields: dict[str, Any], *, db: Any = None) -> dict[str, Any]:
