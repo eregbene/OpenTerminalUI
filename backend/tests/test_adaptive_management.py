@@ -1273,6 +1273,22 @@ def test_bsm_comment_truncates_to_mt5_limit():
     assert default_comment == "BSM|UNK|NA|SLTP"
 
 
+def test_parse_bsm_comment_does_not_mistake_the_order_timestamp_for_a_timeframe():
+    """Root-cause fix (this session's ATM auto-replay investigation): real live order comments
+    are built by brokers/mt5/autonomous.py::_mt5_order_comment() as "BSM|{strategy}|{HHMM order
+    timestamp}" -- only 3 pipe-segments, and that function's own docstring confirms timeframe was
+    deliberately DROPPED from the format ("timeframe was always 'M15' for every trade this bot
+    places"). The old code read parts[2] as "timeframe", which for a real comment is actually an
+    HHMM timestamp like "0415"/"2215" -- confirmed as the root cause of ~94% of closed positions
+    carrying a corrupted timeframe value. Must now return "M15" regardless of what the timestamp
+    segment actually contains."""
+    assert service._lineage("BSM|mtfai1|0415", "timeframe") == "M15"
+    assert service._lineage("BSM|mtfai1|2215", "timeframe") == "M15"
+    assert service._lineage("BSM|mtfai1|0000", "timeframe") == "M15"
+    # Strategy attribution (the part that DOES vary) must still parse correctly.
+    assert service._lineage("BSM|mtfai1|0415", "strategy") == "mtfai1"
+
+
 def test_sync_position_state_captures_strategy_and_timeframe_once(monkeypatch):
     SessionLocal = _session_factory(monkeypatch)
     payload = {"ticket": 901, "identifier": 901, "symbol": "EURUSD", "type": 0, "volume": 1.0, "price_open": 1.1000, "price_current": 1.1010, "sl": 1.0980, "tp": 1.1100, "time": "2026-08-04T08:00:00+00:00", "comment": "BSM|MTFAI1|M15|EURUSD0800"}

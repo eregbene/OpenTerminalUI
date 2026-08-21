@@ -17,7 +17,7 @@ from backend.brokers.mt5.adapter import MT5Adapter
 from backend.brokers.mt5.client import MT5Client
 from backend.brokers.mt5.config import MT5Config, mt5_config
 from backend.brokers.mt5.execution import MT5ExecutionService
-from backend.brokers.mt5.exceptions import MT5ReadOnlyViolation
+from backend.brokers.mt5.exceptions import MT5ReadOnlyViolation, MT5UnavailableError
 from backend.brokers.mt5.prop_risk import risk_status
 from backend.portfolio_execution import service as portfolio_execution_service
 from backend.shared.db import Base
@@ -246,6 +246,23 @@ def test_mt5_read_methods_return_positions_orders_history():
     assert positions[0].symbol == "EURUSD"
     assert orders[0].ticket == 2
     assert history["deals"][0].commission == Decimal("-0.5")
+
+
+def test_mt5_positions_raises_rather_than_silently_returning_empty_on_a_failed_call():
+    """BUG FIX regression (traced live -- caused a real false-positive mass-closure incident):
+    MT5's positions_get() returns None specifically to signal a FAILED call -- a genuine "zero
+    open positions" response is an empty tuple, never None. Before this fix, None silently became
+    [] via _rows(), indistinguishable from "no positions are open"; adaptive_management's
+    _monitor_cycle used that to compute currently_open_ids and treated every real, still-open
+    tracked position as newly closed. Must now raise MT5UnavailableError so callers' existing
+    `except Exception` handling (already correct for every other hard MT5 failure) engages
+    instead of silently proceeding with wrong data."""
+    adapter = fake_adapter()
+    asyncio.run(adapter.connect())
+    adapter.client._mt5.positions_get = lambda: None
+
+    with pytest.raises(MT5UnavailableError):
+        asyncio.run(adapter.mt5_positions())
 
 
 def test_mt5_terminal_diagnostics_redacts_login_and_verifies_demo():

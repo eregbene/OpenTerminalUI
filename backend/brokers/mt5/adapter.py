@@ -394,8 +394,24 @@ class MT5Adapter:
         ]
 
     async def mt5_positions(self) -> list[MT5Position]:
+        """BUG FIX (traced live -- this session's ATM false-positive-closure investigation):
+        MT5's positions_get() returns None specifically to signal a FAILED call (terminal
+        disconnected, bridge timeout, etc.) -- a genuinely successful call with zero open
+        positions returns an empty tuple (), never None (documented MT5 Python API behavior).
+        This previously fell through _rows(None) -> [], silently treating "the API call failed"
+        identically to "there are truly no open positions" -- every real caller (including
+        adaptive_management's _monitor_cycle, which computes currently_open_ids from this list to
+        decide which tracked positions just closed) had no way to tell the difference. Confirmed
+        root cause of a real incident: a transient MT5 failure produced an empty positions list
+        for one cycle, which _reconcile_recently_closed then read as "every currently-tracked
+        position just closed", falsely marking real, still-open, still-being-managed positions as
+        closed. Raising here routes this failure through the SAME already-correct
+        `except Exception: self._open_breaker(...)` handling every other mt5_positions() caller
+        already has for a hard failure -- no caller's error-handling needs to change."""
         mt5 = self.client.ensure_ready()
         rows = await asyncio.to_thread(mt5.positions_get)
+        if rows is None:
+            raise MT5UnavailableError(f"MT5 positions_get() failed: {self.client.last_error()}")
         offset = await asyncio.to_thread(self.client.broker_utc_offset)
         return [position_from_raw(row, broker_utc_offset=offset) for row in _rows(rows)]
 

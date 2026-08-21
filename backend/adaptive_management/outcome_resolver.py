@@ -285,30 +285,39 @@ class AdaptiveManagerOutcomeResolver:
                     cf.no_be_outcome = "NOT_APPLICABLE"
                     cf.updated_at = utcnow()
                     continue
-                work.append((position_id, baselines[position_id], activation))
+                # BUG FIX (found live, this session): `baselines[position_id]` is a SQLAlchemy
+                # ORM instance bound to THIS `with SessionLocal() as db:` block's session -- once
+                # that block exits below, the session closes and any attribute access on it
+                # raises DetachedInstanceError (this crash-looped on every single cycle in
+                # production before this fix). Snapshotting the needed fields into a plain tuple
+                # HERE, while the session is still open, makes `work`'s contents session-
+                # independent for the second loop below.
+                b = baselines[position_id]
+                snapshot = (b.original_tp, b.initial_stop_distance, b.account_id, b.symbol, b.direction, b.original_entry)
+                work.append((position_id, snapshot, activation))
             db.commit()
 
-        for position_id, baseline, (pre_be_sl, activation_time) in work:
-            if baseline.original_tp is None or not baseline.initial_stop_distance:
+        for position_id, (original_tp, initial_stop_distance, baseline_account_id, symbol, direction, original_entry), (pre_be_sl, activation_time) in work:
+            if original_tp is None or not initial_stop_distance:
                 continue
             activation_time = _aware(activation_time)
-            account_id = baseline.account_id or DEFAULT_ACCOUNT_ID
+            account_id = baseline_account_id or DEFAULT_ACCOUNT_ID
             try:
-                candles = await self._scan_candles(account_id=account_id, symbol=baseline.symbol, since=activation_time, window=ORIGINAL_SLTP_WINDOW)
+                candles = await self._scan_candles(account_id=account_id, symbol=symbol, since=activation_time, window=ORIGINAL_SLTP_WINDOW)
             except Exception as exc:
-                logger.warning("Adaptive counterfactual (no-BE): candle fetch failed for account_id=%s symbol=%s: %s", account_id, baseline.symbol, exc.__class__.__name__)
+                logger.warning("Adaptive counterfactual (no-BE): candle fetch failed for account_id=%s symbol=%s: %s", account_id, symbol, exc.__class__.__name__)
                 continue
             if not candles:
                 continue
-            long = baseline.direction == "LONG"
-            outcome, _candle = self._first_touch(candles, long=long, sl=float(pre_be_sl), tp=float(baseline.original_tp))
+            long = direction == "LONG"
+            outcome, _candle = self._first_touch(candles, long=long, sl=float(pre_be_sl), tp=float(original_tp))
             if outcome == "SL":
                 result, r = "ORIGINAL_SL_FIRST", -1.0
             elif outcome == "TP":
-                result, r = "ORIGINAL_TP_FIRST", round(abs(float(baseline.original_tp) - float(pre_be_sl)) / baseline.initial_stop_distance, 4) if baseline.initial_stop_distance else None
+                result, r = "ORIGINAL_TP_FIRST", round(abs(float(original_tp) - float(pre_be_sl)) / initial_stop_distance, 4) if initial_stop_distance else None
             elif utcnow() - activation_time >= ORIGINAL_SLTP_WINDOW:
                 last_close = float(candles[-1].close)
-                mark_to_market = ((last_close - float(baseline.original_entry or pre_be_sl)) / baseline.initial_stop_distance) * (1.0 if long else -1.0)
+                mark_to_market = ((last_close - float(original_entry or pre_be_sl)) / initial_stop_distance) * (1.0 if long else -1.0)
                 result, r = "NEITHER_WITHIN_WINDOW", round(mark_to_market, 4)
             else:
                 continue
@@ -419,16 +428,25 @@ class AdaptiveManagerOutcomeResolver:
                 exit_deal = max(candidate_deals, key=lambda d: d.utc_time or datetime.min.replace(tzinfo=timezone.utc), default=None)
                 if exit_deal is None or exit_deal.price is None or exit_deal.utc_time is None:
                     continue
-                targets.append((state.position_id, state.account_id or DEFAULT_ACCOUNT_ID, baselines[state.position_id], float(exit_deal.price), _aware(exit_deal.utc_time)))
+                # BUG FIX (same DetachedInstanceError pattern found live in _resolve_no_be_
+                # baselines this session, and the one _resolve_original_sltp_baselines already
+                # avoided): snapshot the needed baseline fields into a plain tuple HERE, inside
+                # the still-open session, rather than carrying the ORM instance itself past the
+                # `with` block's close.
+                b = baselines[state.position_id]
+                targets.append((
+                    state.position_id, state.account_id or DEFAULT_ACCOUNT_ID, b.symbol, b.direction,
+                    b.initial_stop_distance, b.original_tp, b.original_sl, float(exit_deal.price), _aware(exit_deal.utc_time),
+                ))
 
-        for position_id, account_id, baseline, exit_price, exit_time in targets:
-            if exit_time is None or not baseline.initial_stop_distance:
+        for position_id, account_id, symbol, direction, initial_stop_distance, original_tp, original_sl, exit_price, exit_time in targets:
+            if exit_time is None or not initial_stop_distance:
                 continue
             window_elapsed = utcnow() - exit_time >= POST_EXIT_WINDOW
             try:
-                candles = await self._scan_candles(account_id=account_id, symbol=baseline.symbol, since=exit_time, window=POST_EXIT_WINDOW)
+                candles = await self._scan_candles(account_id=account_id, symbol=symbol, since=exit_time, window=POST_EXIT_WINDOW)
             except Exception as exc:
-                logger.warning("Adaptive counterfactual (post-exit): candle fetch failed for account_id=%s symbol=%s: %s", account_id, baseline.symbol, exc.__class__.__name__)
+                logger.warning("Adaptive counterfactual (post-exit): candle fetch failed for account_id=%s symbol=%s: %s", account_id, symbol, exc.__class__.__name__)
                 continue
             if not window_elapsed:
                 continue  # wait for the full evidence window before finalizing
@@ -449,8 +467,8 @@ class AdaptiveManagerOutcomeResolver:
                 resolved += 1
                 continue
 
-            long = baseline.direction == "LONG"
-            stop_distance = baseline.initial_stop_distance
+            long = direction == "LONG"
+            stop_distance = initial_stop_distance
             plus_1r_level = exit_price + stop_distance if long else exit_price - stop_distance
             reversal_level = exit_price - stop_distance if long else exit_price + stop_distance
 
@@ -471,11 +489,11 @@ class AdaptiveManagerOutcomeResolver:
                 mfe_price = max(mfe_price, favorable)
                 mae_price = max(mae_price, adverse)
 
-                if baseline.original_tp is not None:
-                    if (high >= float(baseline.original_tp)) if long else (low <= float(baseline.original_tp)):
+                if original_tp is not None:
+                    if (high >= float(original_tp)) if long else (low <= float(original_tp)):
                         reached_original_tp = True
-                if baseline.original_sl is not None:
-                    if (low <= float(baseline.original_sl)) if long else (high >= float(baseline.original_sl)):
+                if original_sl is not None:
+                    if (low <= float(original_sl)) if long else (high >= float(original_sl)):
                         would_have_hit_original_sl = True
 
                 adverse_touched_now = (low <= reversal_level) if long else (high >= reversal_level)

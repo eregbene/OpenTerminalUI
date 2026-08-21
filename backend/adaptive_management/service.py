@@ -3720,12 +3720,23 @@ def _lineage(comment: Any, key: str) -> str:
 
 
 def _parse_bsm_comment(text: str, key: str) -> str | None:
+    """BUG FIX (traced live -- see this session's ATM auto-replay investigation): the comment's
+    3rd pipe-segment is NOT a timeframe. brokers/mt5/autonomous.py::_mt5_order_comment() builds
+    live comments as "BSM|{strategy}|{HHMM order timestamp}" -- its own docstring states
+    "timeframe was always 'M15' for every trade this bot places -- freeing that space [in the
+    comment] for the strategy label" (timeframe was deliberately DROPPED from the comment format,
+    not moved). Reading parts[2] as "timeframe" here was parsing a timestamp like "0415"/"2215" as
+    if it were an MT5 timeframe code -- confirmed as the root cause of ~94% of closed positions
+    carrying a corrupted AdaptivePositionStateORM.timeframe value, which silently broke
+    _replay_candles()'s exact-match timeframe filter for the Adaptive Trade Manager's own
+    auto-replay counterfactual engine. Hardcoded "M15" here is not a guess -- it is the documented,
+    always-true value for every trade this comment format is ever written for."""
     if not text.startswith("BSM|"):
         return None
     parts = text.split("|")
     if len(parts) < 3:
         return None
-    mapping = {"strategy": parts[1], "strategy_version": "v1", "timeframe": parts[2], "setup": "MT5_AUTONOMOUS_ENTRY"}
+    mapping = {"strategy": parts[1], "strategy_version": "v1", "timeframe": "M15", "setup": "MT5_AUTONOMOUS_ENTRY"}
     return mapping.get(key)
 
 
