@@ -16,3 +16,17 @@ redis
 python-multipart
 websockets>=12.0
 ibapi==9.81.1.post1
+ctrader-open-api==0.9.2
+# ctrader-open-api's own metadata exact-pins pyOpenSSL==24.1.0 and pulls in an old cryptography
+# transitively (via Twisted) -- that combination leaves `service-identity` unable to import
+# (cryptography.hazmat.asn1 missing), degrading Twisted's TLS hostname verification to
+# "rudimentary" for the cTrader connection (which IS TLS-wrapped despite the SDK's "TcpProtocol"
+# name -- verified: help.ctrader.com's connection docs state SSL is required). Pinning these two
+# explicitly overrides that automatic downgrade; empirically verified (2026-08-21) that
+# ctrader_open_api + twisted.internet.ssl + service_identity all still import and the full test
+# suite still passes with these newer versions, despite ctrader-open-api's own (overly
+# conservative) exact pin. protobuf is NOT overridden the same way -- ctrader-open-api's
+# generated _pb2.py files are tied to protobuf's generated-code API, which changed significantly
+# across major versions, so overriding that pin is materially riskier than a TLS-library bump.
+cryptography>=47
+pyOpenSSL>=25

@@ -227,6 +227,16 @@ services:
       MT5_MAX_DAILY_LOSS_USD: "${MT5_MAX_DAILY_LOSS_USD:-1500}"
       MT5_MAX_TOTAL_OPEN_RISK_USD: "${MT5_MAX_TOTAL_OPEN_RISK_USD:-1000}"
       MT5_MAX_POSITIONS_PER_BASE_CURRENCY: "${MT5_MAX_POSITIONS_PER_BASE_CURRENCY:-3}"
+      # cTrader Open API (Phase 2, read-only) -- credentials have NO default; they must be set in
+      # a real .env (never committed). See backend/scripts/ctrader_oauth_setup.py for the one-time
+      # browser-authorization helper that produces these values.
+      CTRADER_ENVIRONMENT: "${CTRADER_ENVIRONMENT:-demo}"
+      CTRADER_CLIENT_ID: "${CTRADER_CLIENT_ID:-}"
+      CTRADER_CLIENT_SECRET: "${CTRADER_CLIENT_SECRET:-}"
+      CTRADER_ACCESS_TOKEN: "${CTRADER_ACCESS_TOKEN:-}"
+      CTRADER_REFRESH_TOKEN: "${CTRADER_REFRESH_TOKEN:-}"
+      CTRADER_ACCOUNT_ID: "${CTRADER_ACCOUNT_ID:-}"
+      CTRADER_REDIRECT_URI: "${CTRADER_REDIRECT_URI:-http://localhost:5000/ctrader/oauth/callback}"
       MT5_MAX_POSITIONS_PER_QUOTE_CURRENCY: "${MT5_MAX_POSITIONS_PER_QUOTE_CURRENCY:-3}"
       MT5_MAX_CORRELATED_POSITIONS: "${MT5_MAX_CORRELATED_POSITIONS:-3}"
       MT5_ALLOW_OPPOSING_SAME_SYMBOL_POSITIONS: "${MT5_ALLOW_OPPOSING_SAME_SYMBOL_POSITIONS:-false}"
@@ -353,6 +363,11 @@ services:
       # outside any Docker-managed volume; adjust BENSIM_BACKUP_DIR if you keep
       # backups elsewhere. Missing directory is handled gracefully by the endpoint.
       - ${BENSIM_BACKUP_DIR:-C:/Users/Intel/Desktop/BensimBackups}:/backups:ro
+      # Read-write scratch space for ad-hoc research/replay scripts (e.g. the Phase 1-3 flag
+      # validation harness) -- lives on E: (plenty of free space) rather than inside the
+      # container's own writable layer (which sits on C:, repeatedly found near-zero free this
+      # session) or the app's actual data volume. Not read by any application code.
+      - ${BENSIM_RESEARCH_DIR:-E:/BensimResearch}:/research
     depends_on:
       postgres:
         condition: service_healthy
