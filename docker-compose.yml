@@ -324,6 +324,18 @@ services:
       ATR_STOP_MULTIPLIER_MIN: "${ATR_STOP_MULTIPLIER_MIN:-0.8}"
       SPREAD_TO_STOP_MAX_RATIO: "${SPREAD_TO_STOP_MAX_RATIO:-0.333}"
       MAX_CORRELATED_OPEN_RISK_PCT: "${MAX_CORRELATED_OPEN_RISK_PCT:-0.75}"
+      # Priority 5.5 -- hard, equity-scaled correlated-exposure blocker (see
+      # portfolio_execution/service.py::protection_from_values for the derivation: 75% of
+      # MT5_MAX_TOTAL_OPEN_RISK_PERCENT, the same ratio MAX_CORRELATED_OPEN_RISK_PCT above
+      # already uses for the soft scaler, applied here to the previously-dormant hard blocker).
+      PORTFOLIO_MAX_CORRELATED_EXPOSURE_PERCENT: "${PORTFOLIO_MAX_CORRELATED_EXPOSURE_PERCENT:-1.125}"
+      # Priority 5.5 -- rolling-correlation-aware soft risk reduction (see
+      # autonomous.py::_risk_budget_adjustment and portfolio_execution/service.py's
+      # correlation_engine.matrix()). Two independent thresholds: how correlated (by rolling
+      # return, direction-aware) counts as "highly correlated" at all, and how much of a size
+      # reduction the strongest such match applies.
+      MT5_CORRELATION_CONCENTRATION_THRESHOLD: "${MT5_CORRELATION_CONCENTRATION_THRESHOLD:-0.70}"
+      MT5_CORRELATION_CONCENTRATION_MAX_REDUCTION: "${MT5_CORRELATION_CONCENTRATION_MAX_REDUCTION:-0.50}"
       LIVE_TRADING_ENABLED: "${LIVE_TRADING_ENABLED:-false}"
       PROP_TRADING_ENABLED: "${PROP_TRADING_ENABLED:-false}"
       # Phase 1 (2026-08-20 architecture blueprint) -- pivot trendlines + breakout/trend_pullback/

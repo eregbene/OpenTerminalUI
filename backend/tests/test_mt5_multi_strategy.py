@@ -430,7 +430,12 @@ def test_activation_status_defaults_and_env_override(monkeypatch: pytest.MonkeyP
     # SHADOW_MT5 deployed (2026-08-18 real-trade forensic demotion) since mtfai1.py:964's own
     # activation gate fix made that override actually take effect for the first time -- this
     # test is about the DEFAULT/override MECHANISM, not today's real deployed value.
+    # Priority 4 (2026-08-21) deployed a real MT5_STRATEGY_ACTIVATION_EMA_TREND=SHADOW_MT5
+    # override to the container too (same reasoning as mtfai1's own pin above) -- clear it here
+    # for the identical reason: this test is about the DEFAULT/override MECHANISM, not any
+    # particular strategy's currently-deployed real value.
     monkeypatch.delenv("MT5_STRATEGY_ACTIVATION_MTFAI1", raising=False)
+    monkeypatch.delenv("MT5_STRATEGY_ACTIVATION_EMA_TREND", raising=False)
     assert activation_status("mtfai1") == ACTIVE_MT5
     assert activation_status("ema_trend") == ACTIVE_MT5
     monkeypatch.setenv("MT5_STRATEGY_ACTIVATION_EMA_TREND", "SHADOW_MT5")

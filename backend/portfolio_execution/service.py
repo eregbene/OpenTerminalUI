@@ -256,8 +256,27 @@ class PortfolioManager:
         margin_utilization = margin / equity if equity else 0
         if margin_utilization > _env_float("PORTFOLIO_MAX_MARGIN_UTILIZATION", 0.50):
             blockers.append("MAX_MARGIN_UTILIZATION")
-        max_currency = max((abs(row.get("net", 0)) for row in exposure["currency"].values()), default=0)
-        if max_currency > _env_float("PORTFOLIO_MAX_CORRELATED_EXPOSURE", 1_000_000_000):
+        # Priority 5.5 fix: the OLD check compared raw LOT-signed currency exposure
+        # (exposure["currency"], from _exposure() -- unit is lots, not dollars) against
+        # PORTFOLIO_MAX_CORRELATED_EXPOSURE, which was never configured and defaults to
+        # 1_000_000_000 -- a threshold no real account's lot exposure could ever reach, making
+        # this blocker permanently dormant since it shipped. Fixed two ways: (1) the comparison
+        # now uses real DOLLAR RISK per currency (via _currency_risk_exposure, reusing the same
+        # broker-verified stop_loss_projection every other risk figure on this page already
+        # uses) instead of raw lots, which have no fixed dollar meaning across symbols/accounts;
+        # (2) the threshold is equity-scaled (PORTFOLIO_MAX_CORRELATED_EXPOSURE_PERCENT, mirroring
+        # aggregate_cap_usd's own fix above) instead of a flat constant. The default (1.125%) is
+        # derived, not guessed: it reuses the SAME 0.75 concentration ratio the soft risk-budget
+        # scaler (MAX_CORRELATED_OPEN_RISK_PCT, autonomous.py::_risk_budget_adjustment) already
+        # applies to this exact aggregate-open-risk cap for the identical concept -- 75% of
+        # max_total_open_risk_percent (1.50% x 0.75 = 1.125%) -- so a single currency's net
+        # dollar risk is never allowed to consume more than three-quarters of the account's
+        # total risk budget, leaving room for genuinely diversified (different-currency)
+        # concurrent positions without duplicating or loosening the aggregate cap itself.
+        currency_risk = _currency_risk_exposure(positions, risk_rows)
+        max_currency_risk_usd = max((abs(v) for v in currency_risk.values()), default=0.0)
+        correlated_cap_usd = equity * _env_float("PORTFOLIO_MAX_CORRELATED_EXPOSURE_PERCENT", 1.125) / 100.0
+        if max_currency_risk_usd > correlated_cap_usd:
             blockers.append("MAX_CORRELATED_EXPOSURE")
         return {"new_entries_allowed": not blockers, "blockers": sorted(set(blockers)), "live_trading_enabled": cfg.live_trading_enabled}
 
@@ -644,6 +663,25 @@ def _exposure(positions: list[Any]) -> dict[str, Any]:
     return exposure
 
 
+def _currency_risk_exposure(positions: list[Any], risk_rows: list[dict[str, float]]) -> dict[str, float]:
+    """Dollar-risk-weighted currency exposure -- same base/quote attribution convention as
+    _exposure()'s currency bucket, but signed by real broker-verified dollar risk-at-stop
+    (abs(stop_loss_projection)) instead of raw lot size. Positions and risk_rows are the SAME
+    list, same order (both built from one positions-iteration in build_snapshot -- see that
+    method's own risk_rows comprehension), zipped by index rather than by symbol so multiple
+    positions on the same symbol are never accidentally collapsed into one risk figure."""
+    totals: dict[str, float] = {}
+    for pos, risk in zip(positions, risk_rows):
+        symbol = str(pos.symbol or "").upper()
+        direction = "LONG" if int(pos.type or 0) == 0 else "SHORT"
+        risk_dollars = abs(float(risk.get("stop_loss_projection") or 0.0))
+        signed = risk_dollars if direction == "LONG" else -risk_dollars
+        base, quote = _currencies(symbol)
+        totals[base] = totals.get(base, 0.0) + signed
+        totals[quote] = totals.get(quote, 0.0) - signed
+    return totals
+
+
 def _add_currency(rows: dict[str, dict[str, float]], key: str, amount: float) -> None:
     row = rows.setdefault(key, {"gross": 0.0, "net": 0.0, "long": 0.0, "short": 0.0})
     row["gross"] += abs(amount)
@@ -863,6 +901,23 @@ class PortfolioMultiAccountOrchestrator:
         for service in self._services.values():
             await service.stop()
         logger.warning("Portfolio manager multi-account monitor stopped")
+
+    async def refresh_account(self, account_id: str) -> dict[str, Any] | None:
+        """Priority 5.5: forces an immediate, synchronous snapshot refresh for ONE account,
+        outside the normal ~15s periodic cadence. Closes (does not eliminate -- see
+        _cross_account_concurrent_exposure_blockers' own docstring for the residual, narrower
+        race) the main practical source of cross-account concurrent-exposure staleness: account
+        cycles run sequentially and awaited (MT5MultiAccountAutonomousOrchestrator.run_cycle),
+        so calling this right after a successful order submission means the NEXT account's
+        cycle -- which runs moments later, in the same event loop, before this one -- sees this
+        account's just-opened position instead of a snapshot that is up to ~15s stale. Safe to
+        call from any account's own cycle: PortfolioManager.refresh() is already idempotent and
+        self-locked (_cycle_lock), so this can never race with that account's own background
+        loop, only skip a redundant concurrent run of it (returns the in-flight status instead)."""
+        service = self._enabled_services().get(account_id) or self._services.get(account_id)
+        if service is None:
+            return None
+        return await service.refresh()
 
     def account_status(self, account_id: str) -> dict[str, Any] | None:
         service = self._enabled_services().get(account_id) or self._services.get(account_id)

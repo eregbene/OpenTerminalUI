@@ -126,6 +126,133 @@ def test_currency_exposure_offsets_crosses():
     assert exposure["currency"]["JPY"]["net"] == 0.5
 
 
+def _risk_row(stop_loss_projection: float) -> dict:
+    return {"stop_loss_projection": stop_loss_projection}
+
+
+# --- Priority 5.5: dollar-risk-weighted currency exposure (the hard MAX_CORRELATED_EXPOSURE
+# blocker's fix) -- was comparing raw lot-signed exposure against an unconfigured, effectively-
+# infinite default, making it permanently dormant. -----------------------------------------
+
+
+def test_currency_risk_exposure_weights_by_dollar_risk_not_lots():
+    # A tiny-lot, wide-stop position can carry MORE real dollar risk than a large-lot,
+    # tight-stop one -- the OLD lot-based check couldn't tell these apart at all.
+    positions = [FakePosition("EURUSD", 0, 0.1), FakePosition("GBPUSD", 0, 5.0)]
+    risk_rows = [_risk_row(-500.0), _risk_row(-50.0)]
+
+    exposure = service._currency_risk_exposure(positions, risk_rows)
+
+    assert exposure["USD"] == pytest.approx(-550.0)
+    assert exposure["EUR"] == pytest.approx(500.0)
+    assert exposure["GBP"] == pytest.approx(50.0)
+
+
+def test_currency_risk_exposure_offsetting_directions_net_down():
+    positions = [FakePosition("EURUSD", 0, 1.0), FakePosition("EURUSD", 1, 1.0)]
+    risk_rows = [_risk_row(-100.0), _risk_row(-100.0)]
+
+    exposure = service._currency_risk_exposure(positions, risk_rows)
+
+    assert exposure["EUR"] == pytest.approx(0.0)
+    assert exposure["USD"] == pytest.approx(0.0)
+
+
+def test_portfolio_protection_blocks_eurusd_long_plus_gbpusd_long_concentration(monkeypatch):
+    _session_factory(monkeypatch)
+    positions = [FakePosition("EURUSD", 0, 1.0), FakePosition("GBPUSD", 0, 1.0)]
+    risk_rows = [_risk_row(-100.0), _risk_row(-100.0)]  # both LONG -> both short $200 net USD
+    exposure = service._exposure(positions)
+
+    state = portfolio_manager.protection_from_values(positions=positions, account={"equity": 10000, "margin": 100, "balance": 10000, "free_margin": 9900}, risk_rows=risk_rows, exposure=exposure)
+
+    # cap = 10,000 * 1.125% = $112.50; net USD risk = -$200 exceeds it.
+    assert "MAX_CORRELATED_EXPOSURE" in state["blockers"]
+    assert state["new_entries_allowed"] is False
+
+
+def test_portfolio_protection_blocks_eurusd_long_plus_usdchf_short_concentration(monkeypatch):
+    _session_factory(monkeypatch)
+    # EURUSD LONG (+EUR,-USD) and USDCHF SHORT (-USD,+CHF) are BOTH short-USD bets -- the
+    # user's own explicit example of a same-currency-factor concentration that must not slip
+    # through just because the two symbols don't share a literal ticker.
+    positions = [FakePosition("EURUSD", 0, 1.0), FakePosition("USDCHF", 1, 1.0)]
+    risk_rows = [_risk_row(-100.0), _risk_row(-100.0)]
+    exposure = service._exposure(positions)
+
+    state = portfolio_manager.protection_from_values(positions=positions, account={"equity": 10000, "margin": 100, "balance": 10000, "free_margin": 9900}, risk_rows=risk_rows, exposure=exposure)
+
+    assert "MAX_CORRELATED_EXPOSURE" in state["blockers"]
+
+
+def test_portfolio_protection_blocks_multiple_jpy_cross_same_factor_exposure(monkeypatch):
+    _session_factory(monkeypatch)
+    # EURJPY LONG + GBPJPY LONG: both short-JPY bets via the shared quote currency.
+    positions = [FakePosition("EURJPY", 0, 1.0), FakePosition("GBPJPY", 0, 1.0)]
+    risk_rows = [_risk_row(-100.0), _risk_row(-100.0)]
+    exposure = service._exposure(positions)
+
+    state = portfolio_manager.protection_from_values(positions=positions, account={"equity": 10000, "margin": 100, "balance": 10000, "free_margin": 9900}, risk_rows=risk_rows, exposure=exposure)
+
+    assert "MAX_CORRELATED_EXPOSURE" in state["blockers"]
+
+
+def test_portfolio_protection_allows_diversified_currency_risk_under_cap(monkeypatch):
+    _session_factory(monkeypatch)
+    # Different currencies entirely, modest risk each -- must NOT be blocked just because
+    # multiple positions exist.
+    positions = [FakePosition("EURUSD", 0, 1.0), FakePosition("USDJPY", 1, 1.0)]
+    risk_rows = [_risk_row(-25.0), _risk_row(-25.0)]
+    exposure = service._exposure(positions)
+
+    state = portfolio_manager.protection_from_values(positions=positions, account={"equity": 10000, "margin": 100, "balance": 10000, "free_margin": 9900}, risk_rows=risk_rows, exposure=exposure)
+
+    assert "MAX_CORRELATED_EXPOSURE" not in state["blockers"]
+    assert state["new_entries_allowed"] is True
+
+
+def test_portfolio_protection_correlated_cap_scales_with_equity(monkeypatch):
+    # Same $200 net-USD risk that blocked a $10,000 account must NOT block a $100,000 one --
+    # the whole point of the equity-scaled fix (mirrors the pre-existing MAX_TOTAL_OPEN_RISK fix).
+    _session_factory(monkeypatch)
+    positions = [FakePosition("EURUSD", 0, 1.0), FakePosition("GBPUSD", 0, 1.0)]
+    risk_rows = [_risk_row(-100.0), _risk_row(-100.0)]
+    exposure = service._exposure(positions)
+
+    state = portfolio_manager.protection_from_values(positions=positions, account={"equity": 100000, "margin": 1000, "balance": 100000, "free_margin": 99000}, risk_rows=risk_rows, exposure=exposure)
+
+    assert "MAX_CORRELATED_EXPOSURE" not in state["blockers"]
+
+
+# --- Priority 5.5: cross-account race-condition mitigation (refresh_account) ----------------
+
+
+def test_refresh_account_routes_to_the_correct_per_account_service(monkeypatch):
+    calls = []
+
+    class _FakeService:
+        async def refresh(self):
+            calls.append("refreshed")
+            return {"status": "ok"}
+
+    fake_service = _FakeService()
+    monkeypatch.setattr(portfolio_manager, "_enabled_services", lambda: {"ftmo_demo_25k": fake_service})
+
+    result = service.asyncio.run(portfolio_manager.refresh_account("ftmo_demo_25k"))
+
+    assert calls == ["refreshed"]
+    assert result == {"status": "ok"}
+
+
+def test_refresh_account_returns_none_for_an_account_with_no_service(monkeypatch):
+    monkeypatch.setattr(portfolio_manager, "_enabled_services", lambda: {})
+    monkeypatch.setattr(portfolio_manager, "_services", {})
+
+    result = service.asyncio.run(portfolio_manager.refresh_account("unknown_account"))
+
+    assert result is None
+
+
 def test_portfolio_protection_blocks_new_entries_on_open_position_limit(monkeypatch):
     _session_factory(monkeypatch)
     monkeypatch.setenv("MT5_MAX_OPEN_POSITIONS", "1")

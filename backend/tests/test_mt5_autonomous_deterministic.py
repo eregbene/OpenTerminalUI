@@ -212,6 +212,72 @@ def test_submit_still_routes_through_execution_manager(monkeypatch: pytest.Monke
     assert result["trade"] is not None
 
 
+# Priority 5.5: the account's own portfolio snapshot is force-refreshed synchronously right
+# after a real fill -- closes the practical cross-account race window (sequential cycles +
+# ~15s periodic refresh cadence) without any distributed locking. Must fire on a real ACCEPTED
+# fill, and must NOT fire when the order never actually lands (a real broker REJECTED response,
+# or a candidate that never reaches submission at all) -- a refresh call there would just be
+# recording stale/unopened state as if it were fresh.
+def test_accepted_order_refreshes_the_account_portfolio_snapshot(monkeypatch: pytest.MonkeyPatch):
+    adapter = fake_adapter()
+    service = MT5AutonomousTradingService(adapter)
+    _wire_common_mocks(monkeypatch, service, entry_quality_score=0.85)
+    candidate = _screened_candidate(symbol="EURUSD", ranking_score=85.0, risk_reward="3.0")
+    monkeypatch.setattr(service, "_screen", lambda items, **kwargs: asyncio.sleep(0, result=[candidate]))
+    refreshed = []
+    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.refresh_account", lambda account_id: asyncio.sleep(0, result=refreshed.append(account_id)))
+
+    async def _accepted(intent, **kwargs):
+        from backend.brokers.mt5.models import MT5OrderSubmissionResult
+
+        return MT5OrderSubmissionResult(status="ACCEPTED", retcode=10009, comment="done", order_ticket=101, deal_ticket=202, fill_price=intent.entry_price, requested_volume=intent.volume, filled_volume=intent.volume)
+
+    monkeypatch.setattr(service.execution, "submit_market_order", _accepted)
+
+    result = asyncio.run(service.run_cycle(owner="local"))
+
+    assert result["trade"]["status"] == "ACCEPTED"
+    assert refreshed == [service.account_id]
+
+
+def test_rejected_order_does_not_refresh_the_portfolio_snapshot(monkeypatch: pytest.MonkeyPatch):
+    adapter = fake_adapter()
+    service = MT5AutonomousTradingService(adapter)
+    _wire_common_mocks(monkeypatch, service, entry_quality_score=0.85)
+    candidate = _screened_candidate(symbol="EURUSD", ranking_score=85.0, risk_reward="3.0")
+    monkeypatch.setattr(service, "_screen", lambda items, **kwargs: asyncio.sleep(0, result=[candidate]))
+    refreshed = []
+    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.refresh_account", lambda account_id: asyncio.sleep(0, result=refreshed.append(account_id)))
+
+    async def _rejected(intent, **kwargs):
+        from backend.brokers.mt5.models import MT5OrderSubmissionResult
+
+        return MT5OrderSubmissionResult(status="REJECTED", retcode=10004, comment="requote", requested_volume=intent.volume)
+
+    monkeypatch.setattr(service.execution, "submit_market_order", _rejected)
+
+    result = asyncio.run(service.run_cycle(owner="local"))
+
+    assert result["trade"]["status"] == "REJECTED"
+    assert refreshed == []
+
+
+def test_candidate_rejected_before_submission_does_not_refresh_the_portfolio_snapshot(monkeypatch: pytest.MonkeyPatch):
+    # Below the confidence threshold -> _submit is never even called.
+    adapter = fake_adapter()
+    service = MT5AutonomousTradingService(adapter)
+    _wire_common_mocks(monkeypatch, service, entry_quality_score=0.1)
+    weak = _screened_candidate(symbol="EURUSD", ranking_score=20.0, risk_reward="0.5")
+    monkeypatch.setattr(service, "_screen", lambda items, **kwargs: asyncio.sleep(0, result=[weak]))
+    refreshed = []
+    monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.refresh_account", lambda account_id: asyncio.sleep(0, result=refreshed.append(account_id)))
+
+    result = asyncio.run(service.run_cycle(owner="local"))
+
+    assert result["status"] == "NO_TRADE"
+    assert refreshed == []
+
+
 # 18. Live trading remains disabled by default.
 def test_live_trading_disabled_by_default():
     adapter = fake_adapter()

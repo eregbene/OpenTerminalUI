@@ -46,7 +46,7 @@ from backend.decision_context.service import decision_context_service
 from backend.economic_intelligence import macro_context
 from backend.economic_intelligence.service import economic_intelligence_service
 from backend.intelligence.trading.persistence import get_state, set_state, utcnow
-from backend.portfolio_execution.service import portfolio_manager
+from backend.portfolio_execution.service import correlation_engine, portfolio_manager
 from backend.shared.db import SessionLocal
 
 logger = logging.getLogger(__name__)
@@ -1221,6 +1221,77 @@ class MT5AutonomousTradingService:
         the live pipeline's picked candidate, on demand for any requested symbol."""
         return await self._entry_quality_score({"broker_symbol": symbol.upper()})
 
+    async def _correlation_matrix_risk_factor(self, candidate: dict[str, Any]) -> tuple[float, dict[str, Any]]:
+        """Priority 5.5: uses the already-built correlation_engine.matrix() (real rolling M15
+        return correlation -- previously computed into every portfolio snapshot but never
+        consulted by any decision, see Priority 5's finding) to reduce size when this candidate
+        would CONCENTRATE risk with an already-open position, and to explicitly leave size
+        untouched when it would OFFSET one -- direction matters, not just |correlation|.
+
+        For each open position, effective_alignment = correlation(candidate_symbol,
+        position_symbol) * (+1 if same direction as candidate else -1). A large POSITIVE
+        alignment means "this is effectively the same bet as a position already open" (e.g. two
+        positively-correlated pairs both LONG, or two negatively-correlated pairs in opposite
+        directions -- EURUSD LONG + USDCHF SHORT is exactly this case, since EURUSD/USDCHF are
+        strongly negatively correlated and the directions are opposite, so the two negatives
+        cancel into a positive alignment). A large NEGATIVE alignment means the candidate
+        genuinely offsets existing exposure -- never penalized, since that reduces net portfolio
+        risk rather than concentrating it.
+
+        Only the SINGLE strongest concentrating match drives the reduction (not a sum across
+        every open position) -- deliberately conservative: this taps the brakes on piling into
+        one already-expressed idea, it does not compound into a near-zero size just because
+        several small, only-moderately-correlated positions happen to be open.
+
+        Never blocks outright (this is a size taper, matching every other risk_budget.py factor's
+        floor-not-zero design) -- the dedicated hard blocker for genuine currency concentration is
+        portfolio_manager.protection_from_values's MAX_CORRELATED_EXPOSURE check, a separate,
+        already-existing mechanism this deliberately does not duplicate."""
+        threshold = _env_float("MT5_CORRELATION_CONCENTRATION_THRESHOLD", 0.70)
+        max_reduction = _env_float("MT5_CORRELATION_CONCENTRATION_MAX_REDUCTION", 0.50)
+        try:
+            positions = await self.adapter.mt5_positions()
+        except Exception as exc:
+            return 1.0, {"status": "UNAVAILABLE", "reason": f"POSITIONS_UNAVAILABLE:{exc.__class__.__name__}"}
+        candidate_symbol = str(candidate.get("broker_symbol") or "").upper()
+        candidate_direction = candidate.get("direction")
+        open_positions = [p for p in positions if p.volume and float(p.volume) != 0 and str(p.symbol or "").upper() != candidate_symbol]
+        if not candidate_symbol or candidate_direction not in {"LONG", "SHORT"} or not open_positions:
+            return 1.0, {"status": "NO_OPEN_POSITIONS", "reason": None}
+        symbols = [candidate_symbol] + sorted({str(p.symbol or "").upper() for p in open_positions})
+        try:
+            result = await correlation_engine.matrix(symbols, self.adapter)
+        except Exception as exc:
+            logger.warning("MT5 correlation-matrix risk factor unavailable: %s", exc.__class__.__name__)
+            return 1.0, {"status": "UNAVAILABLE", "reason": f"CORRELATION_MATRIX_UNAVAILABLE:{exc.__class__.__name__}"}
+        row = (result.get("matrix") or {}).get(candidate_symbol) or {}
+        best_alignment = 0.0
+        best_match: dict[str, Any] | None = None
+        for pos in open_positions:
+            pos_symbol = str(pos.symbol or "").upper()
+            corr = row.get(pos_symbol)
+            if corr is None:
+                continue
+            pos_direction = "LONG" if int(pos.type or 0) == 0 else "SHORT"
+            direction_sign = 1.0 if pos_direction == candidate_direction else -1.0
+            alignment = float(corr) * direction_sign
+            if alignment > best_alignment:
+                best_alignment = alignment
+                best_match = {"symbol": pos_symbol, "direction": pos_direction, "correlation": round(float(corr), 4)}
+        if best_match is None or best_alignment < threshold:
+            return 1.0, {"status": "NO_CONCENTRATION", "reason": None, "best_alignment": round(best_alignment, 4) if best_match else None}
+        # Linear taper from 1.0x at the threshold to (1 - max_reduction)x at full alignment
+        # (1.0) -- never below that floor, matching risk_budget.py's own never-below-floor design.
+        span = max(1e-6, 1.0 - threshold)
+        reduction = max_reduction * min(1.0, (best_alignment - threshold) / span)
+        factor = round(1.0 - reduction, 4)
+        detail = {
+            "status": "CONCENTRATION_REDUCED", "reason": "CORRELATION_CONCENTRATION_REDUCED",
+            "best_alignment": round(best_alignment, 4), "matched_position": best_match, "size_multiplier": factor,
+        }
+        logger.info("MT5 correlation concentration: %s %s reduced %.0f%% (aligned %.2f with open %s %s)", candidate_symbol, candidate_direction, reduction * 100, best_alignment, best_match["direction"], best_match["symbol"])
+        return factor, detail
+
     async def _submit(self, candidate: dict[str, Any], *, confidence: float | None = None, dry_run: bool = False) -> dict[str, Any]:
         # Part 8 hard guard: multi-strategy activation (STRATEGY_FAMILIES defaults,
         # MT5_STRATEGY_ACTIVATION_<ID>, MT5_MULTI_STRATEGY_ENABLED) is a strategy-selection
@@ -1245,7 +1316,16 @@ class MT5AutonomousTradingService:
         economic_context_preview = candidate.get("economic_context") or {}
         risk_adjustment = self._risk_budget_adjustment(account, economic_context_preview, confidence)
         base_risk_budget = (account.equity * Decimal(str(self.config.risk_percent_per_trade)) / Decimal("100")).quantize(Decimal("0.01"))
+        # Priority 5.5: rolling-return-correlation-aware size reduction -- complements (does not
+        # replace) the currency-net-exposure factor already folded into risk_adjustment above.
+        # Applied as its own pre-scale on base_risk_budget rather than added into
+        # effective_risk_budget_usd's own factor set, so this stays fully independent/observable
+        # and never touches risk_budget.py itself (see _correlation_matrix_risk_factor's
+        # docstring for the direction-aware "concentrating vs offsetting" logic).
+        correlation_factor, correlation_detail = await self._correlation_matrix_risk_factor(candidate)
+        base_risk_budget = (base_risk_budget * Decimal(str(correlation_factor))).quantize(Decimal("0.01"))
         _, risk_adjustment_detail = effective_risk_budget_usd(base_risk_budget, **risk_adjustment)
+        risk_adjustment_detail["correlation_matrix"] = correlation_detail
         try:
             account_fingerprint = account_registry.fingerprint_account(account).fingerprint_hash
         except Exception:
@@ -1362,6 +1442,16 @@ class MT5AutonomousTradingService:
         }
         self.state.trades.insert(0, trade | {"created_at": utcnow().isoformat()})
         if result.status == "ACCEPTED":
+            # Priority 5.5: force this account's own portfolio snapshot fresh immediately,
+            # instead of waiting up to ~15s for the next periodic refresh -- account cycles run
+            # sequentially (MT5MultiAccountAutonomousOrchestrator.run_cycle), so the NEXT
+            # account's _cross_account_concurrent_exposure_blockers check (moments later, same
+            # event loop) now sees this position instead of a stale snapshot. Best-effort: a
+            # failure here must never block or fail an already-accepted order.
+            try:
+                await portfolio_manager.refresh_account(self.account_id)
+            except Exception as exc:
+                logger.warning("MT5 post-fill portfolio snapshot refresh failed (non-fatal): %s", exc.__class__.__name__)
             store = self._daily_trade_state()
             store["entries_submitted_today"] = int(store.get("entries_submitted_today") or 0) + 1
             symbol = candidate.get("broker_symbol")
