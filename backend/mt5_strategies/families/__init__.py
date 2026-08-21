@@ -1,6 +1,6 @@
 """Canonical strategy family implementations for the MT5 multi-strategy layer -- package form
 of the original mt5_strategies/families.py monolith (2026-08-20 Phase 1 restructure; 2026-08-21
-Phase 2 engine-wide gates added on top).
+Phase 2 and Phase 3 engine-wide gates added on top).
 
 Each evaluator takes a shared, already-computed StrategyContext (Market Data -> features, see
 ../context.py) and returns exactly one StrategySignal. No broker I/O, no IBKR imports, no
@@ -10,37 +10,52 @@ backend/historical_intelligence/replay.py) imports `from backend.mt5_strategies.
 EVALUATORS, evaluate_all` today and needs zero changes.
 
 Module layout:
-  _shared.py           -- stop/geometry/evidence helpers every evaluator reuses, plus (Phase 1)
-                           the flagged breakout/trend_pullback/smc_continuation levers, plus
-                           (Phase 2, 2026-08-21) the engine-wide ADX regime gate, session-liquidity
-                           timing filter, stale-exit metadata, and spread safety buffer -- every
-                           Phase 2 gate is fail-open by construction, see that file's own header.
+  _shared.py                    -- stop/geometry/evidence helpers every evaluator reuses, plus
+                           (Phase 1) the flagged breakout/trend_pullback/smc_continuation levers,
+                           (Phase 2) the engine-wide ADX regime gate, session-liquidity timing
+                           filter, stale-exit metadata, and spread safety buffer, and (Phase 3)
+                           the structural take-profit engine (_opposing_structural_level /
+                           _structural_take_profit, wrapping backend.brokers.mt5.take_profit.
+                           select_take_profit -- the same function mtfai1's own scoring uses).
+                           Every gate is fail-open by construction, see that file's own headers.
   breakout.py           -- Phase 1: ATR volatility buffer, retest-and-hold entry mode, HTF trend
                            gate, consolidation quality score. Phase 2: regime disable (CHOP_
                            RANGING), regime-widened ATR buffer, QUIET_COMPRESSION retest-mode
                            preference, session-timing gate, stale-exit metadata, spread gate.
+                           Phase 3: inducement (IDM) precondition on the triggering break,
+                           structural take-profit.
   trend_pullback.py     -- Phase 1: anti-CHoCH/MSS gate, OTE/OB/FVG confluence mode, reaction-
                            candle trigger, independent LONG/SHORT code paths. Phase 2: stale-exit
                            metadata, spread gate (not regime- or session-restricted per spec).
   smc_continuation.py   -- Phase 1: inducement (IDM) precondition, displacement-magnitude
                            evidence. Phase 2: spread gate (not regime- or session-restricted).
-  ema_trend.py          -- Phase 2: extracted out of _legacy.py to give its CHOP_RANGING regime
-                           disable and spread gate a real home.
+  ema_trend.py          -- Phase 2: extracted out of _legacy.py for its CHOP_RANGING regime
+                           disable and spread gate. Phase 3: EMA stack demoted to a bias filter
+                           behind its own flag (requires a with-bias BOS or EMA20 reclaim +
+                           reaction candle as the actual trigger), structural take-profit.
   mean_reversion.py     -- Phase 2: extracted out of _legacy.py for its TRENDING_STRONG regime
                            disable, CHOP_RANGING strength boost, and spread gate.
-  _legacy.py            -- the remaining registered families (liquidity_sweep_reversal,
-                           support_resistance_bounce, momentum, session_breakout, vwap_reversion,
-                           wyckoff) plus mtfai1's non-involvement here (mtfai1 has never been in
-                           this module -- its evaluation lives directly in
+  vwap_reversion.py     -- Phase 3: extracted out of _legacy.py to fix a real bug -- the
+                           cumulative VWAP never reset at a session/day boundary despite its own
+                           docstring's claim, drifting over whatever ~100-bar window happened to
+                           be fetched. Unconditional fix, no new flag.
+  support_resistance_bounce.py -- Phase 3: extracted out of _legacy.py for its new HTF non-
+                           conflict gate (reuses trend_pullback.py's exact inline pattern).
+  momentum.py            -- Phase 3: extracted out of _legacy.py for MT5_MOMENTUM_STRATEGY_ENABLED,
+                           a code-level deprecation circuit breaker independent of the activation-
+                           status system -- default False, unlike every other Phase 1-3 flag this
+                           is NOT a no-op default (see that file's own docstring).
+  _legacy.py             -- the remaining registered families (liquidity_sweep_reversal,
+                           session_breakout, wyckoff) plus mtfai1's non-involvement here (mtfai1
+                           has never been in this module -- its evaluation lives directly in
                            backend/brokers/mt5/autonomous.py and already runs through
                            backend.historical_intelligence.entry_intelligence unconditionally on
-                           every candidate; see that module's own docstring). NOT reproduced or
-                           modified in either deliverable: momentum and session_breakout ARE named
-                           in the Phase 2 regime/session tables but weren't in that phase's
-                           requested output-file list, so they still fire exactly as before --
-                           _shared.py's gate functions already key correctly on their strategy_id,
-                           so wiring them in later is additive, not a redesign. See that file's
-                           own docstring and families.py's git history for the exact source.
+                           every candidate; see that module's own docstring). NOT modified in any
+                           phase: session_breakout IS named in the Phase 2/3 session-timing and IDM
+                           tables but wiring either gate in was out of scope for those deliverables'
+                           requested output-file lists -- _shared.py's gate functions already key
+                           correctly on strategy_id, so doing so later is additive, not a redesign.
+                           See that file's own docstring and families.py's git history.
 """
 from __future__ import annotations
 
@@ -49,18 +64,18 @@ from typing import Any
 from backend.mt5_strategies.context import StrategyContext
 from backend.mt5_strategies.families._legacy import (
     evaluate_liquidity_sweep_reversal,
-    evaluate_momentum,
     evaluate_session_breakout,
-    evaluate_support_resistance_bounce,
-    evaluate_vwap_reversion,
     evaluate_wyckoff,
 )
 from backend.mt5_strategies.families._shared import _dynamic_stop, _no_signal, _signal
 from backend.mt5_strategies.families.breakout import evaluate_breakout
 from backend.mt5_strategies.families.ema_trend import evaluate_ema_trend
 from backend.mt5_strategies.families.mean_reversion import evaluate_mean_reversion
+from backend.mt5_strategies.families.momentum import evaluate_momentum
 from backend.mt5_strategies.families.smc_continuation import evaluate_smc_continuation
+from backend.mt5_strategies.families.support_resistance_bounce import evaluate_support_resistance_bounce
 from backend.mt5_strategies.families.trend_pullback import evaluate_trend_pullback
+from backend.mt5_strategies.families.vwap_reversion import evaluate_vwap_reversion
 from backend.mt5_strategies.models import StrategySignal
 
 EVALUATORS: dict[str, Any] = {

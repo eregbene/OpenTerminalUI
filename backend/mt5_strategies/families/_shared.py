@@ -22,7 +22,8 @@ from typing import Any
 import pandas as pd
 
 from backend.adaptive_management.tp_protection import construct_dynamic_stop
-from backend.market_structure.models import StructureBreakKind
+from backend.brokers.mt5.take_profit import select_take_profit
+from backend.market_structure.models import LiquiditySide, StructureBreakKind
 from backend.mt5_strategies.context import REGIME_CHOP_RANGING, REGIME_HIGH_VOLATILITY_EXPANSION, REGIME_QUIET_COMPRESSION, REGIME_TRENDING_STRONG, StrategyContext
 from backend.mt5_strategies.models import StrategySignal, invalid_signal
 
@@ -511,3 +512,95 @@ def _spread_within_safety_buffer(ctx: StrategyContext, *, lookback_bars: int = 5
         return True
     mult = _env_float("MT5_MAX_SPREAD_MULT", 1.5)
     return float(ctx.spread) <= mult * median_price_spread
+
+
+# ================================================================================================
+# Phase 3 (2026-08-21 blueprint, Section 1): engine-wide structural take-profit propagation.
+# mtfai1's own scoring (backend/brokers/mt5/autonomous.py::_score_candidate) already targets the
+# real opposing swing level via backend.brokers.mt5.take_profit.select_take_profit instead of a
+# flat ATR multiple -- the 8-year audit named this mtfai1's "gold standard" and the single highest-
+# leverage change for the rest of the engine. select_take_profit itself already existed as a
+# standalone, generic function (not embedded in mtfai1's own code) -- nothing needed extracting;
+# what was missing was a shared way to FIND the opposing structural level from a StrategyContext,
+# which is what _opposing_structural_level below provides. Gated engine-wide behind
+# MT5_STRUCTURAL_TP_ENABLED (default False); every caller falls back to its own existing flat-ATR-
+# multiple target, unchanged, when the flag is off or no structural level is found.
+# ================================================================================================
+def _opposing_structural_level(ctx: StrategyContext, direction: str) -> Decimal | None:
+    """Nearest OPPOSING unmitigated structural reference ahead of price in `direction`'s own
+    favor -- the target a LONG would travel UP to reach, mirrored for SHORT. Same "ahead of price,
+    trade's own direction" convention already established by
+    backend/brokers/mt5/autonomous.py::_mtfai1_equal_level_clear (BUY_SIDE liquidity is ahead of a
+    LONG, SELL_SIDE ahead of a SHORT) and by _eqh_eql_touch_count's callers, just repurposed here
+    for target selection instead of an entry-blocking check.
+
+    Checked in order, first non-empty source wins (closest realistic target first, matching
+    select_take_profit's own "nearest candidate that still clears the reward floor" philosophy --
+    this function only supplies candidates, select_take_profit does the actual floor/ceiling
+    bounding):
+      1. Active (unswept) EQH/EQL equal-level pools on the ahead side (ctx.m15_snapshot.
+         equal_levels) -- the most concrete, repeated-touch liquidity concentration available.
+      2. Swing-derived LiquidityLevel pools on the ahead side (ctx.m15_snapshot.liquidity_levels).
+      3. Unmitigated order blocks / FVGs on the OPPOSING trend direction sitting ahead of price --
+         an opposing-direction OB/FVG above a LONG (or below a SHORT) is unfilled supply/demand
+         price is commonly drawn to test before any real reversal, a standard ICT target concept.
+      4. The nearest raw swing high (for LONG) / swing low (for SHORT) ahead of price, from
+         ctx.m15_snapshot.swings -- the least specific but always-available fallback.
+    Returns None when nothing qualifies in any tier -- select_take_profit's own ATR-projected-move
+    (or reward-floor) fallback applies from there; this function never invents a level."""
+    if not ctx.m15_rows:
+        return None
+    price = float(_closes(ctx.m15_rows).iloc[-1])
+    ahead_side = LiquiditySide.BUY_SIDE if direction == "LONG" else LiquiditySide.SELL_SIDE
+    opposing_trend_direction = "bearish" if direction == "LONG" else "bullish"
+
+    def _ahead(level_price: float) -> bool:
+        return (level_price > price) if direction == "LONG" else (level_price < price)
+
+    swept_ids = {s.level_id for s in ctx.m15_snapshot.equal_level_sweeps}
+    eqh_eql_candidates = [float(lvl.level) for lvl in ctx.m15_snapshot.equal_levels if lvl.side == ahead_side and lvl.id not in swept_ids and _ahead(float(lvl.level))]
+    if eqh_eql_candidates:
+        return Decimal(str(min(eqh_eql_candidates, key=lambda level: abs(level - price))))
+
+    liquidity_candidates = [float(lvl.level) for lvl in ctx.m15_snapshot.liquidity_levels if lvl.side == ahead_side and _ahead(float(lvl.level))]
+    if liquidity_candidates:
+        return Decimal(str(min(liquidity_candidates, key=lambda level: abs(level - price))))
+
+    zone_candidates: list[float] = []
+    for ob in ctx.m15_snapshot.order_blocks:
+        if ob.direction != opposing_trend_direction or ob.status in {"mitigated", "invalidated"} or ob.price_low is None or ob.price_high is None:
+            continue
+        edge = float(ob.price_low) if direction == "LONG" else float(ob.price_high)
+        if _ahead(edge):
+            zone_candidates.append(edge)
+    for fvg in ctx.m15_snapshot.imbalances:
+        if fvg.direction != opposing_trend_direction or fvg.status == "mitigated" or fvg.price_low is None or fvg.price_high is None:
+            continue
+        edge = float(fvg.price_low) if direction == "LONG" else float(fvg.price_high)
+        if _ahead(edge):
+            zone_candidates.append(edge)
+    if zone_candidates:
+        return Decimal(str(min(zone_candidates, key=lambda level: abs(level - price))))
+
+    swing_type = "high" if direction == "LONG" else "low"
+    swing_candidates = [float(s.price) for s in ctx.m15_snapshot.swings if s.swing_type == swing_type and _ahead(float(s.price))]
+    if swing_candidates:
+        return Decimal(str(min(swing_candidates, key=lambda level: abs(level - price))))
+    return None
+
+
+def _structural_take_profit(ctx: StrategyContext, *, direction: str, entry: Decimal, stop: Decimal, atr: Decimal | None) -> dict[str, Any] | None:
+    """MT5_STRUCTURAL_TP_ENABLED (default False) wrapper around select_take_profit -- the exact
+    function mtfai1's own scoring already calls, reused here rather than reimplemented. Returns
+    None when the flag is off (callers must fall back to their own existing flat-ATR-multiple
+    target unchanged) or when select_take_profit itself couldn't produce a usable tp1 (invalid
+    stop distance). This wrapper only supplies the opposing_structure_level input; it never
+    touches select_take_profit's own [1.5, 5.0]x-stop-distance bounding or its ATR-projected-move/
+    reward-floor fallback chain -- see that function's own docstring for those rules."""
+    if not _env_flag("MT5_STRUCTURAL_TP_ENABLED", False):
+        return None
+    opposing = _opposing_structural_level(ctx, direction)
+    selection = select_take_profit(direction=direction, entry=entry, stop_loss=stop, opposing_structure_level=opposing, atr=atr)
+    if selection.get("tp1") is None:
+        return None
+    return selection

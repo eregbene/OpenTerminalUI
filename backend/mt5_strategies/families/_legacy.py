@@ -1,30 +1,35 @@
 """Mechanical, byte-identical extraction of the strategy families not otherwise given their own
-module (`liquidity_sweep_reversal`, `support_resistance_bounce`, `momentum`, `session_breakout`,
-`vwap_reversion`, `wyckoff`) out of the pre-restructure `backend/mt5_strategies/families.py`
-monolith (see that file's git history, last version before the 2026-08-20 split: commit 387e4ed).
+module (`liquidity_sweep_reversal`, `session_breakout`, `wyckoff`) out of the pre-restructure
+`backend/mt5_strategies/families.py` monolith (see that file's git history, last version before
+the 2026-08-20 split: commit 387e4ed).
 
 Every function body below is copied verbatim -- same logic, same reasons, same evidence keys,
 same stop/target math. The ONLY changes from the original module are import-path updates: the
 shared helpers (`_closes`, `_dynamic_stop`, `_signal`, `_no_signal`, `_eqh_eql_touch_count`,
 `_squeeze_evidence`, `_geometry_metadata`) now come from `families/_shared.py` instead of being
-defined in this same file. `trend_pullback`, `breakout`, and `smc_continuation` were rewritten in
-the 2026-08-20 (Phase 1) restructure; `ema_trend` and `mean_reversion` were extracted out into
-their own modules in the 2026-08-21 (Phase 2) restructure specifically to give their new ADX
-regime gates a real home -- none of the five are here. `momentum` and `session_breakout` are
-still here unmodified even though the Phase 2 spec's regime/session-timing tables name them too
-(CHOP_RANGING disables momentum; both are session-timing-restricted) -- wiring those two gates in
-was out of scope for the Phase 2 deliverable's requested output-file list; the shared gate
-functions in `_shared.py` already key correctly on their strategy_id, so doing so later is a
-small, additive change to this file, not a redesign.
+defined in this same file.
+
+Extraction history: `trend_pullback`, `breakout`, and `smc_continuation` were rewritten in the
+2026-08-20 (Phase 1) restructure; `ema_trend` and `mean_reversion` were extracted into their own
+modules in the 2026-08-21 (Phase 2) restructure for their new ADX regime gates; `vwap_reversion`,
+`support_resistance_bounce`, and `momentum` were extracted into their own modules in the
+2026-08-21 (Phase 3) restructure (session-anchor bug fix, HTF gate, deprecation circuit breaker
+respectively) -- none of those eight are here.
+
+`session_breakout` is still here unmodified even though the Phase 2 spec's session-timing table
+names it, and the Phase 3 spec's IDM precondition (Section 3) was scoped to `breakout.py` and
+`session_breakout.py` together -- wiring either gate into this specific evaluator was out of scope
+for the Phase 2 and Phase 3 deliverables' requested output-file lists; `_shared.py`'s gate
+functions (`_session_timing_permits`, `_liquidity_sweep_precedes`) already key correctly on
+strategy_id / accept an explicit trend_direction, so wiring them in later is additive, not a
+redesign. `liquidity_sweep_reversal` carries a standing do-not-touch directive from the original
+8-year audit. `wyckoff` is confirmed isolated (default DISABLED activation) and was never in scope
+for any phase's structural-TP propagation list.
 """
 from __future__ import annotations
 
 from decimal import Decimal
 
-import pandas as pd
-
-from backend.core.technicals import macd as _macd_frame
-from backend.core.technicals import rsi as _rsi_series
 from backend.market_structure.models import StructureBreakKind
 from backend.market_structure.wyckoff import analyze_wyckoff
 from backend.mt5_strategies.context import StrategyContext
@@ -41,10 +46,7 @@ from backend.mt5_strategies.models import StrategySignal
 
 __all__ = [
     "evaluate_liquidity_sweep_reversal",
-    "evaluate_support_resistance_bounce",
-    "evaluate_momentum",
     "evaluate_session_breakout",
-    "evaluate_vwap_reversion",
     "evaluate_wyckoff",
 ]
 
@@ -98,78 +100,6 @@ def evaluate_liquidity_sweep_reversal(ctx: StrategyContext) -> StrategySignal:
                     metadata=_geometry_metadata(ctx, entry, stop, latest_sweep.swept_price, atr, 1.0, 3.0))
 
 
-# --------------------------------------------------------------- support_resistance_bounce ---
-def evaluate_support_resistance_bounce(ctx: StrategyContext) -> StrategySignal:
-    """Price within ATR-scaled tolerance of a backend.market_structure LiquidityLevel (swing-
-    derived, not a separate rolling-window S/R calc), with a rejecting last candle."""
-    levels = ctx.m15_snapshot.liquidity_levels
-    if not levels:
-        return _no_signal(ctx, strategy_id="support_resistance_bounce", family="support_resistance_bounce", timeframe="M15", reason="no_liquidity_levels")
-    price = float(_closes(ctx.m15_rows).iloc[-1])
-    nearest = min(levels, key=lambda lv: abs(float(lv.level) - price))
-    atr = float(ctx.atr_m15) if ctx.atr_m15 else 0.0001
-    tolerance = max(float(nearest.tolerance), atr)
-    if abs(float(nearest.level) - price) > tolerance:
-        return _no_signal(ctx, strategy_id="support_resistance_bounce", family="support_resistance_bounce", timeframe="M15", reason="price_not_near_level")
-    last = ctx.m15_rows[-1]
-    bullish_reject = nearest.side == "sell_side" and float(last["close"]) > float(last["open"])
-    bearish_reject = nearest.side == "buy_side" and float(last["close"]) < float(last["open"])
-    if not (bullish_reject or bearish_reject):
-        return _no_signal(ctx, strategy_id="support_resistance_bounce", family="support_resistance_bounce", timeframe="M15", reason="no_rejection_candle")
-    direction = "LONG" if bullish_reject else "SHORT"
-    entry = Decimal(str(price))
-    atr_d = Decimal(str(atr))
-    # Pure ATR stop, no structural level (entry is already essentially AT nearest.level by this
-    # strategy's own trigger condition -- using it as the structural reference would collapse to
-    # a near-zero raw distance every time, adding a spurious failure mode for no benefit since
-    # min_atr_mult==max_atr_mult already fixes the distance regardless).
-    stop, stop_reason = _dynamic_stop(ctx, direction, entry, None, atr_d, min_atr_mult=1.2, max_atr_mult=1.2)
-    if stop is None:
-        return _no_signal(ctx, strategy_id="support_resistance_bounce", family="support_resistance_bounce", timeframe="M15", reason=stop_reason)
-    target = entry + atr_d * Decimal("2.2") if direction == "LONG" else entry - atr_d * Decimal("2.2")
-    eqh_eql_touches = _eqh_eql_touch_count(ctx, side=nearest.side, price=price, atr=atr)
-    strength = 68.0 + (12.0 if eqh_eql_touches >= 2 else 0.0)
-    evidence = {"level_id": nearest.id, "level": float(nearest.level), "side": nearest.side, "eqh_eql_touch_count": eqh_eql_touches}
-    evidence.update(_squeeze_evidence(ctx))
-    return _signal(ctx, strategy_id="support_resistance_bounce", family="support_resistance_bounce", timeframe="M15", direction=direction, strength=min(100.0, strength),
-                    entry=entry, stop=stop, target=target, evidence=evidence,
-                    metadata=_geometry_metadata(ctx, entry, stop, None, atr_d, 1.2, 1.2))
-
-
-# ------------------------------------------------------------------------------- momentum ---
-def evaluate_momentum(ctx: StrategyContext) -> StrategySignal:
-    """RSI + MACD alignment, no SMC dependency -- a pure momentum read."""
-    closes = _closes(ctx.m15_rows)
-    if len(closes) < 40:
-        return _no_signal(ctx, strategy_id="momentum", family="momentum", timeframe="M15", reason="insufficient_history")
-    rsi_series = _rsi_series(closes, 14)
-    macd_frame = _macd_frame(closes)
-    latest_rsi = float(rsi_series.iloc[-1]) if pd.notna(rsi_series.iloc[-1]) else 50.0
-    macd_line, signal_line = float(macd_frame["macd"].iloc[-1]), float(macd_frame["signal"].iloc[-1])
-    long_aligned = latest_rsi > 55 and macd_line > signal_line
-    short_aligned = latest_rsi < 45 and macd_line < signal_line
-    if not (long_aligned or short_aligned):
-        return _no_signal(ctx, strategy_id="momentum", family="momentum", timeframe="M15", reason="momentum_not_aligned")
-    direction = "LONG" if long_aligned else "SHORT"
-    price = float(closes.iloc[-1])
-    entry = Decimal(str(price))
-    atr = ctx.atr_m15 or Decimal("0.0001")
-    stop, stop_reason = _dynamic_stop(ctx, direction, entry, None, atr, min_atr_mult=1.5, max_atr_mult=1.5)
-    if stop is None:
-        return _no_signal(ctx, strategy_id="momentum", family="momentum", timeframe="M15", reason=stop_reason)
-    target = entry + atr * Decimal("2.5") if direction == "LONG" else entry - atr * Decimal("2.5")
-    strength = 60.0 + min(30.0, abs(macd_line - signal_line) / max(abs(macd_line), 1e-9) * 30.0)
-    eqh_eql_side = "sell_side" if direction == "LONG" else "buy_side"
-    evidence = {
-        "rsi14": latest_rsi, "macd": macd_line, "macd_signal": signal_line,
-        "eqh_eql_touch_count": _eqh_eql_touch_count(ctx, side=eqh_eql_side, price=price, atr=float(atr)),
-    }
-    evidence.update(_squeeze_evidence(ctx))  # observability only -- see _squeeze_evidence's docstring
-    return _signal(ctx, strategy_id="momentum", family="momentum", timeframe="M15", direction=direction, strength=min(100.0, strength),
-                    entry=entry, stop=stop, target=target, evidence=evidence,
-                    metadata=_geometry_metadata(ctx, entry, stop, None, atr, 1.5, 1.5))
-
-
 # ------------------------------------------------------------------------ session_breakout ---
 def evaluate_session_breakout(ctx: StrategyContext) -> StrategySignal:
     """Breakout beyond the most recently completed session's high/low (Asian/London/NY,
@@ -203,49 +133,6 @@ def evaluate_session_breakout(ctx: StrategyContext) -> StrategySignal:
     return _signal(ctx, strategy_id="session_breakout", family="session_breakout", timeframe="M15", direction=direction, strength=64.0,
                     entry=entry, stop=stop, target=target, evidence=evidence,
                     metadata=_geometry_metadata(ctx, entry, stop, reference.level, atr, 1.0, 3.0))
-
-
-# -------------------------------------------------------------------------- vwap_reversion ---
-def evaluate_vwap_reversion(ctx: StrategyContext) -> StrategySignal:
-    """Session-anchored cumulative VWAP (close*volume cumsum / volume cumsum -- the same real
-    formula as backend/core/strategy_runner.py's _generate_vwap_reversion_signals, re-derived
-    here for a single live evaluation rather than importing that backtest-array-oriented
-    function) with a volume-confirmed deviation-based reversion signal. NOT the mislabeled
-    intelligence/trading::VWAPStrategy, which the audit found actually uses EMA20."""
-    if len(ctx.m15_rows) < 30:
-        return _no_signal(ctx, strategy_id="vwap_reversion", family="vwap_reversion", timeframe="M15", reason="insufficient_history")
-    closes = pd.Series([float(r["close"]) for r in ctx.m15_rows])
-    volumes = pd.Series([float(r.get("tick_volume") or 0) for r in ctx.m15_rows]).replace(0, pd.NA)
-    if volumes.isna().all():
-        return _no_signal(ctx, strategy_id="vwap_reversion", family="vwap_reversion", timeframe="M15", reason="no_volume_data")
-    cumulative_vwap = (closes * volumes).cumsum() / volumes.cumsum()
-    vwap_now = float(cumulative_vwap.iloc[-1])
-    price = float(closes.iloc[-1])
-    avg_volume = volumes.fillna(0).rolling(20, min_periods=1).mean().iloc[-1]
-    volume_now = float(volumes.fillna(0).iloc[-1])
-    deviation_pct = (price - vwap_now) / vwap_now if vwap_now else 0.0
-    volume_confirmed = volume_now > float(avg_volume) * 1.3 if avg_volume else False
-    if deviation_pct < -0.0015 and volume_confirmed:
-        direction = "LONG"
-    elif deviation_pct > 0.0015:
-        direction = "SHORT"
-    else:
-        return _no_signal(ctx, strategy_id="vwap_reversion", family="vwap_reversion", timeframe="M15", reason="price_not_deviated_from_vwap")
-    entry = Decimal(str(price))
-    atr = ctx.atr_m15 or Decimal("0.0001")
-    stop, stop_reason = _dynamic_stop(ctx, direction, entry, None, atr, min_atr_mult=1.2, max_atr_mult=1.2)
-    if stop is None:
-        return _no_signal(ctx, strategy_id="vwap_reversion", family="vwap_reversion", timeframe="M15", reason=stop_reason)
-    target = Decimal(str(vwap_now))
-    eqh_eql_side = "sell_side" if direction == "LONG" else "buy_side"
-    evidence = {
-        "vwap": vwap_now, "deviation_pct": deviation_pct, "volume_confirmed": volume_confirmed,
-        "eqh_eql_touch_count": _eqh_eql_touch_count(ctx, side=eqh_eql_side, price=price, atr=float(atr)),
-    }
-    evidence.update(_squeeze_evidence(ctx))
-    return _signal(ctx, strategy_id="vwap_reversion", family="vwap_reversion", timeframe="M15", direction=direction, strength=58.0,
-                    entry=entry, stop=stop, target=target, evidence=evidence,
-                    metadata=_geometry_metadata(ctx, entry, stop, None, atr, 1.2, 1.2))
 
 
 # --------------------------------------------------------------------------------- wyckoff ---

@@ -334,6 +334,16 @@ services:
       MT5_STALE_EXIT_MIN_R: "${MT5_STALE_EXIT_MIN_R:-0.5}"
       MT5_SPREAD_FILTER_ENABLED: "${MT5_SPREAD_FILTER_ENABLED:-false}"
       MT5_MAX_SPREAD_MULT: "${MT5_MAX_SPREAD_MULT:-1.5}"
+      # Phase 3 (2026-08-21 blueprint) -- structural take-profit propagation, breakout IDM
+      # precondition, ema_trend structural trigger, support_resistance_bounce HTF gate, momentum
+      # deprecation circuit breaker. See backend/mt5_strategies/families/_shared.py and each
+      # named evaluator. MT5_MOMENTUM_STRATEGY_ENABLED is the one flag in Phases 1-3 whose
+      # default is NOT a no-op -- default False takes momentum out of live signal generation now.
+      MT5_STRUCTURAL_TP_ENABLED: "${MT5_STRUCTURAL_TP_ENABLED:-false}"
+      MT5_BREAKOUT_IDM_REQUIRED: "${MT5_BREAKOUT_IDM_REQUIRED:-false}"
+      MT5_EMA_TREND_STRUCTURAL_TRIGGER_ENABLED: "${MT5_EMA_TREND_STRUCTURAL_TRIGGER_ENABLED:-false}"
+      MT5_SR_BOUNCE_HTF_GATE_ENABLED: "${MT5_SR_BOUNCE_HTF_GATE_ENABLED:-false}"
+      MT5_MOMENTUM_STRATEGY_ENABLED: "${MT5_MOMENTUM_STRATEGY_ENABLED:-false}"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
