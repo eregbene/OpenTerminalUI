@@ -308,6 +308,32 @@ services:
       MAX_CORRELATED_OPEN_RISK_PCT: "${MAX_CORRELATED_OPEN_RISK_PCT:-0.75}"
       LIVE_TRADING_ENABLED: "${LIVE_TRADING_ENABLED:-false}"
       PROP_TRADING_ENABLED: "${PROP_TRADING_ENABLED:-false}"
+      # Phase 1 (2026-08-20 architecture blueprint) -- pivot trendlines + breakout/trend_pullback/
+      # smc_continuation flagged levers. See backend/market_structure/pivot_trendlines.py and
+      # backend/mt5_strategies/families/{breakout,trend_pullback,smc_continuation}.py.
+      MT5_PIVOT_TRENDLINE_COMPUTE_ENABLED: "${MT5_PIVOT_TRENDLINE_COMPUTE_ENABLED:-true}"
+      MT5_PIVOT_TRENDLINE_LIVE_INFLUENCE_ENABLED: "${MT5_PIVOT_TRENDLINE_LIVE_INFLUENCE_ENABLED:-false}"
+      MT5_BREAKOUT_ATR_BUFFER_ENABLED: "${MT5_BREAKOUT_ATR_BUFFER_ENABLED:-false}"
+      MT5_BREAKOUT_ATR_BUFFER_MULT: "${MT5_BREAKOUT_ATR_BUFFER_MULT:-0.5}"
+      MT5_BREAKOUT_ENTRY_MODE: "${MT5_BREAKOUT_ENTRY_MODE:-BREAK_AND_GO}"
+      MT5_BREAKOUT_RETEST_LOOKBACK_BARS: "${MT5_BREAKOUT_RETEST_LOOKBACK_BARS:-20}"
+      MT5_BREAKOUT_HTF_GATE_ENABLED: "${MT5_BREAKOUT_HTF_GATE_ENABLED:-false}"
+      MT5_TREND_PULLBACK_ANTI_CHOCH_GATE_ENABLED: "${MT5_TREND_PULLBACK_ANTI_CHOCH_GATE_ENABLED:-false}"
+      MT5_TREND_PULLBACK_ANTI_CHOCH_LOOKBACK_BARS: "${MT5_TREND_PULLBACK_ANTI_CHOCH_LOOKBACK_BARS:-10}"
+      MT5_TREND_PULLBACK_CONFLUENCE_MODE: "${MT5_TREND_PULLBACK_CONFLUENCE_MODE:-EMA_ZONE}"
+      MT5_TREND_PULLBACK_REACTION_CANDLE_REQUIRED: "${MT5_TREND_PULLBACK_REACTION_CANDLE_REQUIRED:-false}"
+      MT5_SMC_CONTINUATION_IDM_REQUIRED: "${MT5_SMC_CONTINUATION_IDM_REQUIRED:-false}"
+      # Phase 2 (2026-08-21 blueprint) -- engine-wide ADX regime gate, session-liquidity timing
+      # filter, stale-trade exit metadata, spread safety buffer. See
+      # backend/mt5_strategies/context.py and backend/mt5_strategies/families/_shared.py.
+      MT5_REGIME_FILTER_ENABLED: "${MT5_REGIME_FILTER_ENABLED:-false}"
+      MT5_HIGH_VOL_ATR_WIDEN_MULT: "${MT5_HIGH_VOL_ATR_WIDEN_MULT:-1.3}"
+      MT5_SESSION_TIMING_FILTER_ENABLED: "${MT5_SESSION_TIMING_FILTER_ENABLED:-false}"
+      MT5_STALE_EXIT_ENABLED: "${MT5_STALE_EXIT_ENABLED:-false}"
+      MT5_STALE_EXIT_BARS: "${MT5_STALE_EXIT_BARS:-8}"
+      MT5_STALE_EXIT_MIN_R: "${MT5_STALE_EXIT_MIN_R:-0.5}"
+      MT5_SPREAD_FILTER_ENABLED: "${MT5_SPREAD_FILTER_ENABLED:-false}"
+      MT5_MAX_SPREAD_MULT: "${MT5_MAX_SPREAD_MULT:-1.5}"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:

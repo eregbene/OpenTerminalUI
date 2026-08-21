@@ -16,6 +16,7 @@ Reuses:
 """
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from decimal import Decimal
@@ -25,8 +26,64 @@ from backend.adaptive_management.service import detect_regime
 from backend.market_structure.bar_utils import average_true_range, normalize_bars
 from backend.market_structure.engine import analyze_bars
 from backend.market_structure.models import MarketStructureSnapshot, TrendLabel
+from backend.market_structure.oscillators import adx as _adx_series
 from backend.market_structure.oscillators import lorentzian_feature_series
+from backend.market_structure.pivot_trendlines import TrendlinePivotSummary, detect_pivot_trendlines
 from backend.market_structure.squeeze_momentum import bollinger_bands, keltner_channels, squeeze_momentum, squeeze_states
+
+
+def _env_flag(name: str, default: bool) -> bool:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    return raw.strip().lower() in {"1", "true", "yes", "on"}
+
+
+# ------------------------------------------------------- Phase 2: ADX regime classifier ---
+# Regime labels (2026-08-21 Phase 2 blueprint, Section 1). Always computed and attached to every
+# StrategyContext -- compute cost only, same "presence != activation" contract as squeeze_state/
+# trendline_pivots above. Gating any strategy's eligibility on this requires
+# MT5_REGIME_FILTER_ENABLED (default False, fail-open) -- see families/_shared.py's regime gates.
+REGIME_CHOP_RANGING = "CHOP_RANGING"
+REGIME_TRENDING_STRONG = "TRENDING_STRONG"
+REGIME_HIGH_VOLATILITY_EXPANSION = "HIGH_VOLATILITY_EXPANSION"
+REGIME_QUIET_COMPRESSION = "QUIET_COMPRESSION"
+REGIME_NEUTRAL = "NEUTRAL"
+
+_ADX_CHOP_THRESHOLD = 20.0
+_ADX_TREND_THRESHOLD = 25.0
+_ADX_COMPRESSION_THRESHOLD = 15.0
+_ATR_EXPANSION_MULT = 1.8
+_ATR_COMPRESSION_MULT = 0.7
+
+
+def classify_market_regime(adx_value: float | None, atr_expansion_ratio: float | None) -> str:
+    """Pure classification -- given the current ADX(14, M15) reading and the current ATR's ratio
+    to its own 50-bar SMA, returns exactly one of the 4 Phase 2 regime labels (or NEUTRAL when
+    neither ADX nor volatility conditions clearly apply, e.g. ADX between 20-25 with normal
+    volatility). The spec's 4 conditions are not mutually exclusive as written (e.g. ADX=10 with
+    a 2x ATR expansion satisfies both CHOP_RANGING and HIGH_VOLATILITY_EXPANSION), so this
+    function applies an explicit precedence, most-specific first:
+      1. QUIET_COMPRESSION (both ADX<15 AND ATR<0.7x -- the most specific combination)
+      2. HIGH_VOLATILITY_EXPANSION (a volatility spike matters regardless of trend strength --
+         "force wider ATR buffers" applies whether the market is choppy or trending through it)
+      3. TRENDING_STRONG (ADX>25)
+      4. CHOP_RANGING (ADX<20, whatever remains once the two conditions above are ruled out)
+      5. NEUTRAL (ADX 20-25 with unremarkable volatility -- not covered by the spec's 4 buckets)
+    Returns NEUTRAL (never a guess) when adx_value is None (insufficient M15 history for ADX's
+    own warmup window) -- callers must treat NEUTRAL as "no regime-based gating applies", never
+    as a synonym for CHOP_RANGING or any other specific bucket."""
+    if adx_value is None:
+        return REGIME_NEUTRAL
+    if atr_expansion_ratio is not None and adx_value < _ADX_COMPRESSION_THRESHOLD and atr_expansion_ratio < _ATR_COMPRESSION_MULT:
+        return REGIME_QUIET_COMPRESSION
+    if atr_expansion_ratio is not None and atr_expansion_ratio > _ATR_EXPANSION_MULT:
+        return REGIME_HIGH_VOLATILITY_EXPANSION
+    if adx_value > _ADX_TREND_THRESHOLD:
+        return REGIME_TRENDING_STRONG
+    if adx_value < _ADX_CHOP_THRESHOLD:
+        return REGIME_CHOP_RANGING
+    return REGIME_NEUTRAL
 
 
 @dataclass(frozen=True)
@@ -48,8 +105,14 @@ class StrategyContext:
     spread: Decimal
     # Broker minimum stop distance in price units (symbol_info.trade_stops_level *
     # symbol_info.point), None when unknown -- see build_strategy_context's `symbol_info` param
-    # and families.py::_dynamic_stop. Never guessed; only ever set from real broker metadata.
+    # and families/_shared.py::_dynamic_stop. Never guessed; only ever set from real broker metadata.
     broker_min_stop_distance: Decimal | None = None
+    # symbol_info.point itself, in price units, None when symbol_info wasn't supplied -- Phase 2's
+    # _spread_within_safety_buffer needs this to convert MT5Candle.spread (an integer POINT count
+    # -- see backend/brokers/mt5/models.py) into the same price units as ctx.spread (ask-bid, see
+    # backend/brokers/mt5/quotes.py::quote_from_tick) for an apples-to-apples comparison. Never
+    # guessed; fail-open (no filtering) when unavailable, same contract as broker_min_stop_distance.
+    point_value: Decimal | None = None
     # Never read by any strategy (only htf_trend_h1/h4's derived label above is) -- carried here
     # purely so the caller (autonomous.py::_screen, running in the main event loop) can write a
     # freshly-computed H1/H4 snapshot back to the Redis deterministic-computation cache after
@@ -73,6 +136,26 @@ class StrategyContext:
     # existing strategy. See backend/historical_intelligence/lorentzian_similarity.py for the
     # distance/kNN engine built on top of this feature.
     lorentzian_features: tuple[float, float, float, float] | None = None
+    # Dynamic pivot-trendline primitive (2026-08-20 architecture blueprint, Section 3.2) --
+    # connects sequential same-type swings already present in m15_snapshot.swings into candidate
+    # trendlines (slope/angle/touch-count/break-state). Computed behind
+    # MT5_PIVOT_TRENDLINE_COMPUTE_ENABLED (default True: compute cost only, always attached to
+    # candidate evidence for the historical-intelligence fingerprint corpus to accumulate
+    # against). Read by ZERO strategies -- gating any strategy's actual decision on this requires
+    # MT5_PIVOT_TRENDLINE_LIVE_INFLUENCE_ENABLED (default False) AND a chronological OOS
+    # fingerprint replay proving the sign is stable, the same bar squeeze_momentum was held to
+    # and did not clear (see families/_shared.py::_squeeze_evidence). None when compute is
+    # disabled, history is too short, or computation fails for any reason (fails open -- this
+    # feature must never be able to block a cycle).
+    trendline_pivots: tuple[TrendlinePivotSummary, ...] | None = None
+    # Phase 2 (2026-08-21): raw ADX(14, M15) reading, current ATR's ratio to its own 50-bar SMA
+    # (>1 means expanding volatility, <1 means contracting), and the resulting classify_
+    # market_regime() label -- always computed (compute cost only; see classify_market_regime's
+    # own docstring for the NEUTRAL fallback), gated for STRATEGY use behind
+    # MT5_REGIME_FILTER_ENABLED in families/_shared.py's regime-gate helpers, not here.
+    adx_m15: float | None = None
+    atr_expansion_ratio: float | None = None
+    market_regime: str = REGIME_NEUTRAL
 
 
 def quick_regime(m15_rows: list[dict[str, Any]]) -> dict[str, Any]:
@@ -186,10 +269,40 @@ def build_strategy_context(
         lorentzian_series = lorentzian_feature_series(m15_bars, normalize_window=100)
         lorentzian_features_current = lorentzian_series[-1] if lorentzian_series else None
 
+    trendline_pivots_current: tuple[TrendlinePivotSummary, ...] | None = None
+    if _env_flag("MT5_PIVOT_TRENDLINE_COMPUTE_ENABLED", True) and len(m15_bars) >= 20:
+        try:
+            trendline_pivots_current = detect_pivot_trendlines(
+                m15_snapshot.swings, m15_bars, atrs, symbol=broker_symbol, timeframe="M15",
+            )
+        except Exception:
+            # Observability-only feature (Part 3.2 of the 2026-08-20 blueprint) -- a computation
+            # failure here must never prevent a cycle from producing a context. None is
+            # indistinguishable from "compute disabled" to every downstream reader.
+            trendline_pivots_current = None
+
+    adx_m15_current: float | None = None
+    atr_expansion_ratio_current: float | None = None
+    if len(m15_bars) >= 14:
+        adx_series = _adx_series(m15_bars, 14)
+        adx_m15_current = adx_series[-1] if adx_series else None
+    valid_atrs = [float(a) for a in atrs if a is not None]
+    if atr_m15 is not None and len(valid_atrs) >= 50:
+        atr_sma_50 = sum(valid_atrs[-50:]) / 50.0
+        if atr_sma_50 > 0:
+            atr_expansion_ratio_current = float(atr_m15) / atr_sma_50
+    market_regime_current = classify_market_regime(adx_m15_current, atr_expansion_ratio_current)
+
     broker_min_stop_distance = None
+    point_value_current: Decimal | None = None
     if symbol_info is not None:
         stops_level = getattr(symbol_info, "trade_stops_level", None)
         point = getattr(symbol_info, "point", None)
+        if point:
+            try:
+                point_value_current = Decimal(str(point))
+            except Exception:
+                point_value_current = None
         if stops_level and point:
             try:
                 broker_min_stop_distance = Decimal(str(stops_level)) * Decimal(str(point))
@@ -218,6 +331,11 @@ def build_strategy_context(
         squeeze_state=squeeze_state_value,
         squeeze_momentum_value=squeeze_momentum_current,
         lorentzian_features=lorentzian_features_current,
+        trendline_pivots=trendline_pivots_current,
+        adx_m15=adx_m15_current,
+        atr_expansion_ratio=atr_expansion_ratio_current,
+        market_regime=market_regime_current,
+        point_value=point_value_current,
     )
 
 
@@ -259,8 +377,19 @@ def summarize_smc_evidence(ctx: StrategyContext) -> dict[str, Any]:
         # LazyBear squeeze/momentum (2026-08-17) -- broadcast here (not just families.py's own
         # per-strategy evidence) so MTFAI1 gets it too via _build_multi_strategy_analysis's
         # existing smc_evidence broadcast to every candidate, without a separate autonomous.py
-        # change. Observability only everywhere -- see families.py::_squeeze_evidence's docstring
-        # for the negative Stage-2 OOS finding this must never contradict.
+        # change. Observability only everywhere -- see families/_shared.py::_squeeze_evidence's
+        # docstring for the negative Stage-2 OOS finding this must never contradict.
         "squeeze_state": ctx.squeeze_state,
         "squeeze_momentum_value": ctx.squeeze_momentum_value,
+        # Pivot trendlines (2026-08-20) -- observability only, same contract as squeeze above.
+        # Summarized to counts/flags rather than the full tuple so this dict stays JSON-cheap;
+        # the full TrendlinePivotSummary objects remain on ctx.trendline_pivots for any caller
+        # (e.g. historical-intelligence fingerprinting) that wants the raw lines.
+        "trendline_pivot_count": len(ctx.trendline_pivots) if ctx.trendline_pivots else 0,
+        "trendline_pivot_broken_count": sum(1 for line in ctx.trendline_pivots if line.is_broken) if ctx.trendline_pivots else 0,
+        # Phase 2 (2026-08-21) -- observability only here too; see families/_shared.py for the
+        # actual gating helpers this feeds when MT5_REGIME_FILTER_ENABLED is on.
+        "adx_m15": ctx.adx_m15,
+        "atr_expansion_ratio": ctx.atr_expansion_ratio,
+        "market_regime": ctx.market_regime,
     }
