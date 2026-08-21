@@ -307,15 +307,21 @@ def query_trade_memory(limit: int = 100, symbol: str | None = None, recommendati
         return [_orm_dict(row) for row in rows]
 
 
-def confidence_memory_for_symbol(symbol: str, account_id: str = "demo_10k") -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
-    """(symbol_memory, global_memory) for the deterministic confidence engine
-    (backend/brokers/mt5/confidence.py) -- same MT5TradeMemorySnapshotORM data and
-    scope convention learning_context_for_candidate already uses, just returned
-    directly rather than folded into a guidance summary. account_id scoped so one account's
-    win-rate/expectancy memory never influences another account's confidence scoring."""
-    symbol_memory = _first_memory(query_trade_memory(limit=50, symbol=symbol.upper(), account_id=account_id), scope="SYMBOL")
-    global_memory = _first_memory(query_trade_memory(limit=10, account_id=account_id), scope="GLOBAL")
-    return symbol_memory, global_memory
+def confidence_memory_for_symbol(symbol: str, account_id: str = "demo_10k", *, strategy_id: str | None = None) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+    """(symbol_memory, strategy_memory) for the deterministic confidence engine
+    (backend/brokers/mt5/confidence.py -- symbol_performance/strategy_performance components).
+
+    Was previously backed by MT5TradeMemorySnapshotORM, which nothing has ever written to (that
+    write pipeline was never implemented), so both components were always a constant neutral
+    score. Delegates instead to mt5_strategies.performance_monitor, the authoritative,
+    already-real, position-level, sample-size-gated performance source (see that module's
+    docstring) -- per the fix instruction not to build a second competing source of truth.
+    strategy_id is optional (a candidate that predates strategy tagging still gets symbol memory)."""
+    from backend.mt5_strategies.performance_monitor import performance_memory_for_confidence
+
+    symbol_memory = performance_memory_for_confidence(symbol=symbol.upper())
+    strategy_memory = performance_memory_for_confidence(strategy_id=strategy_id) if strategy_id else None
+    return symbol_memory, strategy_memory
 
 
 def learning_context_for_candidate(candidate: dict[str, Any], account_id: str = "demo_10k") -> dict[str, Any]:

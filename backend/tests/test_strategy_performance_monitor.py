@@ -22,8 +22,10 @@ from backend.mt5_strategies.performance_monitor import (
     _decide,
     _persist,
     _real_trade_stats,
+    _real_trade_stats_by_symbol,
     _shadow_stats,
     compute_recommendations,
+    performance_memory_for_confidence,
 )
 from backend.shared.test_db_safety import redirect_shared_db_to_isolated_sqlite
 
@@ -31,7 +33,7 @@ NOW = datetime.now(timezone.utc)
 _id_counter = itertools.count()
 
 
-def _position(strategy_id: str, *, realized_r: float, risk_money: float = 100.0, closed_days_ago: int = 1) -> AdaptivePositionStateORM:
+def _position(strategy_id: str, *, realized_r: float, risk_money: float = 100.0, closed_days_ago: int = 1, symbol: str = "EURUSD") -> AdaptivePositionStateORM:
     # Matches real production semantics (verified directly against closed positions):
     # max_achieved_r floors at 0 (never goes negative even for a straight-to-loss trade), and
     # current_giveback_r captures the full adverse excursion regardless of whether there was
@@ -41,7 +43,7 @@ def _position(strategy_id: str, *, realized_r: float, risk_money: float = 100.0,
     giveback_r = max_achieved_r - realized_r
     return AdaptivePositionStateORM(
         position_id=f"POS_{strategy_id}_{next(_id_counter)}",
-        symbol="EURUSD", direction="LONG", broker_ticket="1", opened_at=NOW - timedelta(days=closed_days_ago, hours=1),
+        symbol=symbol, direction="LONG", broker_ticket="1", opened_at=NOW - timedelta(days=closed_days_ago, hours=1),
         original_volume=0.1, current_volume=0.1, entry_price=1.1000, original_sl=1.0950, current_sl=1.0950,
         strategy_id=strategy_id, closed_detected_at=NOW - timedelta(days=closed_days_ago),
         max_achieved_r=max_achieved_r, current_giveback_r=giveback_r,
@@ -212,3 +214,91 @@ def test_persist_preserves_human_review_decision_across_reruns(monkeypatch: pyte
         assert row.status == "REJECTED"
         assert row.reviewed_by == "user"
         assert row.reasoning == "second pass, fresher numbers"
+
+
+# --- performance_memory_for_confidence (Priority 1 confidence-engine fix) -----------------
+# strategy_performance/symbol_performance in backend/brokers/mt5/confidence.py used to be a
+# constant neutral score because nothing ever wrote to MT5TradeMemorySnapshotORM. These prove
+# the bridge into this module's real, already-authoritative real-trade/shadow ledger instead.
+
+
+def test_real_trade_stats_by_symbol_groups_across_strategies(monkeypatch: pytest.MonkeyPatch):
+    """symbol_performance is deliberately NOT strategy-scoped -- a symbol's real trade history
+    should include every strategy that traded it, unlike strategy_performance's solo-only rule."""
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    with SessionLocal() as db:
+        db.add(_position("ema_trend", realized_r=1.0, symbol="GBPUSD"))
+        db.add(_position("momentum", realized_r=-0.5, symbol="GBPUSD"))
+        db.add(_position("ema_trend", realized_r=5.0, symbol="EURUSD"))  # different symbol, excluded
+        db.commit()
+
+    stats = _real_trade_stats_by_symbol("GBPUSD", NOW - timedelta(days=14))
+    assert stats["sample_size"] == 2
+    assert stats["expectancy_r"] == pytest.approx(0.25)
+
+
+def test_performance_memory_for_confidence_requires_exactly_one_scope():
+    assert performance_memory_for_confidence() is None
+    assert performance_memory_for_confidence(strategy_id="ema_trend", symbol="EURUSD") is None
+
+
+def test_performance_memory_for_confidence_returns_none_without_evidence(monkeypatch: pytest.MonkeyPatch):
+    redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    assert performance_memory_for_confidence(symbol="EURUSD") is None
+    assert performance_memory_for_confidence(strategy_id="ema_trend") is None
+
+
+def test_performance_memory_for_confidence_shapes_symbol_stats_for_the_confidence_component(monkeypatch: pytest.MonkeyPatch):
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    with SessionLocal() as db:
+        for _ in range(5):
+            db.add(_position("ema_trend", realized_r=1.0, symbol="EURUSD"))
+        db.commit()
+
+    memory = performance_memory_for_confidence(symbol="EURUSD")
+    assert memory == {"closed_trade_count": 5, "win_rate": 1.0, "recommendation": "NEUTRAL", "expectancy": 1.0}
+
+
+def test_performance_memory_for_confidence_flags_avoid_below_demote_threshold(monkeypatch: pytest.MonkeyPatch):
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    with SessionLocal() as db:
+        for _ in range(20):
+            db.add(_position("mtfai1", realized_r=DEMOTE_EXPECTANCY_R_THRESHOLD - 0.5))
+        db.commit()
+
+    memory = performance_memory_for_confidence(strategy_id="mtfai1")
+    assert memory is not None
+    assert memory["recommendation"] == "AVOID"
+    assert memory["closed_trade_count"] == 20
+
+
+def test_performance_memory_for_confidence_flags_reduce_risk_when_mildly_negative(monkeypatch: pytest.MonkeyPatch):
+    """Between 0 and DEMOTE_EXPECTANCY_R_THRESHOLD is a caution zone, not yet a full AVOID --
+    mirrors confidence.py's own REDUCE_RISK cap being softer than AVOID's."""
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    mildly_negative_r = DEMOTE_EXPECTANCY_R_THRESHOLD / 2
+    assert DEMOTE_EXPECTANCY_R_THRESHOLD < mildly_negative_r < 0
+    with SessionLocal() as db:
+        for _ in range(20):
+            db.add(_position("vwap_reversion", realized_r=mildly_negative_r))
+        db.commit()
+
+    memory = performance_memory_for_confidence(strategy_id="vwap_reversion")
+    assert memory is not None
+    assert memory["recommendation"] == "REDUCE_RISK"
+
+
+def test_performance_memory_for_confidence_uses_shadow_source_for_shadow_strategies(monkeypatch: pytest.MonkeyPatch):
+    """A strategy currently SHADOW_MT5/DISABLED has no real trades -- its memory must come from
+    the shadow-tracking ledger, not silently report no evidence."""
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    monkeypatch.setenv("MT5_STRATEGY_ACTIVATION_WYCKOFF", "SHADOW_MT5")
+    with SessionLocal() as db:
+        for _ in range(3):
+            db.add(_shadow_eval("wyckoff", realized_r=0.8, realized_pnl=40.0))
+        db.commit()
+
+    memory = performance_memory_for_confidence(strategy_id="wyckoff")
+    assert memory is not None
+    assert memory["closed_trade_count"] == 3
+    assert memory["expectancy"] == pytest.approx(0.8)

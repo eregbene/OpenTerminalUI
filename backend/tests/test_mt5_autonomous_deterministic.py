@@ -53,6 +53,14 @@ def _wire_common_mocks(monkeypatch: pytest.MonkeyPatch, service: MT5AutonomousTr
     monkeypatch.setattr(service, "_global_blockers", lambda: asyncio.sleep(0, result=[]))
     monkeypatch.setattr(service, "_entry_quality_score", lambda candidate: asyncio.sleep(0, result={"status": "ok", "total_score": entry_quality_score, "positive_contributors": [], "negative_contributors": [], "trend_state": "BULLISH"}))
     monkeypatch.setattr("backend.brokers.mt5.autonomous.confidence_memory_for_symbol", lambda symbol: (None, None))
+    # Healthy-redis baseline, matching production reality (the live cycle history shows
+    # redis_degraded=False on every recent real cycle) -- without this, get_client() returns
+    # None in this isolated pytest process (the app's cache client is only established via the
+    # real FastAPI lifespan, which these tests never start), which would make every candidate's
+    # execution_conditions component look degraded purely as a test-harness artifact, not a
+    # real signal. See test_degraded_redis_lowers_execution_conditions_and_can_reject_a_candidate
+    # for the actual degraded-path coverage.
+    monkeypatch.setattr("backend.brokers.mt5.autonomous.redis_layer.get_client", lambda: object())
     monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.exposure", lambda *args, **kwargs: {"currency": {}})
     monkeypatch.setattr("backend.brokers.mt5.autonomous.portfolio_manager.can_open_new_trade", lambda *args, **kwargs: (portfolio_allowed, [] if portfolio_allowed else ["MAX_TOTAL_OPEN_RISK"]))
     monkeypatch.setattr("backend.brokers.mt5.autonomous.decision_context_service.context_risk", lambda symbol: asyncio.sleep(0, result={"block_reasons": [], "acknowledgement_required": False}))
@@ -125,6 +133,27 @@ def test_best_of_multiple_eligible_candidates_is_selected(monkeypatch: pytest.Mo
     assert ranked_symbols[0] == "GBPUSD"
     runner_up = next(row for row in result["candidates"] if row["canonical_pair"] == "EURUSD")
     assert "LOWER_RANKED_CANDIDATE" in runner_up["rejection_reasons"]
+
+
+# execution_conditions must reflect real, per-cycle redis health rather than always being a
+# constant 100 (the confidence-calibration audit found score_vs_outcome_r_correlation=null for
+# this component precisely because nothing ever varied it). A redis outage this cycle should
+# both lower the score and be visible in the component's own reason/inputs.
+def test_degraded_redis_lowers_execution_conditions_and_can_reject_a_candidate(monkeypatch: pytest.MonkeyPatch):
+    adapter = fake_adapter()
+    service = MT5AutonomousTradingService(adapter)
+    _wire_common_mocks(monkeypatch, service, entry_quality_score=0.85)
+    # Overrides the healthy-redis baseline _wire_common_mocks just set, simulating a real
+    # client outage for this one test.
+    monkeypatch.setattr("backend.brokers.mt5.autonomous.redis_layer.get_client", lambda: None)
+    borderline = _screened_candidate(symbol="EURUSD", ranking_score=76.0, risk_reward="1.6")
+    monkeypatch.setattr(service, "_screen", lambda items, **kwargs: asyncio.sleep(0, result=[borderline]))
+
+    result = asyncio.run(service.run_cycle(owner="local", dry_run=True))
+
+    execution_component = next(c for c in result["candidates"][0]["trade_confidence"]["components"] if c["name"] == "execution_conditions")
+    assert execution_component["score"] < 100.0
+    assert "REDIS_UNAVAILABLE" in execution_component["inputs"]["degraded_flags"]
 
 
 # 6. A 90+ confidence candidate can still be rejected by portfolio limits, and its

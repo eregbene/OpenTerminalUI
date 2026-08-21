@@ -551,7 +551,7 @@ class MT5AutonomousTradingService:
             # risk-adjusted candidate whose trade_confidence_score clears the configured
             # threshold (default 75). See backend/brokers/mt5/confidence.py.
             top_k = sorted(eligible, key=lambda row: row["ranking_score"], reverse=True)[: self.config.confidence_top_k_candidates]
-            ranked = await self._rank_candidates_by_confidence(cycle_id, top_k)
+            ranked = await self._rank_candidates_by_confidence(cycle_id, top_k, redis_failures_before=redis_metrics_before["redis_failures"])
             _lap("confidence_scoring")
             # Stage 1 safety gate (Parts 20/22): a SHADOW_MT5/DISABLED strategy's candidate is
             # still fully confidence-scored, ranked, and persisted for calibration above -- it
@@ -798,7 +798,7 @@ class MT5AutonomousTradingService:
         evaluation["rank_after"] = candidate.get("ranking_score")
         candidate["historical_intelligence"] = evaluation
 
-    async def _rank_candidates_by_confidence(self, cycle_id: str, top_k: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    async def _rank_candidates_by_confidence(self, cycle_id: str, top_k: list[dict[str, Any]], *, redis_failures_before: int = 0) -> list[dict[str, Any]]:
         """Deep-scores each of the top-K screened candidates (SMC/ICT structure score,
         recorded symbol/strategy performance, portfolio correlation) into a deterministic
         trade_confidence_score, then returns them ranked best-first. Pure local computation
@@ -815,12 +815,25 @@ class MT5AutonomousTradingService:
             # (Part 1) needs both, and ranking_score is about to become the confidence score.
             candidate["raw_trend_score"] = candidate.get("ranking_score")
             candidate["entry_quality"] = await self._entry_quality_score(candidate)
+            candidate_strategy_id = (candidate.get("context") or {}).get("strategy_id")
             try:
-                symbol_memory, global_memory = confidence_memory_for_symbol(candidate["canonical_pair"], self.account_id)
+                symbol_memory, global_memory = confidence_memory_for_symbol(candidate["canonical_pair"], self.account_id, strategy_id=candidate_strategy_id)
             except Exception as exc:
                 logger.warning("MT5 confidence memory lookup unavailable: %s", exc.__class__.__name__)
                 symbol_memory, global_memory = None, None
             penalty_points, correlated_symbols = _correlation_penalty(candidate, exposure)
+            # Real degraded-execution signal for this cycle (Priority 1 fix -- previously no
+            # caller ever supplied degraded_flags, so execution_conditions was a constant 100.0
+            # regardless of actual conditions). redis_layer backs the candle/quote/SMC cache this
+            # entire cycle just read from, so a client outage or a failure observed so far this
+            # cycle is a genuine, already-computed signal of degraded execution-relevant data
+            # quality -- not a fabricated one. Same redis_layer.metrics_snapshot() delta pattern
+            # _finalize() already uses for the post-hoc redis_degraded cycle metric.
+            degraded_flags: list[str] = []
+            if redis_layer.get_client() is None:
+                degraded_flags.append("REDIS_UNAVAILABLE")
+            elif redis_layer.metrics_snapshot()["redis_failures"] > redis_failures_before:
+                degraded_flags.append("REDIS_FAILURES_THIS_CYCLE")
             confidence = compute_trade_confidence(
                 candidate=candidate,
                 entry_quality=candidate["entry_quality"],
@@ -828,6 +841,7 @@ class MT5AutonomousTradingService:
                 global_memory=global_memory,
                 correlation_penalty_points=penalty_points,
                 correlated_symbols=correlated_symbols,
+                degraded_execution_flags=degraded_flags,
             )
             candidate["trade_confidence"] = confidence
             candidate["ranking_score"] = confidence["overall_score"]

@@ -90,6 +90,34 @@ def _real_trade_stats(strategy_id: str, window_start: datetime) -> dict[str, Any
     return _summarize(r_values, usd_values)
 
 
+def _real_trade_stats_by_symbol(symbol: str, window_start: datetime) -> dict[str, Any]:
+    """Same real, position-level, no-double-counting methodology as _real_trade_stats, grouped
+    by symbol instead of strategy_id -- added for the confidence engine's symbol_performance
+    component (QuantConnect gap-analysis Priority 1: that component was previously always a
+    constant neutral score because nothing ever populated mt5_trade_memory_snapshots; this reuses
+    the SAME authoritative real-trade ledger the strategy performance monitor already established,
+    rather than building a second, competing performance data source)."""
+    with SessionLocal() as db:
+        rows = (
+            db.query(AdaptivePositionStateORM)
+            .filter(
+                AdaptivePositionStateORM.symbol == symbol.upper(),
+                AdaptivePositionStateORM.closed_detected_at.isnot(None),
+                AdaptivePositionStateORM.closed_detected_at > window_start,
+                AdaptivePositionStateORM.original_risk_money.isnot(None),
+                AdaptivePositionStateORM.max_achieved_r.isnot(None),
+            )
+            .all()
+        )
+    r_values: list[float] = []
+    usd_values: list[float] = []
+    for row in rows:
+        realized_r = float(row.max_achieved_r) - float(row.current_giveback_r or 0.0)
+        r_values.append(realized_r)
+        usd_values.append(realized_r * float(row.original_risk_money))
+    return _summarize(r_values, usd_values)
+
+
 def _shadow_stats(strategy_id: str, window_start: datetime) -> dict[str, Any]:
     """Shadow-tracked candidate outcomes for `strategy_id` since `window_start` -- populated by
     the existing outcome resolver independently of this monitor, never executed. realized_r is
@@ -157,6 +185,45 @@ def _decide(*, current: str, stats: dict[str, Any]) -> tuple[str, str]:
         f"n={n}, expectancy_r={expectancy_r}, realized_usd={stats['realized_usd']}, win_rate={stats['win_rate']} -- "
         f"current activation ({current}) already matches recent evidence; no change recommended."
     )
+
+
+def performance_memory_for_confidence(*, strategy_id: str | None = None, symbol: str | None = None, window_days: int = WINDOW_DAYS) -> dict[str, Any] | None:
+    """Bridges this module's real-trade/shadow-tracking stats into the shape
+    backend/brokers/mt5/confidence.py::_performance_component expects
+    ({"closed_trade_count", "win_rate", "recommendation", "expectancy"}) -- the fix for
+    strategy_performance/symbol_performance, which were previously always a constant neutral
+    score (mt5_trade_memory_snapshots, the table they used to read from, was never written to;
+    see QuantConnect gap-analysis Priority 1). Exactly one of strategy_id/symbol must be given.
+
+    `recommendation` is derived from this module's OWN, already-established expectancy
+    thresholds (DEMOTE_EXPECTANCY_R_THRESHOLD) so a confidence component never gets a second,
+    inconsistent definition of "this looks like it's losing" from the one the activation-
+    recommendation pipeline already uses. Returns None (never a fabricated dict) if neither
+    parameter is usable, letting the caller's existing "no recorded history, neutral default"
+    fallback handle it -- consistent with every other component's own missing-data posture."""
+    if bool(strategy_id) == bool(symbol):
+        return None
+    window_start = utcnow() - timedelta(days=window_days)
+    if strategy_id:
+        current = activation_status(strategy_id)
+        source = "REAL_TRADES" if current == ACTIVE_MT5 else "SHADOW_TRACKING"
+        stats = _real_trade_stats(strategy_id, window_start) if source == "REAL_TRADES" else _shadow_stats(strategy_id, window_start)
+    else:
+        stats = _real_trade_stats_by_symbol(symbol, window_start)  # type: ignore[arg-type]
+
+    if not stats["sample_size"]:
+        return None
+    expectancy_r = stats["expectancy_r"]
+    avg_usd = stats["avg_realized_usd"] or 0.0
+    negative = (expectancy_r is not None and expectancy_r < DEMOTE_EXPECTANCY_R_THRESHOLD) or (expectancy_r is None and avg_usd < 0)
+    mildly_negative = (expectancy_r is not None and expectancy_r < 0) or (expectancy_r is None and avg_usd < 0)
+    recommendation = "AVOID" if negative else ("REDUCE_RISK" if mildly_negative else "NEUTRAL")
+    return {
+        "closed_trade_count": stats["sample_size"],
+        "win_rate": stats["win_rate"] or 0.0,
+        "recommendation": recommendation,
+        "expectancy": expectancy_r,
+    }
 
 
 def compute_recommendations(*, window_days: int = WINDOW_DAYS) -> list[dict[str, Any]]:
