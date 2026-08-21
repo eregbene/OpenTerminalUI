@@ -1,8 +1,11 @@
 """Interactive, one-time cTrader Open API OAuth setup helper.
 
-Run this from inside the backend container (it needs the `ctrader_open_api` package):
+Run this from inside the backend container (it needs the `ctrader_open_api` package). Must be
+run with `-m` (module mode), not as a direct file path -- a direct path only puts the script's own
+directory on sys.path, not the /app repo root, so `from backend...` imports fail with
+ModuleNotFoundError:
 
-    docker exec -it openterminalui-backend-1 python backend/scripts/ctrader_oauth_setup.py
+    docker exec -it openterminalui-backend-1 python -m backend.scripts.ctrader_oauth_setup
 
 Before running, you need a registered cTrader Open API application (free, takes a few minutes):
   1. Go to https://openapi.ctrader.com/apps and log in with your cTrader ID.
