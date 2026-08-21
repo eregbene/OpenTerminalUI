@@ -348,6 +348,11 @@ class MT5CandidateEvaluationORM(Base):
     evaluation_id: Mapped[str] = mapped_column(String(128), primary_key=True)
     cycle_id: Mapped[str] = mapped_column(String(96), nullable=False, index=True)
     account_id: Mapped[str] = mapped_column(String(64), nullable=False, default="demo_10k", index=True)
+    # Broker Independence Assessment Phase 1: which broker this candidate was evaluated for --
+    # "MT5" | "CTRADER" (matches BROKER_PROVIDER's own values elsewhere). Every row written
+    # before this column existed genuinely was MT5 (see migration 0067's own docstring for the
+    # backfill rationale) -- new rows must set this explicitly once a second broker is live.
+    broker_provider: Mapped[str] = mapped_column(String(16), nullable=False, default="MT5", index=True)
     candidate_id: Mapped[str] = mapped_column(String(128), nullable=False, unique=True, index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, index=True)
     # The exact timestamp of the last M15 bar actually used to build this candidate's

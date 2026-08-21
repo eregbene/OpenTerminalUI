@@ -137,6 +137,22 @@ class BrokerCashBalance(BrokerModel):
 
 
 class BrokerPosition(BrokerModel):
+    # Broker Independence Assessment Phase 1: canonical_position_id is REQUIRED and must be
+    # constructed deterministically by each adapter (e.g. f"{broker}:{account_id}:
+    # {broker_position_id}") -- same real position queried twice must always yield the same
+    # canonical_position_id, unlike e.g. BrokerAccountSnapshot.snapshot_id, which is legitimately
+    # random-per-snapshot. broker_position_id carries the raw native ticket/positionId for the
+    # adapter's own internal use building modify/close requests -- never read above the adapter
+    # layer. account_id/broker are what make position-level account-aware routing possible once
+    # multiple accounts/brokers are active simultaneously (see BrokerAccountSnapshot's existing
+    # account_id/broker fields for the established pattern this mirrors). stop_loss/take_profit
+    # are new -- absent before this phase; None means "no stop/target currently set on this
+    # position", not "leave unchanged" (that distinction only matters for the modify COMMAND
+    # below, never for a position snapshot).
+    canonical_position_id: str
+    broker_position_id: str | None = None
+    account_id: str
+    broker: str = "mt5"
     instrument_id: str
     con_id: int | None = None
     quantity: Decimal
@@ -145,6 +161,8 @@ class BrokerPosition(BrokerModel):
     market_value: Decimal | None = None
     unrealized_pnl: Decimal | None = None
     realized_pnl: Decimal | None = None
+    stop_loss: Decimal | None = None
+    take_profit: Decimal | None = None
     currency: str = "USD"
     timestamp: datetime = Field(default_factory=now_utc)
     unresolved: bool = False
@@ -188,6 +206,7 @@ class BrokerOrder(BrokerModel):
     broker_order_id: str | None = None
     permanent_id: str | None = None
     account_id: str
+    broker: str = "mt5"
     instrument_id: str
     state: BrokerOrderState
     raw_status: str | None = None
@@ -204,6 +223,7 @@ class BrokerExecution(BrokerModel):
     canonical_order_id: str
     broker_order_id: str | None = None
     account_id: str
+    broker: str = "mt5"
     instrument_id: str
     side: str
     quantity: Decimal
@@ -248,6 +268,86 @@ class BrokerCancelReceipt(BrokerModel):
     canonical_order_id: str
     broker_order_id: str
     state: BrokerOrderState
+
+
+class BrokerModifyPositionCommand(BrokerModel):
+    """Broker Independence Assessment Phase 1, item 2: SL/TP modification as a first-class
+    operation -- previously absent from BrokerOrderAdapter entirely (every SL/TP change was
+    hand-built as a raw MT5 order_send() request dict inside adaptive_management/service.py).
+    stop_loss/take_profit each independently None-able: None means "leave this one exactly as it
+    currently is", NOT "clear it" -- clearing a stop/target intentionally means passing
+    Decimal("0") (mirroring MT5's own order_send semantics, where omitting sl/tp from the request
+    leaves the existing value alone but an explicit 0 clears it). Each adapter is responsible for
+    translating this distinction correctly into its own native modify/amend request."""
+    canonical_position_id: str
+    broker_position_id: str
+    account_id: str
+    instrument_id: str
+    stop_loss: Decimal | None = None
+    take_profit: Decimal | None = None
+    idempotency_key: str
+    correlation_id: str | None = None
+
+
+class BrokerModifyReceipt(BrokerModel):
+    position: BrokerPosition
+    submission_state: str = "ACKNOWLEDGED"
+
+
+class BrokerClosePositionCommand(BrokerModel):
+    """quantity=None means full close; otherwise a partial close of exactly that quantity (in
+    canonical lots -- see BrokerSymbolSpec below for why this must never be a broker-native
+    volume unit at this layer)."""
+    canonical_position_id: str
+    broker_position_id: str
+    account_id: str
+    instrument_id: str
+    quantity: Decimal | None = None
+    idempotency_key: str
+    correlation_id: str | None = None
+
+
+class BrokerCloseReceipt(BrokerModel):
+    canonical_position_id: str
+    broker_position_id: str
+    closed_quantity: Decimal
+    remaining_quantity: Decimal
+    execution: BrokerExecution | None = None
+    remaining_position: BrokerPosition | None = None
+    submission_state: str = "ACKNOWLEDGED"
+
+
+class BrokerSymbolSpec(BrokerModel):
+    """Broker Independence Assessment Phase 1, item 3: FX-specific instrument metadata, kept
+    deliberately SEPARATE from BrokerContract (which is identity/exchange-shaped -- con_id,
+    security_type, primary_exchange -- carried over from the original IBKR/equities design and
+    largely meaningless for FX). BrokerContract answers "what instrument is this"; this model
+    answers "how do I convert between canonical lots and this broker's native volume unit, and
+    between price movement and money" for that instrument.
+
+    CRITICAL DESIGN RULE (user-specified): every field below is expressed so that strategy/risk/
+    portfolio code NEVER needs to know a broker's native volume representation. `lot_size` is
+    "how many base-currency units make up 1.0 canonical lot for this symbol on this broker" --
+    the ONE number an adapter needs to convert canonical lots to its own native volume field
+    (MT5: lots directly, volume_step-bounded; cTrader: centilots, i.e. roughly
+    lots * lot_size * 100, but read from the symbol's own live lotSize, never a hardcoded
+    constant -- see the assessment's own Section 6). volume_min/max/step are expressed in
+    CANONICAL LOTS, already converted by the adapter from whatever native unit the broker
+    reports them in -- code above the adapter layer only ever reasons in lots."""
+    instrument_id: str
+    broker: str = "mt5"
+    pip_position: int
+    pip_size: Decimal
+    digits: int
+    lot_size: Decimal
+    volume_min: Decimal
+    volume_max: Decimal
+    volume_step: Decimal
+    contract_size: Decimal
+    margin_currency: str = "USD"
+    stops_level: Decimal | None = None
+    freeze_level: Decimal | None = None
+    resolved_at: datetime = Field(default_factory=now_utc)
 
 
 class ReconciliationDifference(BrokerModel):

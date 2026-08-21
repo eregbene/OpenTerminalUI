@@ -14,17 +14,22 @@ from backend.brokers.models import (
     BrokerBar,
     BrokerCancelCommand,
     BrokerCancelReceipt,
+    BrokerClosePositionCommand,
+    BrokerCloseReceipt,
     BrokerConnectionState,
     BrokerContract,
     BrokerEnvironment,
     BrokerExecution,
     BrokerHealthState,
+    BrokerModifyPositionCommand,
+    BrokerModifyReceipt,
     BrokerOrder,
     BrokerOrderCommand,
     BrokerOrderReceipt,
     BrokerPosition,
     BrokerQuote,
     BrokerReconciliationResult,
+    BrokerSymbolSpec,
     DataQuality,
     MarketDataMode,
     now_utc,
@@ -367,7 +372,24 @@ class MT5Adapter:
     async def positions(self, account_id: str) -> list[BrokerPosition]:
         rows = await self.mt5_positions()
         return [
-            BrokerPosition(instrument_id=f"FX:{row.symbol}", quantity=row.volume if row.type == 0 else -row.volume, average_cost=row.price_open, market_price=row.price_current, unrealized_pnl=row.profit, currency="USD")
+            BrokerPosition(
+                # Broker Independence Assessment Phase 1: deterministic canonical id (same ticket
+                # + account always maps to the same canonical_position_id across repeated calls,
+                # unlike e.g. BrokerAccountSnapshot.snapshot_id, which is legitimately random-per-
+                # snapshot) -- see BrokerPosition's own field docstring.
+                canonical_position_id=f"mt5:{account_id}:{row.ticket}",
+                broker_position_id=str(row.ticket),
+                account_id=account_id,
+                broker="mt5",
+                instrument_id=f"FX:{row.symbol}",
+                quantity=row.volume if row.type == 0 else -row.volume,
+                average_cost=row.price_open,
+                market_price=row.price_current,
+                unrealized_pnl=row.profit,
+                stop_loss=row.sl,
+                take_profit=row.tp,
+                currency="USD",
+            )
             for row in rows
         ]
 
@@ -434,6 +456,41 @@ class MT5Adapter:
         info = await self.symbol_info(symbol)
         return BrokerContract(instrument_id=f"FX:{symbol}", symbol=symbol, asset_type="FOREX", exchange="MT5", currency=info.currency_profit or symbol[-3:], security_type="FOREX", con_id=abs(hash(symbol)) % 10_000_000, source="mt5", resolution_version="mt5.readonly.v1")
 
+    async def symbol_spec(self, instrument_id: str) -> BrokerSymbolSpec:
+        """Broker Independence Assessment Phase 1, item 3: real (not stubbed) implementation --
+        low risk since this is a new read-only method nothing in production calls yet. Never
+        guesses a missing field; raises rather than silently defaulting broker-reported metadata,
+        matching this codebase's established convention (see e.g. families/_shared.py::
+        _spread_within_safety_buffer's identical never-guessed posture for point_value)."""
+        symbol = _symbol(instrument_id)
+        info = await self.symbol_info(symbol)
+        required = {"point": info.point, "digits": info.digits, "trade_contract_size": info.trade_contract_size, "volume_min": info.volume_min, "volume_max": info.volume_max, "volume_step": info.volume_step}
+        missing = [name for name, value in required.items() if value is None]
+        if missing:
+            raise MT5UnavailableError(f"symbol_spec({symbol}): broker did not report required field(s): {missing}")
+        # Standard MT4/MT5 EA-development convention: a pip is one order of magnitude larger than
+        # a point for 3- and 5-digit symbols (fractional-pip quoting), and equal to a point
+        # otherwise (2- and 4-digit symbols). Not independently re-derived per instrument type --
+        # flagged in the migration report as worth validating against real live symbol data
+        # before anything downstream relies on pip_size for money math.
+        pip_size = info.point * 10 if info.digits in (3, 5) else info.point
+        pip_position = (info.digits - 1) if info.digits in (3, 5) else info.digits
+        return BrokerSymbolSpec(
+            instrument_id=f"FX:{symbol}",
+            broker="mt5",
+            pip_position=pip_position,
+            pip_size=pip_size,
+            digits=info.digits,
+            lot_size=info.trade_contract_size,
+            volume_min=info.volume_min,
+            volume_max=info.volume_max,
+            volume_step=info.volume_step,
+            contract_size=info.trade_contract_size,
+            margin_currency=info.currency_margin or "USD",
+            stops_level=Decimal(str(info.trade_stops_level)) if info.trade_stops_level is not None else None,
+            freeze_level=Decimal(str(info.trade_freeze_level)) if info.trade_freeze_level is not None else None,
+        )
+
     async def reconcile(self, account_id: str) -> BrokerReconciliationResult:
         return BrokerReconciliationResult(account_id=account_id, status="MATCHED_EMPTY")
 
@@ -441,6 +498,16 @@ class MT5Adapter:
         raise MT5ReadOnlyViolation()
 
     async def cancel_order(self, command: BrokerCancelCommand) -> BrokerCancelReceipt:
+        raise MT5ReadOnlyViolation()
+
+    async def modify_position(self, command: BrokerModifyPositionCommand) -> BrokerModifyReceipt:
+        # Broker Independence Assessment Phase 1: additive Protocol conformance only -- mirrors
+        # submit_order/cancel_order's existing posture exactly. Real SL/TP modification still
+        # lives in adaptive_management/service.py::_build_mt5_request until Phase 3/4 rewires
+        # that call site onto this method; this phase changes zero execution behavior.
+        raise MT5ReadOnlyViolation()
+
+    async def close_position(self, command: BrokerClosePositionCommand) -> BrokerCloseReceipt:
         raise MT5ReadOnlyViolation()
 
 
