@@ -1,0 +1,1018 @@
+{
+  "mtfai1": {
+    "strategy": "mtfai1",
+    "sample_size": 8000,
+    "sample_note": "most recent 8000 rows (or fewer) within the last 3 years",
+    "historical_evidence": {
+      "trades": 8000,
+      "gross_expectancy_r": -0.0585,
+      "net_expectancy_r": -0.075,
+      "cost_drag_r": 0.0165,
+      "gross_profit_factor": 0.9119,
+      "net_profit_factor": 0.8887,
+      "net_sample_size": 8000,
+      "spread_provenance_pct": {
+        "CONFIG_FALLBACK": 100.0
+      },
+      "commission_provenance_pct": {
+        "UNKNOWN_REQUIRES_LOT_SIZE": 100.0
+      },
+      "effective_sample_size": 4251.2
+    },
+    "statistical_robustness": {
+      "sharpe_annualized": -8.25968519057296,
+      "psr": 6.706863327807442e-05,
+      "dsr": 6.706863327807442e-05,
+      "min_track_record_length_trades": null,
+      "bootstrap_sharpe_ci": {
+        "mean": -8.000156734881145,
+        "ci_low": -17.66570899215255,
+        "ci_high": 1.9541218194222967,
+        "p_positive": 0.046
+      },
+      "monte_carlo": {
+        "paths": 500,
+        "method": "block_bootstrap_r_space",
+        "block_size": 10,
+        "lag1_autocorrelation": 0.306,
+        "terminal_cumulative_r": {
+          "p5": -900.871,
+          "p25": -621.456,
+          "p50": -449.182,
+          "p75": -290.704,
+          "p95": -16.754
+        },
+        "probability_terminal_negative": 0.954,
+        "drawdown_r_percentiles": {
+          "p50": 566.763,
+          "p75": 713.532,
+          "p90": 854.692,
+          "p95": 966.598,
+          "p99": 1124.408
+        },
+        "longest_losing_run_percentiles": {
+          "p50": 56,
+          "p90": 72,
+          "p95": 80
+        }
+      },
+      "verdict": "FRAGILE",
+      "verdict_reasons": [
+        "PSR is below 0.95.",
+        "Bootstrap Sharpe confidence interval includes or falls below zero."
+      ]
+    },
+    "drawdown": {
+      "max_drawdown_r": 761.9243,
+      "max_drawdown_duration_days": 67.5,
+      "avg_drawdown_duration_days": 1.7,
+      "recovery_duration_days": 1.7,
+      "currently_unrecovered_duration_days": 3.3,
+      "recovery_factor": -0.6146,
+      "longest_losing_streak": 415,
+      "closed_drawdown_episode_count": 46
+    },
+    "walk_forward": {
+      "verdict": "FAIL",
+      "edge_stability": "FAILED_OOS",
+      "directional_edge": "NEUTRAL_EDGE",
+      "train_n": 579398,
+      "oos_n": 386242,
+      "train_expectancy_r_gross": -0.0189,
+      "oos_expectancy_r_gross": -0.0426,
+      "degradation_pct": -125.4,
+      "note": "Gross-R only -- walk_forward.py does not split net_outcome_r (not modified here to avoid touching a function already wired into a live gate; see brokers/mt5/sequence_risk.py)."
+    }
+  },
+  "support_resistance_bounce": {
+    "strategy": "support_resistance_bounce",
+    "sample_size": 8000,
+    "sample_note": "most recent 8000 rows (or fewer) within the last 3 years",
+    "historical_evidence": {
+      "trades": 8000,
+      "gross_expectancy_r": -0.1461,
+      "net_expectancy_r": -0.1764,
+      "cost_drag_r": 0.0303,
+      "gross_profit_factor": 0.7909,
+      "net_profit_factor": 0.7547,
+      "net_sample_size": 8000,
+      "spread_provenance_pct": {
+        "CONFIG_FALLBACK": 100.0
+      },
+      "commission_provenance_pct": {
+        "UNKNOWN_REQUIRES_LOT_SIZE": 100.0
+      },
+      "effective_sample_size": 5376.8
+    },
+    "statistical_robustness": {
+      "sharpe_annualized": -11.875867406414496,
+      "psr": 3.543269917825858e-22,
+      "dsr": 3.543269917825858e-22,
+      "min_track_record_length_trades": null,
+      "bootstrap_sharpe_ci": {
+        "mean": -11.75230696579644,
+        "ci_low": -15.939211004726943,
+        "ci_high": -7.598353334045813,
+        "p_positive": 0.0
+      },
+      "monte_carlo": {
+        "paths": 500,
+        "method": "block_bootstrap_r_space",
+        "block_size": 10,
+        "lag1_autocorrelation": 0.1961,
+        "terminal_cumulative_r": {
+          "p5": -1511.885,
+          "p25": -1296.412,
+          "p50": -1143.414,
+          "p75": -1021.582,
+          "p95": -834.159
+        },
+        "probability_terminal_negative": 1.0,
+        "drawdown_r_percentiles": {
+          "p50": 1179.659,
+          "p75": 1317.991,
+          "p90": 1440.81,
+          "p95": 1525.026,
+          "p99": 1627.2
+        },
+        "longest_losing_run_percentiles": {
+          "p50": 43,
+          "p90": 53,
+          "p95": 60
+        }
+      },
+      "verdict": "FRAGILE",
+      "verdict_reasons": [
+        "PSR is below 0.95.",
+        "Bootstrap Sharpe confidence interval includes or falls below zero."
+      ]
+    },
+    "drawdown": {
+      "max_drawdown_r": 2051.5479,
+      "max_drawdown_duration_days": 233.6,
+      "avg_drawdown_duration_days": 0.1,
+      "recovery_duration_days": 0.1,
+      "currently_unrecovered_duration_days": 233.6,
+      "recovery_factor": -0.5698,
+      "longest_losing_streak": 202,
+      "closed_drawdown_episode_count": 309
+    },
+    "walk_forward": {
+      "verdict": "PASS",
+      "edge_stability": "STRONG",
+      "directional_edge": "UNSTABLE",
+      "train_n": 168656,
+      "oos_n": 112364,
+      "train_expectancy_r_gross": 0.0435,
+      "oos_expectancy_r_gross": 0.1068,
+      "degradation_pct": -145.5,
+      "note": "Gross-R only -- walk_forward.py does not split net_outcome_r (not modified here to avoid touching a function already wired into a live gate; see brokers/mt5/sequence_risk.py)."
+    }
+  },
+  "momentum": {
+    "strategy": "momentum",
+    "sample_size": 8000,
+    "sample_note": "most recent 8000 rows (or fewer) within the last 3 years",
+    "historical_evidence": {
+      "trades": 8000,
+      "gross_expectancy_r": -0.7607,
+      "net_expectancy_r": -0.7791,
+      "cost_drag_r": 0.0184,
+      "gross_profit_factor": 0.1643,
+      "net_profit_factor": 0.1598,
+      "net_sample_size": 8000,
+      "spread_provenance_pct": {
+        "CONFIG_FALLBACK": 100.0
+      },
+      "commission_provenance_pct": {
+        "UNKNOWN_REQUIRES_LOT_SIZE": 100.0
+      },
+      "effective_sample_size": 1717.3
+    },
+    "statistical_robustness": {
+      "sharpe_annualized": -102.09510283962334,
+      "psr": 0.0,
+      "dsr": 0.0,
+      "min_track_record_length_trades": null,
+      "bootstrap_sharpe_ci": {
+        "mean": -102.23400863113989,
+        "ci_low": -116.65698039310719,
+        "ci_high": -88.77659959925381,
+        "p_positive": 0.0
+      },
+      "monte_carlo": {
+        "paths": 500,
+        "method": "block_bootstrap_r_space",
+        "block_size": 10,
+        "lag1_autocorrelation": 0.6465,
+        "terminal_cumulative_r": {
+          "p5": -6352.113,
+          "p25": -6199.977,
+          "p50": -6086.643,
+          "p75": -5967.308,
+          "p95": -5786.506
+        },
+        "probability_terminal_negative": 1.0,
+        "drawdown_r_percentiles": {
+          "p50": 6089.976,
+          "p75": 6202.644,
+          "p90": 6289.379,
+          "p95": 6352.746,
+          "p99": 6482.674
+        },
+        "longest_losing_run_percentiles": {
+          "p50": 213,
+          "p90": 288,
+          "p95": 323
+        }
+      },
+      "verdict": "FRAGILE",
+      "verdict_reasons": [
+        "PSR is below 0.95.",
+        "Bootstrap Sharpe confidence interval includes or falls below zero."
+      ]
+    },
+    "drawdown": {
+      "max_drawdown_r": 6085.3094,
+      "max_drawdown_duration_days": 279.2,
+      "avg_drawdown_duration_days": null,
+      "recovery_duration_days": null,
+      "currently_unrecovered_duration_days": 279.2,
+      "recovery_factor": -1.0,
+      "longest_losing_streak": 458,
+      "closed_drawdown_episode_count": 0
+    },
+    "walk_forward": {
+      "verdict": "FAIL",
+      "edge_stability": "FAILED_OOS",
+      "directional_edge": "NEGATIVE_EDGE",
+      "train_n": 137297,
+      "oos_n": 91516,
+      "train_expectancy_r_gross": -0.1172,
+      "oos_expectancy_r_gross": -0.2225,
+      "degradation_pct": -89.8,
+      "note": "Gross-R only -- walk_forward.py does not split net_outcome_r (not modified here to avoid touching a function already wired into a live gate; see brokers/mt5/sequence_risk.py)."
+    }
+  },
+  "session_breakout": {
+    "strategy": "session_breakout",
+    "sample_size": 8000,
+    "sample_note": "most recent 8000 rows (or fewer) within the last 3 years",
+    "historical_evidence": {
+      "trades": 8000,
+      "gross_expectancy_r": -0.3757,
+      "net_expectancy_r": -0.3989,
+      "cost_drag_r": 0.0232,
+      "gross_profit_factor": 0.5385,
+      "net_profit_factor": 0.5213,
+      "net_sample_size": 8000,
+      "spread_provenance_pct": {
+        "CONFIG_FALLBACK": 100.0
+      },
+      "commission_provenance_pct": {
+        "UNKNOWN_REQUIRES_LOT_SIZE": 100.0
+      },
+      "effective_sample_size": 1751.0
+    },
+    "statistical_robustness": {
+      "sharpe_annualized": -19.640402715812993,
+      "psr": 1.8454400226877846e-98,
+      "dsr": 1.8454400226877846e-98,
+      "min_track_record_length_trades": null,
+      "bootstrap_sharpe_ci": {
+        "mean": -19.55610577751917,
+        "ci_low": -24.226738580436653,
+        "ci_high": -15.141858802156799,
+        "p_positive": 0.0
+      },
+      "monte_carlo": {
+        "paths": 500,
+        "method": "block_bootstrap_r_space",
+        "block_size": 10,
+        "lag1_autocorrelation": 0.6409,
+        "terminal_cumulative_r": {
+          "p5": -3494.261,
+          "p25": -3205.301,
+          "p50": -2982.346,
+          "p75": -2761.168,
+          "p95": -2510.658
+        },
+        "probability_terminal_negative": 1.0,
+        "drawdown_r_percentiles": {
+          "p50": 3006.496,
+          "p75": 3225.479,
+          "p90": 3404.769,
+          "p95": 3515.441,
+          "p99": 3650.812
+        },
+        "longest_losing_run_percentiles": {
+          "p50": 102,
+          "p90": 131,
+          "p95": 145
+        }
+      },
+      "verdict": "FRAGILE",
+      "verdict_reasons": [
+        "PSR is below 0.95.",
+        "Bootstrap Sharpe confidence interval includes or falls below zero."
+      ]
+    },
+    "drawdown": {
+      "max_drawdown_r": 3915.3374,
+      "max_drawdown_duration_days": 607.6,
+      "avg_drawdown_duration_days": null,
+      "recovery_duration_days": null,
+      "currently_unrecovered_duration_days": 621.8,
+      "recovery_factor": -0.7677,
+      "longest_losing_streak": 419,
+      "closed_drawdown_episode_count": 0
+    },
+    "walk_forward": {
+      "verdict": "FAIL",
+      "edge_stability": "FAILED_OOS",
+      "directional_edge": "NEGATIVE_EDGE",
+      "train_n": 58590,
+      "oos_n": 39029,
+      "train_expectancy_r_gross": -0.1315,
+      "oos_expectancy_r_gross": -0.129,
+      "degradation_pct": 1.9,
+      "note": "Gross-R only -- walk_forward.py does not split net_outcome_r (not modified here to avoid touching a function already wired into a live gate; see brokers/mt5/sequence_risk.py)."
+    }
+  },
+  "vwap_reversion": {
+    "strategy": "vwap_reversion",
+    "sample_size": 8000,
+    "sample_note": "most recent 8000 rows (or fewer) within the last 3 years",
+    "historical_evidence": {
+      "trades": 8000,
+      "gross_expectancy_r": -0.0665,
+      "net_expectancy_r": -0.0921,
+      "cost_drag_r": 0.0256,
+      "gross_profit_factor": 0.9151,
+      "net_profit_factor": 0.8856,
+      "net_sample_size": 8000,
+      "spread_provenance_pct": {
+        "CONFIG_FALLBACK": 100.0
+      },
+      "commission_provenance_pct": {
+        "UNKNOWN_REQUIRES_LOT_SIZE": 100.0
+      },
+      "effective_sample_size": 2617.7
+    },
+    "statistical_robustness": {
+      "sharpe_annualized": -2.473182469222375,
+      "psr": 0.001535310671053732,
+      "dsr": 0.001535310671053732,
+      "min_track_record_length_trades": null,
+      "bootstrap_sharpe_ci": {
+        "mean": -2.5537994214824273,
+        "ci_low": -5.956187290633158,
+        "ci_high": 0.8446330775635329,
+        "p_positive": 0.064
+      },
+      "monte_carlo": {
+        "paths": 500,
+        "method": "block_bootstrap_r_space",
+        "block_size": 10,
+        "lag1_autocorrelation": 0.5069,
+        "terminal_cumulative_r": {
+          "p5": -1125.249,
+          "p25": -772.989,
+          "p50": -542.784,
+          "p75": -300.248,
+          "p95": 34.55
+        },
+        "probability_terminal_negative": 0.936,
+        "drawdown_r_percentiles": {
+          "p50": 732.987,
+          "p75": 942.748,
+          "p90": 1121.98,
+          "p95": 1217.542,
+          "p99": 1430.459
+        },
+        "longest_losing_run_percentiles": {
+          "p50": 80,
+          "p90": 101,
+          "p95": 110
+        }
+      },
+      "verdict": "FRAGILE",
+      "verdict_reasons": [
+        "PSR is below 0.95.",
+        "Bootstrap Sharpe confidence interval includes or falls below zero."
+      ]
+    },
+    "drawdown": {
+      "max_drawdown_r": 1467.6937,
+      "max_drawdown_duration_days": 289.0,
+      "avg_drawdown_duration_days": 17.3,
+      "recovery_duration_days": 17.3,
+      "currently_unrecovered_duration_days": 456.9,
+      "recovery_factor": -0.3624,
+      "longest_losing_streak": 399,
+      "closed_drawdown_episode_count": 6
+    },
+    "walk_forward": {
+      "verdict": "PASS",
+      "edge_stability": "ACCEPTABLE",
+      "directional_edge": "UNSTABLE",
+      "train_n": 57627,
+      "oos_n": 38428,
+      "train_expectancy_r_gross": -0.1111,
+      "oos_expectancy_r_gross": 0.0146,
+      "degradation_pct": 113.1,
+      "note": "Gross-R only -- walk_forward.py does not split net_outcome_r (not modified here to avoid touching a function already wired into a live gate; see brokers/mt5/sequence_risk.py)."
+    }
+  },
+  "breakout": {
+    "strategy": "breakout",
+    "sample_size": 8000,
+    "sample_note": "most recent 8000 rows (or fewer) within the last 3 years",
+    "historical_evidence": {
+      "trades": 8000,
+      "gross_expectancy_r": -0.7465,
+      "net_expectancy_r": -0.7693,
+      "cost_drag_r": 0.0229,
+      "gross_profit_factor": 0.1876,
+      "net_profit_factor": 0.1817,
+      "net_sample_size": 8000,
+      "spread_provenance_pct": {
+        "CONFIG_FALLBACK": 100.0
+      },
+      "commission_provenance_pct": {
+        "UNKNOWN_REQUIRES_LOT_SIZE": 100.0
+      },
+      "effective_sample_size": 1279.7
+    },
+    "statistical_robustness": {
+      "sharpe_annualized": -54.683612911130375,
+      "psr": 2.40062063467763e-250,
+      "dsr": 2.40062063467763e-250,
+      "min_track_record_length_trades": null,
+      "bootstrap_sharpe_ci": {
+        "mean": -54.94135634305718,
+        "ci_low": -63.98731167632694,
+        "ci_high": -46.33736407783835,
+        "p_positive": 0.0
+      },
+      "monte_carlo": {
+        "paths": 500,
+        "method": "block_bootstrap_r_space",
+        "block_size": 10,
+        "lag1_autocorrelation": 0.7242,
+        "terminal_cumulative_r": {
+          "p5": -6288.524,
+          "p25": -6104.217,
+          "p50": -5975.69,
+          "p75": -5830.791,
+          "p95": -5627.915
+        },
+        "probability_terminal_negative": 1.0,
+        "drawdown_r_percentiles": {
+          "p50": 5977.546,
+          "p75": 6104.485,
+          "p90": 6229.486,
+          "p95": 6295.038,
+          "p99": 6387.689
+        },
+        "longest_losing_run_percentiles": {
+          "p50": 199,
+          "p90": 257,
+          "p95": 275
+        }
+      },
+      "verdict": "FRAGILE",
+      "verdict_reasons": [
+        "PSR is below 0.95.",
+        "Bootstrap Sharpe confidence interval includes or falls below zero."
+      ]
+    },
+    "drawdown": {
+      "max_drawdown_r": 5971.686,
+      "max_drawdown_duration_days": 735.2,
+      "avg_drawdown_duration_days": null,
+      "recovery_duration_days": null,
+      "currently_unrecovered_duration_days": 735.2,
+      "recovery_factor": -1.0,
+      "longest_losing_streak": 489,
+      "closed_drawdown_episode_count": 0
+    },
+    "walk_forward": {
+      "verdict": "FAIL",
+      "edge_stability": "FAILED_OOS",
+      "directional_edge": "NEGATIVE_EDGE",
+      "train_n": 56791,
+      "oos_n": 37844,
+      "train_expectancy_r_gross": -0.1501,
+      "oos_expectancy_r_gross": -0.2337,
+      "degradation_pct": -55.7,
+      "note": "Gross-R only -- walk_forward.py does not split net_outcome_r (not modified here to avoid touching a function already wired into a live gate; see brokers/mt5/sequence_risk.py)."
+    }
+  },
+  "ema_trend": {
+    "strategy": "ema_trend",
+    "sample_size": 8000,
+    "sample_note": "most recent 8000 rows (or fewer) within the last 3 years",
+    "historical_evidence": {
+      "trades": 8000,
+      "gross_expectancy_r": -0.7791,
+      "net_expectancy_r": -0.798,
+      "cost_drag_r": 0.0189,
+      "gross_profit_factor": 0.159,
+      "net_profit_factor": 0.1533,
+      "net_sample_size": 8000,
+      "spread_provenance_pct": {
+        "CONFIG_FALLBACK": 100.0
+      },
+      "commission_provenance_pct": {
+        "UNKNOWN_REQUIRES_LOT_SIZE": 100.0
+      },
+      "effective_sample_size": 830.0
+    },
+    "statistical_robustness": {
+      "sharpe_annualized": -62.06719905441358,
+      "psr": 1.926731602770492e-271,
+      "dsr": 1.926731602770492e-271,
+      "min_track_record_length_trades": null,
+      "bootstrap_sharpe_ci": {
+        "mean": -62.2385340327467,
+        "ci_low": -73.51935249152895,
+        "ci_high": -52.648430897495054,
+        "p_positive": 0.0
+      },
+      "monte_carlo": {
+        "paths": 500,
+        "method": "block_bootstrap_r_space",
+        "block_size": 10,
+        "lag1_autocorrelation": 0.812,
+        "terminal_cumulative_r": {
+          "p5": -6551.45,
+          "p25": -6350.75,
+          "p50": -6224.0,
+          "p75": -6095.0,
+          "p95": -5897.0
+        },
+        "probability_terminal_negative": 1.0,
+        "drawdown_r_percentiles": {
+          "p50": 6233.5,
+          "p75": 6355.25,
+          "p90": 6482.1,
+          "p95": 6551.45,
+          "p99": 6662.0
+        },
+        "longest_losing_run_percentiles": {
+          "p50": 315,
+          "p90": 433,
+          "p95": 476
+        }
+      },
+      "verdict": "FRAGILE",
+      "verdict_reasons": [
+        "PSR is below 0.95.",
+        "Bootstrap Sharpe confidence interval includes or falls below zero."
+      ]
+    },
+    "drawdown": {
+      "max_drawdown_r": 6333.0,
+      "max_drawdown_duration_days": 724.3,
+      "avg_drawdown_duration_days": 2.0,
+      "recovery_duration_days": 2.0,
+      "currently_unrecovered_duration_days": 724.3,
+      "recovery_factor": -0.9842,
+      "longest_losing_streak": 673,
+      "closed_drawdown_episode_count": 13
+    },
+    "walk_forward": {
+      "verdict": "FAIL",
+      "edge_stability": "FAILED_OOS",
+      "directional_edge": "UNSTABLE",
+      "train_n": 54468,
+      "oos_n": 36327,
+      "train_expectancy_r_gross": -0.0497,
+      "oos_expectancy_r_gross": -0.2535,
+      "degradation_pct": -410.1,
+      "note": "Gross-R only -- walk_forward.py does not split net_outcome_r (not modified here to avoid touching a function already wired into a live gate; see brokers/mt5/sequence_risk.py)."
+    }
+  },
+  "mean_reversion": {
+    "strategy": "mean_reversion",
+    "sample_size": 8000,
+    "sample_note": "most recent 8000 rows (or fewer) within the last 3 years",
+    "historical_evidence": {
+      "trades": 8000,
+      "gross_expectancy_r": 0.5563,
+      "net_expectancy_r": 0.5226,
+      "cost_drag_r": 0.0336,
+      "gross_profit_factor": 2.4735,
+      "net_profit_factor": 2.3334,
+      "net_sample_size": 8000,
+      "spread_provenance_pct": {
+        "CONFIG_FALLBACK": 100.0
+      },
+      "commission_provenance_pct": {
+        "UNKNOWN_REQUIRES_LOT_SIZE": 100.0
+      },
+      "effective_sample_size": 1716.0
+    },
+    "statistical_robustness": {
+      "sharpe_annualized": 26.389194796936096,
+      "psr": 1.0,
+      "dsr": 1.0,
+      "min_track_record_length_trades": 16,
+      "bootstrap_sharpe_ci": {
+        "mean": 26.39992621650527,
+        "ci_low": 22.92514385230416,
+        "ci_high": 29.959910872415154,
+        "p_positive": 1.0
+      },
+      "monte_carlo": {
+        "paths": 500,
+        "method": "block_bootstrap_r_space",
+        "block_size": 10,
+        "lag1_autocorrelation": 0.6468,
+        "terminal_cumulative_r": {
+          "p5": 3997.25,
+          "p25": 4283.125,
+          "p50": 4450.0,
+          "p75": 4610.625,
+          "p95": 4882.875
+        },
+        "probability_terminal_negative": 0.0,
+        "drawdown_r_percentiles": {
+          "p50": 50.0,
+          "p75": 56.5,
+          "p90": 65.0,
+          "p95": 70.025,
+          "p99": 84.005
+        },
+        "longest_losing_run_percentiles": {
+          "p50": 40,
+          "p90": 50,
+          "p95": 51
+        }
+      },
+      "verdict": "ROBUST",
+      "verdict_reasons": [
+        "PSR is high, bootstrap Sharpe confidence interval is positive, and DSR passes the trial adjustment."
+      ]
+    },
+    "drawdown": {
+      "max_drawdown_r": 553.5,
+      "max_drawdown_duration_days": 36.9,
+      "avg_drawdown_duration_days": 1.8,
+      "recovery_duration_days": 1.8,
+      "currently_unrecovered_duration_days": 0.0,
+      "recovery_factor": 8.0397,
+      "longest_losing_streak": 386,
+      "closed_drawdown_episode_count": 272
+    },
+    "walk_forward": {
+      "verdict": "PASS",
+      "edge_stability": "STRONG",
+      "directional_edge": "POSITIVE_EDGE",
+      "train_n": 31564,
+      "oos_n": 21047,
+      "train_expectancy_r_gross": 0.1849,
+      "oos_expectancy_r_gross": 0.4014,
+      "degradation_pct": -117.1,
+      "note": "Gross-R only -- walk_forward.py does not split net_outcome_r (not modified here to avoid touching a function already wired into a live gate; see brokers/mt5/sequence_risk.py)."
+    }
+  },
+  "smc_continuation": {
+    "strategy": "smc_continuation",
+    "sample_size": 8000,
+    "sample_note": "most recent 8000 rows (or fewer) within the last 3 years",
+    "historical_evidence": {
+      "trades": 8000,
+      "gross_expectancy_r": 0.0579,
+      "net_expectancy_r": 0.0367,
+      "cost_drag_r": 0.0211,
+      "gross_profit_factor": 1.0894,
+      "net_profit_factor": 1.0556,
+      "net_sample_size": 8000,
+      "spread_provenance_pct": {
+        "CONFIG_FALLBACK": 100.0
+      },
+      "commission_provenance_pct": {
+        "UNKNOWN_REQUIRES_LOT_SIZE": 100.0
+      },
+      "effective_sample_size": 2276.3
+    },
+    "statistical_robustness": {
+      "sharpe_annualized": 2.174612885147267,
+      "psr": 0.9998729352915822,
+      "dsr": 0.9998729352915822,
+      "min_track_record_length_trades": 1619,
+      "bootstrap_sharpe_ci": {
+        "mean": 2.0908059263653596,
+        "ci_low": -0.21726613652381285,
+        "ci_high": 4.417578134106656,
+        "p_positive": 0.962
+      },
+      "monte_carlo": {
+        "paths": 500,
+        "method": "block_bootstrap_r_space",
+        "block_size": 10,
+        "lag1_autocorrelation": 0.557,
+        "terminal_cumulative_r": {
+          "p5": 45.7,
+          "p25": 286.0,
+          "p50": 454.0,
+          "p75": 625.0,
+          "p95": 844.3
+        },
+        "probability_terminal_negative": 0.038,
+        "drawdown_r_percentiles": {
+          "p50": 175.5,
+          "p75": 222.25,
+          "p90": 289.2,
+          "p95": 330.1,
+          "p99": 391.08
+        },
+        "longest_losing_run_percentiles": {
+          "p50": 46,
+          "p90": 58,
+          "p95": 61
+        }
+      },
+      "verdict": "FRAGILE",
+      "verdict_reasons": [
+        "Bootstrap Sharpe confidence interval includes or falls below zero."
+      ]
+    },
+    "drawdown": {
+      "max_drawdown_r": 703.0,
+      "max_drawdown_duration_days": 533.4,
+      "avg_drawdown_duration_days": 22.9,
+      "recovery_duration_days": 22.9,
+      "currently_unrecovered_duration_days": 51.0,
+      "recovery_factor": 0.6586,
+      "longest_losing_streak": 201,
+      "closed_drawdown_episode_count": 41
+    },
+    "walk_forward": {
+      "verdict": "PASS",
+      "edge_stability": "STRONG",
+      "directional_edge": "UNSTABLE",
+      "train_n": 27711,
+      "oos_n": 18468,
+      "train_expectancy_r_gross": 0.0244,
+      "oos_expectancy_r_gross": 0.078,
+      "degradation_pct": -219.7,
+      "note": "Gross-R only -- walk_forward.py does not split net_outcome_r (not modified here to avoid touching a function already wired into a live gate; see brokers/mt5/sequence_risk.py)."
+    }
+  },
+  "trend_pullback": {
+    "strategy": "trend_pullback",
+    "sample_size": 5211,
+    "sample_note": "most recent 8000 rows (or fewer) within the last 3 years",
+    "historical_evidence": {
+      "trades": 5211,
+      "gross_expectancy_r": 0.2792,
+      "net_expectancy_r": 0.2492,
+      "cost_drag_r": 0.0301,
+      "gross_profit_factor": 1.4772,
+      "net_profit_factor": 1.413,
+      "net_sample_size": 5211,
+      "spread_provenance_pct": {
+        "CONFIG_FALLBACK": 100.0
+      },
+      "commission_provenance_pct": {
+        "UNKNOWN_REQUIRES_LOT_SIZE": 100.0
+      },
+      "effective_sample_size": 1679.3
+    },
+    "statistical_robustness": {
+      "sharpe_annualized": 7.719274850141074,
+      "psr": 1.0,
+      "dsr": 1.0,
+      "min_track_record_length_trades": 75,
+      "bootstrap_sharpe_ci": {
+        "mean": 7.796063162245602,
+        "ci_low": 5.345049899125341,
+        "ci_high": 10.178909842346036,
+        "p_positive": 1.0
+      },
+      "monte_carlo": {
+        "paths": 500,
+        "method": "block_bootstrap_r_space",
+        "block_size": 10,
+        "lag1_autocorrelation": 0.5126,
+        "terminal_cumulative_r": {
+          "p5": 1041.778,
+          "p25": 1307.096,
+          "p50": 1473.594,
+          "p75": 1646.259,
+          "p95": 1855.924
+        },
+        "probability_terminal_negative": 0.0,
+        "drawdown_r_percentiles": {
+          "p50": 80.334,
+          "p75": 97.627,
+          "p90": 114.344,
+          "p95": 128.082,
+          "p99": 158.188
+        },
+        "longest_losing_run_percentiles": {
+          "p50": 47,
+          "p90": 61,
+          "p95": 64
+        }
+      },
+      "verdict": "ROBUST",
+      "verdict_reasons": [
+        "PSR is high, bootstrap Sharpe confidence interval is positive, and DSR passes the trial adjustment."
+      ]
+    },
+    "drawdown": {
+      "max_drawdown_r": 566.1686,
+      "max_drawdown_duration_days": 26.0,
+      "avg_drawdown_duration_days": 4.9,
+      "recovery_duration_days": 4.9,
+      "currently_unrecovered_duration_days": 0.2,
+      "recovery_factor": 2.5701,
+      "longest_losing_streak": 393,
+      "closed_drawdown_episode_count": 174
+    },
+    "walk_forward": {
+      "verdict": "PASS",
+      "edge_stability": "ACCEPTABLE",
+      "directional_edge": "UNSTABLE",
+      "train_n": 14375,
+      "oos_n": 9578,
+      "train_expectancy_r_gross": -0.026,
+      "oos_expectancy_r_gross": 0.3134,
+      "degradation_pct": 1305.4,
+      "note": "Gross-R only -- walk_forward.py does not split net_outcome_r (not modified here to avoid touching a function already wired into a live gate; see brokers/mt5/sequence_risk.py)."
+    }
+  },
+  "liquidity_sweep_reversal": {
+    "strategy": "liquidity_sweep_reversal",
+    "sample_size": 1472,
+    "sample_note": "most recent 8000 rows (or fewer) within the last 3 years",
+    "historical_evidence": {
+      "trades": 1472,
+      "gross_expectancy_r": -0.2983,
+      "net_expectancy_r": -0.3284,
+      "cost_drag_r": 0.0301,
+      "gross_profit_factor": 0.6168,
+      "net_profit_factor": 0.5901,
+      "net_sample_size": 1472,
+      "spread_provenance_pct": {
+        "CONFIG_FALLBACK": 100.0
+      },
+      "commission_provenance_pct": {
+        "UNKNOWN_REQUIRES_LOT_SIZE": 100.0
+      },
+      "effective_sample_size": 668.3
+    },
+    "statistical_robustness": {
+      "sharpe_annualized": -5.006429873531164,
+      "psr": 3.038228323218176e-14,
+      "dsr": 3.038228323218176e-14,
+      "min_track_record_length_trades": null,
+      "bootstrap_sharpe_ci": {
+        "mean": -4.98784917752754,
+        "ci_low": -7.326834631963998,
+        "ci_high": -2.8145072539268896,
+        "p_positive": 0.0
+      },
+      "monte_carlo": {
+        "paths": 500,
+        "method": "block_bootstrap_r_space",
+        "block_size": 10,
+        "lag1_autocorrelation": 0.3755,
+        "terminal_cumulative_r": {
+          "p5": -568.394,
+          "p25": -490.933,
+          "p50": -440.025,
+          "p75": -379.456,
+          "p95": -300.105
+        },
+        "probability_terminal_negative": 1.0,
+        "drawdown_r_percentiles": {
+          "p50": 449.791,
+          "p75": 499.664,
+          "p90": 556.252,
+          "p95": 582.284,
+          "p99": 620.042
+        },
+        "longest_losing_run_percentiles": {
+          "p50": 41,
+          "p90": 55,
+          "p95": 61
+        }
+      },
+      "verdict": "FRAGILE",
+      "verdict_reasons": [
+        "PSR is below 0.95.",
+        "Bootstrap Sharpe confidence interval includes or falls below zero."
+      ]
+    },
+    "drawdown": {
+      "max_drawdown_r": 515.4624,
+      "max_drawdown_duration_days": 923.2,
+      "avg_drawdown_duration_days": 16.7,
+      "recovery_duration_days": 16.7,
+      "currently_unrecovered_duration_days": 928.2,
+      "recovery_factor": -0.8519,
+      "longest_losing_streak": 199,
+      "closed_drawdown_episode_count": 9
+    },
+    "walk_forward": {
+      "verdict": "FAIL",
+      "edge_stability": "FAILED_OOS",
+      "directional_edge": "UNSTABLE",
+      "train_n": 5380,
+      "oos_n": 3586,
+      "train_expectancy_r_gross": -0.0136,
+      "oos_expectancy_r_gross": -0.0768,
+      "degradation_pct": -464.7,
+      "note": "Gross-R only -- walk_forward.py does not split net_outcome_r (not modified here to avoid touching a function already wired into a live gate; see brokers/mt5/sequence_risk.py)."
+    }
+  },
+  "wyckoff": {
+    "strategy": "wyckoff",
+    "sample_size": 3062,
+    "sample_note": "most recent 8000 rows (or fewer) within the last 3 years",
+    "historical_evidence": {
+      "trades": 3062,
+      "gross_expectancy_r": 0.7315,
+      "net_expectancy_r": 0.6957,
+      "cost_drag_r": 0.0358,
+      "gross_profit_factor": 1.999,
+      "net_profit_factor": 1.9241,
+      "net_sample_size": 3062,
+      "spread_provenance_pct": {
+        "CONFIG_FALLBACK": 100.0
+      },
+      "commission_provenance_pct": {
+        "UNKNOWN_REQUIRES_LOT_SIZE": 100.0
+      },
+      "effective_sample_size": 141.9
+    },
+    "statistical_robustness": {
+      "sharpe_annualized": 15.434611850432594,
+      "psr": 1.0,
+      "dsr": 1.0,
+      "min_track_record_length_trades": 40,
+      "bootstrap_sharpe_ci": {
+        "mean": 15.342501781858163,
+        "ci_low": 9.427897193868821,
+        "ci_high": 21.031701698302086,
+        "p_positive": 1.0
+      },
+      "monte_carlo": {
+        "paths": 500,
+        "method": "block_bootstrap_r_space",
+        "block_size": 11,
+        "lag1_autocorrelation": 0.9114,
+        "terminal_cumulative_r": {
+          "p5": 1277.854,
+          "p25": 1817.555,
+          "p50": 2227.104,
+          "p75": 2692.083,
+          "p95": 3253.751
+        },
+        "probability_terminal_negative": 0.0,
+        "drawdown_r_percentiles": {
+          "p50": 165.153,
+          "p75": 199.876,
+          "p90": 242.785,
+          "p95": 285.526,
+          "p99": 362.803
+        },
+        "longest_losing_run_percentiles": {
+          "p50": 77,
+          "p90": 105,
+          "p95": 114
+        }
+      },
+      "verdict": "ROBUST",
+      "verdict_reasons": [
+        "PSR is high, bootstrap Sharpe confidence interval is positive, and DSR passes the trial adjustment."
+      ]
+    },
+    "drawdown": {
+      "max_drawdown_r": 479.8844,
+      "max_drawdown_duration_days": 32.0,
+      "avg_drawdown_duration_days": 10.6,
+      "recovery_duration_days": 10.6,
+      "currently_unrecovered_duration_days": 7.6,
+      "recovery_factor": 4.6675,
+      "longest_losing_streak": 240,
+      "closed_drawdown_episode_count": 16
+    },
+    "walk_forward": {
+      "verdict": "PASS",
+      "edge_stability": "STRONG",
+      "directional_edge": "POSITIVE_EDGE",
+      "train_n": 1789,
+      "oos_n": 1221,
+      "train_expectancy_r_gross": 0.0631,
+      "oos_expectancy_r_gross": 1.7846,
+      "degradation_pct": -2728.2,
+      "note": "Gross-R only -- walk_forward.py does not split net_outcome_r (not modified here to avoid touching a function already wired into a live gate; see brokers/mt5/sequence_risk.py)."
+    }
+  }
+}

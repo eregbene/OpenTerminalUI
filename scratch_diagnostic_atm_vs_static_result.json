@@ -1,0 +1,122 @@
+{
+  "mtfai1": {
+    "n": 176,
+    "avg_managed_r": -0.07450312037172356,
+    "median_managed_r": -0.2521343412436827,
+    "avg_max_achieved_r": 0.3730330690717203,
+    "avg_giveback_r": 0.4475361894434439,
+    "first_trade": "2026-08-07 20:15:48+00:00",
+    "last_trade": "2026-08-21 12:16:43.183285+00:00",
+    "win_rate": "0.40340909090909090909"
+  },
+  "support_resistance_bounce": {
+    "n": 28,
+    "avg_managed_r": -0.11550005986193083,
+    "median_managed_r": -0.28574020319303345,
+    "avg_max_achieved_r": 0.3284778012935889,
+    "avg_giveback_r": 0.4439778611555196,
+    "first_trade": "2026-08-11 22:25:33+00:00",
+    "last_trade": "2026-08-17 03:21:19.519988+00:00",
+    "win_rate": "0.32142857142857142857"
+  },
+  "momentum": {
+    "n": 24,
+    "avg_managed_r": 0.1455545489244671,
+    "median_managed_r": 0.27685925554580776,
+    "avg_max_achieved_r": 0.4626418721174195,
+    "avg_giveback_r": 0.3170873231929523,
+    "first_trade": "2026-08-11 13:35:21+00:00",
+    "last_trade": "2026-08-19 13:39:51.581735+00:00",
+    "win_rate": "0.70833333333333333333"
+  },
+  "session_breakout": {
+    "n": 40,
+    "avg_managed_r": -0.32331000886358374,
+    "median_managed_r": -0.3757565459236326,
+    "avg_max_achieved_r": 0.3914400639002392,
+    "avg_giveback_r": 0.714750072763823,
+    "first_trade": "2026-08-11 19:02:03+00:00",
+    "last_trade": "2026-08-13 16:12:26.443315+00:00",
+    "win_rate": "0.25000000000000000000"
+  },
+  "vwap_reversion": {
+    "n": 38,
+    "avg_managed_r": 0.17257402689028592,
+    "median_managed_r": 0.18740090212016033,
+    "avg_max_achieved_r": 0.6319760192608355,
+    "avg_giveback_r": 0.45940199237054963,
+    "first_trade": "2026-08-11 06:31:27+00:00",
+    "last_trade": "2026-08-21 01:52:24.475362+00:00",
+    "win_rate": "0.73684210526315789474"
+  },
+  "breakout": {
+    "n": 6,
+    "avg_managed_r": -0.09973249022053371,
+    "median_managed_r": -0.07675194660734147,
+    "avg_max_achieved_r": 0.35709815264465955,
+    "avg_giveback_r": 0.4568306428651933,
+    "first_trade": "2026-08-13 09:17:09+00:00",
+    "last_trade": "2026-08-19 09:27:53.656135+00:00",
+    "win_rate": "0.50000000000000000000"
+  },
+  "ema_trend": {
+    "n": 2,
+    "avg_managed_r": 0.32301355275041055,
+    "median_managed_r": 0.32301355275041055,
+    "avg_max_achieved_r": 0.5539820029108822,
+    "avg_giveback_r": 0.23096845016047166,
+    "first_trade": "2026-08-19 19:01:30+00:00",
+    "last_trade": "2026-08-19 19:03:09.455019+00:00",
+    "win_rate": "1.00000000000000000000"
+  },
+  "mean_reversion": {
+    "n": 6,
+    "avg_managed_r": -0.09787116976196852,
+    "median_managed_r": -0.2111111111111111,
+    "avg_max_achieved_r": 0.4724921429168143,
+    "avg_giveback_r": 0.5703633126787828,
+    "first_trade": "2026-08-17 03:25:24+00:00",
+    "last_trade": "2026-08-20 23:21:31.145111+00:00",
+    "win_rate": "0.33333333333333333333"
+  },
+  "smc_continuation": {
+    "n": 8,
+    "avg_managed_r": -0.28057808697027176,
+    "median_managed_r": -0.2662464985994397,
+    "avg_max_achieved_r": 0.14614514774632723,
+    "avg_giveback_r": 0.426723234716599,
+    "first_trade": "2026-08-13 10:03:07+00:00",
+    "last_trade": "2026-08-19 00:11:32.847247+00:00",
+    "win_rate": "0.25000000000000000000"
+  },
+  "trend_pullback": {
+    "n": 5,
+    "avg_managed_r": 0.26068558633932953,
+    "median_managed_r": 0.4899623920758515,
+    "avg_max_achieved_r": 0.7151682749747088,
+    "avg_giveback_r": 0.45448268863537944,
+    "first_trade": "2026-08-11 21:45:23+00:00",
+    "last_trade": "2026-08-18 01:53:45.826382+00:00",
+    "win_rate": "0.80000000000000000000"
+  },
+  "liquidity_sweep_reversal": {
+    "n": 16,
+    "avg_managed_r": 0.2428643264048559,
+    "median_managed_r": 0.07412572881636062,
+    "avg_max_achieved_r": 0.5399884625553745,
+    "avg_giveback_r": 0.29712413615051864,
+    "first_trade": "2026-08-12 04:30:28+00:00",
+    "last_trade": "2026-08-14 06:32:27.871138+00:00",
+    "win_rate": "0.62500000000000000000"
+  },
+  "wyckoff": {
+    "n": 0,
+    "avg_managed_r": null,
+    "median_managed_r": null,
+    "avg_max_achieved_r": null,
+    "avg_giveback_r": null,
+    "first_trade": null,
+    "last_trade": null,
+    "win_rate": null
+  }
+}

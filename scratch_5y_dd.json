@@ -1,0 +1,50 @@
+[
+  {
+    "strategy": "breakout",
+    "max_dd_r": -10737.431400000027
+  },
+  {
+    "strategy": "ema_trend",
+    "max_dd_r": -11822.0
+  },
+  {
+    "strategy": "liquidity_sweep_reversal",
+    "max_dd_r": -621.9045
+  },
+  {
+    "strategy": "mean_reversion",
+    "max_dd_r": -553.5
+  },
+  {
+    "strategy": "momentum",
+    "max_dd_r": -24204.867500003562
+  },
+  {
+    "strategy": "mtfai1",
+    "max_dd_r": -27254.302199999933
+  },
+  {
+    "strategy": "session_breakout",
+    "max_dd_r": -7682.156099999983
+  },
+  {
+    "strategy": "smc_continuation",
+    "max_dd_r": -999.0
+  },
+  {
+    "strategy": "support_resistance_bounce",
+    "max_dd_r": -2744.11120000016
+  },
+  {
+    "strategy": "trend_pullback",
+    "max_dd_r": -910.7589000000032
+  },
+  {
+    "strategy": "vwap_reversion",
+    "max_dd_r": -4327.625799999972
+  },
+  {
+    "strategy": "wyckoff",
+    "max_dd_r": -477.8843999999999
+  }
+]

@@ -1,0 +1,702 @@
+[
+  {
+    "strategy": "breakout",
+    "year": 2018,
+    "n": 5607,
+    "expectancy_r": -0.22869456037096483,
+    "win_rate": 0.23488496522204388
+  },
+  {
+    "strategy": "breakout",
+    "year": 2019,
+    "n": 14570,
+    "expectancy_r": -0.11919032258064532,
+    "win_rate": 0.2673987645847632
+  },
+  {
+    "strategy": "breakout",
+    "year": 2020,
+    "n": 15717,
+    "expectancy_r": -0.18876543233441528,
+    "win_rate": 0.24661194884519946
+  },
+  {
+    "strategy": "breakout",
+    "year": 2021,
+    "n": 16305,
+    "expectancy_r": -0.12737973014412754,
+    "win_rate": 0.2612695492180313
+  },
+  {
+    "strategy": "breakout",
+    "year": 2022,
+    "n": 13706,
+    "expectancy_r": -0.08457490150299138,
+    "win_rate": 0.27549978111775864
+  },
+  {
+    "strategy": "breakout",
+    "year": 2023,
+    "n": 13544,
+    "expectancy_r": -0.09761300206733599,
+    "win_rate": 0.2749556999409333
+  },
+  {
+    "strategy": "breakout",
+    "year": 2024,
+    "n": 8403,
+    "expectancy_r": -0.2750734618588598,
+    "win_rate": 0.21932643103653457
+  },
+  {
+    "strategy": "breakout",
+    "year": 2025,
+    "n": 3955,
+    "expectancy_r": -0.700057168141593,
+    "win_rate": 0.08874841972187104
+  },
+  {
+    "strategy": "breakout",
+    "year": 2026,
+    "n": 2272,
+    "expectancy_r": -0.7051056338028165,
+    "win_rate": 0.10695422535211267
+  },
+  {
+    "strategy": "ema_trend",
+    "year": 2018,
+    "n": 5541,
+    "expectancy_r": 0.12669193286410396,
+    "win_rate": 0.375563977621368
+  },
+  {
+    "strategy": "ema_trend",
+    "year": 2019,
+    "n": 12976,
+    "expectancy_r": -0.02967016029593095,
+    "win_rate": 0.32344327990135635
+  },
+  {
+    "strategy": "ema_trend",
+    "year": 2020,
+    "n": 14742,
+    "expectancy_r": 0.07142857142857142,
+    "win_rate": 0.35714285714285715
+  },
+  {
+    "strategy": "ema_trend",
+    "year": 2021,
+    "n": 17094,
+    "expectancy_r": -0.19094419094419093,
+    "win_rate": 0.2696852696852697
+  },
+  {
+    "strategy": "ema_trend",
+    "year": 2022,
+    "n": 13741,
+    "expectancy_r": -0.17080270722654828,
+    "win_rate": 0.27639909759115056
+  },
+  {
+    "strategy": "ema_trend",
+    "year": 2023,
+    "n": 10191,
+    "expectancy_r": -0.08978510450397409,
+    "win_rate": 0.303404965165342
+  },
+  {
+    "strategy": "ema_trend",
+    "year": 2024,
+    "n": 9915,
+    "expectancy_r": -0.1394856278366112,
+    "win_rate": 0.28683812405446296
+  },
+  {
+    "strategy": "ema_trend",
+    "year": 2025,
+    "n": 4041,
+    "expectancy_r": -0.8396436525612472,
+    "win_rate": 0.053452115812917596
+  },
+  {
+    "strategy": "ema_trend",
+    "year": 2026,
+    "n": 1858,
+    "expectancy_r": -0.961248654467169,
+    "win_rate": 0.012917115177610334
+  },
+  {
+    "strategy": "liquidity_sweep_reversal",
+    "year": 2018,
+    "n": 746,
+    "expectancy_r": 0.24719477211796265,
+    "win_rate": 0.4436997319034853
+  },
+  {
+    "strategy": "liquidity_sweep_reversal",
+    "year": 2019,
+    "n": 1271,
+    "expectancy_r": -0.27614445318646735,
+    "win_rate": 0.23524783634933125
+  },
+  {
+    "strategy": "liquidity_sweep_reversal",
+    "year": 2020,
+    "n": 1441,
+    "expectancy_r": 0.19848348369188104,
+    "win_rate": 0.3983344899375434
+  },
+  {
+    "strategy": "liquidity_sweep_reversal",
+    "year": 2021,
+    "n": 1887,
+    "expectancy_r": -0.09447011128775831,
+    "win_rate": 0.27450980392156865
+  },
+  {
+    "strategy": "liquidity_sweep_reversal",
+    "year": 2022,
+    "n": 1349,
+    "expectancy_r": 0.23165426241660494,
+    "win_rate": 0.374351371386212
+  },
+  {
+    "strategy": "liquidity_sweep_reversal",
+    "year": 2023,
+    "n": 1048,
+    "expectancy_r": -0.11438311068702288,
+    "win_rate": 0.27576335877862596
+  },
+  {
+    "strategy": "liquidity_sweep_reversal",
+    "year": 2024,
+    "n": 768,
+    "expectancy_r": -0.25527226562500005,
+    "win_rate": 0.23567708333333334
+  },
+  {
+    "strategy": "liquidity_sweep_reversal",
+    "year": 2025,
+    "n": 284,
+    "expectancy_r": -0.6485211267605634,
+    "win_rate": 0.11267605633802817
+  },
+  {
+    "strategy": "liquidity_sweep_reversal",
+    "year": 2026,
+    "n": 137,
+    "expectancy_r": -0.6417131386861313,
+    "win_rate": 0.10948905109489052
+  },
+  {
+    "strategy": "mean_reversion",
+    "year": 2018,
+    "n": 2630,
+    "expectancy_r": 0.2832699619771863,
+    "win_rate": 0.5133079847908745
+  },
+  {
+    "strategy": "mean_reversion",
+    "year": 2019,
+    "n": 8517,
+    "expectancy_r": 0.20142068803569332,
+    "win_rate": 0.4805682752142773
+  },
+  {
+    "strategy": "mean_reversion",
+    "year": 2020,
+    "n": 8302,
+    "expectancy_r": 0.22048903878583473,
+    "win_rate": 0.4881956155143339
+  },
+  {
+    "strategy": "mean_reversion",
+    "year": 2021,
+    "n": 8053,
+    "expectancy_r": 0.17564882652427666,
+    "win_rate": 0.47025953060971065
+  },
+  {
+    "strategy": "mean_reversion",
+    "year": 2022,
+    "n": 7892,
+    "expectancy_r": 0.25316776482513936,
+    "win_rate": 0.5012671059300557
+  },
+  {
+    "strategy": "mean_reversion",
+    "year": 2023,
+    "n": 7979,
+    "expectancy_r": 0.2398170196766512,
+    "win_rate": 0.49592680787066046
+  },
+  {
+    "strategy": "mean_reversion",
+    "year": 2024,
+    "n": 4807,
+    "expectancy_r": 0.4125234033700853,
+    "win_rate": 0.5650093613480341
+  },
+  {
+    "strategy": "mean_reversion",
+    "year": 2025,
+    "n": 2931,
+    "expectancy_r": 0.5156943022859093,
+    "win_rate": 0.6062777209143637
+  },
+  {
+    "strategy": "mean_reversion",
+    "year": 2026,
+    "n": 1269,
+    "expectancy_r": 0.9208037825059102,
+    "win_rate": 0.7683215130023641
+  },
+  {
+    "strategy": "momentum",
+    "year": 2018,
+    "n": 13920,
+    "expectancy_r": -0.11837978448276067,
+    "win_rate": 0.3306034482758621
+  },
+  {
+    "strategy": "momentum",
+    "year": 2019,
+    "n": 35807,
+    "expectancy_r": -0.10504275979557316,
+    "win_rate": 0.33560477001703576
+  },
+  {
+    "strategy": "momentum",
+    "year": 2020,
+    "n": 39810,
+    "expectancy_r": -0.130994747550869,
+    "win_rate": 0.3258728962572218
+  },
+  {
+    "strategy": "momentum",
+    "year": 2021,
+    "n": 36966,
+    "expectancy_r": -0.12011740788833229,
+    "win_rate": 0.32995184764378077
+  },
+  {
+    "strategy": "momentum",
+    "year": 2022,
+    "n": 32421,
+    "expectancy_r": -0.073839733506063,
+    "win_rate": 0.3473057586132445
+  },
+  {
+    "strategy": "momentum",
+    "year": 2023,
+    "n": 29682,
+    "expectancy_r": -0.0695030018192864,
+    "win_rate": 0.34893201266761
+  },
+  {
+    "strategy": "momentum",
+    "year": 2024,
+    "n": 21351,
+    "expectancy_r": -0.193407868483914,
+    "win_rate": 0.30246826846517727
+  },
+  {
+    "strategy": "momentum",
+    "year": 2025,
+    "n": 11698,
+    "expectancy_r": -0.7006858351854964,
+    "win_rate": 0.11224140878782699
+  },
+  {
+    "strategy": "momentum",
+    "year": 2026,
+    "n": 5822,
+    "expectancy_r": -0.772812916523532,
+    "win_rate": 0.08519409137753349
+  },
+  {
+    "strategy": "mtfai1",
+    "year": 2018,
+    "n": 59347,
+    "expectancy_r": -0.0506827657674355,
+    "win_rate": 0.3636409591049253
+  },
+  {
+    "strategy": "mtfai1",
+    "year": 2019,
+    "n": 155121,
+    "expectancy_r": -0.024457192772094075,
+    "win_rate": 0.37069771339792806
+  },
+  {
+    "strategy": "mtfai1",
+    "year": 2020,
+    "n": 154969,
+    "expectancy_r": 0.009297132329691725,
+    "win_rate": 0.38669024127406126
+  },
+  {
+    "strategy": "mtfai1",
+    "year": 2021,
+    "n": 148098,
+    "expectancy_r": -0.04837221029318409,
+    "win_rate": 0.36442760874556035
+  },
+  {
+    "strategy": "mtfai1",
+    "year": 2022,
+    "n": 137723,
+    "expectancy_r": -0.020680767192117432,
+    "win_rate": 0.37915961749308397
+  },
+  {
+    "strategy": "mtfai1",
+    "year": 2023,
+    "n": 134399,
+    "expectancy_r": -0.09903050022693606,
+    "win_rate": 0.349094859336751
+  },
+  {
+    "strategy": "mtfai1",
+    "year": 2024,
+    "n": 100771,
+    "expectancy_r": 0.004374111599567343,
+    "win_rate": 0.38826646555060484
+  },
+  {
+    "strategy": "mtfai1",
+    "year": 2025,
+    "n": 43816,
+    "expectancy_r": 0.006990259266021556,
+    "win_rate": 0.3750456454263283
+  },
+  {
+    "strategy": "mtfai1",
+    "year": 2026,
+    "n": 23764,
+    "expectancy_r": 0.05640162851371835,
+    "win_rate": 0.3913482578690456
+  },
+  {
+    "strategy": "session_breakout",
+    "year": 2018,
+    "n": 6349,
+    "expectancy_r": -0.13839659788943126,
+    "win_rate": 0.26634115608757286
+  },
+  {
+    "strategy": "session_breakout",
+    "year": 2019,
+    "n": 13832,
+    "expectancy_r": -0.11812332272990157,
+    "win_rate": 0.2673510699826489
+  },
+  {
+    "strategy": "session_breakout",
+    "year": 2020,
+    "n": 13995,
+    "expectancy_r": -0.18869687745623437,
+    "win_rate": 0.24458735262593784
+  },
+  {
+    "strategy": "session_breakout",
+    "year": 2021,
+    "n": 15025,
+    "expectancy_r": -0.14670465890183051,
+    "win_rate": 0.25996672212978367
+  },
+  {
+    "strategy": "session_breakout",
+    "year": 2022,
+    "n": 15799,
+    "expectancy_r": -0.01139633521108929,
+    "win_rate": 0.2975504778783467
+  },
+  {
+    "strategy": "session_breakout",
+    "year": 2023,
+    "n": 14169,
+    "expectancy_r": -0.016382355847272195,
+    "win_rate": 0.2947985037758487
+  },
+  {
+    "strategy": "session_breakout",
+    "year": 2024,
+    "n": 10118,
+    "expectancy_r": -0.1921314291361929,
+    "win_rate": 0.24303221980628584
+  },
+  {
+    "strategy": "session_breakout",
+    "year": 2025,
+    "n": 3928,
+    "expectancy_r": -0.5890054989816702,
+    "win_rate": 0.12907331975560082
+  },
+  {
+    "strategy": "session_breakout",
+    "year": 2026,
+    "n": 3767,
+    "expectancy_r": -0.12207162198035572,
+    "win_rate": 0.25431377754181045
+  },
+  {
+    "strategy": "smc_continuation",
+    "year": 2018,
+    "n": 2807,
+    "expectancy_r": 0.028143925899536872,
+    "win_rate": 0.3427146419665123
+  },
+  {
+    "strategy": "smc_continuation",
+    "year": 2019,
+    "n": 6338,
+    "expectancy_r": -0.17213632060586936,
+    "win_rate": 0.27595455979804356
+  },
+  {
+    "strategy": "smc_continuation",
+    "year": 2020,
+    "n": 8911,
+    "expectancy_r": -0.06172146784872629,
+    "win_rate": 0.31275951071709124
+  },
+  {
+    "strategy": "smc_continuation",
+    "year": 2021,
+    "n": 7575,
+    "expectancy_r": 0.2015841584158416,
+    "win_rate": 0.40052805280528053
+  },
+  {
+    "strategy": "smc_continuation",
+    "year": 2022,
+    "n": 7398,
+    "expectancy_r": 0.06772100567721005,
+    "win_rate": 0.3559070018924034
+  },
+  {
+    "strategy": "smc_continuation",
+    "year": 2023,
+    "n": 5530,
+    "expectancy_r": 0.12893309222423147,
+    "win_rate": 0.3763110307414105
+  },
+  {
+    "strategy": "smc_continuation",
+    "year": 2024,
+    "n": 3992,
+    "expectancy_r": -0.07339679358717435,
+    "win_rate": 0.3088677354709419
+  },
+  {
+    "strategy": "smc_continuation",
+    "year": 2025,
+    "n": 2057,
+    "expectancy_r": 0.08070004861448711,
+    "win_rate": 0.3602333495381624
+  },
+  {
+    "strategy": "smc_continuation",
+    "year": 2026,
+    "n": 1266,
+    "expectancy_r": 0.47393364928909953,
+    "win_rate": 0.4913112164296998
+  },
+  {
+    "strategy": "support_resistance_bounce",
+    "year": 2018,
+    "n": 16455,
+    "expectancy_r": -0.03697071406867168,
+    "win_rate": 0.33989668793679734
+  },
+  {
+    "strategy": "support_resistance_bounce",
+    "year": 2019,
+    "n": 43127,
+    "expectancy_r": 0.022699958262807164,
+    "win_rate": 0.3609571730006724
+  },
+  {
+    "strategy": "support_resistance_bounce",
+    "year": 2020,
+    "n": 44527,
+    "expectancy_r": 0.11354346800817776,
+    "win_rate": 0.39301996541424306
+  },
+  {
+    "strategy": "support_resistance_bounce",
+    "year": 2021,
+    "n": 40177,
+    "expectancy_r": 0.06577551584239985,
+    "win_rate": 0.37616048983249123
+  },
+  {
+    "strategy": "support_resistance_bounce",
+    "year": 2022,
+    "n": 44180,
+    "expectancy_r": 0.01993669533725766,
+    "win_rate": 0.35998189225894067
+  },
+  {
+    "strategy": "support_resistance_bounce",
+    "year": 2023,
+    "n": 42288,
+    "expectancy_r": 0.19146268208473077,
+    "win_rate": 0.4205211880438895
+  },
+  {
+    "strategy": "support_resistance_bounce",
+    "year": 2024,
+    "n": 29794,
+    "expectancy_r": 0.16169674431093803,
+    "win_rate": 0.41001543935020474
+  },
+  {
+    "strategy": "support_resistance_bounce",
+    "year": 2025,
+    "n": 13620,
+    "expectancy_r": -0.057022841409690626,
+    "win_rate": 0.3328193832599119
+  },
+  {
+    "strategy": "support_resistance_bounce",
+    "year": 2026,
+    "n": 5651,
+    "expectancy_r": -0.3141117678287013,
+    "win_rate": 0.2420810476021943
+  },
+  {
+    "strategy": "trend_pullback",
+    "year": 2018,
+    "n": 1098,
+    "expectancy_r": -0.12948724954462634,
+    "win_rate": 0.28233151183970856
+  },
+  {
+    "strategy": "trend_pullback",
+    "year": 2019,
+    "n": 3932,
+    "expectancy_r": 0.19034827060020415,
+    "win_rate": 0.38606307222787384
+  },
+  {
+    "strategy": "trend_pullback",
+    "year": 2020,
+    "n": 3326,
+    "expectancy_r": -0.23334663259170063,
+    "win_rate": 0.2486470234515935
+  },
+  {
+    "strategy": "trend_pullback",
+    "year": 2021,
+    "n": 4112,
+    "expectancy_r": -0.17818657587548534,
+    "win_rate": 0.26653696498054474
+  },
+  {
+    "strategy": "trend_pullback",
+    "year": 2022,
+    "n": 4006,
+    "expectancy_r": 0.4123453569645556,
+    "win_rate": 0.4580629056415377
+  },
+  {
+    "strategy": "trend_pullback",
+    "year": 2023,
+    "n": 3955,
+    "expectancy_r": 0.0579110240202273,
+    "win_rate": 0.343109987357775
+  },
+  {
+    "strategy": "trend_pullback",
+    "year": 2024,
+    "n": 2016,
+    "expectancy_r": 0.10576681547619052,
+    "win_rate": 0.3586309523809524
+  },
+  {
+    "strategy": "trend_pullback",
+    "year": 2025,
+    "n": 805,
+    "expectancy_r": 1.313432546583854,
+    "win_rate": 0.7503105590062111
+  },
+  {
+    "strategy": "trend_pullback",
+    "year": 2026,
+    "n": 603,
+    "expectancy_r": 0.6771515754560525,
+    "win_rate": 0.5439469320066335
+  },
+  {
+    "strategy": "vwap_reversion",
+    "year": 2018,
+    "n": 7217,
+    "expectancy_r": -0.13056297630594432,
+    "win_rate": 0.1791603159207427
+  },
+  {
+    "strategy": "vwap_reversion",
+    "year": 2019,
+    "n": 14101,
+    "expectancy_r": -0.29524902489185145,
+    "win_rate": 0.13410396425785406
+  },
+  {
+    "strategy": "vwap_reversion",
+    "year": 2020,
+    "n": 10783,
+    "expectancy_r": 0.38533476768988256,
+    "win_rate": 0.3028841695261059
+  },
+  {
+    "strategy": "vwap_reversion",
+    "year": 2021,
+    "n": 17704,
+    "expectancy_r": -0.23034099638499747,
+    "win_rate": 0.16380478987799368
+  },
+  {
+    "strategy": "vwap_reversion",
+    "year": 2022,
+    "n": 9593,
+    "expectancy_r": -0.10087171896174295,
+    "win_rate": 0.20441988950276244
+  },
+  {
+    "strategy": "vwap_reversion",
+    "year": 2023,
+    "n": 13655,
+    "expectancy_r": 0.175368114243867,
+    "win_rate": 0.21918711094837057
+  },
+  {
+    "strategy": "vwap_reversion",
+    "year": 2024,
+    "n": 13139,
+    "expectancy_r": -0.04815514118273846,
+    "win_rate": 0.18395616104726387
+  },
+  {
+    "strategy": "vwap_reversion",
+    "year": 2025,
+    "n": 6466,
+    "expectancy_r": -0.1442419579338075,
+    "win_rate": 0.19718527683266315
+  },
+  {
+    "strategy": "vwap_reversion",
+    "year": 2026,
+    "n": 2334,
+    "expectancy_r": -0.07219250214224503,
+    "win_rate": 0.22150814053127676
+  },
+  {
+    "strategy": "wyckoff",
+    "year": 2026,
+    "n": 3062,
+    "expectancy_r": 0.7314962442847804,
+    "win_rate": 0.2677988242978446
+  }
+]
