@@ -252,6 +252,53 @@ def test_mt5_history_normalization_and_thesis_grouping(monkeypatch):
     assert theses[0].additional_entry_contribution > 0
 
 
+def test_non_demo_10k_deal_position_id_is_scoped_to_match_the_position_state_row(monkeypatch):
+    """BUG FIX regression (traced live -- caused a real incident: 78.8% of the ATM auto-replay
+    backlog was permanently stuck because AdaptiveTradeEventORM.position_id was NEVER account-
+    scoped, while AdaptivePositionStateORM.position_id IS scoped for every non-demo_10k account
+    (service.py::_position_id). _auto_replay_recently_closed's deal lookup does a direct
+    `AdaptiveTradeEventORM.position_id == row.position_id` match, which could never succeed for
+    ftmo_demo_25k/50k/100k -- not missing data, a permanent format mismatch. demo_10k's own
+    format (no prefix) must stay exactly as before -- every existing row already uses it."""
+    _session_factory(monkeypatch)
+    svc = service.AdaptiveManagementService(account_id="ftmo_demo_25k")
+    payload = {
+        "session_id": "SESSION_SCOPED_TEST",
+        "account_id": "999",
+        "account_mode": "DEMO",
+        "deals": [{"ticket": 1, "order": 10, "position_id": 555, "symbol": "EURUSD", "type": 0, "volume": 1.0, "price": 1.1, "profit": 10, "commission": 0, "swap": 0, "time": "2026-08-04T08:00:00+00:00", "comment": "BENSIM_AUTO"}],
+        "orders": [],
+        "effective_config": {},
+    }
+
+    svc.import_session(payload)
+
+    with service.SessionLocal() as db:
+        event = db.query(AdaptiveTradeEventORM).filter(AdaptiveTradeEventORM.event_type == "DEAL").one()
+    assert event.position_id == "ftmo_demo_25k:555"  # scoped exactly like AdaptivePositionStateORM's own position_id
+
+
+def test_demo_10k_deal_position_id_stays_unprefixed(monkeypatch):
+    """demo_10k must be completely unaffected by the scoping fix -- every existing row in the
+    real database already uses the bare, unprefixed ticket format."""
+    _session_factory(monkeypatch)
+    svc = service.AdaptiveManagementService()  # defaults to account_id="demo_10k"
+    payload = {
+        "session_id": "SESSION_DEMO10K_TEST",
+        "account_id": "123",
+        "account_mode": "DEMO",
+        "deals": [{"ticket": 2, "order": 11, "position_id": 556, "symbol": "EURUSD", "type": 0, "volume": 1.0, "price": 1.1, "profit": 10, "commission": 0, "swap": 0, "time": "2026-08-04T08:00:00+00:00", "comment": "BENSIM_AUTO"}],
+        "orders": [],
+        "effective_config": {},
+    }
+
+    svc.import_session(payload)
+
+    with service.SessionLocal() as db:
+        event = db.query(AdaptiveTradeEventORM).filter(AdaptiveTradeEventORM.event_type == "DEAL").one()
+    assert event.position_id == "556"
+
+
 def test_mfe_mae_regime_and_completed_candle_timeline(monkeypatch):
     SessionLocal = _session_factory(monkeypatch)
     start = datetime(2026, 8, 4, 9, 0, tzinfo=timezone.utc)

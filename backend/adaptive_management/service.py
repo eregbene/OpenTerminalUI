@@ -876,9 +876,9 @@ class AdaptiveManagementService:
 
     def import_session(self, payload: dict[str, Any]) -> dict[str, Any]:
         session_id = str(payload.get("session_id") or f"MT5_SESSION_{utcnow().strftime('%Y%m%d%H%M%S')}")
-        deals = [{**_normalize_history_row(row, session_id, "DEAL"), "account_id": self.account_id} for row in payload.get("deals") or []]
-        orders = [{**_normalize_history_row(row, session_id, "ORDER"), "account_id": self.account_id} for row in payload.get("orders") or []]
-        positions = [{**_normalize_position_row(row, session_id), "account_id": self.account_id} for row in payload.get("open_positions") or []]
+        deals = [{**_normalize_history_row(row, session_id, "DEAL", self.account_id), "account_id": self.account_id} for row in payload.get("deals") or []]
+        orders = [{**_normalize_history_row(row, session_id, "ORDER", self.account_id), "account_id": self.account_id} for row in payload.get("orders") or []]
+        positions = [{**_normalize_position_row(row, session_id, self.account_id), "account_id": self.account_id} for row in payload.get("open_positions") or []]
         events = deals + orders + positions
         event_times: list[datetime] = [row["utc_time"] for row in events if isinstance(row.get("utc_time"), datetime)]
         started_at = min(event_times) if event_times else None
@@ -3059,7 +3059,7 @@ def utcnow() -> datetime:
     return datetime.now(timezone.utc)
 
 
-def _normalize_history_row(row: dict[str, Any], session_id: str, event_type: str) -> dict[str, Any]:
+def _normalize_history_row(row: dict[str, Any], session_id: str, event_type: str, account_id: str = "demo_10k") -> dict[str, Any]:
     raw = dict(row)
     utc_time = _parse_dt(raw.get("time") or raw.get("time_done") or raw.get("time_setup"))
     symbol = str(raw.get("symbol") or "UNKNOWN").upper()
@@ -3067,7 +3067,11 @@ def _normalize_history_row(row: dict[str, Any], session_id: str, event_type: str
     side = _side_from_type(mt5_type)
     order_id = str(raw.get("order") or raw.get("ticket") or "")
     deal_id = str(raw.get("ticket") or "") if event_type == "DEAL" else None
-    position_id = str(raw.get("position_id") or raw.get("position") or raw.get("identifier") or order_id or "")
+    # BUG FIX: scoped identically to AdaptivePositionStateORM.position_id (see
+    # _scope_position_id's docstring) -- previously always the bare ticket, which could never
+    # match a non-demo_10k position's scoped id, permanently hiding deal data from
+    # _auto_replay_recently_closed for 3 of 4 live accounts.
+    position_id = _scope_position_id(str(raw.get("position_id") or raw.get("position") or raw.get("identifier") or order_id or ""), account_id)
     comment = str(raw.get("comment") or "")
     # Keyed on the deal/order's own broker ticket only (not session_id) so re-importing the same
     # trailing window on every reconciliation cycle (_reconcile_recently_closed calls
@@ -3079,15 +3083,16 @@ def _normalize_history_row(row: dict[str, Any], session_id: str, event_type: str
     return {"event_id": "AE_" + _hash({"type": event_type, "ticket": stable_ticket})[:40], "session_id": session_id, "trade_id": position_id or order_id or deal_id, "ticket": str(raw.get("ticket") or ""), "order_id": order_id, "deal_id": deal_id, "position_id": position_id, "event_type": event_type, "symbol": symbol, "side": side, "volume": _float(raw.get("volume")), "price": _float(raw.get("price") or raw.get("price_open")), "stop_loss": _float(raw.get("sl")), "take_profit": _float(raw.get("tp")), "commission": _float(raw.get("commission")) or 0.0, "swap": _float(raw.get("swap")) or 0.0, "fee": _float(raw.get("fee")) or 0.0, "realized_pnl": _float(raw.get("profit")) or 0.0, "magic": _int(raw.get("magic")), "comment": comment, "strategy_id": normalize_strategy_id(_lineage(comment, "strategy")), "strategy_version": _lineage(comment, "strategy_version"), "setup_id": _lineage(comment, "setup"), "timeframe": _lineage(comment, "timeframe"), "broker_exit_reason": _broker_exit_reason(raw), "server_time": utc_time, "utc_time": utc_time, "actor": _actor(comment), "raw_payload": sanitize(raw)}
 
 
-def _normalize_position_row(row: dict[str, Any], session_id: str) -> dict[str, Any]:
+def _normalize_position_row(row: dict[str, Any], session_id: str, account_id: str = "demo_10k") -> dict[str, Any]:
     raw = dict(row)
     utc_time = _parse_dt(raw.get("time"))
     side = "LONG" if int(raw.get("type") or 0) == 0 else "SHORT"
     ticket = str(raw.get("ticket") or raw.get("identifier") or "")
     # See _normalize_history_row: keyed on the position's own ticket only, so re-importing an
     # open position's current snapshot every cycle upserts one row instead of accumulating one
-    # per import call.
-    return {"event_id": "AE_" + _hash({"type": "POSITION", "ticket": ticket})[:40], "session_id": session_id, "trade_id": ticket, "ticket": ticket, "order_id": ticket, "deal_id": None, "position_id": str(raw.get("identifier") or ticket), "event_type": "POSITION", "symbol": str(raw.get("symbol") or "UNKNOWN").upper(), "side": side, "volume": _float(raw.get("volume")), "price": _float(raw.get("price_open")), "stop_loss": _float(raw.get("sl")), "take_profit": _float(raw.get("tp")), "commission": _float(raw.get("commission")) or 0.0, "swap": _float(raw.get("swap")) or 0.0, "fee": 0.0, "realized_pnl": _float(raw.get("profit")) or 0.0, "magic": _int(raw.get("magic")), "comment": raw.get("comment"), "strategy_id": normalize_strategy_id(_lineage(raw.get("comment"), "strategy")), "strategy_version": _lineage(raw.get("comment"), "strategy_version"), "setup_id": _lineage(raw.get("comment"), "setup"), "timeframe": _lineage(raw.get("comment"), "timeframe"), "broker_exit_reason": None, "server_time": utc_time, "utc_time": utc_time, "actor": _actor(raw.get("comment")), "raw_payload": sanitize(raw)}
+    # per import call. position_id scoped the same way (BUG FIX, see _scope_position_id).
+    position_id = _scope_position_id(str(raw.get("identifier") or ticket), account_id)
+    return {"event_id": "AE_" + _hash({"type": "POSITION", "ticket": ticket})[:40], "session_id": session_id, "trade_id": ticket, "ticket": ticket, "order_id": ticket, "deal_id": None, "position_id": position_id, "event_type": "POSITION", "symbol": str(raw.get("symbol") or "UNKNOWN").upper(), "side": side, "volume": _float(raw.get("volume")), "price": _float(raw.get("price_open")), "stop_loss": _float(raw.get("sl")), "take_profit": _float(raw.get("tp")), "commission": _float(raw.get("commission")) or 0.0, "swap": _float(raw.get("swap")) or 0.0, "fee": 0.0, "realized_pnl": _float(raw.get("profit")) or 0.0, "magic": _int(raw.get("magic")), "comment": raw.get("comment"), "strategy_id": normalize_strategy_id(_lineage(raw.get("comment"), "strategy")), "strategy_version": _lineage(raw.get("comment"), "strategy_version"), "setup_id": _lineage(raw.get("comment"), "setup"), "timeframe": _lineage(raw.get("comment"), "timeframe"), "broker_exit_reason": None, "server_time": utc_time, "utc_time": utc_time, "actor": _actor(raw.get("comment")), "raw_payload": sanitize(raw)}
 
 
 def _event_orm(event: dict[str, Any]) -> AdaptiveTradeEventORM:
@@ -3478,6 +3483,21 @@ def _rate_limit_ok(breaker: AdaptiveCircuitBreakerORM, maximum_actions_per_hour:
     return True
 
 
+def _scope_position_id(raw: str, account_id: str) -> str:
+    """The single source of truth for account-scoping a raw broker ticket into a canonical
+    position_id -- see _position_id's docstring for why scoping exists at all (ticket collision
+    across accounts). BUG FIX (traced live -- this session's ATM replay-coverage investigation):
+    _normalize_history_row/_normalize_position_row (which populate AdaptiveTradeEventORM, the
+    DEAL/ORDER/POSITION event table) never applied this scoping at all -- they always stored the
+    bare ticket, while AdaptivePositionStateORM.position_id (via _position_id below) IS scoped
+    for every non-demo_10k account. Since _auto_replay_recently_closed's deal lookup does a
+    direct `AdaptiveTradeEventORM.position_id == row.position_id` match, this meant deals could
+    NEVER be found for ftmo_demo_25k/50k/100k positions (78.8% of the real pending backlog,
+    confirmed empirically) -- not "missing data", a real, permanent format mismatch. Both
+    normalizers now call this same function so the two tables can never drift apart again."""
+    return raw if account_id == "demo_10k" else f"{account_id}:{raw}"
+
+
 def _position_id(payload: dict[str, Any], account_id: str = "demo_10k") -> str:
     """Broker position tickets are only unique WITHIN one MT5 account -- different
     accounts/brokers routinely reuse the same small sequential ticket ranges, so without
@@ -3490,7 +3510,7 @@ def _position_id(payload: dict[str, Any], account_id: str = "demo_10k") -> str:
     account gets an account_id-prefixed id, which can never collide with demo_10k's raw tickets
     or with another account's own prefixed ids."""
     raw = str(payload.get("identifier") or payload.get("ticket") or _hash(payload)[:32])
-    return raw if account_id == "demo_10k" else f"{account_id}:{raw}"
+    return _scope_position_id(raw, account_id)
 
 
 def _position_direction(payload: dict[str, Any]) -> str:
