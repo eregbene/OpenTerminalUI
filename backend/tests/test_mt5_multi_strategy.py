@@ -106,6 +106,64 @@ def test_multiple_strategy_families_fuse_into_one_candidate():
     assert candidates[0]["context"]["multi_strategy_confirmation"] is True
 
 
+# signal_freshness (confidence.py) needs the candle's real close time, not context-build
+# wall-clock time -- see _shared.py::_signal's docstring on why generated_at alone was
+# structurally incapable of ever reflecting real staleness for any fused/non-mtfai1 strategy.
+def test_signal_metadata_carries_the_real_m15_candle_time_not_generated_at():
+    from backend.mt5_strategies.families._shared import _signal
+
+    ctx = _flat_context()
+    # generated_at defaults to "now" inside build_strategy_context; the last M15 row is 15
+    # minutes older than that by _mk_rows' own construction -- a real, non-trivial gap.
+    assert ctx.m15_rows[-1]["time"] != ctx.generated_at.isoformat()
+    sig = _signal(ctx, strategy_id="ema_trend", family="trend_multi_timeframe", timeframe="M15", direction="LONG",
+                   strength=80.0, entry=Decimal("1.1010"), stop=Decimal("1.0990"), target=Decimal("1.1060"), evidence={})
+    assert sig.metadata["candle_time"] == ctx.m15_rows[-1]["time"]
+    assert sig.metadata["candle_time"] != sig.generated_at.isoformat()
+
+
+def test_signal_metadata_never_overwrites_a_caller_supplied_candle_time():
+    from backend.mt5_strategies.families._shared import _signal
+
+    ctx = _flat_context()
+    sig = _signal(ctx, strategy_id="ema_trend", family="trend_multi_timeframe", timeframe="M15", direction="LONG",
+                   strength=80.0, entry=Decimal("1.1010"), stop=Decimal("1.0990"), target=Decimal("1.1060"), evidence={},
+                   metadata={"candle_time": "explicit-value"})
+    assert sig.metadata["candle_time"] == "explicit-value"
+
+
+def test_build_candidates_uses_the_real_candle_time_as_context_timestamp():
+    """The actual bug fix, exercised end to end through fusion.build_candidates -- previously
+    this used anchor.generated_at (evaluation wall-clock time), which meant a candidate built
+    during a scheduler catch-up burst (evaluating an M15 candle that closed hours earlier)
+    would still report context["timestamp"] as ~now, making signal_freshness blind to the real
+    staleness. See project_mtfai1_stale_timestamp_bug memory for the production evidence."""
+    ctx = _flat_context()
+    sig_a = evaluate_ema_trend(ctx)
+    sig_a = dataclasses.replace(sig_a, valid=True, direction="LONG", strategy_id="ema_trend", proposed_entry=1.1010, stop_loss=1.0990, take_profit=1.1060, reward_risk=2.5)
+    # Simulate a catch-up cycle: generated_at is real "now", but the candle actually being
+    # evaluated is old -- exactly the production pattern found in mtfai1's rows.
+    stale_candle_time = (NOW - timedelta(hours=2)).isoformat()
+    sig_a = dataclasses.replace(sig_a, metadata={**sig_a.metadata, "candle_time": stale_candle_time})
+
+    candidates = build_candidates(symbol="EURUSD", broker_symbol="EURUSD", asset_class="FOREX", cycle_id="C1B", signals=[sig_a], htf_trend_h4="bullish", now=NOW)
+
+    assert candidates[0]["context"]["timestamp"] == stale_candle_time
+    assert candidates[0]["context"]["timestamp"] != sig_a.generated_at.isoformat()
+
+
+def test_build_candidates_falls_back_to_generated_at_if_candle_time_missing():
+    """Safety-net path (should not happen via _signal(), which always sets it when m15_rows is
+    non-empty) -- a signal built some other way must still produce a usable timestamp."""
+    ctx = _flat_context()
+    sig_a = evaluate_ema_trend(ctx)
+    sig_a = dataclasses.replace(sig_a, valid=True, direction="LONG", strategy_id="ema_trend", proposed_entry=1.1010, stop_loss=1.0990, take_profit=1.1060, reward_risk=2.5, metadata={})
+
+    candidates = build_candidates(symbol="EURUSD", broker_symbol="EURUSD", asset_class="FOREX", cycle_id="C1C", signals=[sig_a], htf_trend_h4="bullish", now=NOW)
+
+    assert candidates[0]["context"]["timestamp"] == sig_a.generated_at.isoformat()
+
+
 # 2. IBKR is not required.
 def test_mt5_strategies_package_has_no_ibkr_dependency():
     import backend.mt5_strategies.context as context_module

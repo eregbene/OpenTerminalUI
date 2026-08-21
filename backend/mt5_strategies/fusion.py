@@ -104,7 +104,11 @@ def build_candidates(
     context = {
         "symbol": symbol,
         "broker_symbol": broker_symbol,
-        "timestamp": anchor.generated_at.isoformat(),
+        # Real M15 candle close time (see _shared.py::_signal), NOT generated_at (context-build
+        # wall-clock time) -- see that function's docstring for why the distinction matters to
+        # signal_freshness. Falls back to generated_at only for a signal somehow missing it
+        # (should not happen via _signal(), kept as a safe default rather than a KeyError).
+        "timestamp": anchor.metadata.get("candle_time") or anchor.generated_at.isoformat(),
         "direction": anchor.direction,
         "score": winner["fused_strength"],
         "risk_reward": str(anchor.reward_risk) if anchor.reward_risk is not None else None,

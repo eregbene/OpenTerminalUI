@@ -105,13 +105,26 @@ def _signal(ctx: StrategyContext, *, strategy_id: str, family: str, timeframe: s
     else:
         reason = None
     valid = reason is None
+    # signal_freshness (backend/brokers/mt5/confidence.py) needs the REAL market-data candle
+    # time, not generated_at (context-build wall-clock time -- ctx.generated_at is correctly
+    # "now" for its own documented purpose, e.g. stale_exit_deadline, but fusion.py previously
+    # reused it as the candidate's context["timestamp"] too, which made every fused/non-mtfai1
+    # strategy's freshness score trivially ~100 regardless of how stale the underlying M15
+    # candle actually was -- e.g. during a scheduler catch-up burst after an outage, when
+    # ctx.generated_at is close to "now" even though the candle being evaluated closed hours
+    # earlier). mtfai1's own inline context (autonomous.py::_screen) already does this
+    # correctly by reading the candle's own timestamp directly; this carries the same real
+    # value through StrategySignal.metadata so fusion.py can use it too.
+    signal_metadata = dict(metadata or {})
+    if ctx.m15_rows:
+        signal_metadata.setdefault("candle_time", ctx.m15_rows[-1].get("time"))
     return StrategySignal(
         strategy_id=strategy_id, strategy_family=family, symbol=ctx.symbol, broker_symbol=ctx.broker_symbol,
         direction=direction, timeframe=timeframe, generated_at=ctx.generated_at, valid=valid,
         raw_signal_strength=strength, proposed_entry=float(entry), stop_loss=float(stop), take_profit=float(target),
         reward_risk=float(rr) if rr is not None else None, regime=ctx.regime, evidence=evidence,
         rejection_reason=reason,
-        metadata=metadata or {},
+        metadata=signal_metadata,
     )
 
 
