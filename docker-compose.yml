@@ -352,6 +352,12 @@ services:
       MT5_TREND_PULLBACK_ANTI_CHOCH_LOOKBACK_BARS: "${MT5_TREND_PULLBACK_ANTI_CHOCH_LOOKBACK_BARS:-10}"
       MT5_TREND_PULLBACK_CONFLUENCE_MODE: "${MT5_TREND_PULLBACK_CONFLUENCE_MODE:-EMA_ZONE}"
       MT5_TREND_PULLBACK_REACTION_CANDLE_REQUIRED: "${MT5_TREND_PULLBACK_REACTION_CANDLE_REQUIRED:-false}"
+      # 2026-08-24: evidence-based regime-gate widening (docs/mr-tp-evidence-validation-
+      # 6month-report.md) -- adds ONLY "breakout" regime to trend_pullback's allowed set on top
+      # of trending_up/trending_down. Default true (this is an activated change, not an
+      # experimental opt-in lever like the flags above); set false to instantly revert to the
+      # original trending_up/trending_down-only gate.
+      MT5_TREND_PULLBACK_BREAKOUT_REGIME_ENABLED: "${MT5_TREND_PULLBACK_BREAKOUT_REGIME_ENABLED:-true}"
       MT5_SMC_CONTINUATION_IDM_REQUIRED: "${MT5_SMC_CONTINUATION_IDM_REQUIRED:-false}"
       # Phase 2 (2026-08-21 blueprint) -- engine-wide ADX regime gate, session-liquidity timing
       # filter, stale-trade exit metadata, spread safety buffer. See

@@ -263,6 +263,27 @@ def test_regime_controls_strategy_activation():
     assert set(STRATEGY_FAMILIES) - {"mtfai1"} - evaluated_ids or "mean_reversion" in evaluated_ids
 
 
+# 9b. 2026-08-24: trend_pullback's evidence-based "breakout" regime widening -- default enabled,
+# every other previously-blocked regime stays blocked, reversible via env var.
+def test_trend_pullback_breakout_regime_widening(monkeypatch):
+    monkeypatch.delenv("MT5_TREND_PULLBACK_BREAKOUT_REGIME_ENABLED", raising=False)
+    assert regime_compatible("trend_pullback", "trending_up") is True
+    assert regime_compatible("trend_pullback", "trending_down") is True
+    assert regime_compatible("trend_pullback", "breakout") is True  # default enabled
+    assert regime_compatible("trend_pullback", "ranging") is False
+    assert regime_compatible("trend_pullback", "reversal") is False
+    assert regime_compatible("trend_pullback", "low_volatility") is False
+    assert regime_compatible("trend_pullback", "high_volatility") is False
+
+    monkeypatch.setenv("MT5_TREND_PULLBACK_BREAKOUT_REGIME_ENABLED", "false")
+    assert regime_compatible("trend_pullback", "breakout") is False  # reversible
+    assert regime_compatible("trend_pullback", "trending_up") is True  # unaffected
+
+    # STRATEGY_FAMILIES's own static table is deliberately left unchanged -- the widening lives
+    # entirely in regime_compatible()'s override, not in the conservative-baseline table.
+    assert STRATEGY_FAMILIES["trend_pullback"]["regimes"] == ("trending_up", "trending_down")
+
+
 # 10. (see test 1 -- multi-strategy confirmation)
 
 

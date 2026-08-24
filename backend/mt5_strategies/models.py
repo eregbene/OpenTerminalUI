@@ -183,12 +183,32 @@ def activation_status(strategy_id: str) -> str:
     return meta.get("default_activation", SHADOW_MT5)
 
 
+# 2026-08-24: trend_pullback regime-gate widening, evidence-based (docs/mr-tp-evidence-
+# validation-6month-report.md) -- a 6-month point-in-time-safe replay found `breakout` regime
+# among trend_pullback's currently-blocked candidates outperforms even the strategy's own gated
+# (trending_up/trending_down) population (+0.324R/PF 1.57, n=3485, vs +0.236R/PF 1.39, n=2575).
+# Single window, no walk-forward split yet -- smallest possible activation: exactly ONE
+# additional regime, reversible via MT5_TREND_PULLBACK_BREAKOUT_REGIME_ENABLED (default True;
+# set False to instantly revert to the original trending_up/trending_down-only gate with no code
+# change). Every other previously-blocked regime (ranging, reversal, low_volatility,
+# high_volatility) remains blocked. Deliberately does NOT touch STRATEGY_FAMILIES["trend_
+# pullback"]["regimes"] itself (documents the conservative baseline) -- this is a separate,
+# explicit, evidence-gated addition on top, same pattern as _shared.py's _REGIME_DISABLED_
+# STRATEGIES/_REGIME_BOOSTED_STRATEGIES tables (the separate, still-inert Phase-2 ADX axis,
+# untouched by this change). Does not touch trend_pullback.py itself, mean_reversion, stop/
+# target geometry, confidence, Historical Intelligence, Adaptive Manager, or risk controls.
+_TREND_PULLBACK_EXTRA_REGIME_ENV = "MT5_TREND_PULLBACK_BREAKOUT_REGIME_ENABLED"
+
+
 def regime_compatible(strategy_id: str, regime: str) -> bool:
     """Part 5: do not make every strategy trade every regime. An empty `regimes` tuple (only
     mtfai1) means unrestricted, preserving its current, unchanged production behavior."""
     meta = STRATEGY_FAMILIES.get(strategy_id)
     if not meta or not meta.get("regimes"):
         return True
+    if strategy_id == "trend_pullback" and regime == "breakout":
+        raw = os.getenv(_TREND_PULLBACK_EXTRA_REGIME_ENV)
+        return True if raw is None else raw.strip().lower() in {"1", "true", "yes", "on"}
     return regime in meta["regimes"]
 
 
