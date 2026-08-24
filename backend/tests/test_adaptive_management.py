@@ -647,6 +647,88 @@ def test_mfe_giveback_triggers_from_half_r(monkeypatch):
     assert any(action.action_type == "MFE_PROTECTION_CLOSE" for action in actions)
 
 
+def test_mtfai1_v2_mfe_partial_close_overrides_full_close(monkeypatch):
+    # 2026-08-24 MTFAI1 V2: production's ADAPTIVE_MFE_FULL_CLOSE_R=0 forces every
+    # MFE_PROTECTION_CLOSE to close 100% of volume. For mtfai1 specifically, the forensic
+    # counterfactual replay found a 50/50 partial captures materially more R with a far smaller
+    # tail than a full close. MT5_MTFAI1_V2_MFE_PARTIAL_ENABLED must override the close fraction
+    # to 50% for mtfai1 ONLY, at any max_r, without touching any other strategy's behavior.
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.delenv("ADAPTIVE_MFE_MIN_R", raising=False)
+    monkeypatch.setenv("MT5_MTFAI1_V2_MFE_PARTIAL_ENABLED", "true")
+    state = AdaptivePositionStateORM(position_id="MTFAI1_1")
+    state.symbol = "XAUUSD"
+    state.direction = "LONG"
+    state.strategy_id = "mtfai1"
+    state.current_volume = 2.0
+    state.entry_price = 4063.51
+    state.current_sl = 4058.13
+    state.original_sl = 4058.13
+    state.current_tp = 4073.14
+    state.max_achieved_r = 1.5  # well above ADAPTIVE_MFE_FULL_CLOSE_R=0 -- would be a full close otherwise
+    payload = {"price_current": 4064.83}
+
+    with SessionLocal() as db:
+        actions = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    mfe_actions = [a for a in actions if a.action_type == "MFE_PROTECTION_CLOSE"]
+    assert len(mfe_actions) == 1
+    assert mfe_actions[0].requested_volume == pytest.approx(1.0)  # 50% of current_volume=2.0
+    assert mfe_actions[0].evidence["mtfai1_v2_partial"] is True
+    assert mfe_actions[0].evidence["full_close"] is False
+
+
+def test_mtfai1_v2_mfe_partial_flag_does_not_affect_other_strategies(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.delenv("ADAPTIVE_MFE_MIN_R", raising=False)
+    monkeypatch.setenv("MT5_MTFAI1_V2_MFE_PARTIAL_ENABLED", "true")
+    state = AdaptivePositionStateORM(position_id="OTHER_1")
+    state.symbol = "XAUUSD"
+    state.direction = "LONG"
+    state.strategy_id = "trend_pullback"
+    state.current_volume = 2.0
+    state.entry_price = 4063.51
+    state.current_sl = 4058.13
+    state.original_sl = 4058.13
+    state.current_tp = 4073.14
+    state.max_achieved_r = 1.5
+    payload = {"price_current": 4064.83}
+
+    with SessionLocal() as db:
+        actions = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    mfe_actions = [a for a in actions if a.action_type == "MFE_PROTECTION_CLOSE"]
+    assert len(mfe_actions) == 1
+    # unaffected by the mtfai1-only flag -- ADAPTIVE_MFE_FULL_CLOSE_R=0 default still applies,
+    # so this is still a full close, exactly as before this change.
+    assert mfe_actions[0].requested_volume == pytest.approx(2.0)
+    assert mfe_actions[0].evidence["mtfai1_v2_partial"] is False
+
+
+def test_mtfai1_v2_mfe_partial_inert_when_flag_disabled(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.delenv("ADAPTIVE_MFE_MIN_R", raising=False)
+    monkeypatch.delenv("MT5_MTFAI1_V2_MFE_PARTIAL_ENABLED", raising=False)
+    state = AdaptivePositionStateORM(position_id="MTFAI1_2")
+    state.symbol = "XAUUSD"
+    state.direction = "LONG"
+    state.strategy_id = "mtfai1"
+    state.current_volume = 2.0
+    state.entry_price = 4063.51
+    state.current_sl = 4058.13
+    state.original_sl = 4058.13
+    state.current_tp = 4073.14
+    state.max_achieved_r = 1.5
+    payload = {"price_current": 4064.83}
+
+    with SessionLocal() as db:
+        actions = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    mfe_actions = [a for a in actions if a.action_type == "MFE_PROTECTION_CLOSE"]
+    assert len(mfe_actions) == 1
+    assert mfe_actions[0].requested_volume == pytest.approx(2.0)
+
+
 def test_sl_at_entry_does_not_crash_position_sync(monkeypatch):
     # Regression test for a live incident: a breakeven SL that lands exactly on entry price (sl
     # == entry, e.g. after broker-side rounding) made risk == abs(entry - sl) == 0. The old
@@ -661,6 +743,61 @@ def test_sl_at_entry_does_not_crash_position_sync(monkeypatch):
         db.commit()
 
     assert state.current_sl == pytest.approx(4279.93)
+
+
+def test_position_time_applies_broker_utc_offset():
+    # 2026-08-24 MTFAI1 forensic audit: MT5 position "time" is broker-SERVER time, not UTC (same
+    # root cause as MT5Client.broker_utc_offset(), backend/brokers/mt5/client.py -- confirmed
+    # empirically ~+3h for this deployment's broker). _position_time must subtract the offset it
+    # is given, not just label the raw value as UTC.
+    payload = {"time": "2026-08-12T06:11:54+00:00"}
+
+    naive = service._position_time(payload)
+    corrected = service._position_time(payload, utc_offset=timedelta(hours=3))
+
+    assert naive == datetime(2026, 8, 12, 6, 11, 54, tzinfo=timezone.utc)
+    assert corrected == datetime(2026, 8, 12, 3, 11, 54, tzinfo=timezone.utc)
+
+
+def test_broker_utc_offset_fails_open_without_client(monkeypatch):
+    # Existing tests inject lightweight fake adapters exposing only the specific methods they
+    # need (see the `adapter`/`config` properties' own comments) -- none of them carry a .client
+    # with broker_utc_offset(). _broker_utc_offset() must fail open to timedelta(0) (the old,
+    # unadjusted behavior) rather than raise and break every position sync in the suite.
+    class _BareFakeAdapter:
+        pass
+
+    monkeypatch.setattr(service, "mt5_adapter", _BareFakeAdapter())
+
+    assert adaptive_management_service._broker_utc_offset() == timedelta(0)
+
+
+def test_sync_position_state_corrects_broker_time_skew(monkeypatch):
+    # End-to-end: a position opened at broker-server time 06:11:54 (reported raw, no timezone
+    # conversion) with a detected +3h broker offset must land in AdaptivePositionStateORM.opened_at
+    # as true UTC 03:11:54 -- the exact skew found on real ticket 57935367217 during the MTFAI1
+    # forensic audit (state.opened_at was 3h ahead of MT5TradeRecordORM.open_timestamp for the
+    # same trade).
+    SessionLocal = _session_factory(monkeypatch)
+
+    class _FakeClient:
+        def broker_utc_offset(self):
+            return timedelta(hours=3)
+
+    class _FakeAdapter:
+        client = _FakeClient()
+
+    monkeypatch.setattr(service, "mt5_adapter", _FakeAdapter())
+
+    payload = {"ticket": 2, "identifier": 2, "symbol": "EURUSD", "type": 1, "volume": 0.1,
+               "price_open": 1.15387, "price_current": 1.15387, "sl": 1.15452, "tp": 1.15285,
+               "time": "2026-08-12T06:11:54+00:00", "comment": "BSM|MTFAI1|M15"}
+
+    with SessionLocal() as db:
+        state = adaptive_management_service._sync_position_state(db, payload, None, {}, [])
+        db.commit()
+
+    assert state.opened_at == datetime(2026, 8, 12, 3, 11, 54, tzinfo=timezone.utc)
 
 
 def test_r_uses_original_sl_not_current_sl_after_breakeven_move(monkeypatch):

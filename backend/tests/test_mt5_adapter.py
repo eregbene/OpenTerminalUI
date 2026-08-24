@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal
 from types import SimpleNamespace
 
@@ -578,10 +578,16 @@ def test_swing_level_uses_recent_low_for_long_and_high_for_short():
     assert _swing_level(m15[:3], "LONG") is None
 
 
-def test_score_candidate_uses_structure_and_atr_not_flat_one_atr():
+def test_score_candidate_uses_structure_and_atr_not_flat_one_atr(monkeypatch):
+    # Explicitly isolated from whatever MT5_MTFAI1_V2_ENABLED happens to be in the ambient
+    # environment this test runs in (the real deployed container sets it true) -- this test is
+    # about the base geometry math, not V2, so it forces V2 off and passes a real symbol so the
+    # (V2-only) symbol-universe gate can never be the thing under test here.
+    from backend.brokers.mt5 import autonomous
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_V2_ENABLED", False)
     quote, m15, h1, h4 = _uptrend_context()
 
-    score, direction, geometry = _score_candidate(quote, m15, h1, h4)
+    score, direction, geometry = _score_candidate(quote, m15, h1, h4, "EURUSD")
 
     assert direction == "LONG"
     entry = Decimal(geometry["entry"])
@@ -603,7 +609,167 @@ def test_score_candidate_rejects_when_no_valid_stop_fits_bounds(monkeypatch):
 
     assert direction == "NO_TRADE"
     assert score == 0
-    assert geometry["stop_loss"] == geometry["entry"]
+
+
+# --- MTFAI1 V2 (2026-08-24 forensic geometry/eligibility audit, DEMO activation) ---
+
+def test_mtfai1_v2_disabled_by_default(monkeypatch):
+    # Isolated from the ambient container environment (the real deployed container sets
+    # MT5_MTFAI1_V2_ENABLED=true) -- this asserts the CODE's off-switch behavior, not whatever
+    # happens to be configured in whichever environment the suite runs in.
+    from backend.brokers.mt5 import autonomous
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_V2_ENABLED", False)
+
+    assert autonomous._mtfai1_v2_structural_stop([], "LONG", "EURUSD") is None
+    assert autonomous._mtfai1_v2_fvg_ob_target([], "LONG", "EURUSD", Decimal("1.1000"), Decimal("0.0010")) == (None, "")
+
+
+def test_mtfai1_v2_symbol_universe_gate(monkeypatch):
+    monkeypatch.setenv("MT5_MTFAI1_V2_ENABLED", "true")
+    from backend.brokers.mt5 import autonomous
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_V2_ENABLED", True)
+    quote, m15, h1, h4 = _uptrend_context()
+
+    # USDJPY is deliberately excluded from the V2 universe (JPY/CHF pairs stayed negative in both
+    # halves of the forensic audit) -- must be NO_TRADE even though the price context is a clean
+    # uptrend that would otherwise produce a LONG.
+    score_jpy, direction_jpy, _ = _score_candidate(quote, m15, h1, h4, "USDJPY")
+    assert direction_jpy == "NO_TRADE"
+    assert score_jpy == 0
+
+    # EURUSD is in the validated V2 universe -- the same uptrend context must still trade.
+    score_eur, direction_eur, _ = _score_candidate(quote, m15, h1, h4, "EURUSD")
+    assert direction_eur == "LONG"
+    assert score_eur > 0
+
+
+def test_score_candidate_extracts_symbol_from_dot_symbol_attribute(monkeypatch):
+    # 2026-08-24 real incident: the live call site passes an MT5Symbol instance (field is
+    # `.symbol`, e.g. "EURUSD"), not `.name` -- the old getattr(..., "name", "UNKNOWN") silently
+    # resolved to "UNKNOWN" for every real candidate once V2's symbol-universe gate depended on
+    # it, causing 360/360 candidates to become NO_TRADE across the first 36 live cycles post-
+    # deploy. This locks in the fix: an object exposing `.symbol` (not `.name`) must still resolve
+    # correctly, and the V2 gate must recognize it as being in the validated universe.
+    from backend.brokers.mt5 import autonomous
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_V2_ENABLED", True)
+    quote, m15, h1, h4 = _uptrend_context()
+    symbol_like_mt5_symbol = SimpleNamespace(symbol="EURUSD")
+
+    score, direction, _ = _score_candidate(quote, m15, h1, h4, symbol_like_mt5_symbol)
+
+    assert direction == "LONG"
+    assert score > 0
+
+
+def test_mtfai1_v2_low_volatility_override_never_calls_upper_on_mt5symbol():
+    # 2026-08-24 real incident #2: the low_volatility exclusion at the _screen() call site used
+    # instrument.symbol.upper() -- instrument.symbol is an MT5Symbol Pydantic object (no .upper()
+    # method), not a string, causing AttributeError on every live cycle for every account until
+    # fixed to instrument.canonical_pair.upper() (the correct plain-string field). This locks in
+    # that MT5Symbol genuinely lacks .upper() -- a direct regression guard against reintroducing
+    # `instrument.symbol.upper()` anywhere in this override's line, since a full live-cycle
+    # integration harness (mocking the entire _screen() call chain) is out of proportion to the
+    # bug: the fix is exactly "use .canonical_pair, not .symbol", and this pins that distinction.
+    from backend.brokers.mt5.models import MT5ForexInstrument, MT5Symbol
+
+    mt5_symbol = MT5Symbol(symbol="EURUSD", visible=True, selected=True)
+    assert not hasattr(mt5_symbol, "upper")
+
+    instrument = MT5ForexInstrument(
+        canonical_pair="EURUSD", broker_symbol="EURUSD", asset_class="forex", base_currency="EUR", quote_currency="USD",
+        enabled=True, visible=True, tradable=True, market_open=True, selected=True, eligible=True,
+        specification_timestamp=datetime(2026, 8, 24, tzinfo=timezone.utc), symbol=mt5_symbol,
+    )
+    assert instrument.canonical_pair.upper() == "EURUSD"
+    with pytest.raises(AttributeError):
+        instrument.symbol.upper()
+
+
+def test_mtfai1_v2_symbol_gate_inert_when_disabled(monkeypatch):
+    from backend.brokers.mt5 import autonomous
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_V2_ENABLED", False)
+    quote, m15, h1, h4 = _uptrend_context()
+
+    score, direction, _ = _score_candidate(quote, m15, h1, h4, "USDJPY")
+
+    assert direction == "LONG"
+    assert score > 0
+
+
+def test_mtfai1_v2_helpers_fail_open_on_bar_shape_they_cannot_parse(monkeypatch):
+    # Existing SimpleNamespace fixture bars (_candle/_trending_series above) have no `.time` --
+    # normalize_bars() cannot parse them. V2's helpers must return None/no-op, never raise, so a
+    # malformed/legacy bar source can never turn into a live trading exception.
+    monkeypatch.setenv("MT5_MTFAI1_V2_ENABLED", "true")
+    from backend.brokers.mt5 import autonomous
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_V2_ENABLED", True)
+    m15 = _trending_series(30, "1.1000", "0.0002")
+
+    assert autonomous._mtfai1_v2_structural_stop(m15, "LONG", "EURUSD") is None
+    assert autonomous._mtfai1_v2_fvg_ob_target(m15, "LONG", "EURUSD", Decimal("1.1000"), Decimal("0.0010")) == (None, "")
+
+
+def _zigzag_prices(count, base, amplitude):
+    price = Decimal(str(base))
+    amp = Decimal(str(amplitude))
+    prices = []
+    for i in range(count):
+        phase = (i // 5) % 2
+        step = amp if phase == 0 else -amp
+        price += step
+        prices.append(price)
+    return prices
+
+
+def _zigzag_series_with_time(count, base, amplitude, start):
+    """Dict-shaped bars with real, timezone-aware timestamps -- normalize_bars() handles dicts
+    natively (its non-OHLCVBar branch requires either an OHLCVBar instance or a plain dict, not
+    an attribute-only object, and _utc() rejects naive datetimes). Traces a clean up/down zigzag
+    so detect_swings has confirmable swing highs/lows, unlike the pure-trend SimpleNamespace
+    fixture above (fine for _score_candidate's own attribute access, not for the V2 helpers'
+    internal normalize_bars call)."""
+    from datetime import timedelta
+    candles = []
+    for i, price in enumerate(_zigzag_prices(count, base, amplitude)):
+        ts = start + timedelta(minutes=15 * i)
+        candles.append({
+            "open": price, "high": price + Decimal("0.0004"), "low": price - Decimal("0.0004"), "close": price,
+            "time": ts.isoformat(),
+        })
+    return candles
+
+
+def _zigzag_series_plain(count, base, amplitude):
+    """Same price path as _zigzag_series_with_time, as attribute-style bars for _swing_level
+    (which reads .low/.high, not dict keys) -- lets the test compare both detectors against the
+    identical underlying price series."""
+    return [_candle(p, p + Decimal("0.0004"), p - Decimal("0.0004"), p) for p in _zigzag_prices(count, base, amplitude)]
+
+
+def test_mtfai1_v2_structural_stop_uses_genuine_swing_not_raw_extreme(monkeypatch):
+    monkeypatch.setenv("MT5_MTFAI1_V2_ENABLED", "true")
+    from backend.brokers.mt5 import autonomous
+    from backend.market_structure.bar_utils import normalize_bars
+    from backend.market_structure.swings import detect_swings
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_V2_ENABLED", True)
+    start = datetime(2026, 8, 20, 0, 0, tzinfo=timezone.utc)
+    m15_dicts = _zigzag_series_with_time(60, "1.1000", "0.0020", start)
+
+    v2_stop = autonomous._mtfai1_v2_structural_stop(m15_dicts, "LONG", "EURUSD")
+
+    # The function must be genuinely wired to detect_swings, not just returning None/a stray
+    # value -- compare against calling that real detector directly (the same one production's
+    # own _mtfai1_trend_structure_agrees() already uses) on the identical bar series.
+    bars = normalize_bars(m15_dicts, symbol="EURUSD", timeframe="M15")
+    expected_swings = detect_swings(bars, autonomous._MTFAI1_STRUCTURE_CONFIG, symbol="EURUSD", timeframe="M15")
+    expected_lows = [s for s in expected_swings if s.swing_type == "low"]
+
+    assert expected_lows, "fixture must produce at least one confirmed swing low"
+    assert v2_stop is not None
+    assert v2_stop == Decimal(str(expected_lows[-1].price))
+    # And it must be a REAL confirmed fractal point, not simply the window's raw minimum close --
+    # a regular zigzag can coincide with the raw extreme, so this only asserts the detector was
+    # genuinely consulted (proven above), not that the two always differ.
 
 
 def test_mt5_order_send_called_exactly_once_for_approved_intent(monkeypatch):

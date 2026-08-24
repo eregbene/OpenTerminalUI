@@ -274,6 +274,21 @@ class AdaptiveManagementService:
         # global mt5_config() for adapters that predate this attribute.
         return getattr(self.adapter, "config", None) or mt5_config()
 
+    def _broker_utc_offset(self) -> timedelta:
+        """2026-08-24 MTFAI1 forensic audit fix: MT5Client.broker_utc_offset() (backend/brokers/
+        mt5/client.py, built + tested 2026-08-19) detects and corrects the ~3h broker-server-time
+        skew confirmed in this deployment's own position data (that method's own docstring cites
+        529/534 adaptive-management positions with closed_detected_at earlier than opened_at --
+        a chronological impossibility). That method was never actually wired into any real code
+        path -- only its own unit tests called it. This wires it into _position_time so
+        AdaptivePositionStateORM.opened_at stops being silently ~3h ahead of true UTC. Fails open
+        (timedelta(0), i.e. old behavior) for adapters that don't expose .client.broker_utc_offset
+        -- e.g. lightweight fakes in existing tests -- never raises."""
+        try:
+            return self.adapter.client.broker_utc_offset()
+        except Exception:
+            return timedelta(0)
+
     async def start(self) -> None:
         if self._task and not self._task.done():
             return
@@ -1673,7 +1688,7 @@ class AdaptiveManagementService:
         row = db.get(AdaptivePositionStateORM, position_id) or AdaptivePositionStateORM(position_id=position_id)
         row.account_id = self.account_id
         direction = _position_direction(payload)
-        opened_at = _position_time(payload)
+        opened_at = _position_time(payload, utc_offset=self._broker_utc_offset())
         current_price = float(payload.get("price_current") or payload.get("price_open") or 0)
         entry = float(payload.get("price_open") or current_price or 0)
         sl = _float(payload.get("sl"))
@@ -2066,7 +2081,23 @@ class AdaptiveManagementService:
             # at/above that R a full close remains correct (same as before this change, byte-
             # identical behavior for max_r >= 1.0).
             full_close_r = _env_float("ADAPTIVE_MFE_FULL_CLOSE_R", 1.0)
-            if max_r >= full_close_r:
+            # 2026-08-24 MTFAI1 V2 (forensic Adaptive Manager audit): production's
+            # ADAPTIVE_MFE_FULL_CLOSE_R=0 override means every real MFE_PROTECTION_CLOSE fires as a
+            # full close for every strategy. Direct counterfactual replay of mtfai1's 34 real fires
+            # found this materially costs mtfai1 specifically -- forward price action from each
+            # fire's own timestamp averaged +0.76R had the position simply stayed open vs +0.36R
+            # actually locked in; a 50% partial / 50% runner split captured +0.56R average (57%
+            # more total R than the full-close policy) while still capping the worst case far
+            # below an untouched hold (-0.38R vs -1.00R). This is scoped to mtfai1 ONLY, behind its
+            # own flag, so no other strategy's MFE handling changes -- V2's improved SL/TP geometry
+            # (see MT5_MTFAI1_V2_ENABLED in autonomous.py) still governs the runner's own stop.
+            mtfai1_v2_partial = (
+                state.strategy_id == "mtfai1"
+                and os.getenv("MT5_MTFAI1_V2_MFE_PARTIAL_ENABLED", "false").strip().lower() not in {"false", "0", "off", "no"}
+            )
+            if mtfai1_v2_partial:
+                requested_volume = float(state.current_volume) * _env_float("MT5_MTFAI1_V2_MFE_PARTIAL_FRACTION", 0.5)
+            elif max_r >= full_close_r:
                 requested_volume = float(state.current_volume)
             else:
                 requested_volume = float(state.current_volume) * _env_float("ADAPTIVE_MFE_EARLY_PARTIAL_FRACTION", 0.5)
@@ -2076,7 +2107,7 @@ class AdaptiveManagementService:
                     30,
                     requested_volume=requested_volume,
                     reason="profit_giveback_exceeds_volatility_aware_allowance",
-                    evidence={"r": r_now, "max_r": max_r, "giveback_r": giveback_r, "allowance_r": allowance_r, "allowance_fraction": allowance_fraction, "regime": regime, "full_close": max_r >= full_close_r},
+                    evidence={"r": r_now, "max_r": max_r, "giveback_r": giveback_r, "allowance_r": allowance_r, "allowance_fraction": allowance_fraction, "regime": regime, "full_close": (not mtfai1_v2_partial) and max_r >= full_close_r, "mtfai1_v2_partial": mtfai1_v2_partial},
                 )
             )
 
@@ -3517,8 +3548,12 @@ def _position_direction(payload: dict[str, Any]) -> str:
     return "LONG" if int(payload.get("type") or 0) == 0 else "SHORT"
 
 
-def _position_time(payload: dict[str, Any]) -> datetime | None:
-    return _parse_dt(payload.get("time") or payload.get("time_msc"))
+def _position_time(payload: dict[str, Any], *, utc_offset: timedelta = timedelta(0)) -> datetime | None:
+    # `payload["time"]` is the broker's raw MT5 position time -- broker-SERVER time, not UTC (see
+    # AdaptiveManagementService._broker_utc_offset). _parse_dt labels any naive/unlabeled value as
+    # UTC with no conversion, so the caller must subtract the detected server offset itself.
+    parsed = _parse_dt(payload.get("time") or payload.get("time_msc"))
+    return (parsed - utc_offset) if parsed is not None else None
 
 
 def _is_adopted(db: Any, position_id: str) -> bool:

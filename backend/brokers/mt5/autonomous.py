@@ -15,11 +15,15 @@ from typing import Any
 from backend.adaptive_management.tp_protection import classify_stop_quality_v2, construct_dynamic_stop
 from backend.market_structure.bar_utils import normalize_bars
 from backend.market_structure.configuration import MarketStructureConfig
+from backend.market_structure.displacement import detect_displacements
 from backend.market_structure.engine import analyze_bars
+from backend.market_structure.imbalance import detect_fair_value_gaps
 from backend.market_structure.liquidity import detect_equal_levels
-from backend.market_structure.models import LiquiditySide, TrendLabel
+from backend.market_structure.models import Direction, LiquiditySide, TrendLabel
+from backend.market_structure.structure import detect_structure_breaks
 from backend.market_structure.swings import detect_swings
 from backend.market_structure.trend import classify_trend
+from backend.market_structure.zones import detect_order_blocks
 from backend.brokers.mt5 import account_registry
 from backend.brokers.mt5.adapter import MT5Adapter, mt5_adapter
 from backend.brokers.mt5.config import MT5Config
@@ -1001,6 +1005,20 @@ class MT5AutonomousTradingService:
                     should_analyze = False
                 finally:
                     prefilter_regime_ms += (time.perf_counter() - _prefilter_t0) * 1000
+
+            # MTFAI1 V2 (2026-08-24 forensic audit): low_volatility was the single worst regime in
+            # BOTH halves of the audit window (-0.56R first half, a complete -1.00R/100%-loss
+            # wipeout second half) -- and an attempted salvage filter (require non-transitional
+            # HTF alignment) also failed OOS, so this excludes the whole regime rather than a
+            # subset. multi_strategy_regime only becomes available here (after _score_candidate
+            # already ran), so this retroactively voids the candidate rather than gating inside
+            # _score_candidate itself. Only applies to mtfai1 candidates in the V2 symbol universe;
+            # every other strategy's regime handling is untouched. Fails open (does nothing) when
+            # regime is unknown/"insufficient_data", exactly like every other MTFAI1 V2 gate.
+            if MT5_MTFAI1_V2_ENABLED and direction in {"LONG", "SHORT"} and instrument.canonical_pair.upper() in MT5_MTFAI1_V2_SYMBOLS and multi_strategy_regime == "low_volatility":
+                direction = "NO_TRADE"
+                score = 0
+                reasons.append("MTFAI1_V2_LOW_VOLATILITY_EXCLUDED")
 
             context = {
                 "symbol": instrument.canonical_pair,
@@ -2160,6 +2178,112 @@ def _mtfai1_equal_level_clear(m15: list[Any], direction: str, symbol: str, entry
     return True
 
 
+# 2026-08-24 MTFAI1 V2 (forensic geometry/eligibility audit): the audit found mtfai1's raw entry
+# signal + ORIGINAL geometry has NO positive edge (~-0.11R across 12,181 real shadow candidates),
+# but a predefined structural SL x TP matrix (reusing detect_swings/detect_structure_breaks/
+# detect_order_blocks/detect_fair_value_gaps -- the same engine _mtfai1_trend_structure_agrees
+# already calls, never duplicated) found a genuine, chronologically-stable edge: an FVG/order-
+# block take-profit target (instead of the current 1.5R-floor/opposing-raw-extreme target) paired
+# with a genuine-confirmed-swing stop (instead of the raw 20-bar min/max _swing_level), restricted
+# to the symbols/regime that independently held up across BOTH halves of the audit window.
+# +0.29-0.30R expectancy / PF 1.8-1.9 on that filtered universe, stable both halves (vs -0.11R/PF
+# 0.83 unrestricted, current production). Entirely additive/reversible: every V2 function below
+# fails open (returns None / no-op) on any error or absent structure, falling back to the EXACT
+# pre-V2 behavior; the whole layer is inert unless MT5_MTFAI1_V2_ENABLED=true.
+MT5_MTFAI1_V2_ENABLED = os.getenv("MT5_MTFAI1_V2_ENABLED", "false").strip().lower() not in {"false", "0", "off", "no"}
+
+# Symbols independently confirmed positive AND chronologically stable (both halves of the audit
+# window) under V2 geometry: USDCAD/GBPUSD/NZDUSD/EURUSD ("good", already positive under the OLD
+# geometry too) plus AUDUSD/XAUUSD ("borderline" under old geometry, +0.32R/+0.45R PF 2.0-2.6 under
+# V2 geometry specifically -- a genuinely new finding, not previously actionable). Deliberately
+# EXCLUDES USDJPY/EURJPY/GBPJPY/USDCHF: all four were negative in BOTH halves under every geometry
+# tested. The one piece of evidence suggesting JPY/CHF might be salvageable (mss_present=True) was
+# n=9-59 across samples -- explicitly too small to act on per the audit's own uncertainty
+# assessment; not included here.
+MT5_MTFAI1_V2_SYMBOLS = frozenset({"EURUSD", "GBPUSD", "NZDUSD", "USDCAD", "AUDUSD", "XAUUSD"})
+
+# Target-side reward floor for the V2 FVG/order-block target specifically. Deliberately LOWER than
+# select_take_profit's existing MIN_REWARD_MULTIPLE=1.5 (which the audit's TP fixed-R grid found
+# actively mismatches mtfai1's real MFE distribution -- expectancy improved monotonically from
+# 1.5R down to 1.0R, the tightest point tested). Only applies to the V2 FVG/OB path below; the
+# unchanged select_take_profit() fallback keeps its own 1.5R floor exactly as before for any V2
+# candidate where no FVG/order-block lies ahead of price.
+_MTFAI1_V2_TP_MIN_MULT = Decimal("1.0")
+_MTFAI1_V2_TP_MAX_MULT = Decimal("5.0")  # same ceiling as select_take_profit.MAX_REWARD_MULTIPLE
+
+
+def _mtfai1_v2_structural_stop(m15: list[Any], direction: str, symbol: str) -> Decimal | None:
+    """Genuine confirmed-swing-point structure level (via the real fractal detector,
+    detect_swings) instead of _swing_level()'s raw 20-bar min/max -- returned as a STRUCTURE_LEVEL
+    price, fed into the existing, unmodified construct_dynamic_stop() call exactly like
+    _swing_level()'s output is today, so every existing safety property (ATR clamp, spread-ratio
+    floor, broker minimum distance) is preserved unchanged. Returns None (caller falls back to
+    _swing_level) on any error or when no confirmed swing exists in the trade's own risk direction
+    -- fails open, never blocks a trade."""
+    if not MT5_MTFAI1_V2_ENABLED:
+        return None
+    try:
+        rows = [row.model_dump(mode="json") if hasattr(row, "model_dump") else row for row in m15]
+        bars = normalize_bars(rows, symbol=symbol, timeframe="M15")
+        swings = detect_swings(bars, _MTFAI1_STRUCTURE_CONFIG, symbol=symbol, timeframe="M15")
+    except Exception as exc:
+        logger.warning("MT5 mtfai1 V2 structural stop failed for %s (falls back to raw extreme): %s", symbol, exc.__class__.__name__)
+        return None
+    want_type = "low" if direction == "LONG" else "high"
+    matching = [s for s in swings if s.swing_type == want_type]
+    if not matching:
+        return None
+    return Decimal(str(matching[-1].price))
+
+
+def _mtfai1_v2_fvg_ob_target(m15: list[Any], direction: str, symbol: str, entry: Decimal, stop_distance: Decimal) -> tuple[Decimal | None, str]:
+    """Nearest unfilled FVG or order block ahead of price in the trade's favorable direction
+    (reusing detect_fair_value_gaps/detect_order_blocks -- the audit's single best-performing
+    target type, clearly ahead of a fixed R-multiple or the far edge of raw structure). Distance
+    clamped to [_MTFAI1_V2_TP_MIN_MULT, _MTFAI1_V2_TP_MAX_MULT] x stop_distance. Returns
+    (None, "") on any error or when no FVG/order block lies ahead -- caller keeps the existing
+    select_take_profit() result unchanged in that case, so this can only ever replace tp1, never
+    remove a trade."""
+    if not MT5_MTFAI1_V2_ENABLED or stop_distance <= 0:
+        return None, ""
+    try:
+        rows = [row.model_dump(mode="json") if hasattr(row, "model_dump") else row for row in m15]
+        bars = normalize_bars(rows, symbol=symbol, timeframe="M15")
+        swings = detect_swings(bars, _MTFAI1_STRUCTURE_CONFIG, symbol=symbol, timeframe="M15")
+        trend = classify_trend(bars, swings, _MTFAI1_STRUCTURE_CONFIG, symbol=symbol, timeframe="M15")
+        displacements = detect_displacements(bars, _MTFAI1_STRUCTURE_CONFIG, symbol=symbol, timeframe="M15")
+        breaks = detect_structure_breaks(bars, swings, trend, displacements, _MTFAI1_STRUCTURE_CONFIG, symbol=symbol, timeframe="M15")
+        order_blocks = detect_order_blocks(bars, breaks, _MTFAI1_STRUCTURE_CONFIG, symbol=symbol, timeframe="M15")
+        fvgs = detect_fair_value_gaps(bars, _MTFAI1_STRUCTURE_CONFIG, symbol=symbol, timeframe="M15")
+    except Exception as exc:
+        logger.warning("MT5 mtfai1 V2 FVG/OB target failed for %s (falls back to existing TP logic): %s", symbol, exc.__class__.__name__)
+        return None, ""
+    long = direction == "LONG"
+    entry_f, want_dir = float(entry), (Direction.BULLISH if long else Direction.BEARISH)
+    candidates: list[tuple[str, float, float]] = []
+    for f in fvgs:
+        if f.price_low is None or f.price_high is None:
+            continue
+        level = float(f.price_low) if long else float(f.price_high)
+        if (level > entry_f) if long else (level < entry_f):
+            candidates.append(("fvg", abs(level - entry_f), level))
+    for ob in order_blocks:
+        if ob.direction != want_dir or ob.price_low is None or ob.price_high is None:
+            continue
+        level = float(ob.price_high) if long else float(ob.price_low)
+        if (level > entry_f) if long else (level < entry_f):
+            candidates.append(("order_block", abs(level - entry_f), level))
+    if not candidates:
+        return None, ""
+    candidates.sort(key=lambda c: c[1])
+    basis, dist, _level = candidates[0]
+    stop_distance_f = float(stop_distance)
+    min_d, max_d = stop_distance_f * float(_MTFAI1_V2_TP_MIN_MULT), stop_distance_f * float(_MTFAI1_V2_TP_MAX_MULT)
+    dist = min(max(dist, min_d), max_d)
+    target = entry_f + dist if long else entry_f - dist
+    return Decimal(str(target)), f"mtfai1_v2_{basis}"
+
+
 def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any], symbol_info: Any = None) -> tuple[float, str, dict[str, str]]:
     closes = [Decimal(str(c.close)) for c in m15[-50:]]
     h1_close = Decimal(str(h1[-1].close))
@@ -2169,7 +2293,18 @@ def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any], s
     fast = sum(closes[-10:]) / Decimal("10")
     slow = sum(closes[-30:]) / Decimal("30")
     direction = "LONG" if fast > slow and h1_close > h1_avg and h4_close > h4_avg else "SHORT" if fast < slow and h1_close < h1_avg and h4_close < h4_avg else "NO_TRADE"
-    symbol_label = symbol_info if isinstance(symbol_info, str) else getattr(symbol_info, "name", "UNKNOWN")
+    # 2026-08-24 MTFAI1 V2 incident: the real call site passes an MT5Symbol instance here (field
+    # is `.symbol`, e.g. "EURUSD"), not `.name` -- `getattr(symbol_info, "name", "UNKNOWN")` alone
+    # was silently resolving to "UNKNOWN" for every real candidate in production. Harmless before
+    # V2 (symbol_label was only used cosmetically, for detect_swings' stable-id generation), but
+    # V2's symbol-universe gate below is the first thing that behaviorally depends on it being
+    # correct -- "UNKNOWN" is never in MT5_MTFAI1_V2_SYMBOLS, so every candidate silently became
+    # NO_TRADE the moment V2 was enabled (confirmed: 360/360 candidates NO_TRADE across the first
+    # 36 live cycles post-deploy, vs a healthy ~69% directional rate in the hour before). Trying
+    # `.symbol` first fixes both the new gate and this pre-existing latent bug at its root.
+    symbol_label = symbol_info if isinstance(symbol_info, str) else (getattr(symbol_info, "symbol", None) or getattr(symbol_info, "name", "UNKNOWN"))
+    if direction != "NO_TRADE" and MT5_MTFAI1_V2_ENABLED and symbol_label.upper() not in MT5_MTFAI1_V2_SYMBOLS:
+        direction = "NO_TRADE"
     if direction != "NO_TRADE" and not _mtfai1_trend_structure_agrees(m15, direction, symbol_label):
         direction = "NO_TRADE"
     entry = Decimal(str(quote.ask if direction == "LONG" else quote.bid or closes[-1]))
@@ -2179,7 +2314,9 @@ def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any], s
     if atr <= 0 or direction == "NO_TRADE":
         return 0, "NO_TRADE", {"entry": str(entry), "stop_loss": str(entry), "take_profit": str(entry)}
     spread = Decimal(str(quote.spread or "0"))
-    structure_level = _swing_level(m15, direction)
+    structure_level = _mtfai1_v2_structural_stop(m15, direction, symbol_label)
+    if structure_level is None:
+        structure_level = _swing_level(m15, direction)
     broker_min_stop_distance = None
     stops_level = getattr(symbol_info, "trade_stops_level", None)
     point = getattr(symbol_info, "point", None)
@@ -2208,6 +2345,10 @@ def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any], s
     opposing_structure = _swing_level(m15, "SHORT" if direction == "LONG" else "LONG")
     tp_selection = select_take_profit(direction=direction, entry=entry, stop_loss=stop, opposing_structure_level=opposing_structure, atr=atr)
     target = tp_selection["tp1"]
+    tp_basis = tp_selection["basis"]
+    v2_target, v2_basis = _mtfai1_v2_fvg_ob_target(m15, direction, symbol_label, entry, abs(entry - stop))
+    if v2_target is not None:
+        target, tp_basis = v2_target, v2_basis
     spread_penalty = min(30, float(spread / atr * Decimal("100"))) if atr > 0 else 30
     score = 88 - spread_penalty
     return round(score, 2), direction, {
@@ -2216,8 +2357,8 @@ def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any], s
         "take_profit": str(target),
         "take_profit_tp2": str(tp_selection["tp2"]),
         "take_profit_runner": str(tp_selection["runner"]),
-        "take_profit_basis": tp_selection["basis"],
-        "risk_reward": str(tp_selection["reward_multiple"]) if tp_selection["reward_multiple"] is not None else "1.8",
+        "take_profit_basis": tp_basis,
+        "risk_reward": str(abs(target - entry) / abs(entry - stop)) if entry != stop else "1.8",
         "atr": str(atr),
         "spread": str(spread),
     }
