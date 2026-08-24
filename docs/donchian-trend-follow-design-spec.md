@@ -126,11 +126,13 @@ evaluate_donchian_trend_follow(ctx):
 
 ---
 
-## 6. Open questions for your review before implementation
+## 6. Parameters used (implemented as-is, not tuned)
 
-1. **Donchian period N**: proposing **20 bars** (M15, ≈5 hours) as the starting value — a standard, well-known Turtle-system-adjacent period, not searched/tuned. Fine to adjust before implementation if you have a different preference.
-2. **`MIN_BREAKOUT_ATR`**: proposing **0.3×ATR** beyond the channel edge (looser than `breakout.py`'s own optional 0.5x buffer, since the channel itself is already a stricter/coarser trigger than a swing BOS).
-3. **Default entry mode**: proposing `BREAK_AND_GO` as default (matching `breakout.py`'s own default), with `RETEST_AND_HOLD` available via the same env-var pattern, both to be compared head-to-head in validation exactly as requested.
-4. **Fallback flat target multiple**: proposing **4.0×ATR** (wider than any existing strategy's flat target — reflects "ride the trend" intent) for when `_structural_take_profit` is unavailable/disabled.
+1. **Donchian period N = 20 bars** (M15, ≈5 hours) — a standard, well-known Turtle-system-adjacent period.
+2. **`MIN_BREAKOUT_ATR` = 0.3×ATR** beyond the channel edge (looser than `breakout.py`'s own optional 0.5x buffer, since the channel itself is already a stricter/coarser trigger than a swing BOS).
+3. **Default entry mode = `BREAK_AND_GO`** (matching `breakout.py`'s own default); `RETEST_AND_HOLD` available via `MT5_DONCHIAN_ENTRY_MODE`, to be compared head-to-head in validation.
+4. **Fallback flat target multiple = 4.0×ATR** (wider than any existing strategy's flat target — reflects "ride the trend" intent) for when `_structural_take_profit` is unavailable/disabled.
 
-None of this is implemented yet. Confirm the above (or adjust) and I'll write the actual strategy file, register it SHADOW-only in `STRATEGY_FAMILIES`, run targeted regressions, and move to strategy #2 only after this one is through its own review checkpoint — matching the pacing you asked for.
+## 7. Status
+
+**Implemented and deployed at commit `9f6516d`** — registered `DISABLED` in `STRATEGY_FAMILIES` (zero live footprint, same pattern as `wyckoff`), 470 regression tests pass, verified via live + historical smoke tests (real fired examples, correct geometry). The 3-year point-in-time-safe validation (2020-01-01 → 2023-01-01, `FOREXSB` provider) is written, smoke-tested, and paused pending CPU headroom (live DEMO trading has priority over research workers — see `project_new_strategies_initiative` memory). Verdict pending. Strategy #2 (`session_liquidity_breakout`) starts only after this strategy's verdict is reported.

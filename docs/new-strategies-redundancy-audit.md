@@ -65,4 +65,8 @@ Repo-wide search confirms: **zero existing currency-strength or relative-momentu
 
 ## Sequencing
 
-Per explicit user decision: one strategy at a time, same rigor as the mean_reversion/trend_pullback work (design → review → implement → validate → verdict, checkpointed between each). Strategy #1 (`donchian_trend_follow`) design is in `docs/donchian-trend-follow-design-spec.md`, awaiting review before implementation. Strategies #2-4 follow after #1 completes its own cycle.
+Per explicit user decision: one strategy at a time, same rigor as the mean_reversion/trend_pullback work (design → implement → validate → verdict, checkpointed between each).
+
+**Status:**
+- **`donchian_trend_follow`**: design complete (`docs/donchian-trend-follow-design-spec.md`), **implemented and deployed at commit `9f6516d`** — registered `DISABLED` (zero live footprint, same pattern as `wyckoff`), 470 regression tests pass, verified via live + historical smoke tests. Its 3-year point-in-time-safe validation (2020-01-01 → 2023-01-01, `FOREXSB` provider) is written and smoke-tested but **paused**, pending CPU headroom — see `project_new_strategies_initiative` memory for the resume procedure and CPU-priority rule. Verdict not yet available.
+- Strategies #2-4 (`session_liquidity_breakout`, `fx_relative_momentum`, `volatility_compression_expansion`) not yet started — each follows the same design → implement → validate → verdict cycle only after `donchian_trend_follow`'s verdict is reported.
