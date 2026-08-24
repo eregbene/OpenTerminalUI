@@ -164,6 +164,16 @@ STRATEGY_FAMILIES: dict[str, dict[str, Any]] = {
         "family": "session_liquidity_breakout", "default_activation": DISABLED,
         "timeframes": ("M15",), "regimes": (),
     },
+    "fx_relative_momentum": {
+        # 2026-08-24: new independent strategy family (cross-sectional currency momentum, see
+        # backend/mt5_strategies/currency_strength.py's module docstring for the methodology
+        # citation), same DISABLED-by-default, zero-live-footprint precedent. regimes empty --
+        # the cross-sectional strength ranking is the strategy's own mandatory core; a separate
+        # ctx.regime gate is not part of the design (explicit instruction: the ranking itself is
+        # the core signal, not one more condition in an AND-chain).
+        "family": "fx_relative_momentum", "default_activation": DISABLED,
+        "timeframes": ("M15", "H1", "H4"), "regimes": (),
+    },
 }
 
 

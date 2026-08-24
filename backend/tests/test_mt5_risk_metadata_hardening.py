@@ -378,7 +378,7 @@ def test_25_multi_strategy_engine_unchanged():
     # "wyckoff" (2026-08-17) and "donchian_trend_follow" (2026-08-24) are excluded -- both are
     # later additions, DISABLED pending their own historical/OOS validation, not part of the
     # Stage-1-complete cohort this test covers.
-    assert len([sid for sid in STRATEGY_FAMILIES if sid not in {"mtfai1", "wyckoff", "donchian_trend_follow", "session_liquidity_breakout"}]) == 10
+    assert len([sid for sid in STRATEGY_FAMILIES if sid not in {"mtfai1", "wyckoff", "donchian_trend_follow", "session_liquidity_breakout", "fx_relative_momentum"}]) == 10
     assert "mtfai1" in STRATEGY_FAMILIES
 
 

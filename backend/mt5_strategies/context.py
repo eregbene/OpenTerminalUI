@@ -156,6 +156,15 @@ class StrategyContext:
     adx_m15: float | None = None
     atr_expansion_ratio: float | None = None
     market_regime: str = REGIME_NEUTRAL
+    # 2026-08-24: cross-sectional FX currency strength (backend.mt5_strategies.currency_strength),
+    # computed ONCE per cycle across all symbols (not per-symbol like everything else in this
+    # class) and threaded into each symbol's own context by the caller -- same "presence !=
+    # activation" additive contract as squeeze_state/lorentzian_features above. None when the
+    # caller hasn't computed it (e.g. every context built before this field existed, or a
+    # single-symbol test/replay context that never populates it) -- fx_relative_momentum.py
+    # returns NO_TRADE rather than guessing when this is None, never silently degrades to a
+    # single-pair proxy.
+    currency_strength: dict[str, Any] | None = None
 
 
 def quick_regime(m15_rows: list[dict[str, Any]]) -> dict[str, Any]:

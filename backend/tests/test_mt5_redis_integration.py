@@ -537,7 +537,7 @@ def test_all_eleven_strategies_remain_active(monkeypatch):
     # a later addition, DISABLED pending its own 3-year OOS validation.
     # "wyckoff" (2026-08-17) is excluded -- it's a later addition, pending historical/OOS
     # validation, deliberately DISABLED by default, not part of this Stage-1-complete cohort.
-    stage1_ids = [sid for sid in EVALUATORS if sid not in {"wyckoff", "donchian_trend_follow", "session_liquidity_breakout"}]
+    stage1_ids = [sid for sid in EVALUATORS if sid not in {"wyckoff", "donchian_trend_follow", "session_liquidity_breakout", "fx_relative_momentum"}]
     all_ids = ["mtfai1"] + stage1_ids
     assert len(all_ids) == 11
     # session_breakout/support_resistance_bounce are pinned explicitly: the real container env

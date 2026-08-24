@@ -149,7 +149,7 @@ def test_all_ten_canonical_strategies_default_active_on_demo(monkeypatch):
     # defaults to DISABLED pending historical/OOS validation and explicit promotion (see its own
     # STRATEGY_FAMILIES entry's comment), unlike the 10 families this test covers, which already
     # completed that evaluation period. See test_wyckoff_defaults_to_disabled below.
-    non_mtfai1 = [sid for sid in STRATEGY_FAMILIES if sid not in {"mtfai1", "wyckoff", "donchian_trend_follow", "session_liquidity_breakout"}]
+    non_mtfai1 = [sid for sid in STRATEGY_FAMILIES if sid not in {"mtfai1", "wyckoff", "donchian_trend_follow", "session_liquidity_breakout", "fx_relative_momentum"}]
     assert len(non_mtfai1) == 10
     assert all(STRATEGY_FAMILIES[sid]["default_activation"] == ACTIVE_MT5 for sid in non_mtfai1)
     # session_breakout/support_resistance_bounce are pinned explicitly: the real container env
@@ -173,6 +173,11 @@ def test_donchian_trend_follow_defaults_to_disabled_pending_validation():
 def test_session_liquidity_breakout_defaults_to_disabled_pending_validation():
     assert STRATEGY_FAMILIES["session_liquidity_breakout"]["default_activation"] == DISABLED
     assert activation_status("session_liquidity_breakout") == DISABLED
+
+
+def test_fx_relative_momentum_defaults_to_disabled_pending_validation():
+    assert STRATEGY_FAMILIES["fx_relative_momentum"]["default_activation"] == DISABLED
+    assert activation_status("fx_relative_momentum") == DISABLED
 
 
 # 8. MTFAI1 remains active.
