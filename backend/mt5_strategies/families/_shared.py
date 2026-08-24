@@ -602,6 +602,145 @@ def _opposing_structural_level(ctx: StrategyContext, direction: str) -> Decimal 
     return None
 
 
+# ================================================================================================
+# mean_reversion/trend_pullback evidence-upgrade, Steps 1-2 (docs/mean-reversion-trend-pullback-
+# implementation-spec.md). Observability-only: nothing below is read by either strategy's
+# `strength` calculation yet -- these are pure functions of StrategyContext, attached to
+# `evidence` dicts only, held to the exact same "compute, don't yet trust" bar as
+# displacement_magnitude_atr and _eqh_eql_touch_count were before their own OOS validation.
+# ================================================================================================
+def _wick_rejection_score(ctx: StrategyContext, direction: str) -> float:
+    """0-100: what fraction of the latest M15 bar's high-low range is a rejecting wick on
+    `direction`'s side -- lower wick for LONG (rejection of a push lower), upper wick for SHORT.
+    Distinct from _reaction_candle_confirms (body-close direction only): this measures HOW MUCH
+    of the bar was rejected, not just which way it closed on net. A confirmed gap (spec section
+    6) -- no wick/rejection-length detector exists anywhere else in this codebase."""
+    if not ctx.m15_rows:
+        return 0.0
+    last = ctx.m15_rows[-1]
+    try:
+        o, h, l, c = float(last["open"]), float(last["high"]), float(last["low"]), float(last["close"])
+    except (KeyError, TypeError, ValueError):
+        return 0.0
+    total_range = h - l
+    if total_range <= 0:
+        return 0.0
+    body_low, body_high = min(o, c), max(o, c)
+    if direction == "LONG":
+        wick = body_low - l
+    elif direction == "SHORT":
+        wick = h - body_high
+    else:
+        return 0.0
+    return round(max(0.0, min(100.0, (wick / total_range) * 100.0)), 1)
+
+
+_LOCATION_QUALITY_BY_FACTOR_COUNT: dict[int, float] = {0: 0.0, 1: 12.0, 2: 18.0, 3: 22.0, 4: 24.0}
+
+
+def _location_quality_score(factor_count: int) -> float:
+    """Capped, sub-linear score from how many independent location factors align (spec section
+    2's redundancy map): +12/+6/+4/+2 as each additional factor stacks, never a flat sum -- a
+    genuinely strong zone that trips every factor at once must not linearly dominate a location
+    with only one real factor present."""
+    return _LOCATION_QUALITY_BY_FACTOR_COUNT.get(min(max(factor_count, 0), 4), 24.0)
+
+
+def _zone_overlap(ctx: StrategyContext, *, zone_direction: str, price: float) -> bool:
+    """True if `price` sits inside any non-mitigated FVG or active/partial order block whose own
+    `direction` equals `zone_direction` -- same fields smc_continuation.py/trend_pullback.py
+    already read (m15_snapshot.imbalances/.order_blocks), no new detector. Caller decides what
+    `zone_direction` means for its own hypothesis (e.g. mean_reversion passes the OPPOSING
+    direction to the move being faded; trend_pullback passes the WITH-trend direction)."""
+    for fvg in ctx.m15_snapshot.imbalances:
+        if fvg.direction == zone_direction and fvg.status != "mitigated" and fvg.price_low is not None and fvg.price_high is not None:
+            if float(fvg.price_low) <= price <= float(fvg.price_high):
+                return True
+    for ob in ctx.m15_snapshot.order_blocks:
+        if ob.direction == zone_direction and ob.status not in {"mitigated", "invalidated"} and ob.price_low is not None and ob.price_high is not None:
+            if float(ob.price_low) <= price <= float(ob.price_high):
+                return True
+    return False
+
+
+def _premium_discount_position(ctx: StrategyContext) -> float | None:
+    """The current close's position within the latest M15 dealing range, 0 (range low/discount)
+    to 1 (range high/premium) -- build_dealing_ranges() always produces at most one dealing range
+    per snapshot (see market_structure/dealing_range.py), already normalized to the latest close,
+    so this is a direct read, not a new computation. None when no dealing range exists yet
+    (insufficient swing history). Computed but consumed by ZERO strategies today (confirmed gap,
+    spec section 1/6) -- this is the first reader, observability-only."""
+    ranges = ctx.m15_snapshot.dealing_ranges
+    if not ranges:
+        return None
+    return ranges[0].normalized_current_position
+
+
+def _nearest_liquidity_level_atr_distance(ctx: StrategyContext, *, price: float, atr: float) -> float | None:
+    """Distance, in ATR units, from `price` to the nearest swing-derived LiquidityLevel (S/R) of
+    either side -- same field support_resistance_bounce.py already reads
+    (m15_snapshot.liquidity_levels), no new detector. None when no liquidity level exists or ATR
+    is unavailable. Observability/context only -- not a proximity gate."""
+    levels = ctx.m15_snapshot.liquidity_levels
+    if not levels or atr <= 0:
+        return None
+    nearest = min(levels, key=lambda lv: abs(float(lv.level) - price))
+    return round(abs(float(nearest.level) - price) / atr, 3)
+
+
+def _location_quality_mean_reversion(ctx: StrategyContext, *, direction: str, price: float, atr: float) -> dict[str, Any]:
+    """Capped location-quality composite for a mean_reversion candidate fading toward `direction`
+    (spec section 4.2). Factors: EQH/EQL touch on the side being faded, an opposing-direction
+    OB/FVG at price (a zone that would resist the move continuing), price sitting at a
+    premium/discount extreme (favorable side for the reversal), and proximity to a swing-derived
+    liquidity level. Sub-linear (`_location_quality_score`), never a flat sum of the four.
+    Observability-only -- see this module's section header."""
+    eqh_eql_side = "sell_side" if direction == "LONG" else "buy_side"
+    eqh_eql_touches = _eqh_eql_touch_count(ctx, side=eqh_eql_side, price=price, atr=atr)
+    opposing_zone_direction = "bearish" if direction == "LONG" else "bullish"
+    ob_fvg_overlap = _zone_overlap(ctx, zone_direction=opposing_zone_direction, price=price)
+    pd_position = _premium_discount_position(ctx)
+    at_pd_extreme = pd_position is not None and ((pd_position <= 0.15) if direction == "LONG" else (pd_position >= 0.85))
+    nearest_level_atr = _nearest_liquidity_level_atr_distance(ctx, price=price, atr=atr)
+    near_level = nearest_level_atr is not None and nearest_level_atr <= 0.5
+    factor_count = sum([eqh_eql_touches >= 1, ob_fvg_overlap, at_pd_extreme, near_level])
+    return {
+        "eqh_eql_touch_count": eqh_eql_touches,
+        "opposing_ob_fvg_overlap": ob_fvg_overlap,
+        "premium_discount_position": pd_position,
+        "at_premium_discount_extreme": at_pd_extreme,
+        "nearest_liquidity_level_atr_distance": nearest_level_atr,
+        "location_factor_count": factor_count,
+        "location_quality_score": _location_quality_score(factor_count),
+    }
+
+
+def _location_quality_trend_pullback(ctx: StrategyContext, *, direction: str, price: float, atr: float) -> dict[str, Any]:
+    """Capped location-quality composite for a trend_pullback candidate continuing `direction`
+    (spec section 5.2). Factors: the retracement landing inside the OTE fib zone, a with-trend
+    OB/FVG at price, price sitting in discount (LONG) / premium (SHORT) -- i.e. NOT already
+    chasing back toward the extreme it just retraced from -- and proximity to a swing-derived
+    liquidity level. Sub-linear, never a flat sum. Observability-only."""
+    ote = _ote_zone_for_direction(ctx, direction)
+    in_ote = ote is not None and ote[0] <= price <= ote[1]
+    with_trend_zone_direction = "bullish" if direction == "LONG" else "bearish"
+    ob_fvg_overlap = _zone_overlap(ctx, zone_direction=with_trend_zone_direction, price=price)
+    pd_position = _premium_discount_position(ctx)
+    in_favorable_pd = pd_position is not None and ((pd_position <= 0.5) if direction == "LONG" else (pd_position >= 0.5))
+    nearest_level_atr = _nearest_liquidity_level_atr_distance(ctx, price=price, atr=atr)
+    near_level = nearest_level_atr is not None and nearest_level_atr <= 0.5
+    factor_count = sum([in_ote, ob_fvg_overlap, in_favorable_pd, near_level])
+    return {
+        "in_ote_zone": in_ote,
+        "with_trend_ob_fvg_overlap": ob_fvg_overlap,
+        "premium_discount_position": pd_position,
+        "in_favorable_premium_discount_side": in_favorable_pd,
+        "nearest_liquidity_level_atr_distance": nearest_level_atr,
+        "location_factor_count": factor_count,
+        "location_quality_score": _location_quality_score(factor_count),
+    }
+
+
 def _structural_take_profit(ctx: StrategyContext, *, direction: str, entry: Decimal, stop: Decimal, atr: Decimal | None) -> dict[str, Any] | None:
     """MT5_STRUCTURAL_TP_ENABLED (default False) wrapper around select_take_profit -- the exact
     function mtfai1's own scoring already calls, reused here rather than reimplemented. Returns

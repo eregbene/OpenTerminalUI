@@ -24,6 +24,7 @@ from backend.mt5_strategies.families._shared import (
     _dynamic_stop,
     _eqh_eql_touch_count,
     _geometry_metadata,
+    _location_quality_mean_reversion,
     _no_signal,
     _regime_atr_mult_scale,
     _regime_strategy_disabled,
@@ -31,6 +32,7 @@ from backend.mt5_strategies.families._shared import (
     _signal,
     _spread_within_safety_buffer,
     _squeeze_evidence,
+    _wick_rejection_score,
 )
 from backend.mt5_strategies.models import StrategySignal
 
@@ -69,6 +71,11 @@ def evaluate_mean_reversion(ctx: StrategyContext) -> StrategySignal:
         "market_regime": ctx.market_regime,
     }
     evidence.update(_squeeze_evidence(ctx))
+    # Evidence-upgrade Steps 1-3 (docs/mean-reversion-trend-pullback-implementation-spec.md):
+    # observability-only, does NOT feed `strength` above -- held to the same bar as
+    # _eqh_eql_touch_count/displacement_magnitude_atr were before their own OOS validation.
+    evidence["wick_rejection_score"] = _wick_rejection_score(ctx, direction)
+    evidence.update(_location_quality_mean_reversion(ctx, direction=direction, price=price, atr=float(atr)))
     return _signal(ctx, strategy_id=_STRATEGY_ID, family=_STRATEGY_ID, timeframe="M15", direction=direction, strength=max(50.0, min(100.0, strength)),
                     entry=entry, stop=stop, target=target, evidence=evidence,
                     metadata=_geometry_metadata(ctx, entry, stop, None, atr, 1.2, max_atr_mult))
