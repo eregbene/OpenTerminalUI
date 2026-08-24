@@ -30,6 +30,7 @@ from backend.mt5_strategies.families._shared import (
     _env_float,
     _env_int,
     _eqh_eql_touch_count,
+    _find_level_retest_hold,
     _geometry_metadata,
     _liquidity_sweep_precedes,
     _no_signal,
@@ -72,39 +73,12 @@ def _htf_aligned(ctx: StrategyContext, direction: str) -> bool:
 
 
 def _find_retest_hold(ctx: StrategyContext, break_obj: StructureBreak, direction: str) -> tuple[int, float] | None:
-    """Scans the bars after `break_obj` for a completed retest-and-hold: a pullback that
-    approached the broken level, never closed/wicked back through it, and has since moved away
-    again. Returns (confirmation_bar_index, closest_approach_price), or None if no such pattern
-    has completed yet in the current ~100-bar window -- this strategy is stateless like every
-    other evaluator here, so "waiting for a retest" means "look for one already visible in the
-    fetched history", not carrying state across cycles."""
-    rows = ctx.m15_rows
-    break_idx = break_obj.bar_index
-    if break_idx + 2 >= len(rows):
-        return None  # need at least one bar to pull back and one more to confirm the hold
-    post_break = rows[break_idx + 1:]
-    broken_level = float(break_obj.broken_level)
-    if direction == "LONG":
-        closest_rel_idx, closest_row = min(enumerate(post_break), key=lambda pair: float(pair[1]["low"]))
-        closest_price = float(closest_row["low"])
-        if closest_price <= broken_level:
-            return None  # wicked/closed back through the level -- not a hold
-        if closest_rel_idx >= len(post_break) - 1:
-            return None  # no bar yet to confirm the bounce away
-        if float(post_break[-1]["close"]) <= closest_price:
-            return None  # hasn't actually moved away again
-        return break_idx + 1 + closest_rel_idx, closest_price
-    if direction == "SHORT":
-        closest_rel_idx, closest_row = max(enumerate(post_break), key=lambda pair: float(pair[1]["high"]))
-        closest_price = float(closest_row["high"])
-        if closest_price >= broken_level:
-            return None
-        if closest_rel_idx >= len(post_break) - 1:
-            return None
-        if float(post_break[-1]["close"]) >= closest_price:
-            return None
-        return break_idx + 1 + closest_rel_idx, closest_price
-    return None
+    """Thin wrapper around _shared._find_level_retest_hold (2026-08-24: extracted so
+    donchian_trend_follow.py can share this exact retest-and-hold scan against its own notion of
+    "a level just got broken" -- a Donchian channel edge instead of a StructureBreak). Behavior-
+    identical to the original inline implementation; only the StructureBreak-specific field reads
+    happen here now."""
+    return _find_level_retest_hold(ctx, level_bar_index=break_obj.bar_index, broken_level=float(break_obj.broken_level), direction=direction)
 
 
 def _direction_of(break_obj: StructureBreak) -> str | None:

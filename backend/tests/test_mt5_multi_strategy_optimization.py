@@ -149,7 +149,7 @@ def test_all_ten_canonical_strategies_default_active_on_demo(monkeypatch):
     # defaults to DISABLED pending historical/OOS validation and explicit promotion (see its own
     # STRATEGY_FAMILIES entry's comment), unlike the 10 families this test covers, which already
     # completed that evaluation period. See test_wyckoff_defaults_to_disabled below.
-    non_mtfai1 = [sid for sid in STRATEGY_FAMILIES if sid not in {"mtfai1", "wyckoff"}]
+    non_mtfai1 = [sid for sid in STRATEGY_FAMILIES if sid not in {"mtfai1", "wyckoff", "donchian_trend_follow"}]
     assert len(non_mtfai1) == 10
     assert all(STRATEGY_FAMILIES[sid]["default_activation"] == ACTIVE_MT5 for sid in non_mtfai1)
     # session_breakout/support_resistance_bounce are pinned explicitly: the real container env
@@ -163,6 +163,11 @@ def test_all_ten_canonical_strategies_default_active_on_demo(monkeypatch):
 def test_wyckoff_defaults_to_disabled_pending_validation():
     assert STRATEGY_FAMILIES["wyckoff"]["default_activation"] == DISABLED
     assert activation_status("wyckoff") == DISABLED
+
+
+def test_donchian_trend_follow_defaults_to_disabled_pending_validation():
+    assert STRATEGY_FAMILIES["donchian_trend_follow"]["default_activation"] == DISABLED
+    assert activation_status("donchian_trend_follow") == DISABLED
 
 
 # 8. MTFAI1 remains active.

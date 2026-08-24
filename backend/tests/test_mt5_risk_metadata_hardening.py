@@ -375,9 +375,10 @@ def test_24_confidence_threshold_remains_75():
 def test_25_multi_strategy_engine_unchanged():
     from backend.mt5_strategies.models import STRATEGY_FAMILIES
 
-    # "wyckoff" (2026-08-17) is excluded -- it's a later addition, pending historical/OOS
-    # validation, not part of the Stage-1-complete cohort this test covers.
-    assert len([sid for sid in STRATEGY_FAMILIES if sid not in {"mtfai1", "wyckoff"}]) == 10
+    # "wyckoff" (2026-08-17) and "donchian_trend_follow" (2026-08-24) are excluded -- both are
+    # later additions, DISABLED pending their own historical/OOS validation, not part of the
+    # Stage-1-complete cohort this test covers.
+    assert len([sid for sid in STRATEGY_FAMILIES if sid not in {"mtfai1", "wyckoff", "donchian_trend_follow"}]) == 10
     assert "mtfai1" in STRATEGY_FAMILIES
 
 

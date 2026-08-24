@@ -342,6 +342,43 @@ def _liquidity_sweep_precedes(ctx: StrategyContext, *, before_bar_index: int, tr
     return any(s.side == trapping_side and s.bar_index < before_bar_index for s in ctx.m15_snapshot.liquidity_sweeps)
 
 
+def _find_level_retest_hold(ctx: StrategyContext, *, level_bar_index: int, broken_level: float, direction: str) -> tuple[int, float] | None:
+    """Generalized extraction of breakout.py's own _find_retest_hold (2026-08-21, Section 3.3):
+    same scan, same semantics (a pullback that approached `broken_level`, never closed/wicked
+    back through it, and has since moved away again), but takes a raw bar index + price level
+    instead of a StructureBreak object -- so any strategy with its own notion of "a level just
+    got broken" (an SMC BOS for breakout.py, a Donchian channel edge for donchian_trend_follow.py)
+    can share ONE retest-and-hold implementation. Stateless like every other evaluator here --
+    "waiting for a retest" means "look for one already visible in the fetched history", not
+    carrying state across cycles. Returns (confirmation_bar_index, closest_approach_price), or
+    None if no such pattern has completed yet in the current window."""
+    rows = ctx.m15_rows
+    if level_bar_index + 2 >= len(rows):
+        return None  # need at least one bar to pull back and one more to confirm the hold
+    post_break = rows[level_bar_index + 1:]
+    if direction == "LONG":
+        closest_rel_idx, closest_row = min(enumerate(post_break), key=lambda pair: float(pair[1]["low"]))
+        closest_price = float(closest_row["low"])
+        if closest_price <= broken_level:
+            return None  # wicked/closed back through the level -- not a hold
+        if closest_rel_idx >= len(post_break) - 1:
+            return None  # no bar yet to confirm the bounce away
+        if float(post_break[-1]["close"]) <= closest_price:
+            return None  # hasn't actually moved away again
+        return level_bar_index + 1 + closest_rel_idx, closest_price
+    if direction == "SHORT":
+        closest_rel_idx, closest_row = max(enumerate(post_break), key=lambda pair: float(pair[1]["high"]))
+        closest_price = float(closest_row["high"])
+        if closest_price >= broken_level:
+            return None
+        if closest_rel_idx >= len(post_break) - 1:
+            return None
+        if float(post_break[-1]["close"]) >= closest_price:
+            return None
+        return level_bar_index + 1 + closest_rel_idx, closest_price
+    return None
+
+
 # ================================================================================================
 # Phase 2 (2026-08-21 blueprint): engine-wide ADX regime gate, session-liquidity timing filter,
 # stale-trade exit metadata, and spread safety buffer. Every gate below is FAIL-OPEN by

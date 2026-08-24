@@ -139,6 +139,20 @@ STRATEGY_FAMILIES: dict[str, dict[str, Any]] = {
         "family": "wyckoff", "default_activation": DISABLED,
         "timeframes": ("M15", "H1"), "regimes": ("ranging", "reversal", "unstable_transition", "low_volatility", "breakout"),
     },
+    "donchian_trend_follow": {
+        # 2026-08-24: new independent strategy family (docs/donchian-trend-follow-design-
+        # spec.md), registered with the exact same DISABLED-by-default, zero-live-footprint
+        # precedent as wyckoff above -- the live DEMO backend's own evaluate_all() never
+        # evaluates or shadow-tracks this until its 3-year point-in-time-safe validation
+        # reports evidence and promotion is explicitly approved. Validation runs reach the
+        # real evaluator by setting MT5_STRATEGY_ACTIVATION_DONCHIAN_TREND_FOLLOW=SHADOW_MT5
+        # as a process-local env var scoped to the offline replay script's own process only.
+        # regimes deliberately empty -- no hard ctx.regime gate (see design spec section 4);
+        # the strategy's own mandatory volatility-expansion condition already does the
+        # regime-relevant gating, avoiding trend_pullback's diagnosed double-gating mistake.
+        "family": "donchian_trend_follow", "default_activation": DISABLED,
+        "timeframes": ("M15", "H1"), "regimes": (),
+    },
 }
 
 
