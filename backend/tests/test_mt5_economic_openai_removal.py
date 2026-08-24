@@ -243,7 +243,7 @@ def test_strategy_engine_unchanged():
     # as wyckoff below -- a later addition, DISABLED pending its own 3-year OOS validation.
     # "wyckoff" (2026-08-17) is excluded from this count -- it's a later addition, pending
     # historical/OOS validation, not part of the Stage-1-complete cohort this test covers.
-    non_mtfai1 = [sid for sid in STRATEGY_FAMILIES if sid not in {"mtfai1", "wyckoff", "donchian_trend_follow"}]
+    non_mtfai1 = [sid for sid in STRATEGY_FAMILIES if sid not in {"mtfai1", "wyckoff", "donchian_trend_follow", "session_liquidity_breakout"}]
     assert len(non_mtfai1) == 10
     assert "mtfai1" in STRATEGY_FAMILIES
 

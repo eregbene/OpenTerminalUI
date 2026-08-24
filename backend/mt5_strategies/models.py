@@ -153,6 +153,17 @@ STRATEGY_FAMILIES: dict[str, dict[str, Any]] = {
         "family": "donchian_trend_follow", "default_activation": DISABLED,
         "timeframes": ("M15", "H1"), "regimes": (),
     },
+    "session_liquidity_breakout": {
+        # 2026-08-24: new independent strategy family (docs/session-liquidity-breakout-design-
+        # spec.md), same DISABLED-by-default, zero-live-footprint precedent as wyckoff/donchian_
+        # trend_follow above. regimes empty -- session_breakout (the control this is benchmarked
+        # against) is itself regime-gated (breakout/high_volatility/unstable_transition); this
+        # new strategy is deliberately left unrestricted at the orchestrator level so its own
+        # mandatory core (displacement + no-reclaim acceptance) is the sole gate, consistent
+        # with the same double-gating lesson applied to donchian_trend_follow.
+        "family": "session_liquidity_breakout", "default_activation": DISABLED,
+        "timeframes": ("M15",), "regimes": (),
+    },
 }
 
 
