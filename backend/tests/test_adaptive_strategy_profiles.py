@@ -80,6 +80,7 @@ def test_strategy_id_is_case_insensitive():
 # --- Part 8: original-thesis capture -----------------------------------------------------
 from datetime import datetime, timezone
 
+import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
@@ -137,3 +138,129 @@ def test_capture_original_thesis_noop_without_opened_at(monkeypatch):
         position = AdaptivePositionStateORM(position_id="POS3", symbol="EURUSD", direction="LONG", strategy_id="trend_pullback")
         adaptive_management_service._capture_original_thesis(db, position, symbol="EURUSD", direction="LONG", opened_at=None)
         assert position.setup_subtype is None
+
+
+def test_capture_original_thesis_populates_structural_reference(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    opened_at = datetime(2026, 8, 25, 12, 0, 0, tzinfo=timezone.utc)
+    with SessionLocal() as db:
+        eval_row = MT5CandidateEvaluationORM(
+            evaluation_id="eval2", cycle_id="cyc2", account_id="demo_10k", candidate_id="cand2",
+            strategy="breakout", symbol="EURUSD", broker_symbol="EURUSD", direction="LONG",
+            created_at=opened_at, overall_confidence=70.0, confidence_band="observe_only",
+            strategy_evidence={"stop_geometry": {"structural_reference": 1.1050, "take_profit_basis": "atr_flat_multiple"}},
+        )
+        db.add(eval_row)
+        db.commit()
+
+        position = AdaptivePositionStateORM(position_id="POS4", symbol="EURUSD", direction="LONG", strategy_id="breakout")
+        adaptive_management_service._capture_original_thesis(db, position, symbol="EURUSD", direction="LONG", opened_at=opened_at)
+
+        assert position.original_structural_reference == 1.1050
+
+
+# --- Parts 1-7 (continuation): the 6 remaining strategies' evidence-based profiles -------------
+def test_smc_continuation_profile_gives_real_but_reduced_room():
+    profile = get_profile("smc_continuation")
+    assert profile.breakeven_r == 1.3
+    assert profile.trail_r == 1.8
+
+
+def test_support_resistance_bounce_profile_captures_earlier_like_mean_reversion():
+    sr = get_profile("support_resistance_bounce")
+    mr = get_profile("mean_reversion")
+    assert sr.breakeven_r == mr.breakeven_r
+    assert sr.mfe_partial_enabled is True
+
+
+def test_session_breakout_profile_is_tighter_and_has_structural_reacceptance():
+    profile = get_profile("session_breakout")
+    assert profile.breakeven_r == 0.8
+    assert profile.trail_r == 1.3
+    assert profile.structural_reacceptance_enabled is True
+
+
+def test_breakout_profile_has_no_breakeven_override_but_has_structural_reacceptance():
+    profile = get_profile("breakout")
+    assert profile.breakeven_r is None  # generic management already measured +0.380R delta -- don't disturb it
+    assert profile.trail_r is None
+    assert profile.structural_reacceptance_enabled is True
+
+
+def test_ema_trend_profile_matches_trend_pullback_posture():
+    ema = get_profile("ema_trend")
+    tp = get_profile("trend_pullback")
+    assert ema.breakeven_r == tp.breakeven_r
+    assert ema.trail_r == tp.trail_r
+
+
+def test_liquidity_sweep_reversal_has_no_override_yet():
+    """Explicit instruction: 'do not over-manage it simply because it temporarily retraces' --
+    no override means it gets the standard global default, not a guessed number."""
+    profile = get_profile("liquidity_sweep_reversal")
+    assert profile.breakeven_r is None
+    assert profile.trail_r is None
+    assert profile.structural_reacceptance_enabled is False
+
+
+def test_structural_reacceptance_reversible_via_env(monkeypatch):
+    monkeypatch.setenv("MT5_STRATEGY_PROFILE_BREAKOUT_STRUCTURAL_REACCEPTANCE_ENABLED", "false")
+    assert get_profile("breakout").structural_reacceptance_enabled is False
+    monkeypatch.setenv("MT5_STRATEGY_PROFILE_SMC_CONTINUATION_STRUCTURAL_REACCEPTANCE_ENABLED", "true")
+    assert get_profile("smc_continuation").structural_reacceptance_enabled is True
+
+
+# --- structural-reacceptance candidate generation (service.py) ---------------------------------
+def test_structural_reacceptance_close_fires_on_closed_candle_reacceptance(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.delenv("ADAPTIVE_MFE_MIN_R", raising=False)
+    state = AdaptivePositionStateORM(position_id="SR_1")
+    state.symbol = "EURUSD"
+    state.direction = "LONG"
+    state.strategy_id = "session_breakout"
+    state.current_volume = 1.0
+    state.entry_price = 1.1060
+    state.current_sl = 1.1040
+    state.original_sl = 1.1040
+    state.current_tp = 1.1100
+    state.original_structural_reference = 1.1050  # the broken session-high level
+    state.max_achieved_r = 0.2
+    payload = {"price_current": 1.1045}  # closed back BELOW the broken level -- reacceptance
+
+    with SessionLocal() as db:
+        actions = adaptive_management_service._evaluate_position(db, state, payload, {}, _candles_closing_at(1.1045))
+    reacceptance_actions = [a for a in actions if a.action_type == "STRUCTURAL_REACCEPTANCE_CLOSE"]
+    assert len(reacceptance_actions) == 1
+    assert reacceptance_actions[0].requested_volume == pytest.approx(1.0)
+
+
+def test_structural_reacceptance_close_does_not_fire_for_untagged_strategy(monkeypatch):
+    """Same price action, but strategy_id has no structural_reacceptance_enabled profile --
+    must not fire (byte-identical to before this feature existed)."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.delenv("ADAPTIVE_MFE_MIN_R", raising=False)
+    state = AdaptivePositionStateORM(position_id="SR_2")
+    state.symbol = "EURUSD"
+    state.direction = "LONG"
+    state.strategy_id = "trend_pullback"
+    state.current_volume = 1.0
+    state.entry_price = 1.1060
+    state.current_sl = 1.1040
+    state.original_sl = 1.1040
+    state.current_tp = 1.1100
+    state.original_structural_reference = 1.1050
+    state.max_achieved_r = 0.2
+    payload = {"price_current": 1.1045}
+
+    with SessionLocal() as db:
+        actions = adaptive_management_service._evaluate_position(db, state, payload, {}, _candles_closing_at(1.1045))
+    assert not [a for a in actions if a.action_type == "STRUCTURAL_REACCEPTANCE_CLOSE"]
+
+
+def _candles_closing_at(close_price: float) -> list[dict]:
+    from datetime import timedelta as _td
+    start = datetime(2026, 8, 25, 12, 0, 0, tzinfo=timezone.utc)
+    rows = []
+    for i in range(10):
+        rows.append({"time": (start + _td(minutes=5 * i)).isoformat(), "open": close_price, "high": close_price + 0.0005, "low": close_price - 0.0005, "close": close_price, "tick_volume": 100})
+    return rows

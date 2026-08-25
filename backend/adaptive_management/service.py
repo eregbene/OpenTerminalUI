@@ -87,13 +87,13 @@ SLTP_MODIFY_ACTION_TYPES = {"MOVE_SL_BREAKEVEN", "TRAIL_STOP", "TP_PROGRESS_STRU
 # existed. _can_execute() now enforces the same cooldown against these at the EXECUTION gate
 # (not generation, so the candidate is still visible/logged during cooldown) as defense-in-depth,
 # independent of whatever upstream bug might someday make R wrong again.
-VOLUME_MUTATING_COOLDOWN_ACTION_TYPES = {"PARTIAL_PROFIT", "THESIS_INVALIDATION_CLOSE", "EVENT_RISK_REDUCTION", "ECONOMIC_REDUCE_SIZE", "TP_PROGRESS_PROFIT_LOCK", "MFE_PROTECTION_CLOSE", "ACCOUNT_PROFIT_LOCK"}
+VOLUME_MUTATING_COOLDOWN_ACTION_TYPES = {"PARTIAL_PROFIT", "THESIS_INVALIDATION_CLOSE", "EVENT_RISK_REDUCTION", "ECONOMIC_REDUCE_SIZE", "TP_PROGRESS_PROFIT_LOCK", "MFE_PROTECTION_CLOSE", "ACCOUNT_PROFIT_LOCK", "STRUCTURAL_REACCEPTANCE_CLOSE"}
 
 # Every action type that closes/reduces volume via TRADE_ACTION_DEAL (mirrors the literal set in
 # _build_mt5_request, kept separate/duplicated rather than shared so that function's own source
 # is untouched by this addition) -- used by _check_position_freshness so a stale-volume position
 # is never used to build a partial/full close request.
-VOLUME_CLOSE_ACTION_TYPES = {"PARTIAL_PROFIT", "EVENT_RISK_REDUCTION", "MFE_PROTECTION_CLOSE", "TIME_EXIT", "THESIS_INVALIDATION_CLOSE", "TP_PROGRESS_PROFIT_LOCK", "TP_PROGRESS_PARTIAL_PROTECT", "ECONOMIC_REDUCE_SIZE", "VALIDATION_INCIDENT_CLOSE", "ACCOUNT_PROFIT_LOCK"}
+VOLUME_CLOSE_ACTION_TYPES = {"PARTIAL_PROFIT", "EVENT_RISK_REDUCTION", "MFE_PROTECTION_CLOSE", "TIME_EXIT", "THESIS_INVALIDATION_CLOSE", "TP_PROGRESS_PROFIT_LOCK", "TP_PROGRESS_PARTIAL_PROTECT", "ECONOMIC_REDUCE_SIZE", "VALIDATION_INCIDENT_CLOSE", "ACCOUNT_PROFIT_LOCK", "STRUCTURAL_REACCEPTANCE_CLOSE"}
 
 # Action types exempt from ADAPTIVE_MAX_ACTIONS_PER_HOUR (see _rate_limit_ok / _can_execute):
 # genuinely emergency/protective FULL-position exits, not profit-management. A cap sized to
@@ -120,7 +120,11 @@ VOLUME_CLOSE_ACTION_TYPES = {"PARTIAL_PROFIT", "EVENT_RISK_REDUCTION", "MFE_PROT
 #     (no adverse move, just lack of progress) and is this file's LOWEST-priority/least-urgent
 #     candidate (priority 70). A stalled trade waiting one more cycle for rate-limit headroom is
 #     not the failure mode this change addresses.
-RATE_LIMIT_EXEMPT_ACTION_TYPES = {"THESIS_INVALIDATION_CLOSE", "VALIDATION_INCIDENT_CLOSE"}
+# Adaptive Manager V3 continuation: STRUCTURAL_REACCEPTANCE_CLOSE (session_breakout/breakout,
+# strategy_profiles.py-gated) passes both criteria identically to THESIS_INVALIDATION_CLOSE --
+# always a full exit, triggered purely by price closing back inside the original broken range,
+# never by profit reaching a target -- so it gets the same exemption for the same reason.
+RATE_LIMIT_EXEMPT_ACTION_TYPES = {"THESIS_INVALIDATION_CLOSE", "VALIDATION_INCIDENT_CLOSE", "STRUCTURAL_REACCEPTANCE_CLOSE"}
 
 
 def v2_mode() -> str:
@@ -1858,6 +1862,8 @@ class AdaptiveManagementService:
         row.original_target_type = _first_str(stop_geometry, "take_profit_basis", "tp_basis") or _first_str(evidence, "take_profit_basis", "tp_basis")
         row.original_sl_type = _first_str(stop_geometry, "stop_basis", "sl_basis", "reference")
         row.original_confidence = float(match.overall_confidence) if match.overall_confidence is not None else None
+        structural_ref = stop_geometry.get("structural_reference")
+        row.original_structural_reference = float(structural_ref) if structural_ref is not None else None
 
     def _capture_original_risk(self, row: AdaptivePositionStateORM, *, is_first_sight: bool, entry: float, sl: float | None, volume: float, account_equity: float | None, original_risk_result: Any | None, symbol_info: Any | None) -> None:
         """PART 5: original_entry/original_stop_distance/original_risk_money/original_risk_pct/
@@ -2090,6 +2096,27 @@ class AdaptiveManagementService:
         timeframe = os.getenv("ADAPTIVE_MANAGEMENT_TIMEFRAME", "M5")
         normalized_candles = [row for row in (_normalize_candle(item) for item in candles) if row]
         cooldown_ok = _cooldown_elapsed(state.last_management_at)
+
+        # Bensim -- Adaptive Manager V3 continuation, Part 5/6: a genuine CLOSED-candle
+        # reacceptance back inside the original broken range (session_breakout/breakout,
+        # strategy_profiles.py-gated, off for every other strategy) -- stronger, strategy-
+        # specific invalidation evidence than the generic opposing-candle rule (which stays
+        # suppressed on DEMO regardless, see _thesis_invalidation_enabled above). Uses the raw
+        # structural-reference PRICE already captured once at entry
+        # (AdaptivePositionStateORM.original_structural_reference,
+        # _capture_original_thesis/_shared.py::_geometry_metadata) -- no structure re-detection.
+        if get_strategy_profile(state.strategy_id).structural_reacceptance_enabled and state.original_structural_reference is not None and normalized_candles:
+            reference_level = float(state.original_structural_reference)
+            last_close = float(normalized_candles[-1]["close"])
+            reacceptance = (last_close <= reference_level) if state.direction == "LONG" else (last_close >= reference_level)
+            if reacceptance:
+                candidates.append(
+                    ManagementCandidate(
+                        "STRUCTURAL_REACCEPTANCE_CLOSE", 11, requested_volume=float(state.current_volume),
+                        reason="closed_candle_reaccepted_inside_original_broken_range",
+                        evidence={"r": r_now, "original_structural_reference": reference_level, "last_close": last_close, "direction": state.direction},
+                    )
+                )
 
         floor = tp_protection.resolve_profit_lock_floor(max_tp_progress=float(state.max_tp_progress or 0), max_achieved_r=max_r, regime=regime, atr_r=atr_r)
         if floor["triggered"] and r_now < float(floor["floor_r"] or 0):

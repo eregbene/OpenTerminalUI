@@ -375,6 +375,13 @@ class AdaptivePositionStateORM(Base):
     original_target_type: Mapped[str | None] = mapped_column(String(64), nullable=True)
     original_sl_type: Mapped[str | None] = mapped_column(String(64), nullable=True)
     original_confidence: Mapped[float | None] = mapped_column(Float, nullable=True)
+    # Adaptive Manager V3 continuation, Part 5/6: raw price of the structural level (broken
+    # session high/low, broken BOS level, swing reference, ...) the ORIGINATING candidate's own
+    # geometry referenced -- see _shared.py::_geometry_metadata's "structural_reference" field.
+    # Lets the manager check "has price closed back across the level it originally broke" without
+    # re-detecting structure. None when the originating candidate had no structural reference
+    # (e.g. an ATR-only stop) -- never fabricated.
+    original_structural_reference: Mapped[float | None] = mapped_column(Float, nullable=True)
     # Trade Intelligence Dataset: market conditions at entry, captured once (first sight of the
     # position, before any management has run) and never overwritten afterward -- distinct from
     # the live/current regime evaluated every cycle for management decisions. This is what lets

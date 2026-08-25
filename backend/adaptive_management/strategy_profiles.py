@@ -36,14 +36,53 @@ Provenance for the profiles below -- deliberately NOT invented from scratch for 
     all 12 strategies, but -0.06R actual live vs +0.13-0.15R simple fixed-R alternatives) -- the
     single strongest evidence-backed case in the whole registry for why management, not entry,
     needs to change here.
-  - Every other strategy (smc_continuation, support_resistance_bounce, session_breakout,
-    breakout, ema_trend, liquidity_sweep_reversal, momentum, and any future addition): NO entry
-    in this table -- falls through to today's exact global-default behavior, unchanged. These
-    strategies were only just activated for DEMO (see the same-session risk-tier work) with no
-    real forward management evidence yet; inventing a personality for them now would be
-    unvalidated guessing, not the evidence-based design this directive asks for. Extend this
-    table once real forward evidence (Part 11/12's per-strategy STATIC vs MANAGED attribution)
-    justifies a specific profile for one of them.
+  - smc_continuation: real entry code read directly (evaluate_smc_continuation) -- H4 trend ->
+    with-trend M15 BOS -> displacement confirmation -> optional FVG/OB retracement zone, fixed
+    3.0xATR target. A genuine continuation thesis, same family as trend_pullback, but with a
+    weaker/more-recent-only edge (+0.036R pooled 8yr, accelerating to +0.474R in 2026) -- give
+    real but slightly less room than trend_pullback's own (proven, longer-running) edge earns.
+  - liquidity_sweep_reversal: real entry code read directly (evaluate_liquidity_sweep_reversal)
+    -- the ENTRY ITSELF already requires the full sweep -> displacement -> CHoCH/MSS sequence
+    (never just a naive reversal candle), so a valid position already carries strong, pre-
+    confirmed structural evidence. Real record is encouraging (+0.259R, PF2.52) but n is small
+    -- per the explicit instruction not to over-manage a temporary retrace, thresholds stay at
+    the standard global default (no earlier/later override) rather than guessing a number this
+    strategy hasn't earned or lost evidence for either way.
+  - support_resistance_bounce: real entry code read directly -- price within ATR-scaled
+    tolerance of a swing-derived LiquidityLevel with a rejecting candle, fixed 2.2xATR target
+    (already the most modest target of any strategy in the registry). Tier C, pooled record
+    -0.122R. Per the explicit instruction ("earlier partial profit... not a large runner"),
+    reuses mean_reversion's earlier-capture posture -- a bounce's whole thesis resolves quickly
+    or not at all, same as a reversion trade.
+  - session_breakout: real entry code read directly (evaluate_session_breakout) -- breaks a
+    session/prior-day high or low, fixed 2.5xATR target, no acceptance/retest confirmation
+    logic in the entry at all (fires the instant price crosses the level, full stop). Tier C,
+    pooled record is the worst in the registry (-0.296R, PF0.44) -- tighter-than-default
+    breakeven/trail (lock in sooner) AND the new structural-reacceptance check below (a genuine
+    close back inside the broken range, exactly the "close/reacceptance" failure mode named in
+    the brief) enabled, since the entry has no failure-detection of its own to lean on.
+  - breakout: real entry code read directly (evaluate_breakout) -- requires a real M15 BOS, two
+    distinct entry modes (break-and-go / retest-and-hold), and ALREADY has a structural-
+    take-profit lever (_structural_take_profit) available (flagged, off by default). Pooled
+    record is negative (-0.183R) but the REAL manager-delta measured this session was positive
+    (+0.380R) -- i.e. today's GENERIC management is already helping this strategy. Deliberately
+    left with NO breakeven/trail override (global default, unchanged) so as not to disturb
+    whatever the generic logic is already doing right; only the new structural-reacceptance
+    check is added (same real failure mode as session_breakout -- a break that returns inside
+    its own range -- but this strategy's own entry logic is meaningfully different, so its
+    behavior is measured and reported separately, never assumed identical to session_breakout's).
+  - ema_trend: real entry code read directly -- EMA20/50/100 stack alignment (a trend-bias
+    strategy, structurally closest to trend_pullback/smc_continuation despite its own catastrophic
+    2025-2026 collapse, -0.130R pooled, ROOT-CAUSED in-code as "zero market-structure involvement
+    in its trigger" per the strategy's own module docstring). Per the explicit instruction ("more
+    breathing room than reversion trades... do not use opposing candles as invalidation"): same
+    trend-family posture as trend_pullback, not tightened despite the weak record, since the
+    record's own diagnosis is entry-signal quality, not management being too loose. The naive
+    "opposing candles" thesis-invalidation rule is confirmed suppressed system-wide already
+    (ADAPTIVE_THESIS_INVALIDATION_ENABLED=false, verified against the live container) -- nothing
+    additional needed to satisfy that instruction.
+  - momentum: excluded from this table entirely -- not DEMO-activated (see the same-session
+    risk-tier work), so no management profile is relevant.
 
 Every number here is reversible via the SAME env-var names service.py already reads
 (MT5_STRATEGY_PROFILE_<ID>_<PARAM>), never a new parallel config system.
@@ -80,6 +119,13 @@ class StrategyManagementProfile:
     trail_r: float | None = None
     mfe_partial_enabled: bool = False
     mfe_partial_fraction: float = 0.5
+    # Part 5/6 (session_breakout/breakout): a genuine close back inside the ORIGINAL broken
+    # range is stronger invalidation evidence than a generic candle-count rule -- see
+    # get_structural_reacceptance_price/service.py's own new candidate-generation branch. Off
+    # by default (every strategy this table doesn't set it for is unaffected); the reference
+    # price itself comes from AdaptivePositionStateORM.original_structural_reference (captured
+    # once at entry from the real originating candidate's own geometry, never re-detected).
+    structural_reacceptance_enabled: bool = False
 
 
 # Base (evidence-driven) profiles, before env overrides are layered on top. mtfai1's
@@ -99,6 +145,23 @@ _BASE_PROFILES: dict[str, StrategyManagementProfile] = {
     "vwap_reversion": StrategyManagementProfile(
         breakeven_r=0.6, partial_profit_r=0.35, partial_profit_fraction=0.4,
         mfe_partial_enabled=True, mfe_partial_fraction=0.6,
+    ),
+    "smc_continuation": StrategyManagementProfile(
+        breakeven_r=1.3, trail_r=1.8,  # continuation family, real but weaker/newer edge than trend_pullback -- real room, not as much
+    ),
+    "support_resistance_bounce": StrategyManagementProfile(
+        breakeven_r=0.6, partial_profit_r=0.35, partial_profit_fraction=0.4,  # same earlier-capture posture as mean_reversion -- a bounce resolves quickly or not at all
+        mfe_partial_enabled=True, mfe_partial_fraction=0.6,
+    ),
+    "session_breakout": StrategyManagementProfile(
+        breakeven_r=0.8, trail_r=1.3,  # tighter than global default -- worst pooled record in the registry, entry has no failure-detection of its own
+        structural_reacceptance_enabled=True,
+    ),
+    "breakout": StrategyManagementProfile(
+        structural_reacceptance_enabled=True,  # no breakeven/trail override -- generic management already measured +0.380R delta here, don't disturb it
+    ),
+    "ema_trend": StrategyManagementProfile(
+        breakeven_r=1.5, trail_r=2.0,  # trend family, same posture as trend_pullback -- weak record is an entry-signal-quality problem, not a management-too-loose one
     ),
 }
 
@@ -139,6 +202,7 @@ def get_profile(strategy_id: str | None) -> StrategyManagementProfile:
         trail_r=_resolve_field(sid, "trail_r", base.trail_r, "TRAIL_R"),
         mfe_partial_enabled=mfe_partial_enabled,
         mfe_partial_fraction=mfe_partial_fraction,
+        structural_reacceptance_enabled=bool(_resolve_field(sid, "structural_reacceptance_enabled", base.structural_reacceptance_enabled, "STRUCTURAL_REACCEPTANCE_ENABLED", is_flag=True)),
     )
 
 
