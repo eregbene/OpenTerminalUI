@@ -84,6 +84,7 @@ class MT5ExecutionService:
         risk_budget_adjustment: dict[str, Any] | None = None,
         portfolio_available_risk_usd: Decimal | None = None,
         prop_remaining_budget_usd: Decimal | None = None,
+        strategy_tier_cap_multiplier: float | None = None,
         account_fingerprint: str | None = None,
         account_currency: str | None = None,
     ) -> MT5RiskSizing:
@@ -103,7 +104,23 @@ class MT5ExecutionService:
         omitted) tells the canonical calculator's contract_size method whether it's safe to run
         for this symbol -- see risk_calculator._contract_size_estimate for why a cross whose
         profit currency isn't the account currency (e.g. EURJPY on a USD account) must skip that
-        method rather than silently return a quote-currency figure mislabeled as USD."""
+        method rather than silently return a quote-currency figure mislabeled as USD.
+
+        `strategy_tier_cap_multiplier` (2026-08-25 strategy-tier hard-cap fix): a TRUE CEILING
+        on final dollar risk, applied via min() AFTER every other adjustment (confidence taper,
+        drawdown/economic/correlated-exposure taper, portfolio/prop caps) -- never a pre-scale on
+        the base budget. This replaces the previous approach (autonomous.py::_submit pre-scaling
+        `base_risk_budget` by the tier factor before calling this method), which was a genuine,
+        silent no-op bug: this method's own `equity_risk_cap` is always freshly derived from raw
+        `account_equity` and `risk_budget_adjustment` only ever contributes its `multiplier` (a
+        confidence/drawdown/economic taper, itself bounded to <=1.0 and floored at 0.7 for
+        confidence alone -- see risk_budget.py::compute_risk_multiplier) -- the tier-scaled
+        dollar figure computed upstream was discarded and NEVER reached this calculation, so
+        Tier B/C's intended risk reduction never actually applied to any real order. Because a
+        <=1.0 confidence taper can only ever REDUCE `effective_risk`, not restore it, applying
+        the tier multiplier as the LAST min() here guarantees final dollar risk can never exceed
+        `tier_cap_multiplier * equity_risk_cap` regardless of what confidence/portfolio factors
+        did upstream -- a true ceiling, not a factor that competing multipliers can offset."""
         reasons = _geometry_reasons(direction, entry, stop, target)
         # 1. Base per-trade risk budget: account equity x configured risk-per-trade percent.
         # This -- not a flat dollar constant -- is now the account's actual max-per-trade budget
@@ -128,6 +145,14 @@ class MT5ExecutionService:
             risk_multiplier = float(risk_budget_adjustment.get("multiplier", 1.0))
             components = risk_budget_adjustment.get("components") or {}
             effective_risk = (effective_risk * Decimal(str(risk_multiplier))).quantize(Decimal("0.01"))
+        # Strategy-tier HARD CAP -- applied last, as a true ceiling, so nothing computed above
+        # (confidence, drawdown, economic, correlated-exposure, portfolio/prop caps) can ever
+        # push final dollar risk back above the strategy's tier allowance. See this method's
+        # docstring for the exact bug this replaces.
+        tier_cap_usd: Decimal | None = None
+        if strategy_tier_cap_multiplier is not None:
+            tier_cap_usd = (equity_risk_cap * Decimal(str(strategy_tier_cap_multiplier))).quantize(Decimal("0.01"))
+            effective_risk = min(effective_risk, tier_cap_usd)
         # Per-account transparency fields (Bug 2): reported on every return path, REJECTED or
         # APPROVED, so a rejected candidate is exactly as auditable as an approved one.
         exposure = dict(
@@ -136,6 +161,8 @@ class MT5ExecutionService:
             economic_factor=Decimal(str(components["economic_risk_factor"])) if "economic_risk_factor" in components else None,
             portfolio_available_risk_usd=portfolio_available_risk_usd,
             prop_remaining_budget_usd=prop_remaining_budget_usd,
+            strategy_tier_cap_multiplier=Decimal(str(strategy_tier_cap_multiplier)) if strategy_tier_cap_multiplier is not None else None,
+            strategy_tier_cap_usd=tier_cap_usd,
         )
         step = symbol.volume_step or Decimal("0.01")
         minimum = symbol.volume_min or Decimal("0.01")

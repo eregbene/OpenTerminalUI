@@ -1365,16 +1365,26 @@ class MT5AutonomousTradingService:
     def _strategy_tier_risk_factor(self, candidate: dict[str, Any]) -> tuple[float, dict[str, Any]]:
         """Bensim -- Activate All Strategy Families in DEMO (Part 3): activation is not equal
         risk authority. A strategy's real evidence (this session's forensic/diagnostic audits,
-        project_strategy_quality_initiative_status) places it in one of three DEMO risk tiers;
-        this taper is a PRE-SCALE on base_risk_budget, same pattern as
-        _correlation_matrix_risk_factor immediately above (independent of, never folded into,
-        risk_budget.py's own factor set) -- never below the configured tier floor, never above
-        1.0x. Tier C is not a punishment for being new -- it is a deliberate "generate real
-        forward evidence at minimal capital exposure" posture for strategies whose historical
-        edge is negative or unproven, exactly the DEMO-as-forward-validation use explicitly
-        authorized for this activation. Reversible per-tier via MT5_STRATEGY_RISK_TIER_<T>_
-        MULTIPLIER; unrecognized/untiered strategy_ids default to Tier A (unchanged 1.0x) rather
-        than silently under- or over-sizing something this table doesn't yet know about."""
+        project_strategy_quality_initiative_status) places it in one of three DEMO risk tiers --
+        never below the configured tier floor, never above 1.0x. Tier C is not a punishment for
+        being new -- it is a deliberate "generate real forward evidence at minimal capital
+        exposure" posture for strategies whose historical edge is negative or unproven, exactly
+        the DEMO-as-forward-validation use explicitly authorized for this activation. Reversible
+        per-tier via MT5_STRATEGY_RISK_TIER_<T>_MULTIPLIER; unrecognized/untiered strategy_ids
+        default to Tier A (unchanged 1.0x) rather than silently under- or over-sizing something
+        this table doesn't yet know about.
+
+        2026-08-25 hard-cap fix: this multiplier is returned pure/unconsumed here -- the caller
+        (_submit) passes it through to calculate_risk_size as strategy_tier_cap_multiplier,
+        which enforces it as a dollar-ceiling min() AFTER confidence/portfolio adjustments.
+        Previously this factor pre-scaled base_risk_budget directly (the same pattern
+        _correlation_matrix_risk_factor immediately above still uses) -- a real, silent no-op:
+        effective_risk_budget_usd's correctly-scaled dollar return was discarded by the caller,
+        and calculate_risk_size recomputed its own equity_risk_cap from raw account_equity, so
+        the pre-scale never reached any real order's sizing. Real executed-trade data confirmed
+        this (Tier A/B/C average dollar risk was nearly identical across all 4 DEMO accounts).
+        NOTE: _correlation_matrix_risk_factor has the identical bug and has NOT been fixed here
+        -- out of scope for this fix, flagged for a separate decision."""
         strategy_id = str((candidate.get("context") or {}).get("strategy_id") or "").lower()
         tier = _STRATEGY_RISK_TIER.get(strategy_id, "A")
         multiplier = _env_float(f"MT5_STRATEGY_RISK_TIER_{tier}_MULTIPLIER", _TIER_RISK_MULTIPLIER[tier])
@@ -1414,7 +1424,15 @@ class MT5AutonomousTradingService:
         correlation_factor, correlation_detail = await self._correlation_matrix_risk_factor(candidate)
         base_risk_budget = (base_risk_budget * Decimal(str(correlation_factor))).quantize(Decimal("0.01"))
         tier_factor, tier_detail = self._strategy_tier_risk_factor(candidate)
-        base_risk_budget = (base_risk_budget * Decimal(str(tier_factor))).quantize(Decimal("0.01"))
+        # 2026-08-25 strategy-tier hard-cap fix: tier_factor is NO LONGER pre-multiplied into
+        # base_risk_budget here -- effective_risk_budget_usd's own correctly-scaled dollar
+        # return is discarded below (only risk_adjustment_detail's multiplier/components
+        # survive into calculate_risk_size, which recomputes its own equity_risk_cap from raw
+        # account_equity), so a pre-scale on base_risk_budget was a silent no-op: Tier B/C's
+        # intended risk reduction never reached any real order's dollar sizing. tier_factor is
+        # now passed through explicitly as strategy_tier_cap_multiplier below, enforced by
+        # calculate_risk_size as a hard ceiling AFTER confidence/portfolio adjustments -- see
+        # that method's docstring for the full before/after.
         _, risk_adjustment_detail = effective_risk_budget_usd(base_risk_budget, **risk_adjustment)
         risk_adjustment_detail["correlation_matrix"] = correlation_detail
         risk_adjustment_detail["strategy_risk_tier"] = tier_detail
@@ -1442,7 +1460,7 @@ class MT5AutonomousTradingService:
             account_equity=account.equity, symbol=symbol, direction=candidate["direction"], entry=entry,
             stop=Decimal(str(candidate["stop_loss"])), target=Decimal(str(candidate["take_profit"])),
             risk_budget_adjustment=risk_adjustment_detail, portfolio_available_risk_usd=portfolio_available_risk_usd,
-            prop_remaining_budget_usd=prop_remaining_budget_usd,
+            prop_remaining_budget_usd=prop_remaining_budget_usd, strategy_tier_cap_multiplier=tier_factor,
             account_fingerprint=account_fingerprint, account_currency=account.currency,
         )
         if risk.status != "APPROVED":

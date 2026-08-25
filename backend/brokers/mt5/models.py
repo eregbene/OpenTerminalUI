@@ -262,6 +262,11 @@ class MT5RiskSizing(MT5Model):
     economic_factor: Decimal | None = None
     portfolio_available_risk_usd: Decimal | None = None
     prop_remaining_budget_usd: Decimal | None = None
+    # 2026-08-25 strategy-tier hard-cap fix: the tier multiplier and the resulting dollar
+    # ceiling actually enforced on this candidate -- None when the caller passed no tier
+    # (e.g. a strategy_id not in the tier table, or a caller that predates this parameter).
+    strategy_tier_cap_multiplier: Decimal | None = None
+    strategy_tier_cap_usd: Decimal | None = None
     projected_loss_pct_equity: Decimal | None = None
     # Canonical-risk-calculator diagnostics (backend/brokers/mt5/risk_calculator.py) -- populated
     # whenever the calculator ran, regardless of APPROVED/REJECTED outcome, so a caller/API can

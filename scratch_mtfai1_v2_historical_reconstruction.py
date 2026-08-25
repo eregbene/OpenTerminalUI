@@ -226,13 +226,55 @@ async def process_instant(symbol: str, at: datetime) -> dict | None:
     }
 
 
+CHECKPOINT_PATH = "/data/historical_intelligence/mtfai1_v2_reconstruction_checkpoint.json"
+
+
+def _load_checkpoint() -> dict | None:
+    try:
+        with open(CHECKPOINT_PATH) as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return None
+
+
+def _write_checkpoint(symbol: str, at: datetime) -> None:
+    tmp = CHECKPOINT_PATH + ".tmp"
+    with open(tmp, "w") as f:
+        json.dump({"symbol": symbol, "at": at.isoformat()}, f)
+    import os
+    os.replace(tmp, CHECKPOINT_PATH)  # atomic -- never leaves a half-written checkpoint
+
+
 async def main():
+    # 2026-08-25: resume support, added after this run was killed twice by unrelated container
+    # recreates (each `docker exec -d` detached process dies when the container is recreated;
+    # the /data volume survives, the process does not). Checkpoint is the (symbol, at) of the
+    # last instant SCANNED (not just the last candidate WRITTEN -- candidates are sparse, e.g.
+    # USDCAD scanned ~4 months with zero candidates before this died the first time, so anchoring
+    # resume on the JSONL's last row alone would have silently restarted USDCAD from scratch).
+    # Written atomically (temp file + os.replace) every 200 instants and at symbol completion,
+    # matching the existing progress-log cadence -- never more than ~200 instants' worth of
+    # redundant rescanning on a resume, and OUTPUT_PATH's append-only writes mean a handful of
+    # re-scanned instants can at worst duplicate a few JSONL rows, never lose data.
+    checkpoint = _load_checkpoint()
+    resume_symbol = checkpoint["symbol"] if checkpoint else None
+    resume_at = datetime.fromisoformat(checkpoint["at"]) + STRIDE if checkpoint else None
+    skipping = resume_symbol is not None
+
     t0 = time.perf_counter()
     n_processed = 0
     n_candidates = 0
     with open(OUTPUT_PATH, "a") as f:
         for symbol in SYMBOLS:
-            at = START
+            if skipping:
+                if symbol != resume_symbol:
+                    print(f"resume: skipping already-complete symbol {symbol}", flush=True)
+                    continue
+                at = resume_at
+                skipping = False
+                print(f"resume: continuing {symbol} from {at.isoformat()} (checkpoint was {checkpoint['symbol']}@{checkpoint['at']})", flush=True)
+            else:
+                at = START
             while at < END:
                 try:
                     result = await process_instant(symbol, at)
@@ -247,7 +289,9 @@ async def main():
                 if n_processed % 200 == 0:
                     elapsed = time.perf_counter() - t0
                     print(f"progress: processed={n_processed} candidates={n_candidates} symbol={symbol} at={at.isoformat()} elapsed={elapsed:.0f}s avg={elapsed/n_processed:.3f}s/instant", flush=True)
+                    _write_checkpoint(symbol, at)
                 at += STRIDE
+            _write_checkpoint(symbol, at - STRIDE)
     print(f"DONE: processed={n_processed} candidates={n_candidates} elapsed={time.perf_counter()-t0:.0f}s", flush=True)
 
 
