@@ -56,6 +56,30 @@ MIN_SAMPLE_FOR_RECOMMENDATION = 20
 DEMOTE_EXPECTANCY_R_THRESHOLD = -0.05
 PROMOTE_EXPECTANCY_R_THRESHOLD = 0.10
 
+# 2026-08-25 MTFAI1 V2 confidence-calibration audit: this module's 14-day rolling window has no
+# version/config awareness -- a strategy's real-trade/shadow history is pooled by strategy_id
+# alone, so a materially different geometry/eligibility revision (e.g. MTFAI1 V2's structure-
+# aware SL + FVG/OB TP + validated symbol universe, activated 2026-08-24) inherits its
+# predecessor's trade history for a full 14 days, actively penalizing (or crediting) the NEW
+# config with the OLD one's outcomes. Concretely: mtfai1's strategy_performance confidence
+# component was scoring V2 candidates against the 140 real V1 trades (41% win rate, AVOID) that
+# caused the 2026-08-21 demotion to SHADOW_MT5 in the first place -- the exact evidence V2 was
+# built to supersede. This registry declares, per strategy, the instant after which trade/shadow
+# history reflects the CURRENT config; anything at or before it is a superseded version and must
+# never silently contaminate performance_memory_for_confidence's blend. Additive and narrowly
+# scoped to strategy_performance/symbol-by-strategy queries -- does not touch the auto-
+# recommendation monitor's demotion/promotion thresholds, does not disable HI, does not change any
+# other strategy's behavior. A strategy absent from this dict is unaffected (falls back to the
+# unfiltered window, today's behavior for everything except mtfai1).
+STRATEGY_VERSION_CUTOVER: dict[str, datetime] = {
+    "mtfai1": datetime(2026, 8, 24, 18, 44, 0, tzinfo=timezone.utc),  # MTFAI1 V2 DEMO activation
+}
+
+
+def _effective_window_start(strategy_id: str, window_start: datetime) -> datetime:
+    cutover = STRATEGY_VERSION_CUTOVER.get(strategy_id)
+    return max(window_start, cutover) if cutover else window_start
+
 
 def utcnow() -> datetime:
     return datetime.now(timezone.utc)
@@ -69,6 +93,7 @@ def _real_trade_stats(strategy_id: str, window_start: datetime) -> dict[str, Any
     """Solo (non-fused) closed positions for `strategy_id` since `window_start`. Position-level
     -- never deal-level or session-resync-level, both of which were proven to massively
     double-count during the manual audit this automates."""
+    window_start = _effective_window_start(strategy_id, window_start)
     with SessionLocal() as db:
         rows = (
             db.query(AdaptivePositionStateORM)
@@ -123,6 +148,7 @@ def _shadow_stats(strategy_id: str, window_start: datetime) -> dict[str, Any]:
     the existing outcome resolver independently of this monitor, never executed. realized_r is
     the resolver's own risk-normalized outcome (comparable across symbols/position sizes, same
     as the REAL_TRADES source), so the decision logic stays R-based for both sources."""
+    window_start = _effective_window_start(strategy_id, window_start)
     with SessionLocal() as db:
         rows = (
             db.query(MT5CandidateEvaluationORM)

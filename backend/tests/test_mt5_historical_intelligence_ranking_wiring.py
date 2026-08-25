@@ -19,8 +19,20 @@ from types import SimpleNamespace
 
 import pytest
 
+import backend.brokers.mt5.autonomous as autonomous_mod
 import backend.historical_intelligence.entry_intelligence as entry_intelligence_mod
 from backend.brokers.mt5.autonomous import MT5AutonomousTradingService
+
+
+@pytest.fixture(autouse=True)
+def _mtfai1_v2_disabled_by_default(monkeypatch):
+    # Every test in this file except the test_mtfai1_v2_* ones below is about the GENERAL
+    # HI-wiring behavior, using _mk_candidate's default strategy_id="mtfai1"/symbol="EURUSD" as a
+    # convenient stand-in -- not about MTFAI1 V2 specifically. Forcing the flag off here keeps
+    # them deterministic regardless of whatever MT5_MTFAI1_V2_ENABLED happens to be set to in the
+    # real environment the suite runs in (the live deployed container currently has it true).
+    # The V2-specific tests below re-enable it explicitly, which overrides this default.
+    monkeypatch.setattr(autonomous_mod, "MT5_MTFAI1_V2_ENABLED", False)
 
 
 def _mk_service() -> MT5AutonomousTradingService:
@@ -197,6 +209,88 @@ async def test_missing_strategy_id_records_explicit_marker():
     await service._apply_historical_intelligence(candidate, confidence)
     assert confidence["overall_score"] == 80.0
     assert candidate["historical_intelligence"]["reason"] == "HIST_INTEL_CONTEXT_UNAVAILABLE"
+
+
+@pytest.mark.asyncio
+async def test_mtfai1_v2_skips_hi_and_stays_neutral(monkeypatch):
+    # 2026-08-25 MTFAI1 V2 confidence-calibration audit: HI's peer-group evidence has no version
+    # tag separating V1-stop-normalized R units from V2's (structure-aware stop changes what "1R"
+    # means), so it must stay neutral/fail-open for MTFAI1 V2 specifically until real V2
+    # fingerprints/outcomes exist -- per explicit instruction, not a blanket HI disable.
+    import backend.brokers.mt5.autonomous as autonomous_mod
+    monkeypatch.setattr(autonomous_mod, "MT5_MTFAI1_V2_ENABLED", True)
+    service = _mk_service()
+    service._cycle_context_cache["EURUSD"] = SimpleNamespace()
+    candidate = _mk_candidate(canonical_pair="EURUSD")  # context.strategy_id defaults to "mtfai1"
+    confidence = _mk_confidence(80.0)
+
+    called = False
+
+    async def _fake_evaluate(**kwargs):
+        nonlocal called
+        called = True
+        return {"status": "EVALUATED", "historical_decision": "SUPPORT", "ranking_adjustment": 10.0, "defer_reject_reason": None}
+
+    candidate["ranking_score"] = confidence["overall_score"]
+    with mock.patch.object(entry_intelligence_mod, "evaluate_historical_intelligence", _fake_evaluate):
+        await service._apply_historical_intelligence(candidate, confidence)
+
+    assert called is False  # HI must never even be invoked for a V2-eligible mtfai1 candidate
+    assert confidence["overall_score"] == 80.0  # unchanged
+    hi = candidate["historical_intelligence"]
+    assert hi["status"] == "NEUTRAL"
+    assert hi["reason"] == "MTFAI1_V2_HI_NOT_YET_VERSION_COMPATIBLE"
+    assert hi["ranking_adjustment"] == 0.0
+
+
+@pytest.mark.asyncio
+async def test_mtfai1_v2_disabled_leaves_hi_wired_normally(monkeypatch):
+    import backend.brokers.mt5.autonomous as autonomous_mod
+    monkeypatch.setattr(autonomous_mod, "MT5_MTFAI1_V2_ENABLED", False)
+    service = _mk_service()
+    service._cycle_context_cache["EURUSD"] = SimpleNamespace()
+    candidate = _mk_candidate(canonical_pair="EURUSD")
+    confidence = _mk_confidence(80.0)
+    evaluation = {"status": "EVALUATED", "historical_decision": "SUPPORT", "ranking_adjustment": 7.5, "defer_reject_reason": None}
+
+    await _run(service, candidate, confidence, evaluation)
+
+    assert confidence["overall_score"] == pytest.approx(87.5)
+    assert candidate["historical_intelligence"]["status"] == "EVALUATED"
+
+
+@pytest.mark.asyncio
+async def test_mtfai1_v2_neutral_gate_does_not_affect_other_strategies(monkeypatch):
+    import backend.brokers.mt5.autonomous as autonomous_mod
+    monkeypatch.setattr(autonomous_mod, "MT5_MTFAI1_V2_ENABLED", True)
+    service = _mk_service()
+    service._cycle_context_cache["EURUSD"] = SimpleNamespace()
+    candidate = _mk_candidate(canonical_pair="EURUSD", context={"strategy_id": "trend_pullback", "symbol": "EURUSD"})
+    confidence = _mk_confidence(80.0)
+    evaluation = {"status": "EVALUATED", "historical_decision": "SUPPORT", "ranking_adjustment": 7.5, "defer_reject_reason": None}
+
+    await _run(service, candidate, confidence, evaluation)
+
+    assert confidence["overall_score"] == pytest.approx(87.5)
+    assert candidate["historical_intelligence"]["status"] == "EVALUATED"
+
+
+@pytest.mark.asyncio
+async def test_mtfai1_v2_neutral_gate_does_not_affect_excluded_symbols(monkeypatch):
+    # A JPY/CHF candidate would already be forced NO_TRADE upstream in _score_candidate/_screen,
+    # but this confirms the gate itself is scoped correctly rather than by accident.
+    import backend.brokers.mt5.autonomous as autonomous_mod
+    monkeypatch.setattr(autonomous_mod, "MT5_MTFAI1_V2_ENABLED", True)
+    service = _mk_service()
+    service._cycle_context_cache["USDJPY"] = SimpleNamespace()
+    candidate = _mk_candidate(broker_symbol="USDJPY", canonical_pair="USDJPY", context={"strategy_id": "mtfai1", "symbol": "USDJPY"})
+    confidence = _mk_confidence(80.0)
+    evaluation = {"status": "EVALUATED", "historical_decision": "SUPPORT", "ranking_adjustment": 7.5, "defer_reject_reason": None}
+
+    await _run(service, candidate, confidence, evaluation)
+
+    assert confidence["overall_score"] == pytest.approx(87.5)
+    assert candidate["historical_intelligence"]["status"] == "EVALUATED"
 
 
 @pytest.mark.asyncio

@@ -760,6 +760,27 @@ class MT5AutonomousTradingService:
         {"status": "UNAVAILABLE", "reason": "HIST_INTEL_CONTEXT_UNAVAILABLE"} when context truly
         could not be reconstructed -- never fabricated, never left unset."""
         rank_before = candidate.get("ranking_score")
+        # 2026-08-25 MTFAI1 V2 confidence-calibration audit: HI's peer-group probabilities
+        # (probability_0_5r/1r/1_5r/2r) are MFE-milestone-reach stats, not tied to the actual TP
+        # placement -- directionally compatible with V2's move to FVG/order-block targets. But
+        # they're normalized against the ORIGINAL RISK (stop distance), which V2 also changes
+        # (structure-aware confirmed swing vs the raw 20-bar min/max) -- the pooled historical
+        # peer-group evidence has no version tag separating V1-stop-normalized R units from
+        # (once accumulated) V2's, the same category of gap fixed for strategy_performance in
+        # mt5_strategies/performance_monitor.py. Per explicit instruction, HI stays neutral/fail-
+        # open for MTFAI1 V2 specifically until real V2 fingerprints/outcomes exist -- every other
+        # strategy's HI evaluation, and mtfai1 when V2 is disabled, is completely unaffected.
+        context_for_v2_check = candidate.get("context") or {}
+        if (
+            MT5_MTFAI1_V2_ENABLED
+            and context_for_v2_check.get("strategy_id") == MTFAI1_STRATEGY_ID
+            and str(candidate.get("canonical_pair") or context_for_v2_check.get("symbol") or "").upper() in MT5_MTFAI1_V2_SYMBOLS
+        ):
+            candidate["historical_intelligence"] = {
+                "status": "NEUTRAL", "reason": "MTFAI1_V2_HI_NOT_YET_VERSION_COMPATIBLE", "ranking_adjustment": 0.0,
+                "defer_reject_reason": None, "rank_before": rank_before, "rank_after": rank_before,
+            }
+            return
         try:
             from backend.historical_intelligence.entry_intelligence import evaluate_historical_intelligence
 

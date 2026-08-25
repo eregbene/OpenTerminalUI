@@ -15,6 +15,7 @@ import pytest
 from backend.adaptive_management.orm import AdaptivePositionStateORM
 from backend.brokers.mt5.orm import MT5CandidateEvaluationORM
 from backend.mt5_strategies.orm import StrategyPerformanceRecommendationORM
+from backend.mt5_strategies import performance_monitor
 from backend.mt5_strategies.performance_monitor import (
     DEMOTE_EXPECTANCY_R_THRESHOLD,
     MIN_SAMPLE_FOR_RECOMMENDATION,
@@ -88,6 +89,60 @@ def test_real_trade_stats_excludes_fused_combo_rows(monkeypatch: pytest.MonkeyPa
     assert stats["expectancy_r"] == 1.0
 
 
+def test_version_cutover_excludes_pre_cutover_trades_from_strategy_performance(monkeypatch: pytest.MonkeyPatch):
+    # 2026-08-25 MTFAI1 V2 confidence-calibration audit: a version-cutover strategy must not
+    # inherit its predecessor's real-trade history for confidence/recommendation purposes. Real
+    # incident this guards: mtfai1 V2 (activated 2026-08-24) was being scored, via
+    # strategy_performance, against the 140 real V1 trades (41% win rate) that caused the
+    # 2026-08-21 SHADOW_MT5 demotion in the first place -- the exact evidence V2 supersedes.
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    cutover = NOW - timedelta(days=1)
+    monkeypatch.setitem(performance_monitor.STRATEGY_VERSION_CUTOVER, "mtfai1", cutover)
+    with SessionLocal() as db:
+        # Pre-cutover: 20 losing V1 trades -- must be fully excluded.
+        for _ in range(20):
+            db.add(_position("mtfai1", realized_r=-1.0, closed_days_ago=5))
+        # Post-cutover: 2 winning V2 trades -- the only ones that should count.
+        db.add(_position("mtfai1", realized_r=1.0, closed_days_ago=0))
+        db.add(_position("mtfai1", realized_r=1.0, closed_days_ago=0))
+        db.commit()
+
+    stats = _real_trade_stats("mtfai1", NOW - timedelta(days=14))
+
+    assert stats["sample_size"] == 2
+    assert stats["expectancy_r"] == 1.0
+
+
+def test_version_cutover_falls_back_to_neutral_when_no_post_cutover_sample(monkeypatch: pytest.MonkeyPatch):
+    # Exactly the live state right now: mtfai1 V2 has real V1 history in the 14d window but zero
+    # trades since its own cutover -- performance_memory_for_confidence must return None (the
+    # existing "no recorded history, neutral default" path), never a V1-derived score.
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    cutover = NOW - timedelta(hours=1)
+    monkeypatch.setitem(performance_monitor.STRATEGY_VERSION_CUTOVER, "mtfai1", cutover)
+    monkeypatch.setattr(performance_monitor, "activation_status", lambda strategy_id: performance_monitor.ACTIVE_MT5)
+    with SessionLocal() as db:
+        for _ in range(30):
+            db.add(_position("mtfai1", realized_r=-1.0, closed_days_ago=3))
+        db.commit()
+
+    memory = performance_memory_for_confidence(strategy_id="mtfai1")
+
+    assert memory is None
+
+
+def test_strategy_without_a_registered_cutover_is_unaffected(monkeypatch: pytest.MonkeyPatch):
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    assert "ema_trend" not in performance_monitor.STRATEGY_VERSION_CUTOVER
+    with SessionLocal() as db:
+        db.add(_position("ema_trend", realized_r=1.0, closed_days_ago=10))
+        db.commit()
+
+    stats = _real_trade_stats("ema_trend", NOW - timedelta(days=14))
+
+    assert stats["sample_size"] == 1
+
+
 def test_real_trade_stats_excludes_outside_window(monkeypatch: pytest.MonkeyPatch):
     SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
     with SessionLocal() as db:
@@ -101,13 +156,17 @@ def test_real_trade_stats_excludes_outside_window(monkeypatch: pytest.MonkeyPatc
 
 
 def test_shadow_stats_uses_realized_r(monkeypatch: pytest.MonkeyPatch):
+    # Uses a strategy with no registered STRATEGY_VERSION_CUTOVER (see that dict's own tests
+    # below) -- "mtfai1" specifically now has one (2026-08-24 18:44 UTC), and this test's default
+    # closed_days_ago=1 can fall on either side of that real wall-clock cutover depending on when
+    # the suite runs, which is not what this test is about.
     SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
     with SessionLocal() as db:
-        db.add(_shadow_eval("mtfai1", realized_r=0.5, realized_pnl=25.0))
-        db.add(_shadow_eval("mtfai1", realized_r=-1.0, realized_pnl=-50.0))
+        db.add(_shadow_eval("ema_trend", realized_r=0.5, realized_pnl=25.0))
+        db.add(_shadow_eval("ema_trend", realized_r=-1.0, realized_pnl=-50.0))
         db.commit()
 
-    stats = _shadow_stats("mtfai1", NOW - timedelta(days=14))
+    stats = _shadow_stats("ema_trend", NOW - timedelta(days=14))
     assert stats["sample_size"] == 2
     assert stats["expectancy_r"] == pytest.approx(-0.25)
     assert stats["realized_usd"] == pytest.approx(-25.0)
@@ -260,13 +319,19 @@ def test_performance_memory_for_confidence_shapes_symbol_stats_for_the_confidenc
 
 
 def test_performance_memory_for_confidence_flags_avoid_below_demote_threshold(monkeypatch: pytest.MonkeyPatch):
+    # "ema_trend", not "mtfai1" -- see test_shadow_stats_uses_realized_r's comment on why a
+    # version-cutover strategy is the wrong generic example for a test unrelated to versioning.
+    # activation_status forced ACTIVE_MT5 so this exercises the REAL_TRADES path the seeded
+    # AdaptivePositionStateORM rows are meant for, independent of whatever this strategy's real
+    # MT5_STRATEGY_ACTIVATION_<ID> happens to be set to in the environment the suite runs in.
     SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    monkeypatch.setattr(performance_monitor, "activation_status", lambda strategy_id: performance_monitor.ACTIVE_MT5)
     with SessionLocal() as db:
         for _ in range(20):
-            db.add(_position("mtfai1", realized_r=DEMOTE_EXPECTANCY_R_THRESHOLD - 0.5))
+            db.add(_position("ema_trend", realized_r=DEMOTE_EXPECTANCY_R_THRESHOLD - 0.5))
         db.commit()
 
-    memory = performance_memory_for_confidence(strategy_id="mtfai1")
+    memory = performance_memory_for_confidence(strategy_id="ema_trend")
     assert memory is not None
     assert memory["recommendation"] == "AVOID"
     assert memory["closed_trade_count"] == 20
@@ -275,7 +340,10 @@ def test_performance_memory_for_confidence_flags_avoid_below_demote_threshold(mo
 def test_performance_memory_for_confidence_flags_reduce_risk_when_mildly_negative(monkeypatch: pytest.MonkeyPatch):
     """Between 0 and DEMOTE_EXPECTANCY_R_THRESHOLD is a caution zone, not yet a full AVOID --
     mirrors confidence.py's own REDUCE_RISK cap being softer than AVOID's."""
+    # activation_status forced ACTIVE_MT5 -- see the comment on the AVOID test above; this
+    # strategy's real container-env activation is independent of what this test is verifying.
     SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    monkeypatch.setattr(performance_monitor, "activation_status", lambda strategy_id: performance_monitor.ACTIVE_MT5)
     mildly_negative_r = DEMOTE_EXPECTANCY_R_THRESHOLD / 2
     assert DEMOTE_EXPECTANCY_R_THRESHOLD < mildly_negative_r < 0
     with SessionLocal() as db:
