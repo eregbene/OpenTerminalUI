@@ -111,3 +111,58 @@ def test_non_winning_mtfai1_candidate_never_tagged(monkeypatch: pytest.MonkeyPat
     with SessionLocal() as db:
         loser_row = db.query(MT5CandidateEvaluationORM).filter_by(candidate_id="CG5:GBPUSD:y").one()
         assert loser_row.mtfai1_confirmed is None
+
+
+# 2026-08-25 MTFAI1 V2 forward-tracking: candidate["historical_intelligence"] was computed every
+# cycle by _apply_historical_intelligence but never persisted anywhere -- capture_cycle_
+# candidate_evaluations() read everything else off the candidate dict except this. Needed to
+# verify, from real DEMO data, whether HI actually stayed neutral for MTFAI1 V2 as designed.
+def test_historical_intelligence_evaluation_is_persisted(monkeypatch: pytest.MonkeyPatch):
+    redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    candidate = _candidate(candidate_id="CG6:EURUSD:x", strategy_id="trend_pullback")
+    candidate["historical_intelligence"] = {
+        "status": "EVALUATED", "historical_decision": "SUPPORT", "ranking_adjustment": 8.54,
+        "peer_group_hash": "abc123", "sample_size": 2461, "probability_1_5r": 0.6022,
+        "rank_before": 72.87, "rank_after": 81.41,
+    }
+
+    capture_cycle_candidate_evaluations(_executed_result("CG6", candidate, confirmation_gate=None))
+
+    with SessionLocal() as db:
+        row = db.query(MT5CandidateEvaluationORM).filter_by(candidate_id="CG6:EURUSD:x").one()
+        assert row.historical_intelligence["status"] == "EVALUATED"
+        assert row.historical_intelligence["ranking_adjustment"] == pytest.approx(8.54)
+        assert row.historical_intelligence["historical_decision"] == "SUPPORT"
+
+
+def test_mtfai1_v2_neutral_hi_marker_is_persisted(monkeypatch: pytest.MonkeyPatch):
+    """The exact shape MTFAI1 V2's HI-neutral gate writes (autonomous.py::
+    _apply_historical_intelligence) -- confirms the forward-tracking data will actually show
+    whether HI stayed neutral for V2 as designed, not silently vanish."""
+    redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    candidate = _candidate(candidate_id="CG7:EURUSD:x", strategy_id="mtfai1")
+    candidate["historical_intelligence"] = {
+        "status": "NEUTRAL", "reason": "MTFAI1_V2_HI_NOT_YET_VERSION_COMPATIBLE", "ranking_adjustment": 0.0,
+        "defer_reject_reason": None, "rank_before": 82.84, "rank_after": 82.84,
+    }
+
+    capture_cycle_candidate_evaluations(_executed_result("CG7", candidate, confirmation_gate=None))
+
+    with SessionLocal() as db:
+        row = db.query(MT5CandidateEvaluationORM).filter_by(candidate_id="CG7:EURUSD:x").one()
+        assert row.historical_intelligence["status"] == "NEUTRAL"
+        assert row.historical_intelligence["reason"] == "MTFAI1_V2_HI_NOT_YET_VERSION_COMPATIBLE"
+        assert row.historical_intelligence["ranking_adjustment"] == 0.0
+
+
+def test_missing_historical_intelligence_persists_as_none(monkeypatch: pytest.MonkeyPatch):
+    """A candidate dict that never had HI applied (e.g. an old row shape, or a code path that
+    errored before reaching it) must persist a genuine None, never a fabricated neutral record."""
+    redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    candidate = _candidate(candidate_id="CG8:EURUSD:x", strategy_id="trend_pullback")
+
+    capture_cycle_candidate_evaluations(_executed_result("CG8", candidate, confirmation_gate=None))
+
+    with SessionLocal() as db:
+        row = db.query(MT5CandidateEvaluationORM).filter_by(candidate_id="CG8:EURUSD:x").one()
+        assert row.historical_intelligence is None

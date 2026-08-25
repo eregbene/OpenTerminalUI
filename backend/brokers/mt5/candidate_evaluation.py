@@ -155,6 +155,7 @@ def capture_cycle_candidate_evaluations(result: dict[str, Any]) -> int:
             row.components = confidence.get("components") or []
             row.raw_trend_score = _float(candidate.get("raw_trend_score") or candidate.get("screening_score"))
             row.rule_version = confidence.get("rule_version")
+            row.historical_intelligence = candidate.get("historical_intelligence")
             row.rank = candidate.get("rank")
             row.selected = selected
             row.eligible_for_execution = eligible_for_execution

@@ -402,6 +402,12 @@ class MT5CandidateEvaluationORM(Base):
     components: Mapped[list] = mapped_column(JSON, nullable=False, default=list)
     raw_trend_score: Mapped[float | None] = mapped_column(Float, nullable=True)
     rule_version: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    # 2026-08-25 MTFAI1 V2 forward-tracking: candidate["historical_intelligence"] (status,
+    # ranking_adjustment, historical_decision, peer-group evidence -- see
+    # autonomous.py::_apply_historical_intelligence) was computed every cycle but never
+    # persisted anywhere. Nullable/additive -- rows written before this column existed simply
+    # have no HI record (honest, not backfilled/guessed).
+    historical_intelligence: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
     rank: Mapped[int | None] = mapped_column(Integer, nullable=True, index=True)
     selected: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, index=True)
