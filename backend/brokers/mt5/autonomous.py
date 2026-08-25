@@ -108,6 +108,36 @@ class MT5AutonomousState:
     trades: list[dict[str, Any]] = field(default_factory=list)
 
 
+# Bensim -- Activate All Strategy Families in DEMO (Part 3): strategy-specific DEMO risk tiers,
+# from real evidence (this session's confidence audits + project_strategy_quality_initiative_
+# status memory's Priority 4 classification + a fresh real-data pull the same day this was
+# wired in). Tier A (validated/protected, normal risk): mtfai1, trend_pullback, mean_reversion
+# -- already the only ACTIVE_MT5 strategies before this change, unaffected (1.0x, i.e. exactly
+# today's behavior). Tier B (real but incomplete positive signal -- smaller risk): vwap_reversion
+# (confirmed real entry edge, best-in-class MFE of all 12 strategies, current problem is
+# MANAGEMENT not entry -- see Adaptive Manager V3 work), liquidity_sweep_reversal (pooled real
+# shadow record +0.019R/PF1.06, n=21 -- thin but non-negative, and a validated-robust 4-symbol
+# subset exists though not yet code-filtered), smc_continuation (pooled -0.065R/PF0.90 -- mildly
+# negative pooled, but a validated-robust TRENDING-only subset exists, PSR/DSR=1.0, not yet
+# code-filtered). Tier C (pooled real shadow record clearly negative, no known robust subset,
+# minimal experimental risk): support_resistance_bounce (-0.131R/PF0.81), breakout
+# (-0.536R/PF0.30), ema_trend (-0.328R/PF0.56), session_breakout (-0.466R/PF0.43). Strategies
+# NOT included in this table at all (momentum, wyckoff, donchian_trend_follow,
+# session_liquidity_breakout, fx_relative_momentum) default to Tier A via
+# _strategy_tier_risk_factor's own fallback -- harmless because none of them are being promoted
+# to ACTIVE_MT5 by this change (momentum stays behind its own dedicated
+# MT5_MOMENTUM_STRATEGY_ENABLED deprecation circuit breaker -- 0/10 symbols, 0/9 years positive,
+# by-design flaw, explicit "protect capital now" guard, not merely historically weak; the other
+# four have zero forward evidence at all, not even shadow-tracked, so promoting them straight to
+# real DEMO order authority would not be evidence-based activation).
+_STRATEGY_RISK_TIER: dict[str, str] = {
+    "mtfai1": "A", "trend_pullback": "A", "mean_reversion": "A",
+    "vwap_reversion": "B", "liquidity_sweep_reversal": "B", "smc_continuation": "B",
+    "support_resistance_bounce": "C", "breakout": "C", "ema_trend": "C", "session_breakout": "C",
+}
+_TIER_RISK_MULTIPLIER: dict[str, float] = {"A": 1.0, "B": 0.5, "C": 0.25}
+
+
 class MT5AutonomousTradingService:
     def __init__(self, adapter: MT5Adapter | None = None) -> None:
         self.adapter = adapter or mt5_adapter
@@ -1332,6 +1362,25 @@ class MT5AutonomousTradingService:
         logger.info("MT5 correlation concentration: %s %s reduced %.0f%% (aligned %.2f with open %s %s)", candidate_symbol, candidate_direction, reduction * 100, best_alignment, best_match["direction"], best_match["symbol"])
         return factor, detail
 
+    def _strategy_tier_risk_factor(self, candidate: dict[str, Any]) -> tuple[float, dict[str, Any]]:
+        """Bensim -- Activate All Strategy Families in DEMO (Part 3): activation is not equal
+        risk authority. A strategy's real evidence (this session's forensic/diagnostic audits,
+        project_strategy_quality_initiative_status) places it in one of three DEMO risk tiers;
+        this taper is a PRE-SCALE on base_risk_budget, same pattern as
+        _correlation_matrix_risk_factor immediately above (independent of, never folded into,
+        risk_budget.py's own factor set) -- never below the configured tier floor, never above
+        1.0x. Tier C is not a punishment for being new -- it is a deliberate "generate real
+        forward evidence at minimal capital exposure" posture for strategies whose historical
+        edge is negative or unproven, exactly the DEMO-as-forward-validation use explicitly
+        authorized for this activation. Reversible per-tier via MT5_STRATEGY_RISK_TIER_<T>_
+        MULTIPLIER; unrecognized/untiered strategy_ids default to Tier A (unchanged 1.0x) rather
+        than silently under- or over-sizing something this table doesn't yet know about."""
+        strategy_id = str((candidate.get("context") or {}).get("strategy_id") or "").lower()
+        tier = _STRATEGY_RISK_TIER.get(strategy_id, "A")
+        multiplier = _env_float(f"MT5_STRATEGY_RISK_TIER_{tier}_MULTIPLIER", _TIER_RISK_MULTIPLIER[tier])
+        multiplier = max(0.0, min(1.0, multiplier))
+        return multiplier, {"strategy_id": strategy_id, "tier": tier, "multiplier": multiplier}
+
     async def _submit(self, candidate: dict[str, Any], *, confidence: float | None = None, dry_run: bool = False) -> dict[str, Any]:
         # Part 8 hard guard: multi-strategy activation (STRATEGY_FAMILIES defaults,
         # MT5_STRATEGY_ACTIVATION_<ID>, MT5_MULTI_STRATEGY_ENABLED) is a strategy-selection
@@ -1364,8 +1413,11 @@ class MT5AutonomousTradingService:
         # docstring for the direction-aware "concentrating vs offsetting" logic).
         correlation_factor, correlation_detail = await self._correlation_matrix_risk_factor(candidate)
         base_risk_budget = (base_risk_budget * Decimal(str(correlation_factor))).quantize(Decimal("0.01"))
+        tier_factor, tier_detail = self._strategy_tier_risk_factor(candidate)
+        base_risk_budget = (base_risk_budget * Decimal(str(tier_factor))).quantize(Decimal("0.01"))
         _, risk_adjustment_detail = effective_risk_budget_usd(base_risk_budget, **risk_adjustment)
         risk_adjustment_detail["correlation_matrix"] = correlation_detail
+        risk_adjustment_detail["strategy_risk_tier"] = tier_detail
         try:
             account_fingerprint = account_registry.fingerprint_account(account).fingerprint_hash
         except Exception:
