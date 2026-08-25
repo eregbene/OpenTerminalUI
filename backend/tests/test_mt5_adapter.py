@@ -685,6 +685,64 @@ def test_mtfai1_v2_low_volatility_override_never_calls_upper_on_mt5symbol():
         instrument.symbol.upper()
 
 
+def test_mtfai1_v2_trend_quality_disabled_by_default():
+    from backend.brokers.mt5 import autonomous
+
+    score, breakdown = autonomous._mtfai1_v2_trend_quality([], [], [], "LONG", "EURUSD", Decimal("0.0010"), Decimal("1.1010"), Decimal("1.1000"))
+
+    assert (score, breakdown) == (None, None)
+
+
+def test_mtfai1_v2_trend_quality_fails_open_on_unparseable_bars(monkeypatch):
+    from backend.brokers.mt5 import autonomous
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_V2_ENABLED", True)
+    m15 = _trending_series(60, "1.1000", "0.0002")  # SimpleNamespace, no .time
+
+    score, breakdown = autonomous._mtfai1_v2_trend_quality(m15, m15, m15, "LONG", "EURUSD", Decimal("0.0010"), Decimal("1.1010"), Decimal("1.1000"))
+
+    assert (score, breakdown) == (None, None)
+
+
+def test_mtfai1_v2_trend_quality_produces_bounded_graduated_score(monkeypatch):
+    from backend.brokers.mt5 import autonomous
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_V2_ENABLED", True)
+    start = datetime(2026, 8, 20, 0, 0, tzinfo=timezone.utc)
+    m15 = _zigzag_series_with_time(60, "1.1000", "0.0020", start)
+    h1 = _zigzag_series_with_time(40, "1.0950", "0.0060", start)
+    h4 = _zigzag_series_with_time(40, "1.0900", "0.0120", start)
+
+    score, breakdown = autonomous._mtfai1_v2_trend_quality(m15, h1, h4, "LONG", "EURUSD", Decimal("0.0020"), Decimal("1.1010"), Decimal("1.1000"))
+
+    assert score is not None
+    assert 0.0 <= score <= 100.0
+    assert breakdown is not None
+    assert set(breakdown) == {"adx_m15", "adx_score", "ma_separation_atr", "ma_separation_score", "h1_trend", "h4_trend", "htf_agree_count", "htf_score"}
+    # MA separation is graduated (not the binary fast>slow crossover mtfai1's own gate already
+    # enforces) -- a bigger separation, same direction, must score at least as high.
+    score_wide_sep, _ = autonomous._mtfai1_v2_trend_quality(m15, h1, h4, "LONG", "EURUSD", Decimal("0.0020"), Decimal("1.1050"), Decimal("1.1000"))
+    assert score_wide_sep >= score
+
+
+def test_mtfai1_v2_trend_quality_redistributes_weight_without_adx_history():
+    from backend.brokers.mt5 import autonomous
+    import backend.brokers.mt5.autonomous as autonomous_mod
+    prior = autonomous_mod.MT5_MTFAI1_V2_ENABLED
+    autonomous_mod.MT5_MTFAI1_V2_ENABLED = True
+    try:
+        start = datetime(2026, 8, 20, 0, 0, tzinfo=timezone.utc)
+        m15_short = _zigzag_series_with_time(20, "1.1000", "0.0020", start)  # < 29 bars, ADX(14) can't resolve
+        h1 = _zigzag_series_with_time(40, "1.0950", "0.0060", start)
+        h4 = _zigzag_series_with_time(40, "1.0900", "0.0120", start)
+
+        score, breakdown = autonomous._mtfai1_v2_trend_quality(m15_short, h1, h4, "LONG", "EURUSD", Decimal("0.0020"), Decimal("1.1010"), Decimal("1.1000"))
+
+        assert score is not None  # still resolves from the two remaining components
+        assert breakdown["adx_m15"] is None
+        assert breakdown["adx_score"] is None
+    finally:
+        autonomous_mod.MT5_MTFAI1_V2_ENABLED = prior
+
+
 def test_mtfai1_v2_symbol_gate_inert_when_disabled(monkeypatch):
     from backend.brokers.mt5 import autonomous
     monkeypatch.setattr(autonomous, "MT5_MTFAI1_V2_ENABLED", False)

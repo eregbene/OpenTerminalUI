@@ -316,10 +316,16 @@ def confidence_memory_for_symbol(symbol: str, account_id: str = "demo_10k", *, s
     score. Delegates instead to mt5_strategies.performance_monitor, the authoritative,
     already-real, position-level, sample-size-gated performance source (see that module's
     docstring) -- per the fix instruction not to build a second competing source of truth.
-    strategy_id is optional (a candidate that predates strategy tagging still gets symbol memory)."""
+    strategy_id is optional (a candidate that predates strategy tagging still gets symbol memory).
+
+    2026-08-25 Confidence Architecture & Calibration Audit (Part 4): when strategy_id is known,
+    symbol_memory now prefers the strategy+symbol tier (how has THIS strategy done on THIS
+    symbol) over the original cross-strategy symbol-only read, falling back to the original
+    behavior only when the strategy has no trades/shadow history on this symbol yet -- see
+    performance_memory_for_confidence's own docstring for the full hierarchy."""
     from backend.mt5_strategies.performance_monitor import performance_memory_for_confidence
 
-    symbol_memory = performance_memory_for_confidence(symbol=symbol.upper())
+    symbol_memory = performance_memory_for_confidence(symbol=symbol.upper(), strategy_id=strategy_id)
     strategy_memory = performance_memory_for_confidence(strategy_id=strategy_id) if strategy_id else None
     return symbol_memory, strategy_memory
 

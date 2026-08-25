@@ -20,6 +20,7 @@ from backend.market_structure.engine import analyze_bars
 from backend.market_structure.imbalance import detect_fair_value_gaps
 from backend.market_structure.liquidity import detect_equal_levels
 from backend.market_structure.models import Direction, LiquiditySide, TrendLabel
+from backend.market_structure.oscillators import adx as _adx_series
 from backend.market_structure.structure import detect_structure_breaks
 from backend.market_structure.swings import detect_swings
 from backend.market_structure.trend import classify_trend
@@ -2305,7 +2306,91 @@ def _mtfai1_v2_fvg_ob_target(m15: list[Any], direction: str, symbol: str, entry:
     return Decimal(str(target)), f"mtfai1_v2_{basis}"
 
 
-def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any], symbol_info: Any = None) -> tuple[float, str, dict[str, str]]:
+# 2026-08-25 MTFAI1 V2 Confidence Architecture & Calibration Audit (Part 1/2): the deterministic
+# confidence engine's trend_multi_timeframe component (20% weight) was being fed mtfai1's raw
+# ranking_score = 88 - spread_penalty -- a spread-cost proxy, not a trend-strength measure, and
+# the SAME number already gating candidates at WEAK_CONSENSUS>=70. That's both a mislabeled
+# component and a double-count against volatility_suitability (8%, also spread/ATR-derived).
+# This replaces it, for MTFAI1 V2 only, with a genuine graduated 0-100 trend-quality score built
+# entirely from infrastructure that already exists elsewhere -- no new indicator is computed:
+#   (a) ADX(14, M15) -- market_structure.oscillators.adx, the SAME function StrategyContext.adx_m15
+#       already calls for every other strategy's shared context. Normalized 15 (choppy floor) ->
+#       40 (strong-trend ceiling), clamped.
+#   (b) fast/slow SMA separation normalized by ATR -- mtfai1's own crossover already computes
+#       both SMAs; the crossover test only checks direction (fast>slow), discarding magnitude.
+#       This is the graduated version: 0x ATR separation -> 0, 1.0x ATR separation -> 100.
+#   (c) genuine swing-based H1/H4 structural trend agreement -- detect_swings+classify_trend
+#       (the SAME real fractal engine _mtfai1_trend_structure_agrees already calls for M15),
+#       run here on H1 and H4 bars. Deliberately NOT mtfai1's own naive close-vs-20-period-
+#       average H1/H4 check (that's a binary pass/fail gate already enforced upstream in
+#       _score_candidate, contributes no gradation) and deliberately NOT BOS/CHoCH/FVG/OB (that
+#       evidence already feeds structure_confluence via entry_quality -- reusing it here would
+#       reintroduce exactly the double-counting this fix removes). Full credit only when BOTH H1
+#       and H4's real structural trend agree with the trade direction; half credit for one;
+#       zero for neither/transitional/unknown.
+# Each input is independent: (a) is price-range-derived directional-movement strength, (b) is a
+# moving-average-derived magnitude, (c) is a swing-point-derived structural read on two DIFFERENT
+# (higher) timeframes than (a)/(b) use. None of the three reads spread, ATR-as-cost, or SMC/ICT
+# zone evidence. Fails open (returns None) on any error or insufficient bars -- caller falls back
+# to the pre-fix ranking_score behavior, exactly as before this change.
+_MTFAI1_V2_TREND_ADX_FLOOR = 15.0
+_MTFAI1_V2_TREND_ADX_CEILING = 40.0
+_MTFAI1_V2_TREND_MA_SEP_ATR_CEILING = 1.0
+_MTFAI1_V2_TREND_WEIGHTS = {"adx": 0.40, "ma_separation": 0.30, "htf_structure": 0.30}
+
+
+def _mtfai1_v2_trend_quality(m15: list[Any], h1: list[Any], h4: list[Any], direction: str, symbol: str, atr: Decimal, fast: Decimal, slow: Decimal) -> tuple[float, dict[str, Any]] | tuple[None, None]:
+    if not MT5_MTFAI1_V2_ENABLED or atr <= 0:
+        return None, None
+    try:
+        m15_rows = [row.model_dump(mode="json") if hasattr(row, "model_dump") else row for row in m15]
+        h1_rows = [row.model_dump(mode="json") if hasattr(row, "model_dump") else row for row in h1]
+        h4_rows = [row.model_dump(mode="json") if hasattr(row, "model_dump") else row for row in h4]
+        m15_bars = normalize_bars(m15_rows, symbol=symbol, timeframe="M15")
+        adx_series = _adx_series(m15_bars, 14)
+        adx_current = adx_series[-1] if adx_series else None
+        adx_score = _clamp01((float(adx_current) - _MTFAI1_V2_TREND_ADX_FLOOR) / (_MTFAI1_V2_TREND_ADX_CEILING - _MTFAI1_V2_TREND_ADX_FLOOR)) * 100.0 if adx_current is not None else None
+
+        ma_sep_atr = abs(float(fast) - float(slow)) / float(atr)
+        ma_sep_score = _clamp01(ma_sep_atr / _MTFAI1_V2_TREND_MA_SEP_ATR_CEILING) * 100.0
+
+        h1_bars = normalize_bars(h1_rows, symbol=symbol, timeframe="H1")
+        h4_bars = normalize_bars(h4_rows, symbol=symbol, timeframe="H4")
+        h1_swings = detect_swings(h1_bars, _MTFAI1_STRUCTURE_CONFIG, symbol=symbol, timeframe="H1")
+        h4_swings = detect_swings(h4_bars, _MTFAI1_STRUCTURE_CONFIG, symbol=symbol, timeframe="H4")
+        h1_trend = classify_trend(h1_bars, h1_swings, _MTFAI1_STRUCTURE_CONFIG, symbol=symbol, timeframe="H1")
+        h4_trend = classify_trend(h4_bars, h4_swings, _MTFAI1_STRUCTURE_CONFIG, symbol=symbol, timeframe="H4")
+        want = TrendLabel.BULLISH if direction == "LONG" else TrendLabel.BEARISH
+        agree_count = sum(1 for t in (h1_trend, h4_trend) if t.state == want)
+        htf_score = {0: 0.0, 1: 50.0, 2: 100.0}[agree_count]
+    except Exception as exc:
+        logger.warning("MT5 mtfai1 V2 trend-quality computation failed for %s (falls back to ranking_score): %s", symbol, exc.__class__.__name__)
+        return None, None
+
+    if adx_score is None:
+        # Insufficient M15 history for ADX(14) (needs >= 29 bars) -- redistribute its weight
+        # across the two components that DID resolve, rather than silently zeroing a third of
+        # the score or fabricating a neutral ADX reading.
+        remaining = _MTFAI1_V2_TREND_WEIGHTS["ma_separation"] + _MTFAI1_V2_TREND_WEIGHTS["htf_structure"]
+        score = (ma_sep_score * _MTFAI1_V2_TREND_WEIGHTS["ma_separation"] + htf_score * _MTFAI1_V2_TREND_WEIGHTS["htf_structure"]) / remaining
+    else:
+        score = (
+            adx_score * _MTFAI1_V2_TREND_WEIGHTS["adx"]
+            + ma_sep_score * _MTFAI1_V2_TREND_WEIGHTS["ma_separation"]
+            + htf_score * _MTFAI1_V2_TREND_WEIGHTS["htf_structure"]
+        )
+    breakdown = {
+        "adx_m15": adx_current, "adx_score": adx_score, "ma_separation_atr": round(ma_sep_atr, 4), "ma_separation_score": round(ma_sep_score, 2),
+        "h1_trend": str(h1_trend.state), "h4_trend": str(h4_trend.state), "htf_agree_count": agree_count, "htf_score": htf_score,
+    }
+    return round(_clamp01(score / 100.0) * 100.0, 2), breakdown
+
+
+def _clamp01(value: float) -> float:
+    return max(0.0, min(1.0, value))
+
+
+def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any], symbol_info: Any = None) -> tuple[float, str, dict[str, Any]]:
     closes = [Decimal(str(c.close)) for c in m15[-50:]]
     h1_close = Decimal(str(h1[-1].close))
     h1_avg = sum(Decimal(str(c.close)) for c in h1[-20:]) / Decimal("20")
@@ -2372,7 +2457,8 @@ def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any], s
         target, tp_basis = v2_target, v2_basis
     spread_penalty = min(30, float(spread / atr * Decimal("100"))) if atr > 0 else 30
     score = 88 - spread_penalty
-    return round(score, 2), direction, {
+    trend_quality_score, trend_quality_breakdown = _mtfai1_v2_trend_quality(m15, h1, h4, direction, symbol_label, atr, fast, slow)
+    geometry: dict[str, Any] = {
         "entry": str(entry),
         "stop_loss": str(stop),
         "take_profit": str(target),
@@ -2383,6 +2469,10 @@ def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any], s
         "atr": str(atr),
         "spread": str(spread),
     }
+    if trend_quality_score is not None:
+        geometry["trend_quality_score"] = trend_quality_score
+        geometry["trend_quality_breakdown"] = trend_quality_breakdown
+    return round(score, 2), direction, geometry
 
 
 def _swing_level(candles: list[Any], direction: str, lookback: int = 20) -> Decimal | None:

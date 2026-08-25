@@ -64,6 +64,42 @@ def test_weak_candidate_is_not_eligible():
     assert not is_autonomous_eligible(confidence["overall_score"])
 
 
+# 2026-08-25 Confidence Architecture & Calibration Audit (Part 1/2): trend_multi_timeframe must
+# prefer a strategy-supplied context["trend_quality_score"] over the generic ranking_score
+# fallback -- fixes mtfai1's raw score (88-spread_penalty, a spread proxy) being mislabeled as
+# "trend alignment" and double-counted against volatility_suitability.
+def test_trend_multi_timeframe_prefers_strategy_supplied_score():
+    candidate = _candidate(ranking_score=60.0)  # a low ranking_score that would otherwise drag the component down
+    candidate["context"]["trend_quality_score"] = 92.5
+
+    confidence = compute_trade_confidence(candidate=candidate, entry_quality=_entry_quality(), symbol_memory=None, global_memory=None)
+
+    trend_component = next(c for c in confidence["components"] if c["name"] == "trend_multi_timeframe")
+    assert trend_component["score"] == pytest.approx(92.5)
+    assert trend_component["inputs"]["source"] == "strategy_specific"
+
+
+def test_trend_multi_timeframe_falls_back_to_ranking_score_when_unsupplied():
+    candidate = _candidate(ranking_score=71.0)  # no trend_quality_score in context
+
+    confidence = compute_trade_confidence(candidate=candidate, entry_quality=_entry_quality(), symbol_memory=None, global_memory=None)
+
+    trend_component = next(c for c in confidence["components"] if c["name"] == "trend_multi_timeframe")
+    assert trend_component["score"] == pytest.approx(71.0)
+    assert trend_component["inputs"]["source"] == "generic_fallback"
+
+
+def test_trend_multi_timeframe_ignores_unparseable_strategy_score():
+    candidate = _candidate(ranking_score=66.0)
+    candidate["context"]["trend_quality_score"] = "not-a-number"
+
+    confidence = compute_trade_confidence(candidate=candidate, entry_quality=_entry_quality(), symbol_memory=None, global_memory=None)
+
+    trend_component = next(c for c in confidence["components"] if c["name"] == "trend_multi_timeframe")
+    assert trend_component["score"] == pytest.approx(66.0)
+    assert trend_component["inputs"]["source"] == "generic_fallback"
+
+
 # 3. Candidates scoring 70-74 are logged (observe_only band) but not eligible to execute.
 def test_observe_only_band_is_not_eligible():
     assert classify_confidence_band(72.0) == "observe_only"

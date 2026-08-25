@@ -143,6 +143,60 @@ def _real_trade_stats_by_symbol(symbol: str, window_start: datetime) -> dict[str
     return _summarize(r_values, usd_values)
 
 
+def _real_trade_stats_by_strategy_symbol(strategy_id: str, symbol: str, window_start: datetime) -> dict[str, Any]:
+    """2026-08-25 Confidence Architecture & Calibration Audit (Part 4): symbol_performance was
+    pooling every strategy's trades on a symbol -- an mtfai1 EURUSD candidate could be rewarded
+    or penalized because trend_pullback or mean_reversion won/lost EURUSD, not because mtfai1
+    itself has (or lacks) a real edge there. This is the most specific tier of the preferred
+    hierarchy (strategy+version+symbol -> strategy+symbol -> strategy overall -> neutral prior):
+    real, position-level, no-double-counting stats scoped to BOTH strategy_id AND symbol. Reuses
+    the same version-cutover gate as _real_trade_stats so a version-cutover strategy's stale pre-
+    cutover trades never leak in here either."""
+    window_start = _effective_window_start(strategy_id, window_start)
+    with SessionLocal() as db:
+        rows = (
+            db.query(AdaptivePositionStateORM)
+            .filter(
+                AdaptivePositionStateORM.strategy_id == strategy_id,
+                AdaptivePositionStateORM.symbol == symbol.upper(),
+                AdaptivePositionStateORM.closed_detected_at.isnot(None),
+                AdaptivePositionStateORM.closed_detected_at > window_start,
+                AdaptivePositionStateORM.original_risk_money.isnot(None),
+                AdaptivePositionStateORM.max_achieved_r.isnot(None),
+            )
+            .all()
+        )
+    r_values: list[float] = []
+    usd_values: list[float] = []
+    for row in rows:
+        realized_r = float(row.max_achieved_r) - float(row.current_giveback_r or 0.0)
+        r_values.append(realized_r)
+        usd_values.append(realized_r * float(row.original_risk_money))
+    return _summarize(r_values, usd_values)
+
+
+def _shadow_stats_by_strategy_symbol(strategy_id: str, symbol: str, window_start: datetime) -> dict[str, Any]:
+    """Shadow-tracking equivalent of _real_trade_stats_by_strategy_symbol, for a strategy whose
+    current activation is SHADOW_MT5/DISABLED -- same source/methodology as _shadow_stats, scoped
+    to both strategy_id and symbol."""
+    window_start = _effective_window_start(strategy_id, window_start)
+    with SessionLocal() as db:
+        rows = (
+            db.query(MT5CandidateEvaluationORM)
+            .filter(
+                MT5CandidateEvaluationORM.strategy == strategy_id,
+                MT5CandidateEvaluationORM.symbol == symbol.upper(),
+                MT5CandidateEvaluationORM.outcome_type == "SHADOW",
+                MT5CandidateEvaluationORM.realized_pnl.isnot(None),
+                MT5CandidateEvaluationORM.created_at > window_start,
+            )
+            .all()
+        )
+    r_values = [float(row.realized_r) for row in rows if row.realized_r is not None]
+    usd_values = [float(row.realized_pnl) for row in rows]
+    return _summarize(r_values, usd_values)
+
+
 def _shadow_stats(strategy_id: str, window_start: datetime) -> dict[str, Any]:
     """Shadow-tracked candidate outcomes for `strategy_id` since `window_start` -- populated by
     the existing outcome resolver independently of this monitor, never executed. realized_r is
@@ -226,11 +280,30 @@ def performance_memory_for_confidence(*, strategy_id: str | None = None, symbol:
     inconsistent definition of "this looks like it's losing" from the one the activation-
     recommendation pipeline already uses. Returns None (never a fabricated dict) if neither
     parameter is usable, letting the caller's existing "no recorded history, neutral default"
-    fallback handle it -- consistent with every other component's own missing-data posture."""
-    if bool(strategy_id) == bool(symbol):
+    fallback handle it -- consistent with every other component's own missing-data posture.
+
+    2026-08-25 Confidence Architecture & Calibration Audit (Part 4): when BOTH strategy_id and
+    symbol are given, this implements the preferred symbol_performance hierarchy -- strategy+
+    symbol (most specific: "how has THIS strategy done on THIS symbol") first, falling back to
+    symbol-only (today's original, cross-strategy behavior) only when the strategy+symbol tier
+    has zero sample. This is the fix for symbol_performance rewarding/penalizing an mtfai1
+    EURUSD candidate because trend_pullback or mean_reversion won/lost EURUSD, not mtfai1 itself.
+    Both/either-alone call shapes stay supported: strategy_id alone remains the existing
+    strategy_performance component, symbol alone remains the original cross-strategy read (any
+    caller not yet migrated to pass both keeps its current behavior unchanged)."""
+    if not strategy_id and not symbol:
         return None
     window_start = utcnow() - timedelta(days=window_days)
-    if strategy_id:
+    if strategy_id and symbol:
+        current = activation_status(strategy_id)
+        source = "REAL_TRADES" if current == ACTIVE_MT5 else "SHADOW_TRACKING"
+        stats = (
+            _real_trade_stats_by_strategy_symbol(strategy_id, symbol, window_start) if source == "REAL_TRADES"
+            else _shadow_stats_by_strategy_symbol(strategy_id, symbol, window_start)
+        )
+        if not stats["sample_size"]:
+            stats = _real_trade_stats_by_symbol(symbol, window_start)
+    elif strategy_id:
         current = activation_status(strategy_id)
         source = "REAL_TRADES" if current == ACTIVE_MT5 else "SHADOW_TRACKING"
         stats = _real_trade_stats(strategy_id, window_start) if source == "REAL_TRADES" else _shadow_stats(strategy_id, window_start)

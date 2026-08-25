@@ -86,11 +86,27 @@ class ConfidenceComponent:
 
 
 def _trend_multi_timeframe(candidate: dict[str, Any]) -> ConfidenceComponent:
-    # candidate["ranking_score"] IS the multi-timeframe (M15/H1/H4) trend-alignment
-    # score already computed by autonomous.py::_score_candidate -- reused as-is.
+    # 2026-08-25 Confidence Architecture & Calibration Audit: candidate["ranking_score"] is NOT
+    # a trend-alignment measurement for every strategy -- for mtfai1 it's 88-spread_penalty (a
+    # spread-cost proxy, mislabeled here, and double-counted against volatility_suitability
+    # below, which is also spread/ATR-derived). Any strategy can now supply its own genuinely
+    # graduated 0-100 trend-quality read via context["trend_quality_score"] (see MTFAI1 V2's
+    # _mtfai1_v2_trend_quality in autonomous.py -- ADX(14) + MA-separation/ATR + real swing-based
+    # H1/H4 structural agreement, none of which touches spread). This stays strategy-agnostic by
+    # design -- confidence.py never branches on a strategy_id -- falling back to the original
+    # ranking_score-based read for every strategy that hasn't supplied one yet.
+    context = candidate.get("context") or {}
+    explicit = context.get("trend_quality_score")
+    if explicit is not None:
+        try:
+            score = _clamp(float(explicit))
+        except (TypeError, ValueError):
+            explicit = None
+        else:
+            return ConfidenceComponent("trend_multi_timeframe", score, 0.0, 0.0, f"strategy-supplied trend-quality score {score:.1f}", {"trend_quality_score": score, "source": "strategy_specific", "breakdown": context.get("trend_quality_breakdown")})
     raw = float(candidate.get("ranking_score") or 0.0)
     score = _clamp(raw)
-    return ConfidenceComponent("trend_multi_timeframe", score, 0.0, 0.0, f"M15/H1/H4 trend-alignment score {raw:.1f}", {"ranking_score": raw})
+    return ConfidenceComponent("trend_multi_timeframe", score, 0.0, 0.0, f"M15/H1/H4 trend-alignment score {raw:.1f} (generic fallback)", {"ranking_score": raw, "source": "generic_fallback"})
 
 
 def _structure_confluence(entry_quality: dict[str, Any]) -> ConfidenceComponent:

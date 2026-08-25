@@ -143,6 +143,75 @@ def test_strategy_without_a_registered_cutover_is_unaffected(monkeypatch: pytest
     assert stats["sample_size"] == 1
 
 
+def test_symbol_performance_prefers_strategy_symbol_tier_over_cross_strategy(monkeypatch: pytest.MonkeyPatch):
+    # 2026-08-25 Confidence Architecture & Calibration Audit (Part 4): symbol_performance must
+    # not reward/penalize an ema_trend EURUSD candidate because an unrelated strategy won/lost
+    # EURUSD. The strategy+symbol tier (10 losing ema_trend EURUSD trades) must win over the
+    # cross-strategy symbol-only tier (10 winning trades from a DIFFERENT strategy on EURUSD).
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    monkeypatch.setattr(performance_monitor, "activation_status", lambda strategy_id: performance_monitor.ACTIVE_MT5)
+    with SessionLocal() as db:
+        for _ in range(10):
+            db.add(_position("ema_trend", realized_r=-1.0, symbol="EURUSD"))
+        for _ in range(10):
+            db.add(_position("trend_pullback", realized_r=1.0, symbol="EURUSD"))
+        db.commit()
+
+    memory = performance_memory_for_confidence(strategy_id="ema_trend", symbol="EURUSD")
+
+    assert memory is not None
+    assert memory["closed_trade_count"] == 10
+    assert memory["expectancy"] == pytest.approx(-1.0)  # the ema_trend-only losses, not the mixed pool
+
+
+def test_symbol_performance_falls_back_to_cross_strategy_when_strategy_has_no_symbol_history(monkeypatch: pytest.MonkeyPatch):
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    monkeypatch.setattr(performance_monitor, "activation_status", lambda strategy_id: performance_monitor.ACTIVE_MT5)
+    with SessionLocal() as db:
+        # ema_trend has never traded EURUSD -- only trend_pullback has.
+        for _ in range(10):
+            db.add(_position("trend_pullback", realized_r=1.0, symbol="EURUSD"))
+        db.commit()
+
+    memory = performance_memory_for_confidence(strategy_id="ema_trend", symbol="EURUSD")
+
+    assert memory is not None
+    assert memory["closed_trade_count"] == 10
+    assert memory["expectancy"] == pytest.approx(1.0)  # the cross-strategy fallback tier
+
+
+def test_symbol_performance_strategy_tier_respects_version_cutover(monkeypatch: pytest.MonkeyPatch):
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    cutover = NOW - timedelta(days=1)
+    monkeypatch.setitem(performance_monitor.STRATEGY_VERSION_CUTOVER, "mtfai1", cutover)
+    with SessionLocal() as db:
+        for _ in range(20):
+            db.add(_position("mtfai1", realized_r=-1.0, symbol="EURUSD", closed_days_ago=5))
+        db.add(_position("mtfai1", realized_r=1.0, symbol="EURUSD", closed_days_ago=0))
+        db.commit()
+
+    memory = performance_memory_for_confidence(strategy_id="mtfai1", symbol="EURUSD")
+
+    assert memory is not None
+    assert memory["closed_trade_count"] == 1
+    assert memory["expectancy"] == pytest.approx(1.0)
+
+
+def test_symbol_only_call_shape_still_pools_across_strategies(monkeypatch: pytest.MonkeyPatch):
+    """Backward compatibility: a caller that still passes only `symbol` (no strategy_id) keeps
+    the original cross-strategy behavior unchanged."""
+    SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    with SessionLocal() as db:
+        db.add(_position("ema_trend", realized_r=-1.0, symbol="EURUSD"))
+        db.add(_position("trend_pullback", realized_r=1.0, symbol="EURUSD"))
+        db.commit()
+
+    memory = performance_memory_for_confidence(symbol="EURUSD")
+
+    assert memory is not None
+    assert memory["closed_trade_count"] == 2
+
+
 def test_real_trade_stats_excludes_outside_window(monkeypatch: pytest.MonkeyPatch):
     SessionLocal = redirect_shared_db_to_isolated_sqlite(monkeypatch)
     with SessionLocal() as db:
@@ -296,9 +365,14 @@ def test_real_trade_stats_by_symbol_groups_across_strategies(monkeypatch: pytest
     assert stats["expectancy_r"] == pytest.approx(0.25)
 
 
-def test_performance_memory_for_confidence_requires_exactly_one_scope():
+def test_performance_memory_for_confidence_requires_at_least_one_scope(monkeypatch: pytest.MonkeyPatch):
+    # 2026-08-25 Part 4: passing BOTH strategy_id and symbol is now a valid, meaningful call
+    # shape (the strategy+symbol hierarchy tier) -- only "neither given" is invalid. Superseded
+    # the old "exactly one, never both" invariant this test used to assert.
     assert performance_memory_for_confidence() is None
-    assert performance_memory_for_confidence(strategy_id="ema_trend", symbol="EURUSD") is None
+    redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    monkeypatch.setattr(performance_monitor, "activation_status", lambda strategy_id: performance_monitor.ACTIVE_MT5)
+    assert performance_memory_for_confidence(strategy_id="ema_trend", symbol="EURUSD") is None  # no evidence at either tier -> None, not an error
 
 
 def test_performance_memory_for_confidence_returns_none_without_evidence(monkeypatch: pytest.MonkeyPatch):
