@@ -43,6 +43,7 @@ from backend.brokers.mt5.config import mt5_config
 from backend.brokers.mt5.persistence import sanitize
 from backend.brokers.mt5.risk_calculator import calculate_canonical_loss_per_lot, calculate_conservative_loss_per_lot_sync, record_mismatch_if_needed
 from backend.brokers.mt5.trading_costs import compute_trade_costs
+from backend.adaptive_management.strategy_profiles import get_profile as get_strategy_profile, strategy_param
 from backend.decision_context.service import decision_context_service
 from backend.economic_intelligence.service import economic_intelligence_service
 from backend.intelligence.trading.config import ai_trading_config
@@ -1746,6 +1747,8 @@ class AdaptiveManagementService:
             row.strategy_id = normalize_strategy_id(_lineage(payload.get("comment"), "strategy"))
         if not row.timeframe or row.timeframe == "UNKNOWN":
             row.timeframe = _lineage(payload.get("comment"), "timeframe")
+        if is_first_sight and row.setup_subtype is None and row.strategy_id and row.strategy_id != "UNKNOWN":
+            self._capture_original_thesis(db, row, symbol=row.symbol, direction=direction, opened_at=opened_at)
         # Self-healing sanity clamp: max_achieved_r/min_achieved_r are otherwise monotonic
         # (max()/min() against their own prior value), so a single bad r_now computed before a
         # bug fix (e.g. the current-sl-based risk-denominator incident this file's git history
@@ -1809,6 +1812,52 @@ class AdaptiveManagementService:
         if is_first_sight and row.original_sl is not None:
             self._audit_initial_stop(db, row, payload, candles, atr, symbol_info)
         return row
+
+    def _capture_original_thesis(self, db: Any, row: AdaptivePositionStateORM, *, symbol: str, direction: str, opened_at: datetime | None) -> None:
+        """Bensim -- Adaptive Manager V3, Part 8: captures WHY this trade exists, once, from the
+        real MT5CandidateEvaluationORM row that led to this execution -- never inferred from the
+        broker order comment (confirmed too short to carry more than strategy_id + a timestamp,
+        see _mt5_order_comment's own docstring) and never guessed. Matched by strategy_id +
+        symbol + direction + nearest created_at to opened_at within a tight window -- reliable
+        because only ONE candidate is ever submitted per account per cycle (top_k=1
+        winner-take-all, backend/brokers/mt5/autonomous.py::run_cycle), so ambiguity between two
+        real candidates this close in time is not a practical concern. Leaves every field None
+        (never fabricated) when no matching evaluation row is found -- e.g. an adopted/manually-
+        opened position with no candidate-evaluation ancestry."""
+        if not opened_at:
+            return
+        try:
+            from backend.brokers.mt5.orm import MT5CandidateEvaluationORM
+
+            window = timedelta(minutes=10)
+            candidates = (
+                db.query(MT5CandidateEvaluationORM)
+                .filter(
+                    MT5CandidateEvaluationORM.strategy == row.strategy_id,
+                    MT5CandidateEvaluationORM.symbol == symbol,
+                    MT5CandidateEvaluationORM.direction == direction,
+                    MT5CandidateEvaluationORM.created_at >= opened_at - window,
+                    MT5CandidateEvaluationORM.created_at <= opened_at + window,
+                )
+                .all()
+            )
+        except Exception as exc:
+            logger.warning("MT5 adaptive-manager original-thesis lookup failed for %s (fields stay None): %s", row.position_id, exc.__class__.__name__)
+            return
+        if not candidates:
+            return
+
+        def _aware(dt: datetime) -> datetime:
+            return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+
+        opened_at_aware = _aware(opened_at)
+        match = min(candidates, key=lambda c: abs((_aware(c.created_at) - opened_at_aware).total_seconds()))
+        evidence = match.strategy_evidence or {}
+        stop_geometry = evidence.get("stop_geometry") or {}
+        row.setup_subtype = _first_str(evidence, "setup_subtype", "confluence_mode", "setup") or (row.strategy_id or None)
+        row.original_target_type = _first_str(stop_geometry, "take_profit_basis", "tp_basis") or _first_str(evidence, "take_profit_basis", "tp_basis")
+        row.original_sl_type = _first_str(stop_geometry, "stop_basis", "sl_basis", "reference")
+        row.original_confidence = float(match.overall_confidence) if match.overall_confidence is not None else None
 
     def _capture_original_risk(self, row: AdaptivePositionStateORM, *, is_first_sight: bool, entry: float, sl: float | None, volume: float, account_equity: float | None, original_risk_result: Any | None, symbol_info: Any | None) -> None:
         """PART 5: original_entry/original_stop_distance/original_risk_money/original_risk_pct/
@@ -2088,15 +2137,25 @@ class AdaptiveManagementService:
             # fire's own timestamp averaged +0.76R had the position simply stayed open vs +0.36R
             # actually locked in; a 50% partial / 50% runner split captured +0.56R average (57%
             # more total R than the full-close policy) while still capping the worst case far
-            # below an untouched hold (-0.38R vs -1.00R). This is scoped to mtfai1 ONLY, behind its
-            # own flag, so no other strategy's MFE handling changes -- V2's improved SL/TP geometry
-            # (see MT5_MTFAI1_V2_ENABLED in autonomous.py) still governs the runner's own stop.
-            mtfai1_v2_partial = (
-                state.strategy_id == "mtfai1"
-                and os.getenv("MT5_MTFAI1_V2_MFE_PARTIAL_ENABLED", "false").strip().lower() not in {"false", "0", "off", "no"}
-            )
+            # below an untouched hold (-0.38R vs -1.00R). Originally scoped to mtfai1 ONLY behind
+            # its own flag; generalized below (Part 6) into the strategy_profiles.py table so
+            # other strategies can get their own evidence-based partial-close split too, with
+            # mtfai1's own real, proven value byte-identical to before -- V2's improved SL/TP
+            # geometry (see MT5_MTFAI1_V2_ENABLED in autonomous.py) still governs the runner's
+            # own stop regardless.
+            # Bensim -- Adaptive Manager V3, Part 6: generalized from the mtfai1-only hardcoded
+            # check into the strategy_profiles.py table -- mtfai1's own real, proven 50/50 value
+            # is preserved byte-identical (still reads MT5_MTFAI1_V2_MFE_PARTIAL_ENABLED/
+            # _FRACTION as its base, via _BASE_PROFILES); every other strategy now ALSO gets a
+            # real partial-close option instead of only ever full-closing, per strategy-specific
+            # evidence (mean_reversion/vwap_reversion: reversion trades should lock in more of a
+            # typically-shorter-lived move -- see strategy_profiles.py's own docstring for the
+            # reasoning per strategy). A strategy with no profile entry still gets
+            # mfe_partial_enabled=False by construction, i.e. exactly today's full-close-only
+            # behavior -- this generalization changes nothing for strategies not in that table.
+            mtfai1_v2_partial = get_strategy_profile(state.strategy_id).mfe_partial_enabled
             if mtfai1_v2_partial:
-                requested_volume = float(state.current_volume) * _env_float("MT5_MTFAI1_V2_MFE_PARTIAL_FRACTION", 0.5)
+                requested_volume = float(state.current_volume) * strategy_param(state.strategy_id, "mfe_partial_fraction", 0.5)
             elif max_r >= full_close_r:
                 requested_volume = float(state.current_volume)
             else:
@@ -2107,7 +2166,7 @@ class AdaptiveManagementService:
                     30,
                     requested_volume=requested_volume,
                     reason="profit_giveback_exceeds_volatility_aware_allowance",
-                    evidence={"r": r_now, "max_r": max_r, "giveback_r": giveback_r, "allowance_r": allowance_r, "allowance_fraction": allowance_fraction, "regime": regime, "full_close": (not mtfai1_v2_partial) and max_r >= full_close_r, "mtfai1_v2_partial": mtfai1_v2_partial},
+                    evidence={"r": r_now, "max_r": max_r, "giveback_r": giveback_r, "allowance_r": allowance_r, "allowance_fraction": allowance_fraction, "regime": regime, "full_close": (not mtfai1_v2_partial) and max_r >= full_close_r, "strategy_profile_partial": mtfai1_v2_partial},
                 )
             )
 
@@ -2131,9 +2190,16 @@ class AdaptiveManagementService:
         # new candidate while its prior attempt is unresolved (see
         # _reconcile_pending_partial_stages, which resolves any stuck PENDING row before this
         # code ever runs again on the same cycle).
+        # Bensim -- Adaptive Manager V3, Part 4/7: strategy-aware thresholds. strategy_param
+        # returns the strategy's own profile value when strategy_profiles.py sets one (e.g.
+        # mean_reversion/vwap_reversion capture earlier, trend_pullback later), otherwise the
+        # exact same global default this call already used -- byte-identical for every other
+        # strategy.
+        partial_profit_r = strategy_param(state.strategy_id, "partial_profit_r", _env_float("ADAPTIVE_PARTIAL_PROFIT_R", 0.5))
+        partial_profit_fraction = strategy_param(state.strategy_id, "partial_profit_fraction", _env_float("ADAPTIVE_PARTIAL_PROFIT_FRACTION", 0.25))
         partial_stage = state.partial_profit_stage or "NONE"
-        if partial_stage == "NONE" and r_now >= _env_float("ADAPTIVE_PARTIAL_PROFIT_R", 0.5):
-            candidates.append(ManagementCandidate("PARTIAL_PROFIT", 40, requested_volume=float(state.current_volume) * _env_float("ADAPTIVE_PARTIAL_PROFIT_FRACTION", 0.25), reason="partial_profit_threshold", evidence={"r": r_now, "target_stage": "PARTIAL_1", "requested_fraction": _env_float("ADAPTIVE_PARTIAL_PROFIT_FRACTION", 0.25)}))
+        if partial_stage == "NONE" and r_now >= partial_profit_r:
+            candidates.append(ManagementCandidate("PARTIAL_PROFIT", 40, requested_volume=float(state.current_volume) * partial_profit_fraction, reason="partial_profit_threshold", evidence={"r": r_now, "target_stage": "PARTIAL_1", "requested_fraction": partial_profit_fraction}))
         elif partial_stage == "PARTIAL_1_EXECUTED" and r_now >= _env_float("ADAPTIVE_PARTIAL_PROFIT_2_R", 1.0):
             candidates.append(ManagementCandidate("PARTIAL_PROFIT", 40, requested_volume=float(state.current_volume) * _env_float("ADAPTIVE_PARTIAL_PROFIT_2_FRACTION", 0.33), reason="partial_profit_stage2_threshold", evidence={"r": r_now, "target_stage": "PARTIAL_2", "requested_fraction": _env_float("ADAPTIVE_PARTIAL_PROFIT_2_FRACTION", 0.33)}))
 
@@ -2173,7 +2239,7 @@ class AdaptiveManagementService:
             structure_level = _swing_structure_level(normalized_candles, state.direction)
             be_candidate = _structure_preferred_breakeven(state.direction, be, structure_level, atr)
             breakeven_ready = (
-                r_now >= _env_float("ADAPTIVE_BREAKEVEN_R", 1.0)
+                r_now >= strategy_param(state.strategy_id, "breakeven_r", _env_float("ADAPTIVE_BREAKEVEN_R", 1.0))
                 and float(state.tp_progress or 0) >= _env_float("ADAPTIVE_BREAKEVEN_MIN_TP_PROGRESS", 0.3)
                 and state.winner_classification != "invalidated"
                 and _opposing_candles(candles, state.direction) < 2
@@ -2194,7 +2260,7 @@ class AdaptiveManagementService:
 
             trail_fraction = tp_protection.retracement_allowance(atr_r=atr_r, regime=regime, timeframe=timeframe, min_fraction=0.2, max_fraction=0.5)
             trail = _trail_stop(state, price, trail_fraction)
-            if r_now >= _env_float("ADAPTIVE_TRAIL_R", 1.5) and trail and _stop_improves(state.direction, trail, state.current_sl):
+            if r_now >= strategy_param(state.strategy_id, "trail_r", _env_float("ADAPTIVE_TRAIL_R", 1.5)) and trail and _stop_improves(state.direction, trail, state.current_sl):
                 candidates.append(ManagementCandidate("TRAIL_STOP", 60, requested_sl=trail, requested_tp=state.current_tp, reason="volatility_aware_trailing_stop", evidence={"r": r_now, "max_r": max_r, "trail_fraction": trail_fraction}))
 
         if _candles_held(state.opened_at, candles) >= _env_int("ADAPTIVE_TIME_EXIT_CANDLES", 24, minimum=1, maximum=288) and max_r < 0.25:
@@ -3759,6 +3825,17 @@ def _side_from_type(value: Any) -> str:
 def _is_trade_symbol(value: Any) -> bool:
     symbol = str(value or "").upper()
     return bool(symbol and symbol != "UNKNOWN")
+
+
+def _first_str(evidence: dict[str, Any], *keys: str) -> str | None:
+    """First non-empty value among `keys` in `evidence`, truncated to fit the DB column --
+    used by _capture_original_thesis to pull a setup/target/SL label from whichever field name
+    a given strategy's evidence dict actually uses, without guessing when none is present."""
+    for key in keys:
+        val = evidence.get(key)
+        if val:
+            return str(val)[:64]
+    return None
 
 
 def _lineage(comment: Any, key: str) -> str:

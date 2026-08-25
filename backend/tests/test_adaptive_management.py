@@ -674,7 +674,7 @@ def test_mtfai1_v2_mfe_partial_close_overrides_full_close(monkeypatch):
     mfe_actions = [a for a in actions if a.action_type == "MFE_PROTECTION_CLOSE"]
     assert len(mfe_actions) == 1
     assert mfe_actions[0].requested_volume == pytest.approx(1.0)  # 50% of current_volume=2.0
-    assert mfe_actions[0].evidence["mtfai1_v2_partial"] is True
+    assert mfe_actions[0].evidence["strategy_profile_partial"] is True
     assert mfe_actions[0].evidence["full_close"] is False
 
 
@@ -702,7 +702,7 @@ def test_mtfai1_v2_mfe_partial_flag_does_not_affect_other_strategies(monkeypatch
     # unaffected by the mtfai1-only flag -- ADAPTIVE_MFE_FULL_CLOSE_R=0 default still applies,
     # so this is still a full close, exactly as before this change.
     assert mfe_actions[0].requested_volume == pytest.approx(2.0)
-    assert mfe_actions[0].evidence["mtfai1_v2_partial"] is False
+    assert mfe_actions[0].evidence["strategy_profile_partial"] is False
 
 
 def test_mtfai1_v2_mfe_partial_inert_when_flag_disabled(monkeypatch):
