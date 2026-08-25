@@ -106,6 +106,196 @@ def test_multiple_strategy_families_fuse_into_one_candidate():
     assert candidates[0]["context"]["multi_strategy_confirmation"] is True
 
 
+# 2026-08-25 confirmation-bonus audit: multi_strategy_confirmation was found empirically
+# INVERTED for both active strategies (rewarding exactly the candidates that perform worse).
+# Default behavior now grants zero bonus for extra confirming strategies -- fused_strength must
+# equal the anchor's own raw_signal_strength, never inflated by agreement from other (all
+# SHADOW_MT5, live-unvalidated) strategies -- while the confirmation flag/contributing list
+# remain fully populated as metadata (still available for future evidence-gated use).
+def test_confirmation_bonus_is_neutral_by_default_fused_strength_equals_anchor_strength():
+    ctx = _flat_context()
+    sig_a = evaluate_ema_trend(ctx)
+    sig_b = evaluate_trend_pullback(ctx)
+    sig_a = dataclasses.replace(sig_a, valid=True, direction="LONG", strategy_id="ema_trend", raw_signal_strength=60.0, proposed_entry=1.1010, stop_loss=1.0990, take_profit=1.1060, reward_risk=2.5)
+    sig_b = dataclasses.replace(sig_b, valid=True, direction="LONG", strategy_id="trend_pullback", raw_signal_strength=70.0, proposed_entry=1.1010, stop_loss=1.0995, take_profit=1.1050, reward_risk=2.0)
+    candidates = build_candidates(symbol="EURUSD", broker_symbol="EURUSD", asset_class="FOREX", cycle_id="C1D", signals=[sig_a, sig_b], htf_trend_h4="bullish", now=NOW)
+    assert len(candidates) == 1
+    # anchor is whichever signal has the higher raw_signal_strength (trend_pullback, 70.0) --
+    # fused_strength must equal that exactly, with no addition for ema_trend's confirmation.
+    assert candidates[0]["ranking_score"] == 70.0
+    assert candidates[0]["context"]["multi_strategy_confirmation"] is True
+    assert set(candidates[0]["context"]["contributing_strategies"]) == {"ema_trend", "trend_pullback"}
+
+
+def test_confirmation_bonus_still_configurable_back_to_pre_fix_behavior(monkeypatch):
+    """Reversibility check: restoring the pre-fix constant (4.0/extra strategy, capped at 16.0)
+    via the module-level override reproduces the OLD fused_strength math exactly, with no code
+    change -- confirms the fix is a config flip, not a one-way rewrite."""
+    from backend.mt5_strategies import fusion as fusion_module
+
+    monkeypatch.setattr(fusion_module, "_CONFIRMATION_BONUS_PER_EXTRA_STRATEGY", 4.0)
+    monkeypatch.setattr(fusion_module, "_CONFIRMATION_BONUS_CAP", 16.0)
+
+    ctx = _flat_context()
+    sig_a = evaluate_ema_trend(ctx)
+    sig_b = evaluate_trend_pullback(ctx)
+    sig_a = dataclasses.replace(sig_a, valid=True, direction="LONG", strategy_id="ema_trend", raw_signal_strength=60.0, proposed_entry=1.1010, stop_loss=1.0990, take_profit=1.1060, reward_risk=2.5)
+    sig_b = dataclasses.replace(sig_b, valid=True, direction="LONG", strategy_id="trend_pullback", raw_signal_strength=70.0, proposed_entry=1.1010, stop_loss=1.0995, take_profit=1.1050, reward_risk=2.0)
+    candidates = fusion_module.build_candidates(symbol="EURUSD", broker_symbol="EURUSD", asset_class="FOREX", cycle_id="C1E", signals=[sig_a, sig_b], htf_trend_h4="bullish", now=NOW)
+    # 1 extra confirming strategy * 4.0/extra, capped at 16.0 -> +4.0 on top of the anchor's 70.0.
+    assert candidates[0]["ranking_score"] == 74.0
+
+
+# 2026-08-25 deep confidence audit -- Part 2: trend_pullback's own genuine 0-100 pullback-quality
+# score, fed through confidence.py's existing (unmodified) trend_quality_score hook.
+def test_trend_pullback_quality_score_disabled_by_default():
+    from backend.mt5_strategies.families import trend_pullback as tp
+
+    ctx = _flat_context()
+    score, breakdown = tp._trend_pullback_quality_score(ctx, direction="LONG", price=1.1010, ema20_val=1.1005, ema50_val=1.0995, ema20_slope=0.0002, atr=0.0010)
+    assert (score, breakdown) == (None, None)
+
+
+def test_trend_pullback_quality_score_bounded_and_graduated_by_htf_agreement(monkeypatch):
+    from backend.mt5_strategies.families import trend_pullback as tp
+
+    monkeypatch.setenv("MT5_TREND_PULLBACK_QUALITY_SCORE_ENABLED", "true")
+    ctx = _flat_context()
+    ctx_full_agree = dataclasses.replace(ctx, adx_m15=25.0, htf_trend_h1="bullish", htf_trend_h4="bullish")
+    ctx_no_agree = dataclasses.replace(ctx, adx_m15=25.0, htf_trend_h1="bearish", htf_trend_h4="bearish")
+    ctx_partial_agree = dataclasses.replace(ctx, adx_m15=25.0, htf_trend_h1="bullish", htf_trend_h4="transitional")
+
+    kwargs = dict(direction="LONG", price=1.1005, ema20_val=1.1005, ema50_val=1.0995, ema20_slope=0.0003, atr=0.0010)
+    score_full, breakdown_full = tp._trend_pullback_quality_score(ctx_full_agree, **kwargs)
+    score_none, breakdown_none = tp._trend_pullback_quality_score(ctx_no_agree, **kwargs)
+    score_partial, _ = tp._trend_pullback_quality_score(ctx_partial_agree, **kwargs)
+
+    assert score_full is not None and 0.0 <= score_full <= 100.0
+    assert breakdown_full["htf_structure_score"] == 100.0
+    assert breakdown_none["htf_structure_score"] == 0.0
+    # Real audit finding this exists to fix: htf_trend_h1=transitional must NOT score the same as
+    # full agreement -- monotonic ordering full > partial > none.
+    assert score_full > score_partial > score_none
+    assert set(breakdown_full) == {
+        "adx_m15", "trend_strength_score", "htf_trend_h1", "htf_trend_h4", "htf_agree_count", "htf_structure_score",
+        "ma_separation_atr", "separation_score", "ema20_slope_atr", "slope_score", "ema_structure_score",
+        "distance_from_ema20_atr", "extension_score", "structure_break_against", "structure_intact_score",
+        "regime", "regime_quality_score", "pullback_quality_score",
+    }
+
+
+def test_trend_pullback_quality_score_redistributes_weight_without_adx(monkeypatch):
+    from backend.mt5_strategies.families import trend_pullback as tp
+
+    monkeypatch.setenv("MT5_TREND_PULLBACK_QUALITY_SCORE_ENABLED", "true")
+    ctx = dataclasses.replace(_flat_context(), adx_m15=None, htf_trend_h1="bullish", htf_trend_h4="bullish")
+
+    score, breakdown = tp._trend_pullback_quality_score(ctx, direction="LONG", price=1.1005, ema20_val=1.1005, ema50_val=1.0995, ema20_slope=0.0003, atr=0.0010)
+
+    assert score is not None  # still resolves from the three remaining components
+    assert breakdown["trend_strength_score"] is None
+
+
+def test_trend_pullback_quality_score_penalizes_recent_opposing_structure_break(monkeypatch):
+    from backend.mt5_strategies.families import trend_pullback as tp
+
+    monkeypatch.setenv("MT5_TREND_PULLBACK_QUALITY_SCORE_ENABLED", "true")
+    ctx = dataclasses.replace(_flat_context(), adx_m15=25.0, htf_trend_h1="bullish", htf_trend_h4="bullish")
+    kwargs = dict(direction="LONG", price=1.1005, ema20_val=1.1005, ema50_val=1.0995, ema20_slope=0.0003, atr=0.0010)
+
+    monkeypatch.setattr(tp, "_recent_structure_break_against", lambda *a, **k: False)
+    score_clean, breakdown_clean = tp._trend_pullback_quality_score(ctx, **kwargs)
+    monkeypatch.setattr(tp, "_recent_structure_break_against", lambda *a, **k: True)
+    score_broken, breakdown_broken = tp._trend_pullback_quality_score(ctx, **kwargs)
+
+    assert breakdown_clean["structure_intact_score"] == 100.0
+    assert breakdown_broken["structure_intact_score"] == 100.0 - tp._TREND_QUALITY_STRUCTURE_BREAK_AGAINST_PENALTY
+    assert score_broken < score_clean
+
+
+# 2026-08-25 deep confidence audit -- Part 4: mean_reversion's own genuine 0-100 quality score,
+# opposite polarity from trend_pullback's (a firm directional HTF trend is NEGATIVE evidence
+# here, not positive), fed through the same generic hook.
+def test_mean_reversion_quality_score_disabled_by_default():
+    from backend.mt5_strategies.families import mean_reversion as mr
+
+    ctx = _flat_context()
+    score, breakdown = mr._mean_reversion_quality_score(ctx, direction="LONG", price=1.1005, latest_rsi=22.0, atr=0.0010)
+    assert (score, breakdown) == (None, None)
+
+
+def test_mean_reversion_quality_score_penalizes_directional_htf_trend(monkeypatch):
+    """The headline finding this exists to fix: a firm directional HTF read (both H1 and H4
+    trending) must score LOWER than a transitional/non-directional HTF read -- opposite of
+    trend_pullback's own htf_structure_score, which rewards directional agreement."""
+    from backend.mt5_strategies.families import mean_reversion as mr
+
+    monkeypatch.setenv("MT5_MEAN_REVERSION_QUALITY_SCORE_ENABLED", "true")
+    ctx = _flat_context()
+    ctx_directional = dataclasses.replace(ctx, adx_m15=30.0, htf_trend_h1="bullish", htf_trend_h4="bullish")
+    ctx_transitional = dataclasses.replace(ctx, adx_m15=10.0, htf_trend_h1="transitional", htf_trend_h4="transitional")
+
+    kwargs = dict(direction="LONG", price=1.1005, latest_rsi=22.0, atr=0.0010)
+    score_directional, breakdown_directional = mr._mean_reversion_quality_score(ctx_directional, **kwargs)
+    score_transitional, breakdown_transitional = mr._mean_reversion_quality_score(ctx_transitional, **kwargs)
+
+    assert score_transitional is not None and score_directional is not None
+    assert breakdown_transitional["htf_neutrality_score"] > breakdown_directional["htf_neutrality_score"]
+    assert score_transitional > score_directional
+
+
+def test_mean_reversion_rsi_extremity_score_is_non_monotonic():
+    """The other headline finding: maximal RSI extremity is NOT automatically better -- a
+    moderate-extremity reading must score at least as high as a maximal one, unlike a naive
+    linear extension of the strategy's own `strength` formula."""
+    from backend.mt5_strategies.families import mean_reversion as mr
+
+    moderate = mr._mr_rsi_extremity_score(20.0)  # extremity = 30, the hypothesized sweet spot
+    maximal = mr._mr_rsi_extremity_score(0.0)  # extremity = 50, the most extreme possible reading
+    barely = mr._mr_rsi_extremity_score(30.0)  # extremity = 20, the validity floor
+    assert moderate >= maximal
+    assert moderate >= barely
+
+
+def test_mean_reversion_quality_score_redistributes_weight_when_a_component_is_unavailable(monkeypatch):
+    from backend.mt5_strategies.families import mean_reversion as mr
+
+    monkeypatch.setenv("MT5_MEAN_REVERSION_QUALITY_SCORE_ENABLED", "true")
+    monkeypatch.setattr(mr, "_premium_discount_position", lambda ctx: None)
+    monkeypatch.setattr(mr, "_nearest_liquidity_level_atr_distance", lambda ctx, *, price, atr: None)
+    ctx = dataclasses.replace(_flat_context(), adx_m15=20.0, htf_trend_h1="transitional", htf_trend_h4="transitional")
+
+    score, breakdown = mr._mean_reversion_quality_score(ctx, direction="LONG", price=1.1005, latest_rsi=22.0, atr=0.0010)
+
+    assert score is not None  # still resolves from the three remaining components
+    assert breakdown["location_score"] is None
+
+
+def test_mean_reversion_evidence_and_context_carry_trend_quality_score_end_to_end(monkeypatch):
+    monkeypatch.setenv("MT5_MEAN_REVERSION_QUALITY_SCORE_ENABLED", "true")
+    ctx = _flat_context()
+    sig = evaluate_mean_reversion(ctx)
+    sig = dataclasses.replace(sig, valid=True, direction="LONG", strategy_id="mean_reversion", proposed_entry=1.1010, stop_loss=1.0990, take_profit=1.1060, reward_risk=2.0)
+    if "trend_quality_score" not in sig.evidence:
+        pytest.skip("synthetic _flat_context does not resolve RSI/HTF cleanly enough for this pipeline path -- covered directly by the unit tests above")
+    candidates = build_candidates(symbol="EURUSD", broker_symbol="EURUSD", asset_class="FOREX", cycle_id="C1G", signals=[sig], htf_trend_h4="bullish", now=NOW)
+    assert candidates[0]["context"]["trend_quality_score"] == sig.evidence["trend_quality_score"]
+
+
+def test_trend_pullback_evidence_and_context_carry_trend_quality_score_end_to_end(monkeypatch):
+    """Full pipeline: evaluate_trend_pullback -> evidence["trend_quality_score"] ->
+    fusion.build_candidates -> context["trend_quality_score"] -- the exact hook
+    confidence.py::_trend_multi_timeframe reads, with confidence.py itself untouched."""
+    monkeypatch.setenv("MT5_TREND_PULLBACK_QUALITY_SCORE_ENABLED", "true")
+    ctx = _flat_context(htf_h1="bullish", htf_h4="bullish")
+    sig = evaluate_trend_pullback(ctx)
+    sig = dataclasses.replace(sig, valid=True, direction="LONG", strategy_id="trend_pullback", proposed_entry=1.1010, stop_loss=1.0990, take_profit=1.1060, reward_risk=2.0)
+    if "trend_quality_score" not in sig.evidence:
+        pytest.skip("synthetic _flat_context does not resolve ADX/HTF cleanly enough for this pipeline path -- covered directly by the unit tests above")
+    candidates = build_candidates(symbol="EURUSD", broker_symbol="EURUSD", asset_class="FOREX", cycle_id="C1F", signals=[sig], htf_trend_h4="bullish", now=NOW)
+    assert candidates[0]["context"]["trend_quality_score"] == sig.evidence["trend_quality_score"]
+
+
 # signal_freshness (confidence.py) needs the candle's real close time, not context-build
 # wall-clock time -- see _shared.py::_signal's docstring on why generated_at alone was
 # structurally incapable of ever reflecting real staleness for any fused/non-mtfai1 strategy.

@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from datetime import datetime
 from typing import Any
 
@@ -26,8 +27,32 @@ from backend.mt5_strategies.models import StrategySignal
 # Minimum strength gap for one side of a conflict to unambiguously dominate the other,
 # without needing HTF direction as a tie-break.
 _DOMINANCE_MARGIN = 15.0
-_CONFIRMATION_BONUS_PER_EXTRA_STRATEGY = 4.0
-_CONFIRMATION_BONUS_CAP = 16.0
+
+# 2026-08-25 confirmation-bonus audit: this bonus rewards `raw_signal_strength`/`ranking_score`
+# (and therefore, via confidence.py's trend_multi_timeframe generic fallback, overall confidence)
+# whenever an EXTRA strategy fires the same symbol+direction, on the assumption that "another
+# strategy agrees -> setup is better". Real MT5CandidateEvaluationORM data for BOTH active
+# strategies contradicts this: trend_pullback confirmed=True exp=-0.521R/n=47 vs confirmed=False
+# exp=+0.301R/n=71; mean_reversion confirmed=True exp=-0.131R/n=39 vs confirmed=False
+# exp=+0.163R/n=135. The inversion survives controlling for market_regime and htf_direction_h1
+# (still negative or smaller-positive within matched slices), and EVERY individual confirming
+# strategy (smc_continuation, session_breakout, ema_trend, breakout for trend_pullback;
+# vwap_reversion, support_resistance_bounce for mean_reversion) is itself still SHADOW_MT5 --
+# i.e. none of them have a live-validated edge of their own, so their agreement carries no
+# demonstrated positive information content. The leading explanation: multiple pattern-matchers
+# firing simultaneously is a proxy for choppy/transitional price action (confirmed candidates
+# skew toward htf_direction_h1=transitional and market_regime=breakout -- exactly the conditions
+# already known to be bad for these strategies), not for genuine independent confluence.
+#
+# Per explicit instruction, this does NOT invert the bonus into a penalty (we have no OOS
+# confidence the negative relationship is stable/causal, only that the positive one is
+# empirically false) -- it stops rewarding an unvalidated signal. Defaults to 0.0 (neutral):
+# `multi_strategy_confirmation` and `contributing_strategies` are still computed and persisted
+# as metadata on every candidate, just no longer added to fused_strength/ranking_score/
+# confidence. Reversible: set MT5_FUSION_CONFIRMATION_BONUS_PER_EXTRA_STRATEGY back to 4.0 (the
+# pre-fix value) to restore the old behavior exactly, with no code change.
+_CONFIRMATION_BONUS_PER_EXTRA_STRATEGY = float(os.getenv("MT5_FUSION_CONFIRMATION_BONUS_PER_EXTRA_STRATEGY", "0.0"))
+_CONFIRMATION_BONUS_CAP = float(os.getenv("MT5_FUSION_CONFIRMATION_BONUS_CAP", "16.0"))
 
 
 def _hash(payload: Any) -> str:
@@ -130,6 +155,15 @@ def build_candidates(
         "strategy_evidence": {**anchor.evidence, "stop_geometry": anchor.metadata or {}},
         "timeframe_context": {"policy": "MT5_MULTI_STRATEGY", "timeframes": sorted({s.timeframe for s in signals})},
     }
+    # 2026-08-25 deep confidence audit: promotes a strategy-supplied trend_quality_score from its
+    # own evidence dict up to the top-level context confidence.py::_trend_multi_timeframe already
+    # knows how to read (the same hook MTFAI1 V2 populates directly, since mtfai1 builds its own
+    # candidate dict outside this module). Generic by key-presence, not by strategy_id -- any
+    # family's evaluator can opt in the same way trend_pullback.py now does, with zero change
+    # needed here or in confidence.py.
+    if "trend_quality_score" in anchor.evidence:
+        context["trend_quality_score"] = anchor.evidence["trend_quality_score"]
+        context["trend_quality_breakdown"] = anchor.evidence.get("trend_quality_breakdown")
     activation = activation_status(anchor.strategy_id)
     candidate = {
         "canonical_pair": symbol,

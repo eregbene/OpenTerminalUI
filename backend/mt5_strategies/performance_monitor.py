@@ -73,6 +73,12 @@ PROMOTE_EXPECTANCY_R_THRESHOLD = 0.10
 # unfiltered window, today's behavior for everything except mtfai1).
 STRATEGY_VERSION_CUTOVER: dict[str, datetime] = {
     "mtfai1": datetime(2026, 8, 24, 18, 44, 0, tzinfo=timezone.utc),  # MTFAI1 V2 DEMO activation
+    # trend_pullback deep confidence audit (2026-08-25): shared confirmation-bonus fix
+    # (fusion.py) + genuine trend_quality_score (MT5_TREND_PULLBACK_QUALITY_SCORE_ENABLED=true)
+    # deployed -- strategy_performance/symbol_performance must not blend pre-fix history (raw
+    # confirmation-bonus-inflated ranking_score, flat 70/74/78 trend_multi_timeframe) with
+    # post-fix evidence.
+    "trend_pullback": datetime(2026, 8, 25, 9, 35, 0, tzinfo=timezone.utc),
 }
 
 
