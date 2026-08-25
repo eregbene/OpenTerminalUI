@@ -56,6 +56,17 @@ _REWARD_RISK_TARGET = 3.0
 _RECOMMENDATION_CAPS = {"AVOID": 30.0, "REDUCE_RISK": 55.0}
 _NEUTRAL_PERFORMANCE_SCORE = 60.0  # cold start: no evidence for OR against
 _MIN_SAMPLE_FOR_TRUST = 10  # below this, blend toward neutral rather than trust the raw win_rate
+# 2026-08-25 MTFAI1 V2 confidence-component forensic analysis (Part 2): _RECOMMENDATION_CAPS was
+# being applied unconditionally -- the raw_score BLEND above already tapers a thin sample's raw
+# win_rate toward neutral(60), but the recommendation-derived CAP had no such gate, so a single
+# post-cutover observation (real case found: strategy_performance sample=1, win_rate=0.0, one
+# still-OPEN position) could set recommendation=REDUCE_RISK and floor every subsequent candidate
+# at the cap regardless of how thin the evidence was. Generic fix, affects every strategy that
+# reads strategy_performance/symbol_performance identically -- no strategy-specific branch.
+# Below this many CLOSED trades, the cap is skipped entirely and raw_score (already
+# sample-blended toward neutral above) is used as-is; env-overridable, defaults equal to
+# _MIN_SAMPLE_FOR_TRUST so the two sample-size gates stay in sync unless deliberately split.
+_MIN_SAMPLE_FOR_RECOMMENDATION_CAP = int(os.getenv("MT5_PERFORMANCE_RECOMMENDATION_MIN_SAMPLE", str(_MIN_SAMPLE_FOR_TRUST)))
 
 
 def _weights() -> dict[str, float]:
@@ -120,7 +131,26 @@ def _structure_confluence(entry_quality: dict[str, Any]) -> ConfidenceComponent:
 
 
 def _reward_risk_quality(candidate: dict[str, Any]) -> ConfidenceComponent:
+    # 2026-08-25 MTFAI1 V2 confidence-component forensic analysis: this component's global
+    # _REWARD_RISK_FLOOR/_REWARD_RISK_TARGET (1.5/3.0) are calibrated to V1's own
+    # MIN_REWARD_MULTIPLE=1.5 -- confirmed against real DEMO data that MTFAI1 V2's own deliberate
+    # FVG/OB-target floor (risk_reward~=1.0) always scored exactly 33.33/100 here, a real tax on
+    # V2's intentional design, not a signal of a bad setup. Same strategy-agnostic-hook pattern as
+    # trend_multi_timeframe's context["trend_quality_score"] above: a strategy may supply its own
+    # geometry-aware reward:risk read via context["reward_risk_quality_score"] (see MTFAI1 V2's
+    # own _mtfai1_v2_reward_risk_quality in autonomous.py -- structural-destination quality,
+    # V2-appropriate floor/target, ATR-normalized distance, reachability past opposing structure,
+    # explicitly NOT "1R=100"); this function never branches on strategy_id, and every strategy
+    # that hasn't supplied one keeps using the exact formula below, completely unchanged.
     context = candidate.get("context") or {}
+    explicit_quality = context.get("reward_risk_quality_score")
+    if explicit_quality is not None:
+        try:
+            score = _clamp(float(explicit_quality))
+        except (TypeError, ValueError):
+            explicit_quality = None
+        else:
+            return ConfidenceComponent("reward_risk_quality", score, 0.0, 0.0, f"strategy-supplied reward:risk-quality score {score:.1f}", {"reward_risk_quality_score": score, "source": "strategy_specific", "breakdown": context.get("reward_risk_quality_breakdown")})
     raw_rr = context.get("risk_reward") or candidate.get("risk_reward")
     try:
         rr = float(raw_rr) if raw_rr is not None else None
@@ -186,7 +216,11 @@ def _performance_component(name: str, memory: dict[str, Any] | None) -> Confiden
         # Blend toward the neutral prior in proportion to how thin the sample is.
         blend = sample / _MIN_SAMPLE_FOR_TRUST
         raw_score = raw_score * blend + _NEUTRAL_PERFORMANCE_SCORE * (1 - blend)
-    cap = _RECOMMENDATION_CAPS.get(recommendation)
+    # A recommendation of AVOID/REDUCE_RISK derived from too few CLOSED trades must not be
+    # allowed to floor confidence -- the raw_score blend above already handles thin-sample
+    # win_rate; this gate does the same for the cap, independently, since the two previously had
+    # no shared minimum.
+    cap = _RECOMMENDATION_CAPS.get(recommendation) if sample >= _MIN_SAMPLE_FOR_RECOMMENDATION_CAP else None
     score = min(raw_score, cap) if cap is not None else raw_score
     reason = f"{sample} closed trades, win_rate={win_rate:.2f}, recommendation={recommendation}"
     return ConfidenceComponent(name, _clamp(score), 0.0, 0.0, reason, {"sample": sample, "win_rate": win_rate, "recommendation": recommendation, "expectancy": memory.get("expectancy")})

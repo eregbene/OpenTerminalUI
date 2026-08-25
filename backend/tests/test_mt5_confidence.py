@@ -207,3 +207,38 @@ def test_confidence_components_are_fully_explainable():
     total_weight = sum(component["weight"] for component in confidence["components"])
     assert total_weight == pytest.approx(1.0, abs=1e-6)
     assert confidence["rule_version"] == "deterministic_confidence_v1"
+
+
+# 2026-08-25 MTFAI1 V2 confidence-component forensic analysis (Part 2): a single closed trade
+# (or any sample below the minimum) must not be able to trigger a hard REDUCE_RISK/AVOID cap --
+# the raw win_rate blend already tapers thin samples toward neutral(60), but the recommendation
+# CAP previously had no such gate. Generic fix (confidence.py::_performance_component), so this
+# is exercised strategy-agnostically through compute_trade_confidence, not an MTFAI1-only path.
+def test_thin_sample_recommendation_cap_is_gated_by_minimum_sample_size():
+    from backend.brokers.mt5.confidence import _MIN_SAMPLE_FOR_RECOMMENDATION_CAP
+
+    # A single closed trade with a bad outcome, classified AVOID by whatever produced this
+    # memory dict -- with the fix, sample=1 is below the minimum, so the AVOID cap (30.0) must
+    # NOT apply; only the existing sample-size blend (already present, unaffected by this fix)
+    # governs the score.
+    thin_bad_memory = {"closed_trade_count": 1, "win_rate": 0.0, "recommendation": "AVOID", "expectancy": -0.05}
+    confidence = compute_trade_confidence(
+        candidate=_candidate(ranking_score=81.0, risk_reward="2.0"),
+        entry_quality=_entry_quality(0.7),
+        symbol_memory=thin_bad_memory,
+        global_memory=_strong_memory(),
+    )
+    symbol_component = next(c for c in confidence["components"] if c["name"] == "symbol_performance")
+    assert symbol_component["score"] > 30.0  # the AVOID cap (30.0) must not have applied at sample=1
+
+    # The SAME memory shape, but with enough samples to clear the (default) minimum -- the cap
+    # SHOULD apply here, proving this isn't just "the cap never works".
+    well_powered_bad_memory = {"closed_trade_count": _MIN_SAMPLE_FOR_RECOMMENDATION_CAP, "win_rate": 0.0, "recommendation": "AVOID", "expectancy": -0.5}
+    confidence2 = compute_trade_confidence(
+        candidate=_candidate(ranking_score=81.0, risk_reward="2.0"),
+        entry_quality=_entry_quality(0.7),
+        symbol_memory=well_powered_bad_memory,
+        global_memory=_strong_memory(),
+    )
+    symbol_component2 = next(c for c in confidence2["components"] if c["name"] == "symbol_performance")
+    assert symbol_component2["score"] <= 30.0  # cap correctly applies once the sample is large enough

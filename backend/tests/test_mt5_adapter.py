@@ -754,6 +754,73 @@ def test_mtfai1_v2_symbol_gate_inert_when_disabled(monkeypatch):
     assert score > 0
 
 
+# 2026-08-25 MTFAI1 V2 confidence-component forensic analysis (Part 1): a V2-aware
+# reward_risk_quality read -- explicitly NOT "1R=100" (V2's own MT5_MTFAI1_V2_TP_MIN_MULT=1.0
+# floor is deliberate design, not automatically excellent), scoring structural-destination
+# quality, ATR-normalized target distance, and reachability past opposing structure alongside
+# the raw multiple.
+def test_mtfai1_v2_rr_quality_disabled_by_default():
+    from backend.brokers.mt5 import autonomous
+
+    score, breakdown = autonomous._mtfai1_v2_reward_risk_quality(
+        direction="LONG", entry=Decimal("1.1000"), stop=Decimal("1.0980"), target=Decimal("1.1020"),
+        tp_basis="mtfai1_v2_fvg", atr=Decimal("0.0010"), opposing_structure=None,
+    )
+    assert (score, breakdown) == (None, None)
+
+
+def test_mtfai1_v2_rr_quality_does_not_score_1r_floor_as_excellent(monkeypatch):
+    from backend.brokers.mt5 import autonomous
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_V2_RR_QUALITY_ENABLED", True)
+
+    # entry=1.1000, stop=1.0980 (20 pips risk), target=1.1020 (20 pips reward) -> RR exactly 1.0,
+    # V2's own deliberate floor -- must NOT score as if it were an ideal setup.
+    score, breakdown = autonomous._mtfai1_v2_reward_risk_quality(
+        direction="LONG", entry=Decimal("1.1000"), stop=Decimal("1.0980"), target=Decimal("1.1020"),
+        tp_basis="mtfai1_v2_fvg", atr=Decimal("0.0010"), opposing_structure=None,
+    )
+    assert score is not None
+    assert breakdown["abs_rr"] == 1.0
+    assert breakdown["abs_rr_score"] == 50.0  # floor -> half credit, not full
+    assert score < 90.0  # a 1.0R setup must not read as near-maximal overall
+
+
+def test_mtfai1_v2_rr_quality_rewards_genuine_structural_destination(monkeypatch):
+    from backend.brokers.mt5 import autonomous
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_V2_RR_QUALITY_ENABLED", True)
+
+    kwargs = dict(direction="LONG", entry=Decimal("1.1000"), stop=Decimal("1.0980"), target=Decimal("1.1040"), atr=Decimal("0.0010"), opposing_structure=None)
+    score_structural, _ = autonomous._mtfai1_v2_reward_risk_quality(tp_basis="mtfai1_v2_order_block", **kwargs)
+    score_generic, _ = autonomous._mtfai1_v2_reward_risk_quality(tp_basis="atr_multiple", **kwargs)
+    assert score_structural > score_generic
+
+
+def test_mtfai1_v2_rr_quality_penalizes_target_behind_opposing_structure(monkeypatch):
+    from backend.brokers.mt5 import autonomous
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_V2_RR_QUALITY_ENABLED", True)
+
+    kwargs = dict(direction="LONG", entry=Decimal("1.1000"), stop=Decimal("1.0980"), target=Decimal("1.1040"), tp_basis="mtfai1_v2_fvg", atr=Decimal("0.0010"))
+    score_clear, breakdown_clear = autonomous._mtfai1_v2_reward_risk_quality(opposing_structure=None, **kwargs)
+    score_obstructed, breakdown_obstructed = autonomous._mtfai1_v2_reward_risk_quality(opposing_structure=Decimal("1.1020"), **kwargs)  # sits between entry and target
+
+    assert breakdown_clear["reachability_note"] == "unknown"
+    assert breakdown_obstructed["reachability_note"] == "between_entry_and_target"
+    assert score_obstructed < score_clear
+
+
+def test_mtfai1_v2_rr_quality_wired_into_score_candidate_geometry(monkeypatch):
+    from backend.brokers.mt5 import autonomous
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_V2_ENABLED", True)
+    monkeypatch.setattr(autonomous, "MT5_MTFAI1_V2_RR_QUALITY_ENABLED", True)
+    quote, m15, h1, h4 = _uptrend_context()
+
+    score, direction, geometry = _score_candidate(quote, m15, h1, h4, "EURUSD")
+
+    if direction != "NO_TRADE":
+        assert "reward_risk_quality_score" in geometry
+        assert 0.0 <= geometry["reward_risk_quality_score"] <= 100.0
+
+
 def test_mtfai1_v2_helpers_fail_open_on_bar_shape_they_cannot_parse(monkeypatch):
     # Existing SimpleNamespace fixture bars (_candle/_trending_series above) have no `.time` --
     # normalize_bars() cannot parse them. V2's helpers must return None/no-op, never raise, so a

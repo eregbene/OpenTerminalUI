@@ -2390,6 +2390,104 @@ def _clamp01(value: float) -> float:
     return max(0.0, min(1.0, value))
 
 
+# 2026-08-25 MTFAI1 V2 confidence-component forensic analysis (Part 1): confidence.py's generic
+# reward_risk_quality reads _REWARD_RISK_FLOOR=1.5/_REWARD_RISK_TARGET=3.0, calibrated to V1's
+# MIN_REWARD_MULTIPLE=1.5 -- confirmed against real DEMO data that every V2 candidate landing on
+# its own deliberate FVG/OB floor (risk_reward~=1.0, MT5_MTFAI1_V2_TP_MIN_MULT) scores exactly
+# 33.33/100, a real, measured ~5-10 point confidence tax on V2's OWN valid target design, not a
+# defect in V2's geometry. This is the fix: a V2-specific reward:risk read that judges the
+# TARGET'S QUALITY (genuine FVG/OB destination? realistic distance? clear of opposing structure?)
+# rather than only its raw multiple -- explicitly NOT "1R=100" (V2's own design treats 1.0 as a
+# FLOOR, not an ideal), matching the explicit instruction to use V2 geometry semantics rather
+# than assume the old floor/target curve with different numbers. Generic (non-MTFAI1)
+# reward_risk_quality in confidence.py is completely untouched by this -- confidence.py gains one
+# new optional context key, exactly the same pattern trend_quality_score already established, and
+# every other strategy simply never sets it.
+_MTFAI1_V2_RR_STRUCTURAL_TARGET_SCORE = 100.0
+_MTFAI1_V2_RR_GENERIC_TARGET_SCORE = 40.0
+_MTFAI1_V2_RR_ABS_RR_FLOOR = 1.0  # V2's own deliberate minimum -- a floor, not "excellent"
+_MTFAI1_V2_RR_ABS_RR_TARGET = 2.5
+_MTFAI1_V2_RR_ATR_DISTANCE_SWEET_LOW = 1.5
+_MTFAI1_V2_RR_ATR_DISTANCE_SWEET_HIGH = 4.0
+_MTFAI1_V2_RR_ATR_DISTANCE_CEILING = 8.0
+_MTFAI1_V2_RR_WEIGHTS = {"structural_destination": 0.35, "absolute_rr": 0.25, "atr_distance": 0.20, "reachability": 0.20}
+MT5_MTFAI1_V2_RR_QUALITY_ENABLED = os.getenv("MT5_MTFAI1_V2_RR_QUALITY_ENABLED", "false").strip().lower() not in {"false", "0", "off", "no"}
+
+
+def _mtfai1_v2_reward_risk_quality(
+    *, direction: str, entry: Decimal, stop: Decimal, target: Decimal, tp_basis: str, atr: Decimal, opposing_structure: Decimal | None,
+) -> tuple[float, dict[str, Any]] | tuple[None, None]:
+    """Feature-flagged (default OFF until validated): returns (score, breakdown) or (None, None)
+    when disabled or geometry is unusable -- never fabricates a score; failure/disabled degrades
+    to confidence.py's existing generic reward_risk_quality, exactly like every other V2 hook."""
+    if not MT5_MTFAI1_V2_RR_QUALITY_ENABLED:
+        return None, None
+    try:
+        stop_distance = abs(entry - stop)
+        target_distance = abs(target - entry)
+        if stop_distance <= 0 or atr <= 0:
+            return None, None
+        abs_rr = float(target_distance / stop_distance)
+
+        # (a) genuine FVG/OB structural destination vs a generic/fallback target -- the audit's
+        # own finding that FVG/OB was V2's single best-performing target type, reused directly
+        # via the SAME basis string _mtfai1_v2_fvg_ob_target already returns, no new detector.
+        structural_score = _MTFAI1_V2_RR_STRUCTURAL_TARGET_SCORE if str(tp_basis).startswith("mtfai1_v2_") else _MTFAI1_V2_RR_GENERIC_TARGET_SCORE
+
+        # (b) absolute RR, but V2-aware: 1.0 (V2's own deliberate floor) scores 50, not 100 --
+        # explicitly not "1R=100". Graduated up to a 2.5R ceiling, same curve shape as the
+        # generic component just with V2-appropriate anchors instead of V1's 1.5/3.0.
+        if abs_rr <= _MTFAI1_V2_RR_ABS_RR_FLOOR:
+            abs_rr_score = 50.0 * (abs_rr / _MTFAI1_V2_RR_ABS_RR_FLOOR)
+        else:
+            span = _MTFAI1_V2_RR_ABS_RR_TARGET - _MTFAI1_V2_RR_ABS_RR_FLOOR
+            abs_rr_score = 50.0 + 50.0 * min(1.0, (abs_rr - _MTFAI1_V2_RR_ABS_RR_FLOOR) / span)
+
+        # (c) target distance normalized by ATR -- a plateau, not a straight line: too close
+        # (<1.5x ATR) risks being noise-level/immediately swept either way; too far (>8x ATR) is
+        # unlikely to complete within a realistic holding window. Peaks in the 1.5-4x ATR band.
+        target_atr_mult = float(target_distance / atr)
+        if target_atr_mult < _MTFAI1_V2_RR_ATR_DISTANCE_SWEET_LOW:
+            atr_distance_score = _clamp01(target_atr_mult / _MTFAI1_V2_RR_ATR_DISTANCE_SWEET_LOW) * 100.0
+        elif target_atr_mult <= _MTFAI1_V2_RR_ATR_DISTANCE_SWEET_HIGH:
+            atr_distance_score = 100.0
+        else:
+            atr_distance_score = _clamp01(1.0 - (target_atr_mult - _MTFAI1_V2_RR_ATR_DISTANCE_SWEET_HIGH) / (_MTFAI1_V2_RR_ATR_DISTANCE_CEILING - _MTFAI1_V2_RR_ATR_DISTANCE_SWEET_HIGH)) * 100.0
+
+        # (d) reachability -- is there real opposing structure (the swing level on the OPPOSITE
+        # side of the trade direction, already computed by the caller for TP selection, no new
+        # detector) sitting BETWEEN entry and target? If so, price may reject there before ever
+        # reaching the FVG/OB target. Fails open to 100 (no penalty) when no opposing level is
+        # known -- absence of information is never treated as an obstacle.
+        reachability_score = 100.0
+        opposing_note = "unknown"
+        if opposing_structure is not None:
+            long = direction == "LONG"
+            opposing_f, target_f, entry_f = float(opposing_structure), float(target), float(entry)
+            obstructs = (entry_f < opposing_f < target_f) if long else (target_f < opposing_f < entry_f)
+            if obstructs:
+                reachability_score = 45.0
+                opposing_note = "between_entry_and_target"
+            else:
+                opposing_note = "clear"
+    except Exception:
+        return None, None
+
+    weights = _MTFAI1_V2_RR_WEIGHTS
+    score = (
+        structural_score * weights["structural_destination"] + abs_rr_score * weights["absolute_rr"]
+        + atr_distance_score * weights["atr_distance"] + reachability_score * weights["reachability"]
+    )
+    breakdown = {
+        "tp_basis": tp_basis, "structural_score": structural_score,
+        "abs_rr": round(abs_rr, 4), "abs_rr_score": round(abs_rr_score, 2),
+        "target_atr_multiple": round(target_atr_mult, 4), "atr_distance_score": round(atr_distance_score, 2),
+        "opposing_structure": str(opposing_structure) if opposing_structure is not None else None,
+        "reachability_score": reachability_score, "reachability_note": opposing_note,
+    }
+    return round(_clamp01(score / 100.0) * 100.0, 2), breakdown
+
+
 def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any], symbol_info: Any = None) -> tuple[float, str, dict[str, Any]]:
     closes = [Decimal(str(c.close)) for c in m15[-50:]]
     h1_close = Decimal(str(h1[-1].close))
@@ -2472,6 +2570,12 @@ def _score_candidate(quote: Any, m15: list[Any], h1: list[Any], h4: list[Any], s
     if trend_quality_score is not None:
         geometry["trend_quality_score"] = trend_quality_score
         geometry["trend_quality_breakdown"] = trend_quality_breakdown
+    rr_quality_score, rr_quality_breakdown = _mtfai1_v2_reward_risk_quality(
+        direction=direction, entry=entry, stop=stop, target=target, tp_basis=tp_basis, atr=atr, opposing_structure=opposing_structure,
+    )
+    if rr_quality_score is not None:
+        geometry["reward_risk_quality_score"] = rr_quality_score
+        geometry["reward_risk_quality_breakdown"] = rr_quality_breakdown
     return round(score, 2), direction, geometry
 
 

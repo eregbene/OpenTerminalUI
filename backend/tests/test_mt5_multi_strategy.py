@@ -148,9 +148,13 @@ def test_confirmation_bonus_still_configurable_back_to_pre_fix_behavior(monkeypa
 
 # 2026-08-25 deep confidence audit -- Part 2: trend_pullback's own genuine 0-100 pullback-quality
 # score, fed through confidence.py's existing (unmodified) trend_quality_score hook.
-def test_trend_pullback_quality_score_disabled_by_default():
+def test_trend_pullback_quality_score_disabled_by_default(monkeypatch):
     from backend.mt5_strategies.families import trend_pullback as tp
 
+    # Explicitly force the flag off -- this deployment's real .env has it ON (promoted to DEMO
+    # after validation), so this test must not rely on ambient environment to prove the "off"
+    # code path still returns (None, None).
+    monkeypatch.delenv("MT5_TREND_PULLBACK_QUALITY_SCORE_ENABLED", raising=False)
     ctx = _flat_context()
     score, breakdown = tp._trend_pullback_quality_score(ctx, direction="LONG", price=1.1010, ema20_val=1.1005, ema50_val=1.0995, ema20_slope=0.0002, atr=0.0010)
     assert (score, breakdown) == (None, None)
