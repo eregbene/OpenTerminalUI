@@ -2,7 +2,7 @@
 Pure functions of strategy_id + env vars -- no DB, no mocking needed."""
 from __future__ import annotations
 
-from backend.adaptive_management.strategy_profiles import get_profile, strategy_param
+from backend.adaptive_management.strategy_profiles import get_profile, strategy_param, strategy_param_confidence_aware
 
 
 def test_untiered_strategy_gets_all_none_profile_ie_unchanged_global_defaults():
@@ -264,3 +264,47 @@ def _candles_closing_at(close_price: float) -> list[dict]:
     for i in range(10):
         rows.append({"time": (start + _td(minutes=5 * i)).isoformat(), "open": close_price, "high": close_price + 0.0005, "low": close_price - 0.0005, "close": close_price, "tick_volume": 100})
     return rows
+
+
+def test_confidence_aware_normal_tier_is_byte_identical_to_strategy_param():
+    for confidence in (65.0, 70.0, 90.0, None):
+        assert strategy_param_confidence_aware("trend_pullback", "breakeven_r", 1.0, confidence=confidence) == strategy_param("trend_pullback", "breakeven_r", 1.0)
+
+
+def test_confidence_aware_moderate_tier_tightens_r_threshold():
+    base = strategy_param("trend_pullback", "breakeven_r", 1.0)  # 1.5 (trend_pullback base profile)
+    tightened = strategy_param_confidence_aware("trend_pullback", "breakeven_r", 1.0, confidence=62.0)
+    assert tightened == pytest.approx(base * 0.8)
+    assert tightened < base
+
+
+def test_confidence_aware_aggressive_tier_tightens_more_than_moderate():
+    moderate = strategy_param_confidence_aware("trend_pullback", "breakeven_r", 1.0, confidence=62.0)
+    aggressive = strategy_param_confidence_aware("trend_pullback", "breakeven_r", 1.0, confidence=57.0)
+    assert aggressive < moderate
+
+
+def test_confidence_aware_boosts_fraction_fields_instead_of_tightening():
+    base = strategy_param("mean_reversion", "partial_profit_fraction", 0.25)  # 0.4 (mean_reversion base profile)
+    boosted = strategy_param_confidence_aware("mean_reversion", "partial_profit_fraction", 0.25, confidence=57.0)
+    assert boosted == pytest.approx(min(0.95, base + 0.30))
+    assert boosted > base
+
+
+def test_confidence_aware_fraction_boost_never_exceeds_cap():
+    boosted = strategy_param_confidence_aware("mean_reversion", "partial_profit_fraction", 0.25, confidence=57.0)
+    assert boosted <= 0.95
+
+
+def test_confidence_aware_disabled_via_env_restores_strategy_param(monkeypatch):
+    monkeypatch.setenv("MT5_CONFIDENCE_AWARE_MANAGEMENT_ENABLED", "false")
+    base = strategy_param("trend_pullback", "breakeven_r", 1.0)
+    result = strategy_param_confidence_aware("trend_pullback", "breakeven_r", 1.0, confidence=57.0)
+    assert result == base
+
+
+def test_confidence_aware_thresholds_reversible_via_env(monkeypatch):
+    monkeypatch.setenv("MT5_CONFIDENCE_MANAGEMENT_MODERATE_R_MULTIPLIER", "0.5")
+    base = strategy_param("trend_pullback", "breakeven_r", 1.0)
+    result = strategy_param_confidence_aware("trend_pullback", "breakeven_r", 1.0, confidence=62.0)
+    assert result == pytest.approx(base * 0.5)

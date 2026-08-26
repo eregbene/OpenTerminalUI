@@ -257,7 +257,11 @@ def test_threshold_simulation_does_not_change_production_config(monkeypatch: pyt
     report = threshold_simulation_report()
     assert len(report) > 0
     assert any(row["qualifying_candidates"] >= 1 for row in report if row["threshold"] <= 85.0)
-    assert mt5_config().min_trade_confidence == before == 75.0
+    # The actual invariant under test: simulating thresholds must never mutate the real,
+    # operational config -- deliberately not coupled to a specific numeric value (that value is
+    # a live operational setting, see MT5_MIN_TRADE_CONFIDENCE, and changes independently of
+    # this test's own concern).
+    assert mt5_config().min_trade_confidence == before
 
 
 # 10. Rank analysis compares multiple candidates from the same cycle.
@@ -304,9 +308,11 @@ def test_observe_only_band_candidates_remain_non_executable(monkeypatch: pytest.
         assert row.outcome_type == "SHADOW"
 
 
-# 13. Production threshold remains 75.
-def test_production_threshold_remains_75():
-    assert mt5_config().min_trade_confidence == 75.0
+# 13. Production threshold reflects the real, current operational value -- 2026-08-26:
+# user-requested trade-frequency increase lowered MT5_MIN_TRADE_CONFIDENCE 75 -> 55
+# (docker-compose.yml). This asserts the deliberate live value, not a fixed code constant.
+def test_production_threshold_matches_current_operational_value():
+    assert mt5_config().min_trade_confidence == 55.0
 
 
 # 14. OpenAI calls remain zero -- no AI/provider dependency anywhere in the calibration layer.

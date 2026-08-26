@@ -366,9 +366,10 @@ def test_23_risk_per_trade_config_unchanged():
     assert cfg.max_risk_per_trade_usd is not None
 
 
-# 24. Confidence threshold remains 75.
-def test_24_confidence_threshold_remains_75():
-    assert mt5_config().min_trade_confidence == 75.0
+# 24. Confidence threshold matches the current operational value -- 2026-08-26: lowered
+# 75 -> 55 (user-requested trade-frequency increase, docker-compose.yml).
+def test_24_confidence_threshold_matches_current_operational_value():
+    assert mt5_config().min_trade_confidence == 55.0
 
 
 # 25. Multi-strategy engine unchanged.

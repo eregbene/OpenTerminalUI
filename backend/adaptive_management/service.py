@@ -43,7 +43,7 @@ from backend.brokers.mt5.config import mt5_config
 from backend.brokers.mt5.persistence import sanitize
 from backend.brokers.mt5.risk_calculator import calculate_canonical_loss_per_lot, calculate_conservative_loss_per_lot_sync, record_mismatch_if_needed
 from backend.brokers.mt5.trading_costs import compute_trade_costs
-from backend.adaptive_management.strategy_profiles import get_profile as get_strategy_profile, strategy_param
+from backend.adaptive_management.strategy_profiles import get_profile as get_strategy_profile, strategy_param_confidence_aware as strategy_param
 from backend.decision_context.service import decision_context_service
 from backend.economic_intelligence.service import economic_intelligence_service
 from backend.intelligence.trading.config import ai_trading_config
@@ -2182,7 +2182,7 @@ class AdaptiveManagementService:
             # behavior -- this generalization changes nothing for strategies not in that table.
             mtfai1_v2_partial = get_strategy_profile(state.strategy_id).mfe_partial_enabled
             if mtfai1_v2_partial:
-                requested_volume = float(state.current_volume) * strategy_param(state.strategy_id, "mfe_partial_fraction", 0.5)
+                requested_volume = float(state.current_volume) * strategy_param(state.strategy_id, "mfe_partial_fraction", 0.5, confidence=state.original_confidence)
             elif max_r >= full_close_r:
                 requested_volume = float(state.current_volume)
             else:
@@ -2222,8 +2222,8 @@ class AdaptiveManagementService:
         # mean_reversion/vwap_reversion capture earlier, trend_pullback later), otherwise the
         # exact same global default this call already used -- byte-identical for every other
         # strategy.
-        partial_profit_r = strategy_param(state.strategy_id, "partial_profit_r", _env_float("ADAPTIVE_PARTIAL_PROFIT_R", 0.5))
-        partial_profit_fraction = strategy_param(state.strategy_id, "partial_profit_fraction", _env_float("ADAPTIVE_PARTIAL_PROFIT_FRACTION", 0.25))
+        partial_profit_r = strategy_param(state.strategy_id, "partial_profit_r", _env_float("ADAPTIVE_PARTIAL_PROFIT_R", 0.5), confidence=state.original_confidence)
+        partial_profit_fraction = strategy_param(state.strategy_id, "partial_profit_fraction", _env_float("ADAPTIVE_PARTIAL_PROFIT_FRACTION", 0.25), confidence=state.original_confidence)
         partial_stage = state.partial_profit_stage or "NONE"
         if partial_stage == "NONE" and r_now >= partial_profit_r:
             candidates.append(ManagementCandidate("PARTIAL_PROFIT", 40, requested_volume=float(state.current_volume) * partial_profit_fraction, reason="partial_profit_threshold", evidence={"r": r_now, "target_stage": "PARTIAL_1", "requested_fraction": partial_profit_fraction}))
@@ -2266,7 +2266,7 @@ class AdaptiveManagementService:
             structure_level = _swing_structure_level(normalized_candles, state.direction)
             be_candidate = _structure_preferred_breakeven(state.direction, be, structure_level, atr)
             breakeven_ready = (
-                r_now >= strategy_param(state.strategy_id, "breakeven_r", _env_float("ADAPTIVE_BREAKEVEN_R", 1.0))
+                r_now >= strategy_param(state.strategy_id, "breakeven_r", _env_float("ADAPTIVE_BREAKEVEN_R", 1.0), confidence=state.original_confidence)
                 and float(state.tp_progress or 0) >= _env_float("ADAPTIVE_BREAKEVEN_MIN_TP_PROGRESS", 0.3)
                 and state.winner_classification != "invalidated"
                 and _opposing_candles(candles, state.direction) < 2
@@ -2287,7 +2287,7 @@ class AdaptiveManagementService:
 
             trail_fraction = tp_protection.retracement_allowance(atr_r=atr_r, regime=regime, timeframe=timeframe, min_fraction=0.2, max_fraction=0.5)
             trail = _trail_stop(state, price, trail_fraction)
-            if r_now >= strategy_param(state.strategy_id, "trail_r", _env_float("ADAPTIVE_TRAIL_R", 1.5)) and trail and _stop_improves(state.direction, trail, state.current_sl):
+            if r_now >= strategy_param(state.strategy_id, "trail_r", _env_float("ADAPTIVE_TRAIL_R", 1.5), confidence=state.original_confidence) and trail and _stop_improves(state.direction, trail, state.current_sl):
                 candidates.append(ManagementCandidate("TRAIL_STOP", 60, requested_sl=trail, requested_tp=state.current_tp, reason="volatility_aware_trailing_stop", evidence={"r": r_now, "max_r": max_r, "trail_fraction": trail_fraction}))
 
         if _candles_held(state.opened_at, candles) >= _env_int("ADAPTIVE_TIME_EXIT_CANDLES", 24, minimum=1, maximum=288) and max_r < 0.25:

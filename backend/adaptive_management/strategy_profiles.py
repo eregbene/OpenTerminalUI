@@ -214,3 +214,58 @@ def strategy_param(strategy_id: str | None, profile_field: str, global_default: 
     profile = get_profile(strategy_id)
     value = getattr(profile, profile_field, None)
     return global_default if value is None else float(value)
+
+
+# 2026-08-26 confidence-aware management: MT5_MIN_TRADE_CONFIDENCE was lowered 75 -> 55
+# (user-requested, for trade frequency). The 6-month MTFAI1 V2 reconstruction (22,319 resolved
+# candidates, walk-forward point-in-time-safe) found confidence is NOT monotonic with quality --
+# 65-70 is the single best band (+0.098R, PF 1.19), but everything below 65 is net-negative and
+# gets sharply worse (60-65: -0.062R/PF 0.89; 55-60: -0.155R/PF 0.74). Lowering the entry gate to
+# 55 was an explicit, informed user decision -- this is the compensating control on the
+# MANAGEMENT side: a position whose ORIGINAL entry confidence sits in that newly-admitted,
+# proven-negative-expectancy 55-65 range gets tighter, earlier protection (lower R thresholds,
+# larger partial fractions) than the same strategy's normal profile -- while every position at
+# 65+ confidence is completely unaffected (byte-identical to yesterday). This does not fix the
+# entries' negative edge; it limits how much room a low-conviction setup gets to run against the
+# account before being cut or partially locked in.
+def _confidence_tier(confidence: float | None) -> str:
+    """None (no captured original confidence -- e.g. a position opened before this mechanism
+    existed) deliberately means "normal", never a guessed tier. Thresholds read fresh per call
+    (matching _resolve_field's pattern in this same module) so an operator's env change takes
+    effect on the next evaluation cycle, no restart needed."""
+    if confidence is None:
+        return "normal"
+    moderate_threshold = _env_float("MT5_CONFIDENCE_MANAGEMENT_MODERATE_THRESHOLD", 65.0)
+    aggressive_threshold = _env_float("MT5_CONFIDENCE_MANAGEMENT_AGGRESSIVE_THRESHOLD", 60.0)
+    if confidence >= moderate_threshold:
+        return "normal"
+    if confidence >= aggressive_threshold:
+        return "moderate"
+    return "aggressive"
+
+
+def strategy_param_confidence_aware(strategy_id: str | None, profile_field: str, global_default: float, *, confidence: float | None = None) -> float:
+    """Same as strategy_param, plus an optional confidence-tier adjustment layered on top --
+    additive and opt-out (MT5_CONFIDENCE_AWARE_MANAGEMENT_ENABLED=false restores exact
+    strategy_param behavior). `confidence` omitted or >=65 is always byte-identical to
+    strategy_param. R-threshold fields (name ends "_r") are TIGHTENED (multiplied down, earlier
+    trigger) for low confidence; fraction fields (name ends "_fraction") are INCREASED (take
+    more off), capped at 0.95 so a position is never fully closed by this alone. Every knob
+    (enabled flag, thresholds, multipliers) is read fresh from env on each call -- no
+    module-level constants -- so it's reversible on a running container without a restart, same
+    as every other env-driven value in this module."""
+    base = strategy_param(strategy_id, profile_field, global_default)
+    if not _env_flag("MT5_CONFIDENCE_AWARE_MANAGEMENT_ENABLED", True):
+        return base
+    tier = _confidence_tier(confidence)
+    if tier == "normal":
+        return base
+    if profile_field.endswith("_fraction"):
+        moderate_boost = _env_float("MT5_CONFIDENCE_MANAGEMENT_MODERATE_FRACTION_BOOST", 0.15)
+        aggressive_boost = _env_float("MT5_CONFIDENCE_MANAGEMENT_AGGRESSIVE_FRACTION_BOOST", 0.30)
+        boost = moderate_boost if tier == "moderate" else aggressive_boost
+        return min(0.95, base + boost)
+    moderate_multiplier = _env_float("MT5_CONFIDENCE_MANAGEMENT_MODERATE_R_MULTIPLIER", 0.8)
+    aggressive_multiplier = _env_float("MT5_CONFIDENCE_MANAGEMENT_AGGRESSIVE_R_MULTIPLIER", 0.6)
+    multiplier = moderate_multiplier if tier == "moderate" else aggressive_multiplier
+    return max(0.05, base * multiplier)

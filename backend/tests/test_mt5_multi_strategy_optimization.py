@@ -250,9 +250,10 @@ def _wire_common_cycle_mocks(monkeypatch: pytest.MonkeyPatch, service: MT5Autono
     monkeypatch.setattr("backend.brokers.mt5.autonomous.economic_intelligence_service.evaluate_entry_deterministic", _fake_economic_evaluate_allow)
 
 
-# 12. Confidence threshold remains 75.
-def test_confidence_threshold_remains_75():
-    assert mt5_config().min_trade_confidence == 75.0
+# 12. Confidence threshold matches the current operational value -- 2026-08-26: lowered
+# 75 -> 55 (user-requested trade-frequency increase, docker-compose.yml).
+def test_confidence_threshold_matches_current_operational_value():
+    assert mt5_config().min_trade_confidence == 55.0
 
 
 # 13. Same-direction candidate fusion still prevents duplicate orders in the production
