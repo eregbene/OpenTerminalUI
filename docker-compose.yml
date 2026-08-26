@@ -285,6 +285,13 @@ services:
       ADAPTIVE_BREAKEVEN_R: "${ADAPTIVE_BREAKEVEN_R:-1.0}"
       ADAPTIVE_THESIS_INVALIDATION_ENABLED: "${ADAPTIVE_THESIS_INVALIDATION_ENABLED:-true}"
       MT5_STRATEGY_ACTIVATION_MTFAI1: "${MT5_STRATEGY_ACTIVATION_MTFAI1:-}"
+      # 2026-08-26 user-requested: lowered from the 75.0 code default to increase trade
+      # frequency. Global gate across all 10 strategies (backend/brokers/mt5/config.py's
+      # min_trade_confidence) -- flagged to the user that this also widens the gate for
+      # session_breakout/ema_trend/support_resistance_bounce (negative historical edge), not
+      # just mtfai1/trend_pullback. Explicit override; revert by removing this line or setting
+      # MT5_MIN_TRADE_CONFIDENCE back to 75 in .env.
+      MT5_MIN_TRADE_CONFIDENCE: "${MT5_MIN_TRADE_CONFIDENCE:-55.0}"
       MT5_MTFAI1_CONFIRMATION_REQUIRED: "${MT5_MTFAI1_CONFIRMATION_REQUIRED:-true}"
       MT5_MTFAI1_TREND_STRUCTURE_CONFIRMATION_REQUIRED: "${MT5_MTFAI1_TREND_STRUCTURE_CONFIRMATION_REQUIRED:-true}"
       MT5_MTFAI1_EQUAL_LEVEL_CONFIRMATION_REQUIRED: "${MT5_MTFAI1_EQUAL_LEVEL_CONFIRMATION_REQUIRED:-true}"
