@@ -22,6 +22,7 @@ from backend.services.prefetch_worker import get_prefetch_worker
 from backend.brokers.mt5.autonomous import mt5_autonomous_service
 from backend.brokers.mt5.liveness import mt5_liveness_monitor
 from backend.brokers.mt5.outcome_resolver import candidate_outcome_resolver
+from backend.brokers.mt5.trade_reconciliation_monitor import mt5_trade_reconciliation_monitor
 from backend.adaptive_management.service import adaptive_management_service
 from backend.adaptive_management.outcome_resolver import adaptive_manager_outcome_resolver
 from backend.economic_intelligence.service import economic_intelligence_service
@@ -88,6 +89,7 @@ _adaptive_management_monitor = None
 _portfolio_execution_monitor = None
 _economic_intelligence_scheduler = None
 _strategy_performance_monitor = None
+_mt5_trade_reconciliation_monitor = None
 _prefetch_enabled = (
     os.getenv("BENSIM_PREFETCH_ENABLED")
     or
@@ -100,7 +102,7 @@ _prefetch_enabled = (
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global _prefetch_worker, _mt5_autonomous_scheduler, _mt5_liveness_monitor, _candidate_outcome_resolver, _adaptive_management_monitor, _adaptive_manager_outcome_resolver, _portfolio_execution_monitor, _economic_intelligence_scheduler, _strategy_performance_monitor
+    global _prefetch_worker, _mt5_autonomous_scheduler, _mt5_liveness_monitor, _candidate_outcome_resolver, _adaptive_management_monitor, _adaptive_manager_outcome_resolver, _portfolio_execution_monitor, _economic_intelligence_scheduler, _strategy_performance_monitor, _mt5_trade_reconciliation_monitor
     validate_runtime_secrets()
     init_db()
 
@@ -126,6 +128,14 @@ async def lifespan(app: FastAPI):
         # See liveness.py's own module docstring.
         _mt5_liveness_monitor = mt5_liveness_monitor
         await _mt5_liveness_monitor.start()
+        # 2026-08-26: real bug found investigating a "zero closed trades / zero realized P&L
+        # today" report -- mt5_trade_records.close_timestamp/realized_pnl were only ever
+        # written by the manual /reconciliation API route, never by any recurring job, so
+        # genuinely broker-closed trades stayed permanently stuck showing as open. This just
+        # schedules the ALREADY-CORRECT reconciliation()/update_trade_history() code path to
+        # run automatically -- see trade_reconciliation_monitor.py's own module docstring.
+        _mt5_trade_reconciliation_monitor = mt5_trade_reconciliation_monitor
+        await _mt5_trade_reconciliation_monitor.start()
     _portfolio_execution_monitor = portfolio_manager
     await _portfolio_execution_monitor.start()
     _adaptive_management_monitor = adaptive_management_service
@@ -161,6 +171,8 @@ async def lifespan(app: FastAPI):
         await _mt5_liveness_monitor.stop()
     if _candidate_outcome_resolver:
         await _candidate_outcome_resolver.stop()
+    if _mt5_trade_reconciliation_monitor:
+        await _mt5_trade_reconciliation_monitor.stop()
     if _mt5_autonomous_scheduler:
         await _mt5_autonomous_scheduler.stop()
     if _prefetch_worker:

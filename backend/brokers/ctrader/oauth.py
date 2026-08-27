@@ -53,14 +53,26 @@ def refresh_access_token(*, client_id: str, client_secret: str, redirect_uri: st
 
 
 def _token_result_from_sdk(token: object) -> CTraderTokenResult:
-    error_code = getattr(token, "errorCode", None)
+    """2026-08-26 fix: Auth.getToken()/refreshToken() (ctrader_open_api SDK) return a plain
+    dict from request.json() -- confirmed live: {'errorCode': 'ACCESS_DENIED', 'description':
+    '...'} for a bad exchange. The original getattr()-based reads always silently returned None
+    (dicts have no such attributes), so this could never succeed OR surface the real error --
+    every exchange failed with the same generic "missing accessToken/refreshToken" message
+    regardless of whether the code/credentials were actually valid. Defensively still accepts a
+    real object (getattr fallback) in case a future SDK version changes the return type."""
+    def _read(key: str) -> object:
+        if isinstance(token, dict):
+            return token.get(key)
+        return getattr(token, key, None)
+
+    error_code = _read("errorCode")
     if error_code:
-        raise CTraderAuthError(f"cTrader token request failed: {error_code} -- {getattr(token, 'description', '')}")
-    access_token = getattr(token, "accessToken", None)
-    refresh_token = getattr(token, "refreshToken", None)
+        raise CTraderAuthError(f"cTrader token request failed: {error_code} -- {_read('description') or ''}")
+    access_token = _read("accessToken")
+    refresh_token = _read("refreshToken")
     if not access_token or not refresh_token:
-        raise CTraderAuthError("cTrader token response missing accessToken/refreshToken")
+        raise CTraderAuthError(f"cTrader token response missing accessToken/refreshToken (raw response: {token!r})")
     return CTraderTokenResult(
         access_token=access_token, refresh_token=refresh_token,
-        expires_in=getattr(token, "expiresIn", None), token_type=getattr(token, "tokenType", None),
+        expires_in=_read("expiresIn"), token_type=_read("tokenType"),
     )

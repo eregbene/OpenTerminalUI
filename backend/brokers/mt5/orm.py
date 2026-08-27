@@ -199,7 +199,15 @@ class MT5TradeMemorySnapshotORM(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow, onupdate=utcnow)
 
     __table_args__ = (
-        UniqueConstraint("scope", "symbol", "session", "market_regime", name="uq_mt5_memory_scope_symbol_session_regime"),
+        # 2026-08-26 fix: this constraint originally omitted account_id, even though memory_id
+        # (the real PK) and every read/write path (_refresh_memory_snapshots) are already fully
+        # account-scoped -- confirmed live via a real IntegrityError: the FIRST account to ever
+        # write a (scope, symbol, session, regime) snapshot permanently blocked every OTHER
+        # account from ever writing that same combination (duplicate key violation on INSERT),
+        # silently swallowed by the caller's try/except, so 3 of 4 DEMO accounts' trade-memory
+        # snapshots (and the reconciliation() call that triggers this refresh) were failing on
+        # every single invocation. See migration 0074.
+        UniqueConstraint("account_id", "scope", "symbol", "session", "market_regime", name="uq_mt5_memory_account_scope_symbol_session_regime"),
         Index("ix_mt5_memory_lookup", "symbol", "session", "market_regime", "recommendation"),
     )
 
