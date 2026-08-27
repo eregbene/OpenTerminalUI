@@ -528,7 +528,13 @@ class CTraderAdapter:
         deal_pb = event.deal if event.HasField("deal") else None
         position_id = int(order_pb.positionId) if order_pb.positionId else (int(deal_pb.positionId) if deal_pb else None)
         filled_lots = raw_volume_to_lots(int(deal_pb.filledVolume if deal_pb else order_pb.executedVolume or raw_volume), lot_size_raw)
-        fill_price = _price_from_raw(int(deal_pb.executionPrice)) if deal_pb and deal_pb.executionPrice else None
+        # 2026-08-27 real bug found via live order test: ProtoOADeal.executionPrice is a plain
+        # double, NOT the fixed-point-integer/1e5 convention _price_from_raw exists for (that
+        # convention is confirmed to apply ONLY to ProtoOATrendbar/ProtoOASpotEvent per this
+        # module's own docstring) -- same plain-double convention positions() already correctly
+        # uses for pos.stopLoss/takeProfit via Decimal(str(...)), no scaling. Confirmed live:
+        # a real $1.16438 fill was reported as $0.00001 before this fix (int(1.16438)/100000).
+        fill_price = Decimal(str(deal_pb.executionPrice)) if deal_pb and deal_pb.executionPrice else None
 
         order = BrokerOrder(
             canonical_order_id=command.canonical_order_id, broker_order_id=str(order_pb.orderId), account_id=command.account_id,
@@ -626,7 +632,13 @@ class CTraderAdapter:
             raise CTraderAuthError(f"cTrader close rejected: {event.errorCode} -- {getattr(event, 'description', '')}")
 
         deal_pb = event.deal if event.HasField("deal") else None
-        fill_price = _price_from_raw(int(deal_pb.executionPrice)) if deal_pb and deal_pb.executionPrice else None
+        # 2026-08-27 real bug found via live order test: ProtoOADeal.executionPrice is a plain
+        # double, NOT the fixed-point-integer/1e5 convention _price_from_raw exists for (that
+        # convention is confirmed to apply ONLY to ProtoOATrendbar/ProtoOASpotEvent per this
+        # module's own docstring) -- same plain-double convention positions() already correctly
+        # uses for pos.stopLoss/takeProfit via Decimal(str(...)), no scaling. Confirmed live:
+        # a real $1.16438 fill was reported as $0.00001 before this fix (int(1.16438)/100000).
+        fill_price = Decimal(str(deal_pb.executionPrice)) if deal_pb and deal_pb.executionPrice else None
         execution = BrokerExecution(
             canonical_order_id=command.canonical_position_id, broker_order_id=str(event.order.orderId) if event.HasField("order") else None,
             account_id=command.account_id, broker="ctrader", instrument_id=command.instrument_id,

@@ -318,7 +318,7 @@ def test_submit_order_normalizes_volume_and_builds_real_request():
 
     adapter._send = _fake_send
 
-    fake_deal = SimpleNamespace(positionId=999, filledVolume=1_000_000, executionPrice=110000, commission=0)
+    fake_deal = SimpleNamespace(positionId=999, filledVolume=1_000_000, executionPrice=1.10000, commission=0)
     fake_order = SimpleNamespace(orderId=42, positionId=999, executedVolume=1_000_000)
     fake_event = SimpleNamespace(errorCode="", executionType="ORDER_FILLED", order=fake_order, deal=fake_deal, HasField=lambda name: True)
 
@@ -341,6 +341,11 @@ def test_submit_order_normalizes_volume_and_builds_real_request():
     assert new_order_req.takeProfit == pytest.approx(1.1050)
     assert receipt.order.state.value == "FILLED"
     assert receipt.submission_state == "FILLED"
+    # 2026-08-27 real bug found via a live order test: executionPrice is a plain double (same
+    # convention positions() already uses for stopLoss/takeProfit), NOT the fixed-point/1e5
+    # convention _price_from_raw applies to trendbars/spot events -- a real $1.16438 fill was
+    # once reported as $0.00001 by this code before the fix. Locks in the corrected conversion.
+    assert receipt.execution.price == Decimal("1.10000")
 
 
 def test_submit_order_rejects_when_volume_floors_below_minimum_never_inflates():
@@ -413,7 +418,7 @@ def test_close_position_full_close_uses_exact_current_volume():
     adapter._send = _fake_send
 
     async def _fake_wait(*, account_id, timeout=20.0):
-        deal = SimpleNamespace(positionId=999, executionPrice=110000, commission=0)
+        deal = SimpleNamespace(positionId=999, executionPrice=1.10000, commission=0)
         return SimpleNamespace(errorCode="", order=SimpleNamespace(orderId=43), deal=deal, HasField=lambda name: True)
 
     adapter._wait_for_execution = _fake_wait
