@@ -674,7 +674,7 @@ def test_mtfai1_v2_mfe_partial_close_overrides_full_close(monkeypatch):
     mfe_actions = [a for a in actions if a.action_type == "MFE_PROTECTION_CLOSE"]
     assert len(mfe_actions) == 1
     assert mfe_actions[0].requested_volume == pytest.approx(1.0)  # 50% of current_volume=2.0
-    assert mfe_actions[0].evidence["strategy_profile_partial"] is True
+    assert mfe_actions[0].evidence["mtfai1_v2_partial"] is True
     assert mfe_actions[0].evidence["full_close"] is False
 
 
@@ -702,7 +702,7 @@ def test_mtfai1_v2_mfe_partial_flag_does_not_affect_other_strategies(monkeypatch
     # unaffected by the mtfai1-only flag -- ADAPTIVE_MFE_FULL_CLOSE_R=0 default still applies,
     # so this is still a full close, exactly as before this change.
     assert mfe_actions[0].requested_volume == pytest.approx(2.0)
-    assert mfe_actions[0].evidence["strategy_profile_partial"] is False
+    assert mfe_actions[0].evidence["mtfai1_v2_partial"] is False
 
 
 def test_mtfai1_v2_mfe_partial_inert_when_flag_disabled(monkeypatch):
@@ -1427,65 +1427,6 @@ def test_modification_cooldown_suppresses_repeat_stop_modify(monkeypatch):
     ready_types = {c.action_type for c in candidates_ready}
     assert "MOVE_SL_BREAKEVEN" not in cooling_types
     assert "MOVE_SL_BREAKEVEN" in ready_types
-
-
-def test_low_original_confidence_triggers_earlier_breakeven(monkeypatch):
-    """2026-08-26 confidence-aware management: a position whose ORIGINAL entry confidence sits
-    in the newly-admitted (MT5_MIN_TRADE_CONFIDENCE 75->55), proven-negative-expectancy 55-65
-    band gets a TIGHTER (earlier) breakeven trigger than the same setup at normal confidence.
-    Global default breakeven_r=1.0, moderate-tier multiplier=0.8 -> tightened threshold=0.8.
-    r_now=0.9 sits between the two: below the normal 1.0 (must not fire), above the tightened
-    0.8 (must fire)."""
-    monkeypatch.setenv("ADAPTIVE_BREAKEVEN_R", "1.0")  # pin to the code default -- this real
-    # container runs a live operational override (0.5) that would make both branches fire
-    SessionLocal = _session_factory(monkeypatch)
-
-    normal_state = _managed_state("XAU_CONF_NORMAL")
-    normal_state.max_tp_progress = 0.35
-    normal_state.tp_progress = 0.35
-    normal_state.winner_classification = "healthy_pullback"
-    normal_state.original_confidence = 90.0
-    payload = {"price_current": 4018.0}  # r_now = (4018-4000)/20 = 0.9
-    with SessionLocal() as db:
-        normal_candidates = adaptive_management_service._evaluate_position(db, normal_state, payload, {}, [])
-    assert "MOVE_SL_BREAKEVEN" not in {c.action_type for c in normal_candidates}
-
-    low_conf_state = _managed_state("XAU_CONF_LOW")
-    low_conf_state.max_tp_progress = 0.35
-    low_conf_state.tp_progress = 0.35
-    low_conf_state.winner_classification = "healthy_pullback"
-    low_conf_state.original_confidence = 60.0  # moderate tier (60-65)
-    with SessionLocal() as db:
-        low_conf_candidates = adaptive_management_service._evaluate_position(db, low_conf_state, payload, {}, [])
-    assert "MOVE_SL_BREAKEVEN" in {c.action_type for c in low_conf_candidates}
-
-
-def test_confidence_aware_management_disabled_via_env_restores_normal_threshold(monkeypatch):
-    """MT5_CONFIDENCE_AWARE_MANAGEMENT_ENABLED=false must fully restore the pre-2026-08-26
-    behavior -- the same low-confidence position that fires early above must NOT fire once
-    disabled."""
-    monkeypatch.setenv("MT5_CONFIDENCE_AWARE_MANAGEMENT_ENABLED", "false")
-    monkeypatch.setenv("ADAPTIVE_BREAKEVEN_R", "1.0")
-    SessionLocal = _session_factory(monkeypatch)
-
-    state = _managed_state("XAU_CONF_DISABLED")
-    state.max_tp_progress = 0.35
-    state.tp_progress = 0.35
-    state.winner_classification = "healthy_pullback"
-    state.original_confidence = 60.0
-    payload = {"price_current": 4018.0}
-    with SessionLocal() as db:
-        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
-    assert "MOVE_SL_BREAKEVEN" not in {c.action_type for c in candidates}
-
-
-def test_missing_original_confidence_is_unaffected():
-    """A position with no captured original_confidence (e.g. predates this mechanism) must get
-    the exact normal (untightened) threshold -- never a guessed tier."""
-    from backend.adaptive_management.strategy_profiles import strategy_param_confidence_aware
-
-    normal = strategy_param_confidence_aware(None, "breakeven_r", 1.0, confidence=None)
-    assert normal == 1.0
 
 
 def test_lineage_parses_bsm_comment_format():

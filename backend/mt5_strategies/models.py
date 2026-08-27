@@ -192,25 +192,11 @@ def activation_status(strategy_id: str) -> str:
     """Config override (MT5_STRATEGY_ACTIVATION_<ID>) takes precedence over the coded default,
     so demotion/promotion/disable never requires a code change (Part 16). A tripped circuit
     breaker (Part 17) always overrides both -- an operational malfunction can never be
-    outranked by activation config.
-
-    Adaptive Manager V3 continuation, Part 9: a tripped DEMO safety circuit (real, sustained
-    performance deterioration on DEMO, see demo_safety_circuit.py) is checked next, also ahead
-    of the env override, for the same reason -- it forces SHADOW_MT5 even if an operator's env
-    var still reads ACTIVE_MT5, and can only be cleared by an explicit reset_trip() call (never
-    automatically, and never by just editing the env var). This is a DEMO-lifecycle mechanism,
-    not a live-money kill switch -- see that module's docstring."""
+    outranked by activation config."""
     from backend.mt5_strategies import circuit_breaker
 
     if circuit_breaker.is_tripped(strategy_id):
         return DISABLED
-    try:
-        from backend.mt5_strategies import demo_safety_circuit
-
-        if demo_safety_circuit.is_tripped(strategy_id):
-            return SHADOW_MT5
-    except Exception:
-        pass
     meta = STRATEGY_FAMILIES.get(strategy_id, {})
     override = os.getenv(f"MT5_STRATEGY_ACTIVATION_{strategy_id.upper()}")
     if override in _VALID_OVERRIDES:

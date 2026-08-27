@@ -44,10 +44,8 @@ from typing import Any
 
 from backend.adaptive_management.orm import AdaptivePositionStateORM
 from backend.brokers.mt5.orm import MT5CandidateEvaluationORM
-from backend.mt5_strategies import demo_safety_circuit
 from backend.mt5_strategies.models import ACTIVE_MT5, DISABLED, SHADOW_MT5, STRATEGY_FAMILIES, activation_status
 from backend.mt5_strategies.orm import StrategyPerformanceRecommendationORM
-from backend.mt5_strategies.strategy_cutover import STRATEGY_CUTOVER_AT
 from backend.shared.db import SessionLocal
 
 logger = logging.getLogger(__name__)
@@ -383,20 +381,6 @@ def _persist(recommendations: list[dict[str, Any]]) -> int:
     return written
 
 
-def _run_demo_safety_circuit() -> dict[str, int]:
-    """Part 9: evaluates the automatic DEMO safety circuit for every strategy CURRENTLY
-    ACTIVE_MT5 (a strategy already SHADOW/DISABLED, whether by this circuit or otherwise, has
-    nothing left to demote). Separate from compute_recommendations()/_persist() above -- this is
-    the genuinely automatic layer; that one only ever writes a human-reviewed recommendation.
-    Runs on the same schedule as the rest of this monitor rather than a dedicated scheduler."""
-    active_ids = [sid for sid in _all_strategy_ids() if activation_status(sid) == ACTIVE_MT5]
-    results = demo_safety_circuit.evaluate_and_apply_all(active_ids, cutovers=STRATEGY_CUTOVER_AT)
-    newly_tripped = [sid for sid, r in results.items() if r.get("newly_tripped")]
-    if newly_tripped:
-        logger.warning("Strategy performance monitor: DEMO safety circuit newly tripped for %s", newly_tripped)
-    return {"safety_circuit_evaluated": len(results), "safety_circuit_newly_tripped": len(newly_tripped)}
-
-
 class StrategyPerformanceMonitor:
     def __init__(self) -> None:
         self._task: asyncio.Task | None = None
@@ -440,8 +424,7 @@ class StrategyPerformanceMonitor:
         written = await asyncio.to_thread(_persist, recommendations)
         changes = sum(1 for r in recommendations if r["recommended_activation"] != r["current_activation"])
         logger.info("Strategy performance monitor: %d strategies evaluated, %d recommend a change, %d rows written", len(recommendations), changes, written)
-        safety_circuit_results = await asyncio.to_thread(_run_demo_safety_circuit)
-        return {"evaluated": len(recommendations), "recommend_change": changes, "written": written, **safety_circuit_results}
+        return {"evaluated": len(recommendations), "recommend_change": changes, "written": written}
 
 
 strategy_performance_monitor = StrategyPerformanceMonitor()
