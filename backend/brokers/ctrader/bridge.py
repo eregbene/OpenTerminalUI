@@ -53,6 +53,27 @@ def bridge_enabled() -> bool:
     return _env_flag("CTRADER_BENSIM_ENGINE_ENABLED", False)
 
 
+# 2026-08-27 real observation from live monitoring: gating this bridge to a single hardcoded
+# reference account (demo_10k) was overly restrictive -- each of the 4 MT5 accounts runs its own
+# run_cycle() with its OWN open-position/trade-frequency state, so they frequently produce
+# DIFFERENT `best` candidates in the same M5 cycle (confirmed live: demo_10k stuck on
+# TRADE_FREQUENCY_LIMITED for over an hour on symbols already at their per-symbol daily cap,
+# while ftmo_demo_25k/100k reached real submission/risk decisions the same hour). This tracks
+# the last M5 candle (base_cycle_id -- shared across all 4 accounts' calls within the same
+# candle, unlike the account-suffixed cycle_id) this bridge has already been attempted for, so
+# ANY account's naturally-qualified candidate can trigger it, but never more than once per candle
+# regardless of how many accounts reach submission that cycle.
+_last_attempted_base_cycle_id: str | None = None
+
+
+def should_attempt_this_cycle(base_cycle_id: str) -> bool:
+    global _last_attempted_base_cycle_id
+    if base_cycle_id == _last_attempted_base_cycle_id:
+        return False
+    _last_attempted_base_cycle_id = base_cycle_id
+    return True
+
+
 # 2026-08-27 real bug found via a live test: CTraderTransport's Twisted reactor is a process-wide
 # singleton that CANNOT be restarted once stopped (twisted.internet.error.ReactorNotRestartable,
 # confirmed live -- transport.py's own docstring already says "only ONE CTraderTransport should

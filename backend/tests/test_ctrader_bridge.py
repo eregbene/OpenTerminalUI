@@ -18,14 +18,35 @@ from unittest.mock import AsyncMock
 import pytest
 
 import backend.brokers.ctrader.bridge as bridge_module
-from backend.brokers.ctrader.bridge import attempt_ctrader_bridge_trade, bridge_enabled
+from backend.brokers.ctrader.bridge import attempt_ctrader_bridge_trade, bridge_enabled, should_attempt_this_cycle
 
 
 @pytest.fixture(autouse=True)
 def _reset_bridge_adapter():
     bridge_module._bridge_adapter = None
+    bridge_module._last_attempted_base_cycle_id = None
     yield
     bridge_module._bridge_adapter = None
+    bridge_module._last_attempted_base_cycle_id = None
+
+
+def test_should_attempt_this_cycle_allows_first_call_for_a_new_candle():
+    assert should_attempt_this_cycle("MT5_M5_202608271540") is True
+
+
+def test_should_attempt_this_cycle_dedupes_within_the_same_candle():
+    """Any account may trigger the bridge, but never more than once for the same M5 candle --
+    the real reason the trigger was widened past a single hardcoded account: different accounts
+    produce different `best` candidates each cycle (confirmed live), so multiple accounts could
+    otherwise each attempt the bridge for the same candle."""
+    assert should_attempt_this_cycle("MT5_M5_202608271540") is True
+    assert should_attempt_this_cycle("MT5_M5_202608271540") is False  # a second account, same candle
+    assert should_attempt_this_cycle("MT5_M5_202608271540") is False  # a third account, same candle
+
+
+def test_should_attempt_this_cycle_allows_the_next_candle():
+    assert should_attempt_this_cycle("MT5_M5_202608271540") is True
+    assert should_attempt_this_cycle("MT5_M5_202608271545") is True
 
 
 def _candidate(*, stop_loss="1.0950", take_profit="1.1150", bid="1.1000", ask="1.1002", strategy_id="mtfai1") -> dict:
@@ -37,7 +58,10 @@ def _candidate(*, stop_loss="1.0950", take_profit="1.1150", bid="1.1000", ask="1
     }
 
 
-def test_bridge_disabled_by_default():
+def test_bridge_disabled_by_default(monkeypatch):
+    # Explicitly clears the env var rather than assuming an unset ambient default -- this
+    # container's own real environment may have it set (e.g. after a genuine Gate D go-live).
+    monkeypatch.delenv("CTRADER_BENSIM_ENGINE_ENABLED", raising=False)
     assert bridge_enabled() is False
     result = asyncio.run(attempt_ctrader_bridge_trade(_candidate(), confidence=80.0))
     assert result.status == "DISABLED"
