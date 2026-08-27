@@ -25,6 +25,7 @@ from backend.market_structure.structure import detect_structure_breaks
 from backend.market_structure.swings import detect_swings
 from backend.market_structure.trend import classify_trend
 from backend.market_structure.zones import detect_order_blocks
+from backend.brokers.models import BrokerOrderIntent
 from backend.brokers.mt5 import account_registry
 from backend.brokers.mt5.adapter import MT5Adapter, mt5_adapter
 from backend.brokers.mt5.config import MT5Config
@@ -1465,6 +1466,24 @@ class MT5AutonomousTradingService:
         )
         if risk.status != "APPROVED":
             return {"status": "RISK_REJECTED", "risk": risk.model_dump(mode="json"), "risk_budget_adjustment": risk_adjustment_detail, "order_send_calls": 0}
+        # 2026-08-27 "same Bensim engine drives MT5 or cTrader" initiative, Gate C: the minimal
+        # broker-neutral order boundary, built PURELY ADDITIVELY from values this pipeline has
+        # already computed above -- constructing this changes NOTHING about MT5's own decision or
+        # execution path below (MT5TradeIntent/submit_market_order are untouched, byte-for-byte
+        # identical to before this existed). risk.effective_risk_usd (not risk_adjustment_detail's
+        # own adjusted_risk_budget_usd) is the correct field here: it is the dollar figure AFTER
+        # the strategy-tier hard cap is applied (calculate_risk_size's own min()), i.e. the true
+        # final approved risk -- see that method's docstring for why the two differ.
+        order_intent = BrokerOrderIntent(
+            candidate_id=str(candidate.get("candidate_id") or candidate.get("context_hash") or "UNKNOWN"),
+            broker="mt5", account_id=self.account_id,
+            strategy_id=normalize_strategy_id((candidate.get("context") or {}).get("strategy_id")),
+            strategy_version=str((candidate.get("context") or {}).get("strategy_version") or "v1"),
+            symbol=candidate["canonical_pair"], direction=candidate["direction"], confidence=confidence,
+            risk_tier=str(tier_detail.get("tier") or "A"), risk_usd=risk.effective_risk_usd, reference_price=entry,
+            sl=Decimal(str(candidate["stop_loss"])), tp=Decimal(str(candidate["take_profit"])),
+            target_type=candidate.get("take_profit_basis"), sl_type=candidate.get("stop_loss_basis"),
+        )
         economic_context = candidate.get("economic_context") or {}
         # NOTE (Part: economic-risk double-sizing fix): economic risk already reduced this
         # position's size exactly once, upstream, via _risk_budget_adjustment's
@@ -1514,6 +1533,7 @@ class MT5AutonomousTradingService:
             return {
                 "status": "DRY_RUN_OK",
                 "intent": intent.model_dump(mode="json"),
+                "order_intent": order_intent.model_dump(mode="json"),
                 "risk": risk.model_dump(mode="json"),
                 "risk_budget_adjustment": risk_adjustment_detail,
                 "projected_margin": str(projected_margin) if projected_margin is not None else None,
@@ -1538,6 +1558,7 @@ class MT5AutonomousTradingService:
         trade = {
             "trade_id": intent_id,
             "intent": intent.model_dump(mode="json"),
+            "order_intent": order_intent.model_dump(mode="json"),
             "risk": risk.model_dump(mode="json"),
             "risk_budget_adjustment": risk_adjustment_detail,
             "projected_margin": str(projected_margin) if projected_margin is not None else None,

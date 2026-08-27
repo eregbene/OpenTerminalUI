@@ -369,3 +369,36 @@ class BrokerReconciliationResult(BrokerModel):
     status: str
     differences: list[ReconciliationDifference] = Field(default_factory=list)
     created_at: datetime = Field(default_factory=now_utc)
+
+
+class BrokerOrderIntent(BrokerModel):
+    """2026-08-27 -- "same Bensim engine drives MT5 or cTrader" initiative, Gate C: the minimal
+    broker-neutral order object produced AFTER strategy validity -> confidence -> HI -> portfolio/
+    risk have all already run and approved a trade, and BEFORE any broker-specific lot-sizing or
+    order-submission code runs. Carries the DOLLAR risk decision (risk_usd, already tier-capped
+    and confidence-tapered -- see the 2026-08-25/26 strategy-tier hard-cap fix), never a broker-
+    native lot size; each broker adapter is responsible for converting risk_usd into its own
+    native volume using its own symbol spec, and for rejecting (never inflating) if that broker's
+    minimum tradeable size would exceed the approved risk.
+
+    Deliberately introduced as a PURE, ADDITIVE observability object in MT5's own _submit() --
+    constructing one changes nothing about MT5's actual decision/execution path (which still
+    builds its own MT5TradeIntent from risk.volume exactly as before). This is what makes Gate C's
+    "preserve current MT5 behavior exactly" provable: the intent is populated from values MT5's
+    existing pipeline already computed, not from a new computation that could diverge."""
+    candidate_id: str
+    broker: str
+    account_id: str
+    strategy_id: str
+    strategy_version: str = "v1"
+    symbol: str
+    direction: str
+    confidence: float | None = None
+    risk_tier: str = "A"
+    risk_usd: Decimal
+    reference_price: Decimal
+    sl: Decimal
+    tp: Decimal
+    target_type: str | None = None
+    sl_type: str | None = None
+    created_at: datetime = Field(default_factory=now_utc)
