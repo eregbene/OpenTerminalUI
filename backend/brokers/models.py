@@ -245,6 +245,13 @@ class BrokerOrderCommand(BrokerModel):
     approved_quantity: Decimal
     limit_price: Decimal | None = None
     stop_price: Decimal | None = None
+    # 2026-08-27 cTrader order-execution vertical slice: protective stop-loss/take-profit,
+    # attached to the position at entry -- distinct from stop_price above (a STOP ORDER's own
+    # trigger price, for order_type="STOP"). Optional/backward-compatible (existing callers that
+    # never set these keep working unchanged); FX-position-based brokers (MT5, cTrader) need both
+    # at submission time, unlike the equities-oriented order shape this model originated from.
+    stop_loss: Decimal | None = None
+    take_profit: Decimal | None = None
     risk_evaluation_id: str
     idempotency_key: str
     correlation_id: str | None = None

@@ -21,6 +21,14 @@ class CTraderConfig:
     refresh_token: str | None
     account_id: str | None  # cTrader's ctidTraderAccountId (numeric, as a string) -- e.g. "10102160"
     redirect_uri: str
+    # 2026-08-27 order-execution vertical slice: a SEPARATE, explicit, default-OFF gate on top of
+    # environment=="demo" -- mirrors MT5_ORDER_SUBMISSION_ENABLED's own pattern (config.py). The
+    # OAuth token itself is the real, server-side enforced permission boundary (scope=accounts
+    # tokens cannot place orders regardless of this flag -- cTrader's own servers reject it); this
+    # flag exists so a DEMO-capable token doesn't silently start submitting orders just because
+    # code exists to do so -- an operator must explicitly opt in even after re-authorizing with
+    # scope=trading.
+    order_submission_enabled: bool = False
 
     @property
     def has_app_credentials(self) -> bool:
@@ -46,4 +54,5 @@ def ctrader_config() -> CTraderConfig:
         refresh_token=os.getenv("CTRADER_REFRESH_TOKEN") or None,
         account_id=os.getenv("CTRADER_ACCOUNT_ID") or None,
         redirect_uri=os.getenv("CTRADER_REDIRECT_URI", "http://localhost:5000/ctrader/oauth/callback"),
+        order_submission_enabled=os.getenv("CTRADER_ORDER_SUBMISSION_ENABLED", "false").strip().lower() not in {"false", "0", "off", "no", ""},
     )

@@ -156,11 +156,15 @@ def test_connect_refuses_when_credentials_missing():
         asyncio.run(adapter.connect())
 
 
-def test_capabilities_are_read_only_regardless_of_env():
-    cfg = CTraderConfig(environment="demo", client_id="x", client_secret="y", access_token="z", refresh_token="w", account_id="10102160", redirect_uri="http://localhost")
+def test_live_trading_never_enabled_regardless_of_env():
+    """2026-08-27: order mutation capability now exists for the DEMO vertical slice (gated
+    per-call by order_submission_enabled + _verified_demo -- see test_order_mutation_methods_
+    all_raise_read_only below), but live_trading_enabled must remain False unconditionally --
+    that flag means real-money LIVE trading, which this adapter must never enable no matter what
+    any env var says."""
+    cfg = CTraderConfig(environment="demo", client_id="x", client_secret="y", access_token="z", refresh_token="w", account_id="10102160", redirect_uri="http://localhost", order_submission_enabled=True)
     adapter = CTraderAdapter(config=cfg)
     assert adapter.capabilities.live_trading_enabled is False
-    assert adapter.capabilities.supports_modify is False
 
 
 # --------------------------------------------------------------------------- read-only guards ---
@@ -269,3 +273,206 @@ def test_trendbar_reconstruction_from_deltas():
     assert close == Decimal("1.09580")
     assert low <= open_ <= high
     assert low <= close <= high
+
+
+# ------------------------------------------------------------- order execution (2026-08-27) ---
+from backend.brokers.ctrader.exceptions import CTraderAuthError, CTraderCapabilityError
+from backend.brokers.models import BrokerCancelCommand, BrokerClosePositionCommand, BrokerModifyPositionCommand, BrokerOrderCommand
+
+
+def _demo_verified_adapter(*, order_submission_enabled: bool = True) -> CTraderAdapter:
+    cfg = CTraderConfig(
+        environment="demo", client_id="cid", client_secret="secret", access_token="tok", refresh_token="ref",
+        account_id="555", redirect_uri="http://localhost", order_submission_enabled=order_submission_enabled,
+    )
+    adapter = CTraderAdapter(config=cfg)
+    adapter._verified_demo = True  # bypasses connect()'s real handshake -- pure execution-logic test
+    return adapter
+
+
+def _fake_symbol_spec_dispatch(message):
+    """Dispatches by message shape, mirroring what submit_order/close_position/modify_position
+    actually call in sequence: symbol list -> symbol-by-id (spec + lotSize) -> new-order/close/amend."""
+    cls_name = type(message).__name__
+    if cls_name == "ProtoOASymbolsListReq":
+        return SimpleNamespace(symbol=[SimpleNamespace(symbolId=1, symbolName="EURUSD")])
+    if cls_name == "ProtoOASymbolByIdReq":
+        return SimpleNamespace(symbol=[SimpleNamespace(
+            symbolId=1, digits=5, pipPosition=4, lotSize=10_000_000, minVolume=100_000, maxVolume=5_000_000_000, stepVolume=100_000,
+            depositCurrency="USD",
+        )])
+    return SimpleNamespace()
+
+
+async def _fake_symbol_spec_send(message):
+    return _fake_symbol_spec_dispatch(message)
+
+
+def test_submit_order_normalizes_volume_and_builds_real_request():
+    adapter = _demo_verified_adapter()
+    sent_requests = []
+
+    async def _fake_send(message):
+        sent_requests.append(message)
+        return _fake_symbol_spec_dispatch(message)
+
+    adapter._send = _fake_send
+
+    fake_deal = SimpleNamespace(positionId=999, filledVolume=1_000_000, executionPrice=110000, commission=0)
+    fake_order = SimpleNamespace(orderId=42, positionId=999, executedVolume=1_000_000)
+    fake_event = SimpleNamespace(errorCode="", executionType="ORDER_FILLED", order=fake_order, deal=fake_deal, HasField=lambda name: True)
+
+    async def _fake_wait(*, account_id, timeout=20.0):
+        return fake_event
+
+    adapter._wait_for_execution = _fake_wait
+
+    command = BrokerOrderCommand(
+        canonical_order_id="ORD1", account_id="555", instrument_id="FX:EURUSD", side="LONG", order_type="MARKET",
+        time_in_force="IOC", quantity=Decimal("0.13"), approved_quantity=Decimal("0.13"),
+        stop_loss=Decimal("1.0950"), take_profit=Decimal("1.1050"), risk_evaluation_id="R1", idempotency_key="IDEMP1",
+    )
+    receipt = asyncio.run(adapter.submit_order(command))
+
+    new_order_req = next(r for r in sent_requests if type(r).__name__ == "ProtoOANewOrderReq")
+    assert new_order_req.symbolId == 1
+    assert new_order_req.volume == 1_300_000  # lots_to_raw_volume(0.13, 10_000_000) = 0.13 * 10,000,000
+    assert new_order_req.stopLoss == pytest.approx(1.0950)
+    assert new_order_req.takeProfit == pytest.approx(1.1050)
+    assert receipt.order.state.value == "FILLED"
+    assert receipt.submission_state == "FILLED"
+
+
+def test_submit_order_rejects_when_volume_floors_below_minimum_never_inflates():
+    """The exact invariant the strategy-tier hard-cap fix depends on: a tiny approved_quantity
+    that floors below the broker's minimum tradeable size must be REJECTED, never bumped up to
+    volume_min -- that would silently exceed the caller's already-risk-vetted size."""
+    adapter = _demo_verified_adapter()
+    adapter._send = _fake_symbol_spec_send
+
+    command = BrokerOrderCommand(
+        canonical_order_id="ORD2", account_id="555", instrument_id="FX:EURUSD", side="LONG", order_type="MARKET",
+        time_in_force="IOC", quantity=Decimal("0.001"), approved_quantity=Decimal("0.001"),  # below minVolume=0.01 lots
+        risk_evaluation_id="R2", idempotency_key="IDEMP2",
+    )
+    with pytest.raises(CTraderCapabilityError, match="below this symbol's volume_min") as exc_info:
+        asyncio.run(adapter.submit_order(command))
+    assert exc_info.value.code == "VOLUME_BELOW_MINIMUM"
+
+
+def test_submit_order_raises_when_submission_disabled_by_default():
+    adapter = _demo_verified_adapter(order_submission_enabled=False)
+    with pytest.raises(CTraderReadOnlyViolation, match="CTRADER_ORDER_SUBMISSION_ENABLED"):
+        asyncio.run(adapter.submit_order(None))
+
+
+def test_submit_order_raises_when_not_verified_demo_even_if_enabled():
+    """The OAuth-scope/demo-identity gate is independent of the flag -- an unverified account
+    must never submit, no matter what CTRADER_ORDER_SUBMISSION_ENABLED says."""
+    cfg = CTraderConfig(environment="demo", client_id="cid", client_secret="secret", access_token="tok", refresh_token="ref", account_id="555", redirect_uri="http://localhost", order_submission_enabled=True)
+    adapter = CTraderAdapter(config=cfg)  # never connected -- _verified_demo stays False
+    with pytest.raises(CTraderReadOnlyViolation, match="not verified as DEMO"):
+        asyncio.run(adapter.submit_order(None))
+
+
+def test_submit_order_raises_normalized_error_on_broker_rejection():
+    adapter = _demo_verified_adapter()
+    adapter._send = _fake_symbol_spec_send
+
+    async def _fake_wait(*, account_id, timeout=20.0):
+        return SimpleNamespace(errorCode="MARKET_CLOSED", description="Market is closed", HasField=lambda name: False)
+
+    adapter._wait_for_execution = _fake_wait
+    command = BrokerOrderCommand(
+        canonical_order_id="ORD3", account_id="555", instrument_id="FX:EURUSD", side="LONG", order_type="MARKET",
+        time_in_force="IOC", quantity=Decimal("0.1"), approved_quantity=Decimal("0.1"), risk_evaluation_id="R3", idempotency_key="IDEMP3",
+    )
+    with pytest.raises(CTraderAuthError, match="MARKET_CLOSED"):
+        asyncio.run(adapter.submit_order(command))
+
+
+def test_close_position_full_close_uses_exact_current_volume():
+    adapter = _demo_verified_adapter()
+
+    from backend.brokers.models import BrokerPosition
+    current_position = BrokerPosition(
+        canonical_position_id="ctrader:555:999", broker_position_id="999", account_id="555", broker="ctrader",
+        instrument_id="FX:EURUSD", quantity=Decimal("0.13"), average_cost=Decimal("1.1000"), currency="USD",
+    )
+
+    async def _fake_positions(account_id):
+        return [current_position]
+
+    adapter.positions = _fake_positions
+    sent_requests = []
+
+    async def _fake_send(message):
+        sent_requests.append(message)
+        return _fake_symbol_spec_dispatch(message)
+
+    adapter._send = _fake_send
+
+    async def _fake_wait(*, account_id, timeout=20.0):
+        deal = SimpleNamespace(positionId=999, executionPrice=110000, commission=0)
+        return SimpleNamespace(errorCode="", order=SimpleNamespace(orderId=43), deal=deal, HasField=lambda name: True)
+
+    adapter._wait_for_execution = _fake_wait
+
+    command = BrokerClosePositionCommand(
+        canonical_position_id="ctrader:555:999", broker_position_id="999", account_id="555",
+        instrument_id="FX:EURUSD", quantity=None, idempotency_key="IDEMPCLOSE",
+    )
+    receipt = asyncio.run(adapter.close_position(command))
+
+    close_req = next(r for r in sent_requests if type(r).__name__ == "ProtoOAClosePositionReq")
+    assert close_req.volume == 1_300_000  # exactly the position's own current raw volume, never re-derived
+    assert receipt.closed_quantity == Decimal("0.13")
+    assert receipt.remaining_quantity == Decimal("0")
+
+
+def test_modify_position_preserves_unset_field_using_current_value():
+    """None on the command means "leave unchanged" -- must be filled in with the position's OWN
+    current value before sending, never silently zeroed on the wire."""
+    adapter = _demo_verified_adapter()
+
+    from backend.brokers.models import BrokerPosition
+    current_position = BrokerPosition(
+        canonical_position_id="ctrader:555:999", broker_position_id="999", account_id="555", broker="ctrader",
+        instrument_id="FX:EURUSD", quantity=Decimal("0.13"), average_cost=Decimal("1.1000"),
+        stop_loss=Decimal("1.0900"), take_profit=Decimal("1.1200"), currency="USD",
+    )
+
+    async def _fake_positions(account_id):
+        return [current_position]
+
+    adapter.positions = _fake_positions
+    sent_requests = []
+
+    async def _fake_send(message):
+        sent_requests.append(message)
+        return SimpleNamespace()
+
+    adapter._send = _fake_send
+
+    async def _fake_wait(*, account_id, timeout=20.0):
+        return SimpleNamespace(errorCode="")
+
+    adapter._wait_for_execution = _fake_wait
+
+    command = BrokerModifyPositionCommand(
+        canonical_position_id="ctrader:555:999", broker_position_id="999", account_id="555",
+        instrument_id="FX:EURUSD", stop_loss=Decimal("1.0950"), take_profit=None,  # only moving SL, TP must stay 1.1200
+        idempotency_key="IDEMPMOD",
+    )
+    asyncio.run(adapter.modify_position(command))
+
+    amend_req = next(r for r in sent_requests if type(r).__name__ == "ProtoOAAmendPositionSLTPReq")
+    assert amend_req.stopLoss == pytest.approx(1.0950)
+    assert amend_req.takeProfit == pytest.approx(1.1200)  # preserved, not cleared
+
+
+def test_cancel_order_raises_when_submission_disabled():
+    adapter = _demo_verified_adapter(order_submission_enabled=False)
+    command = BrokerCancelCommand(canonical_order_id="ORD1", broker_order_id="42", account_id="555", reason="test")
+    with pytest.raises(CTraderReadOnlyViolation):
+        asyncio.run(adapter.cancel_order(command))

@@ -1,7 +1,22 @@
-"""CTraderAdapter -- READ-ONLY implementation of BrokerReadAdapter (Phase 2 of the broker-
-independence migration). Order-mutating BrokerOrderAdapter methods are implemented as explicit
-CTraderReadOnlyViolation stubs, mirroring MT5Adapter's own Phase-1 posture for submit_order/
-cancel_order/modify_position/close_position -- no new execution behavior anywhere in this file.
+"""CTraderAdapter -- read-only account/market-data access (Phase 2) PLUS, as of 2026-08-27, real
+order-execution mutation for the DEMO-only vertical slice (Phase 3): submit_order/cancel_order/
+modify_position/close_position now perform real cTrader Open API calls, gated behind TWO
+independent safety layers that must BOTH be satisfied before any order reaches the wire:
+  1. CTraderConfig.order_submission_enabled (CTRADER_ORDER_SUBMISSION_ENABLED, default False) --
+     an explicit opt-in flag, same pattern as MT5_ORDER_SUBMISSION_ENABLED.
+  2. The OAuth token's own server-side scope -- a token issued with scope="accounts" (read-only)
+     is rejected by cTrader's OWN servers regardless of what this code does; scope="trading" is
+     a SEPARATE re-authorization the operator must perform (see ctrader_oauth_setup.py --scope
+     trading). This code cannot bypass that; it is not a code-side gate.
+Both gates check `_verified_demo` (set by _authorize_account_and_verify_demo, itself independent
+of CTRADER_ENVIRONMENT) before allowing mutation -- a LIVE account is refused even if someone
+sets order_submission_enabled=true, matching MT5's own layered demo-enforcement.
+
+Price scale: ProtoOATrendbar/ProtoOASpotEvent prices are fixed-point integers, ALWAYS divided by
+100000 regardless of the symbol's own `digits` (verified: help.ctrader.com/open-api/symbol-data --
+"divide the low price of a trendbar by 100000"). This is a DIFFERENT convention from moneyDigits
+(account monetary fields, exponent varies per trader) and from lotSize/volume-in-cents (see
+volume.py) -- three separate scaling conventions in this protocol, never interchange them.
 
 Price scale: ProtoOATrendbar/ProtoOASpotEvent prices are fixed-point integers, ALWAYS divided by
 100000 regardless of the symbol's own `digits` (verified: help.ctrader.com/open-api/symbol-data --
@@ -17,25 +32,25 @@ from __future__ import annotations
 import asyncio
 import logging
 from datetime import datetime, timezone
-from decimal import Decimal
+from decimal import ROUND_FLOOR, Decimal
 from typing import Any
 
 from backend.brokers.base import BrokerReadAdapter
 from backend.brokers.capabilities import BrokerCapabilities
 from backend.brokers.ctrader.config import CTraderConfig, ctrader_config
 from backend.brokers.ctrader.exceptions import (
-    CTraderAuthError, CTraderEnvironmentMismatchError, CTraderReadOnlyViolation, CTraderUnavailableError,
+    CTraderAuthError, CTraderCapabilityError, CTraderEnvironmentMismatchError, CTraderReadOnlyViolation, CTraderUnavailableError,
 )
 from backend.brokers.ctrader.oauth import refresh_access_token
 from backend.brokers.ctrader.symbols import ctrader_symbol_to_spec
 from backend.brokers.ctrader.transport import CTraderTransport
-from backend.brokers.ctrader.volume import money_from_raw, raw_volume_to_lots
+from backend.brokers.ctrader.volume import lots_to_raw_volume, money_from_raw, raw_volume_to_lots
 from backend.brokers.health import BrokerHealth
 from backend.brokers.models import (
     BrokerAccount, BrokerAccountSnapshot, BrokerBar, BrokerCancelCommand, BrokerCancelReceipt,
     BrokerClosePositionCommand, BrokerCloseReceipt, BrokerConnectionState, BrokerContract, BrokerEnvironment,
     BrokerExecution, BrokerHealthState, BrokerModifyPositionCommand, BrokerModifyReceipt, BrokerOrder,
-    BrokerOrderCommand, BrokerOrderReceipt, BrokerPosition, BrokerQuote, BrokerReconciliationResult,
+    BrokerOrderCommand, BrokerOrderReceipt, BrokerOrderState, BrokerPosition, BrokerQuote, BrokerReconciliationResult,
     BrokerSymbolSpec, MarketDataMode, DataQuality,
 )
 
@@ -47,6 +62,10 @@ _TRENDBAR_PERIOD = {"M1": "M1", "M5": "M5", "M15": "M15", "M30": "M30", "H1": "H
 
 def _price_from_raw(raw: int) -> Decimal:
     return Decimal(raw) / _PRICE_SCALE
+
+
+def _price_to_raw(price: Decimal) -> int:
+    return int((price * _PRICE_SCALE).to_integral_value())
 
 
 class CTraderAdapter:
@@ -61,9 +80,13 @@ class CTraderAdapter:
         self._connect_lock = asyncio.Lock()
         self.capabilities = BrokerCapabilities(
             broker="ctrader", environment=self._config.environment.upper(),
-            asset_types={"FX", "CFD"}, market_data={"REALTIME"}, historical_data={"TRENDBARS"},
-            supports_cancel=False, supports_modify=False, supports_streaming=True,
-            live_trading_enabled=False,  # Phase 2 is read-only regardless of what env vars say
+            asset_types={"FX", "CFD"}, order_types={"MARKET"}, time_in_force={"IMMEDIATE_OR_CANCEL"},
+            market_data={"REALTIME"}, historical_data={"TRENDBARS"},
+            supports_cancel=True, supports_modify=True, supports_streaming=True,
+            # live_trading_enabled means real-money LIVE trading -- always False here regardless
+            # of order_submission_enabled/config.environment. DEMO order submission is gated
+            # separately, per-call, by _require_order_submission_enabled() -- see module docstring.
+            live_trading_enabled=False,
         )
 
     # ------------------------------------------------------------------ connection lifecycle ---
@@ -187,7 +210,7 @@ class CTraderAdapter:
             connection_state=BrokerConnectionState.CONNECTED if connected else BrokerConnectionState.DISCONNECTED,
             environment=BrokerEnvironment.PAPER if self._verified_demo else BrokerEnvironment.UNVERIFIED,
             account_verification_status="VERIFIED_DEMO" if self._verified_demo else "UNVERIFIED",
-            order_submission_status="DISABLED",  # Phase 2 is read-only, always
+            order_submission_status="ENABLED" if (self._verified_demo and self._config.order_submission_enabled) else "DISABLED",
         )
 
     # ------------------------------------------------------------------------------ accounts ---
@@ -410,18 +433,218 @@ class CTraderAdapter:
         finally:
             self._transport._external_message_callback = original_callback
 
-    # ---------------------------------------------------------------- order mutation (Phase 2 = read-only) ---
+    # ------------------------------------------------------- order mutation (DEMO vertical slice) ---
+    def _require_order_submission_enabled(self) -> None:
+        """Both independent gates must pass -- see module docstring. Checked fresh on every call
+        (never cached) so flipping the env var takes effect on the next order without a
+        reconnect, same convention as every other reversible flag in this codebase."""
+        if not self._verified_demo:
+            raise CTraderReadOnlyViolation("cTrader account identity not verified as DEMO -- call connect() first")
+        if not self._config.order_submission_enabled:
+            raise CTraderReadOnlyViolation("CTRADER_ORDER_SUBMISSION_ENABLED is not set -- order mutation is off by default")
+
+    def _normalize_volume(self, quantity: Decimal, spec: BrokerSymbolSpec) -> Decimal:
+        """Floors to volume_step, NEVER rounds up to volume_min -- a request that floors below
+        the broker's minimum tradeable size is REJECTED, not inflated. This is the same
+        invariant MT5's calculate_risk_size enforces (the XAUUSD-incident rule) and the one the
+        strategy-tier hard-cap fix (2026-08-25/26) depends on: a Tier B/C position's risk must
+        never be silently increased past its cap just to satisfy a broker's volume floor."""
+        if quantity <= 0:
+            raise CTraderCapabilityError("INVALID_QUANTITY", f"requested quantity must be positive, got {quantity}", status_code=422)
+        step = spec.volume_step
+        floored = (quantity / step).to_integral_value(rounding=ROUND_FLOOR) * step
+        if floored < spec.volume_min:
+            raise CTraderCapabilityError(
+                "VOLUME_BELOW_MINIMUM",
+                f"requested quantity {quantity} floors to {floored} lots, below this symbol's volume_min={spec.volume_min} -- "
+                f"rejecting rather than inflating (would exceed the caller's approved risk)",
+                status_code=422,
+            )
+        return min(floored, spec.volume_max)
+
+    async def _raw_lot_size(self, symbol_id: int) -> int:
+        sizes = await self._lot_sizes_for([symbol_id])
+        lot_size_raw = sizes.get(symbol_id)
+        if lot_size_raw is None:
+            raise CTraderUnavailableError(f"cTrader did not report a lotSize for symbolId={symbol_id}")
+        return lot_size_raw
+
+    async def _wait_for_execution(self, *, account_id: int, timeout: float = 20.0) -> Any:
+        """Order confirmation arrives asynchronously as a ProtoOAExecutionEvent (ORDER_FILLED/
+        ORDER_REJECTED/...) or a ProtoOAOrderErrorEvent, not as send()'s direct response --
+        same one-shot-queue pattern quote()'s ProtoOASpotEvent wait already uses. Filters to this
+        account only, since a single transport can authenticate multiple cTrader accounts."""
+        from ctrader_open_api.messages.OpenApiMessages_pb2 import ProtoOAExecutionEvent, ProtoOAOrderErrorEvent
+
+        exec_type = ProtoOAExecutionEvent().payloadType
+        error_type = ProtoOAOrderErrorEvent().payloadType
+
+        def _matches(msg: Any) -> bool:
+            payload_type = getattr(msg, "payloadType", None)
+            if payload_type not in (exec_type, error_type):
+                return False
+            extracted = _extract(msg)
+            return int(getattr(extracted, "ctidTraderAccountId", -1)) == account_id
+
+        raw = await self._wait_for_message(_matches, timeout=timeout)
+        return _extract(raw)
+
     async def submit_order(self, command: BrokerOrderCommand) -> BrokerOrderReceipt:
-        raise CTraderReadOnlyViolation()
+        self._require_order_submission_enabled()
+        from ctrader_open_api.messages.OpenApiMessages_pb2 import ProtoOANewOrderReq, ProtoOAOrderErrorEvent
+        from ctrader_open_api.messages.OpenApiModelMessages_pb2 import ProtoOAOrderType, ProtoOATimeInForce, ProtoOATradeSide
+
+        account_id = int(command.account_id)
+        symbol_id, _name = await self._resolve_symbol_id(command.instrument_id)
+        spec = await self.symbol_spec(command.instrument_id)
+        lot_size_raw = await self._raw_lot_size(symbol_id)
+
+        # ALWAYS the caller's risk-vetted approved_quantity, never the raw requested quantity --
+        # mirrors calculate_risk_size's own "risk is decided upstream, this layer only executes
+        # it faithfully" boundary.
+        normalized_lots = self._normalize_volume(command.approved_quantity, spec)
+        raw_volume = lots_to_raw_volume(normalized_lots, lot_size_raw)
+
+        req = ProtoOANewOrderReq()
+        req.ctidTraderAccountId = account_id
+        req.symbolId = symbol_id
+        req.orderType = ProtoOAOrderType.MARKET
+        req.tradeSide = ProtoOATradeSide.BUY if command.side.upper() in ("BUY", "LONG") else ProtoOATradeSide.SELL
+        req.volume = raw_volume
+        req.timeInForce = ProtoOATimeInForce.IMMEDIATE_OR_CANCEL
+        if command.stop_loss is not None:
+            req.stopLoss = float(command.stop_loss)
+        if command.take_profit is not None:
+            req.takeProfit = float(command.take_profit)
+        req.label = command.canonical_order_id[:50]
+        req.comment = command.idempotency_key[:100]
+
+        await self._send(req)
+        event = await self._wait_for_execution(account_id=account_id)
+        if type(event).__name__ == "ProtoOAOrderErrorEvent" or getattr(event, "errorCode", ""):
+            raise CTraderAuthError(f"cTrader order rejected: {getattr(event, 'errorCode', 'UNKNOWN')} -- {getattr(event, 'description', '')}")
+
+        order_pb = event.order
+        deal_pb = event.deal if event.HasField("deal") else None
+        position_id = int(order_pb.positionId) if order_pb.positionId else (int(deal_pb.positionId) if deal_pb else None)
+        filled_lots = raw_volume_to_lots(int(deal_pb.filledVolume if deal_pb else order_pb.executedVolume or raw_volume), lot_size_raw)
+        fill_price = _price_from_raw(int(deal_pb.executionPrice)) if deal_pb and deal_pb.executionPrice else None
+
+        order = BrokerOrder(
+            canonical_order_id=command.canonical_order_id, broker_order_id=str(order_pb.orderId), account_id=command.account_id,
+            broker="ctrader", instrument_id=command.instrument_id, state=BrokerOrderState.FILLED,
+            raw_status=str(getattr(event, "executionType", "")), average_price=fill_price,
+            filled_quantity=filled_lots, remaining_quantity=Decimal(0), correlation_id=command.correlation_id,
+        )
+        execution = BrokerExecution(
+            canonical_order_id=command.canonical_order_id, broker_order_id=str(order_pb.orderId), account_id=command.account_id,
+            broker="ctrader", instrument_id=command.instrument_id, side=command.side, quantity=filled_lots,
+            price=fill_price or Decimal(0), commission=money_from_raw(int(deal_pb.commission), 2) if deal_pb and deal_pb.commission else Decimal(0),
+        )
+        logger.warning(
+            "cTrader DEMO order submitted account=%s symbol=%s side=%s volume=%s positionId=%s fill=%s",
+            command.account_id, command.instrument_id, command.side, normalized_lots, position_id, fill_price,
+        )
+        return BrokerOrderReceipt(order=order, execution=execution, submission_state="FILLED")
 
     async def cancel_order(self, command: BrokerCancelCommand) -> BrokerCancelReceipt:
-        raise CTraderReadOnlyViolation()
+        self._require_order_submission_enabled()
+        from ctrader_open_api.messages.OpenApiMessages_pb2 import ProtoOACancelOrderReq
+
+        req = ProtoOACancelOrderReq()
+        req.ctidTraderAccountId = int(command.account_id)
+        req.orderId = int(command.broker_order_id)
+        await self._send(req)
+        event = await self._wait_for_execution(account_id=int(command.account_id))
+        if getattr(event, "errorCode", ""):
+            raise CTraderAuthError(f"cTrader cancel rejected: {event.errorCode} -- {getattr(event, 'description', '')}")
+        return BrokerCancelReceipt(canonical_order_id=command.canonical_order_id, broker_order_id=command.broker_order_id, state=BrokerOrderState.CANCELLED)
 
     async def modify_position(self, command: BrokerModifyPositionCommand) -> BrokerModifyReceipt:
-        raise CTraderReadOnlyViolation()
+        self._require_order_submission_enabled()
+        from ctrader_open_api.messages.OpenApiMessages_pb2 import ProtoOAAmendPositionSLTPReq
+
+        account_id = int(command.account_id)
+        # None means "leave unchanged", never "clear" (see BrokerModifyPositionCommand's own
+        # docstring) -- cTrader's amend request has no such distinction, so a None field here
+        # must be filled in with the position's OWN CURRENT value before sending, or it would be
+        # silently zeroed (cleared) instead of preserved.
+        if command.stop_loss is None or command.take_profit is None:
+            current = next((p for p in await self.positions(command.account_id) if p.broker_position_id == command.broker_position_id), None)
+            if current is None:
+                raise CTraderUnavailableError(f"cannot amend SL/TP: position {command.broker_position_id} not found in current positions")
+            effective_sl = command.stop_loss if command.stop_loss is not None else current.stop_loss
+            effective_tp = command.take_profit if command.take_profit is not None else current.take_profit
+        else:
+            effective_sl, effective_tp = command.stop_loss, command.take_profit
+
+        req = ProtoOAAmendPositionSLTPReq()
+        req.ctidTraderAccountId = account_id
+        req.positionId = int(command.broker_position_id)
+        if effective_sl is not None:
+            req.stopLoss = float(effective_sl)
+        if effective_tp is not None:
+            req.takeProfit = float(effective_tp)
+        await self._send(req)
+        event = await self._wait_for_execution(account_id=account_id)
+        if getattr(event, "errorCode", ""):
+            raise CTraderAuthError(f"cTrader SL/TP amend rejected: {event.errorCode} -- {getattr(event, 'description', '')}")
+
+        refreshed = next((p for p in await self.positions(command.account_id) if p.broker_position_id == command.broker_position_id), None)
+        if refreshed is None:
+            raise CTraderUnavailableError(f"position {command.broker_position_id} not found after amend -- cannot confirm new SL/TP")
+        return BrokerModifyReceipt(position=refreshed, submission_state="FILLED")
 
     async def close_position(self, command: BrokerClosePositionCommand) -> BrokerCloseReceipt:
-        raise CTraderReadOnlyViolation()
+        self._require_order_submission_enabled()
+        from ctrader_open_api.messages.OpenApiMessages_pb2 import ProtoOAClosePositionReq
+
+        account_id = int(command.account_id)
+        current = next((p for p in await self.positions(command.account_id) if p.broker_position_id == command.broker_position_id), None)
+        if current is None:
+            raise CTraderUnavailableError(f"cannot close: position {command.broker_position_id} not found in current positions")
+        current_lots = abs(current.quantity)
+
+        symbol_id, _name = await self._resolve_symbol_id(command.instrument_id)
+        lot_size_raw = await self._raw_lot_size(symbol_id)
+        spec = await self.symbol_spec(command.instrument_id)
+
+        # quantity=None means full close (see BrokerClosePositionCommand's own docstring) --
+        # close EXACTLY the position's current volume, never a re-derived/guessed figure.
+        close_lots = current_lots if command.quantity is None else self._normalize_volume(command.quantity, spec)
+        if close_lots > current_lots:
+            close_lots = current_lots  # never request more than the position actually holds
+        raw_volume = lots_to_raw_volume(close_lots, lot_size_raw)
+
+        req = ProtoOAClosePositionReq()
+        req.ctidTraderAccountId = account_id
+        req.positionId = int(command.broker_position_id)
+        req.volume = raw_volume
+        await self._send(req)
+        event = await self._wait_for_execution(account_id=account_id)
+        if getattr(event, "errorCode", ""):
+            raise CTraderAuthError(f"cTrader close rejected: {event.errorCode} -- {getattr(event, 'description', '')}")
+
+        deal_pb = event.deal if event.HasField("deal") else None
+        fill_price = _price_from_raw(int(deal_pb.executionPrice)) if deal_pb and deal_pb.executionPrice else None
+        execution = BrokerExecution(
+            canonical_order_id=command.canonical_position_id, broker_order_id=str(event.order.orderId) if event.HasField("order") else None,
+            account_id=command.account_id, broker="ctrader", instrument_id=command.instrument_id,
+            side="SELL" if current.quantity > 0 else "BUY", quantity=close_lots, price=fill_price or Decimal(0),
+        )
+        remaining_lots = current_lots - close_lots
+        remaining_position = None
+        if remaining_lots > 0:
+            remaining_position = next((p for p in await self.positions(command.account_id) if p.broker_position_id == command.broker_position_id), None)
+        logger.warning(
+            "cTrader DEMO position closed account=%s positionId=%s closed_lots=%s remaining_lots=%s fill=%s",
+            command.account_id, command.broker_position_id, close_lots, remaining_lots, fill_price,
+        )
+        return BrokerCloseReceipt(
+            canonical_position_id=command.canonical_position_id, broker_position_id=command.broker_position_id,
+            closed_quantity=close_lots, remaining_quantity=remaining_lots, execution=execution,
+            remaining_position=remaining_position, submission_state="FILLED",
+        )
 
 
 def _extract(message: Any) -> Any:

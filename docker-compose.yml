@@ -237,6 +237,10 @@ services:
       CTRADER_REFRESH_TOKEN: "${CTRADER_REFRESH_TOKEN:-}"
       CTRADER_ACCOUNT_ID: "${CTRADER_ACCOUNT_ID:-}"
       CTRADER_REDIRECT_URI: "${CTRADER_REDIRECT_URI:-http://localhost:5000/ctrader/oauth/callback}"
+      # 2026-08-27 order-execution vertical slice: explicit, default-OFF opt-in on top of the
+      # OAuth token's own server-side scope (a read-only "accounts" token cannot place orders
+      # regardless of this flag). See backend/brokers/ctrader/adapter.py's module docstring.
+      CTRADER_ORDER_SUBMISSION_ENABLED: "${CTRADER_ORDER_SUBMISSION_ENABLED:-false}"
       MT5_MAX_POSITIONS_PER_QUOTE_CURRENCY: "${MT5_MAX_POSITIONS_PER_QUOTE_CURRENCY:-3}"
       MT5_MAX_CORRELATED_POSITIONS: "${MT5_MAX_CORRELATED_POSITIONS:-3}"
       MT5_ALLOW_OPPOSING_SAME_SYMBOL_POSITIONS: "${MT5_ALLOW_OPPOSING_SAME_SYMBOL_POSITIONS:-false}"
