@@ -241,6 +241,12 @@ services:
       # OAuth token's own server-side scope (a read-only "accounts" token cannot place orders
       # regardless of this flag). See backend/brokers/ctrader/adapter.py's module docstring.
       CTRADER_ORDER_SUBMISSION_ENABLED: "${CTRADER_ORDER_SUBMISSION_ENABLED:-false}"
+      # Gate D bridge (backend/brokers/ctrader/bridge.py): should the live MT5 cycle even
+      # attempt offering its naturally-qualified candidate to cTrader. Independent of, and in
+      # addition to, CTRADER_ORDER_SUBMISSION_ENABLED above -- both must be true, plus a real
+      # trading-scope OAuth token, before any cTrader order is actually placed.
+      CTRADER_BENSIM_ENGINE_ENABLED: "${CTRADER_BENSIM_ENGINE_ENABLED:-false}"
+      CTRADER_BRIDGE_PRICE_DIVERGENCE_TOLERANCE: "${CTRADER_BRIDGE_PRICE_DIVERGENCE_TOLERANCE:-0.15}"
       MT5_MAX_POSITIONS_PER_QUOTE_CURRENCY: "${MT5_MAX_POSITIONS_PER_QUOTE_CURRENCY:-3}"
       MT5_MAX_CORRELATED_POSITIONS: "${MT5_MAX_CORRELATED_POSITIONS:-3}"
       MT5_ALLOW_OPPOSING_SAME_SYMBOL_POSITIONS: "${MT5_ALLOW_OPPOSING_SAME_SYMBOL_POSITIONS:-false}"

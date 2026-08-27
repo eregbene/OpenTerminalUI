@@ -714,6 +714,24 @@ class MT5AutonomousTradingService:
                 await redis_layer.publish_event("mt5.candidate.selected", {"cycle_id": cycle_id, "symbol": best["broker_symbol"], "direction": best["direction"], "strategy": best.get("context", {}).get("strategy_id"), "confidence": best["trade_confidence"]["overall_score"]})
             submission = await self._submit(best, confidence=float(best["trade_confidence"]["overall_score"]), dry_run=dry_run)
             _lap("execution")
+            # 2026-08-27 Gate D bridge: same naturally-qualified `best` candidate, offered to
+            # cTrader's own DEMO account AFTER MT5's own decision is fully finalized -- never
+            # blocks, delays, or alters MT5's own submission/result/return above. Gated to a
+            # single reference account (demo_10k) so a 4-account cycle doesn't fire this 4x for
+            # the same underlying signal; disabled by default (CTRADER_BENSIM_ENGINE_ENABLED) and
+            # completely inert unless explicitly enabled. See ctrader/bridge.py's own docstring
+            # for the full safety design (this is the temporary, explicitly-flagged cross-broker
+            # bridge the user's own design instructions sanction, not the final architecture).
+            if self.account_id == "demo_10k":
+                try:
+                    from backend.brokers.ctrader.bridge import attempt_ctrader_bridge_trade, bridge_enabled
+
+                    if bridge_enabled():
+                        bridge_result = await attempt_ctrader_bridge_trade(best, confidence=float(best["trade_confidence"]["overall_score"]), dry_run=dry_run)
+                        if bridge_result.status not in {"DISABLED"}:
+                            logger.info("cTrader Bensim bridge: %s %s", bridge_result.status, bridge_result.detail.get("order_intent", {}).get("candidate_id", ""))
+                except Exception as exc:
+                    logger.exception("cTrader Bensim bridge hook failed (MT5 unaffected): %s", exc.__class__.__name__)
             result = await _finalize({"cycle_id": cycle_id, "status": submission["status"], "winner": best, "candidates": ranked, "trade": submission, "diversity_cap": diversity_cap, "confirmation_gate": confirmation_gate, "order_send_calls": submission.get("order_send_calls", 0)})
             self._record_cycle(result, dry_run=dry_run)
             return result
