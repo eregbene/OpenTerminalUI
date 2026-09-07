@@ -1,0 +1,59 @@
+guys. So in this lecture, we're going to learn about the 930 AM trading
+strategy. Bear in mind, it works the best with indices. For example,
+mass 100 SMP 500. Okay, it does work with forex as well. But I would
+recommend that you stick to indices with this trading strategy. Okay. So first
+of all, you want to change your time zone to New York. Okay. And then you
+want to trade. You can only trade between 930 AM till 1159 AM New
+York time. Okay. So this is your window period. Okay, you can only
+trade within these hours. So this is the very first rule of the
+trading strategy. Okay. The second rule is you want to identify some sort of
+liquidity. Okay. So you want to identify some sort of liquidity between these
+hours. Okay. And or you can start looking for some sort of liquidity at 925 AM.
+Okay. You can take trades after 930. Okay. So let's say if okay, I'm going to
+explain it later. But you want the rule number two is you want to identify some
+sort of liquidity. Okay. And the rule number three is you want you want to
+wait for price to sweep that liquidity. Okay. So you want to wait for price to
+take out the liquidity. Okay. That you have identified. Once you're once the
+price. Oh man. Once the price sweeps out the liquidity, you want to wait for you
+then wait for market structure shift. Okay. Once price takes out the liquidity,
+then you then wait for market structure shift. And you now there are two ways to
+enter. Okay. You can either take the entry from the first fair value gap. Or you
+take your entry from the extreme fair value gap. So what I mean by that is let's
+say this is liquidity, right? Before. So this is the 930 open, right? This is
+where let's say, for example, okay, the 930 time starts from here. And you have
+this liquidity zone equal highs, you know, day off the high, it could be any sort
+of liquidity. Okay. So it could be equal highs. It could be a major swing high or
+a swing low. It could be a daily high daily low or previous day high previous
+day low. It could be a weekly high a weekly low. So any sort of liquidity. Okay.
+And then you wait for price to sweep the liquidity. Okay. And on the once the
+price sweeps the liquidity or actually when you spot the liquidity, you want to
+go down to the one minute time frame. So you are looking for liquidity on a 15
+minute timeframe. Okay, bear, keep this in mind. You have to look for liquidity on a
+15 minute timeframe, 15. Okay. And once you have spotted the liquidity and the 930
+starts, you go to the one minute timeframe, you wait for price to sweep up the
+liquidity. And then on the one minute timeframe, this is how the price is
+going to look like, right? Price sweeps the liquidity. And then you wait for
+market structure shift. So this right here is a market structure shift. As you
+can see, now, before the price breaks this structure, there would be some fair
+value gap here, here and the extreme one here. So you can either take your entry
+from the very first fair value gap. Okay. But you're gonna keep your stop
+loss up there. So and there's another option that is your take your entry from
+the extreme fair value gap. Now, what would happen with this is if you take
+your entry from the extreme fair value gap, you're gonna get a higher risk to
+reward trade. Okay. But if you take your entry from, let's say the very first
+fair value gap, you're gonna have a bigger stop loss. But you're not gonna miss a
+trade. Okay. So sometimes if you have if you have your entry at the very extreme
+fair value gap, you're gonna miss out the trade. So I would say that straight
+with the extreme fair value gap, because you know, it's okay to sometimes miss
+the trade, as long as you're getting the trades with big risk reward trades, and
+it's gonna cover up the missed trades, if that makes sense. So here's the thing.
+When the price sweeps the liquidity, you want to wait for market structure shift,
+and then you enter at the fair value gap, and you target, you know, some sort of
+fair value gap here, or I go by this rule, when I take my entry and I have my
+stop loss, I go for minimum risk to reward three, and I can go for maximum
+five risk reward. This is all I go for. Okay. I do not chase big risk reward
+trades, because, you know, there's so much going on the world right now, and I do
+not want to hold my trades for a longer duration. So yes, we have then you can
+either take the entry from the first failure gap, or you could take your entry
+from the extreme failure gap. So I'm gonna give you guys some examples, and it's
+gonna be crystal clear to you guys.

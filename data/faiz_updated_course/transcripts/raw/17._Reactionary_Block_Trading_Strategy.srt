@@ -1,0 +1,175 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, so now we're going to learn the reactionary order block trading strategy. So this is actually auto floor trading strategy but with more confirmation. And I do not mean confirming it on a smaller time for my thing. You will be confirming it on the same time for him. It's different than what you have seen on YouTube or on any other course.
+
+2
+00:00:30,000 --> 00:00:37,640
+Let's say we are in a downtrend that we have this change of character or market structure shift whatever you want to call it
+
+3
+00:00:38,120 --> 00:00:40,800
+Okay, once you have that you will have
+
+4
+00:00:42,810 --> 00:00:46,870
+Fairvalue gap plus auto block at this level now
+
+5
+00:00:49,330 --> 00:00:53,090
+Normally you would take your entry directly from here, right?
+
+6
+00:00:54,330 --> 00:00:58,130
+But in this scenario, what is a reactionary auto block?
+
+7
+00:00:58,130 --> 00:01:13,130
+So when price comes into this auto block, it must make a push up something like this that will create another imbalance and auto block.
+
+8
+00:01:13,130 --> 00:01:25,050
+Okay, it must create imbalance and auto block after mitigating the auto block and
+
+9
+00:01:25,050 --> 00:01:32,850
+farewell gap around this level. Once that happens, that is your confirmation entry.
+
+10
+00:01:32,850 --> 00:01:39,770
+It is gonna increase your win rate. This is what's all about. Okay, very simple
+
+11
+00:01:39,770 --> 00:01:51,300
+guys, I will repeat this again. So we have a market structure shift here. We got the
+
+12
+00:01:51,300 --> 00:01:57,560
+farewell gap on our blog in the discounted zone. Price comes back into the zone. Not
+
+13
+00:01:57,560 --> 00:02:02,860
+only you would buy it straight away, but sometimes it can just push through it. You want
+
+14
+00:02:02,860 --> 00:02:09,620
+to avoid losses. So you wait for price to give you another reaction. Right? Once price hits
+
+15
+00:02:09,620 --> 00:02:16,940
+this level it must create an impulsive move it does not need to break any
+
+16
+00:02:16,940 --> 00:02:21,800
+structure or anything it just needs to create an imbalance and auto block
+
+17
+00:02:21,800 --> 00:02:29,980
+that is it once you have that you can take your entry from that auto block now
+
+18
+00:02:29,980 --> 00:02:35,140
+you can either put your straw plus just below this new impulsive just below
+
+19
+00:02:35,140 --> 00:02:40,240
+this new low data is formed or you can put it down there just to be on the
+
+20
+00:02:40,240 --> 00:02:47,500
+safe side okay and voila that is it same for a continuation pattern
+
+21
+00:02:47,500 --> 00:02:55,420
+let's say we are in an uptrend price and makes another higher high right and
+
+22
+00:02:55,420 --> 00:03:03,460
+we got this fair value gap around here and auto block so this would have been an
+
+23
+00:03:03,460 --> 00:03:05,860
+and ABC pattern as well.
+
+24
+00:03:05,860 --> 00:03:08,140
+So what happens?
+
+25
+00:03:08,140 --> 00:03:16,730
+Price comes into this level, goes up, creates farewell gap.
+
+26
+00:03:19,770 --> 00:03:27,060
+And then you target the high.
+
+27
+00:03:27,060 --> 00:03:29,820
+That is it, guys.
+
+28
+00:03:29,820 --> 00:03:35,260
+So price broke, did a market structure break.
+
+29
+00:03:35,260 --> 00:03:37,380
+It created farewell gap in imbalance.
+
+30
+00:03:37,380 --> 00:03:42,140
+price made in impulsive move once the price hit the auto block and farewell gap at this level
+
+31
+00:03:42,860 --> 00:03:47,220
+It created farewell to gap on a block here as well. Now this is your confirmation entry
+
+32
+00:03:47,220 --> 00:03:50,980
+You don't want to go to the smaller timeframes and all that bullshit, okay?
+
+33
+00:03:51,340 --> 00:03:57,180
+You just can easily take your entry here and do not chase big risk reward guys
+
+34
+00:03:57,700 --> 00:03:59,700
+All right if you stick with
+
+35
+00:03:59,900 --> 00:04:02,560
+1 to 3 1 to 2 1 to 4 1 to 5
+
+36
+00:04:02,560 --> 00:04:09,720
+Trust me that is more than enough. Never choose a lot. Okay, never choose big risk reward ratios.
+
+37
+00:04:10,200 --> 00:04:12,920
+The price is gonna come to you, alright?
+
+38
+00:04:13,320 --> 00:04:16,620
+The market is not yours. It can reverse any time.
+
+39
+00:04:16,620 --> 00:04:19,920
+So why not just take your profits and enjoy the rest of the day?
+
+40
+00:04:20,120 --> 00:04:25,800
+But rather than holding the trade and expecting to hit like, I don't know, maybe 10 risk reward.
+
+41
+00:04:26,040 --> 00:04:30,880
+Yeah, sometimes you can hit it, but it's just not worth it guys.
+
+42
+00:04:30,880 --> 00:04:33,880
+So just take the profits and enjoy.
+
+43
+00:04:33,880 --> 00:04:38,880
+So I'll give you an example of this trading of this reaction on your autoblog.
+
+44
+00:04:38,880 --> 00:04:39,880
+So yeah.

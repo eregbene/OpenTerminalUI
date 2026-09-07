@@ -1,0 +1,248 @@
+1
+00:00:00,000 --> 00:00:02,800
+All right guys, so here is the last example.
+
+2
+00:00:04,240 --> 00:00:07,080
+You can see the ancient session ended here.
+
+3
+00:00:07,080 --> 00:00:10,160
+We have our BUI right here.
+
+4
+00:00:10,160 --> 00:00:12,320
+So I wait for price to come back into our BUI,
+
+5
+00:00:12,320 --> 00:00:13,760
+which happens right here.
+
+6
+00:00:13,760 --> 00:00:15,200
+I drop down to one minute.
+
+7
+00:00:16,120 --> 00:00:21,120
+And I look for my market structure shift.
+
+8
+00:00:22,000 --> 00:00:24,440
+Happens just right here.
+
+9
+00:00:24,440 --> 00:00:26,360
+I would take my entry from it.
+
+10
+00:00:26,360 --> 00:00:29,160
+Actually, I would take my entry from this level
+
+11
+00:00:29,160 --> 00:00:31,880
+because they are very close to each other.
+
+12
+00:00:31,880 --> 00:00:34,240
+And also if I drag this along,
+
+13
+00:00:34,240 --> 00:00:39,240
+you might remember my autoblock fake out,
+
+14
+00:00:41,000 --> 00:00:43,640
+autoblock liquidity trading strategy.
+
+15
+00:00:45,200 --> 00:00:49,320
+So you see we had a small little change of factor here.
+
+16
+00:00:49,320 --> 00:00:51,400
+And you can see price went down
+
+17
+00:00:51,400 --> 00:00:53,840
+and now it's pushed back up again.
+
+18
+00:00:53,840 --> 00:00:57,360
+Now this old autoblock is
+
+19
+00:00:59,400 --> 00:01:03,640
+has BPR, this autoblock.
+
+20
+00:01:03,640 --> 00:01:07,000
+So this is like the best area for me to enter off of.
+
+21
+00:01:07,000 --> 00:01:08,320
+So I would take my entry here,
+
+22
+00:01:08,320 --> 00:01:10,920
+put my stop probably right here,
+
+23
+00:01:10,920 --> 00:01:14,640
+just below the body right here.
+
+24
+00:01:14,640 --> 00:01:18,600
+And I would target probably this level right here.
+
+25
+00:01:18,600 --> 00:01:20,640
+Sure, but let's see how this plays out.
+
+26
+00:01:20,640 --> 00:01:24,240
+So we get a beautiful entry right here.
+
+27
+00:01:24,240 --> 00:01:29,240
+And price, did it hit or take profit?
+
+28
+00:01:29,280 --> 00:01:33,280
+It did not, it just simply reacted off this fairly gap.
+
+29
+00:01:33,280 --> 00:01:37,240
+So in a normal condition, I would look for one to two,
+
+30
+00:01:37,240 --> 00:01:41,400
+but this was, this could have been 2.5 easily.
+
+31
+00:01:44,160 --> 00:01:46,000
+But if you probably held, yep.
+
+32
+00:01:46,000 --> 00:01:47,800
+So actually it just went ahead
+
+33
+00:01:47,800 --> 00:01:51,480
+and took out this take profit level.
+
+34
+00:01:51,520 --> 00:01:54,880
+And I believe it takes out the Asian high as well.
+
+35
+00:01:57,560 --> 00:01:58,760
+Okay, I don't think so.
+
+36
+00:01:59,920 --> 00:02:01,080
+I'm not sure.
+
+37
+00:02:01,080 --> 00:02:02,480
+Let's see, let's see.
+
+38
+00:02:03,720 --> 00:02:06,480
+Up, up, up, up, up, up, up, up, go up, go up.
+
+39
+00:02:06,480 --> 00:02:09,400
+Nope, nope, nope, nope, nope, nope, nope, nope, nope,
+
+40
+00:02:09,400 --> 00:02:11,680
+nope, nope, nope, nope, nope, nope, nope, nope, nope,
+
+41
+00:02:11,680 --> 00:02:13,280
+okay, nevermind.
+
+42
+00:02:13,280 --> 00:02:16,740
+So yeah, this would have been actually
+
+43
+00:02:16,740 --> 00:02:21,740
+one to three risk reward trade guys.
+
+44
+00:02:21,940 --> 00:02:25,900
+It's really simple, mechanical trading strategy
+
+45
+00:02:25,900 --> 00:02:27,540
+that you can use.
+
+46
+00:02:27,540 --> 00:02:29,380
+I hope you guys enjoyed
+
+47
+00:02:29,380 --> 00:02:33,340
+and took some knowledge off of this course update.
+
+48
+00:02:33,340 --> 00:02:34,180
+As I said before,
+
+49
+00:02:34,180 --> 00:02:37,220
+there are gonna be a lot of course updates in the future.
+
+50
+00:02:37,220 --> 00:02:40,020
+And you're gonna get that for absolutely free.
+
+51
+00:02:40,020 --> 00:02:41,900
+I'm just gonna keep on updating the course,
+
+52
+00:02:41,900 --> 00:02:43,420
+uploading more videos
+
+53
+00:02:44,260 --> 00:02:48,460
+because IT content is too big guys.
+
+54
+00:02:48,460 --> 00:02:53,460
+And even if I spend like a week
+
+55
+00:02:53,940 --> 00:02:55,900
+constantly making videos again and again,
+
+56
+00:02:55,900 --> 00:02:56,780
+it's not gonna be enough.
+
+57
+00:02:56,780 --> 00:02:57,980
+So I need time.
+
+58
+00:02:57,980 --> 00:03:02,980
+So I'll try to upload more videos after each month,
+
+59
+00:03:03,700 --> 00:03:05,260
+I would say.
+
+60
+00:03:05,260 --> 00:03:07,940
+But anyways, if you have any questions,
+
+61
+00:03:07,940 --> 00:03:09,580
+let me know and I'll answer them.
+
+62
+00:03:09,580 --> 00:03:12,000
+And goodbye, take care, love you guys.
+

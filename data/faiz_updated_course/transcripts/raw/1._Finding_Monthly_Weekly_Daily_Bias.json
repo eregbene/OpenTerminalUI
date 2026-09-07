@@ -1,0 +1,913 @@
+{
+  "source": "F:\\new faiz\\1. Finding Monthly, Weekly, & Daily Bias.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 682.20225,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.59,
+      "end": 30.59,
+      "text": " Alright guys, so welcome to course update 4.0. This update is going to actually make you a monster, okay? This update has all the advanced ICT concepts and if you understand these concepts guys, trust me, you will become an independent trader. You will not need anyone else, okay? You will be able to identify daily bias, multi bias, weekly bias. You will be able to create your own model. I will teach you a couple of new strategies"
+    },
+    {
+      "start": 30.59,
+      "end": 34.29,
+      "text": " that are insanely profitable and insanely powerful."
+    },
+    {
+      "start": 35.17,
+      "end": 38.97,
+      "text": " But let's talk about our first topic of the course of date,"
+    },
+    {
+      "start": 38.97,
+      "end": 42.21,
+      "text": " which is the monthly weekly and daily bias."
+    },
+    {
+      "start": 42.21,
+      "end": 44.33,
+      "text": " Now, before we get into the monthly weekly and daily bias,"
+    },
+    {
+      "start": 44.33,
+      "end": 48.17,
+      "text": " you want to know about external liquidity and internal liquidity."
+    },
+    {
+      "start": 48.17,
+      "end": 51.49,
+      "text": " So over here, as you can see, I have marked out this high"
+    },
+    {
+      "start": 51.49,
+      "end": 52.77,
+      "text": " as external liquidity."
+    },
+    {
+      "start": 52.77,
+      "end": 56.27,
+      "text": " I've also marked out this low as external liquidity."
+    },
+    {
+      "start": 56.27,
+      "end": 63.47,
+      "text": " So basically price and this right here, this fair value gap in the discount."
+    },
+    {
+      "start": 63.47,
+      "end": 65.83,
+      "text": " So this is the equilibrium of this move."
+    },
+    {
+      "start": 65.83,
+      "end": 70.83,
+      "text": " So if you use your Fibonacci from this to this, that is your equilibrium."
+    },
+    {
+      "start": 70.83,
+      "end": 74.87,
+      "text": " And below any fair value gap below that is an internal liquidity."
+    },
+    {
+      "start": 74.87,
+      "end": 81.43,
+      "text": " So what market does is it market only moves in two ways."
+    },
+    {
+      "start": 81.43,
+      "end": 84.87,
+      "text": " it either takes out external liquidity, right?"
+    },
+    {
+      "start": 84.87,
+      "end": 88.47,
+      "text": " And seeks for internal liquidity, right?"
+    },
+    {
+      "start": 88.47,
+      "end": 91.43,
+      "text": " So market will take out external liquidity"
+    },
+    {
+      "start": 91.43,
+      "end": 95.03,
+      "text": " and it will, the drawn liquidity would be the fairly gap"
+    },
+    {
+      "start": 95.03,
+      "end": 98.19,
+      "text": " in the discount, okay?"
+    },
+    {
+      "start": 98.19,
+      "end": 99.71,
+      "text": " That is one thing that market does."
+    },
+    {
+      "start": 99.71,
+      "end": 102.11,
+      "text": " And the second and the last thing that market is,"
+    },
+    {
+      "start": 102.11,
+      "end": 107.11,
+      "text": " is it moves from internal, sorry guys,"
+    },
+    {
+      "start": 107.55,
+      "end": 110.19,
+      "text": " it moves from internal to external."
+    },
+    {
+      "start": 110.19,
+      "end": 119.97,
+      "text": " right here. So this right here is an external liquidity here as well. So basically we are moving"
+    },
+    {
+      "start": 119.97,
+      "end": 126.11,
+      "text": " from external to internal and from internal to external. A repeat again, external liquidity"
+    },
+    {
+      "start": 126.11,
+      "end": 136.79,
+      "text": " is any high or low and internal liquidity is any firmly gap in the discount or premium."
+    },
+    {
+      "start": 136.79,
+      "end": 141.63,
+      "text": " That is what you need to know about extending an internal liquidity."
+    },
+    {
+      "start": 141.63,
+      "end": 146.51,
+      "text": " So now how do we find our, let's talk about monthly bias."
+    },
+    {
+      "start": 146.51,
+      "end": 153.27,
+      "text": " So for monthly bias, we want to be using three time frames."
+    },
+    {
+      "start": 153.27,
+      "end": 156.47,
+      "text": " And for weekly bias, we will use two time cents as well."
+    },
+    {
+      "start": 156.47,
+      "end": 160.15,
+      "text": " And for daily, we would use three time frames as well."
+    },
+    {
+      "start": 160.15,
+      "end": 165.15,
+      "text": " And you will be learning a new strategy in this video as well."
+    },
+    {
+      "start": 165.15,
+      "end": 173.79,
+      "text": " keep watching. So how do we determine the monthly bias? It's very simple. You mark out the closest"
+    },
+    {
+      "start": 173.79,
+      "end": 179.23,
+      "text": " higher low. And if you see that price has taken an extended liquidity, look below it. Where is the"
+    },
+    {
+      "start": 179.23,
+      "end": 185.71,
+      "text": " fair value gap in the discount? Okay, so you want to use your firm from bottom to top on the monthly"
+    },
+    {
+      "start": 185.71,
+      "end": 192.59,
+      "text": " time frame first. Okay, we go to the monthly first. Once price has taken out extended liquidity,"
+    },
+    {
+      "start": 192.59,
+      "end": 198.19,
+      "text": " Now we need to have a confidence that price is not going to reverse into internal liquidity."
+    },
+    {
+      "start": 198.19,
+      "end": 203.87,
+      "text": " Okay. We can't just simply short from here because we have no confirmation. So once you have"
+    },
+    {
+      "start": 203.87,
+      "end": 211.23,
+      "text": " a purge of external liquidity on the monthly timeframe, you want to drop down to the daily time"
+    },
+    {
+      "start": 211.23,
+      "end": 216.19,
+      "text": " frame. And once you drop down to daily timeframe, you want to look for a market structure shift."
+    },
+    {
+      "start": 216.19,
+      "end": 223.15,
+      "text": " Once you have a market structure shift guys, that is your confirmation that we are"
+    },
+    {
+      "start": 223.15,
+      "end": 230.71,
+      "text": " going to seek this internal liquidity. Now you have your high time firm and now"
+    },
+    {
+      "start": 230.71,
+      "end": 235.71,
+      "text": " you have your daily time from supporting that narrative as well that we are going"
+    },
+    {
+      "start": 235.71,
+      "end": 239.83,
+      "text": " to go down into the internal liquidity right here which is the fair value gap in"
+    },
+    {
+      "start": 239.83,
+      "end": 245.91,
+      "text": " the discount. So once you have the market structure shift what you want to do"
+    },
+    {
+      "start": 245.91,
+      "end": 250.91,
+      "text": " is you can literally take your entry from that auto block."
+    },
+    {
+      "start": 251.43,
+      "end": 254.75,
+      "text": " Okay, that is your like simple model."
+    },
+    {
+      "start": 254.75,
+      "end": 257.67,
+      "text": " Okay, you can simply use this as a strategy."
+    },
+    {
+      "start": 257.67,
+      "end": 259.03,
+      "text": " Once you get a market structure shift,"
+    },
+    {
+      "start": 259.03,
+      "end": 261.11,
+      "text": " take your entry from here,"
+    },
+    {
+      "start": 261.11,
+      "end": 264.95,
+      "text": " take parsers along the way, your main target would be here."
+    },
+    {
+      "start": 264.95,
+      "end": 269.39,
+      "text": " Okay, although when we go into different chapters"
+    },
+    {
+      "start": 269.39,
+      "end": 271.07,
+      "text": " of this course of date,"
+    },
+    {
+      "start": 271.07,
+      "end": 274.03,
+      "text": " I'm gonna teach you my specific strategies"
+    },
+    {
+      "start": 274.03,
+      "end": 277.55,
+      "text": " that I used with this by combining daily bias and all."
+    },
+    {
+      "start": 277.55,
+      "end": 280.39,
+      "text": " But for now, what we are learning is how to identify"
+    },
+    {
+      "start": 280.39,
+      "end": 281.23,
+      "text": " your monthly bias."
+    },
+    {
+      "start": 281.23,
+      "end": 283.31,
+      "text": " So once you have a market structure shift"
+    },
+    {
+      "start": 283.31,
+      "end": 286.27,
+      "text": " on the daily timeframe, your monthly bias"
+    },
+    {
+      "start": 286.27,
+      "end": 291.03,
+      "text": " would be bearish until this internal liquidity is hit."
+    },
+    {
+      "start": 291.03,
+      "end": 293.71,
+      "text": " Now of course, it's not gonna be hit"
+    },
+    {
+      "start": 293.71,
+      "end": 295.75,
+      "text": " in like 100% of the time,"
+    },
+    {
+      "start": 295.75,
+      "end": 298.55,
+      "text": " but most of the time price will draw"
+    },
+    {
+      "start": 298.55,
+      "end": 300.35,
+      "text": " into the fair value gap."
+    },
+    {
+      "start": 300.35,
+      "end": 301.71,
+      "text": " That is in the discount."
+    },
+    {
+      "start": 301.71,
+      "end": 302.99,
+      "text": " And that is unmitigated."
+    },
+    {
+      "start": 302.99,
+      "end": 305.79,
+      "text": " The Fairbelly Gap has to be unmitigated."
+    },
+    {
+      "start": 305.79,
+      "end": 307.07,
+      "text": " Okay?"
+    },
+    {
+      "start": 307.07,
+      "end": 309.47,
+      "text": " That is very important."
+    },
+    {
+      "start": 309.47,
+      "end": 311.71,
+      "text": " So you have a market structure shift, right?"
+    },
+    {
+      "start": 311.71,
+      "end": 315.75,
+      "text": " And that is pretty much your level."
+    },
+    {
+      "start": 315.75,
+      "end": 317.19,
+      "text": " So once you have a market structure shift,"
+    },
+    {
+      "start": 317.19,
+      "end": 319.43,
+      "text": " you're gonna look for simply take you"
+    },
+    {
+      "start": 319.43,
+      "end": 320.71,
+      "text": " and come from the Fairbelly Gap."
+    },
+    {
+      "start": 320.71,
+      "end": 323.83,
+      "text": " You can use ABC strategy."
+    },
+    {
+      "start": 323.83,
+      "end": 326.43,
+      "text": " You can use ABC, D-trading strategy."
+    },
+    {
+      "start": 326.43,
+      "end": 328.27,
+      "text": " You can use whatever you want."
+    },
+    {
+      "start": 328.27,
+      "end": 329.63,
+      "text": " Once you have a market structure shift,"
+    },
+    {
+      "start": 329.63,
+      "end": 332.31,
+      "text": " your bias is to the downside."
+    },
+    {
+      "start": 332.31,
+      "end": 337.37,
+      "text": " Now your entries and executions must be on the one hour"
+    },
+    {
+      "start": 337.37,
+      "end": 339.11,
+      "text": " time frame, okay?"
+    },
+    {
+      "start": 339.11,
+      "end": 342.79,
+      "text": " When you're using ABC or ABCD, whatever it is."
+    },
+    {
+      "start": 342.79,
+      "end": 344.27,
+      "text": " I'm gonna talk about those later,"
+    },
+    {
+      "start": 344.27,
+      "end": 345.95,
+      "text": " but once you have a market exchange shift,"
+    },
+    {
+      "start": 345.95,
+      "end": 348.35,
+      "text": " you can take your entry on the daily time frame as well."
+    },
+    {
+      "start": 348.35,
+      "end": 349.75,
+      "text": " Because we've got the market exchange shift,"
+    },
+    {
+      "start": 349.75,
+      "end": 352.03,
+      "text": " the price is gonna go down anyways, right?"
+    },
+    {
+      "start": 352.03,
+      "end": 354.15,
+      "text": " So you can take your entry from,"
+    },
+    {
+      "start": 354.15,
+      "end": 355.99,
+      "text": " I don't know, this is fairly gap over here"
+    },
+    {
+      "start": 355.99,
+      "end": 358.19,
+      "text": " or it could be an auto block here."
+    },
+    {
+      "start": 358.19,
+      "end": 361.35,
+      "text": " just remember your target is over here."
+    },
+    {
+      "start": 362.75,
+      "end": 366.71,
+      "text": " And similarly for weekly bias, we use these time streams."
+    },
+    {
+      "start": 366.71,
+      "end": 368.71,
+      "text": " For the higher time frame, it's gonna be one week."
+    },
+    {
+      "start": 368.71,
+      "end": 371.03,
+      "text": " So our high time frame is weekly."
+    },
+    {
+      "start": 371.03,
+      "end": 375.71,
+      "text": " Our intermediate time is like four hour"
+    },
+    {
+      "start": 375.71,
+      "end": 378.51,
+      "text": " and our lowest time frame is gonna be 15 minutes."
+    },
+    {
+      "start": 378.51,
+      "end": 380.19,
+      "text": " So similarly, what you're looking for"
+    },
+    {
+      "start": 380.19,
+      "end": 383.07,
+      "text": " is perhaps you take out some form of high or low."
+    },
+    {
+      "start": 383.07,
+      "end": 384.71,
+      "text": " Once practice has taken out higher low"
+    },
+    {
+      "start": 384.71,
+      "end": 386.79,
+      "text": " in the weekly time frame,"
+    },
+    {
+      "start": 386.79,
+      "end": 389.95,
+      "text": " you are simply looking for a market structure shift"
+    },
+    {
+      "start": 389.95,
+      "end": 392.51,
+      "text": " on a four hour timeframe."
+    },
+    {
+      "start": 392.51,
+      "end": 395.75,
+      "text": " Now the thing is price cannot keep going up, right?"
+    },
+    {
+      "start": 395.75,
+      "end": 397.67,
+      "text": " Like that and then give you a market shift."
+    },
+    {
+      "start": 397.67,
+      "end": 401.67,
+      "text": " You wanna see like an instant market structure shift"
+    },
+    {
+      "start": 401.67,
+      "end": 403.71,
+      "text": " runs price takes out liquidity, okay?"
+    },
+    {
+      "start": 403.71,
+      "end": 404.95,
+      "text": " You can, yeah."
+    },
+    {
+      "start": 404.95,
+      "end": 406.35,
+      "text": " So you have to train your eyes."
+    },
+    {
+      "start": 406.35,
+      "end": 407.39,
+      "text": " I'm gonna show you the examples"
+    },
+    {
+      "start": 407.39,
+      "end": 409.47,
+      "text": " and then that would be clear on how you can,"
+    },
+    {
+      "start": 409.47,
+      "end": 412.07,
+      "text": " you know, differentiate it."
+    },
+    {
+      "start": 412.07,
+      "end": 416.03,
+      "text": " So once you have like a market structure shift"
+    },
+    {
+      "start": 416.03,
+      "end": 417.67,
+      "text": " on the four hour timeframe."
+    },
+    {
+      "start": 417.67,
+      "end": 419.07,
+      "text": " You can simply take your entry"
+    },
+    {
+      "start": 419.07,
+      "end": 421.23,
+      "text": " from the four hour timeframe itself"
+    },
+    {
+      "start": 421.23,
+      "end": 425.23,
+      "text": " or you can use 15 minute time frames for other strategies."
+    },
+    {
+      "start": 425.23,
+      "end": 426.75,
+      "text": " But don't worry about that."
+    },
+    {
+      "start": 426.75,
+      "end": 428.71,
+      "text": " I'm gonna teach you that stuff later on."
+    },
+    {
+      "start": 428.71,
+      "end": 431.23,
+      "text": " But what we need to know is once you get the market"
+    },
+    {
+      "start": 431.23,
+      "end": 434.59,
+      "text": " structure shift, your bias is now set, okay?"
+    },
+    {
+      "start": 434.59,
+      "end": 437.03,
+      "text": " Your bias for the weekly, your weekly bias"
+    },
+    {
+      "start": 437.03,
+      "end": 440.63,
+      "text": " is gonna be bearish until the internal liquidity is hit"
+    },
+    {
+      "start": 440.63,
+      "end": 441.53,
+      "text": " right here."
+    },
+    {
+      "start": 441.53,
+      "end": 444.19,
+      "text": " So let me show you an example how this would look like."
+    },
+    {
+      "start": 444.19,
+      "end": 446.63,
+      "text": " So let's say price takes out external liquidity"
+    },
+    {
+      "start": 446.63,
+      "end": 448.27,
+      "text": " on the weekly timeframe."
+    },
+    {
+      "start": 448.27,
+      "end": 450.23,
+      "text": " You drop down to the four hour timeframe,"
+    },
+    {
+      "start": 450.23,
+      "end": 451.87,
+      "text": " you mark out any low."
+    },
+    {
+      "start": 451.87,
+      "end": 453.71,
+      "text": " Once price breaks that low,"
+    },
+    {
+      "start": 453.71,
+      "end": 455.51,
+      "text": " you will get a market structure shift."
+    },
+    {
+      "start": 455.51,
+      "end": 458.43,
+      "text": " So you simply use your fib from top to bottom"
+    },
+    {
+      "start": 458.43,
+      "end": 461.79,
+      "text": " and look for your entry above the 0.5 level."
+    },
+    {
+      "start": 461.79,
+      "end": 462.67,
+      "text": " Okay?"
+    },
+    {
+      "start": 462.67,
+      "end": 464.39,
+      "text": " So there could be a fairly gap."
+    },
+    {
+      "start": 464.39,
+      "end": 466.19,
+      "text": " And that is a simple model."
+    },
+    {
+      "start": 466.19,
+      "end": 469.19,
+      "text": " Okay, that you can use as well as you."
+    },
+    {
+      "start": 469.19,
+      "end": 471.75,
+      "text": " But there are better ones, I'm gonna teach you."
+    },
+    {
+      "start": 471.75,
+      "end": 473.51,
+      "text": " So don't worry."
+    },
+    {
+      "start": 473.51,
+      "end": 476.69,
+      "text": " So right here you can see we get a market structure shift right here."
+    },
+    {
+      "start": 476.69,
+      "end": 480.09,
+      "text": " Over here we take our entry, we target this level."
+    },
+    {
+      "start": 480.09,
+      "end": 483.01,
+      "text": " This fairly gap below the 0.5 level."
+    },
+    {
+      "start": 483.01,
+      "end": 488.21,
+      "text": " And from here onwards you can see we move from internal to external."
+    },
+    {
+      "start": 488.21,
+      "end": 497.81,
+      "text": " Now moving from internal to external is I would say is not that high probable,"
+    },
+    {
+      "start": 497.81,
+      "end": 498.85,
+      "text": " if that makes sense."
+    },
+    {
+      "start": 498.85,
+      "end": 502.85,
+      "text": " For example, if you're looking to go from internal to external,"
+    },
+    {
+      "start": 502.85,
+      "end": 506.37,
+      "text": " that would require you to have a very, very strong bias."
+    },
+    {
+      "start": 506.37,
+      "end": 508.85,
+      "text": " Like if the auto flow is extremely bullish,"
+    },
+    {
+      "start": 508.85,
+      "end": 512.69,
+      "text": " then you can look for this type of bias setup."
+    },
+    {
+      "start": 513.89,
+      "end": 518.21,
+      "text": " So this whole concept, this right here,"
+    },
+    {
+      "start": 519.25,
+      "end": 522.69,
+      "text": " even though I knew ABC, right, this is ABC basically,"
+    },
+    {
+      "start": 522.69,
+      "end": 525.65,
+      "text": " and into the free value gap in ABC right here,"
+    },
+    {
+      "start": 525.65,
+      "end": 527.97,
+      "text": " and then into the free value gap or this low here,"
+    },
+    {
+      "start": 527.97,
+      "end": 535.65,
+      "text": " this this was simplified big shout out to the market maker I don't know"
+    },
+    {
+      "start": 535.65,
+      "end": 539.81,
+      "text": " what's his name the market maker maker or something like that on Twitter and"
+    },
+    {
+      "start": 539.81,
+      "end": 544.65,
+      "text": " this is this concept is from him so I want to give a shout out to and credit to"
+    },
+    {
+      "start": 544.65,
+      "end": 549.41,
+      "text": " him the market maker model I think maker I don't know wait let me just check"
+    },
+    {
+      "start": 549.41,
+      "end": 556.47,
+      "text": " so I am giving the shout out to the correct person it is basically the the"
+    },
+    {
+      "start": 556.47,
+      "end": 562.71,
+      "text": " market maker trader, okay, the MMXM trader, big shout out to him. So if you want to learn"
+    },
+    {
+      "start": 562.71,
+      "end": 570.39,
+      "text": " this concept from the person who like simplified this, you can go and you know learn from here,"
+    },
+    {
+      "start": 570.39,
+      "end": 576.47,
+      "text": " but I'm teaching the exact same thing. So basically that is pretty much it you need to know"
+    },
+    {
+      "start": 576.47,
+      "end": 581.91,
+      "text": " about extended and liquid for the daily bias of course we're going to use three times as well."
+    },
+    {
+      "start": 581.91,
+      "end": 586.79,
+      "text": " So let's say that this is the daily timeframe price takes out extended liquidity on the daily"
+    },
+    {
+      "start": 586.79,
+      "end": 591.51,
+      "text": " timeframe right here, right? You want to drop down to one hour again and then you want to look"
+    },
+    {
+      "start": 591.51,
+      "end": 597.27,
+      "text": " for a market shift. Once you have a market shift on the hourly timeframe, you can simply look"
+    },
+    {
+      "start": 597.27,
+      "end": 604.47,
+      "text": " for your entry on the one hour timeframe. Okay, that is your like your simple bread and butter model."
+    },
+    {
+      "start": 604.47,
+      "end": 611.35,
+      "text": " You can simply use that model to take trades. Okay, but if you want to increase your win rate,"
+    },
+    {
+      "start": 611.35,
+      "end": 614.47,
+      "text": " I wouldn't say win red but if you want to increase your risk for what ratio"
+    },
+    {
+      "start": 615.27,
+      "end": 620.63,
+      "text": " You have to use these this time five minutes and I will get to that later in the video in the course"
+    },
+    {
+      "start": 620.63,
+      "end": 626.63,
+      "text": " Okay, so don't worry about it once you get the market shift as said before your bias is confirmed"
+    },
+    {
+      "start": 626.71,
+      "end": 632.23,
+      "text": " Okay price will not breach this high once you get the market structure shift so your target will be here"
+    },
+    {
+      "start": 632.71,
+      "end": 634.55,
+      "text": " Okay"
+    },
+    {
+      "start": 634.71,
+      "end": 640.15,
+      "text": " But that doesn't mean that you take your trade and you hold the whole trade until internal liquidity is hit"
+    },
+    {
+      "start": 640.15,
+      "end": 647.33,
+      "text": " We don't know about markets what they're gonna do. So just just take your target and specific level could be one to two one to three"
+    },
+    {
+      "start": 647.33,
+      "end": 653.31,
+      "text": " Right you just need to know the direction of the market. You don't want to target the exact same location, which is this okay"
+    },
+    {
+      "start": 653.63,
+      "end": 656.77,
+      "text": " Price can simply just go come down here and turn reverse"
+    },
+    {
+      "start": 657.09,
+      "end": 660.33,
+      "text": " But we are setting up a revised like okay, this is gonna be hit"
+    },
+    {
+      "start": 660.41,
+      "end": 669.09,
+      "text": " So we're gonna trade until you know we are above so basically your entries also entries also must be above the you know the zero point five level here"
+    },
+    {
+      "start": 669.09,
+      "end": 673.47,
+      "text": " Okay, so remember that."
+    },
+    {
+      "start": 673.47,
+      "end": 679.01,
+      "text": " So now that we have talked about all these things, an external, an internal liquidity, let"
+    },
+    {
+      "start": 679.01,
+      "end": 681.15,
+      "text": " me give you guys a couple of examples."
+    }
+  ]
+}

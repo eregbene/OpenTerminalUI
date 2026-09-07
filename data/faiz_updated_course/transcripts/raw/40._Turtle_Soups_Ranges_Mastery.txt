@@ -1,0 +1,278 @@
+[00:00:00] Alright guys, welcome to the new chapter. In this chapter, I'm gonna teach you guys our range trading and how it is one of the best ways to trade. This works on the one minute time from in most scenarios and this works. It doesn't work really well with Forex, but it works really well with indices and crypto. It works really well with crypto, right? So the reason why I'm giving you so many miles is that you can choose your
+[00:00:30] own style. All of them are extremely profitable. Now of course you're gonna have
+[00:00:36] losing days, losing weeks and even losing month right? That's totally normal.
+[00:00:40] Trading is not trading without losses. You need to understand this and you have to
+[00:00:44] keep this in mind. The number one reason why you are still not profitable is
+[00:00:47] because whenever you take two or three losses in a row you move on to the next
+[00:00:51] strategy in hopes of finding something that works 24-7 every single time right?
+[00:00:55] It doesn't work like that guys. You just need to have a small edge and you have
+[00:00:59] just make like three, four, five percent per month, right? Sometimes you will lose,
+[00:01:05] all right? You will be stopping at break even for a month. But this is where you are,
+[00:01:12] you know, keeping yourself behind. The best traders out there, they know that losing is
+[00:01:17] part of the game. But this model that I'm about to teach you is very important. So first of all,
+[00:01:22] we need to identify a range, right? There are, there's a consolidation, but there's a range,
+[00:01:28] and I'm gonna explain what it is.
+[00:01:31] So let's assume that price pushes up, right?
+[00:01:35] And then it goes up once again,
+[00:01:39] and then we have a significant pullback,
+[00:01:42] just like ABC strategy, right?
+[00:01:46] You have this big push up.
+[00:01:48] Now, mark out these significant high, all right?
+[00:01:52] So you see why this is a significant high
+[00:01:55] because after this high was printed,
+[00:01:57] We had a bigger pullback, a bigger pullback than average pullback.
+[00:02:01] So this pullback is very small.
+[00:02:04] This pullback is very small, but this one is huge.
+[00:02:07] So this right here becomes a range high.
+[00:02:11] Now, how do you identify a range low?
+[00:02:14] So you're gonna have small pullbacks,
+[00:02:16] but then you're gonna have a bit push
+[00:02:18] towards the upside, right?
+[00:02:20] And that is gonna determine the range low over here.
+[00:02:25] Now to find a plus range, what I want to see is a buildup of liquidity
+[00:02:35] near the swing high, the significant high and also near the range low.
+[00:02:41] So we have range I hear.
+[00:02:43] I want to see these highs build up around this area.
+[00:02:46] And also similarly, I want to see, you know,
+[00:02:49] lows build up around this area.
+[00:02:51] Now this is a plus range.
+[00:02:54] Okay, you have Byside here, Celside here.
+[00:02:56] And this is on the one minute timeframe, NAS 100.
+[00:03:00] And this is during London and New York session,
+[00:03:02] we are not going to trade Asian session
+[00:03:04] because there will be low volume, right?
+[00:03:07] So with a very easy strategy, guys,
+[00:03:12] all you're looking for is a sweep of the range low.
+[00:03:18] Now let's assume that you are bullish,
+[00:03:20] the trend overall trend is bullish.
+[00:03:22] You want to see primarily, you want to see the range low taken out first.
+[00:03:28] All right, this is very important.
+[00:03:30] And pair it up with one minute fair value gap.
+[00:03:33] That is, that may be present inside this level over here.
+[00:03:38] This is not necessary, but this is significantly going to improve the win rate.
+[00:03:43] Okay. Now, you can also look for SMT divergence when a sweep happens.
+[00:03:48] So on, let's suppose that S&P 500 price failed to strip liquidity and it just went here.
+[00:03:54] But on NAS100 we swap liquidity.
+[00:03:57] You know, I want to keep the things mechanical as possible, but there are some things that
+[00:04:02] are going to improve your winner. For example, pairing it up with PDA Ray or using S&T S&T is one
+[00:04:08] of my favorite confirmation tools. I always use this with my trades and you should too.
+[00:04:12] Now, once you get the SMT after price took out the range low, you are simply looking for
+[00:04:19] a market structure shift and you want the price to come back into the range.
+[00:04:26] So what I mean by this?
+[00:04:27] So let's assume price took out the range low, right?
+[00:04:31] And let's suppose that it pushes down, pushes down, and then you have a shift in the market
+[00:04:34] structure.
+[00:04:35] I will not take my entry unless and until price comes back into the range.
+[00:04:40] Once it happens, I can basically take my entry from anywhere that looks good.
+[00:04:46] And I will be targeting the range high.
+[00:04:49] So this is a very common strategy in ICT community, but no one really knows how to trade
+[00:04:58] it.
+[00:04:59] And no one really talks about it.
+[00:05:00] It is one of the best models that you can trade with NAS100 and crypto.
+[00:05:05] On crypto, it works on every single time for him.
+[00:05:08] On the higher time frame, most of the time price is just going up or going down.
+[00:05:14] But on one minute down from you're going to see this structure where ranges are built.
+[00:05:18] So keep this in mind.
+[00:05:19] Now you have a shift in the market such a price came back into the range.
+[00:05:23] It is very similar to the ABC strategy but what we're doing here is we're waiting for
+[00:05:27] liquidity build ups on both sides.
+[00:05:29] So we have range high, liquidity build up here, range low, liquidity build up here.
+[00:05:34] two three touches, a near the range loop and one to near the swimming high, the range high.
+[00:05:41] You got a shift in the market structure.
+[00:05:43] This right here could literally be your entry zone.
+[00:05:47] Your free value gap, or you could take your entry from the breaker block, is really up
+[00:05:51] to you.
+[00:05:52] Now, this is very important.
+[00:05:53] When you take, when you are triggered, you are going to take around 30 to 40% at 50%
+[00:06:01] of the range.
+[00:06:02] use your fib from the range high to range low and at 0.5% you are going to take off some
+[00:06:08] of your profits and you're going to go break even. Now most of the time price is going
+[00:06:12] towards the range high and it's going to sweep all the liquidity. Period it up with
+[00:06:18] SMT divergence and you are in for the best trading model. I'm not even getting best
+[00:06:23] scalloping model that works on the one minute time frame. Then also you can pair it up
+[00:06:28] with standard deviation tool to look for your profit.
+[00:06:33] So negative four could be your profit as well.
+[00:06:35] If you haven't watched the standard deviation course video,
+[00:06:41] I highly suggest that you do.
+[00:06:43] So negative four, this could be your take profit level.
+[00:06:47] Now similarly, if I flip the chart over
+[00:06:49] to identify the range lower range high.
+[00:06:51] So let's suppose that we are in the bearish market
+[00:06:54] and price printed this low.
+[00:06:56] And then we had a pullback, significant pullback.
+[00:06:59] Now, this low becomes a significant low.
+[00:07:01] Why? Because we had a relatively big pullback,
+[00:07:05] then these pullbacks.
+[00:07:05] So look at this.
+[00:07:06] We have small pullback, small pullback.
+[00:07:08] And then you want to look for a significant pullback
+[00:07:10] to the upside.
+[00:07:11] Now, we have inside this pullback leg,
+[00:07:14] we are also going to have pullback.
+[00:07:15] So look, pullback, pullback.
+[00:07:17] But then this one is a significant pullback.
+[00:07:19] And price engineers liquidity,
+[00:07:21] near this range low.
+[00:07:24] And similarly, around the range high,
+[00:07:26] we also engineer liquidity.
+[00:07:28] Now, one price breaks and takes out deep range high.
+[00:07:32] You're looking for SMT, this is optional,
+[00:07:34] but it is very crucial if you want to increase
+[00:07:36] or wind up to 65, 70% all right.
+[00:07:39] Then we get a shift in the market structure price
+[00:07:41] closes back into the range.
+[00:07:43] You take your entry from the breaker block
+[00:07:44] or for everybody gap and you take your 30 to 40%
+[00:07:48] or even 50% at the 50% of the range.
+[00:07:52] I highly suggest that you go break even at one to one
+[00:07:55] And then you take your profits at half profits at the 50% of the range and then you target the range low.
+[00:08:01] This is very simple guys, very, very mechanical.
+[00:08:04] I'm going to give you guys some examples and that's going to clear everything.
+[00:08:09] All right, guys.
+[00:08:10] So here is example number one.
+[00:08:12] So you can clearly see that we have been bullish overall on the one, I'm looking at the one minute timeframe.
+[00:08:17] You do not want to go to the high time firms that are not necessary.
+[00:08:20] So during the Asian session, you can see that we had a significant high printed.
+[00:08:25] Why? Because then afterwards we had a significant pullback. So look at this pullback. This is a small pullback
+[00:08:30] small pullback, but then we had a significant pullback that was bigger than the average price action, right?
+[00:08:36] And then afterwards you can see inside this pullback like we had a pullback pullback, but then we had a significant pullback
+[00:08:43] that broke these structures, right? So this becomes a significant level. Now price
+[00:08:49] engineered liquidity just near this range low so you can see we have a bunch of
+[00:08:55] liquidity build up here also near the range high we have this hard this hard
+[00:08:59] this high all of this liquidity that is going to be swept right this high
+[00:09:04] becomes more significant when there is a bunch of liquidity just below it so
+[00:09:11] right after you know the during the London session at 250 you can see we had a
+[00:09:16] to the upside that swept the range high.
+[00:09:19] And then we had a beautiful displacement to the downside.
+[00:09:22] Now, if your target is reached before entry,
+[00:09:26] so let's suppose that a range load is taken
+[00:09:28] before your entry, your setup becomes invalid.
+[00:09:30] Okay, so just around here,
+[00:09:32] you can see that we have a fair value gap.
+[00:09:35] This is of course with benefit of hindsight,
+[00:09:38] but I'm teaching you how you can take your entry.
+[00:09:40] So this right here is your fair value gap.
+[00:09:42] You can basically take your entry
+[00:09:43] from the 50% of this level.
+[00:09:45] And then there's my apologies.
+[00:09:47] There's this fairly gap as well.
+[00:09:48] So to account for that,
+[00:09:49] you just wanna put your stop slightly above it
+[00:09:51] so you don't miss the trade.
+[00:09:54] And you would go literally break even
+[00:09:56] once this range low is taken out.
+[00:09:59] And since we always go for one to two
+[00:10:01] and since this range wasn't big,
+[00:10:03] it didn't give you one to two at the range low.
+[00:10:05] So we wanna keep things mechanical
+[00:10:08] and we go for one to two regardless of the range low.
+[00:10:11] Regardless of whether the range low is taken or not, right?
+[00:10:13] So if you get an entry and the range low is taken and you're not getting one to two,
+[00:10:17] just go break even, take some partial around this level and then keep the trade running.
+[00:10:22] You can also see that we took out asian low here, so that could have been a decent draw on liquidity as well.
+[00:10:27] Now, let me give you guys some other examples.
+[00:10:32] All right guys, here is another example. So you can see that we were bullish overall.
+[00:10:35] So our very small time from bias would be that we primarily want to see the range low taken out first.
+[00:10:42] So you can see we have printed the significant high over here and after what we had a significant pull back to the downside.
+[00:10:48] Now, over around here you can see that this leg over here was a significant one, alright?
+[00:10:54] It broke this structure, it broke this structure, right?
+[00:10:57] And this overall looks very, very, um, uh, you know, significant.
+[00:11:02] After that we printed this low near this level, then we printed this low over here.
+[00:11:07] And around this significant high we had this liquidity, all of this liquidity over here.
+[00:11:12] is what's making this high a significant level.
+[00:11:16] So you can see we had a shift in the market structure over here
+[00:11:20] right with displacement and we came back into the range.
+[00:11:24] This was your entry.
+[00:11:26] So let's suppose that you went along just around here.
+[00:11:30] You stop what I've been here somewhere around here.
+[00:11:33] You could have gone for one to two and this would have given you a decent trade.
+[00:11:37] Now, once the range low was taken out, you can see that it swept the liquidity and it pushed
+[00:11:46] back down.
+[00:11:47] Our target or objective was already complete, so we wouldn't look for any more trades.
+[00:11:51] But you can see how price on NAS 101, when the timeframe creates ranges, then streams ranges
+[00:11:57] and then move to as the original direction.
+[00:11:59] Let me give you guys some more examples.
+[00:12:01] All right, so on the same day, I want you to identify the range first.
+[00:12:05] Alright, I'm gonna give you some seconds. There are two ranges that worked out perfectly.
+[00:12:10] One, two, three, four, five. Alright, so the very first range that was created is somewhere around here.
+[00:12:16] You can see we have a low printed and then we had a significant pullback.
+[00:12:20] So that created a range low and then we have a significant range high Y because look at this move
+[00:12:26] right here, right? It is significant and it swept the liquidity right away.
+[00:12:29] Now this is not an A plus setup why? Because there wasn't enough liquidity build up
+[00:12:35] around this swing the significant high the range high. However near the range low
+[00:12:40] we had some form of liquidity are built up so this low this low over here and
+[00:12:45] also this low over here that you can see. So the idea was that there's a bunch of
+[00:12:51] liquidity around this low the range low here so we will primarily want to see
+[00:12:56] the range low taken out first.
+[00:12:58] And then afterwards you can see we have
+[00:13:00] shifting the marker structure with this placement.
+[00:13:03] And we swept this low hair, making this an auto block
+[00:13:07] and with the benefit of hindsight,
+[00:13:08] you can see that it worked out perfectly.
+[00:13:10] Now, once this range was over,
+[00:13:13] we created another range.
+[00:13:15] So look at this significant low, right?
+[00:13:18] And then we pushed our push up
+[00:13:19] and then we created this significant high.
+[00:13:21] So significant low significant,
+[00:13:22] and why this is significant high?
+[00:13:24] Because once this was created, we had a significant pullback.
+[00:13:29] So inside a pullback, we had another pullback.
+[00:13:32] And then you can see that this becomes significant high,
+[00:13:35] significant low.
+[00:13:36] So in other words, range low and range high.
+[00:13:40] The more significant the range high are,
+[00:13:43] the more well it's going to play out.
+[00:13:45] All right, I'm trying to explain it to my own, you know,
+[00:13:47] words.
+[00:13:48] I'm not like 100% perfect for that.
+[00:13:50] English, but I try my best.
+[00:13:52] All right, so everyone can understand.
+[00:13:54] So in this example, you can see near the range low,
+[00:13:57] we had a bunch of liquidity build up.
+[00:13:59] So this low, this low, this low over here.
+[00:14:01] Now what does that tell us?
+[00:14:03] It tells us that the range low
+[00:14:05] is could be taken out first.
+[00:14:07] Why?
+[00:14:08] Because this range low has more liquidity than range high.
+[00:14:11] And whenever you see that,
+[00:14:12] let's suppose that if range low
+[00:14:14] has more liquidity around it,
+[00:14:15] it's gonna be swept first.
+[00:14:17] So right around here,
+[00:14:19] we have our shift in the structure, right?
+[00:14:21] We have a further gap,
+[00:14:22] we have a tiny bit of volume imbalance. If you don't know what it is, just go to the old course
+[00:14:27] and watch it. Okay. Now of course, as if it's the benefit of hindsight, you know, everything is perfect
+[00:14:32] when I'm showing you the benefit of hindsight. But you know, you got to be careful when you are
+[00:14:37] trading it in real markets. My goal is to just show you how well it works. So this could have
+[00:14:41] been your entry right beautiful entry. You could have targeted this high and you could have also
+[00:14:46] target the New York hide. It could have been your third profit or whatnot. So let me give you guys
+[00:14:53] one more example and then I want you to backtest and practice this okay. It works really well.
+[00:14:59] As you can see it happens every single day over and over again. You do not need bias. Well of course
+[00:15:06] if you pair it up with 15 minutes or one hour bias it's gonna help you but literally this is what
+[00:15:12] you need. So you can see that overall we have been bearish in the Asian session. We have
+[00:15:17] also been bearish around here. So afterwards what we did, we printed the range load wide
+[00:15:23] because after this load was created, we had a significant pullback to the upside.
+[00:15:28] Right? Look at this pullback. It is small. This is small. This is small. But then this is big. So this
+[00:15:35] makes it the range load. Now afterwards, this becomes range high. Why? Because once this pullback
+[00:15:40] was complete we had a push to the downside that was significant then the average price over here.
+[00:15:47] So this makes it the range high. Now around the range high area we have build up of liquidity we
+[00:15:53] have this high right we have all of this liquidity we have this high all of this liquidity this high
+[00:15:59] this high over here. Near the range low we have this liquidity this liquidity this liquidity this
+[00:16:04] look at it. Right this and this and this and this and this is like the perfect range setup that
+[00:16:10] you can trade. All right. I don't know what the hell just happened here. I'm just going to go back.
+[00:16:16] Okay, perfect. So you can see that the range high was swept first. Right? It was swept first.
+[00:16:26] We swept the liquidity and then we had a shift in the market structure. Now our first entry could
+[00:16:30] that being from this breaker block, you can see price tab into it. But primarily, I want to see
+[00:16:39] a buildup of liquidity, right? Sorry, a buildup of free value gap, not liquidity. So you can see
+[00:16:45] that we have this free value gap that was built and your first entry could have been here. So let's
+[00:16:50] suppose that you took your entry here. You start with a bin going here. Wow, this would have
+[00:16:56] I've been a very nice trade given you almost one to 12, but then if you took your entry from the
+[00:17:01] Fair Valley gap, put your stop right about this high, this would have given you around 3.43,
+[00:17:06] of course, with adding the appartials and whatnot. So if you have any questions about this
+[00:17:13] strategy, I will be coming live on Saturday and I will be answering your questions. This is
+[00:17:17] literally all you need. I'm going to end the chapter right here. And the next chapter is going to
+[00:17:22] be about psychology and then we're going to move on to the advanced strategies that I've
+[00:17:26] been cooking for you guys. See you guys around.

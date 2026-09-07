@@ -1,0 +1,79 @@
+Alright guys so in this video I'm going to talk about confirmation entries and I did
+not make a video about confirmation entries in the you know my course videos so I thought
+maybe I should share it with you guys and it's helping me a lot it help it has helped
+me a lot and it's also going to help you a lot with the with your win rate okay so you
+are going to miss the trades sometimes but when you're going to take those trades they're
+gonna actually work out so let's take ABC as an example so let's say that you are looking
+at ABC right on a five minute time from so you have these small little pullbacks then
+you have this one large pullback then you have this big pullback oh sorry push up again
+so textbook ABC right we have taken out the high so then on the five minute let's say
+we are looking at the five minute time from right so on the five minute we have a market
+structure shift right following all the rules so you would have your favorite gap or
+autoblock marked up here right so now when you have your favorite gap and autoblock marked
+you want to drop down to the one minute time frame or a smaller time frame right and this
+was on the five minute right so when you're going to drop down to the one minute you're
+going to see a structure like this right so on a smaller time frame like one minute
+you also wait for market structure shift okay through your POI so on a bigger time frame
+we have ABC right and then we have a market structure shift on a bigger time frame once
+you have market structure shift and you mark up your POI you want to drop down to the smaller
+time frame and wait for fractal confirmation all right you want to wait for confirmation so
+on the one minute you wait for market structure shift again with displacement and I'm going to
+talk about displacement in the coming videos so then you take your entry from here right after
+market shift you take your entry and this is going to increase or win rate because this is
+confirmation right that the autoflow is now bearish so you can target something like this
+and can work out when you are not using confirmation entries what sometimes can happen is
+you know you have your ABC and you have broke the structure price can simply just
+stop you out okay so I think it's better to look for confirmation entries right when you
+have your ABC setup you wait for confirmation on smaller time frames so let's say that you are
+looking at the ABC on one hour time frame and you have your market structure shift right and then
+you have your POI on the one hour time frame you want to drop down to the five minute time frame
+and then you want to look for a confirmation like this right so you have a break on the five minute
+time frame and you have your free body gap or OB here and then you take your entry from this level
+put your stop there and kaboom so this can be used with any strategy that I've taught you guys
+so let's assume that we are looking at the autoflow trading strategy so on the one hour time frame
+we have you know like a change of character here or market structure shift whatever you want to
+call it and then we have our autoblock here so when when you have a market structure shift what
+you want to do is you want to drop down to a smaller time frame like 15 minute or five minute
+I would say drop down to 15 minute right so you would have a structure like this then
+and then you wait for market structure shift on a 15 minute time frame right you break the
+structure on the 15 minute time frame remember we had a change of character on a one hour time
+frame and then we had air confirmation from the POI or from the one hour POI on the 15 minute
+time frame so when you have a market structure shift you can just take your entry from this level
+here and you go along here and you put your stop there and kaboom it's going to work out in your
+favor so what it does is first of all it just gives you a better risk to reward entry and
+secondly it increases your increases the chances of that trade going in your direction so
+you want to consider using the confirmation entry tactic in your in your strategy
+now this is gonna take some back testing because for some people this might not be suitable because
+sometimes what price will do is let me draw this out right so you have your POI here right so
+let me draw this out so what's going to happen is you're going to get your confirmation
+market structure shift but price will not come back to the lower time frame POI your entry point
+and it's just going to keep on going up so this can happen and you are going to miss out the trade
+but what is what's beneficial what's the plus one of this thing is that you're going to get a better
+risk reward and you're also going to increase or win rate so make sure that you take this into
+consideration also a lot of people mess up this one thing so you want to go to the indicators and
+type in and type in ICT Killzone right so you are going to have like Killzone what is Killzone
+is like the London session and the New York session and there's specific timing that you should be
+using for your trades because at that time is when the algorithms are active right so you're
+going to have a Killzone London Killzone and then you're going to have a newer Killzone I'm going to
+I'm going to show you the indicator as well that is going to you know show you the Killzones
+so your entry must be so you have like you know a break of structure here so now let's say sorry
+change of collector market structure shift you have market structure shift here right so what
+you don't want to take your trade outside the Killzone you want to take your entry
+during the Killzone hour so let's suppose this is London Killzone right so you have your entry and
+boom similarly over here you want to wait for you know the price to give you the entry during
+your during the New York Killzone so this is a must thing and a lot of people mess this up they take
+trades during long during a wrong timing and it could be the reason why the trade doesn't work
+out in your favor so in this lecture what I've taught you is a confirmation entries right and
+I've also taught as the Killzones how they are beneficial for your win rate so if I go here let
+me go to the five minute time frame I have the yeah so there we have our Killzones you can see
+this is the London Killzone right and this is the New York Killzone that you are looking at
+so your entry must be between these hours right it's that simple
+so you can see that actually for indices personally I would still be looking to trade till before
+take my entry before 11.59 right but over here this Killzone indicator says then 10.40 and also
+I see this is actual this is an actual Killzone right which ICT teaches but for indices you can
+go till 11.59 if you get actually I would correct myself there I messed up
+when the clock hits 12 on indices if you are in a trade you should close it immediately because
+price can reverse all right so the best time would be till 11.30 if you get your entry at 11.30 that's
+prime okay you don't want to hold your trade till 12 you want to close it before 12 so yeah
+make sure you know that so yeah I'll end this lecture here and we'll continue with other
+tactics

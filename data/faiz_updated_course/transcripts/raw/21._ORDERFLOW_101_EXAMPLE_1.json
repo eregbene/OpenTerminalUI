@@ -1,0 +1,223 @@
+{
+  "source": "F:\\new faiz\\21. ORDERFLOW 101 EXAMPLE 1.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 191.47175,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so here is example number one. You can see the market structure is bullish, right, heavily bullish, and we are going up, not consolidating. Okay. So right here, what we have is consecutive bearish candles before moving to the upside that broke this structure. So this right here, this whole area is my auto block. So I'm going to patiently wait for price to come back into my auto block. When that happens, I drop down to the 15 minute time firm."
+    },
+    {
+      "start": 30.0,
+      "end": 34.56,
+      "text": " And this last bearish candle is going to be your auto block."
+    },
+    {
+      "start": 34.56,
+      "end": 40.0,
+      "text": " I know this is a huge ass candle, but this is how auto flow works, okay?"
+    },
+    {
+      "start": 40.0,
+      "end": 47.2,
+      "text": " I mean, you can take this as an auto block as well, but again,"
+    },
+    {
+      "start": 47.2,
+      "end": 51.0,
+      "text": " you might miss out the trade and I don't want you to miss out the trade, okay?"
+    },
+    {
+      "start": 51.0,
+      "end": 55.64,
+      "text": " So if it's like this, I recommend that you take your entry,"
+    },
+    {
+      "start": 55.64,
+      "end": 59.96,
+      "text": " especially for this strategy, by this large bearish candle before the move to the upside,"
+    },
+    {
+      "start": 59.96,
+      "end": 63.12,
+      "text": " That broke the structure."
+    },
+    {
+      "start": 63.12,
+      "end": 66.24,
+      "text": " So you can see we have a change of detector here"
+    },
+    {
+      "start": 66.24,
+      "end": 67.92,
+      "text": " and change of detector here."
+    },
+    {
+      "start": 67.92,
+      "end": 70.24,
+      "text": " So now I'm gonna patiently wait"
+    },
+    {
+      "start": 70.24,
+      "end": 72.08,
+      "text": " for prize to come back into my zone,"
+    },
+    {
+      "start": 72.08,
+      "end": 74.0,
+      "text": " which is right here, right?"
+    },
+    {
+      "start": 74.0,
+      "end": 77.32,
+      "text": " Put my stop somewhere around here around 25 pips, right?"
+    },
+    {
+      "start": 77.32,
+      "end": 80.36,
+      "text": " And I go for one to two and I go back home."
+    },
+    {
+      "start": 82.16,
+      "end": 90.62,
+      "text": " Right, so let's see how this plays out."
+    },
+    {
+      "start": 90.62,
+      "end": 95.35,
+      "text": " Okay, so here's the thing."
+    },
+    {
+      "start": 95.35,
+      "end": 102.37,
+      "text": " You're gonna see that this happened, our entry was between this right here."
+    },
+    {
+      "start": 102.37,
+      "end": 105.44,
+      "text": " So, yeah."
+    },
+    {
+      "start": 105.44,
+      "end": 107.2,
+      "text": " So the price was here, right?"
+    },
+    {
+      "start": 107.2,
+      "end": 109.4,
+      "text": " So you can have entered here because the kiloson?"
+    },
+    {
+      "start": 110.92,
+      "end": 112.48,
+      "text": " Yeah, it starts from here."
+    },
+    {
+      "start": 112.48,
+      "end": 119.42,
+      "text": " So your entry would have been here and you would have went for two,"
+    },
+    {
+      "start": 119.42,
+      "end": 120.46,
+      "text": " ratio, what?"
+    },
+    {
+      "start": 120.46,
+      "end": 121.34,
+      "text": " Simple as that."
+    },
+    {
+      "start": 121.34,
+      "end": 124.74,
+      "text": " You don't want to like, you know, use like one,"
+    },
+    {
+      "start": 124.74,
+      "end": 125.78,
+      "text": " two, three or one, two, four."
+    },
+    {
+      "start": 125.78,
+      "end": 126.9,
+      "text": " Just go for one, two."
+    },
+    {
+      "start": 126.9,
+      "end": 129.26,
+      "text": " It's, it's, it's best for your psychology guys."
+    },
+    {
+      "start": 129.26,
+      "end": 131.26,
+      "text": " Trust me when I say this because"
+    },
+    {
+      "start": 132.46,
+      "end": 137.18,
+      "text": " I've said this so many times in my videos where I force you guys to take one to two trades"
+    },
+    {
+      "start": 138.7,
+      "end": 144.54,
+      "text": " When you do that guys, it just it just gives you this feeling of consistency, okay?"
+    },
+    {
+      "start": 144.86,
+      "end": 149.1,
+      "text": " You win more your psychology gets better and all"
+    },
+    {
+      "start": 150.54,
+      "end": 157.46,
+      "text": " So you can see that was a perfect trade. We wait for prize to come back into our autoblock right here and"
+    },
+    {
+      "start": 157.46,
+      "end": 164.06,
+      "text": " And the 4 hour auto block that we had a market structure shift our entry was during the kills on ours"
+    },
+    {
+      "start": 165.02,
+      "end": 167.02,
+      "text": " Sorry, do the"
+    },
+    {
+      "start": 167.02,
+      "end": 169.02,
+      "text": " London session I believe and"
+    },
+    {
+      "start": 169.7,
+      "end": 175.8,
+      "text": " You can see prices smashed where take profit level took out these equal highs and"
+    },
+    {
+      "start": 177.74,
+      "end": 179.74,
+      "text": " Even took out this high here as well"
+    },
+    {
+      "start": 181.1,
+      "end": 185.47,
+      "text": " Let's see where price goes"
+    },
+    {
+      "start": 185.47,
+      "end": 187.47,
+      "text": " Yes, it keeps on going so"
+    },
+    {
+      "start": 187.47,
+      "end": 190.31,
+      "text": " Here was example number one. Let me give you guys another example"
+    }
+  ]
+}

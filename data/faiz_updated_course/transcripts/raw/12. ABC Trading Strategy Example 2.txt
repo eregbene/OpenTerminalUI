@@ -1,0 +1,46 @@
+Alright guys, so here's another example for the abc-to-fitting strategy, so we got the
+A leg right around here, right?
+So we want to mark out the very low of the A leg, right?
+Something like that, and then we got the B leg, which is the significant pullback or a
+small down trend, sorry small trend in an opposite direction, which is this,
+so this is the B leg, and then we got the C leg right around here,
+which is this, okay, and we got the low of the B leg, sorry, how about we got the high of the
+B leg right here, right? B leg high, which is our take profit area, and we got the A leg low here,
+so let me delete that, we'll wait for price to fake out, before price
+faked out, it created structure, so you can see lower low, lower high, lower low, lower high,
+and then price broke down, price faked out, and before freaking out, before crossing this line,
+price created some structure, and there we have market structure shift, and we got imbalance
+just here, so if I remove the line, you can see we got the imbalance between this level,
+so this whole candle is our autoblock, right, and we target
+the B leg high, which is this, so that was 4.74, easy guys, you see the accuracy,
+it took out the B leg high, and then it reversed, all right, so let me repeat this again, so let's
+see what happened, we got the A leg, okay, we got the A leg, and then we got the B leg, right, and
+then we got the C leg, the C leg created structure before taking out the low of the A leg, which is
+this, and then we get, so once that low was taken out, before taking out the low price
+created some structure, okay, it created structure here, it created structure here,
+and these structures were taken out, so this is market structure shift, and when price took out
+the level, it created some imbalance and autoblock, so this was our entry right around here,
+and a beautiful trade guys, very, very simple guys, so I hope by now it's gonna be clear,
+I tried my best to explain the strategy, literally my throat is hurting right now,
+I don't know why, so I will repeat it once again, in the ABC structure, in the ABC
+strategy, we want to identify the A leg, the B leg, and the C leg, the C leg must take out
+this level, okay, which is the start of the B leg, and before, before taking out the
+start of the B leg, it must create some structure, all right, and that structure gets broken here,
+we got the ABC, and then we got this beautiful entry here,
+wait for price to come back into the autoblock and very well you gap, and as you can see, it just
+went crazily down, then you can see that we can continue this, okay, so we got the,
+let's, let me show you one amazing thing about the strategy, so we got the, now this whole thing
+is an A leg, this whole thing is a B leg, and this thing is a C leg, okay, so it just can't
+continue forever, so let me go ahead and draw out this level, okay, so before price took out
+this level, price created some structure here, and it left some imbalance, now unfortunately,
+it did not hit our autoblock, which were right here, but it did fill in the imbalance around here,
+and as you can see, if you would have taken the entry from this level, put your stop right
+below this level, okay, you could have made another 4.21% return on the straight guys, absolutely
+brilliant trading strategy, so yeah guys, I hope that things are clear enough now,
+this works on any time frame, okay, if you want to sculpt, you can work on the 5 minute time frame,
+also it works really really good with the one hour time frame, so what are the best pairs for
+this strategy? Well honestly, every pair, according to my back testing data,
+anything works with it, crypto forensics, stocks, indices, everything, so yeah guys, this was my
+favorite trading strategy, and this is what I'm currently using nowadays, and it is highly profitable,
+you can see these big moves, right, and yeah, so I'll see you guys in the next trading strategy,
+goodbye.

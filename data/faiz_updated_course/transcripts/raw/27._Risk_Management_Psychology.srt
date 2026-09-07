@@ -1,0 +1,1283 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, so in this video we are going to talk about risk management. This is one of the most important things when it comes to becoming a profitable trader. I've seen a lot of people mess this part up because they think that strategy, your trading strategy is the only thing that's going to make you successful. But in reality, psychology and risk management are one of the most important things when it comes to trading. So, usually one of the biggest mistakes that I've seen people like is that they use different
+
+2
+00:00:30,000 --> 00:00:35,520
+lot sizes or different risk person for each trade. So what they would do is they would
+
+3
+00:00:36,640 --> 00:00:43,520
+risk one person for a trade and you know the other trade that they're going to take,
+
+4
+00:00:43,520 --> 00:00:48,800
+they're going to risk two persons right and then the other trade they're going to risk 0.5
+
+5
+00:00:48,800 --> 00:00:54,000
+percent and when they take another trade they're going to risk I don't know 2.5 percent.
+
+6
+00:00:54,000 --> 00:00:59,480
+Now that is a wrong approach to trading and risk management.
+
+7
+00:00:59,480 --> 00:01:05,040
+You should only be using one risk per each trade.
+
+8
+00:01:05,040 --> 00:01:07,760
+I don't care what you say.
+
+9
+00:01:07,760 --> 00:01:09,360
+I just want to see you use.
+
+10
+00:01:09,360 --> 00:01:15,880
+If you are using one person, keep on using one person for each and every trade.
+
+11
+00:01:15,880 --> 00:01:21,920
+I do not want to see you use two percent for some trade or 0.5 percent for trade.
+
+12
+00:01:21,920 --> 00:01:27,520
+I mean if you're using 0.5% for every trade, then go ahead and use 0.5% for every trade.
+
+13
+00:01:27,520 --> 00:01:33,760
+But if you are using 2% just simply use 2% for every trade.
+
+14
+00:01:33,760 --> 00:01:41,840
+Now you should never go up to 2% personally because that is risking so much guys.
+
+15
+00:01:41,840 --> 00:01:45,280
+Especially when you are taking prop from challenges.
+
+16
+00:01:45,280 --> 00:01:47,280
+This is not the way to go for it.
+
+17
+00:01:47,280 --> 00:01:51,520
+If you have your loan, you like personal funds, you can go up to 2%
+
+18
+00:01:51,520 --> 00:01:58,080
+per trade, but it's just personal preference and how much you are willing to risk. So
+
+19
+00:01:58,960 --> 00:02:06,560
+just stick to one person per trade or one specific percentage that you're going to use for each
+
+20
+00:02:06,560 --> 00:02:11,920
+and every single trade. Because what happens is let's assume that you use one person for one trade,
+
+21
+00:02:11,920 --> 00:02:20,480
+right? And you win it. So you have, you are one person in profit, right? Overall. So the next trade,
+
+22
+00:02:20,480 --> 00:02:27,360
+the right next trade you take 2% use 2% in a trade and then unfortunately you lose that trade.
+
+23
+00:02:27,360 --> 00:02:34,720
+So now you are in negative 1 balance. However, if you use only 1% you would be at break even.
+
+24
+00:02:37,200 --> 00:02:47,280
+So that is something that you must know and must practice. I mean not practice but you should
+
+25
+00:02:47,280 --> 00:02:52,960
+know that you have to only use one certain percentage for each and every single trade that
+
+26
+00:02:52,960 --> 00:02:58,640
+you're going to take, right? If you mess up the numbers, even if you have a good win rate,
+
+27
+00:02:58,640 --> 00:03:05,920
+you want to profitable. So now here's the thing, right? Let me do this. Now a lot of people think that
+
+28
+00:03:08,080 --> 00:03:14,000
+the strategy, the best strategy in the world is going to make you win, you know, 80% of the time,
+
+29
+00:03:14,000 --> 00:03:19,680
+or 90% of the time, but thing is, even if the strategy is good, you're going to have a losing period.
+
+30
+00:03:19,680 --> 00:03:24,240
+You can lose up to six trades in a row and I mean it, okay?
+
+31
+00:03:24,240 --> 00:03:30,880
+Even ICT says that in his videos that he used to lose eight trades in a row, right?
+
+32
+00:03:30,880 --> 00:03:36,600
+But it didn't affect him because he knew that his strategy was profitable in the wrong term, in the long term, right?
+
+33
+00:03:36,600 --> 00:03:44,360
+So, what happens with a lot of people is that they lose, you know, 4 or 5 trades in a row,
+
+34
+00:03:44,360 --> 00:03:47,400
+and they just stop using that strategy.
+
+35
+00:03:47,400 --> 00:03:53,760
+I know it's really frustrating to, you know, lose 4 or 5 or even 6 trades in a row.
+
+36
+00:03:53,760 --> 00:03:56,320
+Even I lose 6 or 7 trades in a row.
+
+37
+00:03:56,320 --> 00:04:00,680
+I have actually, I actually did lose in the month of August.
+
+38
+00:04:00,680 --> 00:04:05,680
+It was the worst month for my trading, but I was so profitable, but I lost 6 or 7 trades
+
+39
+00:04:05,680 --> 00:04:10,720
+in a row and that was terrible for my feelings but you know I knew my strategy is profitable
+
+40
+00:04:10,720 --> 00:04:19,440
+and I kept on following the rules like a robot. So what I would suggest is when you lose like
+
+41
+00:04:19,440 --> 00:04:26,320
+three or four trades in a row you reduce your risk. So let's assume that you were using
+
+42
+00:04:26,320 --> 00:04:29,240
+1% risk, right?
+
+43
+00:04:29,240 --> 00:04:34,240
+And you lose four or five trades in a row.
+
+44
+00:04:35,160 --> 00:04:39,720
+Now, this only applies to your personal funds
+
+45
+00:04:39,720 --> 00:04:41,280
+and not from challenges,
+
+46
+00:04:41,280 --> 00:04:42,720
+because for profit from challenges,
+
+47
+00:04:42,720 --> 00:04:45,320
+I recommend that you only risk 1%
+
+48
+00:04:45,320 --> 00:04:47,560
+because you have like 30 days, right?
+
+49
+00:04:47,560 --> 00:04:52,160
+So it's not wise to use 0.5% risk per trade.
+
+50
+00:04:52,160 --> 00:04:54,200
+Just for profit from just keep on using
+
+51
+00:04:54,200 --> 00:04:55,840
+1% risk per trade.
+
+52
+00:04:55,840 --> 00:04:58,160
+However, for personal funds, right?
+
+53
+00:04:58,160 --> 00:05:00,600
+If you lose like four or five trades in a row,
+
+54
+00:05:00,600 --> 00:05:03,400
+you wanna drop down to using 0.5% risk.
+
+55
+00:05:04,800 --> 00:05:07,040
+And, you know, eventually,
+
+56
+00:05:07,040 --> 00:05:10,160
+if you still lose like four more trades in a row,
+
+57
+00:05:10,160 --> 00:05:13,040
+you drop down your risk to 0.25%.
+
+58
+00:05:14,000 --> 00:05:16,800
+And now, just listen to me, okay?
+
+59
+00:05:16,800 --> 00:05:18,720
+Just hear me out.
+
+60
+00:05:18,720 --> 00:05:22,280
+If you keep on using 1% right,
+
+61
+00:05:22,280 --> 00:05:26,440
+for eight trades that you lost, you lost eight percent.
+
+62
+00:05:26,440 --> 00:05:30,200
+You lost minus eight percent off your total portfolio.
+
+63
+00:05:30,200 --> 00:05:33,400
+But if you switched back to 0.5 percent
+
+64
+00:05:33,400 --> 00:05:38,240
+after using four trades, so let's assume
+
+65
+00:05:38,240 --> 00:05:41,400
+you lost four trades, you are a negative 4 percent.
+
+66
+00:05:41,400 --> 00:05:42,640
+Let me do this.
+
+67
+00:05:42,640 --> 00:05:46,200
+A 4 percent, oops, minus 4 percent.
+
+68
+00:05:46,200 --> 00:05:51,520
+You lost four trades, and now you're in down, minus four.
+
+69
+00:05:51,520 --> 00:05:55,080
+So when you switch back to 0.5% and you lose,
+
+70
+00:05:55,080 --> 00:05:57,240
+you know, four more trades,
+
+71
+00:05:57,240 --> 00:06:00,960
+that's actually minus six percent drawdown.
+
+72
+00:06:00,960 --> 00:06:05,400
+So you are basically saving your account at this point,
+
+73
+00:06:05,400 --> 00:06:06,240
+right?
+
+74
+00:06:06,240 --> 00:06:09,360
+Because every single strategy can have a losing period.
+
+75
+00:06:09,360 --> 00:06:12,440
+I don't care who tells you that you can win
+
+76
+00:06:12,440 --> 00:06:14,800
+and have a profitable week every single time.
+
+77
+00:06:14,800 --> 00:06:19,600
+No, go and ask every single profitable trader and ask them,
+
+78
+00:06:19,600 --> 00:06:23,920
+Are you profitable every single day, every single week, every single month?
+
+79
+00:06:23,920 --> 00:06:30,800
+The answer will be no because we are, you know, fed these thoughts that trading is going to instantly
+
+80
+00:06:30,800 --> 00:06:31,800
+make you rich.
+
+81
+00:06:31,800 --> 00:06:36,000
+Of course it can, but it requires a lot of psychology, right?
+
+82
+00:06:36,000 --> 00:06:39,800
+And it also requires a very solid risk management.
+
+83
+00:06:39,800 --> 00:06:42,200
+And this is what I'm teaching you, right?
+
+84
+00:06:42,200 --> 00:06:48,320
+So if you lose like four or five trades in a row, you switch back to 0.5% if you were using
+
+85
+00:06:48,320 --> 00:06:56,400
+one person before. Now, if you lose 12 trades and that is very unlikely with my trading
+
+86
+00:06:56,400 --> 00:07:01,360
+strategies, you can lose up to five, six trades in a row. That's normal. But if few, let's say,
+
+87
+00:07:01,920 --> 00:07:09,200
+if you lose like 12 trades, right, and you were using one person, you lost 12 person, right? So
+
+88
+00:07:09,200 --> 00:07:15,040
+our rule is that after four trades, after losing four, percent alone, we reduce our risk size.
+
+89
+00:07:15,040 --> 00:07:20,040
+So we lost four trades, we reduced the risk to 0.5%.
+
+90
+00:07:20,040 --> 00:07:27,040
+And we lost four more trades, so we reduced our risk
+
+91
+00:07:27,040 --> 00:07:30,040
+to 0.25%.
+
+92
+00:07:30,040 --> 00:07:32,040
+So let me do the maths here.
+
+93
+00:07:32,040 --> 00:07:36,040
+So we lost 12% by using the same person,
+
+94
+00:07:36,040 --> 00:07:42,040
+and we lost 12 trades, that is negative 12% in your portfolio.
+
+95
+00:07:42,040 --> 00:07:51,800
+However, after four trades, you switch back to 0.5% and you lost eight trades, that is how much?
+
+96
+00:07:54,600 --> 00:08:02,680
+Six percent, right? So now when you lost six percent, right? So that is, oh my god, guys, my
+
+97
+00:08:02,680 --> 00:08:07,880
+maths is ready to on. I mean, you get the gist of it, right? You know what I'm talking about.
+
+98
+00:08:07,880 --> 00:08:14,200
+you want to keep on reducing your risk and when you, when you, you know, so when you have lost
+
+99
+00:08:14,200 --> 00:08:22,120
+12 phase and you are using smaller risk. So let's assume that you win. Four trades, right?
+
+100
+00:08:22,680 --> 00:08:27,720
+In a row. And this is just for example, and you're going to just know what I'm talking about.
+
+101
+00:08:27,720 --> 00:08:34,440
+So you win four, two is an arrow using 0.25. So when you, so when you win four, two is an
+
+102
+00:08:34,440 --> 00:08:41,960
+row using 0.25 after eight losses in a row. When you win four trades in a row, when
+
+103
+00:08:41,960 --> 00:08:51,120
+with 0.25% you switch back to using 0.5% and when you win another four trades or you
+
+104
+00:08:51,120 --> 00:08:59,360
+win trades and lose trades that is equivalent to the profit, you know, equity that you lost,
+
+105
+00:08:59,360 --> 00:09:04,360
+then you can switch back to 0.1%, sorry, one person only, right?
+
+106
+00:09:04,960 --> 00:09:08,600
+So when you recover your losses by using the same risk,
+
+107
+00:09:08,600 --> 00:09:10,920
+then you can switch back up to the one person rule.
+
+108
+00:09:12,360 --> 00:09:16,040
+I hope you got what I was trying to explain
+
+109
+00:09:16,040 --> 00:09:18,960
+in this risk management video.
+
+110
+00:09:18,960 --> 00:09:24,290
+So there is, I've seen people do this mistake.
+
+111
+00:09:24,290 --> 00:09:26,650
+So let's assume that there is,
+
+112
+00:09:26,650 --> 00:09:30,890
+Where is the box?
+
+113
+00:09:30,890 --> 00:09:32,650
+Oh my god.
+
+114
+00:09:32,650 --> 00:09:34,290
+Bro, okay, there you go.
+
+115
+00:09:34,290 --> 00:09:37,530
+So you have your pure right and you get a solid entry
+
+116
+00:09:38,690 --> 00:09:40,410
+at this level.
+
+117
+00:09:40,410 --> 00:09:42,930
+So let's assume that you bought here right?
+
+118
+00:09:42,930 --> 00:09:46,170
+So now price is going up.
+
+119
+00:09:46,170 --> 00:09:47,690
+You see profits.
+
+120
+00:09:47,690 --> 00:09:50,130
+Wow, you are in profit very nice.
+
+121
+00:09:50,130 --> 00:09:52,170
+You have your take profit level.
+
+122
+00:09:52,170 --> 00:09:54,210
+Let's assume here.
+
+123
+00:09:54,210 --> 00:09:55,730
+And you are holding your trade,
+
+124
+00:09:55,730 --> 00:09:57,950
+holding your trade and then what happens?
+
+125
+00:09:57,950 --> 00:10:01,230
+Price reverses and you lose the trade.
+
+126
+00:10:01,230 --> 00:10:04,650
+This is terrible risk management, okay?
+
+127
+00:10:04,650 --> 00:10:09,650
+So let me tell you how you can avoid this from happening.
+
+128
+00:10:12,250 --> 00:10:15,170
+So when you get your entry,
+
+129
+00:10:15,170 --> 00:10:20,010
+look at the closest lower high or high low.
+
+130
+00:10:20,010 --> 00:10:26,050
+So you can see this is a lower high, right?
+
+131
+00:10:26,050 --> 00:10:31,050
+When this structure is broken, you move your stop loss to break even.
+
+132
+00:10:33,730 --> 00:10:39,970
+That is a simple rule that you must follow because you do not want to keep your trade risky.
+
+133
+00:10:40,090 --> 00:10:44,010
+You want to go risk rate when price breaks some sort of structure.
+
+134
+00:10:44,730 --> 00:10:51,090
+And when that happens, when price breaks this structure, you can either take some profits.
+
+135
+00:10:51,090 --> 00:10:57,810
+Right? You can take some of the profits off the trade. Right? Like, uh, I don't know. Like, 20
+
+136
+00:10:57,810 --> 00:11:05,970
+percent or 25 percent. Just so you lock in some profits. Okay. My rule of thumb is that when you
+
+137
+00:11:05,970 --> 00:11:14,450
+hit one to two risk to reward, you can close up to 40 percent or even 70 percent of your trade
+
+138
+00:11:14,450 --> 00:11:20,930
+and let the rest running. But that's what you up to you. So when this structure breaks, you
+
+139
+00:11:20,930 --> 00:11:30,690
+maybe take some profits or the alternative is when price breaks this structure, what you can do
+
+140
+00:11:31,250 --> 00:11:37,890
+is instead of going break even, you can move your stop loss below this high low. So you are
+
+141
+00:11:37,890 --> 00:11:43,730
+essentially trailing your stop-offs so you are locking in profits when the trade is going up.
+
+142
+00:11:44,290 --> 00:11:51,010
+So with the trade going up you keep on locking in some profits. So there are two ways to approach
+
+143
+00:11:51,010 --> 00:11:56,850
+this. One you can take partials along the way when structures break or you can trail your
+
+144
+00:11:56,850 --> 00:12:00,770
+your stop loss, like this,
+
+145
+00:12:00,770 --> 00:12:03,850
+below every single high low.
+
+146
+00:12:05,350 --> 00:12:09,190
+So you get another higher high,
+
+147
+00:12:09,190 --> 00:12:11,730
+you move your stop loss here,
+
+148
+00:12:11,730 --> 00:12:16,010
+and then you move your stop loss here,
+
+149
+00:12:17,130 --> 00:12:20,650
+and this is your move your stop loss here,
+
+150
+00:12:21,890 --> 00:12:25,210
+and then what happens is price reverses.
+
+151
+00:12:25,210 --> 00:12:29,570
+So you get the full locked in profit, right?
+
+152
+00:12:29,570 --> 00:12:31,730
+However, if you took part shows,
+
+153
+00:12:31,730 --> 00:12:33,570
+the rule of thumb would be, you know,
+
+154
+00:12:33,570 --> 00:12:36,330
+market marking out some POIs.
+
+155
+00:12:36,330 --> 00:12:38,090
+So this was the first POI, right?
+
+156
+00:12:38,090 --> 00:12:39,730
+So this structure broke.
+
+157
+00:12:39,730 --> 00:12:41,810
+We move our stop loss to break even.
+
+158
+00:12:41,810 --> 00:12:43,890
+And we take part shows.
+
+159
+00:12:43,890 --> 00:12:47,410
+So let's assume there is some supplies on
+
+160
+00:12:47,410 --> 00:12:50,210
+or free value gap here, right?
+
+161
+00:12:50,210 --> 00:12:51,970
+So when price comes into this level,
+
+162
+00:12:51,970 --> 00:12:56,970
+you maybe take 20% off the table as well, off the trade as well.
+
+163
+00:12:57,090 --> 00:13:04,090
+So price retraces and then you will have your final TP level and then you will have.
+
+164
+00:13:05,050 --> 00:13:07,730
+So you can take like two partial.
+
+165
+00:13:07,730 --> 00:13:12,170
+Okay, you don't want to take more than two percent because it's going to increase your
+
+166
+00:13:13,730 --> 00:13:15,330
+actual profit factor.
+
+167
+00:13:15,330 --> 00:13:18,130
+So make sure you only have like three.
+
+168
+00:13:18,130 --> 00:13:20,490
+The third one is your final TP.
+
+169
+00:13:20,490 --> 00:13:26,770
+So you have one partial take here. You have your second partial take here and then you have your final tp here
+
+170
+00:13:27,490 --> 00:13:29,990
+So that is how we roll with this
+
+171
+00:13:31,490 --> 00:13:33,490
+I
+
+172
+00:13:33,650 --> 00:13:35,650
+Don't know if there's more to it, but
+
+173
+00:13:37,290 --> 00:13:43,530
+Yeah, so now let's talk about psychology now. This is one of the most important things that
+
+174
+00:13:45,930 --> 00:13:49,130
+That you should know okay, and it's like
+
+175
+00:13:50,490 --> 00:13:55,550
+If your psychology is not strong, if your mind is not strong, you are going to
+
+176
+00:13:55,550 --> 00:14:00,190
+fail regardless of your trading strategy and your risk management.
+
+177
+00:14:00,190 --> 00:14:06,990
+Now, psychology is very important because as a human, we have the nature to take revenge
+
+178
+00:14:06,990 --> 00:14:12,570
+or seek revenge if something bad happens to us.
+
+179
+00:14:12,570 --> 00:14:19,390
+So let's assume that you as a beginner or a lot of people do this mistake is when
+
+180
+00:14:19,390 --> 00:14:27,070
+the lose one trade. What they would do is without, you know, looking for a setup for a new setup,
+
+181
+00:14:27,070 --> 00:14:33,230
+what they would do is they would randomly enter at a random place at a random time just to
+
+182
+00:14:34,190 --> 00:14:39,470
+revenge trade. Just to, you know, gain back the money that they have lost with that one single
+
+183
+00:14:39,470 --> 00:14:45,790
+trade. And what happens? You lose another trade. So now you have lost two trades in a row and your
+
+184
+00:14:45,790 --> 00:14:47,790
+mind is just
+
+185
+00:14:47,790 --> 00:14:50,590
+Heat it. Okay. It's just want to destroy the whole world
+
+186
+00:14:50,830 --> 00:14:55,350
+So what you are going to do is go to increase the risk percentage right?
+
+187
+00:14:55,350 --> 00:15:00,270
+So previously you were using one person per trade you lost two trades in a row you lost two persons
+
+188
+00:15:00,270 --> 00:15:03,570
+So what you would do is you would use three percent this time just to
+
+189
+00:15:04,390 --> 00:15:13,090
+I don't recover those losses and what happens again. You lose that trade so now this is absolutely
+
+190
+00:15:13,090 --> 00:15:17,410
+the worst way to trade.
+
+191
+00:15:17,410 --> 00:15:20,570
+Okay, and I know I have done that as well
+
+192
+00:15:20,570 --> 00:15:23,250
+when I was a beginner and a lot of people
+
+193
+00:15:23,250 --> 00:15:24,770
+that I know have done that as well.
+
+194
+00:15:24,770 --> 00:15:27,170
+And you guys must have done that as well.
+
+195
+00:15:27,170 --> 00:15:30,770
+And there are some things to improve your psychology.
+
+196
+00:15:30,770 --> 00:15:32,450
+Okay, so I will give you some tips
+
+197
+00:15:32,450 --> 00:15:33,690
+and maybe you can apply them
+
+198
+00:15:33,690 --> 00:15:36,130
+and it's gonna help you a lot.
+
+199
+00:15:36,130 --> 00:15:39,130
+So the very first rule of thumb is that you wanna train
+
+200
+00:15:39,130 --> 00:15:46,810
+yourself to only take two maximum two trades per day. No more than that. Okay. So even if
+
+201
+00:15:46,810 --> 00:15:51,890
+if the good rule of thumb is to only take one trade per day, if you can do that, trust me,
+
+202
+00:15:51,890 --> 00:15:58,290
+your psychology is going to be very strong next month. Okay. In a month, I could say. So you
+
+203
+00:15:58,290 --> 00:16:01,850
+take one trader day, you lose, you go back home and enjoy the rest of the day. You come
+
+204
+00:16:01,850 --> 00:16:06,850
+back the next day, you win a trade very nice. So now when you win a trade, you just quit
+
+205
+00:16:06,850 --> 00:16:08,050
+and come back the next day.
+
+206
+00:16:08,050 --> 00:16:09,450
+When you come back the next day,
+
+207
+00:16:09,450 --> 00:16:11,130
+what is going to happen is gonna,
+
+208
+00:16:11,130 --> 00:16:13,570
+you are going to be in a good mood, right?
+
+209
+00:16:13,570 --> 00:16:14,770
+And you're gonna be excited.
+
+210
+00:16:14,770 --> 00:16:16,570
+And you're gonna have, you know, like,
+
+211
+00:16:18,530 --> 00:16:19,770
+I would say a good mood.
+
+212
+00:16:19,770 --> 00:16:22,250
+And that is really important for trading, okay?
+
+213
+00:16:22,250 --> 00:16:24,330
+So that is gonna help you a lot.
+
+214
+00:16:24,330 --> 00:16:27,730
+So try taking only one trade per day.
+
+215
+00:16:28,650 --> 00:16:31,570
+That is the best way to go to, go for it.
+
+216
+00:16:31,570 --> 00:16:34,730
+And the other rule is that you can maybe
+
+217
+00:16:34,730 --> 00:16:36,170
+take two trades per day.
+
+218
+00:16:36,170 --> 00:16:37,050
+Okay?
+
+219
+00:16:37,050 --> 00:16:39,850
+Or what you can do is that you can take
+
+220
+00:16:41,930 --> 00:16:44,650
+three trades and if you lose one trade in a day,
+
+221
+00:16:44,650 --> 00:16:45,490
+you just quit.
+
+222
+00:16:45,490 --> 00:16:46,650
+But if you win one trade,
+
+223
+00:16:46,650 --> 00:16:48,250
+you can take another trade, right?
+
+224
+00:16:48,250 --> 00:16:50,130
+And then you lose a trade, you quit the day.
+
+225
+00:16:50,130 --> 00:16:52,170
+But if you win like one trade
+
+226
+00:16:52,170 --> 00:16:53,810
+and you win the second trade as well,
+
+227
+00:16:53,810 --> 00:16:55,810
+you can go for a third trade.
+
+228
+00:16:55,810 --> 00:16:57,250
+And if you lose that, you quit
+
+229
+00:16:57,250 --> 00:16:58,810
+and you end your day in profit.
+
+230
+00:16:59,890 --> 00:17:01,770
+So now how do you even do this?
+
+231
+00:17:01,770 --> 00:17:05,250
+because that saying this is easy, right?
+
+232
+00:17:05,250 --> 00:17:06,450
+I can tell you to do this,
+
+233
+00:17:06,450 --> 00:17:08,290
+but the psychology is ready,
+
+234
+00:17:08,290 --> 00:17:12,410
+it's such an important thing that is not easy.
+
+235
+00:17:12,410 --> 00:17:15,690
+But if you follow the rules that I'm gonna tell you,
+
+236
+00:17:15,690 --> 00:17:17,850
+you can actually increase your psychology.
+
+237
+00:17:17,850 --> 00:17:21,090
+So a lot of people might call me dumb for this,
+
+238
+00:17:21,090 --> 00:17:26,090
+but how I improve my psychology is through meditation.
+
+239
+00:17:26,090 --> 00:17:33,530
+meditation. Now meditation is something that you can search up on YouTube is basically, you know,
+
+240
+00:17:36,010 --> 00:17:41,130
+focusing on one thing and sitting and breathing and bringing out. So meditation, what it does is
+
+241
+00:17:41,130 --> 00:17:49,450
+just, you know, it just freshens up your brain, it freshens up your your body. And what you can do
+
+242
+00:17:49,450 --> 00:17:54,970
+is you can learn meditation on YouTube. I cannot teach you how to meditate because it's a little
+
+243
+00:17:54,970 --> 00:18:00,570
+complex thing. But essentially what is it is that you sit near a very
+
+244
+00:18:00,570 --> 00:18:05,530
+quite sit around a very quiet place, right? And you meditate for 20 minutes. And
+
+245
+00:18:05,530 --> 00:18:10,890
+what is meditation is that you relax and free up your mind for 20 minutes a
+
+246
+00:18:10,890 --> 00:18:15,730
+day or 10 minutes a day if you're a beginner. Free up your mind and focus on
+
+247
+00:18:15,730 --> 00:18:20,410
+breathing. Okay. So meditation is actually focusing on one single thing at the
+
+248
+00:18:20,410 --> 00:18:28,170
+time. So what you do is that you breathe in and then breathe out and you focus solely on that
+
+249
+00:18:28,170 --> 00:18:33,210
+breath. You remove all the thoughts from your brain. You do not care about training. You do not care
+
+250
+00:18:33,210 --> 00:18:41,130
+about your family. Just leave everything behind and focus only on your breathing. Okay. There are a
+
+251
+00:18:41,130 --> 00:18:48,170
+lot of ways to meditate. You can search them up on YouTube. There's actually this one guy by the name
+
+252
+00:18:48,170 --> 00:18:52,090
+you can search up on YouTube,
+
+253
+00:18:52,090 --> 00:18:54,570
+humpsa, meditation,
+
+254
+00:18:54,570 --> 00:18:56,170
+and the video is gonna pop up,
+
+255
+00:18:56,170 --> 00:18:57,770
+and you can watch that video.
+
+256
+00:18:57,770 --> 00:18:58,810
+It's really helpful.
+
+257
+00:18:58,810 --> 00:19:00,730
+And I know this sounds really dumb,
+
+258
+00:19:00,730 --> 00:19:04,730
+but it's actually what helped me improve my psychology.
+
+259
+00:19:04,730 --> 00:19:09,730
+It helped me increase my brain productivity.
+
+260
+00:19:10,650 --> 00:19:14,090
+So the other thing is that along with meditation,
+
+261
+00:19:14,090 --> 00:19:17,490
+you wanna have a proper sleep schedule,
+
+262
+00:19:17,490 --> 00:19:24,130
+All right, you cannot be sleeping at a random time like 3 am for am no, you want to wake up at a
+
+263
+00:19:25,090 --> 00:19:29,810
+Decent time which would be 8 or 7 am in the morning, right? You exercise
+
+264
+00:19:30,530 --> 00:19:36,890
+Exercise is really important as well for your brain and now these are tips that you must include in training because for training
+
+265
+00:19:36,890 --> 00:19:40,610
+You need to be mentally strong and how you get mentally strong is by a true meditation
+
+266
+00:19:42,130 --> 00:19:43,650
+You know
+
+267
+00:19:43,650 --> 00:19:45,410
+exercise
+
+268
+00:19:45,410 --> 00:19:47,410
+And gratitude. Now, what is gratitude?
+
+269
+00:19:48,050 --> 00:19:52,930
+Even if you lose a trade, you can be grateful for that trade because it was a lesson for you.
+
+270
+00:19:52,930 --> 00:19:58,690
+Okay? Instead of, you know, raging over that lost trade, you could say that, wow,
+
+271
+00:19:58,690 --> 00:20:03,970
+I'm thankful for this trade. It has taught me something, right? You lost your trade.
+
+272
+00:20:03,970 --> 00:20:08,050
+You find, you try to find out the reason why you lost that trade. You're, you search
+
+273
+00:20:08,050 --> 00:20:11,890
+and you should be grateful because eventually you were just paying a small little
+
+274
+00:20:11,890 --> 00:20:18,330
+fees for some sort of information. So that is a win-win for you. So you meditate, you
+
+275
+00:20:18,330 --> 00:20:23,050
+exercise at least 15 minutes a day guys. That is easy, right? And then you sure
+
+276
+00:20:23,050 --> 00:20:27,450
+gratitude towards your life. You could say, I'm grateful for my family. I'm
+
+277
+00:20:27,450 --> 00:20:31,690
+grateful for the food that I had today. You could say, I'm grateful for
+
+278
+00:20:31,690 --> 00:20:37,130
+literally anything that makes you a little bit happy in some sort of way. Right?
+
+279
+00:20:37,130 --> 00:20:44,250
+You could just show gratitude. Trust me, this works amazingly and I'm not just spinning bullshit
+
+280
+00:20:44,250 --> 00:20:51,450
+at the moment. I'm telling you actual facts and truths that has helped me increase my brain power.
+
+281
+00:20:52,810 --> 00:20:59,610
+So you can meditate, exercise, show gratitude towards small things. It doesn't matter what it is.
+
+282
+00:20:59,610 --> 00:21:06,810
+But if it shows you some sort of happiness in any way, even if it doesn't give you
+
+283
+00:21:06,810 --> 00:21:11,850
+and happiness and you just want to show like a gratitude to other things. For example, I look at the
+
+284
+00:21:11,850 --> 00:21:17,450
+moon sometimes and I say, wow, I'm grateful that the moon exists literally. And what it does is that
+
+285
+00:21:17,450 --> 00:21:24,730
+it's easy to up your brain and it gives you like this easeness in your body that if you even lose trades,
+
+286
+00:21:24,730 --> 00:21:30,410
+it doesn't matter because when you're coming into trading, right, there's a simple rule that if
+
+287
+00:21:30,410 --> 00:21:35,610
+you cannot afford to lose what you are investing, then do not come into trading because if you are
+
+288
+00:21:35,610 --> 00:21:41,450
+investing your little lifetime savings into trading. Guys, there are no guarantees that the markets
+
+289
+00:21:41,450 --> 00:21:45,770
+are going to stay the same. Right. I'm saying this right now. I don't know what's going to happen in
+
+290
+00:21:45,770 --> 00:21:53,930
+the upcoming five years, but the thing is, just believe in yourself. Stay calm when trading.
+
+291
+00:21:53,930 --> 00:22:00,890
+Okay. Follow your rules. Write a low or robot. Okay. Just stick with and try these things out,
+
+292
+00:22:00,890 --> 00:22:07,890
+guys, I mean it, meditate, exercise, gratitude, right? It's going to really help you. So one
+
+293
+00:22:07,890 --> 00:22:15,050
+thing is that if you lose like three trades, right, in a week or two trades in a week,
+
+294
+00:22:15,050 --> 00:22:19,770
+you just come back the next week because what can happen sometimes is during a specific
+
+295
+00:22:19,770 --> 00:22:23,690
+week, there could be a lot of news, right? And that could be the reason why you're losing
+
+296
+00:22:23,690 --> 00:22:30,850
+trades. So just avoid that week and just come back the next week, right? It really depends
+
+297
+00:22:30,850 --> 00:22:34,730
+on you if you want to like keep on trading for that week, but the thing is a good rule of
+
+298
+00:22:34,730 --> 00:22:40,230
+thumb if you are a beginner, if you lose one or two or three trades in a week and you
+
+299
+00:22:40,230 --> 00:22:44,850
+are in negative, then just quit and come back the next week.
+
+300
+00:22:44,850 --> 00:22:47,610
+So I really hope that you guys enjoyed this video.
+
+301
+00:22:47,610 --> 00:22:50,810
+That was one of my most important videos that I've made.
+
+302
+00:22:50,810 --> 00:22:53,410
+So make sure that you follow this thing.
+
+303
+00:22:53,410 --> 00:22:57,490
+You want to show gratitude towards small things every single day.
+
+304
+00:22:57,490 --> 00:23:02,930
+And one thing that you should do is you should journal your trades.
+
+305
+00:23:02,930 --> 00:23:03,930
+Okay.
+
+306
+00:23:03,930 --> 00:23:06,330
+So you should journal why I lost the trade.
+
+307
+00:23:06,330 --> 00:23:10,330
+You could say I took this trade at this time, right?
+
+308
+00:23:10,330 --> 00:23:13,690
+I used this strategy.
+
+309
+00:23:13,690 --> 00:23:17,010
+I used this trade.
+
+310
+00:23:17,010 --> 00:23:22,330
+I traded during London session.
+
+311
+00:23:22,330 --> 00:23:26,690
+Was there any news?
+
+312
+00:23:26,690 --> 00:23:33,690
+How big was the displacement for market structure shift by measuring the pips?
+
+313
+00:23:33,690 --> 00:23:38,890
+And by journaling, you can become even better trader than me.
+
+314
+00:23:38,890 --> 00:23:41,970
+Because the thing is, guys, even if I give you my...
+
+315
+00:23:41,970 --> 00:23:48,730
+If you want to give you the best strategy in the world, you can become a better trader
+
+316
+00:23:48,730 --> 00:23:53,370
+than me because it really depends on backtesting and journaling.
+
+317
+00:23:53,370 --> 00:24:01,010
+You can journal like this and just add in the wind rate which time works the best, which
+
+318
+00:24:01,010 --> 00:24:06,210
+session works the best, how much displacement is valid for Microsoft machine.
+
+319
+00:24:06,210 --> 00:24:11,650
+And it's going to help you with your psychology as well because you're going to be confident
+
+320
+00:24:11,650 --> 00:24:13,890
+in your trading system.
+
+321
+00:24:13,890 --> 00:24:17,690
+So I hope you guys enjoyed this lecture and I'll see you guys in the next video.

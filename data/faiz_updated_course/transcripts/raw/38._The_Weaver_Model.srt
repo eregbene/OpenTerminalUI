@@ -1,0 +1,739 @@
+1
+00:00:00,530 --> 00:00:30,530
+Alright, so this is the chapter 2 of this brand new course and in this chapter I'm going to teach you another model that you can use. Now this model works on all pairs and assets. So you can basically trade every single day if this setup presents itself and you will get a setup every day, a most of the time. And multiple setups per day if that makes sense. So the very first thing that you have to do is you have to mark it.
+
+2
+00:00:30,530 --> 00:00:41,090
+the previous day low and previous day high. So let's assume that this daily candle
+
+3
+00:00:41,090 --> 00:00:49,450
+is off Tuesday. So this is a Tuesday daily candle. Now on the next day, right? So
+
+4
+00:00:49,450 --> 00:00:53,990
+let's suppose that the next candle opens here. So this is the opening price.
+
+5
+00:00:53,990 --> 00:01:03,420
+right this is the opening price now what I want to see is price take down take
+
+6
+00:01:03,420 --> 00:01:08,640
+out the daily low previous daily low or previous daily high so let's assume that
+
+7
+00:01:08,640 --> 00:01:19,120
+the daily low is taken out now once the daily low is taken out so this right here
+
+8
+00:01:19,120 --> 00:01:26,240
+is the daily low, previous daily low, right? I want you to drop down to one
+
+9
+00:01:26,240 --> 00:01:37,720
+hour time from so one hour time from, okay? And afterwards what you have to do is find
+
+10
+00:01:37,720 --> 00:01:45,400
+a fairly gap in this leg on the one hour time from so, so this is how it's
+
+11
+00:01:45,400 --> 00:01:48,080
+going to look like when you drop down to one hour
+
+12
+00:01:48,080 --> 00:01:52,360
+time from right. So let's just basically say that
+
+13
+00:01:52,400 --> 00:01:56,280
+this is the opening price right and price took out the
+
+14
+00:01:56,680 --> 00:02:02,080
+previous day. So this is how it's going to look like. Okay.
+
+15
+00:02:02,760 --> 00:02:04,720
+And that's how it's going to look like on the one hour
+
+16
+00:02:04,720 --> 00:02:08,000
+time from. So let's assume that the daily low was taken
+
+17
+00:02:08,000 --> 00:02:11,800
+out. Previously low was taken out. And then all you have to
+
+18
+00:02:11,800 --> 00:02:15,680
+do is drop down to one hour time from now inside this leg.
+
+19
+00:02:15,680 --> 00:02:19,680
+Notice how we had a lower low, lower high and then a lower low.
+
+20
+00:02:19,680 --> 00:02:26,680
+Now, I want to see a fairly gap inside this leg, not here,
+
+21
+00:02:26,680 --> 00:02:34,680
+because the new dealing range is from this low, sorry, this high to this low over here.
+
+22
+00:02:34,680 --> 00:02:41,680
+So inside this leg, we need to identify a fairly gap.
+
+23
+00:02:41,680 --> 00:02:47,840
+Now if there are multiple fair value gaps, we will be noticing the fair value gap in the premium.
+
+24
+00:02:47,840 --> 00:02:52,320
+So using your flip from the high to low, you will get premium and discount levels.
+
+25
+00:02:53,120 --> 00:02:56,480
+You want to prioritize the fair value gap that's in the premium.
+
+26
+00:02:57,440 --> 00:03:05,920
+Now, once you have marked out the one overtime frame, fair value gap, after the previous daily low
+
+27
+00:03:05,920 --> 00:03:13,120
+was taken out and you have your fairly get marked out on the one over time from. You want to drop
+
+28
+00:03:13,120 --> 00:03:21,520
+down to five or 15 minute time from. So for this specific strategy, we're going to drop down to 15
+
+29
+00:03:21,520 --> 00:03:29,200
+minute time from now. After that, what we're looking for is a 15 minute market structure shift.
+
+30
+00:03:29,200 --> 00:03:35,920
+Okay? Now if you want to be, you know, a bit, uh, take a risk, you can go to five minute
+
+31
+00:03:35,920 --> 00:03:40,520
+time frame and look for market structure shift. But 15 minute time from market structure
+
+32
+00:03:40,520 --> 00:03:47,800
+shifts are the best in my opinion. Okay? So once you get a market structure shift on the
+
+33
+00:03:47,800 --> 00:03:53,880
+15 minute time frame, right, you can simply take your entry from the breaker block,
+
+34
+00:03:53,880 --> 00:03:55,960
+for a value gap or an auto block.
+
+35
+00:03:55,960 --> 00:03:56,800
+Okay.
+
+36
+00:03:56,800 --> 00:03:59,160
+Now whichever PDA array you use,
+
+37
+00:03:59,160 --> 00:04:00,680
+you're gonna sometimes miss a trade.
+
+38
+00:04:00,680 --> 00:04:03,560
+There's absolutely no way to identify
+
+39
+00:04:03,560 --> 00:04:06,400
+which PDA array is going to be respected.
+
+40
+00:04:06,400 --> 00:04:07,240
+Okay.
+
+41
+00:04:07,240 --> 00:04:09,680
+So this breaker block could be violated,
+
+42
+00:04:09,680 --> 00:04:11,520
+but then there would be a fairly gap
+
+43
+00:04:11,520 --> 00:04:13,120
+that could be respected here.
+
+44
+00:04:13,120 --> 00:04:14,080
+Okay.
+
+45
+00:04:14,080 --> 00:04:18,680
+So it all depends on how much your stop loss is going to be,
+
+46
+00:04:18,680 --> 00:04:20,080
+how much you are comfortable with.
+
+47
+00:04:20,080 --> 00:04:20,920
+Right.
+
+48
+00:04:20,920 --> 00:04:23,040
+So let's assume I take my entry from the fairly gap.
+
+49
+00:04:23,040 --> 00:04:26,560
+I will be targeting this one hour for everybody gap.
+
+50
+00:04:26,560 --> 00:04:28,720
+So this is one hour for everybody gap.
+
+51
+00:04:28,720 --> 00:04:30,160
+So I'm gonna summarize this again
+
+52
+00:04:30,160 --> 00:04:31,480
+so you don't get confused.
+
+53
+00:04:31,480 --> 00:04:33,640
+The very first step is that you have to mark out
+
+54
+00:04:33,640 --> 00:04:37,280
+the previous day high, right?
+
+55
+00:04:37,280 --> 00:04:38,520
+And the previous day low.
+
+56
+00:04:38,520 --> 00:04:40,680
+Now on the next day, what you're waiting for
+
+57
+00:04:40,680 --> 00:04:44,080
+is price to either take out the previous day high
+
+58
+00:04:44,080 --> 00:04:46,200
+or the previous day low.
+
+59
+00:04:46,200 --> 00:04:51,200
+Now let's assume that the previous day low was taken out.
+
+60
+00:04:51,200 --> 00:04:58,080
+Now as soon as it's taken out, you want to drop down to one over time frame to find a
+
+61
+00:04:58,080 --> 00:05:04,440
+fairly gap inside the recent dealing range on the one over time frame.
+
+62
+00:05:04,440 --> 00:05:11,520
+So hi to low, that is your dealing range.
+
+63
+00:05:11,520 --> 00:05:20,470
+Now if you can clearly see that when price keeps going down, you can look for markets
+
+64
+00:05:20,470 --> 00:05:24,430
+such a shift anywhere. Okay, as long as your one over
+
+65
+00:05:24,430 --> 00:05:32,650
+fairly gap is still there. Cool. Now, that is pretty much
+
+66
+00:05:32,650 --> 00:05:36,130
+it. You take your entry and you target this fairly gap.
+
+67
+00:05:37,210 --> 00:05:41,290
+Now, key thing to note is that if you use SMT divergence with
+
+68
+00:05:41,290 --> 00:05:44,730
+this strategy, your win rate is going to skyrocket. Okay.
+
+69
+00:05:45,850 --> 00:05:49,090
+Now, I like to keep much strategies as mechanical as
+
+70
+00:05:49,090 --> 00:05:55,610
+possible, but sometimes SMT divergence, you know, it's going to really, really help you.
+
+71
+00:05:55,610 --> 00:05:59,810
+So let's assume that we were looking at your USD, right?
+
+72
+00:05:59,810 --> 00:06:02,850
+We want to find a divergence with GPP USD.
+
+73
+00:06:02,850 --> 00:06:09,290
+So if there is a SMT divergence with GU, you could be confident that, okay, I can take
+
+74
+00:06:09,290 --> 00:06:10,850
+a long here.
+
+75
+00:06:10,850 --> 00:06:15,490
+Similarly, if you were looking at GU, you would look for SMT with EU and then you would
+
+76
+00:06:15,490 --> 00:06:16,850
+take your trade.
+
+77
+00:06:16,850 --> 00:06:22,950
+There is a S&T divergence chapter in the old course you must watch it in order to understand
+
+78
+00:06:22,950 --> 00:06:24,430
+what exactly is S&T.
+
+79
+00:06:24,430 --> 00:06:29,270
+I'm not going to explain in this chapter because it's not what it's about.
+
+80
+00:06:29,270 --> 00:06:33,110
+So similarly if I flip the chart if the daily high is taken out right you would drop down
+
+81
+00:06:33,110 --> 00:06:39,270
+to one hour time from identify if variable you gap in the recent dealing range and then
+
+82
+00:06:39,270 --> 00:06:43,630
+you mark it out that is going to be your drawn liquidity then you drop down to 15 minute
+
+83
+00:06:43,630 --> 00:06:48,510
+down from look where Marcus structures shift take your entry with SMT divergence if you
+
+84
+00:06:48,510 --> 00:06:53,110
+really want to like increase your wind rate and then you target this level. So that's pretty
+
+85
+00:06:53,110 --> 00:06:55,630
+much it for this strategy. I'm going to give you guys some examples and then we will
+
+86
+00:06:55,630 --> 00:07:02,310
+move on to the next chapter. Okay guys so this is example one looking at gold and we're
+
+87
+00:07:02,310 --> 00:07:07,750
+going to study these two candles. So this is the previous daily candle. So I'm going
+
+88
+00:07:07,750 --> 00:07:14,870
+mark out the high and the low. Okay. Now what I'm not doing is I'm going to drop down to
+
+89
+00:07:14,870 --> 00:07:21,990
+one over time from and see what happened. So you can see that I have marked out the daily high and
+
+90
+00:07:21,990 --> 00:07:29,270
+the daily high was taken out first. Now on the one over time from by using this dealing range,
+
+91
+00:07:29,270 --> 00:07:36,310
+right? We want to mark out this fair value gap. Okay? The one over fair value gap. This is going to
+
+92
+00:07:36,310 --> 00:07:42,950
+be our draw on liquidity. Now once it was taken now, right, and we had marked out our daily,
+
+93
+00:07:42,950 --> 00:07:48,150
+oh sorry, one our free body gap, which is here, I'm going to drop down to 15 minute time frame
+
+94
+00:07:49,590 --> 00:07:57,030
+and we're looking for a market structure shift. Okay, very simple. And we have it just around here.
+
+95
+00:07:57,030 --> 00:08:03,350
+Now we also have this free body gap. And since the free body gap is big, I'm going to use the 50
+
+96
+00:08:03,350 --> 00:08:09,710
+percent of it and of course this is hindsight and then I would go for at least one
+
+97
+00:08:09,710 --> 00:08:15,710
+two one point five R R if my draw on liquidity was somewhere around here then I
+
+98
+00:08:15,710 --> 00:08:21,630
+would happily go for one to two but sometimes you have to just target you know
+
+99
+00:08:21,630 --> 00:08:26,030
+the safest number because our draw on liquidity is here and once once the price
+
+100
+00:08:26,030 --> 00:08:29,510
+comes into this level there is no guarantee that price gonna keep going down
+
+101
+00:08:29,510 --> 00:08:35,690
+So pretty simple guys, daily high was taken out, then we simply marked out the one
+
+102
+00:08:35,690 --> 00:08:40,550
+over Fair Valley Gap in the dealing range and then afterwards we had a shift in
+
+103
+00:08:40,550 --> 00:08:45,590
+the market structure entry and that was it. Let's move on to another example.
+
+104
+00:08:45,590 --> 00:08:52,350
+Alright guys so here is example two, looking at GVP JPOI this time and ignore
+
+105
+00:08:52,350 --> 00:08:56,830
+the background noise if you hear some because I'm actually not at my home but
+
+106
+00:08:56,830 --> 00:09:00,350
+you can see that we want to study these two candles.
+
+107
+00:09:00,350 --> 00:09:03,470
+So actually this candle only because this is the next day.
+
+108
+00:09:03,470 --> 00:09:05,630
+So this is the previous day, right?
+
+109
+00:09:05,630 --> 00:09:08,430
+So simply want to mark out the previous day high
+
+110
+00:09:08,430 --> 00:09:09,710
+and the previous day low.
+
+111
+00:09:09,710 --> 00:09:14,590
+Now on the next day we are simply anticipating the high or low to be taken out.
+
+112
+00:09:14,590 --> 00:09:16,510
+And as you can see the high was taken out first.
+
+113
+00:09:16,510 --> 00:09:20,510
+So I'm going to drop down to one hour time from, right?
+
+114
+00:09:20,510 --> 00:09:25,630
+And if you study this, you can see that the daily high was taken out
+
+115
+00:09:25,630 --> 00:09:30,990
+and we are on the one hour dive frame. So now we're going to use our Fibonacci tool and we are
+
+116
+00:09:30,990 --> 00:09:39,230
+basically going to measure the, you know, the premium and discount level. So what exactly is a
+
+117
+00:09:39,230 --> 00:09:44,110
+dealing range? I've thought this before, but you can see that we swept liquidity and then we pushed
+
+118
+00:09:44,110 --> 00:09:50,030
+up, right? So this is going to be a dealing range low because why it swept liquidity and then
+
+119
+00:09:50,030 --> 00:09:55,310
+pushed up. This is not the dealing range low. Why? Because it didn't sweep any
+
+120
+00:09:55,310 --> 00:10:00,830
+liquidity if that makes sense. Okay. So I'm going to use my fib from the
+
+121
+00:10:00,830 --> 00:10:07,790
+dealing range, uh, dealing range low to dealing range. Hi. Now you can see we
+
+122
+00:10:07,790 --> 00:10:12,830
+swept liquidity. So this became dealing range, um, high. But we then swept
+
+123
+00:10:12,830 --> 00:10:17,710
+another liquidity. So now this becomes the dealing range high. Now you can see
+
+124
+00:10:17,710 --> 00:10:24,910
+that we maybe have a tiny friendly gap here. Let's see. Yeah, so you can see that we have a tiny
+
+125
+00:10:24,910 --> 00:10:31,630
+friendly gap here. And that is below the 0.5 level. So that is going to be our draw on liquidity,
+
+126
+00:10:31,630 --> 00:10:37,230
+right? So let me just remove this. So let's drop down to 15 minute time from now.
+
+127
+00:10:39,150 --> 00:10:47,630
+And you can see that this is the one hour friendly gap. We had a high, high, high, low,
+
+128
+00:10:47,630 --> 00:10:52,830
+than a higher high, right? Then we have a shift in the market structure here,
+
+129
+00:10:54,030 --> 00:11:01,630
+cool? And then you have your auto block and since the auto block is too huge, you can simply
+
+130
+00:11:01,630 --> 00:11:09,230
+just use your fib, right? And you can take your entry from the 50% of this level, okay? Of course
+
+131
+00:11:09,230 --> 00:11:13,710
+this is hindsight, but you have to learn these tactics if you really want to like increase your
+
+132
+00:11:13,710 --> 00:11:22,110
+ratio ratios. So now you can see that we comfortably get above two RR. So that's 2.5
+
+133
+00:11:22,110 --> 00:11:31,070
+RR trade. And you know when you know the draw or liquidity trading becomes so easy. Now it's not
+
+134
+00:11:31,070 --> 00:11:36,350
+that you only can take one trade and let it go towards your draw or liquidity. If you're comfortable
+
+135
+00:11:36,350 --> 00:11:42,270
+and if you know how to scale in you can see that we had this fairly gap that was formed. So you
+
+136
+00:11:42,270 --> 00:11:48,230
+you could have taken another entry here, put your stop somewhere around here, or maybe
+
+137
+00:11:48,230 --> 00:11:51,630
+manage the trade accordingly and then you would have made more profits.
+
+138
+00:11:51,630 --> 00:11:56,710
+But according to me, and as my personal approach is that I only take one trade until my
+
+139
+00:11:56,710 --> 00:11:59,030
+draw on liquidity is hit.
+
+140
+00:11:59,030 --> 00:12:01,510
+Let me give you guys another example.
+
+141
+00:12:01,510 --> 00:12:04,510
+Alright guys, so here is the last example.
+
+142
+00:12:04,510 --> 00:12:09,150
+Look at GPP JPI once again, and I'm going to mark out the daily low and the daily high.
+
+143
+00:12:09,150 --> 00:12:15,250
+So on the next day, I will be anticipating for price to either take out the daily high or
+
+144
+00:12:15,250 --> 00:12:16,250
+the daily low.
+
+145
+00:12:16,250 --> 00:12:17,650
+So this is the daily high, daily low.
+
+146
+00:12:17,650 --> 00:12:20,210
+And on the next day, let's see what happens.
+
+147
+00:12:20,210 --> 00:12:23,410
+We have taken out the daily high over here.
+
+148
+00:12:23,410 --> 00:12:29,650
+And if I use my fifth tool from the dealing range low to dealing range high, you can see
+
+149
+00:12:29,650 --> 00:12:33,850
+that the fairly gap resides in this level around here.
+
+150
+00:12:33,850 --> 00:12:36,330
+So this is going to be our draw on liquidity.
+
+151
+00:12:36,330 --> 00:12:38,830
+Right?
+
+152
+00:12:38,830 --> 00:12:43,830
+Now technically I could be using this as my dean range, right?
+
+153
+00:12:44,910 --> 00:12:46,230
+But because why?
+
+154
+00:12:46,230 --> 00:12:51,030
+Because we swept this liquidity and we pushed up, right?
+
+155
+00:12:51,030 --> 00:12:55,430
+So, but since there is no fair value gap in the,
+
+156
+00:12:55,430 --> 00:12:58,510
+so if let's suppose that I use the flip tool here,
+
+157
+00:12:58,510 --> 00:13:00,790
+there's no fair value gap below the zero point five level.
+
+158
+00:13:00,790 --> 00:13:04,630
+So we're gonna just use the one that is available to us.
+
+159
+00:13:04,630 --> 00:13:09,580
+So I'm gonna to drop down to 15 minute time from now.
+
+160
+00:13:09,580 --> 00:13:13,660
+And you can clearly see that we got a market structure ship
+
+161
+00:13:13,660 --> 00:13:15,260
+right here, Harheye, Harleye, Harleye,
+
+162
+00:13:15,260 --> 00:13:16,620
+and then Harheye.
+
+163
+00:13:16,620 --> 00:13:18,940
+Now, let's see if we have something
+
+164
+00:13:18,940 --> 00:13:20,740
+clean on the five minute down front.
+
+165
+00:13:20,740 --> 00:13:23,020
+We could either have a fairly gap
+
+166
+00:13:23,020 --> 00:13:26,780
+or something that we can take our entry from.
+
+167
+00:13:26,780 --> 00:13:30,140
+And just around here, you can see we have this
+
+168
+00:13:30,140 --> 00:13:31,820
+fairly gap.
+
+169
+00:13:31,820 --> 00:13:34,180
+So you can basically do this as well
+
+170
+00:13:34,180 --> 00:13:35,660
+to refine your entries.
+
+171
+00:13:35,660 --> 00:13:36,780
+Don't overdo it,
+
+172
+00:13:36,780 --> 00:13:40,220
+because that's going to just back for at you.
+
+173
+00:13:40,220 --> 00:13:44,700
+So we are getting somewhere 1.81R so we can slightly
+
+174
+00:13:44,700 --> 00:13:48,060
+decrease our stop loss to get one to two risk to the wall.
+
+175
+00:13:48,060 --> 00:13:52,410
+So now let's see how this plays out.
+
+176
+00:13:52,410 --> 00:13:56,450
+And since we are trading GPP-JAPY,
+
+177
+00:13:56,450 --> 00:13:58,770
+since we are trading the Japanese pair,
+
+178
+00:13:58,770 --> 00:14:01,690
+we can actually trade the Asian session.
+
+179
+00:14:01,690 --> 00:14:05,060
+So that's totally all right.
+
+180
+00:14:05,060 --> 00:14:08,380
+Now you can clearly see that the take profit level
+
+181
+00:14:08,380 --> 00:14:16,620
+was beautifully hit. Just go for one to two wristure ward at max. If you really want to be like,
+
+182
+00:14:17,740 --> 00:14:23,580
+if you don't want to deal with psychological issues. But go ahead and try it out and please try to
+
+183
+00:14:23,580 --> 00:14:32,540
+pair up SMT divergence with this. So for example, if you got SMT with like your JPI here,
+
+184
+00:14:32,540 --> 00:14:38,140
+then that would give you extra confirmation. So that is it for this chapter guys,
+
+185
+00:14:38,140 --> 00:14:42,380
+I'll see you guys next weekend.

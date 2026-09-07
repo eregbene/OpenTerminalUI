@@ -1,0 +1,215 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, so here it is example number two for breaker block entries. So you can see we have higher high, high low and higher high. And then we have a market structure shift right here. So normally what you would do is you would take your entry from this fair value gap or this fair value gap. But if you are using the breaker block entry model, your breaker block is right here.
+
+2
+00:00:30,000 --> 00:00:32,840
+which is the last candle before the move to the upside.
+
+3
+00:00:32,840 --> 00:00:36,880
+And after that, you have a shift in market structure.
+
+4
+00:00:36,880 --> 00:00:39,400
+So you see this move, right?
+
+5
+00:00:39,400 --> 00:00:43,680
+There was no bearish candle around here, okay?
+
+6
+00:00:43,680 --> 00:00:47,240
+If there was a bearish, let's assume that this candle
+
+7
+00:00:47,240 --> 00:00:49,040
+was bearish, right?
+
+8
+00:00:49,040 --> 00:00:51,480
+And then you had a, so I would consider
+
+9
+00:00:51,480 --> 00:00:53,880
+then this as market structure shift
+
+10
+00:00:53,880 --> 00:00:57,240
+and then I would consider that candle as my breaker
+
+11
+00:00:57,240 --> 00:01:01,600
+because, apparently, that was the last bearish candle,
+
+12
+00:01:02,720 --> 00:01:05,320
+or last candle, or you could say,
+
+13
+00:01:05,320 --> 00:01:06,520
+hi, hi, hello,
+
+14
+00:01:06,520 --> 00:01:08,200
+a large, high, low,
+
+15
+00:01:08,200 --> 00:01:11,000
+and then we had high, high, and then marks our shift.
+
+16
+00:01:11,000 --> 00:01:14,360
+So I hope you get what I'm trying to explain.
+
+17
+00:01:14,360 --> 00:01:18,520
+So, but in this case, this was the last candle, right?
+
+18
+00:01:18,520 --> 00:01:23,080
+Or sometimes what I would do is it's sometimes a good practice
+
+19
+00:01:23,080 --> 00:01:26,120
+to mark out the bearish candle,
+
+20
+00:01:26,120 --> 00:01:29,600
+instead of the bullish candle and vice versa.
+
+21
+00:01:29,600 --> 00:01:32,400
+So if you are looking for a long position,
+
+22
+00:01:32,400 --> 00:01:34,480
+you should mark out the bullish candle
+
+23
+00:01:34,480 --> 00:01:36,720
+instead of the bearish candle.
+
+24
+00:01:36,720 --> 00:01:39,160
+But it's not gonna affect that much.
+
+25
+00:01:39,160 --> 00:01:42,840
+You can take your entry from the last candle, okay?
+
+26
+00:01:42,840 --> 00:01:44,000
+Or the, yeah.
+
+27
+00:01:44,000 --> 00:01:47,720
+So you can see if I dragged this along,
+
+28
+00:01:47,720 --> 00:01:49,400
+we had markers such as shift
+
+29
+00:01:49,400 --> 00:01:52,800
+and what was really nice about this rig of block
+
+30
+00:01:52,800 --> 00:01:55,320
+is that we had free air value gap here as well.
+
+31
+00:01:56,120 --> 00:02:02,460
+Now that is when breaker blocks become very, very, I would say powerful. Okay.
+
+32
+00:02:02,480 --> 00:02:08,900
+So keep that in mind that yeah, you can use breakers as their own without
+
+33
+00:02:08,900 --> 00:02:12,620
+friendly gap. But if there's free value gap, then that entry is going to be
+
+34
+00:02:12,620 --> 00:02:17,980
+perfect. So I'm going to explain and that to take a lot of people say that
+
+35
+00:02:17,980 --> 00:02:21,060
+they missed their entries whenever they tried to enter from the extreme
+
+36
+00:02:21,060 --> 00:02:28,660
+free value gap. If you don't want to miss the trades, what you can do is right when you
+
+37
+00:02:28,660 --> 00:02:34,180
+have a market structure shift, you can take your entry from the very recent free value gap.
+
+38
+00:02:35,140 --> 00:02:39,460
+Instead of taking your entry from the extreme, you can take your entry from the very first.
+
+39
+00:02:39,460 --> 00:02:47,300
+But there's a catch. You need to secure your stop loss. So let's say if price goes back to the
+
+40
+00:02:47,300 --> 00:02:52,220
+extreme fear of the gap, you do not lose. Okay, you do not want to give your money to the markets,
+
+41
+00:02:52,220 --> 00:03:00,100
+even though your analysis are right. So this is the only way guys, if you want me to tell
+
+42
+00:03:00,100 --> 00:03:07,100
+you guys to put your stop here, yeah, of course you can, but you're gonna lose. Okay. And
+
+43
+00:03:07,100 --> 00:03:11,980
+even though your analysis are going to be perfect, a price can stop you up because it needs
+
+44
+00:03:11,980 --> 00:03:17,860
+to fill and balance the prices up there. So keep your stop maybe here or maybe
+
+45
+00:03:17,860 --> 00:03:31,510
+here and Kaboom. Perfect. So yeah guys I really hope that the you know I really
+
+46
+00:03:31,510 --> 00:03:35,590
+hope that you guys have a clear knowledge of a breaker blocks now. It's simply
+
+47
+00:03:35,590 --> 00:03:42,670
+the last candle. So you have so see I'll try to explain it once again if just in
+
+48
+00:03:42,670 --> 00:03:50,610
+case if anyone didn't understand. So you have higher high, high, low, higher high. Right.
+
+49
+00:03:50,610 --> 00:04:00,580
+So the last candle of the high low is going to be your breaker block. And you must get
+
+50
+00:04:00,580 --> 00:04:08,080
+a market structure shift after this new high is created. Right. And when you have market
+
+51
+00:04:08,080 --> 00:04:14,320
+such a shift, then that breaker block becomes valid. However, if you had, let's say,
+
+52
+00:04:14,320 --> 00:04:21,120
+higher high, higher low, higher high, it's small, high low. And then higher high. And then
+
+53
+00:04:21,120 --> 00:04:27,000
+a marker, such a shift, then that last candle would be your breaker. So yeah, let's move on to
+
+54
+00:04:27,000 --> 00:04:27,800
+the next videos.

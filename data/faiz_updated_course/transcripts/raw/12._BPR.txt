@@ -1,0 +1,74 @@
+[00:00:00] Alright guys, so in this video, we're going to talk about balanced price range. Basically, it is another entry pattern that we use with fair value gap. And what it does is it makes the fair value gap even stronger. So let's assume that you have a fair value gap here. And if we have BPR here as well, there are much more chances that that fair value gap is going to hold the trade and it's going to go into your direction. Now, it's not necessary to always look
+[00:00:30] for BPR, but you know it could be a nice confidence and it is also a nice entry pattern
+[00:00:37] that you can use.
+[00:00:38] So what is a BPR?
+[00:00:40] So let's assume that you have a push, a move to the down, right?
+[00:00:46] Boom.
+[00:00:47] So let's assume there was some liquid industry right here.
+[00:00:51] And after that you have a market structure shift right here.
+[00:00:55] Now you look at the extreme family gap, which is right here, right?
+[00:00:59] look at the left. So there is a variable you get up here as well. Right? So you are
+[00:01:06] looking at this variable you get up. But if you look at the left, the move that took
+[00:01:10] out liquidity, not necessarily don't have to be the move that takes out liquidity. I'm
+[00:01:15] just showing it as an example. But when you have a move and then you have a market structure
+[00:01:19] shift, look at the last move before market structure shift. And look at here, if there
+[00:01:25] is fabley gap here and there is fabley gap in the new move that broke the
+[00:01:33] market structure and the old fabley gap and the new fabley gap is overlapping
+[00:01:38] with each other if that is happening then that area becomes BPR okay and
+[00:01:46] when price comes back into this area it's gonna push up so let me explain this
+[00:01:51] again. Do you see this move right here? Let me remove this to clear confusion, right? You have a move
+[00:01:59] up. So let's assume you have lower low, lower high, sorry, lower low, lower high, lower low. And
+[00:02:06] this low low gets broken with Marcus structures shift. And this is extreme frode gap. Normally, you
+[00:02:13] would enter from this extreme frode gap right here. But look to the left of this extreme
+[00:02:19] probably gap. This right here. If there is fair value gap here as well, you know, and price
+[00:02:31] does not respect the old fair value gap and it pushes through this level, breaking market structure
+[00:02:36] or shifting the market structure and also leaving the fair value gap that overlaps with the
+[00:02:43] previous fear of a lega, then that level becomes balanced price range. I hope I
+[00:02:51] explained it well and what I'm going to show you examples is going to be clear.
+[00:02:55] So let me show you example number one. So you see you have lower low, lower high,
+[00:03:03] lower low, and then you have a market structure shift. Look at here. Do you see
+[00:03:15] this fair value gap right here, from here to here, what happened is price did not
+[00:03:22] respect this old fair value gap and what happened is price went back up and did
+[00:03:28] market structure shift. Now, look at this, this fair value gap is way too big, okay? It's
+[00:03:37] just way too big. So if you take your entry from the here, your stop loss is going to
+[00:03:41] be huge. But if you look at here, you have BPR. And the new free value gap is overlapping
+[00:03:51] with the old free value gap. So in this case, what you can do is you can take your entry
+[00:03:58] from the BPR or old free value gap. Okay. So essentially, what is happening here is that
+[00:04:07] the old free value gap, instead of acting as a resistance level, when it is broken, it is
+[00:04:15] not reacting as a support level, the old free value gap.
+[00:04:19] And also if there is new free value gap that is overlapping with the old free value gap, then
+[00:04:25] that level becomes BPR.
+[00:04:28] And trust me that move is going to be big if your whole model was perfect.
+[00:04:37] So you can see a BPR right here.
+[00:04:40] It overlaps and what I mean by overlap is it must have some part of fairly gap between
+[00:04:47] this box.
+[00:04:48] So you see this box that I've drawn.
+[00:04:50] You draw the box from the BPR right, the old fairly gap, you drag it along.
+[00:04:54] And if any part of the fair value gap, even a tiny bit is in that level in this box, then
+[00:05:01] you can take your entry from BPR.
+[00:05:03] Let me show you another example.
+[00:05:09] Right here.
+[00:05:17] Okay.
+[00:05:18] So you can see right here.
+[00:05:23] So you have a market structure shift, right big.
+[00:05:26] And before market structure shift, we had this BPR right here.
+[00:05:30] You see this old fair value gap, boom, boom, boom, boom, right?
+[00:05:35] price did not respect this level. It just went down, data market structure shift. Now the old
+[00:05:43] free value gap, right? And this new free value gap. So this is the new free value gap. Whoa,
+[00:05:51] whoa, right? And this right here, whoa. And whoa. So you drag the box along. It is overlapping with
+[00:06:00] with the old familiar gap.
+[00:06:02] This is the old familiar gap, boom, boom.
+[00:06:04] This is the new familiar gap, boom, boom.
+[00:06:06] You draw the box from the old familiar gap, boom, boom.
+[00:06:10] Drag it along.
+[00:06:11] If the new familiar gap is overlapping,
+[00:06:13] it has some sort of part in the old familiar gap box
+[00:06:16] that I've drawn.
+[00:06:17] Then you can take your entry from that box.
+[00:06:19] So you can see you have your familiar gap right here.
+[00:06:22] If you took your entry from this familiar gap,
+[00:06:25] price went down and you move your stop loss to break even.
+[00:06:29] what happened is then price came back filled the BPR level and then pushed down to its original
+[00:06:35] destination. So I hope that this video was clear guys. If you did not understand this, make sure
+[00:06:42] you've watched it again and again I tried my best to explain this. I hope you guys understood it.
+[00:06:47] Well, let's move on to the next video.

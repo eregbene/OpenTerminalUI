@@ -1,0 +1,67 @@
+[00:00:00] Right, so in this video, I'm going to give you a couple of tips about ABC strategy, or I could say, you know, the things that you should avoid, and ABC strategy. So the very first thing that I've seen people do is making this big mistake, right? So let's assume that you have an ALEC, you have the BLEG, and then you have the CLEG. So a lot of people consider this as a CLEG. For me, this is not a CLEG,
+[00:00:30] because look at this, right?
+[00:00:32] Price has went way far above.
+[00:00:34] So this for me is a breakout, right?
+[00:00:38] It has to go to a certain degree.
+[00:00:40] It should not just keep on going up
+[00:00:41] and then you expect the price to come back below
+[00:00:43] and break this.
+[00:00:44] This makes no sense, right?
+[00:00:47] You usually wanna look for price to go fake out
+[00:00:50] above the high, right, which is here.
+[00:00:54] And it should not go like this with volume.
+[00:00:57] It should just not keep on going up.
+[00:00:59] No, you have to train your eyes to see valid ABCs.
+[00:01:03] So this could be a valid ABC at this distance, right?
+[00:01:09] Let's see, let me see.
+[00:01:13] So around 30 pips on GPU SD is a valid fake app, right?
+[00:01:19] Or even 35, okay?
+[00:01:23] But more than that, it becomes risky, okay?
+[00:01:27] So make sure you avoid that because I have seen a lot of people making this mistake in the discord server
+[00:01:34] They just keep on looking for that same level when prize goes up like that
+[00:01:38] You want to wait for prize to give you another ABC look for another ABC rather than waiting for this level to be you know
+[00:01:45] Hit because let's assume that prize comes back and
+[00:01:49] Break some structure right around here
+[00:01:53] So you have your entry here now
+[00:01:55] Now, if we look at the auto flow trading strategy, what reason the price has to just not
+[00:02:06] mitigate an auto block over here and just create another higher high.
+[00:02:12] So this makes sense.
+[00:02:13] It can just come into this OB and it can just bears through your level because this is
+[00:02:19] not, this right here is not a fake out.
+[00:02:21] It's simply a breakout.
+[00:02:24] So yeah, you want to keep that thing in mind.
+[00:02:28] Secondly, if you want to improve your ABC setups,
+[00:02:31] there's this thing called, so actually, ABC is range trading.
+[00:02:36] And what I mean by range trading is that it's not that you
+[00:02:40] have to only trade ABC is in the range in market.
+[00:02:43] But the whole setup, this ABC setup is a range.
+[00:02:48] So you have a range high, and then you have a range low.
+[00:02:52] So price has to take at BOS side to take out the sell side and rights versa.
+[00:02:57] So to actually increase the wind rate of this,
+[00:03:01] what you can look for is when you have an ALAG and then you have the B-leg, right?
+[00:03:06] You want to see some rejections around the ALAG high.
+[00:03:12] You know, it's going to build up some liquidity, right?
+[00:03:16] And then you look for a C-leg and then you wait for a change of collector or market shift and you take your entry and target.
+[00:03:22] this level. Oops my bad. Oh my God dude. Um, I messed up. So let me draw this out again.
+[00:03:32] You have, you know, the B leg and then you have some liquidity buildup around the A level
+[00:03:37] high. And then you have the C leg. You take your entry boom, boom. So what happened here
+[00:03:44] is that when you have an A leg here, right, this is the high of the A leg. And we have
+[00:03:49] this B leg. So before price creates a C leg, you know, price, this
+[00:03:54] consolidated, uh, near this a leg high. So it can give a small push. It could be a
+[00:04:00] small push like this, right? It doesn't have to be big. It could be just be some
+[00:04:04] sort of consolidation happening around here. Uh, because usually when you, when
+[00:04:09] you're only trading like ABCs like this, you know, this, this, this, you know,
+[00:04:15] shows me there's volume to the upside because price is just gonna pierce
+[00:04:19] through above this level and not come back and take out this level. So you have
+[00:04:24] there is a less chance there's you know there's a 40-person chance that it's
+[00:04:30] gonna play out but there's a 60-person chance that it won't play out. Why?
+[00:04:34] Because you know you have no consolidation after the B-lect formation near the
+[00:04:40] So a prime setup for me would be, you know, I want to see some sort of consolidation around this level before price takes out the available high.
+[00:04:52] You know, and it can just take out the like, like, high come back to a market structure shift, take your entry and boot.
+[00:05:01] So I hope this video gives you some sort of information and make sure you
+[00:05:10] Back test this, you know and just
+[00:05:14] Just get used to this
+[00:05:16] Padden right
+[00:05:18] I want to see some sort of consolidation around the leg high or if you are looking for a long position
+[00:05:23] You want to see some sort of consolidation around you know this level which would be this and
+[00:05:33] boom. This would be it. So let's move on to the next video.

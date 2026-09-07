@@ -1,0 +1,222 @@
+[00:00:00] Alright guys, in this video I will teach you how to use STEM and Deviation Projections. Sand deviation is a very, very powerful tool. You can
+[00:00:10] measure your accumulation phases, actually not the accumulation phase, but you can measure the manipulation phase, and then you can also measure the expansion phase, and then you can measure your reversals or continuations. This is very, very powerful, and
+[00:00:29] We use this with a power of three.
+[00:00:33] So remember one thing that every single candle has a power of three.
+[00:00:39] It's going to have accumulation, manipulation and distribution.
+[00:00:42] Whenever you see a candle, it's going to have a wick, right?
+[00:00:46] Either to do one side or both sides.
+[00:00:49] So it's going to have a wick here, could have a wick here.
+[00:00:52] Right? So let's say this was the opening price.
+[00:00:55] Price manipulates to the upside and then expands to the downside. So that is called power of three
+[00:01:00] Now what if I told you that by standard deviation projections you can mayor the
+[00:01:05] Manipulation so you will know where the manipulation phase ends and you will also know where the expansion ends
+[00:01:12] So you can look to take both trades or you can look to take the trade after
+[00:01:20] The manipulation now keep in mind that
+[00:01:23] that we trade this with autoflow.
+[00:01:27] So if the autoflow is bearish,
+[00:01:30] we primarily want to see a manipulation
+[00:01:34] to the BICIDE liquidity.
+[00:01:36] So I want to see price go up, manipulate,
+[00:01:39] and then expand to the downside.
+[00:01:43] So when you combine autoflow with this,
+[00:01:46] then your win-win-win will significantly improve.
+[00:01:48] So what exactly is standard deviation?
+[00:01:51] Right?
+[00:01:52] So let's assume that, and also, I personally use this with
+[00:01:59] Borrow3, but you can also use this with key levels.
+[00:02:03] So this could be, let's say that there is a key level here.
+[00:02:09] Could be a hard time from auto block, right?
+[00:02:12] Could be a friendly gap.
+[00:02:14] And price goes into your key level,
+[00:02:22] and then gives you a market structure shift.
+[00:02:26] Now to mayor where the price is going to go from here, what you can do is use
+[00:02:32] your Fibonacci tool, use from the top to the high. So use it from the last high
+[00:02:41] to the last low. That was formed before market structure shift. Now let me turn
+[00:02:49] on some numbers here. So it's going to be 1.5 and this should be okay. So this is the key
+[00:03:01] level. Price goes into the key level gives you a shift in the market structure. So now look
+[00:03:09] at this negative 2 and negative 2.5% level. Also make sure you copy all these numbers.
+[00:03:16] your focus on the negative two and negative two point five. So I think let's just do this
+[00:03:23] like that. Okay. So the negative two and negative two point five remember that. Look at the
+[00:03:39] liquidity level below the negative two level. What is a significant liquidity pool? It could
+[00:03:45] be a low, could be a high. So this is negative two below that. But do we have this liquidity
+[00:03:54] level. This is going to be your final target level, if that makes sense. So you will be taking
+[00:04:03] your entry from the Fair Valley Gap, whatever is presented to you or auto block. And you
+[00:04:11] take your take profit level once this liquidity pool is hit. Or just to be even safer,
+[00:04:19] what I sometimes do is I take my profits at the negative two lines. So this over here.
+[00:04:26] Now this level here is from where price is going to reverse.
+[00:04:32] So whenever this level inside this level price can reverse from this level.
+[00:04:41] But if there are targets that are not met, if the price has some business that is left
+[00:04:47] out, so in this scenario it is this liquidity level, most of the time it's going to take
+[00:04:51] out that liquidity and then reverse.
+[00:04:54] Now price can also expand even further to negative 4 level.
+[00:05:00] And this happens when there is a significant target for price to achieve.
+[00:05:05] So there could be a higher level of liquidity pool down there near this level.
+[00:05:14] So price can take out this level here as well.
+[00:05:20] But mostly price will reverse from the negative 2 and negative 2.5 level.
+[00:05:30] So let's talk about the silver bullet zones.
+[00:05:32] So negative 1 and negative 1.5 inside this level.
+[00:05:38] So once you get like a market structure shift and an entry, now if you don't want to enter
+[00:05:45] directly from here to increase your wind rate, once price hits the negative 1 and negative
+[00:05:52] 1.5 in between here, it should not go below the negative 1.5 level inside this box.
+[00:05:59] goes into this level and once it does that you mark out any PD array that is there so it could
+[00:06:07] be a friendly gap here could be a breaker block could be an auto block. Once you take your entry
+[00:06:15] price will rush towards the main target that is why it is called standard deviation silver bullet
+[00:06:22] entry. Also when price goes into this level, it significantly confirms that price will not head
+[00:06:32] towards the main target. So ideally, I will not hold till negative 4 because it is very risky.
+[00:06:41] I will just take my profit at negative 2 or if there's a closed target, so there could be
+[00:06:47] you know, a literally level below the negative 2, which could be just right around here, or it could
+[00:06:51] be here. Once price does take that out, I'm out of the trade. Now, I will take out some
+[00:06:59] partial. So maybe price breaks this level. I will take some partial here, grow big
+[00:07:05] agreement, right? I'll grow a breakeven here. And yeah. Now, let's talk about how we actually
+[00:07:12] use this with power of three. All right. So in this video, I will teach you a strategy that is
+[00:07:19] included in my upcoming course update. So this strategy uses daily power of three and standard
+[00:07:26] deviation projections. This happens every single day. So the setup is going to be there every
+[00:07:34] single day. So I want you guys to watch the entire video to in order to understand this whole
+[00:07:39] strategy. So 95% of the candles are going to have a week either to do one side or both sides,
+[00:07:47] Right only five percent of the candles will not have a wig and a complete body of that makes sense
+[00:07:54] So we want a trade
+[00:07:58] When we have a wig and then we have expansion to the downside
+[00:08:02] So the wig is mostly a manipulation move
+[00:08:06] Was the manipulation is over?
+[00:08:08] We want to get into the trade somewhere around here and then take the entire trade or example
+[00:08:15] I mean take the entire expansion to read down side if that makes sense right so let's assume that this
+[00:08:23] candle is a
+[00:08:25] bearish
+[00:08:27] Daily candle, okay
+[00:08:30] So all you have to do is mark out the daily candle opening price now once you have marked out the daily candle opening price
+[00:08:39] You have to drop down to five minute timeframe
+[00:08:42] Once you drop down to 500 times from you will have your opening price right now
+[00:08:49] the price will first of all manipulate okay so let's do let's remove this for
+[00:08:59] now and we have we will see price consolidate for some time and then we will
+[00:09:06] have a market structure shift and then we will have a manipulation which as I
+[00:09:12] it before is going to be a week, right? We will see a manipulation move. Now, the goal here
+[00:09:19] is to my year, the manipulation. We need to know where the manipulation is going to end. And
+[00:09:24] to do so, we use standard deviation projections. So user Fibonacci and use your Fibonacci from the
+[00:09:32] last low and last high that was formed before market structure sheds. So that is the opening
+[00:09:41] price, I want to see price go below this level. Okay, first off, I want to see price go and dip
+[00:09:49] below here and then give me a market structure shift. Now it can dip and give me a market
+[00:09:54] structure shift above the opening price, but it has to go down to some degree. Okay, for example,
+[00:10:00] here, here and here, it went down and then gave you a market structure shift. All right, so you use
+[00:10:05] Use your Fibonacci from the low to the high and you will get these projections.
+[00:10:11] So you can copy these numbers just to save all this just in case you want to copy these.
+[00:10:17] Alright, once you have these copied now you have to put your focus on the negative 2,
+[00:10:22] negative 2.5 and negative 4.
+[00:10:25] So we are first of all mering the manipulation move.
+[00:10:29] So once price goes to goes above negative 2, you have to start looking for a market structure
+[00:10:38] shift because from here onwards price will now reverse and expand towards its original direction
+[00:10:47] if that makes sense.
+[00:10:48] So over here we had a shift in the market structure, right?
+[00:10:53] And now we are projecting the manipulation move.
+[00:10:57] So here it can either, the manipulation move can either end above, just above negative 2,
+[00:11:04] it can end above negative 2.5 or it could go even further to negative 4.
+[00:11:11] But most is going to be somewhere around here.
+[00:11:13] Now from here onwards, what you're looking for is a shift in the market structure.
+[00:11:18] Now once you have a shift in the market structure, you have to now mare the expansion
+[00:11:24] move. And to do so, you want to use your Fibonacci from the last high to the last low that was formed
+[00:11:33] before market structure shift. Now, for the target, look below the negative two. And if you have any
+[00:11:44] liquidy level, any significant liquid level, it could be a low, it could be a high below the
+[00:11:49] negative 2, that is your take profit level. Okay? So you can then take your entry from the
+[00:11:56] breaker block or your fair value gap or an auto block. So I usually love to take my
+[00:12:03] entries from auto block. I would take my entry, I would take some partial around some
+[00:12:09] fair value gap that could be here. And then the last take profit level would be this
+[00:12:15] this liquidity level around here.
+[00:12:19] And similarly, if we invert the chart here,
+[00:12:22] and let's do this, to do.
+[00:12:26] So we have, let's say, this is the opening price, right?
+[00:12:31] And we are bullish.
+[00:12:34] We wanna see like the candle expanded bullish, right?
+[00:12:38] So this is what it's gonna look like
+[00:12:40] on the five minute timeframe.
+[00:12:42] We will see consolidation, probably.
+[00:12:44] All you have to do is look for a market structure shift.
+[00:12:47] Once you have a market structure shift,
+[00:12:50] you want to look for,
+[00:12:51] you won't have to admire the manipulation move.
+[00:12:54] So again, from the last high to the last low
+[00:12:57] before market structure shift,
+[00:12:59] price dips into this level, right?
+[00:13:03] And then we get a market structure shift.
+[00:13:05] Then once you get a market structure shift,
+[00:13:07] you wanna mirror the expansion move,
+[00:13:10] and that is gonna be here.
+[00:13:13] This is the liquidity level inside this key zone area above negative two level.
+[00:13:19] Right.
+[00:13:19] This is what you have to, this is like the entire strategy guys.
+[00:13:22] So this is how you can mayor the the wicks the entire daily power of three of that
+[00:13:27] makes sense.
+[00:13:29] This is very easy.
+[00:13:30] I go into more detail in the update, the course update video, but this should be enough.
+[00:13:37] The what I've taught you here, it should be enough.
+[00:13:39] So let me give you guys some examples and then I'll end the video and also my apologies
+[00:13:44] up.
+[00:13:45] There's no face in this video.
+[00:13:47] I'm a little bit sick.
+[00:13:48] But yeah, let's end this video.
+[00:13:51] Alright guys, so here's example number one.
+[00:13:54] Look how I used the cat on the daily town frame and we're going to study today's candle
+[00:13:57] that is still information.
+[00:14:00] So marking out the opening price, let's drop down to five minute down frame and see
+[00:14:03] what happened.
+[00:14:05] going back here. What I can see is this is the opening price and price went up. Gave us
+[00:14:13] this market structure shift, right? But if I use my fib from here to here, price never went down
+[00:14:21] to negative 2 and negative 2.5. But it went up swept the liquidity here, right? And then it gave us
+[00:14:29] a market structure shift by breaking this low. So using our perfect analogy of the last high
+[00:14:34] to the last low. What you can see, price dipped into negative 2 and negative 2.5, but we didn't get
+[00:14:39] a market structure shift. However, price dipped into negative 4, right? And then we had a shift in
+[00:14:47] the market structure. Once we have a shift in the market structure, I can see a clear,
+[00:14:51] fairly gap down here in the discount. Now to my or our expansion move, we want to use our
+[00:14:57] are from the last low to last high.
+[00:15:02] And this is negative two here.
+[00:15:04] Look slightly above it.
+[00:15:05] And we have this high over here.
+[00:15:08] That should be a take profit level.
+[00:15:10] So this would have given you around seven RR
+[00:15:13] if you took your trade from this fair value.
+[00:15:15] Yeah.
+[00:15:16] So let's move on to the next example.
+[00:15:19] All right guys, so here's example of a tool
+[00:15:21] looking at USD CAD on the daily term frame.
+[00:15:23] We're gonna study this candle.
+[00:15:24] So let's mark out the opening price.
+[00:15:26] and then we drop down to five minute time from.
+[00:15:29] Now if I go back here,
+[00:15:31] which you can see,
+[00:15:32] this is the opening price of the candle.
+[00:15:34] Price goes up and gives us a market structure shift.
+[00:15:37] So now we wanna measure our manipulation move.
+[00:15:40] So let's use our fifth from the last high to last slow.
+[00:15:43] Price dipped below the negative 2.5
+[00:15:46] and then gave us a market structure shift.
+[00:15:48] Before market structure shift,
+[00:15:49] we had a small liquidity strip, as you can see right there.
+[00:15:54] And afterwards we have a shift in the market structure.
+[00:15:57] Now if we look closely, what do we have?
+[00:15:59] We have this variable eGAP.
+[00:16:01] We also have this autoblock here,
+[00:16:05] surprise respected both variable eGAP and the autoblock.
+[00:16:08] Now to measure our expansion move,
+[00:16:10] we can use our favor of the last low to last high.
+[00:16:13] And above the negative two, we have this liquid level.
+[00:16:18] So that is going to be our target level.
+[00:16:20] And yes, you can take your entries during Asian session
+[00:16:23] session for this strategy. So pretty simple guys. Let's move on to the next
+[00:16:28] example. Alright guys, so here is example number three. I'm looking at aUDUD. So
+[00:16:33] this is the open price of the daily candle right here at 17. And you can see
+[00:16:40] that this green candle is both a high and a low. So if you're wondering what
+[00:16:45] indicator I'm using to determine highs and lows, go indicators, type in
+[00:16:49] fractals and the one by original is the one you should use and that's what I'm using.
+[00:16:56] So we're going to use from this is the low, this is the high and this gets a market
+[00:17:01] sugar shift here.
+[00:17:02] So we're going to use our fib from the last low to the last high and you can see price
+[00:17:07] dip above the negative two but we didn't get any market sugar shift here.
+[00:17:12] But then price went above negative 2.5 and from here onwards we had a clean market
+[00:17:17] structure shift and above that we have a very beautiful, very
+[00:17:21] lovely gap. Now to my your our expansion move, we're going to
+[00:17:26] my your from the Fibonacci from the last high to last low and just
+[00:17:31] below the negative two we have this high sorry this low that
+[00:17:36] should be a take profit level. You could have also targeted this
+[00:17:40] but we want to be safe so we just targeted this. So that's
+[00:17:45] pretty much it guys is very easy and mechanical in a way that
+[00:17:48] you can use it every single day on every single pair.
+[00:17:52] Just pick three to four pairs and use this on those pairs.
+[00:17:56] Okay.

@@ -1,0 +1,19 @@
+All right guys, so here is another example of the market maker by model as you can see we took out the external liquidity right here
+So now we have this fairly gap in the premium. So that is gonna be our draw on liquidity
+So let's go to the five minute remember from one hour. We go to five minute, right?
+Now we have taken out our objective. So let's identify
+Consolidation phases so right here. We have one consolidation and that is gonna be our original consolidation right here, right?
+Let's move this up like that
+So we have consolidation here and consolidation here. These two lines are
+Favourite gap. So that is gonna be our draw on liquidity. What do we have after taking out the objective which is external liquidity?
+We have a market structure shift here
+Now if you don't know if you're confused as to why is there some market structure shift go and watch my video on YouTube
+Which says how to identify high probability market structure shifts, right?
+Price didn't take out this high
+But it did a break of structure instead of market structure shift now once you have a break double break of structure
+After price takes out a key level that is a valid market structure shift if that makes sense
+Just watch that video on YouTube. So we have this autoblock here consecutive bearish candles going long just right here
+Right, we put our shop right below this autoblock and we target this level which is a draw on liquidity, right?
+The consolidation phases tells us that we are in a market maker buy model, right? It gives us confidence. So playing this through
+You can see that the take profit level was instantly hit and we took out this range
+This consolidation high as well giving us 2.29 rr. So let's move on to the next example

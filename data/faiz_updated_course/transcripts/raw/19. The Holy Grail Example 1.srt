@@ -1,0 +1,344 @@
+1
+00:00:00,000 --> 00:00:04,000
+Alright guys, so here is an example number one for the holy grail model
+
+2
+00:00:04,800 --> 00:00:10,160
+Notice that I didn't show you the examples from the high time frames, but I'm going to use the high time frame combination here
+
+3
+00:00:10,640 --> 00:00:13,840
+So from monthly we're going to go to the daily time frame and from daily
+
+4
+00:00:13,840 --> 00:00:16,720
+We're going to go to one hour time frame to look for our entries
+
+5
+00:00:17,280 --> 00:00:20,000
+like similarly you can go from daily to one hour to
+
+6
+00:00:20,560 --> 00:00:26,080
+Five minute and from weekly you can go from from weekly to four hour to 15 minutes
+
+7
+00:00:26,560 --> 00:00:33,760
+And for daily as I said before from daily to hourly to five minute and from four hour to 15 minute to one minute
+
+8
+00:00:33,920 --> 00:00:36,480
+I wouldn't say one minute. Just go with two minutes. That is
+
+9
+00:00:37,280 --> 00:00:43,680
+Actually reliable than one minute. So what do we have? We have taken out the external liquidity right on the monthly on gbpsd
+
+10
+00:00:44,240 --> 00:00:51,360
+We have this fairly gap in the discount, right? Sorry in the premium here. So that is going to be our drawn liquidity
+
+11
+00:00:51,360 --> 00:00:56,480
+So price takes out this let's go to the daily time frame and see what happens
+
+12
+00:00:57,200 --> 00:00:59,680
+So price takes out the liquidity here now
+
+13
+00:00:59,680 --> 00:01:02,560
+We want to look for a market structure shift on the daily time frame
+
+14
+00:01:03,040 --> 00:01:07,840
+And we have the market structure shift on the daily time from here. Look at this fractal high here
+
+15
+00:01:08,080 --> 00:01:09,920
+We have a candle to the left, right?
+
+16
+00:01:09,920 --> 00:01:15,840
+Which is shorter than this this candle and then we have the candle to the right which is also shorter than this high
+
+17
+00:01:16,480 --> 00:01:23,680
+So that is our fractal high price breaks that structure right giving us a market structure shift now looking back here
+
+18
+00:01:24,000 --> 00:01:25,680
+where is the
+
+19
+00:01:25,680 --> 00:01:27,680
+PD area in the discount
+
+20
+00:01:28,000 --> 00:01:32,960
+This fair valley gap right here, right? There's no clean auto block nothing just this fair valley gap
+
+21
+00:01:33,280 --> 00:01:41,040
+So we mark out the fair valley gap and remember when you are on the higher time frames like four hour daily weekly and monthly
+
+22
+00:01:41,520 --> 00:01:44,480
+You want to use the 0.5 level off the fib energy
+
+23
+00:01:44,960 --> 00:01:48,320
+Sorry off this gap of this fairly gap, right?
+
+24
+00:01:48,480 --> 00:01:53,040
+You don't want to be looking for confirmation entries when price taps into it straight away
+
+25
+00:01:53,280 --> 00:01:57,120
+Just wait for price to come into 0.5 level. Okay, so
+
+26
+00:01:58,080 --> 00:02:01,840
+drawing the fib for on the fbg you can see we have
+
+27
+00:02:07,040 --> 00:02:09,680
+This is the 0.5 level. Let me delete the fib
+
+28
+00:02:12,000 --> 00:02:14,000
+Damn right there. So
+
+29
+00:02:14,800 --> 00:02:20,640
+Let's go here. So now once price is into our PD area. We want to mark out the range high, which is this, right?
+
+30
+00:02:21,840 --> 00:02:28,400
+So we're going to mark out this here and this is from where we're going to scout out the one hour market maker model
+
+31
+00:02:28,480 --> 00:02:32,480
+Right. We want to look for a market maker model starting from this move down
+
+32
+00:02:32,800 --> 00:02:34,800
+Right because this is the last move
+
+33
+00:02:35,200 --> 00:02:40,400
+When before price went to this PD area, right? So we want to look for a
+
+34
+00:02:42,000 --> 00:02:44,720
+one hour market maker model, right?
+
+35
+00:02:44,800 --> 00:02:48,480
+So price is into the 0.5 level here at the moment
+
+36
+00:02:49,360 --> 00:02:56,160
+Before that we want to identify the consolidation phases. So right away where you can see is you have this consolidation phase right there
+
+37
+00:02:57,680 --> 00:02:59,680
+Then we have the accumulation phase two
+
+38
+00:02:59,680 --> 00:03:03,440
+So basically the first consolidation is called consolidation
+
+39
+00:03:03,600 --> 00:03:07,920
+The second consolidation is called accumulation one and the third
+
+40
+00:03:08,400 --> 00:03:10,400
+consolidation is called
+
+41
+00:03:10,400 --> 00:03:16,240
+Accumulation number two right accumulation could just be a pullback right and
+
+42
+00:03:16,720 --> 00:03:19,120
+It would be considered a consolidation
+
+43
+00:03:19,120 --> 00:03:25,360
+But for the first consolidation you have to look for a decent size or decent consolidation something like that, right?
+
+44
+00:03:26,240 --> 00:03:28,800
+It doesn't have to be like a big consolidation just
+
+45
+00:03:29,360 --> 00:03:33,120
+Train your eyes to just identify consolidation. This is a clean consolidation
+
+46
+00:03:33,120 --> 00:03:38,000
+You can see we have these highs here then we have this lows here right here, right?
+
+47
+00:03:38,240 --> 00:03:43,840
+So price is like going nowhere. We went up down up. That's it. And then we have push up
+
+48
+00:03:44,400 --> 00:03:48,880
+Push down, right? We have accumulation down accumulation down
+
+49
+00:03:49,440 --> 00:03:50,960
+Into our PD area, right?
+
+50
+00:03:50,960 --> 00:03:55,680
+So now what we want to do is we want to look for a shift in the market structure on the one hour time frame
+
+51
+00:03:56,640 --> 00:04:00,400
+Remember we're going from monthly to daily to one hour. So right here
+
+52
+00:04:00,640 --> 00:04:04,720
+What do we have? We have a shift in market structure and we have this clean auto block
+
+53
+00:04:04,800 --> 00:04:11,360
+Remember bearish candles continuous bearish candles. So now from here, we're going to go long right there
+
+54
+00:04:12,080 --> 00:04:16,080
+We're going to put our stop right below the slope and we are going to target
+
+55
+00:04:17,040 --> 00:04:19,760
+The consolidation high which is right here
+
+56
+00:04:21,840 --> 00:04:24,640
+Giving us 10.7 something rich to reward
+
+57
+00:04:25,600 --> 00:04:32,480
+So most importantly our entry is during London three right at three. So let's see how this plays out
+
+58
+00:04:46,560 --> 00:04:48,560
+So it consolidates for a bit
+
+59
+00:04:49,200 --> 00:04:51,200
+We
+
+60
+00:04:51,200 --> 00:04:53,200
+Have a continuation purge here
+
+61
+00:04:53,760 --> 00:05:01,440
+Right, but our target is fixed and right there we have our take profit hit for 110. So let me teach you something else
+
+62
+00:05:02,800 --> 00:05:05,200
+Use your Fibonacci from this range high
+
+63
+00:05:06,240 --> 00:05:08,240
+to this range low
+
+64
+00:05:08,400 --> 00:05:15,520
+So every single PD array after market structure shift is going to be respected every single auto block below the 0.5 level
+
+65
+00:05:15,920 --> 00:05:19,440
+Once price is above the 0.5 level the chances decrease, right?
+
+66
+00:05:19,760 --> 00:05:24,640
+So you want to get in before price goes above 0.5 level and
+
+67
+00:05:25,120 --> 00:05:29,440
+I mean i'm not saying that price goes above the 0.5 level then comes back and you cannot take the trade
+
+68
+00:05:29,520 --> 00:05:34,800
+Yes, it is possible when price goes above 0.5 level and then comes back into discount. You can look for entries
+
+69
+00:05:35,760 --> 00:05:39,040
+But you cannot buy above the 0.5 level. That's what i'm saying
+
+70
+00:05:39,760 --> 00:05:41,600
+so
+
+71
+00:05:41,680 --> 00:05:42,880
+Over here
+
+72
+00:05:42,880 --> 00:05:46,400
+You can see we have hit the take profit. We had this breaker block here
+
+73
+00:05:47,520 --> 00:05:48,240
+and
+
+74
+00:05:48,240 --> 00:05:53,360
+Price respected this breaker block here then came back here and filled in
+
+75
+00:05:54,480 --> 00:05:57,680
+This tiny little fairly gap here, right if you can see it
+
+76
+00:05:58,160 --> 00:06:04,560
+And we also took out this so that was continuation at around eight. So remember I said mostly the continations
+
+77
+00:06:05,120 --> 00:06:09,120
+Purges happened during from eight to ten thirty, right?
+
+78
+00:06:09,680 --> 00:06:14,720
+So we have a continuation purge right here and the abcd remember
+
+79
+00:06:15,680 --> 00:06:19,920
+I mean, it's not necessary to get the abcd. You just want to see a purge on the liquidity, right?
+
+80
+00:06:21,520 --> 00:06:23,200
+and
+
+81
+00:06:23,200 --> 00:06:29,360
+That's actually pretty much it. You can see we came into the breaker block and then we had our take profit level hit
+
+82
+00:06:29,760 --> 00:06:30,560
+so
+
+83
+00:06:30,560 --> 00:06:31,360
+um
+
+84
+00:06:31,360 --> 00:06:35,840
+Very simple guys. You just have to identify the consolidation phases and you will be good
+
+85
+00:06:36,320 --> 00:06:40,480
+Okay, and you will you can easily pass your charge with one trade if you get a proper setup
+
+86
+00:06:40,960 --> 00:06:42,960
+So let's move on to the next example
+

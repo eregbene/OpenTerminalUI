@@ -1,0 +1,178 @@
+{
+  "source": "F:\\new faiz\\35. AR50 Example 1.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 160.844625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright, everybody, so here is example number one on how I would combine the daily buy technique with the air 50 strategies. So over here, you can see that this was the daily candle and we closed above this candle here. So now our draw on liquidity is going to be this daily high. So now if I drop down to, let's say, the five minute, that's when we want to trade the air 50 strategy. So this is the daily high. This is initially going to be going to be over"
+    },
+    {
+      "start": 30.0,
+      "end": 36.88,
+      "text": " draw on liquidity, right? You can clearly see it was not breached. So as long as it's not breached,"
+    },
+    {
+      "start": 37.84,
+      "end": 41.2,
+      "text": " right? We have the draw on liquidity intact. So now"
+    },
+    {
+      "start": 42.48,
+      "end": 47.24,
+      "text": " What are the rules of the air 50 to financial strategy if you have a new watcher of the strategy?"
+    },
+    {
+      "start": 48.24,
+      "end": 50.24,
+      "text": " I used this indicator"
+    },
+    {
+      "start": 50.88,
+      "end": 54.32,
+      "text": " FX and Asian session range by Rob Minty"
+    },
+    {
+      "start": 54.32,
+      "end": 61.32,
+      "text": " The Asian session starts from 20 New York Times, until 2 am New York Times."
+    },
+    {
+      "start": 61.32,
+      "end": 65.32,
+      "text": " I want the Asian session to start at 2 am."
+    },
+    {
+      "start": 65.32,
+      "end": 68.32,
+      "text": " I want the Asian session to start at 2 am."
+    },
+    {
+      "start": 68.32,
+      "end": 73.32,
+      "text": " I want the Asian session to start at 2 am."
+    },
+    {
+      "start": 73.32,
+      "end": 77.32,
+      "text": " Now, when our bias is bullish in this scenario, it is."
+    },
+    {
+      "start": 77.32,
+      "end": 79.32,
+      "text": " I want the offer to him."
+    },
+    {
+      "start": 79.32,
+      "end": 85.8,
+      "text": " to the price to break above the Asian session high and close above it."
+    },
+    {
+      "start": 85.8,
+      "end": 91.96,
+      "text": " Once it closes above it, what I'm doing is I'm using my Fibonacci from the Asian low to"
+    },
+    {
+      "start": 91.96,
+      "end": 94.6,
+      "text": " Asian high."
+    },
+    {
+      "start": 94.6,
+      "end": 96.76,
+      "text": " Cool."
+    },
+    {
+      "start": 96.76,
+      "end": 100.56,
+      "text": " Asian low to Asian high."
+    },
+    {
+      "start": 100.56,
+      "end": 105.68,
+      "text": " Now my entry is going to be from the 0.5 level or the 50% of the Asian range, hence the"
+    },
+    {
+      "start": 105.68,
+      "end": 109.16,
+      "text": " AR 50 Asian range 50."
+    },
+    {
+      "start": 109.16,
+      "end": 111.04,
+      "text": " Now our bias is bullish."
+    },
+    {
+      "start": 111.04,
+      "end": 112.76,
+      "text": " So I'm gonna, with confidence,"
+    },
+    {
+      "start": 112.76,
+      "end": 114.4,
+      "text": " I'm gonna take a long position here,"
+    },
+    {
+      "start": 114.4,
+      "end": 116.88,
+      "text": " put my stop right above this low."
+    },
+    {
+      "start": 116.88,
+      "end": 119.68,
+      "text": " And I'm gonna go for the draw on liquidity,"
+    },
+    {
+      "start": 119.68,
+      "end": 122.04,
+      "text": " which is the daily high."
+    },
+    {
+      "start": 123.2,
+      "end": 125.28,
+      "text": " So if I play this through,"
+    },
+    {
+      "start": 125.28,
+      "end": 127.52,
+      "text": " we get a beautiful entry."
+    },
+    {
+      "start": 127.52,
+      "end": 130.04,
+      "text": " And since our bias is bullish,"
+    },
+    {
+      "start": 131.72,
+      "end": 138.0,
+      "text": " you will see that the take profit level was hit."
+    },
+    {
+      "start": 138.0,
+      "end": 143.5,
+      "text": " And to make it up like that, you should have gotten one to two restorer what."
+    },
+    {
+      "start": 144.4,
+      "end": 151.85,
+      "text": " I think this is basically the best model that you can use is really good guys."
+    },
+    {
+      "start": 152.15,
+      "end": 155.55,
+      "text": " Alright, I think it's my favorite model at the moment."
+    },
+    {
+      "start": 156.55,
+      "end": 159.55,
+      "text": " But yeah guys, let's move on to another example."
+    }
+  ]
+}

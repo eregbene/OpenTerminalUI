@@ -1,0 +1,2956 @@
+{
+  "methodology": "BSI_BASELINE_V3_UPDATED_FAIZ",
+  "window": {
+    "start": "2026-09-07T00:00:00+00:00",
+    "end": "2026-09-08T00:00:00+00:00"
+  },
+  "selected_symbols": [
+    "EURUSD",
+    "GBPUSD",
+    "USDJPY",
+    "AUDUSD",
+    "USDCAD",
+    "USDCHF",
+    "NZDUSD",
+    "EURJPY",
+    "GBPJPY",
+    "XAUUSD"
+  ],
+  "course_material_mode": "TRANSCRIPTS_PLUS_VISUAL_CONTACT_SHEETS",
+  "source_video_count": 125,
+  "transcripts_complete": 125,
+  "visual_contact_sheets_complete": 125,
+  "bar_reconstruction_count": 3,
+  "strategy_count": 26,
+  "activation_scope": "RESEARCH_VALIDATION_ONLY_NOT_LIVE_ROUTING",
+  "artifacts": {
+    "bsi_v3_order_flow": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "AUDUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCAD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCHF",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "NZDUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "EURJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "XAUUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_smt_divergence": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "AUDUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "AUDUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_abc": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "AUDUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCAD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCHF",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "NZDUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "EURJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "XAUUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_abcd": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "AUDUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCAD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCHF",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "NZDUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "EURJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "XAUUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_asian_v2": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDJPY",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "AUDUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCAD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCHF",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "NZDUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "EURJPY",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPJPY",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "XAUUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_0930": {
+      "status": "OUT_OF_SCOPE_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "reason": "strategy does not trade the selected two-symbol validation slice"
+    },
+    "bsi_v3_reactionary_block": {
+      "status": "PASS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "source_videos": [
+        "17. Reactionary Block Trading Strategy.mp4"
+      ],
+      "source_rule_ids": [
+        "FAIZ_V3_REACTIONARY_001"
+      ],
+      "video_alignment_status": "SOURCE_VIDEO_AND_TRANSCRIPT_AVAILABLE_NOT_MANUAL_TIMESTAMP_VERIFIED",
+      "opportunity": {
+        "strategy_id": "bsi_v3_reactionary_block",
+        "symbol": "EURUSD",
+        "direction": "SHORT",
+        "entry_time": "2026-09-07 02:15:00+00:00",
+        "entry": 1.16121,
+        "stop": 1.2,
+        "target": 1.0836300000000003,
+        "timeframe_stack": [
+          "M15"
+        ],
+        "thesis_id": "bsi_v3_reactionary_block:EURUSD:M15:2026-09-07:SHORT",
+        "opportunity_id": "bsi_v3_reactionary_block:EURUSD:M15:2026-09-07:SHORT:2026-09-07T02:15:00+00:00",
+        "source_rule_ids": [
+          "FAIZ_V3_REACTIONARY_001"
+        ],
+        "rejection_reasons": []
+      },
+      "outcome": {
+        "opportunity_id": "bsi_v3_reactionary_block:EURUSD:M15:2026-09-07:SHORT:2026-09-07T02:15:00+00:00",
+        "strategy_id": "bsi_v3_reactionary_block",
+        "symbol": "EURUSD",
+        "direction": "SHORT",
+        "entry_time": "2026-09-07T02:15:00+00:00",
+        "exit_time": "2026-09-07T03:16:00+00:00",
+        "status": "same_bar_ambiguous",
+        "baseline_r": 0.0,
+        "managed_r": 0.0,
+        "same_bar_ambiguous": true
+      },
+      "bar_window": {
+        "status": "PASS",
+        "timeframe": "M15",
+        "entry_bar_index": 20,
+        "bars_before": 20,
+        "bars_after": 40,
+        "bars": [
+          {
+            "time": "2026-09-07T01:22:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 182.0
+          },
+          {
+            "time": "2026-09-07T01:23:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 183.0
+          },
+          {
+            "time": "2026-09-07T01:24:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 184.0
+          },
+          {
+            "time": "2026-09-07T01:25:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 185.0
+          },
+          {
+            "time": "2026-09-07T01:26:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 186.0
+          },
+          {
+            "time": "2026-09-07T01:27:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 187.0
+          },
+          {
+            "time": "2026-09-07T01:28:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 188.0
+          },
+          {
+            "time": "2026-09-07T01:29:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 189.0
+          },
+          {
+            "time": "2026-09-07T01:30:00+00:00",
+            "open": 1.16163,
+            "high": 1.16165,
+            "low": 1.16131,
+            "close": 1.16141,
+            "volume": 394.0
+          },
+          {
+            "time": "2026-09-07T01:31:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 191.0
+          },
+          {
+            "time": "2026-09-07T01:32:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 192.0
+          },
+          {
+            "time": "2026-09-07T01:33:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 193.0
+          },
+          {
+            "time": "2026-09-07T01:34:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 194.0
+          },
+          {
+            "time": "2026-09-07T01:35:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 195.0
+          },
+          {
+            "time": "2026-09-07T01:36:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 196.0
+          },
+          {
+            "time": "2026-09-07T01:37:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 197.0
+          },
+          {
+            "time": "2026-09-07T01:38:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 198.0
+          },
+          {
+            "time": "2026-09-07T01:39:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 199.0
+          },
+          {
+            "time": "2026-09-07T01:45:00+00:00",
+            "open": 1.16141,
+            "high": 1.16164,
+            "low": 1.16131,
+            "close": 1.16135,
+            "volume": 363.0
+          },
+          {
+            "time": "2026-09-07T02:00:00+00:00",
+            "open": 1.16135,
+            "high": 1.16137,
+            "low": 1.16095,
+            "close": 1.16096,
+            "volume": 299.0
+          },
+          {
+            "time": "2026-09-07T02:15:00+00:00",
+            "open": 1.16096,
+            "high": 1.16111,
+            "low": 1.16089,
+            "close": 1.16111,
+            "volume": 251.0
+          },
+          {
+            "time": "2026-09-07T02:30:00+00:00",
+            "open": 1.16111,
+            "high": 1.1612,
+            "low": 1.16089,
+            "close": 1.1609099999999999,
+            "volume": 271.0
+          },
+          {
+            "time": "2026-09-07T02:45:00+00:00",
+            "open": 1.1609099999999999,
+            "high": 1.16098,
+            "low": 1.16075,
+            "close": 1.16092,
+            "volume": 262.0
+          },
+          {
+            "time": "2026-09-07T03:00:00+00:00",
+            "open": 1.16093,
+            "high": 1.16102,
+            "low": 1.16085,
+            "close": 1.16094,
+            "volume": 187.0
+          },
+          {
+            "time": "2026-09-07T03:15:00+00:00",
+            "open": 1.16095,
+            "high": 1.16121,
+            "low": 1.16092,
+            "close": 1.16119,
+            "volume": 232.0
+          },
+          {
+            "time": "2026-09-07T03:16:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 101.0
+          },
+          {
+            "time": "2026-09-07T03:17:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 102.0
+          },
+          {
+            "time": "2026-09-07T03:18:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 103.0
+          },
+          {
+            "time": "2026-09-07T03:19:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 104.0
+          },
+          {
+            "time": "2026-09-07T03:20:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 105.0
+          },
+          {
+            "time": "2026-09-07T03:21:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 106.0
+          },
+          {
+            "time": "2026-09-07T03:22:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 107.0
+          },
+          {
+            "time": "2026-09-07T03:23:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 108.0
+          },
+          {
+            "time": "2026-09-07T03:24:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 109.0
+          },
+          {
+            "time": "2026-09-07T03:25:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 110.0
+          },
+          {
+            "time": "2026-09-07T03:26:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 111.0
+          },
+          {
+            "time": "2026-09-07T03:27:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 112.0
+          },
+          {
+            "time": "2026-09-07T03:28:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 113.0
+          },
+          {
+            "time": "2026-09-07T03:29:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 114.0
+          },
+          {
+            "time": "2026-09-07T03:30:00+00:00",
+            "open": 1.16119,
+            "high": 1.16121,
+            "low": 1.16089,
+            "close": 1.16095,
+            "volume": 341.0
+          },
+          {
+            "time": "2026-09-07T03:31:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 116.0
+          },
+          {
+            "time": "2026-09-07T03:32:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 117.0
+          },
+          {
+            "time": "2026-09-07T03:33:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 118.0
+          },
+          {
+            "time": "2026-09-07T03:34:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 119.0
+          },
+          {
+            "time": "2026-09-07T03:35:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 120.0
+          },
+          {
+            "time": "2026-09-07T03:36:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 121.0
+          },
+          {
+            "time": "2026-09-07T03:37:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 122.0
+          },
+          {
+            "time": "2026-09-07T03:38:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 123.0
+          },
+          {
+            "time": "2026-09-07T03:39:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 124.0
+          },
+          {
+            "time": "2026-09-07T03:40:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 125.0
+          },
+          {
+            "time": "2026-09-07T03:41:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 126.0
+          },
+          {
+            "time": "2026-09-07T03:42:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 127.0
+          },
+          {
+            "time": "2026-09-07T03:43:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 128.0
+          },
+          {
+            "time": "2026-09-07T03:44:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 129.0
+          },
+          {
+            "time": "2026-09-07T03:45:00+00:00",
+            "open": 1.16095,
+            "high": 1.16117,
+            "low": 1.1609,
+            "close": 1.16117,
+            "volume": 270.0
+          },
+          {
+            "time": "2026-09-07T03:46:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 131.0
+          },
+          {
+            "time": "2026-09-07T03:47:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 132.0
+          },
+          {
+            "time": "2026-09-07T03:48:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 133.0
+          },
+          {
+            "time": "2026-09-07T03:49:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 134.0
+          },
+          {
+            "time": "2026-09-07T03:50:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 135.0
+          },
+          {
+            "time": "2026-09-07T03:51:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 136.0
+          }
+        ]
+      }
+    },
+    "bsi_v3_ict_silver_bullet": {
+      "status": "OUT_OF_SCOPE_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "reason": "strategy does not trade the selected two-symbol validation slice"
+    },
+    "bsi_v3_silver_bullet_with_bias": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDJPY",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "AUDUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCAD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCHF",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "NZDUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "EURJPY",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPJPY",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "XAUUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_4h_order_block": {
+      "status": "PASS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "source_videos": [
+        "34. 4 Hour OB Trading Strategy.mp4",
+        "35. 4 Hour OB Trading Strategy.mp4",
+        "36. 4 Hour OB Trading Strategy Example 2.mp4",
+        "37. 4 Hour OB Trading Strategy Example 3.mp4"
+      ],
+      "source_rule_ids": [
+        "FAIZ_V3_4H_OB_001"
+      ],
+      "video_alignment_status": "SOURCE_VIDEO_AND_TRANSCRIPT_AVAILABLE_NOT_MANUAL_TIMESTAMP_VERIFIED",
+      "opportunity": {
+        "strategy_id": "bsi_v3_4h_order_block",
+        "symbol": "USDJPY",
+        "direction": "LONG",
+        "entry_time": "2026-09-07 07:00:00+00:00",
+        "entry": 155.776,
+        "stop": 155.548,
+        "target": 156.23200000000003,
+        "timeframe_stack": [
+          "H4",
+          "M15"
+        ],
+        "thesis_id": "bsi_v3_4h_order_block:USDJPY:M15:2026-09-07:LONG",
+        "opportunity_id": "bsi_v3_4h_order_block:USDJPY:M15:2026-09-07:LONG:2026-09-07T07:00:00+00:00",
+        "source_rule_ids": [
+          "FAIZ_V3_4H_OB_001"
+        ],
+        "rejection_reasons": []
+      },
+      "outcome": {
+        "opportunity_id": "bsi_v3_4h_order_block:USDJPY:M15:2026-09-07:LONG:2026-09-07T07:00:00+00:00",
+        "strategy_id": "bsi_v3_4h_order_block",
+        "symbol": "USDJPY",
+        "direction": "LONG",
+        "entry_time": "2026-09-07T07:00:00+00:00",
+        "exit_time": "2026-09-07T07:45:00+00:00",
+        "status": "sl",
+        "baseline_r": -1.0,
+        "managed_r": -1.0,
+        "same_bar_ambiguous": false
+      },
+      "bar_window": {
+        "status": "PASS",
+        "timeframe": "M15",
+        "entry_bar_index": 20,
+        "bars_before": 20,
+        "bars_after": 28,
+        "bars": [
+          {
+            "time": "2026-09-07T02:00:00+00:00",
+            "open": 156.035,
+            "high": 156.184,
+            "low": 156.023,
+            "close": 156.184,
+            "volume": 792.0
+          },
+          {
+            "time": "2026-09-07T02:15:00+00:00",
+            "open": 156.183,
+            "high": 156.201,
+            "low": 156.129,
+            "close": 156.129,
+            "volume": 782.0
+          },
+          {
+            "time": "2026-09-07T02:30:00+00:00",
+            "open": 156.129,
+            "high": 156.24,
+            "low": 156.107,
+            "close": 156.232,
+            "volume": 514.0
+          },
+          {
+            "time": "2026-09-07T02:45:00+00:00",
+            "open": 156.232,
+            "high": 156.243,
+            "low": 156.186,
+            "close": 156.192,
+            "volume": 525.0
+          },
+          {
+            "time": "2026-09-07T03:00:00+00:00",
+            "open": 156.192,
+            "high": 156.215,
+            "low": 156.135,
+            "close": 156.136,
+            "volume": 618.0
+          },
+          {
+            "time": "2026-09-07T03:15:00+00:00",
+            "open": 156.134,
+            "high": 156.143,
+            "low": 156.051,
+            "close": 156.059,
+            "volume": 603.0
+          },
+          {
+            "time": "2026-09-07T03:30:00+00:00",
+            "open": 156.059,
+            "high": 156.143,
+            "low": 156.055,
+            "close": 156.12,
+            "volume": 615.0
+          },
+          {
+            "time": "2026-09-07T03:45:00+00:00",
+            "open": 156.12,
+            "high": 156.137,
+            "low": 156.043,
+            "close": 156.051,
+            "volume": 713.0
+          },
+          {
+            "time": "2026-09-07T04:00:00+00:00",
+            "open": 156.053,
+            "high": 156.155,
+            "low": 156.047,
+            "close": 156.142,
+            "volume": 657.0
+          },
+          {
+            "time": "2026-09-07T04:15:00+00:00",
+            "open": 156.142,
+            "high": 156.174,
+            "low": 156.128,
+            "close": 156.168,
+            "volume": 606.0
+          },
+          {
+            "time": "2026-09-07T04:30:00+00:00",
+            "open": 156.168,
+            "high": 156.173,
+            "low": 156.071,
+            "close": 156.082,
+            "volume": 733.0
+          },
+          {
+            "time": "2026-09-07T04:45:00+00:00",
+            "open": 156.082,
+            "high": 156.108,
+            "low": 156.032,
+            "close": 156.048,
+            "volume": 744.0
+          },
+          {
+            "time": "2026-09-07T05:00:00+00:00",
+            "open": 156.048,
+            "high": 156.087,
+            "low": 156.018,
+            "close": 156.074,
+            "volume": 757.0
+          },
+          {
+            "time": "2026-09-07T05:15:00+00:00",
+            "open": 156.074,
+            "high": 156.1,
+            "low": 156.038,
+            "close": 156.039,
+            "volume": 633.0
+          },
+          {
+            "time": "2026-09-07T05:30:00+00:00",
+            "open": 156.038,
+            "high": 156.049,
+            "low": 155.963,
+            "close": 156.001,
+            "volume": 753.0
+          },
+          {
+            "time": "2026-09-07T05:45:00+00:00",
+            "open": 156.001,
+            "high": 156.015,
+            "low": 155.785,
+            "close": 155.806,
+            "volume": 984.0
+          },
+          {
+            "time": "2026-09-07T06:00:00+00:00",
+            "open": 155.806,
+            "high": 155.909,
+            "low": 155.795,
+            "close": 155.854,
+            "volume": 1006.0
+          },
+          {
+            "time": "2026-09-07T06:15:00+00:00",
+            "open": 155.854,
+            "high": 155.873,
+            "low": 155.548,
+            "close": 155.694,
+            "volume": 1131.0
+          },
+          {
+            "time": "2026-09-07T06:30:00+00:00",
+            "open": 155.694,
+            "high": 155.734,
+            "low": 155.624,
+            "close": 155.71,
+            "volume": 1194.0
+          },
+          {
+            "time": "2026-09-07T06:45:00+00:00",
+            "open": 155.709,
+            "high": 155.873,
+            "low": 155.707,
+            "close": 155.869,
+            "volume": 1007.0
+          },
+          {
+            "time": "2026-09-07T07:00:00+00:00",
+            "open": 155.869,
+            "high": 155.905,
+            "low": 155.818,
+            "close": 155.863,
+            "volume": 934.0
+          },
+          {
+            "time": "2026-09-07T07:15:00+00:00",
+            "open": 155.864,
+            "high": 155.89,
+            "low": 155.663,
+            "close": 155.663,
+            "volume": 1172.0
+          },
+          {
+            "time": "2026-09-07T07:30:00+00:00",
+            "open": 155.663,
+            "high": 155.806,
+            "low": 155.648,
+            "close": 155.802,
+            "volume": 1252.0
+          },
+          {
+            "time": "2026-09-07T07:45:00+00:00",
+            "open": 155.802,
+            "high": 155.818,
+            "low": 155.522,
+            "close": 155.549,
+            "volume": 1622.0
+          },
+          {
+            "time": "2026-09-07T08:00:00+00:00",
+            "open": 155.55,
+            "high": 155.573,
+            "low": 154.559,
+            "close": 154.712,
+            "volume": 1899.0
+          },
+          {
+            "time": "2026-09-07T08:15:00+00:00",
+            "open": 154.709,
+            "high": 154.814,
+            "low": 154.133,
+            "close": 154.143,
+            "volume": 2314.0
+          },
+          {
+            "time": "2026-09-07T08:30:00+00:00",
+            "open": 154.14,
+            "high": 154.483,
+            "low": 154.06,
+            "close": 154.436,
+            "volume": 2255.0
+          },
+          {
+            "time": "2026-09-07T08:45:00+00:00",
+            "open": 154.435,
+            "high": 154.57,
+            "low": 154.249,
+            "close": 154.468,
+            "volume": 1487.0
+          },
+          {
+            "time": "2026-09-07T09:00:00+00:00",
+            "open": 154.467,
+            "high": 154.517,
+            "low": 154.337,
+            "close": 154.463,
+            "volume": 1268.0
+          },
+          {
+            "time": "2026-09-07T09:15:00+00:00",
+            "open": 154.465,
+            "high": 154.494,
+            "low": 154.219,
+            "close": 154.244,
+            "volume": 1301.0
+          },
+          {
+            "time": "2026-09-07T09:30:00+00:00",
+            "open": 154.244,
+            "high": 154.437,
+            "low": 154.242,
+            "close": 154.397,
+            "volume": 902.0
+          },
+          {
+            "time": "2026-09-07T09:45:00+00:00",
+            "open": 154.397,
+            "high": 154.568,
+            "low": 154.37,
+            "close": 154.504,
+            "volume": 795.0
+          },
+          {
+            "time": "2026-09-07T10:00:00+00:00",
+            "open": 154.503,
+            "high": 154.607,
+            "low": 154.461,
+            "close": 154.597,
+            "volume": 910.0
+          },
+          {
+            "time": "2026-09-07T10:15:00+00:00",
+            "open": 154.6,
+            "high": 154.703,
+            "low": 154.575,
+            "close": 154.679,
+            "volume": 873.0
+          },
+          {
+            "time": "2026-09-07T10:30:00+00:00",
+            "open": 154.678,
+            "high": 154.749,
+            "low": 154.644,
+            "close": 154.702,
+            "volume": 746.0
+          },
+          {
+            "time": "2026-09-07T10:45:00+00:00",
+            "open": 154.702,
+            "high": 154.708,
+            "low": 154.583,
+            "close": 154.649,
+            "volume": 949.0
+          },
+          {
+            "time": "2026-09-07T11:00:00+00:00",
+            "open": 154.656,
+            "high": 154.773,
+            "low": 154.645,
+            "close": 154.723,
+            "volume": 888.0
+          },
+          {
+            "time": "2026-09-07T11:15:00+00:00",
+            "open": 154.723,
+            "high": 154.76,
+            "low": 154.651,
+            "close": 154.659,
+            "volume": 826.0
+          },
+          {
+            "time": "2026-09-07T11:30:00+00:00",
+            "open": 154.66,
+            "high": 154.696,
+            "low": 154.612,
+            "close": 154.671,
+            "volume": 751.0
+          },
+          {
+            "time": "2026-09-07T11:45:00+00:00",
+            "open": 154.671,
+            "high": 154.733,
+            "low": 154.648,
+            "close": 154.73,
+            "volume": 694.0
+          },
+          {
+            "time": "2026-09-07T12:00:00+00:00",
+            "open": 154.729,
+            "high": 154.772,
+            "low": 154.702,
+            "close": 154.767,
+            "volume": 842.0
+          },
+          {
+            "time": "2026-09-07T12:15:00+00:00",
+            "open": 154.767,
+            "high": 154.806,
+            "low": 154.473,
+            "close": 154.48,
+            "volume": 1145.0
+          },
+          {
+            "time": "2026-09-07T12:30:00+00:00",
+            "open": 154.48,
+            "high": 154.507,
+            "low": 154.26,
+            "close": 154.262,
+            "volume": 1145.0
+          },
+          {
+            "time": "2026-09-07T12:45:00+00:00",
+            "open": 154.262,
+            "high": 154.496,
+            "low": 154.248,
+            "close": 154.488,
+            "volume": 1158.0
+          },
+          {
+            "time": "2026-09-07T13:00:00+00:00",
+            "open": 154.482,
+            "high": 154.543,
+            "low": 154.361,
+            "close": 154.374,
+            "volume": 1019.0
+          },
+          {
+            "time": "2026-09-07T13:15:00+00:00",
+            "open": 154.374,
+            "high": 154.497,
+            "low": 154.374,
+            "close": 154.47,
+            "volume": 1035.0
+          },
+          {
+            "time": "2026-09-07T13:30:00+00:00",
+            "open": 154.47,
+            "high": 154.528,
+            "low": 154.387,
+            "close": 154.44,
+            "volume": 1026.0
+          },
+          {
+            "time": "2026-09-07T13:45:00+00:00",
+            "open": 154.441,
+            "high": 154.582,
+            "low": 154.4,
+            "close": 154.513,
+            "volume": 1150.0
+          },
+          {
+            "time": "2026-09-07T14:00:00+00:00",
+            "open": 154.513,
+            "high": 154.636,
+            "low": 154.457,
+            "close": 154.489,
+            "volume": 1313.0
+          }
+        ]
+      }
+    },
+    "bsi_v3_mmxm": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "MN1",
+            "W1",
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPUSD",
+          "missing_timeframes": [
+            "MN1",
+            "W1",
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDJPY",
+          "missing_timeframes": [
+            "MN1",
+            "W1",
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "AUDUSD",
+          "missing_timeframes": [
+            "MN1",
+            "W1",
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCAD",
+          "missing_timeframes": [
+            "MN1",
+            "W1",
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCHF",
+          "missing_timeframes": [
+            "MN1",
+            "W1",
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "NZDUSD",
+          "missing_timeframes": [
+            "MN1",
+            "W1",
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "EURJPY",
+          "missing_timeframes": [
+            "MN1",
+            "W1",
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPJPY",
+          "missing_timeframes": [
+            "MN1",
+            "W1",
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "XAUUSD",
+          "missing_timeframes": [
+            "MN1",
+            "W1",
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_mmxm_second_distribution": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "AUDUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCAD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCHF",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "NZDUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "EURJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "XAUUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_holy_grail": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "AUDUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCAD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCHF",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "NZDUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "EURJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "XAUUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_juggernaut": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDJPY",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "AUDUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCAD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCHF",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "NZDUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "EURJPY",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPJPY",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "XAUUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_spectre": {
+      "status": "PASS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "source_videos": [
+        "25. The Spectre Model.mp4"
+      ],
+      "source_rule_ids": [
+        "FAIZ_V3_SPECTRE_001"
+      ],
+      "video_alignment_status": "SOURCE_VIDEO_AND_TRANSCRIPT_AVAILABLE_NOT_MANUAL_TIMESTAMP_VERIFIED",
+      "opportunity": {
+        "strategy_id": "bsi_v3_spectre",
+        "symbol": "EURUSD",
+        "direction": "SHORT",
+        "entry_time": "2026-09-07 02:15:00+00:00",
+        "entry": 1.16121,
+        "stop": 1.2,
+        "target": 1.0836300000000003,
+        "timeframe_stack": [
+          "M15"
+        ],
+        "thesis_id": "bsi_v3_spectre:EURUSD:M15:2026-09-07:SHORT",
+        "opportunity_id": "bsi_v3_spectre:EURUSD:M15:2026-09-07:SHORT:2026-09-07T02:15:00+00:00",
+        "source_rule_ids": [
+          "FAIZ_V3_SPECTRE_001"
+        ],
+        "rejection_reasons": []
+      },
+      "outcome": {
+        "opportunity_id": "bsi_v3_spectre:EURUSD:M15:2026-09-07:SHORT:2026-09-07T02:15:00+00:00",
+        "strategy_id": "bsi_v3_spectre",
+        "symbol": "EURUSD",
+        "direction": "SHORT",
+        "entry_time": "2026-09-07T02:15:00+00:00",
+        "exit_time": "2026-09-07T03:16:00+00:00",
+        "status": "same_bar_ambiguous",
+        "baseline_r": 0.0,
+        "managed_r": 0.0,
+        "same_bar_ambiguous": true
+      },
+      "bar_window": {
+        "status": "PASS",
+        "timeframe": "M15",
+        "entry_bar_index": 20,
+        "bars_before": 20,
+        "bars_after": 40,
+        "bars": [
+          {
+            "time": "2026-09-07T01:22:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 182.0
+          },
+          {
+            "time": "2026-09-07T01:23:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 183.0
+          },
+          {
+            "time": "2026-09-07T01:24:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 184.0
+          },
+          {
+            "time": "2026-09-07T01:25:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 185.0
+          },
+          {
+            "time": "2026-09-07T01:26:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 186.0
+          },
+          {
+            "time": "2026-09-07T01:27:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 187.0
+          },
+          {
+            "time": "2026-09-07T01:28:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 188.0
+          },
+          {
+            "time": "2026-09-07T01:29:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 189.0
+          },
+          {
+            "time": "2026-09-07T01:30:00+00:00",
+            "open": 1.16163,
+            "high": 1.16165,
+            "low": 1.16131,
+            "close": 1.16141,
+            "volume": 394.0
+          },
+          {
+            "time": "2026-09-07T01:31:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 191.0
+          },
+          {
+            "time": "2026-09-07T01:32:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 192.0
+          },
+          {
+            "time": "2026-09-07T01:33:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 193.0
+          },
+          {
+            "time": "2026-09-07T01:34:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 194.0
+          },
+          {
+            "time": "2026-09-07T01:35:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 195.0
+          },
+          {
+            "time": "2026-09-07T01:36:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 196.0
+          },
+          {
+            "time": "2026-09-07T01:37:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 197.0
+          },
+          {
+            "time": "2026-09-07T01:38:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 198.0
+          },
+          {
+            "time": "2026-09-07T01:39:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 199.0
+          },
+          {
+            "time": "2026-09-07T01:45:00+00:00",
+            "open": 1.16141,
+            "high": 1.16164,
+            "low": 1.16131,
+            "close": 1.16135,
+            "volume": 363.0
+          },
+          {
+            "time": "2026-09-07T02:00:00+00:00",
+            "open": 1.16135,
+            "high": 1.16137,
+            "low": 1.16095,
+            "close": 1.16096,
+            "volume": 299.0
+          },
+          {
+            "time": "2026-09-07T02:15:00+00:00",
+            "open": 1.16096,
+            "high": 1.16111,
+            "low": 1.16089,
+            "close": 1.16111,
+            "volume": 251.0
+          },
+          {
+            "time": "2026-09-07T02:30:00+00:00",
+            "open": 1.16111,
+            "high": 1.1612,
+            "low": 1.16089,
+            "close": 1.1609099999999999,
+            "volume": 271.0
+          },
+          {
+            "time": "2026-09-07T02:45:00+00:00",
+            "open": 1.1609099999999999,
+            "high": 1.16098,
+            "low": 1.16075,
+            "close": 1.16092,
+            "volume": 262.0
+          },
+          {
+            "time": "2026-09-07T03:00:00+00:00",
+            "open": 1.16093,
+            "high": 1.16102,
+            "low": 1.16085,
+            "close": 1.16094,
+            "volume": 187.0
+          },
+          {
+            "time": "2026-09-07T03:15:00+00:00",
+            "open": 1.16095,
+            "high": 1.16121,
+            "low": 1.16092,
+            "close": 1.16119,
+            "volume": 232.0
+          },
+          {
+            "time": "2026-09-07T03:16:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 101.0
+          },
+          {
+            "time": "2026-09-07T03:17:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 102.0
+          },
+          {
+            "time": "2026-09-07T03:18:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 103.0
+          },
+          {
+            "time": "2026-09-07T03:19:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 104.0
+          },
+          {
+            "time": "2026-09-07T03:20:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 105.0
+          },
+          {
+            "time": "2026-09-07T03:21:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 106.0
+          },
+          {
+            "time": "2026-09-07T03:22:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 107.0
+          },
+          {
+            "time": "2026-09-07T03:23:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 108.0
+          },
+          {
+            "time": "2026-09-07T03:24:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 109.0
+          },
+          {
+            "time": "2026-09-07T03:25:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 110.0
+          },
+          {
+            "time": "2026-09-07T03:26:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 111.0
+          },
+          {
+            "time": "2026-09-07T03:27:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 112.0
+          },
+          {
+            "time": "2026-09-07T03:28:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 113.0
+          },
+          {
+            "time": "2026-09-07T03:29:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 114.0
+          },
+          {
+            "time": "2026-09-07T03:30:00+00:00",
+            "open": 1.16119,
+            "high": 1.16121,
+            "low": 1.16089,
+            "close": 1.16095,
+            "volume": 341.0
+          },
+          {
+            "time": "2026-09-07T03:31:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 116.0
+          },
+          {
+            "time": "2026-09-07T03:32:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 117.0
+          },
+          {
+            "time": "2026-09-07T03:33:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 118.0
+          },
+          {
+            "time": "2026-09-07T03:34:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 119.0
+          },
+          {
+            "time": "2026-09-07T03:35:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 120.0
+          },
+          {
+            "time": "2026-09-07T03:36:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 121.0
+          },
+          {
+            "time": "2026-09-07T03:37:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 122.0
+          },
+          {
+            "time": "2026-09-07T03:38:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 123.0
+          },
+          {
+            "time": "2026-09-07T03:39:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 124.0
+          },
+          {
+            "time": "2026-09-07T03:40:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 125.0
+          },
+          {
+            "time": "2026-09-07T03:41:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 126.0
+          },
+          {
+            "time": "2026-09-07T03:42:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 127.0
+          },
+          {
+            "time": "2026-09-07T03:43:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 128.0
+          },
+          {
+            "time": "2026-09-07T03:44:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 129.0
+          },
+          {
+            "time": "2026-09-07T03:45:00+00:00",
+            "open": 1.16095,
+            "high": 1.16117,
+            "low": 1.1609,
+            "close": 1.16117,
+            "volume": 270.0
+          },
+          {
+            "time": "2026-09-07T03:46:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 131.0
+          },
+          {
+            "time": "2026-09-07T03:47:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 132.0
+          },
+          {
+            "time": "2026-09-07T03:48:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 133.0
+          },
+          {
+            "time": "2026-09-07T03:49:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 134.0
+          },
+          {
+            "time": "2026-09-07T03:50:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 135.0
+          },
+          {
+            "time": "2026-09-07T03:51:00+00:00",
+            "open": 1.0,
+            "high": 1.2,
+            "low": 0.9,
+            "close": 1.1,
+            "volume": 136.0
+          }
+        ]
+      }
+    },
+    "bsi_v3_monday_range": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "XAUUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "XAUUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_weaver": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "AUDUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCAD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCHF",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "NZDUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "EURJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "XAUUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_standard_deviation_po3": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "AUDUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCAD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCHF",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "NZDUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "EURJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "XAUUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_ar50": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "AUDUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCAD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCHF",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "NZDUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "EURJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPJPY",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "XAUUSD",
+          "missing_timeframes": [
+            "D1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_ifvg_po3": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "XAUUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "XAUUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_turtle_soups_ranges": {
+      "status": "OUT_OF_SCOPE_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "reason": "strategy does not trade the selected two-symbol validation slice"
+    },
+    "bsi_v3_yin_yang": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "XAUUSD"
+      ],
+      "data_gaps": [],
+      "rejections": {
+        "yin_yang_not_london_session": 1
+      }
+    },
+    "bsi_v3_4h_candle_ranges": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "XAUUSD"
+      ],
+      "data_gaps": [],
+      "rejections": {
+        "4h_crd_no_1am_or_5am_range_raid": 2
+      }
+    },
+    "bsi_v3_smt_session_hl": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "AUDUSD",
+        "NZDUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "AUDUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "NZDUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_1h_candle_ranges": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "data_gaps": [
+        {
+          "symbol": "EURUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDJPY",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "AUDUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCAD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "USDCHF",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "NZDUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "EURJPY",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "GBPJPY",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        },
+        {
+          "symbol": "XAUUSD",
+          "missing_timeframes": [
+            "M1"
+          ],
+          "reason": "DATA_GAP"
+        }
+      ],
+      "rejections": {}
+    },
+    "bsi_v3_enigma_range": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "selected_symbols": [
+        "EURUSD",
+        "GBPUSD",
+        "USDJPY",
+        "AUDUSD",
+        "USDCAD",
+        "USDCHF",
+        "NZDUSD",
+        "EURJPY",
+        "GBPJPY",
+        "XAUUSD"
+      ],
+      "data_gaps": [],
+      "rejections": {
+        "enigma_no_engineered_range_reentry": 1,
+        "DATA_GAP_H4": 9
+      }
+    }
+  }
+}

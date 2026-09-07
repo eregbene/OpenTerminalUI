@@ -1,0 +1,733 @@
+{
+  "source": "F:\\new faiz\\34. AR50 Trading Model.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 547.271125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright everybody, so here is the last chapter of the Faiz SMC, VIP course. And in this chapter, I'm going to teach you how to trade the AR50 or the Asian range 50% trading strategy that I taught on Twitter before. But I didn't teach you how to trade it with daily buys and what techniques I used to increase the win."
+    },
+    {
+      "start": 30.0,
+      "end": 36.88,
+      "text": " This is going to be a complete guide. So watch very carefully. This is not going to be uploaded on YouTube or anywhere else"
+    },
+    {
+      "start": 36.88,
+      "end": 40.24,
+      "text": " And this is going to be exclusive for the members only and"
+    },
+    {
+      "start": 40.8,
+      "end": 44.72,
+      "text": " The other strategy that I thought you in this update are also going to be exclusive"
+    },
+    {
+      "start": 45.8,
+      "end": 54.12,
+      "text": " So I'm gonna I want to give a shout out to T trades and the market maker trader the mmm x some trader"
+    },
+    {
+      "start": 55.8,
+      "end": 57.8,
+      "text": " They teach this"
+    },
+    {
+      "start": 57.8,
+      "end": 65.08,
+      "text": " really good on how to find your you know the bias. Now this is not exactly the bias but the direction"
+    },
+    {
+      "start": 65.72,
+      "end": 73.24,
+      "text": " and by using this technique you'll be able to trade the air 50 the right way with very high probability"
+    },
+    {
+      "start": 73.24,
+      "end": 81.88,
+      "text": " with very high wind rate. So look at this green candle and I'm on the daily time frame."
+    },
+    {
+      "start": 81.88,
+      "end": 91.8,
+      "text": " Now, initially, I would want, if I want to be bullish, if I want to be bullish, I would want"
+    },
+    {
+      "start": 91.8,
+      "end": 99.16,
+      "text": " the next daily candle to close above it, to close above this high."
+    },
+    {
+      "start": 99.16,
+      "end": 105.0,
+      "text": " Now if it closes, we can then be bullish, but what happened here?"
+    },
+    {
+      "start": 105.0,
+      "end": 106.96,
+      "text": " We get a rejection."
+    },
+    {
+      "start": 106.96,
+      "end": 107.96,
+      "text": " Okay?"
+    },
+    {
+      "start": 107.96,
+      "end": 114.96,
+      "text": " Now for me to be bearish, once I get the rejection, right, the body didn't close."
+    },
+    {
+      "start": 114.96,
+      "end": 122.44,
+      "text": " Now, there's a chance that we could be bearish so to confirm that I want the next daily candle"
+    },
+    {
+      "start": 122.44,
+      "end": 124.32,
+      "text": " to close below the slope."
+    },
+    {
+      "start": 124.32,
+      "end": 126.24,
+      "text": " And what happens?"
+    },
+    {
+      "start": 126.24,
+      "end": 128.8,
+      "text": " It didn't close."
+    },
+    {
+      "start": 128.8,
+      "end": 131.92,
+      "text": " And we got a rejection straight off it."
+    },
+    {
+      "start": 131.92,
+      "end": 134.88,
+      "text": " So now our bias is not clear."
+    },
+    {
+      "start": 134.88,
+      "end": 137.84,
+      "text": " Now, this is a bullish candle."
+    },
+    {
+      "start": 137.84,
+      "end": 144.58,
+      "text": " So I want the other the next candle to close above it, right?"
+    },
+    {
+      "start": 144.58,
+      "end": 146.32,
+      "text": " And over here, we have a close."
+    },
+    {
+      "start": 146.32,
+      "end": 149.96,
+      "text": " So now here's what you have to do from here."
+    },
+    {
+      "start": 149.96,
+      "end": 158.36,
+      "text": " Once the candle closes above the green candle, this high is going to be your draw on liquidity."
+    },
+    {
+      "start": 158.36,
+      "end": 160.4,
+      "text": " Price is going to take out this high."
+    },
+    {
+      "start": 160.4,
+      "end": 162.08,
+      "text": " 82, 90% of the time."
+    },
+    {
+      "start": 162.08,
+      "end": 166.32,
+      "text": " Oh, that's actually a lot, but 80% of the time."
+    },
+    {
+      "start": 166.32,
+      "end": 171.32,
+      "text": " So now once you have the closure here, you can be bullish with AR 50 trading strategy"
+    },
+    {
+      "start": 171.32,
+      "end": 173.84,
+      "text": " and notice what happens."
+    },
+    {
+      "start": 173.84,
+      "end": 178.52,
+      "text": " Price takes out that high and once again, we close above this."
+    },
+    {
+      "start": 178.52,
+      "end": 180.4,
+      "text": " So now what's going to happen?"
+    },
+    {
+      "start": 180.4,
+      "end": 185.76,
+      "text": " We have another high and this is going to be a drawn liquidity and notice what happens."
+    },
+    {
+      "start": 185.76,
+      "end": 190.08,
+      "text": " Price first fall gives us a power of three or in other words, this is going to be a"
+    },
+    {
+      "start": 190.08,
+      "end": 194.44,
+      "text": " the Asian range pullback to 50% of the level."
+    },
+    {
+      "start": 194.44,
+      "end": 196.88,
+      "text": " And we close once again."
+    },
+    {
+      "start": 196.88,
+      "end": 199.04,
+      "text": " So now we're gonna be bullish."
+    },
+    {
+      "start": 199.04,
+      "end": 202.0,
+      "text": " And this is going to be our take profit draw"
+    },
+    {
+      "start": 202.0,
+      "end": 203.56,
+      "text": " on liquidity the daily previous day."
+    },
+    {
+      "start": 203.56,
+      "end": 205.04,
+      "text": " Hi."
+    },
+    {
+      "start": 205.04,
+      "end": 208.04,
+      "text": " And once again we take out the high over here"
+    },
+    {
+      "start": 208.04,
+      "end": 209.88,
+      "text": " and we close above it."
+    },
+    {
+      "start": 209.88,
+      "end": 214.36,
+      "text": " So now this high is going to be over draw on liquidity."
+    },
+    {
+      "start": 214.36,
+      "end": 215.72,
+      "text": " This is gonna be our target."
+    },
+    {
+      "start": 215.72,
+      "end": 219.09,
+      "text": " So we're gonna stay bullish."
+    },
+    {
+      "start": 219.09,
+      "end": 222.21,
+      "text": " And right here, once we took out the high,"
+    },
+    {
+      "start": 222.21,
+      "end": 224.59,
+      "text": " once the drone occurred, it was hit,"
+    },
+    {
+      "start": 224.59,
+      "end": 225.53,
+      "text": " we had a rejection."
+    },
+    {
+      "start": 225.53,
+      "end": 228.37,
+      "text": " So now, since the body didn't close above it,"
+    },
+    {
+      "start": 228.37,
+      "end": 232.33,
+      "text": " we are now in a phase one."
+    },
+    {
+      "start": 232.33,
+      "end": 235.69,
+      "text": " We have to wait for price to either break this"
+    },
+    {
+      "start": 235.69,
+      "end": 238.37,
+      "text": " or break this, that would confirm the bias."
+    },
+    {
+      "start": 238.37,
+      "end": 243.05,
+      "text": " So, nothing happens, we get a rejection once again."
+    },
+    {
+      "start": 244.09,
+      "end": 245.81,
+      "text": " But then, what do we have?"
+    },
+    {
+      "start": 245.81,
+      "end": 248.29,
+      "text": " We have a body closure once again, right?"
+    },
+    {
+      "start": 248.29,
+      "end": 251.93,
+      "text": " So now this is gonna be a rare target level."
+    },
+    {
+      "start": 251.93,
+      "end": 253.05,
+      "text": " This is gonna be a draw on a gonna be."
+    },
+    {
+      "start": 253.05,
+      "end": 256.89,
+      "text": " So now we can trade the air 50 to be bullish."
+    },
+    {
+      "start": 256.89,
+      "end": 259.41,
+      "text": " We're gonna trade, we're gonna only take the long position."
+    },
+    {
+      "start": 260.69,
+      "end": 262.49,
+      "text": " And notice what happens."
+    },
+    {
+      "start": 262.49,
+      "end": 265.49,
+      "text": " Price pulls back, gives us a power of three, and then goes up."
+    },
+    {
+      "start": 266.85,
+      "end": 268.37,
+      "text": " Now once again, we close the above it."
+    },
+    {
+      "start": 268.37,
+      "end": 270.05,
+      "text": " So now what's gonna happen?"
+    },
+    {
+      "start": 271.29,
+      "end": 274.69,
+      "text": " The daily high is gonna be ever take profit level."
+    },
+    {
+      "start": 274.69,
+      "end": 277.77,
+      "text": " And right here, once you can see the take profit level,"
+    },
+    {
+      "start": 277.77,
+      "end": 286.97,
+      "text": " that draw liquidity was hit, we now closed below this candle. So now this is going to be a redraw"
+    },
+    {
+      "start": 286.97,
+      "end": 297.64,
+      "text": " on liquidity. But then you can see that price consolidated and nothing happened. And right at once again,"
+    },
+    {
+      "start": 299.4,
+      "end": 303.96,
+      "text": " we have since, so once this you might have experienced a losing trade here,"
+    },
+    {
+      "start": 305.32,
+      "end": 311.08,
+      "text": " because the body closed below this, but we might have got on one loss and that's going to happen."
+    },
+    {
+      "start": 311.08,
+      "end": 313.4,
+      "text": " It's not going to be like 100% win rate."
+    },
+    {
+      "start": 313.4,
+      "end": 317.16,
+      "text": " So now, over here, we failed to close above it."
+    },
+    {
+      "start": 317.16,
+      "end": 320.08,
+      "text": " So we are still not doing anything."
+    },
+    {
+      "start": 320.08,
+      "end": 322.12,
+      "text": " And right here, which you can see,"
+    },
+    {
+      "start": 322.12,
+      "end": 325.16,
+      "text": " we closed above the daily candle."
+    },
+    {
+      "start": 325.16,
+      "end": 328.96,
+      "text": " So now this is going to be our take profit level."
+    },
+    {
+      "start": 328.96,
+      "end": 330.4,
+      "text": " And right here, it was hit."
+    },
+    {
+      "start": 330.4,
+      "end": 332.76,
+      "text": " And once again, we closed above it."
+    },
+    {
+      "start": 332.76,
+      "end": 335.04,
+      "text": " We had up over a three, look at this wick, right?"
+    },
+    {
+      "start": 335.04,
+      "end": 337.16,
+      "text": " This is going to be your Asian range entry."
+    },
+    {
+      "start": 337.16,
+      "end": 340.04,
+      "text": " And that's when the target was hit."
+    },
+    {
+      "start": 340.04,
+      "end": 342.6,
+      "text": " So now this daily high is going to be our take profit level."
+    },
+    {
+      "start": 342.68,
+      "end": 343.76,
+      "text": " Sorry, draw on liquid."
+    },
+    {
+      "start": 343.76,
+      "end": 346.2,
+      "text": " It keeps saying take profit level, but price going to go."
+    },
+    {
+      "start": 346.2,
+      "end": 350.84,
+      "text": " So now after price takes out the high, now we what we have, we have a"
+    },
+    {
+      "start": 350.84,
+      "end": 351.52,
+      "text": " rejection."
+    },
+    {
+      "start": 352.32,
+      "end": 356.96,
+      "text": " So for me to be bearish, I want to see this level broken."
+    },
+    {
+      "start": 357.88,
+      "end": 361.24,
+      "text": " And right here, you can see that the body closed below this."
+    },
+    {
+      "start": 361.24,
+      "end": 362.6,
+      "text": " So now we are bearish."
+    },
+    {
+      "start": 363.04,
+      "end": 365.6,
+      "text": " And now our target level is going to be this low."
+    },
+    {
+      "start": 366.76,
+      "end": 370.0,
+      "text": " And right here, you can see that the low was taken out, right?"
+    },
+    {
+      "start": 370.04,
+      "end": 376.24,
+      "text": " And we also closed below this low. So now we're gonna stay bearish and this is gonna be our draw on liquidity"
+    },
+    {
+      "start": 376.94,
+      "end": 383.8,
+      "text": " And right again once again we close blow it so now this daily low is gonna be our draw on liquidity"
+    },
+    {
+      "start": 384.64,
+      "end": 390.54,
+      "text": " Once again beautiful now here. We also have a low. So this is gonna be our draw on liquidity and"
+    },
+    {
+      "start": 391.6,
+      "end": 397.36,
+      "text": " Boom once again, but now the body didn't close so now we are in a guessing game. We are not doing anything"
+    },
+    {
+      "start": 397.36,
+      "end": 400.52,
+      "text": " So right here, but do we have?"
+    },
+    {
+      "start": 400.52,
+      "end": 403.2,
+      "text": " We closed above the bullish candle."
+    },
+    {
+      "start": 403.2,
+      "end": 407.28,
+      "text": " So this is gonna be our draw on liquidity right here."
+    },
+    {
+      "start": 407.28,
+      "end": 409.4,
+      "text": " Boom right there, okay?"
+    },
+    {
+      "start": 409.4,
+      "end": 412.6,
+      "text": " Now once you have this, we closed once again above it."
+    },
+    {
+      "start": 412.6,
+      "end": 416.8,
+      "text": " So now this is going to be our draw on liquidity."
+    },
+    {
+      "start": 417.88,
+      "end": 419.96,
+      "text": " And boom, hit once again."
+    },
+    {
+      "start": 419.96,
+      "end": 422.08,
+      "text": " Then we have this high, we closed above this high."
+    },
+    {
+      "start": 422.08,
+      "end": 425.84,
+      "text": " So now our draw on liquidity is gonna be this daily high."
+    },
+    {
+      "start": 425.84,
+      "end": 429.48,
+      "text": " And boom, once again, we take out this high over here,"
+    },
+    {
+      "start": 429.48,
+      "end": 432.16,
+      "text": " but we failed to close above it."
+    },
+    {
+      "start": 432.16,
+      "end": 433.36,
+      "text": " So now we are in a guessing game,"
+    },
+    {
+      "start": 433.36,
+      "end": 435.2,
+      "text": " we're not doing anything."
+    },
+    {
+      "start": 435.2,
+      "end": 437.52,
+      "text": " Still in a guessing game, nothing happened here."
+    },
+    {
+      "start": 438.96,
+      "end": 446.46,
+      "text": " Again in a guessing game, nothing happened."
+    },
+    {
+      "start": 446.46,
+      "end": 449.12,
+      "text": " Still nothing, so we are consolidating in this range."
+    },
+    {
+      "start": 449.12,
+      "end": 452.32,
+      "text": " We're not closing below any wake."
+    },
+    {
+      "start": 452.32,
+      "end": 453.68,
+      "text": " So we're not doing anything."
+    },
+    {
+      "start": 453.68,
+      "end": 457.44,
+      "text": " But then we broke this"
+    },
+    {
+      "start": 457.44,
+      "end": 462.44,
+      "text": " And now our bias is going to be this high."
+    },
+    {
+      "start": 462.44,
+      "end": 464.44,
+      "text": " Draw and click is going to be this high."
+    },
+    {
+      "start": 464.44,
+      "end": 466.44,
+      "text": " And boom, just like that."
+    },
+    {
+      "start": 466.44,
+      "end": 468.44,
+      "text": " And we broke this again."
+    },
+    {
+      "start": 468.44,
+      "end": 472.44,
+      "text": " The high of the day is going to be of draw and look at it once again."
+    },
+    {
+      "start": 472.44,
+      "end": 473.44,
+      "text": " Hit."
+    },
+    {
+      "start": 473.44,
+      "end": 474.44,
+      "text": " But now we didn't close."
+    },
+    {
+      "start": 474.44,
+      "end": 477.44,
+      "text": " So we are still in the guess same game."
+    },
+    {
+      "start": 477.44,
+      "end": 480.44,
+      "text": " We didn't close again."
+    },
+    {
+      "start": 480.44,
+      "end": 482.44,
+      "text": " But then once again, what happens?"
+    },
+    {
+      "start": 482.44,
+      "end": 484.44,
+      "text": " We closed above it."
+    },
+    {
+      "start": 484.44,
+      "end": 486.44,
+      "text": " And this is going to be our draw and look at it once again."
+    },
+    {
+      "start": 486.44,
+      "end": 488.84,
+      "text": " on liquidity once again."
+    },
+    {
+      "start": 488.84,
+      "end": 492.4,
+      "text": " Nothing happens here."
+    },
+    {
+      "start": 492.4,
+      "end": 495.24,
+      "text": " And we might have experienced another losing trade."
+    },
+    {
+      "start": 495.24,
+      "end": 497.36,
+      "text": " But now it is today, 26th."
+    },
+    {
+      "start": 497.36,
+      "end": 500.44,
+      "text": " Actually, it was on Friday and it's currently weekend."
+    },
+    {
+      "start": 500.44,
+      "end": 502.0,
+      "text": " And we closed here."
+    },
+    {
+      "start": 502.0,
+      "end": 507.52,
+      "text": " So now my actually for the NAS 100, my draw and liquidity"
+    },
+    {
+      "start": 507.52,
+      "end": 510.12,
+      "text": " is going to be this low."
+    },
+    {
+      "start": 510.12,
+      "end": 513.68,
+      "text": " So I have given you billions of examples right now."
+    },
+    {
+      "start": 513.68,
+      "end": 517.08,
+      "text": " And by now it should be clear to you what I was teaching you."
+    },
+    {
+      "start": 517.08,
+      "end": 520.68,
+      "text": " If you didn't understand, we watched the video again and again."
+    },
+    {
+      "start": 521.28,
+      "end": 525.24,
+      "text": " And remember one thing, it's not going to happen like 100% of the time,"
+    },
+    {
+      "start": 525.48,
+      "end": 529.32,
+      "text": " but this is going to give you like the bias 80% of the time, 80 to 90% of the time."
+    },
+    {
+      "start": 529.6,
+      "end": 530.48,
+      "text": " Trust me on this."
+    },
+    {
+      "start": 531.24,
+      "end": 531.68,
+      "text": " All right."
+    },
+    {
+      "start": 532.0,
+      "end": 538.48,
+      "text": " So now that I've teach you, I thought you how to actually find your bias for air 50."
+    },
+    {
+      "start": 538.68,
+      "end": 544.12,
+      "text": " Now let me show you a complete way on how I would trade by having a draw on liquidity"
+    },
+    {
+      "start": 544.12,
+      "end": 545.72,
+      "text": " and also trading the Asian range."
+    }
+  ]
+}

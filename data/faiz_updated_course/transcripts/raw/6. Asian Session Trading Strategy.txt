@@ -1,0 +1,44 @@
+All right guys, so now we are going to learn the Asian session liquidity trading strategy.
+So let me type that in Asian liquidity, Asian session liquidity trading
+strategy. Let me put this like this. All right, perfect. So what is Asian session liquidity trading
+strategy? Well, during the Asian session price, most of the time consolidates. Okay. So it's
+going to be like this and blah, blah, blah. Right. So let's suppose that this is an Asian session.
+All right. This is the start of the Asian session. And this is the end of the Asian session.
+All right. There you go. Perfect. This is the end. So
+if once the Asian session is over, we get a one to two hours time period of
+lunch. Okay. So let me draw this out like this. Once the Asian session is over, we get this one
+our break or to our break before London session starts. Okay. Now, during that break,
+I want the price to pull back and create another high, high or lower low, depending on where the
+price is going. All right. And once it does that, what you want the price to do is to break
+or do do a market structure shift, okay, or change of character, whatever you want to call it.
+Now the price can also break the structure after the London session starts. Okay. The only thing
+that you should be focusing on that the fake out like this happens during the lunch time period.
+Okay. Now it doesn't matter when price does a market structure shift or change of character
+within that lunch period or during the London session. All right. Once that market structure
+shift has happened, you want to identify auto block plus fair value gap. You want to go short,
+put your stop plus right above there. And you want to target the low of the Asian session. Okay.
+So what's price going to do is going to go back up. And then it's going to take out the
+low of the Asian session. All right. Similarly, let me draw this. Let me remove this.
+Do, if you're looking for buys during the lunch period, I want to see price
+fake out. And then a clear, a very clear market structure shift.
+We take our entry from the imbalance and fair value gap and we target the high of the Asian
+session. Very simple guys. Okay. You do not need you do not need any daily buys for it.
+It's an algorithmic trading strategy. So we see a market structure shift right around here.
+Okay. And we got the fair value gap right around here or auto block. Okay. We take our entry here
+and we target the Asian session liquidity high. So let me remove this. And let me show you an
+example. Okay. So you can see we created the lower low, lower high, lower low, higher high.
+But then we created another low low. And then we did not create anything. These were just wicks.
+Okay. We did create this level and we brought, we created another level. So after that, you can see
+that price faked out during the lunch period. And now what you want to do before we even start,
+you want to, how do we identify a Asian session, a London session, and the lunch breaks and all.
+You want to go to the indicator tab. You want to type in FX and Asian session range. Once you do
+that, you want to go to the settings tab here. You want to go to the style settings and you want
+to disable labels and lines. That is it. So the blue one is an Asian session. The green one is the
+London session. And the gray one is the New York session. All right, clear. All right. So let's move
+on. Now what do we have here? We got this market structure shift. And we broke a lot of structures,
+right? So this shows us that price want to go up and take out the high of the Asian session. All
+right. So what we do here is that we want to mark out the fair value gap and the autoblock. So as
+you can see, this is an autoblock with fair value gap. You want to enter from here. You want to put
+your stopwatch right below that autoblock and you want to target the high. Okay. Now you must
+always take all of your profits when the high is taken out because price can reverse heavily.
+Okay. So let me give you a few or more examples.

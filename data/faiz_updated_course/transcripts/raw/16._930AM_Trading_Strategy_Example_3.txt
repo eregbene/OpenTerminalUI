@@ -1,0 +1,68 @@
+[00:00:00] So here's the example number three. Now this is a very informative example. It's going to help you a lot. So as you can see, I'm looking at the price section after at 9.15 AM, right? And I will mark out the low of the day and the high of the day and the midnight open just for, you know, for my own information. So the open is 1.1334. So this is the open right. You don't have to mark out these
+[00:00:30] midnight opens, it just tells you from where you should start looking for the high and the low.
+[00:00:35] You should only start looking for high and low after 12 am.
+[00:00:39] Okay? And so as you can see right now we have a,
+[00:00:46] this liquidity level and then we have the high, which is a liquidity level.
+[00:00:50] And if you, if you think, if you can see these two equal relatively equal lows, right?
+[00:00:58] Hi, sorry.
+[00:01:00] These are relatively equal highs.
+[00:01:02] So you can actually drop down to the 500 time frame.
+[00:01:07] OK?
+[00:01:07] And if it's not clear, you can also drop down
+[00:01:10] to the 1 minute time frame.
+[00:01:11] And now you can see that we have a clear, equal highs zone.
+[00:01:18] You can see we have a tap, and then we have a tap.
+[00:01:21] And we are going down.
+[00:01:22] And the time is 9.19 am.
+[00:01:25] Now this is a clear.
+[00:01:27] And I mean clear liquid zone, okay?
+[00:01:30] As I have taught above,
+[00:01:31] you can see these are clear relative equal lows,
+[00:01:35] equal highs, my bad, and they are not the best,
+[00:01:38] but they are, okay?
+[00:01:39] So you gotta wait for price to sweep that level.
+[00:01:43] And as you can see, price swept this level.
+[00:01:47] And it also swept the low of the day.
+[00:01:50] So what you should be looking for here is a
+[00:01:54] market structure shift, but it doesn't happen.
+[00:01:57] Now, what you can do since the imbalance was so big,
+[00:02:01] you can take your entry from the autoblock level.
+[00:02:06] There was no market relationship and went straight
+[00:02:08] into the autoblock.
+[00:02:09] So as you can see, our daily bias,
+[00:02:12] the market structure, the overall market structure was bearish,
+[00:02:15] and we are only taking short positions.
+[00:02:17] We would not take long.
+[00:02:18] The previous example that I showed,
+[00:02:20] we should have not taken the long,
+[00:02:22] because the market structure was bearish,
+[00:02:24] but it still works.
+[00:02:25] But I'm saying that if you take the trades in the overall
+[00:02:29] market direction, the win rate is going to be higher.
+[00:02:32] And I mean much higher.
+[00:02:33] So the reason why I did not take entry from this very,
+[00:02:37] very gap is because the imbalance is way too big.
+[00:02:40] And if I have my entry around here, my stop loss would be very
+[00:02:43] huge.
+[00:02:44] So I would rather mist the trade, then take this trade and
+[00:02:47] risk 1% with a huge stop loss and a very low reward level
+[00:02:52] and reward.
+[00:02:53] So you're gonna take in your entry from this autoblock.
+[00:02:56] Okay, you could have put your stop here.
+[00:02:58] You could have targeted this level.
+[00:03:00] You would take some partial tier and then you take your whole
+[00:03:03] trade, you take all the profits here.
+[00:03:06] So let's see how this plays out.
+[00:03:08] I'm actually not sure how this plays out because I just,
+[00:03:12] okay, it took some partial tier.
+[00:03:13] You are break even now and,
+[00:03:16] and boom, this hit the take profit level.
+[00:03:19] So what are the key things that we noted?
+[00:03:22] So if the price before 9.15, if you see a liquidity level like this,
+[00:03:28] equal highs or a significant high or, you know,
+[00:03:33] any type of liquidity guys, it doesn't matter.
+[00:03:36] And then you see this huge displacement after liquidity sweep,
+[00:03:40] you take your entry.
+[00:03:43] Yeah, guys, it was a very, very excellent strategy.
+[00:03:47] And I use this on daily basis with indices, of course.
+[00:03:51] So I hope this you guys liked this lecture and I'll see you guys in the next video

@@ -1,0 +1,595 @@
+1
+00:00:00,560 --> 00:00:30,560
+Alright guys, so in this chapter I'm going to be teaching you the one RCRD. Alright, so previously I talked about four RCRDs, right? So you would mark out the high and low of the four R candle. But this one is on one hour time from and not every single one R candle is going to present you a CRD trade. Only at a very specific time you will get a one RCRD candle. And that is 8 AM. Okay?
+
+2
+00:00:30,560 --> 00:00:33,900
+you wait for the 8M candle to close on the 1 hour timeframe,
+
+3
+00:00:33,900 --> 00:00:36,480
+and then you are simply marking out the high
+
+4
+00:00:36,480 --> 00:00:38,520
+and the low of that candle.
+
+5
+00:00:39,420 --> 00:00:42,080
+So afterwards, what you're doing is you're dropping down
+
+6
+00:00:42,080 --> 00:00:43,880
+to one minute timeframe.
+
+7
+00:00:43,880 --> 00:00:46,540
+We are not dropping down to 15 minute or five minute,
+
+8
+00:00:46,540 --> 00:00:49,800
+we are straight up going into one minute timeframe.
+
+9
+00:00:49,800 --> 00:00:51,760
+And then we're waiting for price to either take out
+
+10
+00:00:51,760 --> 00:00:54,560
+the 1 hour low or 1 hour high.
+
+11
+00:00:55,680 --> 00:00:56,840
+Once we have taken that out,
+
+12
+00:00:56,840 --> 00:00:59,080
+we are waiting for some form of confirmation.
+
+13
+00:00:59,080 --> 00:01:07,000
+So whether it's changing the state of delivery, which happens right here, or a market
+
+14
+00:01:07,000 --> 00:01:08,200
+such a shift.
+
+15
+00:01:08,200 --> 00:01:11,680
+So right here, we got a market such a shift, right?
+
+16
+00:01:11,680 --> 00:01:17,640
+And we also have this fairly gap around here.
+
+17
+00:01:17,640 --> 00:01:23,320
+So the next step would be to simply take our entry from this zone.
+
+18
+00:01:23,320 --> 00:01:28,600
+Now make sure that you keep an eye on the 930AM news, high and
+
+19
+00:01:28,600 --> 00:01:29,600
+back news.
+
+20
+00:01:29,600 --> 00:01:33,040
+So if there's a high and back news at 930, you have to avoid
+
+21
+00:01:33,040 --> 00:01:36,480
+trading because you always want to be trading afterwards.
+
+22
+00:01:36,480 --> 00:01:39,720
+After 15 minutes at least, right?
+
+23
+00:01:39,720 --> 00:01:44,480
+So you could probably take your trade at 945 if the news is over
+
+24
+00:01:44,480 --> 00:01:45,360
+at 930, right?
+
+25
+00:01:45,360 --> 00:01:47,040
+So the news will happen at 930.
+
+26
+00:01:47,040 --> 00:01:48,800
+You wait for price to settle down.
+
+27
+00:01:48,800 --> 00:01:51,320
+Give it like 15 minutes and then you can take it right.
+
+28
+00:01:51,320 --> 00:01:55,680
+If the targets are hit, then you will not take that trade because the trade becomes invalid.
+
+29
+00:01:55,680 --> 00:02:01,560
+If the high is taken out, if both the high and the low are taken out, if that makes sense.
+
+30
+00:02:01,560 --> 00:02:02,720
+So this would be your entry.
+
+31
+00:02:04,360 --> 00:02:08,040
+And if I play this through, you can see that the take profit was hit.
+
+32
+00:02:08,040 --> 00:02:14,920
+Now, the key rule here is to use a firm from the CRT low to CRT high.
+
+33
+00:02:14,920 --> 00:02:22,920
+And at the 50% of the range, you are basically taking one partial and then you are going break even.
+
+34
+00:02:22,920 --> 00:02:27,920
+Or simply you could just go break even at one to one or risk to the water ratio.
+
+35
+00:02:27,920 --> 00:02:37,920
+But the best approach is going break even at 0.5 level and taking one partial here, going break even and then letting the trade run until the CRD has taken out.
+
+36
+00:02:37,920 --> 00:02:39,920
+Let me give you guys more examples.
+
+37
+00:02:39,920 --> 00:02:45,820
+Alright guys, so here is another example.
+
+38
+00:02:45,820 --> 00:02:51,800
+You can see we have the 8M candle, so I'm going to simply mark out the high and the low
+
+39
+00:02:51,800 --> 00:02:52,800
+of this candle.
+
+40
+00:02:52,800 --> 00:02:54,340
+Ok, very simple.
+
+41
+00:02:54,340 --> 00:02:57,420
+Then what I'm doing is I'm dropping down to one minute.
+
+42
+00:02:57,420 --> 00:03:03,220
+Before I do that, if the 9M candle, so this is the 8M candle, if the 9M candle opens
+
+43
+00:03:03,220 --> 00:03:08,620
+and then it goes up ahead and sweeps the 8M high and also sweeps some form of liquidity,
+
+44
+00:03:08,620 --> 00:03:12,180
+And that makes it a high probability CRD one hour CRD.
+
+45
+00:03:12,180 --> 00:03:14,020
+All right, so I'm going to explain what I mean
+
+46
+00:03:14,020 --> 00:03:14,780
+in a minute.
+
+47
+00:03:14,780 --> 00:03:16,340
+So let's go to the one minute.
+
+48
+00:03:16,340 --> 00:03:19,500
+We have the high and the low.
+
+49
+00:03:19,500 --> 00:03:22,420
+And you can see we take out the CRD high.
+
+50
+00:03:22,420 --> 00:03:26,380
+So now we are waiting for a market structure shift
+
+51
+00:03:26,380 --> 00:03:28,820
+with displacement and that what happens here.
+
+52
+00:03:28,820 --> 00:03:32,700
+We broke the structure and we also broke the structure.
+
+53
+00:03:32,700 --> 00:03:35,900
+Then we have this fair value gap.
+
+54
+00:03:35,900 --> 00:03:43,780
+this would be your entry, stop right about the high, and our Tp would be somewhere around
+
+55
+00:03:43,780 --> 00:03:54,350
+here. So we got a tap and the take profit was hit. Extremely beautiful trade. So what
+
+56
+00:03:54,350 --> 00:03:59,830
+I mean by that, if I go to the one one hour time from, you can see that the, let me just
+
+57
+00:03:59,830 --> 00:04:08,270
+remove this. So this is the ATM high, ADM low. The 9M candle, when it's swept liquidity
+
+58
+00:04:08,270 --> 00:04:10,470
+it swept this high over here.
+
+59
+00:04:10,470 --> 00:04:11,310
+Right?
+
+60
+00:04:11,310 --> 00:04:13,110
+Offering it swept this high,
+
+61
+00:04:13,110 --> 00:04:14,710
+we got a one-minute market shift,
+
+62
+00:04:14,710 --> 00:04:16,550
+and that made it a high probability.
+
+63
+00:04:16,550 --> 00:04:20,190
+So you can see how the price displaced, right?
+
+64
+00:04:20,190 --> 00:04:22,190
+And one key thing to note,
+
+65
+00:04:22,190 --> 00:04:28,270
+if there's some form of like equal lows or equal highs,
+
+66
+00:04:28,270 --> 00:04:32,310
+as a target, then that also makes it high probability.
+
+67
+00:04:32,310 --> 00:04:37,510
+Remember guys, everything is based on liquidity and drawn liquidity, right?
+
+68
+00:04:37,510 --> 00:04:42,150
+sweep of liquidity and then draw liquidity if that makes sense.
+
+69
+00:04:42,150 --> 00:04:46,090
+Let's move on to the next example.
+
+70
+00:04:46,090 --> 00:04:48,650
+Alright guys, so here is another example.
+
+71
+00:04:48,650 --> 00:04:53,770
+The ATM candle just mark out the high and the low of that candle.
+
+72
+00:04:53,770 --> 00:04:56,170
+Notice to the left we have this PDF right.
+
+73
+00:04:56,170 --> 00:04:57,370
+This is an auto block.
+
+74
+00:04:57,370 --> 00:04:59,610
+So price is currently in this auto block.
+
+75
+00:04:59,610 --> 00:05:02,050
+That makes it a high probability CRT, right?
+
+76
+00:05:02,050 --> 00:05:03,570
+Remember that.
+
+77
+00:05:03,570 --> 00:05:05,930
+So now I'm just gonna go to the one minute chart
+
+78
+00:05:05,930 --> 00:05:07,930
+and you can also go to the two minute chart
+
+79
+00:05:07,930 --> 00:05:11,410
+if you really want to look for very,
+
+80
+00:05:11,410 --> 00:05:13,890
+very high probability market such as this.
+
+81
+00:05:13,890 --> 00:05:18,250
+But I like to stick on the one minute for this model.
+
+82
+00:05:18,250 --> 00:05:23,250
+So we took out the high, but we failed to close below this low.
+
+83
+00:05:25,330 --> 00:05:28,690
+And for this strategy, it is crucial
+
+84
+00:05:28,690 --> 00:05:30,610
+that the body closes below it.
+
+85
+00:05:30,610 --> 00:05:31,590
+Okay?
+
+86
+00:05:31,590 --> 00:05:34,250
+But then price went up ahead, tapped into,
+
+87
+00:05:34,250 --> 00:05:36,970
+I believe, the 50% of that autoblog
+
+88
+00:05:36,970 --> 00:05:38,650
+that I showed you previously.
+
+89
+00:05:38,650 --> 00:05:41,530
+And then we got a market structure shift.
+
+90
+00:05:41,530 --> 00:05:42,930
+So now if you look at it here,
+
+91
+00:05:42,930 --> 00:05:46,730
+we have this tiny bit of fair value gap resting
+
+92
+00:05:46,730 --> 00:05:48,290
+around this level.
+
+93
+00:05:49,850 --> 00:05:52,970
+So what happens next?
+
+94
+00:05:52,970 --> 00:05:54,450
+It's very clear.
+
+95
+00:05:54,450 --> 00:05:58,050
+You can see we got tapped into this fair value gap.
+
+96
+00:05:58,050 --> 00:06:00,250
+The bodies were respected.
+
+97
+00:06:00,250 --> 00:06:02,330
+And then you can see,
+
+98
+00:06:02,330 --> 00:06:05,490
+price went up ahead and also swept
+
+99
+00:06:05,490 --> 00:06:10,090
+the liquidity that was formed inside the firm, so if you are,
+
+100
+00:06:10,090 --> 00:06:11,890
+if you have been watching my YouTube videos,
+
+101
+00:06:13,690 --> 00:06:17,450
+you must have an idea about what I'm talking about here.
+
+102
+00:06:17,450 --> 00:06:19,090
+What this liquidity was swept.
+
+103
+00:06:20,170 --> 00:06:22,930
+There is a course video as well from our previous,
+
+104
+00:06:22,930 --> 00:06:24,290
+but if you don't know about this,
+
+105
+00:06:24,290 --> 00:06:27,210
+you need to really watch my videos in detail,
+
+106
+00:06:27,210 --> 00:06:30,390
+because the liquidity that firms inside firm
+
+107
+00:06:30,390 --> 00:06:32,170
+are the gaps are very high probability liquidity,
+
+108
+00:06:32,170 --> 00:06:35,130
+and they are going to be swept in some time.
+
+109
+00:06:35,130 --> 00:06:36,290
+And that happened right there.
+
+110
+00:06:36,290 --> 00:06:39,290
+So anyways, price went into this fairly app
+
+111
+00:06:39,290 --> 00:06:42,090
+and then we had a beautiful push delivery to the downside.
+
+112
+00:06:42,090 --> 00:06:43,890
+Very beautiful.
+
+113
+00:06:43,890 --> 00:06:47,260
+So let's move on to the next example.
+
+114
+00:06:47,260 --> 00:06:48,660
+Oops.
+
+115
+00:06:48,660 --> 00:06:49,500
+All right, guys.
+
+116
+00:06:49,500 --> 00:06:51,820
+So here is the final example.
+
+117
+00:06:51,820 --> 00:06:54,180
+And this is the ATM candle.
+
+118
+00:06:54,180 --> 00:07:00,340
+And look at where the price is at around here, right?
+
+119
+00:07:00,340 --> 00:07:02,940
+And look at what happened at the 9M candle.
+
+120
+00:07:02,940 --> 00:07:07,100
+We tapped into the 0.5 level of this autoblock.
+
+121
+00:07:07,100 --> 00:07:15,660
+we also set the 8M candle high. So let's go back. Right. When I mark out the 8M candle high
+
+122
+00:07:15,660 --> 00:07:21,340
+and 8M candle low, then I'm simply dropping down to one minute shot. Now waiting for price to
+
+123
+00:07:21,340 --> 00:07:30,440
+take out that high. We got the high taken out. This is my Marcus Shuxer shift level. We got it
+
+124
+00:07:30,440 --> 00:07:39,050
+successfully right here. The body closed. We have this auto block. Price tapped into the auto block,
+
+125
+00:07:39,050 --> 00:07:51,620
+filled this fairly gap, also tapped into this BPR right here.
+
+126
+00:07:51,620 --> 00:07:56,100
+And you can see that the take profit was hit.
+
+127
+00:07:56,100 --> 00:08:01,020
+So I'd like to keep things mechanical guys.
+
+128
+00:08:01,020 --> 00:08:03,940
+I really don't want you to be over analyzing stuff.
+
+129
+00:08:03,940 --> 00:08:04,440
+OK?
+
+130
+00:08:07,660 --> 00:08:11,300
+You can literally make a living with this simple model
+
+131
+00:08:11,300 --> 00:08:13,340
+by AEM Candle.
+
+132
+00:08:13,340 --> 00:08:15,500
+Who would know that this is trading is very simple?
+
+133
+00:08:15,500 --> 00:08:18,340
+Who would know that trading was this simple, right?
+
+134
+00:08:18,340 --> 00:08:21,860
+Well, anyways, this should be it
+
+135
+00:08:21,860 --> 00:08:24,460
+for the first part of the course.
+
+136
+00:08:24,460 --> 00:08:27,500
+There will be more videos in the future.
+
+137
+00:08:29,180 --> 00:08:33,180
+I will be teaching you volume trading as well
+
+138
+00:08:33,180 --> 00:08:35,860
+in this course and upcoming chapters
+
+139
+00:08:35,860 --> 00:08:38,740
+that will be coming in the future.
+
+140
+00:08:38,740 --> 00:08:41,500
+But I do not want to over-dose you
+
+141
+00:08:41,500 --> 00:08:46,500
+with so many concepts and educational content.
+
+142
+00:08:47,100 --> 00:08:48,700
+So that would be it.
+
+143
+00:08:48,700 --> 00:08:51,740
+Thank you so much for purchasing the course
+
+144
+00:08:51,740 --> 00:08:53,100
+and watching it.
+
+145
+00:08:53,100 --> 00:08:57,260
+I really do hope that you get funded
+
+146
+00:08:58,500 --> 00:09:01,820
+with the models that are provided with provided to you
+
+147
+00:09:01,820 --> 00:09:03,660
+and with practice, I promise you,
+
+148
+00:09:03,660 --> 00:09:05,140
+you're gonna achieve that.
+
+149
+00:09:05,140 --> 00:09:07,100
+Anyways, goodbye for now.

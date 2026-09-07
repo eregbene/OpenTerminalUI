@@ -1,0 +1,1618 @@
+{
+  "source": "F:\\new faiz\\27. Risk Management & Psychology.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 1458.6543125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so in this video we are going to talk about risk management. This is one of the most important things when it comes to becoming a profitable trader. I've seen a lot of people mess this part up because they think that strategy, your trading strategy is the only thing that's going to make you successful. But in reality, psychology and risk management are one of the most important things when it comes to trading. So, usually one of the biggest mistakes that I've seen people like is that they use different"
+    },
+    {
+      "start": 30.0,
+      "end": 35.52,
+      "text": " lot sizes or different risk person for each trade. So what they would do is they would"
+    },
+    {
+      "start": 36.64,
+      "end": 43.52,
+      "text": " risk one person for a trade and you know the other trade that they're going to take,"
+    },
+    {
+      "start": 43.52,
+      "end": 48.8,
+      "text": " they're going to risk two persons right and then the other trade they're going to risk 0.5"
+    },
+    {
+      "start": 48.8,
+      "end": 54.0,
+      "text": " percent and when they take another trade they're going to risk I don't know 2.5 percent."
+    },
+    {
+      "start": 54.0,
+      "end": 59.48,
+      "text": " Now that is a wrong approach to trading and risk management."
+    },
+    {
+      "start": 59.48,
+      "end": 65.04,
+      "text": " You should only be using one risk per each trade."
+    },
+    {
+      "start": 65.04,
+      "end": 67.76,
+      "text": " I don't care what you say."
+    },
+    {
+      "start": 67.76,
+      "end": 69.36,
+      "text": " I just want to see you use."
+    },
+    {
+      "start": 69.36,
+      "end": 75.88,
+      "text": " If you are using one person, keep on using one person for each and every trade."
+    },
+    {
+      "start": 75.88,
+      "end": 81.92,
+      "text": " I do not want to see you use two percent for some trade or 0.5 percent for trade."
+    },
+    {
+      "start": 81.92,
+      "end": 87.52,
+      "text": " I mean if you're using 0.5% for every trade, then go ahead and use 0.5% for every trade."
+    },
+    {
+      "start": 87.52,
+      "end": 93.76,
+      "text": " But if you are using 2% just simply use 2% for every trade."
+    },
+    {
+      "start": 93.76,
+      "end": 101.84,
+      "text": " Now you should never go up to 2% personally because that is risking so much guys."
+    },
+    {
+      "start": 101.84,
+      "end": 105.28,
+      "text": " Especially when you are taking prop from challenges."
+    },
+    {
+      "start": 105.28,
+      "end": 107.28,
+      "text": " This is not the way to go for it."
+    },
+    {
+      "start": 107.28,
+      "end": 111.52,
+      "text": " If you have your loan, you like personal funds, you can go up to 2%"
+    },
+    {
+      "start": 111.52,
+      "end": 118.08,
+      "text": " per trade, but it's just personal preference and how much you are willing to risk. So"
+    },
+    {
+      "start": 118.96,
+      "end": 126.56,
+      "text": " just stick to one person per trade or one specific percentage that you're going to use for each"
+    },
+    {
+      "start": 126.56,
+      "end": 131.92,
+      "text": " and every single trade. Because what happens is let's assume that you use one person for one trade,"
+    },
+    {
+      "start": 131.92,
+      "end": 140.48,
+      "text": " right? And you win it. So you have, you are one person in profit, right? Overall. So the next trade,"
+    },
+    {
+      "start": 140.48,
+      "end": 147.36,
+      "text": " the right next trade you take 2% use 2% in a trade and then unfortunately you lose that trade."
+    },
+    {
+      "start": 147.36,
+      "end": 154.72,
+      "text": " So now you are in negative 1 balance. However, if you use only 1% you would be at break even."
+    },
+    {
+      "start": 157.2,
+      "end": 167.28,
+      "text": " So that is something that you must know and must practice. I mean not practice but you should"
+    },
+    {
+      "start": 167.28,
+      "end": 172.96,
+      "text": " know that you have to only use one certain percentage for each and every single trade that"
+    },
+    {
+      "start": 172.96,
+      "end": 178.64,
+      "text": " you're going to take, right? If you mess up the numbers, even if you have a good win rate,"
+    },
+    {
+      "start": 178.64,
+      "end": 185.92,
+      "text": " you want to profitable. So now here's the thing, right? Let me do this. Now a lot of people think that"
+    },
+    {
+      "start": 188.08,
+      "end": 194.0,
+      "text": " the strategy, the best strategy in the world is going to make you win, you know, 80% of the time,"
+    },
+    {
+      "start": 194.0,
+      "end": 199.68,
+      "text": " or 90% of the time, but thing is, even if the strategy is good, you're going to have a losing period."
+    },
+    {
+      "start": 199.68,
+      "end": 204.24,
+      "text": " You can lose up to six trades in a row and I mean it, okay?"
+    },
+    {
+      "start": 204.24,
+      "end": 210.88,
+      "text": " Even ICT says that in his videos that he used to lose eight trades in a row, right?"
+    },
+    {
+      "start": 210.88,
+      "end": 216.6,
+      "text": " But it didn't affect him because he knew that his strategy was profitable in the wrong term, in the long term, right?"
+    },
+    {
+      "start": 216.6,
+      "end": 224.36,
+      "text": " So, what happens with a lot of people is that they lose, you know, 4 or 5 trades in a row,"
+    },
+    {
+      "start": 224.36,
+      "end": 227.4,
+      "text": " and they just stop using that strategy."
+    },
+    {
+      "start": 227.4,
+      "end": 233.76,
+      "text": " I know it's really frustrating to, you know, lose 4 or 5 or even 6 trades in a row."
+    },
+    {
+      "start": 233.76,
+      "end": 236.32,
+      "text": " Even I lose 6 or 7 trades in a row."
+    },
+    {
+      "start": 236.32,
+      "end": 240.68,
+      "text": " I have actually, I actually did lose in the month of August."
+    },
+    {
+      "start": 240.68,
+      "end": 245.68,
+      "text": " It was the worst month for my trading, but I was so profitable, but I lost 6 or 7 trades"
+    },
+    {
+      "start": 245.68,
+      "end": 250.72,
+      "text": " in a row and that was terrible for my feelings but you know I knew my strategy is profitable"
+    },
+    {
+      "start": 250.72,
+      "end": 259.44,
+      "text": " and I kept on following the rules like a robot. So what I would suggest is when you lose like"
+    },
+    {
+      "start": 259.44,
+      "end": 266.32,
+      "text": " three or four trades in a row you reduce your risk. So let's assume that you were using"
+    },
+    {
+      "start": 266.32,
+      "end": 269.24,
+      "text": " 1% risk, right?"
+    },
+    {
+      "start": 269.24,
+      "end": 274.24,
+      "text": " And you lose four or five trades in a row."
+    },
+    {
+      "start": 275.16,
+      "end": 279.72,
+      "text": " Now, this only applies to your personal funds"
+    },
+    {
+      "start": 279.72,
+      "end": 281.28,
+      "text": " and not from challenges,"
+    },
+    {
+      "start": 281.28,
+      "end": 282.72,
+      "text": " because for profit from challenges,"
+    },
+    {
+      "start": 282.72,
+      "end": 285.32,
+      "text": " I recommend that you only risk 1%"
+    },
+    {
+      "start": 285.32,
+      "end": 287.56,
+      "text": " because you have like 30 days, right?"
+    },
+    {
+      "start": 287.56,
+      "end": 292.16,
+      "text": " So it's not wise to use 0.5% risk per trade."
+    },
+    {
+      "start": 292.16,
+      "end": 294.2,
+      "text": " Just for profit from just keep on using"
+    },
+    {
+      "start": 294.2,
+      "end": 295.84,
+      "text": " 1% risk per trade."
+    },
+    {
+      "start": 295.84,
+      "end": 298.16,
+      "text": " However, for personal funds, right?"
+    },
+    {
+      "start": 298.16,
+      "end": 300.6,
+      "text": " If you lose like four or five trades in a row,"
+    },
+    {
+      "start": 300.6,
+      "end": 303.4,
+      "text": " you wanna drop down to using 0.5% risk."
+    },
+    {
+      "start": 304.8,
+      "end": 307.04,
+      "text": " And, you know, eventually,"
+    },
+    {
+      "start": 307.04,
+      "end": 310.16,
+      "text": " if you still lose like four more trades in a row,"
+    },
+    {
+      "start": 310.16,
+      "end": 313.04,
+      "text": " you drop down your risk to 0.25%."
+    },
+    {
+      "start": 314.0,
+      "end": 316.8,
+      "text": " And now, just listen to me, okay?"
+    },
+    {
+      "start": 316.8,
+      "end": 318.72,
+      "text": " Just hear me out."
+    },
+    {
+      "start": 318.72,
+      "end": 322.28,
+      "text": " If you keep on using 1% right,"
+    },
+    {
+      "start": 322.28,
+      "end": 326.44,
+      "text": " for eight trades that you lost, you lost eight percent."
+    },
+    {
+      "start": 326.44,
+      "end": 330.2,
+      "text": " You lost minus eight percent off your total portfolio."
+    },
+    {
+      "start": 330.2,
+      "end": 333.4,
+      "text": " But if you switched back to 0.5 percent"
+    },
+    {
+      "start": 333.4,
+      "end": 338.24,
+      "text": " after using four trades, so let's assume"
+    },
+    {
+      "start": 338.24,
+      "end": 341.4,
+      "text": " you lost four trades, you are a negative 4 percent."
+    },
+    {
+      "start": 341.4,
+      "end": 342.64,
+      "text": " Let me do this."
+    },
+    {
+      "start": 342.64,
+      "end": 346.2,
+      "text": " A 4 percent, oops, minus 4 percent."
+    },
+    {
+      "start": 346.2,
+      "end": 351.52,
+      "text": " You lost four trades, and now you're in down, minus four."
+    },
+    {
+      "start": 351.52,
+      "end": 355.08,
+      "text": " So when you switch back to 0.5% and you lose,"
+    },
+    {
+      "start": 355.08,
+      "end": 357.24,
+      "text": " you know, four more trades,"
+    },
+    {
+      "start": 357.24,
+      "end": 360.96,
+      "text": " that's actually minus six percent drawdown."
+    },
+    {
+      "start": 360.96,
+      "end": 365.4,
+      "text": " So you are basically saving your account at this point,"
+    },
+    {
+      "start": 365.4,
+      "end": 366.24,
+      "text": " right?"
+    },
+    {
+      "start": 366.24,
+      "end": 369.36,
+      "text": " Because every single strategy can have a losing period."
+    },
+    {
+      "start": 369.36,
+      "end": 372.44,
+      "text": " I don't care who tells you that you can win"
+    },
+    {
+      "start": 372.44,
+      "end": 374.8,
+      "text": " and have a profitable week every single time."
+    },
+    {
+      "start": 374.8,
+      "end": 379.6,
+      "text": " No, go and ask every single profitable trader and ask them,"
+    },
+    {
+      "start": 379.6,
+      "end": 383.92,
+      "text": " Are you profitable every single day, every single week, every single month?"
+    },
+    {
+      "start": 383.92,
+      "end": 390.8,
+      "text": " The answer will be no because we are, you know, fed these thoughts that trading is going to instantly"
+    },
+    {
+      "start": 390.8,
+      "end": 391.8,
+      "text": " make you rich."
+    },
+    {
+      "start": 391.8,
+      "end": 396.0,
+      "text": " Of course it can, but it requires a lot of psychology, right?"
+    },
+    {
+      "start": 396.0,
+      "end": 399.8,
+      "text": " And it also requires a very solid risk management."
+    },
+    {
+      "start": 399.8,
+      "end": 402.2,
+      "text": " And this is what I'm teaching you, right?"
+    },
+    {
+      "start": 402.2,
+      "end": 408.32,
+      "text": " So if you lose like four or five trades in a row, you switch back to 0.5% if you were using"
+    },
+    {
+      "start": 408.32,
+      "end": 416.4,
+      "text": " one person before. Now, if you lose 12 trades and that is very unlikely with my trading"
+    },
+    {
+      "start": 416.4,
+      "end": 421.36,
+      "text": " strategies, you can lose up to five, six trades in a row. That's normal. But if few, let's say,"
+    },
+    {
+      "start": 421.92,
+      "end": 429.2,
+      "text": " if you lose like 12 trades, right, and you were using one person, you lost 12 person, right? So"
+    },
+    {
+      "start": 429.2,
+      "end": 435.04,
+      "text": " our rule is that after four trades, after losing four, percent alone, we reduce our risk size."
+    },
+    {
+      "start": 435.04,
+      "end": 440.04,
+      "text": " So we lost four trades, we reduced the risk to 0.5%."
+    },
+    {
+      "start": 440.04,
+      "end": 447.04,
+      "text": " And we lost four more trades, so we reduced our risk"
+    },
+    {
+      "start": 447.04,
+      "end": 450.04,
+      "text": " to 0.25%."
+    },
+    {
+      "start": 450.04,
+      "end": 452.04,
+      "text": " So let me do the maths here."
+    },
+    {
+      "start": 452.04,
+      "end": 456.04,
+      "text": " So we lost 12% by using the same person,"
+    },
+    {
+      "start": 456.04,
+      "end": 462.04,
+      "text": " and we lost 12 trades, that is negative 12% in your portfolio."
+    },
+    {
+      "start": 462.04,
+      "end": 471.8,
+      "text": " However, after four trades, you switch back to 0.5% and you lost eight trades, that is how much?"
+    },
+    {
+      "start": 474.6,
+      "end": 482.68,
+      "text": " Six percent, right? So now when you lost six percent, right? So that is, oh my god, guys, my"
+    },
+    {
+      "start": 482.68,
+      "end": 487.88,
+      "text": " maths is ready to on. I mean, you get the gist of it, right? You know what I'm talking about."
+    },
+    {
+      "start": 487.88,
+      "end": 494.2,
+      "text": " you want to keep on reducing your risk and when you, when you, you know, so when you have lost"
+    },
+    {
+      "start": 494.2,
+      "end": 502.12,
+      "text": " 12 phase and you are using smaller risk. So let's assume that you win. Four trades, right?"
+    },
+    {
+      "start": 502.68,
+      "end": 507.72,
+      "text": " In a row. And this is just for example, and you're going to just know what I'm talking about."
+    },
+    {
+      "start": 507.72,
+      "end": 514.44,
+      "text": " So you win four, two is an arrow using 0.25. So when you, so when you win four, two is an"
+    },
+    {
+      "start": 514.44,
+      "end": 521.96,
+      "text": " row using 0.25 after eight losses in a row. When you win four trades in a row, when"
+    },
+    {
+      "start": 521.96,
+      "end": 531.12,
+      "text": " with 0.25% you switch back to using 0.5% and when you win another four trades or you"
+    },
+    {
+      "start": 531.12,
+      "end": 539.36,
+      "text": " win trades and lose trades that is equivalent to the profit, you know, equity that you lost,"
+    },
+    {
+      "start": 539.36,
+      "end": 544.36,
+      "text": " then you can switch back to 0.1%, sorry, one person only, right?"
+    },
+    {
+      "start": 544.96,
+      "end": 548.6,
+      "text": " So when you recover your losses by using the same risk,"
+    },
+    {
+      "start": 548.6,
+      "end": 550.92,
+      "text": " then you can switch back up to the one person rule."
+    },
+    {
+      "start": 552.36,
+      "end": 556.04,
+      "text": " I hope you got what I was trying to explain"
+    },
+    {
+      "start": 556.04,
+      "end": 558.96,
+      "text": " in this risk management video."
+    },
+    {
+      "start": 558.96,
+      "end": 564.29,
+      "text": " So there is, I've seen people do this mistake."
+    },
+    {
+      "start": 564.29,
+      "end": 566.65,
+      "text": " So let's assume that there is,"
+    },
+    {
+      "start": 566.65,
+      "end": 570.89,
+      "text": " Where is the box?"
+    },
+    {
+      "start": 570.89,
+      "end": 572.65,
+      "text": " Oh my god."
+    },
+    {
+      "start": 572.65,
+      "end": 574.29,
+      "text": " Bro, okay, there you go."
+    },
+    {
+      "start": 574.29,
+      "end": 577.53,
+      "text": " So you have your pure right and you get a solid entry"
+    },
+    {
+      "start": 578.69,
+      "end": 580.41,
+      "text": " at this level."
+    },
+    {
+      "start": 580.41,
+      "end": 582.93,
+      "text": " So let's assume that you bought here right?"
+    },
+    {
+      "start": 582.93,
+      "end": 586.17,
+      "text": " So now price is going up."
+    },
+    {
+      "start": 586.17,
+      "end": 587.69,
+      "text": " You see profits."
+    },
+    {
+      "start": 587.69,
+      "end": 590.13,
+      "text": " Wow, you are in profit very nice."
+    },
+    {
+      "start": 590.13,
+      "end": 592.17,
+      "text": " You have your take profit level."
+    },
+    {
+      "start": 592.17,
+      "end": 594.21,
+      "text": " Let's assume here."
+    },
+    {
+      "start": 594.21,
+      "end": 595.73,
+      "text": " And you are holding your trade,"
+    },
+    {
+      "start": 595.73,
+      "end": 597.95,
+      "text": " holding your trade and then what happens?"
+    },
+    {
+      "start": 597.95,
+      "end": 601.23,
+      "text": " Price reverses and you lose the trade."
+    },
+    {
+      "start": 601.23,
+      "end": 604.65,
+      "text": " This is terrible risk management, okay?"
+    },
+    {
+      "start": 604.65,
+      "end": 609.65,
+      "text": " So let me tell you how you can avoid this from happening."
+    },
+    {
+      "start": 612.25,
+      "end": 615.17,
+      "text": " So when you get your entry,"
+    },
+    {
+      "start": 615.17,
+      "end": 620.01,
+      "text": " look at the closest lower high or high low."
+    },
+    {
+      "start": 620.01,
+      "end": 626.05,
+      "text": " So you can see this is a lower high, right?"
+    },
+    {
+      "start": 626.05,
+      "end": 631.05,
+      "text": " When this structure is broken, you move your stop loss to break even."
+    },
+    {
+      "start": 633.73,
+      "end": 639.97,
+      "text": " That is a simple rule that you must follow because you do not want to keep your trade risky."
+    },
+    {
+      "start": 640.09,
+      "end": 644.01,
+      "text": " You want to go risk rate when price breaks some sort of structure."
+    },
+    {
+      "start": 644.73,
+      "end": 651.09,
+      "text": " And when that happens, when price breaks this structure, you can either take some profits."
+    },
+    {
+      "start": 651.09,
+      "end": 657.81,
+      "text": " Right? You can take some of the profits off the trade. Right? Like, uh, I don't know. Like, 20"
+    },
+    {
+      "start": 657.81,
+      "end": 665.97,
+      "text": " percent or 25 percent. Just so you lock in some profits. Okay. My rule of thumb is that when you"
+    },
+    {
+      "start": 665.97,
+      "end": 674.45,
+      "text": " hit one to two risk to reward, you can close up to 40 percent or even 70 percent of your trade"
+    },
+    {
+      "start": 674.45,
+      "end": 680.93,
+      "text": " and let the rest running. But that's what you up to you. So when this structure breaks, you"
+    },
+    {
+      "start": 680.93,
+      "end": 690.69,
+      "text": " maybe take some profits or the alternative is when price breaks this structure, what you can do"
+    },
+    {
+      "start": 691.25,
+      "end": 697.89,
+      "text": " is instead of going break even, you can move your stop loss below this high low. So you are"
+    },
+    {
+      "start": 697.89,
+      "end": 703.73,
+      "text": " essentially trailing your stop-offs so you are locking in profits when the trade is going up."
+    },
+    {
+      "start": 704.29,
+      "end": 711.01,
+      "text": " So with the trade going up you keep on locking in some profits. So there are two ways to approach"
+    },
+    {
+      "start": 711.01,
+      "end": 716.85,
+      "text": " this. One you can take partials along the way when structures break or you can trail your"
+    },
+    {
+      "start": 716.85,
+      "end": 720.77,
+      "text": " your stop loss, like this,"
+    },
+    {
+      "start": 720.77,
+      "end": 723.85,
+      "text": " below every single high low."
+    },
+    {
+      "start": 725.35,
+      "end": 729.19,
+      "text": " So you get another higher high,"
+    },
+    {
+      "start": 729.19,
+      "end": 731.73,
+      "text": " you move your stop loss here,"
+    },
+    {
+      "start": 731.73,
+      "end": 736.01,
+      "text": " and then you move your stop loss here,"
+    },
+    {
+      "start": 737.13,
+      "end": 740.65,
+      "text": " and this is your move your stop loss here,"
+    },
+    {
+      "start": 741.89,
+      "end": 745.21,
+      "text": " and then what happens is price reverses."
+    },
+    {
+      "start": 745.21,
+      "end": 749.57,
+      "text": " So you get the full locked in profit, right?"
+    },
+    {
+      "start": 749.57,
+      "end": 751.73,
+      "text": " However, if you took part shows,"
+    },
+    {
+      "start": 751.73,
+      "end": 753.57,
+      "text": " the rule of thumb would be, you know,"
+    },
+    {
+      "start": 753.57,
+      "end": 756.33,
+      "text": " market marking out some POIs."
+    },
+    {
+      "start": 756.33,
+      "end": 758.09,
+      "text": " So this was the first POI, right?"
+    },
+    {
+      "start": 758.09,
+      "end": 759.73,
+      "text": " So this structure broke."
+    },
+    {
+      "start": 759.73,
+      "end": 761.81,
+      "text": " We move our stop loss to break even."
+    },
+    {
+      "start": 761.81,
+      "end": 763.89,
+      "text": " And we take part shows."
+    },
+    {
+      "start": 763.89,
+      "end": 767.41,
+      "text": " So let's assume there is some supplies on"
+    },
+    {
+      "start": 767.41,
+      "end": 770.21,
+      "text": " or free value gap here, right?"
+    },
+    {
+      "start": 770.21,
+      "end": 771.97,
+      "text": " So when price comes into this level,"
+    },
+    {
+      "start": 771.97,
+      "end": 776.97,
+      "text": " you maybe take 20% off the table as well, off the trade as well."
+    },
+    {
+      "start": 777.09,
+      "end": 784.09,
+      "text": " So price retraces and then you will have your final TP level and then you will have."
+    },
+    {
+      "start": 785.05,
+      "end": 787.73,
+      "text": " So you can take like two partial."
+    },
+    {
+      "start": 787.73,
+      "end": 792.17,
+      "text": " Okay, you don't want to take more than two percent because it's going to increase your"
+    },
+    {
+      "start": 793.73,
+      "end": 795.33,
+      "text": " actual profit factor."
+    },
+    {
+      "start": 795.33,
+      "end": 798.13,
+      "text": " So make sure you only have like three."
+    },
+    {
+      "start": 798.13,
+      "end": 800.49,
+      "text": " The third one is your final TP."
+    },
+    {
+      "start": 800.49,
+      "end": 806.77,
+      "text": " So you have one partial take here. You have your second partial take here and then you have your final tp here"
+    },
+    {
+      "start": 807.49,
+      "end": 809.99,
+      "text": " So that is how we roll with this"
+    },
+    {
+      "start": 811.49,
+      "end": 813.49,
+      "text": " I"
+    },
+    {
+      "start": 813.65,
+      "end": 815.65,
+      "text": " Don't know if there's more to it, but"
+    },
+    {
+      "start": 817.29,
+      "end": 823.53,
+      "text": " Yeah, so now let's talk about psychology now. This is one of the most important things that"
+    },
+    {
+      "start": 825.93,
+      "end": 829.13,
+      "text": " That you should know okay, and it's like"
+    },
+    {
+      "start": 830.49,
+      "end": 835.55,
+      "text": " If your psychology is not strong, if your mind is not strong, you are going to"
+    },
+    {
+      "start": 835.55,
+      "end": 840.19,
+      "text": " fail regardless of your trading strategy and your risk management."
+    },
+    {
+      "start": 840.19,
+      "end": 846.99,
+      "text": " Now, psychology is very important because as a human, we have the nature to take revenge"
+    },
+    {
+      "start": 846.99,
+      "end": 852.57,
+      "text": " or seek revenge if something bad happens to us."
+    },
+    {
+      "start": 852.57,
+      "end": 859.39,
+      "text": " So let's assume that you as a beginner or a lot of people do this mistake is when"
+    },
+    {
+      "start": 859.39,
+      "end": 867.07,
+      "text": " the lose one trade. What they would do is without, you know, looking for a setup for a new setup,"
+    },
+    {
+      "start": 867.07,
+      "end": 873.23,
+      "text": " what they would do is they would randomly enter at a random place at a random time just to"
+    },
+    {
+      "start": 874.19,
+      "end": 879.47,
+      "text": " revenge trade. Just to, you know, gain back the money that they have lost with that one single"
+    },
+    {
+      "start": 879.47,
+      "end": 885.79,
+      "text": " trade. And what happens? You lose another trade. So now you have lost two trades in a row and your"
+    },
+    {
+      "start": 885.79,
+      "end": 887.79,
+      "text": " mind is just"
+    },
+    {
+      "start": 887.79,
+      "end": 890.59,
+      "text": " Heat it. Okay. It's just want to destroy the whole world"
+    },
+    {
+      "start": 890.83,
+      "end": 895.35,
+      "text": " So what you are going to do is go to increase the risk percentage right?"
+    },
+    {
+      "start": 895.35,
+      "end": 900.27,
+      "text": " So previously you were using one person per trade you lost two trades in a row you lost two persons"
+    },
+    {
+      "start": 900.27,
+      "end": 903.57,
+      "text": " So what you would do is you would use three percent this time just to"
+    },
+    {
+      "start": 904.39,
+      "end": 913.09,
+      "text": " I don't recover those losses and what happens again. You lose that trade so now this is absolutely"
+    },
+    {
+      "start": 913.09,
+      "end": 917.41,
+      "text": " the worst way to trade."
+    },
+    {
+      "start": 917.41,
+      "end": 920.57,
+      "text": " Okay, and I know I have done that as well"
+    },
+    {
+      "start": 920.57,
+      "end": 923.25,
+      "text": " when I was a beginner and a lot of people"
+    },
+    {
+      "start": 923.25,
+      "end": 924.77,
+      "text": " that I know have done that as well."
+    },
+    {
+      "start": 924.77,
+      "end": 927.17,
+      "text": " And you guys must have done that as well."
+    },
+    {
+      "start": 927.17,
+      "end": 930.77,
+      "text": " And there are some things to improve your psychology."
+    },
+    {
+      "start": 930.77,
+      "end": 932.45,
+      "text": " Okay, so I will give you some tips"
+    },
+    {
+      "start": 932.45,
+      "end": 933.69,
+      "text": " and maybe you can apply them"
+    },
+    {
+      "start": 933.69,
+      "end": 936.13,
+      "text": " and it's gonna help you a lot."
+    },
+    {
+      "start": 936.13,
+      "end": 939.13,
+      "text": " So the very first rule of thumb is that you wanna train"
+    },
+    {
+      "start": 939.13,
+      "end": 946.81,
+      "text": " yourself to only take two maximum two trades per day. No more than that. Okay. So even if"
+    },
+    {
+      "start": 946.81,
+      "end": 951.89,
+      "text": " if the good rule of thumb is to only take one trade per day, if you can do that, trust me,"
+    },
+    {
+      "start": 951.89,
+      "end": 958.29,
+      "text": " your psychology is going to be very strong next month. Okay. In a month, I could say. So you"
+    },
+    {
+      "start": 958.29,
+      "end": 961.85,
+      "text": " take one trader day, you lose, you go back home and enjoy the rest of the day. You come"
+    },
+    {
+      "start": 961.85,
+      "end": 966.85,
+      "text": " back the next day, you win a trade very nice. So now when you win a trade, you just quit"
+    },
+    {
+      "start": 966.85,
+      "end": 968.05,
+      "text": " and come back the next day."
+    },
+    {
+      "start": 968.05,
+      "end": 969.45,
+      "text": " When you come back the next day,"
+    },
+    {
+      "start": 969.45,
+      "end": 971.13,
+      "text": " what is going to happen is gonna,"
+    },
+    {
+      "start": 971.13,
+      "end": 973.57,
+      "text": " you are going to be in a good mood, right?"
+    },
+    {
+      "start": 973.57,
+      "end": 974.77,
+      "text": " And you're gonna be excited."
+    },
+    {
+      "start": 974.77,
+      "end": 976.57,
+      "text": " And you're gonna have, you know, like,"
+    },
+    {
+      "start": 978.53,
+      "end": 979.77,
+      "text": " I would say a good mood."
+    },
+    {
+      "start": 979.77,
+      "end": 982.25,
+      "text": " And that is really important for trading, okay?"
+    },
+    {
+      "start": 982.25,
+      "end": 984.33,
+      "text": " So that is gonna help you a lot."
+    },
+    {
+      "start": 984.33,
+      "end": 987.73,
+      "text": " So try taking only one trade per day."
+    },
+    {
+      "start": 988.65,
+      "end": 991.57,
+      "text": " That is the best way to go to, go for it."
+    },
+    {
+      "start": 991.57,
+      "end": 994.73,
+      "text": " And the other rule is that you can maybe"
+    },
+    {
+      "start": 994.73,
+      "end": 996.17,
+      "text": " take two trades per day."
+    },
+    {
+      "start": 996.17,
+      "end": 997.05,
+      "text": " Okay?"
+    },
+    {
+      "start": 997.05,
+      "end": 999.85,
+      "text": " Or what you can do is that you can take"
+    },
+    {
+      "start": 1001.93,
+      "end": 1004.65,
+      "text": " three trades and if you lose one trade in a day,"
+    },
+    {
+      "start": 1004.65,
+      "end": 1005.49,
+      "text": " you just quit."
+    },
+    {
+      "start": 1005.49,
+      "end": 1006.65,
+      "text": " But if you win one trade,"
+    },
+    {
+      "start": 1006.65,
+      "end": 1008.25,
+      "text": " you can take another trade, right?"
+    },
+    {
+      "start": 1008.25,
+      "end": 1010.13,
+      "text": " And then you lose a trade, you quit the day."
+    },
+    {
+      "start": 1010.13,
+      "end": 1012.17,
+      "text": " But if you win like one trade"
+    },
+    {
+      "start": 1012.17,
+      "end": 1013.81,
+      "text": " and you win the second trade as well,"
+    },
+    {
+      "start": 1013.81,
+      "end": 1015.81,
+      "text": " you can go for a third trade."
+    },
+    {
+      "start": 1015.81,
+      "end": 1017.25,
+      "text": " And if you lose that, you quit"
+    },
+    {
+      "start": 1017.25,
+      "end": 1018.81,
+      "text": " and you end your day in profit."
+    },
+    {
+      "start": 1019.89,
+      "end": 1021.77,
+      "text": " So now how do you even do this?"
+    },
+    {
+      "start": 1021.77,
+      "end": 1025.25,
+      "text": " because that saying this is easy, right?"
+    },
+    {
+      "start": 1025.25,
+      "end": 1026.45,
+      "text": " I can tell you to do this,"
+    },
+    {
+      "start": 1026.45,
+      "end": 1028.29,
+      "text": " but the psychology is ready,"
+    },
+    {
+      "start": 1028.29,
+      "end": 1032.41,
+      "text": " it's such an important thing that is not easy."
+    },
+    {
+      "start": 1032.41,
+      "end": 1035.69,
+      "text": " But if you follow the rules that I'm gonna tell you,"
+    },
+    {
+      "start": 1035.69,
+      "end": 1037.85,
+      "text": " you can actually increase your psychology."
+    },
+    {
+      "start": 1037.85,
+      "end": 1041.09,
+      "text": " So a lot of people might call me dumb for this,"
+    },
+    {
+      "start": 1041.09,
+      "end": 1046.09,
+      "text": " but how I improve my psychology is through meditation."
+    },
+    {
+      "start": 1046.09,
+      "end": 1053.53,
+      "text": " meditation. Now meditation is something that you can search up on YouTube is basically, you know,"
+    },
+    {
+      "start": 1056.01,
+      "end": 1061.13,
+      "text": " focusing on one thing and sitting and breathing and bringing out. So meditation, what it does is"
+    },
+    {
+      "start": 1061.13,
+      "end": 1069.45,
+      "text": " just, you know, it just freshens up your brain, it freshens up your your body. And what you can do"
+    },
+    {
+      "start": 1069.45,
+      "end": 1074.97,
+      "text": " is you can learn meditation on YouTube. I cannot teach you how to meditate because it's a little"
+    },
+    {
+      "start": 1074.97,
+      "end": 1080.57,
+      "text": " complex thing. But essentially what is it is that you sit near a very"
+    },
+    {
+      "start": 1080.57,
+      "end": 1085.53,
+      "text": " quite sit around a very quiet place, right? And you meditate for 20 minutes. And"
+    },
+    {
+      "start": 1085.53,
+      "end": 1090.89,
+      "text": " what is meditation is that you relax and free up your mind for 20 minutes a"
+    },
+    {
+      "start": 1090.89,
+      "end": 1095.73,
+      "text": " day or 10 minutes a day if you're a beginner. Free up your mind and focus on"
+    },
+    {
+      "start": 1095.73,
+      "end": 1100.41,
+      "text": " breathing. Okay. So meditation is actually focusing on one single thing at the"
+    },
+    {
+      "start": 1100.41,
+      "end": 1108.17,
+      "text": " time. So what you do is that you breathe in and then breathe out and you focus solely on that"
+    },
+    {
+      "start": 1108.17,
+      "end": 1113.21,
+      "text": " breath. You remove all the thoughts from your brain. You do not care about training. You do not care"
+    },
+    {
+      "start": 1113.21,
+      "end": 1121.13,
+      "text": " about your family. Just leave everything behind and focus only on your breathing. Okay. There are a"
+    },
+    {
+      "start": 1121.13,
+      "end": 1128.17,
+      "text": " lot of ways to meditate. You can search them up on YouTube. There's actually this one guy by the name"
+    },
+    {
+      "start": 1128.17,
+      "end": 1132.09,
+      "text": " you can search up on YouTube,"
+    },
+    {
+      "start": 1132.09,
+      "end": 1134.57,
+      "text": " humpsa, meditation,"
+    },
+    {
+      "start": 1134.57,
+      "end": 1136.17,
+      "text": " and the video is gonna pop up,"
+    },
+    {
+      "start": 1136.17,
+      "end": 1137.77,
+      "text": " and you can watch that video."
+    },
+    {
+      "start": 1137.77,
+      "end": 1138.81,
+      "text": " It's really helpful."
+    },
+    {
+      "start": 1138.81,
+      "end": 1140.73,
+      "text": " And I know this sounds really dumb,"
+    },
+    {
+      "start": 1140.73,
+      "end": 1144.73,
+      "text": " but it's actually what helped me improve my psychology."
+    },
+    {
+      "start": 1144.73,
+      "end": 1149.73,
+      "text": " It helped me increase my brain productivity."
+    },
+    {
+      "start": 1150.65,
+      "end": 1154.09,
+      "text": " So the other thing is that along with meditation,"
+    },
+    {
+      "start": 1154.09,
+      "end": 1157.49,
+      "text": " you wanna have a proper sleep schedule,"
+    },
+    {
+      "start": 1157.49,
+      "end": 1164.13,
+      "text": " All right, you cannot be sleeping at a random time like 3 am for am no, you want to wake up at a"
+    },
+    {
+      "start": 1165.09,
+      "end": 1169.81,
+      "text": " Decent time which would be 8 or 7 am in the morning, right? You exercise"
+    },
+    {
+      "start": 1170.53,
+      "end": 1176.89,
+      "text": " Exercise is really important as well for your brain and now these are tips that you must include in training because for training"
+    },
+    {
+      "start": 1176.89,
+      "end": 1180.61,
+      "text": " You need to be mentally strong and how you get mentally strong is by a true meditation"
+    },
+    {
+      "start": 1182.13,
+      "end": 1183.65,
+      "text": " You know"
+    },
+    {
+      "start": 1183.65,
+      "end": 1185.41,
+      "text": " exercise"
+    },
+    {
+      "start": 1185.41,
+      "end": 1187.41,
+      "text": " And gratitude. Now, what is gratitude?"
+    },
+    {
+      "start": 1188.05,
+      "end": 1192.93,
+      "text": " Even if you lose a trade, you can be grateful for that trade because it was a lesson for you."
+    },
+    {
+      "start": 1192.93,
+      "end": 1198.69,
+      "text": " Okay? Instead of, you know, raging over that lost trade, you could say that, wow,"
+    },
+    {
+      "start": 1198.69,
+      "end": 1203.97,
+      "text": " I'm thankful for this trade. It has taught me something, right? You lost your trade."
+    },
+    {
+      "start": 1203.97,
+      "end": 1208.05,
+      "text": " You find, you try to find out the reason why you lost that trade. You're, you search"
+    },
+    {
+      "start": 1208.05,
+      "end": 1211.89,
+      "text": " and you should be grateful because eventually you were just paying a small little"
+    },
+    {
+      "start": 1211.89,
+      "end": 1218.33,
+      "text": " fees for some sort of information. So that is a win-win for you. So you meditate, you"
+    },
+    {
+      "start": 1218.33,
+      "end": 1223.05,
+      "text": " exercise at least 15 minutes a day guys. That is easy, right? And then you sure"
+    },
+    {
+      "start": 1223.05,
+      "end": 1227.45,
+      "text": " gratitude towards your life. You could say, I'm grateful for my family. I'm"
+    },
+    {
+      "start": 1227.45,
+      "end": 1231.69,
+      "text": " grateful for the food that I had today. You could say, I'm grateful for"
+    },
+    {
+      "start": 1231.69,
+      "end": 1237.13,
+      "text": " literally anything that makes you a little bit happy in some sort of way. Right?"
+    },
+    {
+      "start": 1237.13,
+      "end": 1244.25,
+      "text": " You could just show gratitude. Trust me, this works amazingly and I'm not just spinning bullshit"
+    },
+    {
+      "start": 1244.25,
+      "end": 1251.45,
+      "text": " at the moment. I'm telling you actual facts and truths that has helped me increase my brain power."
+    },
+    {
+      "start": 1252.81,
+      "end": 1259.61,
+      "text": " So you can meditate, exercise, show gratitude towards small things. It doesn't matter what it is."
+    },
+    {
+      "start": 1259.61,
+      "end": 1266.81,
+      "text": " But if it shows you some sort of happiness in any way, even if it doesn't give you"
+    },
+    {
+      "start": 1266.81,
+      "end": 1271.85,
+      "text": " and happiness and you just want to show like a gratitude to other things. For example, I look at the"
+    },
+    {
+      "start": 1271.85,
+      "end": 1277.45,
+      "text": " moon sometimes and I say, wow, I'm grateful that the moon exists literally. And what it does is that"
+    },
+    {
+      "start": 1277.45,
+      "end": 1284.73,
+      "text": " it's easy to up your brain and it gives you like this easeness in your body that if you even lose trades,"
+    },
+    {
+      "start": 1284.73,
+      "end": 1290.41,
+      "text": " it doesn't matter because when you're coming into trading, right, there's a simple rule that if"
+    },
+    {
+      "start": 1290.41,
+      "end": 1295.61,
+      "text": " you cannot afford to lose what you are investing, then do not come into trading because if you are"
+    },
+    {
+      "start": 1295.61,
+      "end": 1301.45,
+      "text": " investing your little lifetime savings into trading. Guys, there are no guarantees that the markets"
+    },
+    {
+      "start": 1301.45,
+      "end": 1305.77,
+      "text": " are going to stay the same. Right. I'm saying this right now. I don't know what's going to happen in"
+    },
+    {
+      "start": 1305.77,
+      "end": 1313.93,
+      "text": " the upcoming five years, but the thing is, just believe in yourself. Stay calm when trading."
+    },
+    {
+      "start": 1313.93,
+      "end": 1320.89,
+      "text": " Okay. Follow your rules. Write a low or robot. Okay. Just stick with and try these things out,"
+    },
+    {
+      "start": 1320.89,
+      "end": 1327.89,
+      "text": " guys, I mean it, meditate, exercise, gratitude, right? It's going to really help you. So one"
+    },
+    {
+      "start": 1327.89,
+      "end": 1335.05,
+      "text": " thing is that if you lose like three trades, right, in a week or two trades in a week,"
+    },
+    {
+      "start": 1335.05,
+      "end": 1339.77,
+      "text": " you just come back the next week because what can happen sometimes is during a specific"
+    },
+    {
+      "start": 1339.77,
+      "end": 1343.69,
+      "text": " week, there could be a lot of news, right? And that could be the reason why you're losing"
+    },
+    {
+      "start": 1343.69,
+      "end": 1350.85,
+      "text": " trades. So just avoid that week and just come back the next week, right? It really depends"
+    },
+    {
+      "start": 1350.85,
+      "end": 1354.73,
+      "text": " on you if you want to like keep on trading for that week, but the thing is a good rule of"
+    },
+    {
+      "start": 1354.73,
+      "end": 1360.23,
+      "text": " thumb if you are a beginner, if you lose one or two or three trades in a week and you"
+    },
+    {
+      "start": 1360.23,
+      "end": 1364.85,
+      "text": " are in negative, then just quit and come back the next week."
+    },
+    {
+      "start": 1364.85,
+      "end": 1367.61,
+      "text": " So I really hope that you guys enjoyed this video."
+    },
+    {
+      "start": 1367.61,
+      "end": 1370.81,
+      "text": " That was one of my most important videos that I've made."
+    },
+    {
+      "start": 1370.81,
+      "end": 1373.41,
+      "text": " So make sure that you follow this thing."
+    },
+    {
+      "start": 1373.41,
+      "end": 1377.49,
+      "text": " You want to show gratitude towards small things every single day."
+    },
+    {
+      "start": 1377.49,
+      "end": 1382.93,
+      "text": " And one thing that you should do is you should journal your trades."
+    },
+    {
+      "start": 1382.93,
+      "end": 1383.93,
+      "text": " Okay."
+    },
+    {
+      "start": 1383.93,
+      "end": 1386.33,
+      "text": " So you should journal why I lost the trade."
+    },
+    {
+      "start": 1386.33,
+      "end": 1390.33,
+      "text": " You could say I took this trade at this time, right?"
+    },
+    {
+      "start": 1390.33,
+      "end": 1393.69,
+      "text": " I used this strategy."
+    },
+    {
+      "start": 1393.69,
+      "end": 1397.01,
+      "text": " I used this trade."
+    },
+    {
+      "start": 1397.01,
+      "end": 1402.33,
+      "text": " I traded during London session."
+    },
+    {
+      "start": 1402.33,
+      "end": 1406.69,
+      "text": " Was there any news?"
+    },
+    {
+      "start": 1406.69,
+      "end": 1413.69,
+      "text": " How big was the displacement for market structure shift by measuring the pips?"
+    },
+    {
+      "start": 1413.69,
+      "end": 1418.89,
+      "text": " And by journaling, you can become even better trader than me."
+    },
+    {
+      "start": 1418.89,
+      "end": 1421.97,
+      "text": " Because the thing is, guys, even if I give you my..."
+    },
+    {
+      "start": 1421.97,
+      "end": 1428.73,
+      "text": " If you want to give you the best strategy in the world, you can become a better trader"
+    },
+    {
+      "start": 1428.73,
+      "end": 1433.37,
+      "text": " than me because it really depends on backtesting and journaling."
+    },
+    {
+      "start": 1433.37,
+      "end": 1441.01,
+      "text": " You can journal like this and just add in the wind rate which time works the best, which"
+    },
+    {
+      "start": 1441.01,
+      "end": 1446.21,
+      "text": " session works the best, how much displacement is valid for Microsoft machine."
+    },
+    {
+      "start": 1446.21,
+      "end": 1451.65,
+      "text": " And it's going to help you with your psychology as well because you're going to be confident"
+    },
+    {
+      "start": 1451.65,
+      "end": 1453.89,
+      "text": " in your trading system."
+    },
+    {
+      "start": 1453.89,
+      "end": 1457.69,
+      "text": " So I hope you guys enjoyed this lecture and I'll see you guys in the next video."
+    }
+  ]
+}

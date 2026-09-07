@@ -1,0 +1,388 @@
+{
+  "source": "F:\\new faiz\\28. Orderblock 2.0.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 301.7665625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.62,
+      "end": 30.62,
+      "text": " Hey guys, hope you guys are doing well. This is the very first video of the course of date. In this video, I will teach you about different variations of order blocks and how we can use them. In my last couple of videos on YouTube, you might have noticed that I've been using order blocks in a different way. I'm not using it because they work better than the method that I've taught before. I'm just using it because it's quite simple and it's good for my side."
+    },
+    {
+      "start": 30.62,
+      "end": 35.62,
+      "text": " So as you know, this is the old method."
+    },
+    {
+      "start": 35.62,
+      "end": 36.62,
+      "text": " Excuse me."
+    },
+    {
+      "start": 36.62,
+      "end": 38.62,
+      "text": " So this is the old method, right?"
+    },
+    {
+      "start": 38.62,
+      "end": 40.62,
+      "text": " If you have lower, lower, lower, high, lower, lower, lower, lower, lower, lower, lower, lower,"
+    },
+    {
+      "start": 40.62,
+      "end": 43.62,
+      "text": " then you have a martyst of this shift, right?"
+    },
+    {
+      "start": 43.62,
+      "end": 48.62,
+      "text": " And you have a freeable gap here as I have denoted here, as you can see, freeable"
+    },
+    {
+      "start": 48.62,
+      "end": 49.62,
+      "text": " gap."
+    },
+    {
+      "start": 49.62,
+      "end": 57.62,
+      "text": " So most of the time we used the first candle of the freeable gap as our autoblock, right?"
+    },
+    {
+      "start": 57.62,
+      "end": 63.14,
+      "text": " You guys must know that because I have taught this before in my course videos and as well on YouTube"
+    },
+    {
+      "start": 63.7,
+      "end": 66.54,
+      "text": " Now this right here is you have L'Or low"
+    },
+    {
+      "start": 67.14,
+      "end": 74.54,
+      "text": " L'Or high L'Or low and then mark a structure ship and now these consecutive bearish candles are your autoblock"
+    },
+    {
+      "start": 75.38,
+      "end": 77.38,
+      "text": " Or is your autoblock?"
+    },
+    {
+      "start": 77.9,
+      "end": 85.1,
+      "text": " Right, so over here you can see we have used the first candle of the very gap as our autoblock over here"
+    },
+    {
+      "start": 85.1,
+      "end": 89.74,
+      "text": " You can see we have lower low, lower high, lower low."
+    },
+    {
+      "start": 89.74,
+      "end": 93.62,
+      "text": " So this consecutive candles in this last lower low,"
+    },
+    {
+      "start": 93.62,
+      "end": 96.58,
+      "text": " before Marker structure shift, is your autoblock."
+    },
+    {
+      "start": 97.94,
+      "end": 102.54,
+      "text": " Now, now it is for autofool strategy,"
+    },
+    {
+      "start": 102.54,
+      "end": 107.25,
+      "text": " I'm using this as my autoblock."
+    },
+    {
+      "start": 107.25,
+      "end": 110.81,
+      "text": " You know, and for other strategies, I use this."
+    },
+    {
+      "start": 110.81,
+      "end": 115.01,
+      "text": " Now, what are the pros and cons of both of these methods, right?"
+    },
+    {
+      "start": 115.01,
+      "end": 117.73,
+      "text": " This right here is a refined autoblock."
+    },
+    {
+      "start": 117.73,
+      "end": 118.57,
+      "text": " Okay?"
+    },
+    {
+      "start": 118.57,
+      "end": 120.97,
+      "text": " And this is not a refined autoblock."
+    },
+    {
+      "start": 120.97,
+      "end": 125.53,
+      "text": " You are going to miss entries when you are going to trade this autoblock."
+    },
+    {
+      "start": 125.53,
+      "end": 126.21,
+      "text": " Okay?"
+    },
+    {
+      "start": 126.21,
+      "end": 128.89,
+      "text": " So let's say price comes back into this level."
+    },
+    {
+      "start": 129.85,
+      "end": 132.21,
+      "text": " It's not going to happen all the time."
+    },
+    {
+      "start": 132.21,
+      "end": 138.73,
+      "text": " However, the chances that price comes back and it mediates this autoblock right here"
+    },
+    {
+      "start": 138.73,
+      "end": 143.41,
+      "text": " and then goes back up is higher than the chances of this autoblock."
+    },
+    {
+      "start": 143.41,
+      "end": 144.41,
+      "text": " Okay?"
+    },
+    {
+      "start": 144.41,
+      "end": 149.29,
+      "text": " You're going to have a greater ratio of what when you take you entry from this level,"
+    },
+    {
+      "start": 149.29,
+      "end": 154.01,
+      "text": " from this auto block, and you're going to have a lower ratio of what if you take you entry from this."
+    },
+    {
+      "start": 154.01,
+      "end": 158.49,
+      "text": " So I take my entry from this. Another thing, when you have this type of auto block,"
+    },
+    {
+      "start": 158.49,
+      "end": 163.69,
+      "text": " fairly gap is not necessary in this leg. Okay? All you need is these consecutive candles,"
+    },
+    {
+      "start": 164.25,
+      "end": 169.77,
+      "text": " or it could just be a single candle. Okay? It could just be a single candle like that. Okay?"
+    },
+    {
+      "start": 169.77,
+      "end": 171.77,
+      "text": " It doesn't have to be one or two."
+    },
+    {
+      "start": 172.49,
+      "end": 177.37,
+      "text": " But if they're like, let's say, as I said before, if they're like two candles like that,"
+    },
+    {
+      "start": 177.37,
+      "end": 182.25,
+      "text": " yeah, then that could be, you can take your entry from here or if you want to refine it,"
+    },
+    {
+      "start": 182.25,
+      "end": 185.93,
+      "text": " of course you can take it from here, but it is going to decrease,"
+    },
+    {
+      "start": 185.93,
+      "end": 189.13,
+      "text": " it's going to decrease the chances of you getting triggered in the trade."
+    },
+    {
+      "start": 189.85,
+      "end": 194.73,
+      "text": " Okay. So now here's the hyperbolic setup for this setup right here."
+    },
+    {
+      "start": 194.73,
+      "end": 198.81,
+      "text": " When you have like a breaker block in alignment with this"
+    },
+    {
+      "start": 199.81,
+      "end": 202.41,
+      "text": " or a block, that is a high probability trade setup."
+    },
+    {
+      "start": 202.97,
+      "end": 205.85,
+      "text": " What is a breaker block? You have lower low, lower high, lower low."
+    },
+    {
+      "start": 206.33,
+      "end": 212.41,
+      "text": " The candle over here, the first candle of this lower low, you know, it's going to be here."
+    },
+    {
+      "start": 212.73,
+      "end": 217.25,
+      "text": " If it is in alignment, let's the size is the same, right?"
+    },
+    {
+      "start": 217.69,
+      "end": 221.45,
+      "text": " Then that to me is a high probability setup."
+    },
+    {
+      "start": 221.45,
+      "end": 222.77,
+      "text": " And then what's gonna happen?"
+    },
+    {
+      "start": 222.77,
+      "end": 225.29,
+      "text": " Prior to just going to tap into this auto block"
+    },
+    {
+      "start": 225.29,
+      "end": 227.17,
+      "text": " and you're gonna have a push like that."
+    },
+    {
+      "start": 227.17,
+      "end": 230.45,
+      "text": " The reason why I go one to two with this type of setup"
+    },
+    {
+      "start": 230.45,
+      "end": 232.93,
+      "text": " is because you don't wanna trust the price"
+    },
+    {
+      "start": 232.93,
+      "end": 234.73,
+      "text": " to keep going higher, okay?"
+    },
+    {
+      "start": 234.73,
+      "end": 237.53,
+      "text": " I just take my one to two and then I'm out the markets."
+    },
+    {
+      "start": 237.53,
+      "end": 241.21,
+      "text": " This right here is a refined entry."
+    },
+    {
+      "start": 241.21,
+      "end": 243.05,
+      "text": " So when you get an entry from here,"
+    },
+    {
+      "start": 243.05,
+      "end": 245.85,
+      "text": " that is like, it's gonna give you more rest your reward."
+    },
+    {
+      "start": 245.85,
+      "end": 248.13,
+      "text": " It's really that simple, yeah?"
+    },
+    {
+      "start": 248.13,
+      "end": 251.37,
+      "text": " So, yeah, that's about it guys."
+    },
+    {
+      "start": 251.37,
+      "end": 253.29,
+      "text": " So you can use both of these auto blocks."
+    },
+    {
+      "start": 253.29,
+      "end": 255.45,
+      "text": " You don't have to be confused about which one to use."
+    },
+    {
+      "start": 255.45,
+      "end": 258.49,
+      "text": " It really comes down to your style of trading."
+    },
+    {
+      "start": 258.49,
+      "end": 261.01,
+      "text": " I am mostly trading this auto block nowadays."
+    },
+    {
+      "start": 261.01,
+      "end": 263.17,
+      "text": " And this is what ICT teaches."
+    },
+    {
+      "start": 263.17,
+      "end": 266.61,
+      "text": " This consecutive bearish candles or a bearish-glass bearish candle"
+    },
+    {
+      "start": 266.61,
+      "end": 269.73,
+      "text": " before the move to the upside that breaks the structure."
+    },
+    {
+      "start": 269.73,
+      "end": 270.61,
+      "text": " But it's really up to you."
+    },
+    {
+      "start": 270.61,
+      "end": 272.25,
+      "text": " This one works as well."
+    },
+    {
+      "start": 272.25,
+      "end": 275.97,
+      "text": " And this is what I've been trading like most of my life."
+    },
+    {
+      "start": 275.97,
+      "end": 277.61,
+      "text": " And it works absolutely well."
+    },
+    {
+      "start": 277.61,
+      "end": 282.97,
+      "text": " Only downside you're gonna miss trades. So it's really up to you now if you want to trade this one or this one"
+    },
+    {
+      "start": 283.13,
+      "end": 289.03,
+      "text": " This one has its one pro you don't need to see a fair value gap. Okay, you can simply trade off this level"
+    },
+    {
+      "start": 289.33,
+      "end": 294.65,
+      "text": " Okay, so what I'm gonna do is I'm gonna give you a couple of examples of this thing right here"
+    },
+    {
+      "start": 294.65,
+      "end": 300.65,
+      "text": " You guys know already know this right so I'm gonna give you an example of this one this other block example"
+    }
+  ]
+}

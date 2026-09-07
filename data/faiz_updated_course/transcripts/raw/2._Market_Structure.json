@@ -1,0 +1,373 @@
+{
+  "source": "F:\\new faiz\\2. Market Structure.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 419.84,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.4,
+      "end": 38.02,
+      "text": " Hello guys, welcome back. In this video, we are going to learn about market structure. If you're looking at a bullish trend, if you want to identify a bullish trend, you would be looking for a higher high and higher lows. So what is higher high and higher lows? This is considered as higher high, high low, higher high, higher low, higher high and higher low."
+    },
+    {
+      "start": 38.02,
+      "end": 42.62,
+      "text": " This state of market is considered to be bullish."
+    },
+    {
+      "start": 42.62,
+      "end": 47.22,
+      "text": " When you see market creating higher highs and higher lows,"
+    },
+    {
+      "start": 47.22,
+      "end": 53.58,
+      "text": " then that market is considered to be bullish."
+    },
+    {
+      "start": 53.58,
+      "end": 57.26,
+      "text": " When you want to identify a bearish trend,"
+    },
+    {
+      "start": 57.26,
+      "end": 62.46,
+      "text": " you would be looking for lower lows, lower highs, lower lows,"
+    },
+    {
+      "start": 62.46,
+      "end": 63.86,
+      "text": " lower highs."
+    },
+    {
+      "start": 63.86,
+      "end": 70.29,
+      "text": " So this is what low and lower high looks like."
+    },
+    {
+      "start": 70.29,
+      "end": 77.29,
+      "text": " lower low, lower high, lower low, lower high, lower low."
+    },
+    {
+      "start": 81.09,
+      "end": 87.09,
+      "text": " When you see market constantly creating lower lows, lower highs, you will know that the market"
+    },
+    {
+      "start": 89.13,
+      "end": 96.13,
+      "text": " is in bearish condition. So for bullish market, we need to identify price creating higher"
+    },
+    {
+      "start": 96.13,
+      "end": 104.33,
+      "text": " identify price creating higher high, higher low, higher high, higher low. And in case of bearish"
+    },
+    {
+      "start": 104.33,
+      "end": 110.45,
+      "text": " market, if you want to identify a bearish market, you would be looking for lower, lower,"
+    },
+    {
+      "start": 110.45,
+      "end": 119.61,
+      "text": " high, lower, lower, lower, higher. Then we got another market condition known as ranging"
+    },
+    {
+      "start": 119.61,
+      "end": 129.29,
+      "text": " market. Now what is a ranging market? When price is not moving in any direction, but it is"
+    },
+    {
+      "start": 129.29,
+      "end": 141.54,
+      "text": " moving within a small range. So this type of price action is considered to be ranging."
+    },
+    {
+      "start": 141.54,
+      "end": 147.26,
+      "text": " When you see this type of market, it is considered to be a ranging market. And I have"
+    },
+    {
+      "start": 147.26,
+      "end": 151.58,
+      "text": " a strategy based on their ranging market condition."
+    },
+    {
+      "start": 151.58,
+      "end": 155.46,
+      "text": " So there are three types of market structures."
+    },
+    {
+      "start": 155.46,
+      "end": 158.46,
+      "text": " We got a bullish market structure,"
+    },
+    {
+      "start": 158.46,
+      "end": 160.94,
+      "text": " we got a bearish market structure,"
+    },
+    {
+      "start": 160.94,
+      "end": 166.04,
+      "text": " and then we got the ranging market structure."
+    },
+    {
+      "start": 166.04,
+      "end": 175.3,
+      "text": " So this is a very simple textbook definition of market structure."
+    },
+    {
+      "start": 175.3,
+      "end": 180.82,
+      "text": " Now let's go let's suppose that you are looking at a"
+    },
+    {
+      "start": 181.42,
+      "end": 184.42,
+      "text": " Market structure on a five minute timeframe"
+    },
+    {
+      "start": 184.94,
+      "end": 188.22,
+      "text": " You are gonna see that price is making"
+    },
+    {
+      "start": 188.78,
+      "end": 190.78,
+      "text": " higher highs and higher lows"
+    },
+    {
+      "start": 191.38,
+      "end": 194.7,
+      "text": " But when you drop down to one minute timeframe"
+    },
+    {
+      "start": 195.7,
+      "end": 198.52,
+      "text": " You are gonna see that the market"
+    },
+    {
+      "start": 198.86,
+      "end": 216.45,
+      "text": " Oops, sorry my bad. Let me draw this out and then I'll explain"
+    },
+    {
+      "start": 216.45,
+      "end": 228.26,
+      "text": " Okay, so I'm gonna change the color of this and make it a little..."
+    },
+    {
+      "start": 228.26,
+      "end": 235.96,
+      "text": " Oops, not that is a bad color. Let me change it to something yellowish. Okay."
+    },
+    {
+      "start": 235.96,
+      "end": 239.96,
+      "text": " Wow, this is bad. This is bad."
+    },
+    {
+      "start": 239.96,
+      "end": 242.96,
+      "text": " Wait, wait, wait, wait, wait."
+    },
+    {
+      "start": 242.96,
+      "end": 246.96,
+      "text": " So, when you drop down to one minute timeframe,"
+    },
+    {
+      "start": 246.96,
+      "end": 251.96,
+      "text": " you are gonna see that in this five minute timeframe,"
+    },
+    {
+      "start": 251.96,
+      "end": 256.96,
+      "text": " to the downside, we have a downtrend."
+    },
+    {
+      "start": 256.96,
+      "end": 257.96,
+      "text": " Right?"
+    },
+    {
+      "start": 257.96,
+      "end": 263.96,
+      "text": " But so you can see that the price is fractal."
+    },
+    {
+      "start": 263.96,
+      "end": 264.96,
+      "text": " All right?"
+    },
+    {
+      "start": 264.96,
+      "end": 268.96,
+      "text": " So let me just move this away."
+    },
+    {
+      "start": 268.96,
+      "end": 272.96,
+      "text": " You see, we are looking at this on a five minute timeframe."
+    },
+    {
+      "start": 272.96,
+      "end": 275.96,
+      "text": " But when you're going to drop down to one minute timeframe,"
+    },
+    {
+      "start": 275.96,
+      "end": 278.96,
+      "text": " you're going to see something like this."
+    },
+    {
+      "start": 278.96,
+      "end": 287.96,
+      "text": " In a uptrend on the 500 timeframe, you can see a downtrend on a 1-minute timeframe."
+    },
+    {
+      "start": 287.96,
+      "end": 291.16,
+      "text": " I hope that definition is clear."
+    },
+    {
+      "start": 291.16,
+      "end": 301.24,
+      "text": " On an uptrend on a 500 timeframe, you can see a downtrend on a 1-minute timeframe."
+    },
+    {
+      "start": 301.24,
+      "end": 303.72,
+      "text": " So what does that tell us?"
+    },
+    {
+      "start": 303.72,
+      "end": 307.88,
+      "text": " It means that we can trade on any timeframe."
+    },
+    {
+      "start": 307.88,
+      "end": 311.88,
+      "text": " It doesn't matter if you are trading on a daily time from."
+    },
+    {
+      "start": 311.88,
+      "end": 316.42,
+      "text": " It doesn't matter if you're trading on a early time from, or it doesn't even matter"
+    },
+    {
+      "start": 316.42,
+      "end": 319.68,
+      "text": " if you're trading on a one minute time from."
+    },
+    {
+      "start": 319.68,
+      "end": 328.16,
+      "text": " If you know about market structure, you can trade literally on any time from."
+    },
+    {
+      "start": 328.16,
+      "end": 336.48,
+      "text": " So yeah, I hope this clears everything about market structure."
+    },
+    {
+      "start": 336.48,
+      "end": 346.69,
+      "text": " So you can see that the price would be creating Lola's lower highs on this leg of 5 minute"
+    },
+    {
+      "start": 346.69,
+      "end": 347.77,
+      "text": " timeframe."
+    },
+    {
+      "start": 347.77,
+      "end": 355.49,
+      "text": " So a small pullback on a 5 minute timeframe could be a big downtrend on a smaller timeframe."
+    },
+    {
+      "start": 355.49,
+      "end": 363.77,
+      "text": " So let's say you were looking at this chart on an early timeframe, one hour timeframe."
+    },
+    {
+      "start": 363.77,
+      "end": 370.21,
+      "text": " On the pullback on one-hour timeframe, what you will do is you will then drop down to"
+    },
+    {
+      "start": 370.21,
+      "end": 372.85,
+      "text": " five-minute timeframe and then you're going to see something like this."
+    },
+    {
+      "start": 372.85,
+      "end": 380.37,
+      "text": " You will see a downtrend on a five-minute timeframe, but on the all-day timeframe, the overall"
+    },
+    {
+      "start": 380.37,
+      "end": 382.17,
+      "text": " trend is bullish."
+    },
+    {
+      "start": 382.17,
+      "end": 389.49,
+      "text": " So this is what I'm going to teach you in the upcoming videos and how you can trade knowing"
+    },
+    {
+      "start": 389.49,
+      "end": 394.49,
+      "text": " that if a market is bullish in one time frame,"
+    },
+    {
+      "start": 396.65,
+      "end": 400.37,
+      "text": " you can trade the market as bearish"
+    },
+    {
+      "start": 400.37,
+      "end": 402.13,
+      "text": " in a smaller time frame."
+    },
+    {
+      "start": 402.13,
+      "end": 404.25,
+      "text": " I hope that clears what I'm trying to say."
+    },
+    {
+      "start": 404.25,
+      "end": 406.41,
+      "text": " I'm sorry, if my English is bad"
+    },
+    {
+      "start": 406.41,
+      "end": 409.01,
+      "text": " or it's hard for you to understand the certain concepts,"
+    },
+    {
+      "start": 409.01,
+      "end": 410.97,
+      "text": " but I'm trying my best here."
+    },
+    {
+      "start": 410.97,
+      "end": 413.81,
+      "text": " So this was all about market structure."
+    },
+    {
+      "start": 413.81,
+      "end": 417.73,
+      "text": " I hope it's clear and I will see you guys in the next video."
+    }
+  ]
+}

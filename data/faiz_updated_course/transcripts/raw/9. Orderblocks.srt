@@ -1,0 +1,520 @@
+1
+00:00:00,000 --> 00:00:04,820
+Alright guys, so in this video, we are going to learn about autoblocks now
+
+2
+00:00:04,820 --> 00:00:11,200
+I'm pretty sure that you guys have heard a lot about autoblocks and
+
+3
+00:00:13,680 --> 00:00:17,920
+If you've been watching a lot of YouTubers for Xtraders
+
+4
+00:00:19,080 --> 00:00:23,360
+I'm pretty sure that by now you know about autoblocks, but
+
+5
+00:00:25,680 --> 00:00:28,480
+Just for the sake of this course, I'm gonna still teach it
+
+6
+00:00:28,480 --> 00:00:30,960
+All right in my own way. That's how it makes sense
+
+7
+00:00:32,800 --> 00:00:36,280
+So what is an autoblock?
+
+8
+00:00:37,840 --> 00:00:41,760
+Now if you are new you should be listening very very carefully
+
+9
+00:00:43,800 --> 00:00:47,720
+So when we get an impulsive move I
+
+10
+00:00:48,720 --> 00:00:54,880
+Will repeat when we get an impulsive move to the downside or to the upside
+
+11
+00:00:54,880 --> 00:01:03,340
+Price is going to leave out some imbalance or fair value gap. All right
+
+12
+00:01:04,680 --> 00:01:06,680
+now
+
+13
+00:01:06,800 --> 00:01:07,920
+above
+
+14
+00:01:07,920 --> 00:01:09,840
+now the first candle
+
+15
+00:01:11,120 --> 00:01:14,000
+Of that fair value gap that creates the
+
+16
+00:01:14,520 --> 00:01:22,000
+Remember we talked about three candle pattern, right? So we got one pet one candle two candle and a third candle
+
+17
+00:01:22,440 --> 00:01:27,880
+Okay, so as I've said before I'm going to explain to you autoblocks in my own way. All right, I
+
+18
+00:01:29,000 --> 00:01:31,160
+Believe it works way better
+
+19
+00:01:31,160 --> 00:01:36,760
+than what other people are teaching because if you I'm going to say it quickly if you have been watching a lot of
+
+20
+00:01:36,760 --> 00:01:45,320
+Videos they always tell you that you should always pick the very last candle of that impulsive move, but that is absolutely wrong. All right, so
+
+21
+00:01:46,000 --> 00:01:52,000
+First of all you want to identify imbalance. All right, so we talked about the third three candle pattern
+
+22
+00:01:52,000 --> 00:01:58,520
+So there's one candle. This is the second candle and this is the third candle. All right, and we got fair value gap
+
+23
+00:02:00,440 --> 00:02:02,440
+Around this
+
+24
+00:02:03,520 --> 00:02:08,880
+So this is fair value gap now the very first candle, which is this. All right, that is your autoblock
+
+25
+00:02:09,520 --> 00:02:11,520
+Okay, so you just mark it out and
+
+26
+00:02:12,080 --> 00:02:16,480
+This is from where you should be entering if you want to enter off the autoblocks. I
+
+27
+00:02:18,040 --> 00:02:25,680
+Sometimes I enter off the autoblock if the imbalance is too big. Okay, sometimes I just be direct the entering
+
+28
+00:02:26,080 --> 00:02:28,080
+from the imbalance so
+
+29
+00:02:28,320 --> 00:02:33,960
+This is basically autoblock guys what you want to determine first of all is a
+
+30
+00:02:35,040 --> 00:02:40,920
+Impulsive move it could be as you can see this is an impulsive move and by impulsive move I mean
+
+31
+00:02:41,920 --> 00:02:45,240
+a price action that leaves imbalance, okay, and
+
+32
+00:02:46,120 --> 00:02:50,440
+What we should be always keeping in mind is that we should be only?
+
+33
+00:02:52,400 --> 00:03:00,240
+Considering the autoblock and imbalance in the premium zone if we are looking to sell. Okay, so we are looking to sell right
+
+34
+00:03:00,240 --> 00:03:06,560
+So then we're gonna draw out our fib and you can see price is above the 50% level. So
+
+35
+00:03:07,040 --> 00:03:09,040
+Yeah, you can buy a
+
+36
+00:03:09,880 --> 00:03:16,020
+Sorry, you can short it right around one price, which is the imbalance or for the
+
+37
+00:03:17,000 --> 00:03:19,000
+optimized entry you can just
+
+38
+00:03:19,680 --> 00:03:23,240
+put your short position at this autoblock and
+
+39
+00:03:25,160 --> 00:03:27,880
+Yeah, boom that is it. So
+
+40
+00:03:29,120 --> 00:03:33,760
+I'm not gonna explain a complicated stuff. I'm just gonna
+
+41
+00:03:34,360 --> 00:03:40,120
+Teach you in the most easiest way so you can understand easily. Okay, don't overcomplicate things guys
+
+42
+00:03:40,120 --> 00:03:46,920
+It's just I don't know. There's so many gurus that overcomplicate autoblock so much. All right, so
+
+43
+00:03:47,640 --> 00:03:49,640
+keep that in mind and
+
+44
+00:03:50,440 --> 00:03:59,080
+Impulsive move that creates some sort of imbalance in the premium or discounted zone. All right, and then the first candle I
+
+45
+00:04:00,080 --> 00:04:04,920
+Don't care if it's a bearish candle or a bullish candle. I
+
+46
+00:04:05,600 --> 00:04:14,120
+Just want it to be the first candle of that imbalance. Okay, so remember three candle pattern one two three
+
+47
+00:04:15,360 --> 00:04:22,160
+The low of the first candle the high of the sec a third candle. All right, so I'm gonna explain it again
+
+48
+00:04:22,480 --> 00:04:24,480
+Just in case you didn't understand
+
+49
+00:04:25,320 --> 00:04:29,840
+So this is imbalance, but if the imbalance is too big I
+
+50
+00:04:30,760 --> 00:04:32,560
+enter of the
+
+51
+00:04:32,560 --> 00:04:38,040
+Autoblock which is this candle the beginning of that autoblock put your stopwatch right above it and
+
+52
+00:04:39,200 --> 00:04:44,200
+Boom. Okay. Now. This is of course hindsight. Huh, so yeah
+
+53
+00:04:44,920 --> 00:04:48,680
+This is a autoblock now. Let me give you an example for
+
+54
+00:04:48,680 --> 00:04:50,680
+For
+
+55
+00:04:50,960 --> 00:04:56,320
+If I can find it of course, okay, I think I do find it and I think this is in a
+
+56
+00:04:57,640 --> 00:05:00,360
+That I'm all right. Yeah, so we got the
+
+57
+00:05:02,960 --> 00:05:09,100
+Example here, but this is not the perfect example, but I'm just still gonna teach it. All right, so we see we got a pull
+
+58
+00:05:09,560 --> 00:05:11,120
+push up
+
+59
+00:05:11,120 --> 00:05:16,560
+Push down and then we got another leg up. So we are gonna go first of all draw a Fibonacci tool
+
+60
+00:05:16,560 --> 00:05:20,680
+So you can see this in an impulse and move that leaves the imbalance behind all right
+
+61
+00:05:20,840 --> 00:05:25,520
+So let me draw this out right around here. Okay, so perfect voila
+
+62
+00:05:26,400 --> 00:05:32,280
+Now after the impulse and move to the upside we are going to wait for the price to fall down into the discounted zone
+
+63
+00:05:32,280 --> 00:05:37,480
+Which is below 50% of the Fibonacci tool perfect great now
+
+64
+00:05:38,760 --> 00:05:40,760
+Where is the imbalance?
+
+65
+00:05:41,280 --> 00:05:43,280
+You
+
+66
+00:05:44,920 --> 00:05:50,200
+Can see that we see imbalance around this level all right, so we got imbalance
+
+67
+00:05:51,720 --> 00:05:53,720
+But the problem with it is that
+
+68
+00:05:54,440 --> 00:05:58,000
+It is above to 50 person all right
+
+69
+00:05:58,960 --> 00:06:01,320
+But if you look
+
+70
+00:06:02,440 --> 00:06:04,440
+Just below it
+
+71
+00:06:04,760 --> 00:06:06,920
+You can see that this is on autoblock
+
+72
+00:06:07,480 --> 00:06:09,480
+Okay, the first candle
+
+73
+00:06:09,800 --> 00:06:13,400
+That creates the imbalance okay, so
+
+74
+00:06:14,920 --> 00:06:17,640
+Price falls into this autoblock
+
+75
+00:06:18,960 --> 00:06:20,960
+But then we got
+
+76
+00:06:22,520 --> 00:06:26,760
+Another fair value gap around this level okay
+
+77
+00:06:29,240 --> 00:06:34,840
+So we should be considering this as our autoblock
+
+78
+00:06:35,840 --> 00:06:41,760
+And if we draw this out you can see how perfect our entry is
+
+79
+00:06:43,080 --> 00:06:49,120
+So you would have gone long here of course your stop laws was a bit huge
+
+80
+00:06:49,280 --> 00:06:54,000
+But look we are on a one minute time frame. So this is very small okay and
+
+81
+00:06:55,120 --> 00:07:01,560
+Boom and I'm explaining it on a one minute time frame just to show you guys that price is fractal okay
+
+82
+00:07:02,680 --> 00:07:04,440
+so I
+
+83
+00:07:04,480 --> 00:07:10,680
+Hope you understood what I talked about here. Okay, first of all we saw an imbalance around here
+
+84
+00:07:11,040 --> 00:07:18,200
+But the imbalance was above the 50 person area okay, but then price fell into this
+
+85
+00:07:18,760 --> 00:07:19,880
+discounted
+
+86
+00:07:19,880 --> 00:07:23,560
+Autoblock now you kind of entered here as well
+
+87
+00:07:24,400 --> 00:07:29,640
+Okay, as I said before I sometimes enter off the imbalances if the imbalances short
+
+88
+00:07:29,640 --> 00:07:32,080
+I would enter here and as you can see in this scenario
+
+89
+00:07:33,080 --> 00:07:38,080
+The imbalance was small so I would have entered at this level, but
+
+90
+00:07:38,880 --> 00:07:42,480
+If you are only entering off the autoblocks
+
+91
+00:07:43,400 --> 00:07:46,480
+then you want to see you want to mark out the
+
+92
+00:07:49,120 --> 00:07:54,360
+The autoblock in the discounted zone, so this was the first if you did enter here
+
+93
+00:07:54,680 --> 00:07:55,960
+Congrats, okay
+
+94
+00:07:55,960 --> 00:08:01,760
+But as you can see the imbalance was about 50% this this could have been a risky trade okay
+
+95
+00:08:02,320 --> 00:08:06,920
+But then this autoblock was way below the 50% level
+
+96
+00:08:07,680 --> 00:08:12,120
+Way to discount it. Okay, so this is like the perfect place for you to buy and
+
+97
+00:08:13,080 --> 00:08:20,240
+Price falls into this level. Of course you're gonna enter a little above your actual entry to
+
+98
+00:08:21,160 --> 00:08:23,280
+deal with the spreads of your broker and
+
+99
+00:08:24,200 --> 00:08:26,440
+As you can see price went all the way up
+
+100
+00:08:27,480 --> 00:08:29,480
+very very simple guys, okay
+
+101
+00:08:30,480 --> 00:08:32,920
+Not complicated at all
+
+102
+00:08:34,040 --> 00:08:37,720
+Let me see if I can give you another example and then I'm gonna end the video so
+
+103
+00:08:39,640 --> 00:08:44,200
+Now of course this is hindsight guys and yeah, you know and
+
+104
+00:08:46,840 --> 00:08:48,840
+Okay, so let me see
+
+105
+00:08:59,560 --> 00:09:01,560
+Okay, so
+
+106
+00:09:02,320 --> 00:09:04,320
+We got the
+
+107
+00:09:04,320 --> 00:09:08,440
+market structure break now I consider wicks sometimes as
+
+108
+00:09:10,280 --> 00:09:16,760
+A break as well because you know, it's just showing a shine a sign of strength the price
+
+109
+00:09:17,200 --> 00:09:21,560
+Can go up all right, so I consider it as a market structure break as well and
+
+110
+00:09:22,320 --> 00:09:27,600
+Now you're gonna see that we got this autoblock right around here
+
+111
+00:09:30,120 --> 00:09:32,120
+Now of course
+
+112
+00:09:32,200 --> 00:09:35,520
+I'm just telling you guys if you're just entering
+
+113
+00:09:37,000 --> 00:09:43,520
+Only because of the autoblocks you're gonna lose a lot because yeah, of course my job is to teach you autoblocks
+
+114
+00:09:43,520 --> 00:09:50,400
+But I don't don't usually recommend using autoblocks like this, but for the sake of this video
+
+115
+00:09:50,400 --> 00:09:56,600
+I'm just gonna teach you anyways, okay, so as you can see price broke through this level, so
+
+116
+00:09:56,600 --> 00:10:00,400
+We're gonna first of all draw our Fibonacci to
+
+117
+00:10:01,040 --> 00:10:06,280
+right wait for the price to fall down into the premium or sorry discounted zone price comes down to the discounted zone and
+
+118
+00:10:07,240 --> 00:10:13,000
+We got this imbalance here. So now I would personally directly enter off this imbalance
+
+119
+00:10:13,000 --> 00:10:17,280
+Which is around here so you can see we have gotten this move right up right up there
+
+120
+00:10:17,760 --> 00:10:22,920
+but then as you can see we got this autoblock all right and
+
+121
+00:10:23,760 --> 00:10:25,760
+and
+
+122
+00:10:25,760 --> 00:10:33,960
+Price fell into it probably stopped you out of course it did because in my opinion if you're using autoblocks like that
+
+123
+00:10:34,360 --> 00:10:38,600
+You're always gonna lose. I'm pretty sure that you have watched a lot of SMC videos
+
+124
+00:10:39,760 --> 00:10:45,400
+Or you bought someone else's course and they taught you that you should be buying a daughter block putting your stop
+
+125
+00:10:45,400 --> 00:10:50,400
+Let's write below it a bit eventually it gets topped out a lot in my strategy videos
+
+126
+00:10:50,880 --> 00:10:56,400
+I'm gonna clear everything to you. So don't worry about it, but I'm pretty sure you should be
+
+127
+00:10:57,440 --> 00:10:59,280
+clear about autoblocks
+
+128
+00:10:59,280 --> 00:11:07,720
+This was a long video and unnecessarily long video, but I did hope I do hope that you got some information out of it
+
+129
+00:11:08,080 --> 00:11:12,360
+So don't just rely on autoblocks guys. I mean yeah, they are helpful
+
+130
+00:11:12,760 --> 00:11:17,760
+But in a different way and I'm gonna teach you that different way. So see you guys in the next video
+

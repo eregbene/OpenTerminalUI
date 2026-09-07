@@ -1,0 +1,1218 @@
+{
+  "source": "F:\\new faiz\\41. The Yin Yang Model.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 1135.479,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Hey everybody hope you're doing well. In this chapter I will be teaching you the most mechanical gold training strategy. So previously I made a video on gold and it was only for the people who could trade the Asian session, right? But this one is gonna work in London session and I've been getting a lot of requests. So this chapter of this course is gonna explain each and everything about the strategy. So make sure you wash your hands."
+    },
+    {
+      "start": 30.0,
+      "end": 36.4,
+      "text": " the end so you don't miss anything. Now, my goal always has been to you're"
+    },
+    {
+      "start": 36.4,
+      "end": 40.72,
+      "text": " simplified trading, all right? I don't want you guys to be looking for daily bias"
+    },
+    {
+      "start": 40.72,
+      "end": 45.76,
+      "text": " and doing these top down analysis. Yes, of course, they they have a little bit"
+    },
+    {
+      "start": 45.76,
+      "end": 50.4,
+      "text": " of advantage over mechanical strategies, but this strategy about to teach you"
+    },
+    {
+      "start": 50.4,
+      "end": 56.64,
+      "text": " right now broke trust me. It works every single day. Like there is no day that it"
+    },
+    {
+      "start": 56.64,
+      "end": 65.52,
+      "text": " won't work. Alright, so what exactly is the strategy? Right? So we know that the London session"
+    },
+    {
+      "start": 65.52,
+      "end": 73.2,
+      "text": " starts at 3 am near time. Alright, so let's assume that this is the London session open. Right?"
+    },
+    {
+      "start": 73.2,
+      "end": 81.52,
+      "text": " Now all you have to do is go to the 15 minute timeframe. Right? And the very first"
+    },
+    {
+      "start": 81.52,
+      "end": 84.2,
+      "text": " Ferval"
+    },
+    {
+      "start": 84.2,
+      "end": 85.52,
+      "text": " The London session."
+    },
+    {
+      "start": 85.52,
+      "end": 91.52,
+      "text": " You are waiting for price to create some form of a Fervalic app."
+    },
+    {
+      "start": 91.52,
+      "end": 95.52,
+      "text": " The first Fervalic app that forms during the London session."
+    },
+    {
+      "start": 95.52,
+      "end": 97.52,
+      "text": " Remember that."
+    },
+    {
+      "start": 97.52,
+      "end": 104.52,
+      "text": " So let's assume that we have this Fervalic app formed around here."
+    },
+    {
+      "start": 104.52,
+      "end": 110.52,
+      "text": " So all I'm actually waiting for is to price for the price to inverse it."
+    },
+    {
+      "start": 110.52,
+      "end": 116.52,
+      "text": " And what I mean by this is I want the price to close below it."
+    },
+    {
+      "start": 116.52,
+      "end": 117.52,
+      "text": " Okay?"
+    },
+    {
+      "start": 117.52,
+      "end": 121.52,
+      "text": " So the entire strategy is basically how this is how it goes."
+    },
+    {
+      "start": 121.52,
+      "end": 134.1,
+      "text": " So during London, mark out the first strategy that forms and then wait for it to get in"
+    },
+    {
+      "start": 134.1,
+      "end": 141.78,
+      "text": " first. All right, so remember this. Now, all you are waiting for to do from here onwards when"
+    },
+    {
+      "start": 141.78,
+      "end": 147.3,
+      "text": " the fair value gap gets in first is you're taking your entry on the retest. You're going for one"
+    },
+    {
+      "start": 147.3,
+      "end": 155.38,
+      "text": " to two and you are targeting some form of liquidity, right? And basically you're putting your stop"
+    },
+    {
+      "start": 155.38,
+      "end": 162.1,
+      "text": " above the bodies. So this is your entry. So let's suppose that this is weak, right? So this part"
+    },
+    {
+      "start": 162.1,
+      "end": 166.98,
+      "text": " of this price is the wig. But then over here are the bodies. So you're going to put your"
+    },
+    {
+      "start": 166.98,
+      "end": 173.62,
+      "text": " star pair not above the wig but above the bodies. Literally this is literally it's going to work"
+    },
+    {
+      "start": 174.34,
+      "end": 182.26,
+      "text": " every single day guys. All right. Now it works for Forex as well. But there are some other methods"
+    },
+    {
+      "start": 182.26,
+      "end": 188.26,
+      "text": " for it. I'm going to teach that in the upcoming chapters. But for now this is the best goal"
+    },
+    {
+      "start": 188.26,
+      "end": 194.22,
+      "text": " strategy for the London session. Right? And similarly, if you look at it here, you know,"
+    },
+    {
+      "start": 194.22,
+      "end": 199.5,
+      "text": " we have this London open here at three, right? And I'm going to give you guys some examples"
+    },
+    {
+      "start": 199.5,
+      "end": 203.3,
+      "text": " that don't worry. I'm going to explain all of the other things as well. You can see"
+    },
+    {
+      "start": 203.3,
+      "end": 207.82,
+      "text": " that we have the fresh property gap that forms, right? The very first, all right? You have"
+    },
+    {
+      "start": 207.82,
+      "end": 213.82,
+      "text": " to put entire focus on that fairly gap. And then you can see that whenever price in"
+    },
+    {
+      "start": 213.82,
+      "end": 220.82,
+      "text": " versus it is when you take your entry from the we test. So what is a high probability setup"
+    },
+    {
+      "start": 220.82,
+      "end": 228.7,
+      "text": " in this for this strategy? So let's assume that price created some form of liquidity"
+    },
+    {
+      "start": 228.7,
+      "end": 235.42,
+      "text": " before going into London open. And we create a fairly gap, the very first fairly gap"
+    },
+    {
+      "start": 235.42,
+      "end": 242.82,
+      "text": " that forms during the London session. And you have these equal highs, liquidity level, somewhere"
+    },
+    {
+      "start": 242.82,
+      "end": 248.82,
+      "text": " around here. Now this is the high probability setup. So when price in versus that"
+    },
+    {
+      "start": 248.82,
+      "end": 253.3,
+      "text": " fresh probability gap, you can actually take you into on the retest or on the body closure."
+    },
+    {
+      "start": 253.3,
+      "end": 258.9,
+      "text": " So if the body closes slightly above it, then you can take your entry straight away."
+    },
+    {
+      "start": 258.9,
+      "end": 264.34,
+      "text": " But if it's gone way far up ahead and you know, you think that your stop was going to be big,"
+    },
+    {
+      "start": 264.34,
+      "end": 270.26,
+      "text": " then you take your entry from the retest, put your stop below the bodies, and then you can target"
+    },
+    {
+      "start": 270.26,
+      "end": 278.74,
+      "text": " easily target these equal highs over here. Now what if the liquidity is swept before you get your"
+    },
+    {
+      "start": 278.74,
+      "end": 284.34,
+      "text": " entry right and this is what's going to make the setup low probability because we have already reached"
+    },
+    {
+      "start": 284.34,
+      "end": 289.86,
+      "text": " our target but rest assured even if the liquidity is swept there might be some high time from"
+    },
+    {
+      "start": 289.86,
+      "end": 295.46,
+      "text": " liquidity investing above here that the price will take out. All you need to do is just look for"
+    },
+    {
+      "start": 295.46,
+      "end": 299.78,
+      "text": " the very first fair value gap that firms during the London session and then you're waiting for it"
+    },
+    {
+      "start": 299.78,
+      "end": 305.18,
+      "text": " to get inversed and then you're looking to take your entry from the retest or, um, or,"
+    },
+    {
+      "start": 305.18,
+      "end": 307.38,
+      "text": " or you know, just entering state away."
+    },
+    {
+      "start": 307.38,
+      "end": 312.58,
+      "text": " Now, key thing to note is that if there's some form of news, right, are you just want to"
+    },
+    {
+      "start": 312.58,
+      "end": 317.98,
+      "text": " avoid that setup and wait till 15 minutes pass, right, after news?"
+    },
+    {
+      "start": 317.98,
+      "end": 321.98,
+      "text": " You do not want to trade before news because what's going to happen is price is going"
+    },
+    {
+      "start": 321.98,
+      "end": 323.58,
+      "text": " to do something like this, right?"
+    },
+    {
+      "start": 323.58,
+      "end": 325.86,
+      "text": " It's going to just mess up everything."
+    },
+    {
+      "start": 325.86,
+      "end": 329.46,
+      "text": " So you want to avoid the high impact news."
+    },
+    {
+      "start": 329.46,
+      "end": 334.22,
+      "text": " So by now this should be clean, perfectly clean, right?"
+    },
+    {
+      "start": 334.22,
+      "end": 338.78,
+      "text": " Now there is another way to improve the windward and that is by marking some form of high"
+    },
+    {
+      "start": 338.78,
+      "end": 344.82,
+      "text": " time from PDRA and price dips into that PDRA and then it reverses the fresh trail you"
+    },
+    {
+      "start": 344.82,
+      "end": 346.42,
+      "text": " get that from, right?"
+    },
+    {
+      "start": 346.42,
+      "end": 349.98,
+      "text": " Or it's simply just swept some form of liquidity here, right?"
+    },
+    {
+      "start": 349.98,
+      "end": 355.58,
+      "text": " And once it sweeps that and it reverses the very first fair body gap of the London session,"
+    },
+    {
+      "start": 355.58,
+      "end": 356.98,
+      "text": " then you can take your entry."
+    },
+    {
+      "start": 356.98,
+      "end": 363.38,
+      "text": " setup is insanely powerful guys and I'm gonna give you guys some examples now and you are going to"
+    },
+    {
+      "start": 363.38,
+      "end": 368.42,
+      "text": " tag me before I move to the examples if you're watching this on YouTube I want to let you know that"
+    },
+    {
+      "start": 368.42,
+      "end": 374.98,
+      "text": " my new course is coming out very soon so if you want free access to my course you have to"
+    },
+    {
+      "start": 374.98,
+      "end": 380.5,
+      "text": " enroll into my current course right now otherwise if you don't do it and the new course releases"
+    },
+    {
+      "start": 380.5,
+      "end": 385.78,
+      "text": " is gonna be priced at a different level but now if you enroll into my current course you can"
+    },
+    {
+      "start": 385.78,
+      "end": 388.18,
+      "text": " and actually get the entire access to my discord"
+    },
+    {
+      "start": 388.18,
+      "end": 391.66,
+      "text": " where I have the course videos for absolutely free."
+    },
+    {
+      "start": 391.66,
+      "end": 393.74,
+      "text": " So let's go on to the examples now."
+    },
+    {
+      "start": 394.66,
+      "end": 396.5,
+      "text": " All right guys, so here is example one"
+    },
+    {
+      "start": 396.5,
+      "end": 398.22,
+      "text": " and we're waiting for the London Open"
+    },
+    {
+      "start": 398.22,
+      "end": 400.58,
+      "text": " and at 3am we have the London Open."
+    },
+    {
+      "start": 400.58,
+      "end": 403.9,
+      "text": " So now we are waiting for a fairly good formation."
+    },
+    {
+      "start": 403.9,
+      "end": 405.74,
+      "text": " And straight away what do we have?"
+    },
+    {
+      "start": 405.74,
+      "end": 408.62,
+      "text": " We have a fairly good that formed around here."
+    },
+    {
+      "start": 408.62,
+      "end": 412.26,
+      "text": " So now we're waiting for price to inverse it, right?"
+    },
+    {
+      "start": 412.26,
+      "end": 416.26,
+      "text": " And you can see we also set some form of liquidity here."
+    },
+    {
+      "start": 416.26,
+      "end": 419.26,
+      "text": " So now we're waiting for price to inverse."
+    },
+    {
+      "start": 419.26,
+      "end": 422.26,
+      "text": " And right away we have the inversion."
+    },
+    {
+      "start": 422.26,
+      "end": 424.26,
+      "text": " So I'm going to take my entry on the retails."
+    },
+    {
+      "start": 424.26,
+      "end": 426.26,
+      "text": " I'm going to put my stop right below these bodies."
+    },
+    {
+      "start": 426.26,
+      "end": 429.26,
+      "text": " Not below the weight, but below the body."
+    },
+    {
+      "start": 429.26,
+      "end": 433.26,
+      "text": " And probably we can target one to two here."
+    },
+    {
+      "start": 433.26,
+      "end": 437.26,
+      "text": " And I can leave some runners till here."
+    },
+    {
+      "start": 437.26,
+      "end": 440.26,
+      "text": " But I usually go for one to two and that's it."
+    },
+    {
+      "start": 440.26,
+      "end": 447.2,
+      "text": " So you can see we get our entry on the retest and the take profit level was hit"
+    },
+    {
+      "start": 447.2,
+      "end": 454.0,
+      "text": " and then price you know it eventually it went up to that liquidity level and it"
+    },
+    {
+      "start": 454.0,
+      "end": 458.38,
+      "text": " took it out. Although I would always go for one to two and you can see how"
+    },
+    {
+      "start": 458.38,
+      "end": 464.02,
+      "text": " price just went up ahead and reacted from this auto block here. Push down below"
+    },
+    {
+      "start": 464.02,
+      "end": 469.22,
+      "text": " well if you had you stopped below the week then maybe you could have but you would"
+    },
+    {
+      "start": 469.22,
+      "end": 473.46,
+      "text": " still be close at break even. So it's best to always take a profit at 1 to 2."
+    },
+    {
+      "start": 473.46,
+      "end": 478.34,
+      "text": " Let me give you guys some more examples. Alright guys so here is example 2 and"
+    },
+    {
+      "start": 478.34,
+      "end": 483.98,
+      "text": " this is the London Open. So I'm waiting for everybody to get formation. And"
+    },
+    {
+      "start": 483.98,
+      "end": 487.78,
+      "text": " just around here we have the very first for everybody to get up of the London"
+    },
+    {
+      "start": 487.78,
+      "end": 492.86,
+      "text": " session. So the London session is from 3am to 7am. So I'm waiting for"
+    },
+    {
+      "start": 492.86,
+      "end": 498.3,
+      "text": " price to inverse it right away but do we have? We have inverse it. And we have"
+    },
+    {
+      "start": 498.3,
+      "end": 503.62,
+      "text": " these equal highs resting around this area and we have also swept some form of"
+    },
+    {
+      "start": 503.62,
+      "end": 510.06,
+      "text": " liquidity here. So I'm just gonna long here put my job below the body here and"
+    },
+    {
+      "start": 510.06,
+      "end": 515.18,
+      "text": " I can go for one to two. I don't care. Alright, I'm just gonna go break even at one"
+    },
+    {
+      "start": 515.18,
+      "end": 526.34,
+      "text": " to one so I'm rich free. So let's assume what happened here. You can see that at"
+    },
+    {
+      "start": 526.34,
+      "end": 531.78,
+      "text": " at this point I would go break even right but since 1 to 1 yeah so I'm just going to"
+    },
+    {
+      "start": 531.78,
+      "end": 543.23,
+      "text": " hold till 1 to 2 and eventually it goes up ahead and takes out this high over here as well."
+    },
+    {
+      "start": 543.23,
+      "end": 549.55,
+      "text": " So you can see how we inverse the very first level you get and we had this liquidity resting"
+    },
+    {
+      "start": 549.55,
+      "end": 550.79,
+      "text": " above here."
+    },
+    {
+      "start": 550.79,
+      "end": 557.19,
+      "text": " It is not necessary these two steps right the liquidity sweep and the the resting liquidity"
+    },
+    {
+      "start": 557.19,
+      "end": 562.91,
+      "text": " is not necessary but it's gonna improve the win rate always always gonna always"
+    },
+    {
+      "start": 562.91,
+      "end": 567.15,
+      "text": " improve the win rate but if you want to keep things as mechanical as possible just"
+    },
+    {
+      "start": 567.15,
+      "end": 570.03,
+      "text": " wait for the first for a little gap to get inversed and take your entry"
+    },
+    {
+      "start": 570.03,
+      "end": 575.71,
+      "text": " bro it's it's really really not that hot and if I go just around here you can"
+    },
+    {
+      "start": 575.71,
+      "end": 581.07,
+      "text": " see that we have this fairly gap the very first for a little gap that formed"
+    },
+    {
+      "start": 581.07,
+      "end": 588.35,
+      "text": " during the London and notice what happened we had this liquidity level"
+    },
+    {
+      "start": 588.35,
+      "end": 593.91,
+      "text": " resting around here right and we swept this liquidity here and then we"
+    },
+    {
+      "start": 593.91,
+      "end": 598.79,
+      "text": " inversed the fairly gap the first row of the gap of the London session shot"
+    },
+    {
+      "start": 598.79,
+      "end": 604.47,
+      "text": " position right here stop right above the bodies here and a beautiful one to two"
+    },
+    {
+      "start": 604.47,
+      "end": 610.51,
+      "text": " wrist to the wall right away so two examples in one clip let me give you guys some"
+    },
+    {
+      "start": 610.51,
+      "end": 614.59,
+      "text": " examples. Alright guys so here is another example and we have the London open"
+    },
+    {
+      "start": 614.59,
+      "end": 619.39,
+      "text": " here so I'm waiting for a fair value gap formation and we do have it"
+    },
+    {
+      "start": 619.39,
+      "end": 626.83,
+      "text": " around here. So notice two things now. We have swept this liquidity these"
+    },
+    {
+      "start": 626.83,
+      "end": 634.51,
+      "text": " relative equal highs over here, right? We also swept this high over here. That's"
+    },
+    {
+      "start": 634.51,
+      "end": 640.23,
+      "text": " perfect and we have these equal lows resting around this level. So"
+    },
+    {
+      "start": 640.23,
+      "end": 644.03,
+      "text": " So what does this directly tell you that we're going to inverse it and then we're going"
+    },
+    {
+      "start": 644.03,
+      "end": 646.95,
+      "text": " to push down like crazily."
+    },
+    {
+      "start": 646.95,
+      "end": 648.91,
+      "text": " All right."
+    },
+    {
+      "start": 648.91,
+      "end": 650.83,
+      "text": " So right away, what do we have?"
+    },
+    {
+      "start": 650.83,
+      "end": 656.31,
+      "text": " We have inversion, entry on the retest stops above the bodies of the highest wick."
+    },
+    {
+      "start": 656.31,
+      "end": 657.31,
+      "text": " Right?"
+    },
+    {
+      "start": 657.31,
+      "end": 658.59,
+      "text": " So this is the highest wick."
+    },
+    {
+      "start": 658.59,
+      "end": 659.59,
+      "text": " The bodies."
+    },
+    {
+      "start": 659.59,
+      "end": 660.59,
+      "text": " All right."
+    },
+    {
+      "start": 660.59,
+      "end": 665.91,
+      "text": " Because if price goes here, there's 99% chance it's going to take out this level."
+    },
+    {
+      "start": 665.91,
+      "end": 668.55,
+      "text": " So just don't bother."
+    },
+    {
+      "start": 668.55,
+      "end": 669.75,
+      "text": " And one to two."
+    },
+    {
+      "start": 669.75,
+      "end": 671.91,
+      "text": " Let's see how this plays out."
+    },
+    {
+      "start": 671.91,
+      "end": 673.75,
+      "text": " We get our retest."
+    },
+    {
+      "start": 675.59,
+      "end": 678.35,
+      "text": " And we push down and the take profit was hit."
+    },
+    {
+      "start": 678.35,
+      "end": 680.59,
+      "text": " Notice how the bodies were respected"
+    },
+    {
+      "start": 680.59,
+      "end": 682.63,
+      "text": " inside this inversion."
+    },
+    {
+      "start": 683.63,
+      "end": 684.67,
+      "text": " All right."
+    },
+    {
+      "start": 684.67,
+      "end": 686.15,
+      "text": " This is all algorithm bro."
+    },
+    {
+      "start": 686.15,
+      "end": 691.15,
+      "text": " Like it's insane how well this shit works."
+    },
+    {
+      "start": 691.15,
+      "end": 695.19,
+      "text": " All right, so over here, you can see bro,"
+    },
+    {
+      "start": 695.19,
+      "end": 697.99,
+      "text": " it just happens every single day."
+    },
+    {
+      "start": 697.99,
+      "end": 700.67,
+      "text": " So this is the London session start, right?"
+    },
+    {
+      "start": 700.67,
+      "end": 702.31,
+      "text": " No fair value gap, no fair value gap,"
+    },
+    {
+      "start": 702.31,
+      "end": 705.87,
+      "text": " and then out of nowhere, we have a fair value gap."
+    },
+    {
+      "start": 705.87,
+      "end": 709.31,
+      "text": " We sweep the liquidity here, right?"
+    },
+    {
+      "start": 709.31,
+      "end": 714.63,
+      "text": " And we have this insane amount of liquidity resting here, right?"
+    },
+    {
+      "start": 714.63,
+      "end": 717.87,
+      "text": " And you can just see how well it works."
+    },
+    {
+      "start": 717.87,
+      "end": 721.35,
+      "text": " So inversion, entry on the retest,"
+    },
+    {
+      "start": 721.35,
+      "end": 722.79,
+      "text": " or actually I would enter here"
+    },
+    {
+      "start": 722.79,
+      "end": 725.79,
+      "text": " because it's just weight close, weight close."
+    },
+    {
+      "start": 725.79,
+      "end": 728.03,
+      "text": " And my stop, you can see this is the highest weight."
+    },
+    {
+      "start": 728.03,
+      "end": 730.11,
+      "text": " I would put it somewhere around here."
+    },
+    {
+      "start": 731.67,
+      "end": 734.23,
+      "text": " And wow, insane guys."
+    },
+    {
+      "start": 734.23,
+      "end": 738.19,
+      "text": " It's just, it's incredible how well it works."
+    },
+    {
+      "start": 738.19,
+      "end": 739.31,
+      "text": " All right."
+    },
+    {
+      "start": 739.31,
+      "end": 742.43,
+      "text": " All right guys, so here is the last example."
+    },
+    {
+      "start": 742.43,
+      "end": 743.51,
+      "text": " And this is the London Open."
+    },
+    {
+      "start": 743.51,
+      "end": 746.55,
+      "text": " So we are waiting for your fairly good formation."
+    },
+    {
+      "start": 746.55,
+      "end": 749.19,
+      "text": " And right away, we have the very first fairly good"
+    },
+    {
+      "start": 749.19,
+      "end": 751.35,
+      "text": " that forms during the London session."
+    },
+    {
+      "start": 751.35,
+      "end": 754.35,
+      "text": " And over here, you can see we have equal highs."
+    },
+    {
+      "start": 754.35,
+      "end": 756.39,
+      "text": " and those were swept as well."
+    },
+    {
+      "start": 756.39,
+      "end": 758.67,
+      "text": " And then we have this sorry,"
+    },
+    {
+      "start": 758.67,
+      "end": 760.99,
+      "text": " Asian low as I would draw on liquidity."
+    },
+    {
+      "start": 762.71,
+      "end": 766.43,
+      "text": " And you can also see we tapped into this volume imbalance here."
+    },
+    {
+      "start": 766.43,
+      "end": 768.59,
+      "text": " So there are just so many confluence"
+    },
+    {
+      "start": 768.59,
+      "end": 770.51,
+      "text": " is telling you to shot this pro."
+    },
+    {
+      "start": 770.51,
+      "end": 773.15,
+      "text": " And then we have the inversion here, right?"
+    },
+    {
+      "start": 773.15,
+      "end": 776.15,
+      "text": " And on the retest, you can see,"
+    },
+    {
+      "start": 776.15,
+      "end": 779.59,
+      "text": " straight away, stops right above the bodies."
+    },
+    {
+      "start": 779.59,
+      "end": 781.95,
+      "text": " But since the week is not that big,"
+    },
+    {
+      "start": 781.95,
+      "end": 783.23,
+      "text": " I can actually put it here."
+    },
+    {
+      "start": 783.23,
+      "end": 784.35,
+      "text": " It's no problem."
+    },
+    {
+      "start": 784.35,
+      "end": 786.29,
+      "text": " All right."
+    },
+    {
+      "start": 786.29,
+      "end": 789.83,
+      "text": " I would go for one to two, but let's see how this plays out."
+    },
+    {
+      "start": 789.83,
+      "end": 795.87,
+      "text": " So we got our entry and price just melted."
+    },
+    {
+      "start": 795.87,
+      "end": 799.43,
+      "text": " So the key thing to note here is, guys, if you really"
+    },
+    {
+      "start": 799.43,
+      "end": 803.15,
+      "text": " want this model to work every single day, number one,"
+    },
+    {
+      "start": 803.15,
+      "end": 809.43,
+      "text": " look for liquidity sweep."
+    },
+    {
+      "start": 809.43,
+      "end": 811.43,
+      "text": " All right."
+    },
+    {
+      "start": 811.43,
+      "end": 815.75,
+      "text": " This is key because it's not like necessary."
+    },
+    {
+      "start": 815.75,
+      "end": 818.63,
+      "text": " But I showed you so many examples where price"
+    },
+    {
+      "start": 818.63,
+      "end": 821.83,
+      "text": " strips some form of significant liquidity equal highs,"
+    },
+    {
+      "start": 821.83,
+      "end": 825.67,
+      "text": " equal lows, and then the push is insane."
+    },
+    {
+      "start": 825.67,
+      "end": 828.15,
+      "text": " So look for liquidity soup, right?"
+    },
+    {
+      "start": 828.15,
+      "end": 831.91,
+      "text": " And or price goes into some form of key level here."
+    },
+    {
+      "start": 831.91,
+      "end": 836.35,
+      "text": " And then clear draw on liquidity."
+    },
+    {
+      "start": 836.35,
+      "end": 837.83,
+      "text": " You have clear draw on liquidity."
+    },
+    {
+      "start": 837.83,
+      "end": 845.43,
+      "text": " this example we had this LRLR something and I don't want to use complicated words"
+    },
+    {
+      "start": 845.43,
+      "end": 848.99,
+      "text": " it's just the karate bro all right a trendline liquidity what I want to call it"
+    },
+    {
+      "start": 848.99,
+      "end": 858.15,
+      "text": " clear draw liquidity and then you are waiting for the first inversion of first"
+    },
+    {
+      "start": 858.15,
+      "end": 866.63,
+      "text": " for everybody gap that forms in London this is literally your bread and butter"
+    },
+    {
+      "start": 866.63,
+      "end": 873.67,
+      "text": " like it works so well that you have no idea. Alright now some days what's gonna"
+    },
+    {
+      "start": 873.67,
+      "end": 880.39,
+      "text": " happen is so let me just show you here. Okay actually we inverse this here as"
+    },
+    {
+      "start": 880.39,
+      "end": 885.11,
+      "text": " well this was a tiny little fair value gap and you can see that we formed it at"
+    },
+    {
+      "start": 885.11,
+      "end": 892.07,
+      "text": " three right so sometimes the fair value gap is gonna form at exactly at three"
+    },
+    {
+      "start": 892.07,
+      "end": 896.99,
+      "text": " So the the second candle if it's at three then it's acceptable"
+    },
+    {
+      "start": 896.99,
+      "end": 905.95,
+      "text": " However, if the second candle is at 245 so fairbody gap is off three candles right one two three now"
+    },
+    {
+      "start": 905.95,
+      "end": 911.13,
+      "text": " I want the second candle to be at three a.m. Exact. This should be the one"
+    },
+    {
+      "start": 911.13,
+      "end": 915.01,
+      "text": " All right if it doesn't form here then I'm looking for another probably gap to form"
+    },
+    {
+      "start": 915.19,
+      "end": 921.89,
+      "text": " But since what people would do is they would consider this as the first fairbody gap and I do not want to see"
+    },
+    {
+      "start": 922.07,
+      "end": 927.99,
+      "text": " this. Why? Because the second candle formed at 245. So this is not the forever you got"
+    },
+    {
+      "start": 927.99,
+      "end": 936.47,
+      "text": " the form during the London. However, this one right here, it formed right during London."
+    },
+    {
+      "start": 936.47,
+      "end": 943.79,
+      "text": " So yeah guys, this is practically the entire model and you can see that we had this inverse"
+    },
+    {
+      "start": 943.79,
+      "end": 949.07,
+      "text": " for already got up here as well. And prices, dip, low it, bro. Let me show you guys a losing"
+    },
+    {
+      "start": 949.07,
+      "end": 954.67,
+      "text": " trade. Hopefully I can find it. So we inverse the first"
+    },
+    {
+      "start": 954.67,
+      "end": 960.17,
+      "text": " trail of the gap here. Oh my god. I'm just going to end the video when I find a"
+    },
+    {
+      "start": 960.17,
+      "end": 970.3,
+      "text": " losing the losing trade. This is the first trail of the gap. Oh my god. In"
+    },
+    {
+      "start": 970.3,
+      "end": 977.72,
+      "text": " verse, it just went up. There's there any fair value gap. There's no fair value"
+    },
+    {
+      "start": 977.72,
+      "end": 983.44,
+      "text": " gap. So we just simply skip the day. This is the first trail of the gap, but"
+    },
+    {
+      "start": 983.44,
+      "end": 994.12,
+      "text": " didn't close no inversion. Dude, there's not a single losing trade bro. Come on, I gotta find"
+    },
+    {
+      "start": 994.12,
+      "end": 1001.16,
+      "text": " one losing trade bro. Oh my god, there's another inverse, look at it, look at it. Oh my god,"
+    },
+    {
+      "start": 1001.16,
+      "end": 1005.96,
+      "text": " this, this isn't saying, please, please, please, I need to find a losing trade. Otherwise, I won't"
+    },
+    {
+      "start": 1005.96,
+      "end": 1013.24,
+      "text": " be able to end the video. Okay, this is some form of a losing, I don't know, I just, I just want to"
+    },
+    {
+      "start": 1013.24,
+      "end": 1017.94,
+      "text": " want to losing trade bro even though it was way late in the"
+    },
+    {
+      "start": 1017.94,
+      "end": 1020.04,
+      "text": " London and this is the first row where you got their form."
+    },
+    {
+      "start": 1020.88,
+      "end": 1023.8,
+      "text": " Nah this is not a good losing trade."
+    },
+    {
+      "start": 1023.8,
+      "end": 1026.88,
+      "text": " I want to see a better losing trade. Oh my god."
+    },
+    {
+      "start": 1027.8,
+      "end": 1030.56,
+      "text": " Wow dude dude dude guys guys I'm telling you."
+    },
+    {
+      "start": 1031.24,
+      "end": 1034.64,
+      "text": " Okay. This shit is insane. Look at this."
+    },
+    {
+      "start": 1035.08,
+      "end": 1038.96,
+      "text": " All right. There's no losing trade bro. Hopefully here."
+    },
+    {
+      "start": 1038.96,
+      "end": 1041.32,
+      "text": " Hopefully hopefully hopefully hopefully hopefully."
+    },
+    {
+      "start": 1043.24,
+      "end": 1046.88,
+      "text": " Alright, so you might have noticed one thing."
+    },
+    {
+      "start": 1046.88,
+      "end": 1053.88,
+      "text": " If the friendly gap forms way too late, so in the sixth hour, so from 6am to 7, it becomes"
+    },
+    {
+      "start": 1053.88,
+      "end": 1055.64,
+      "text": " low probability."
+    },
+    {
+      "start": 1055.64,
+      "end": 1062.08,
+      "text": " Even though we had a beautiful reaction from here, and we took out the liquidity, anyways,"
+    },
+    {
+      "start": 1062.08,
+      "end": 1066.12,
+      "text": " I want to see a losing trade guys, I'm losing my mind over here."
+    },
+    {
+      "start": 1066.12,
+      "end": 1068.0,
+      "text": " Come on, give me a losing trade."
+    },
+    {
+      "start": 1068.0,
+      "end": 1071.24,
+      "text": " This is the first favorite thing I got in the forms in the London."
+    },
+    {
+      "start": 1071.24,
+      "end": 1079.52,
+      "text": " sweep liquidity and we take out this level. This is insanity. Hopefully here. Hopefully we"
+    },
+    {
+      "start": 1079.52,
+      "end": 1087.88,
+      "text": " here have a losing trade. First in verse. Oh my god. Guys, I think the video is never going"
+    },
+    {
+      "start": 1087.88,
+      "end": 1096.66,
+      "text": " to end. There's no further gap here. Actually, hopefully guys, guys, I finally found a losing"
+    },
+    {
+      "start": 1096.66,
+      "end": 1106.4,
+      "text": " No freaking way. There's not a fair way gap. Oh my god. I'm losing my mind. I'm losing my"
+    },
+    {
+      "start": 1106.4,
+      "end": 1115.92,
+      "text": " mind guys. There's no probability gap here. Okay, finally, bro. Finally, god damn it. And"
+    },
+    {
+      "start": 1115.92,
+      "end": 1120.6,
+      "text": " the reason why we lost this trade was we didn't sweep this significant liquidity over"
+    },
+    {
+      "start": 1120.6,
+      "end": 1127.36,
+      "text": " here. All right guys, this is gonna be the end. We finally found the losing trade. I hope"
+    },
+    {
+      "start": 1127.36,
+      "end": 1132.24,
+      "text": " Hope you guys leave a subscribe and if you're watching it in this code I hope you guys enjoyed"
+    },
+    {
+      "start": 1132.24,
+      "end": 1133.88,
+      "text": " watching this and learned something from it."
+    },
+    {
+      "start": 1133.88,
+      "end": 1135.28,
+      "text": " I'll see you guys in the next chapter."
+    }
+  ]
+}

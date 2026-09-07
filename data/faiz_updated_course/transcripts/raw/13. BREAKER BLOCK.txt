@@ -1,0 +1,35 @@
+Alright guys, so in this video we are going to talk about breaker blocks. It is another entry pattern that you can use
+It is very powerful. So what essentially is breaker block?
+When you have a lower low
+lower high lower low and a market structure shift
+So when you had lower low
+lower high
+lower low, the last lower low
+And the last candle of that lower low right here
+Is your breaker block. So you have lower low lower high lower low and
+Market structure shift if you have another small lower low here like lower low lower high small lower high lower low
+And then market structure shift then that would be your breaker block. So
+The first candle right here
+First candle before this move or you could say the last candle
+before this last lower low is
+Your breaker block and if there is some
+Fairbody gap here, then that breaker block becomes very strong
+However, if there is no fairbody gap, you can still take entry from this level, okay?
+But if there's fairbody gap then that becomes even better price comes back here and boom
+Similarly, you have higher high high low higher high market structure shift
+this
+last candle
+Before the move to the upside and then market structure shift. So you have higher high high low
+The last candle of the higher low is your breaker block, okay?
+Price comes back here if there is fairbody gap right here
+You can literally take your entry from here instead of looking for entry from the extreme fairbody gap
+What you can do as an entry model you can look for entry here
+so a lot of people asking me we miss sometimes we miss the trade and
+this is how you can
+minimize the risk of missing the trade
+Yes, your stop loss going to be big or you can just put your stop above the breaker block
+But trust me you're gonna lose so just put it above the fair extreme fairbody gap
+So this right here is your breaker block
+Let me show you an example if I can find it
+Um, I drew it somewhere here. Where is it? Where is it? Where is it?
+Mm-hmm. Okay, I think I I deleted it. So I'm gonna pause the video find it and then come back

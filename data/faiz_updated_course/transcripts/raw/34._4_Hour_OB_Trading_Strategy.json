@@ -1,0 +1,698 @@
+{
+  "source": "F:\\new faiz\\34. 4 Hour OB Trading Strategy.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 543.69525,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.56,
+      "end": 30.56,
+      "text": " Alright guys, so in this video I will go over the 4 hour auto block trading strategy in detail. I have uploaded a couple of videos on this topic on YouTube but in this video I will explain it in detail. So basically it is an auto flow trading strategy but it is a bit unique to the normal traditional auto flow trading strategy."
+    },
+    {
+      "start": 30.56,
+      "end": 34.44,
+      "text": " So this is how we look at it."
+    },
+    {
+      "start": 34.44,
+      "end": 39.44,
+      "text": " So number one thing is, look at the autoflow"
+    },
+    {
+      "start": 40.68,
+      "end": 43.08,
+      "text": " on for our timeframe."
+    },
+    {
+      "start": 43.08,
+      "end": 45.72,
+      "text": " Now, when you open the charts,"
+    },
+    {
+      "start": 45.72,
+      "end": 47.84,
+      "text": " let's say you open your USD, okay?"
+    },
+    {
+      "start": 47.84,
+      "end": 49.32,
+      "text": " You don't wanna go back."
+    },
+    {
+      "start": 49.32,
+      "end": 53.12,
+      "text": " What do you see at the current price, right?"
+    },
+    {
+      "start": 53.12,
+      "end": 54.68,
+      "text": " What are you seeing?"
+    },
+    {
+      "start": 54.68,
+      "end": 56.68,
+      "text": " Are you seeing price going up,"
+    },
+    {
+      "start": 56.68,
+      "end": 59.68,
+      "text": " creating higher highs, higher lows, higher highs?"
+    },
+    {
+      "start": 59.68,
+      "end": 63.12,
+      "text": " If you see like three higher highs like that,"
+    },
+    {
+      "start": 63.12,
+      "end": 65.96,
+      "text": " the trend is bullish, okay?"
+    },
+    {
+      "start": 65.96,
+      "end": 69.16,
+      "text": " And if you see like a market structure shift"
+    },
+    {
+      "start": 69.16,
+      "end": 71.24,
+      "text": " and then a break of structure like that,"
+    },
+    {
+      "start": 71.24,
+      "end": 76.24,
+      "text": " then that could be your shift in the market structure"
+    },
+    {
+      "start": 76.8,
+      "end": 79.44,
+      "text": " or a reversal, okay?"
+    },
+    {
+      "start": 79.44,
+      "end": 81.84,
+      "text": " Perfectly I would like to see another break of structure"
+    },
+    {
+      "start": 81.84,
+      "end": 82.68,
+      "text": " like that."
+    },
+    {
+      "start": 82.68,
+      "end": 84.56,
+      "text": " So three break of like one break of structure"
+    },
+    {
+      "start": 84.56,
+      "end": 86.72,
+      "text": " and two break of structures like that."
+    },
+    {
+      "start": 86.72,
+      "end": 91.72,
+      "text": " And that would be my trend reversal, specifically for this strategy."
+    },
+    {
+      "start": 92.72,
+      "end": 99.72,
+      "text": " So now that you know that, let's say that the auto flow is bullish."
+    },
+    {
+      "start": 99.72,
+      "end": 103.12,
+      "text": " Okay. So in real markets, this is not going to look like this."
+    },
+    {
+      "start": 103.12,
+      "end": 104.72,
+      "text": " It's not going to be that clean."
+    },
+    {
+      "start": 104.72,
+      "end": 110.29,
+      "text": " It's going to look something like, you know, something like that."
+    },
+    {
+      "start": 110.29,
+      "end": 114.99,
+      "text": " And then you're going to have this and then you're going to have something like that."
+    },
+    {
+      "start": 114.99,
+      "end": 117.29,
+      "text": " Yeah. So you're going to be making,"
+    },
+    {
+      "start": 117.29,
+      "end": 125.01,
+      "text": " going to see price making hard highs, hard lows, hard highs like that. Cool. So now my point"
+    },
+    {
+      "start": 125.01,
+      "end": 133.05,
+      "text": " here is the second point here is you have to mark out every single autoblog. So remember"
+    },
+    {
+      "start": 133.05,
+      "end": 138.97,
+      "text": " the autoblog video that I thought like before like autoblog 2.0, right? You want to mark"
+    },
+    {
+      "start": 138.97,
+      "end": 146.01,
+      "text": " out every single autoblog. But when you are, remember this thing, okay? For this strategy,"
+    },
+    {
+      "start": 146.01,
+      "end": 147.89,
+      "text": " when you are looking at the higher time frame,"
+    },
+    {
+      "start": 147.89,
+      "end": 150.53,
+      "text": " so we are currently looking at the higher time frame, right?"
+    },
+    {
+      "start": 150.53,
+      "end": 153.49,
+      "text": " So let's say that this down move"
+    },
+    {
+      "start": 153.49,
+      "end": 155.45,
+      "text": " is consecutive bearish candles."
+    },
+    {
+      "start": 155.45,
+      "end": 158.65,
+      "text": " So one, two, three bearish candles, okay?"
+    },
+    {
+      "start": 158.65,
+      "end": 160.37,
+      "text": " When you're looking at the higher time frame,"
+    },
+    {
+      "start": 160.37,
+      "end": 163.37,
+      "text": " which is the four hour, you wanna refine it, okay?"
+    },
+    {
+      "start": 163.37,
+      "end": 166.37,
+      "text": " So let's say there are three candles in this leg here."
+    },
+    {
+      "start": 166.37,
+      "end": 171.29,
+      "text": " You wanna mark out the body of the last candle here, okay?"
+    },
+    {
+      "start": 171.29,
+      "end": 173.21,
+      "text": " So in the auto-lock 2.0,"
+    },
+    {
+      "start": 173.21,
+      "end": 175.09,
+      "text": " remember we use the body of the candle."
+    },
+    {
+      "start": 175.09,
+      "end": 177.05,
+      "text": " So you have three bearish candles, one, two, three."
+    },
+    {
+      "start": 177.05,
+      "end": 178.25,
+      "text": " That is a whole audible."
+    },
+    {
+      "start": 178.25,
+      "end": 179.49,
+      "text": " But we will define it."
+    },
+    {
+      "start": 179.49,
+      "end": 180.41,
+      "text": " We are going to refine it."
+    },
+    {
+      "start": 180.41,
+      "end": 181.25,
+      "text": " Okay."
+    },
+    {
+      "start": 181.25,
+      "end": 183.33,
+      "text": " We refine it and this is the candle."
+    },
+    {
+      "start": 183.33,
+      "end": 185.37,
+      "text": " So not what we are gonna wait for"
+    },
+    {
+      "start": 185.37,
+      "end": 189.13,
+      "text": " is price to come back into our auto block."
+    },
+    {
+      "start": 189.13,
+      "end": 193.49,
+      "text": " Once that happens, we drop down to 15 minute time from."
+    },
+    {
+      "start": 193.49,
+      "end": 194.29,
+      "text": " Okay."
+    },
+    {
+      "start": 194.29,
+      "end": 199.17,
+      "text": " So you mark out, oops, mark out,"
+    },
+    {
+      "start": 199.17,
+      "end": 203.41,
+      "text": " OB, near price action."
+    },
+    {
+      "start": 203.41,
+      "end": 204.25,
+      "text": " Okay."
+    },
+    {
+      "start": 204.25,
+      "end": 211.25,
+      "text": " Wait for price to come back into your OB."
+    },
+    {
+      "start": 211.25,
+      "end": 221.25,
+      "text": " Look for market structure shift during kill zone R's and entry during kill zone R's as well."
+    },
+    {
+      "start": 221.25,
+      "end": 227.25,
+      "text": " So you wait for price to come back into your auto block."
+    },
+    {
+      "start": 227.25,
+      "end": 230.25,
+      "text": " So once that happens, you drop down to 15 minutes timeframe."
+    },
+    {
+      "start": 230.25,
+      "end": 232.47,
+      "text": " You look for markers such as shift during"
+    },
+    {
+      "start": 233.29,
+      "end": 237.73,
+      "text": " Kills on ours now when you're at 15 minute timeframe"
+    },
+    {
+      "start": 237.73,
+      "end": 242.29,
+      "text": " So we are only using like two time frames for the strategy for our and 15 minutes"
+    },
+    {
+      "start": 242.29,
+      "end": 244.65,
+      "text": " We're not gonna use any other time frame, okay?"
+    },
+    {
+      "start": 244.89,
+      "end": 249.77,
+      "text": " For our and 15 minutes so now that you have a marker such a shift on 15 minute timeframe"
+    },
+    {
+      "start": 250.05,
+      "end": 254.45,
+      "text": " Now you have to use the consecutive bearish candles as your autoblock and"
+    },
+    {
+      "start": 255.09,
+      "end": 259.21,
+      "text": " Remember this one thing a lot of people don't get this right"
+    },
+    {
+      "start": 259.21,
+      "end": 264.53,
+      "text": " So if you have something like this price did not take out the low here and then you have let's say a"
+    },
+    {
+      "start": 265.33,
+      "end": 270.77,
+      "text": " Maybe a break of structure here. There was some structure here in price broke it. That is a low probability setup"
+    },
+    {
+      "start": 270.77,
+      "end": 274.35,
+      "text": " I want my auto block to take out some sort of liquidity"
+    },
+    {
+      "start": 274.35,
+      "end": 276.59,
+      "text": " So these are the consecutive bearish candles, right?"
+    },
+    {
+      "start": 277.21,
+      "end": 280.93,
+      "text": " It if it takes out some form of liquidity could be just be a"
+    },
+    {
+      "start": 281.21,
+      "end": 287.49,
+      "text": " Like a little low here right it takes out and then you have a marker structure shift now that guys"
+    },
+    {
+      "start": 287.49,
+      "end": 292.61,
+      "text": " That is a hyper-wilty autoblog and let's say that there is a bigger block here as well"
+    },
+    {
+      "start": 292.61,
+      "end": 298.85,
+      "text": " right so you know the definition of a bigger blocks right the first candle of this here and"
+    },
+    {
+      "start": 299.25,
+      "end": 305.01,
+      "text": " the first candle and the first candle is like the of this leg right so this leg right here"
+    },
+    {
+      "start": 305.01,
+      "end": 308.45,
+      "text": " the first count of this leg and the first candle of the autoblog are"
+    },
+    {
+      "start": 309.45,
+      "end": 312.81,
+      "text": " In alignment with each other the size is the same here, okay?"
+    },
+    {
+      "start": 313.57,
+      "end": 316.49,
+      "text": " so"
+    },
+    {
+      "start": 316.49,
+      "end": 322.25,
+      "text": " You mark out this level right here right this is consecutive bearish candles on 15 minutes"
+    },
+    {
+      "start": 322.45,
+      "end": 324.45,
+      "text": " Okay, you take your entry"
+    },
+    {
+      "start": 325.01,
+      "end": 327.43,
+      "text": " Right there and you target one to two"
+    },
+    {
+      "start": 328.57,
+      "end": 333.55,
+      "text": " You go for one to two for this trading strategy guys, okay, and you got you're gonna have above"
+    },
+    {
+      "start": 334.53,
+      "end": 339.65,
+      "text": " 58 to 60% wind rate with this strategy. Okay. I'm not gonna say you're gonna have like a 70%"
+    },
+    {
+      "start": 339.65,
+      "end": 341.65,
+      "text": " Personality person wind rate"
+    },
+    {
+      "start": 341.65,
+      "end": 344.65,
+      "text": " You're gonna have 50-60% win rate."
+    },
+    {
+      "start": 344.65,
+      "end": 347.45,
+      "text": " You are gonna easily pass your FTMO challenges"
+    },
+    {
+      "start": 347.45,
+      "end": 350.65,
+      "text": " or problem challenges if you follow the strategy correctly."
+    },
+    {
+      "start": 350.65,
+      "end": 354.05,
+      "text": " Remember, this works with every single pair."
+    },
+    {
+      "start": 354.05,
+      "end": 356.05,
+      "text": " I do not try this with indices."
+    },
+    {
+      "start": 356.05,
+      "end": 358.65,
+      "text": " I will comment, you do not try this with indices."
+    },
+    {
+      "start": 358.65,
+      "end": 362.65,
+      "text": " You can back test it, but the thing is try with Forex."
+    },
+    {
+      "start": 362.65,
+      "end": 367.65,
+      "text": " Every single pair here except these ones."
+    },
+    {
+      "start": 367.65,
+      "end": 370.65,
+      "text": " Just use these main ones."
+    },
+    {
+      "start": 370.65,
+      "end": 374.45,
+      "text": " So here's the risk management for this strategy."
+    },
+    {
+      "start": 374.45,
+      "end": 378.39,
+      "text": " So once the price hits one to one risk to reward,"
+    },
+    {
+      "start": 378.39,
+      "end": 380.33,
+      "text": " let's say price hits one to one risk to reward."
+    },
+    {
+      "start": 380.33,
+      "end": 382.41,
+      "text": " You move your stop loss to break even."
+    },
+    {
+      "start": 383.57,
+      "end": 387.17,
+      "text": " And then you keep the trade open till one to two is hit."
+    },
+    {
+      "start": 387.17,
+      "end": 390.61,
+      "text": " That way it is like the least,"
+    },
+    {
+      "start": 390.61,
+      "end": 392.85,
+      "text": " anxiety, like I would say it's the anxiety-free"
+    },
+    {
+      "start": 392.85,
+      "end": 393.91,
+      "text": " hitting strategy guys."
+    },
+    {
+      "start": 396.41,
+      "end": 398.81,
+      "text": " It's quite rule-based and one more thing."
+    },
+    {
+      "start": 398.81,
+      "end": 400.89,
+      "text": " So let's do this."
+    },
+    {
+      "start": 400.89,
+      "end": 402.77,
+      "text": " Okay, boom, boom, boom."
+    },
+    {
+      "start": 402.77,
+      "end": 405.01,
+      "text": " So let's say the trend is bullish, right?"
+    },
+    {
+      "start": 406.01,
+      "end": 409.53,
+      "text": " This strategy does not require break of structure"
+    },
+    {
+      "start": 409.53,
+      "end": 411.89,
+      "text": " for the auto block to be valid, okay?"
+    },
+    {
+      "start": 411.89,
+      "end": 418.78,
+      "text": " So it does not have to break the high over here, right?"
+    },
+    {
+      "start": 419.86,
+      "end": 423.58,
+      "text": " And then you would consider this as your POI or auto block."
+    },
+    {
+      "start": 423.58,
+      "end": 426.14,
+      "text": " No, if you know that the trend is bullish,"
+    },
+    {
+      "start": 426.14,
+      "end": 430.02,
+      "text": " you mark out every single bearish candle"
+    },
+    {
+      "start": 430.02,
+      "end": 435.46,
+      "text": " below the price action. So let's say that this is a bearish candle, right?"
+    },
+    {
+      "start": 435.94,
+      "end": 441.54,
+      "text": " And the bullish candle closes above it. So this is the bearish candle and this is the bullish candle,"
+    },
+    {
+      "start": 441.54,
+      "end": 450.9,
+      "text": " right? Even that is a valid auto block. So you wait for price to come back into this auto block."
+    },
+    {
+      "start": 450.9,
+      "end": 454.74,
+      "text": " You drop down to 15 minute timeframe. You look for market structure shift. It's going to happen"
+    },
+    {
+      "start": 454.74,
+      "end": 462.9,
+      "text": " something like that. You take your entry and boom. So let's say there was like, let's do this,"
+    },
+    {
+      "start": 462.9,
+      "end": 475.28,
+      "text": " something like that. Okay. This is a bearish candle, right? And after that you have a bullish candle"
+    },
+    {
+      "start": 475.28,
+      "end": 482.88,
+      "text": " and the body of the bullish candle closes above the body of the bearish candle. Wicks don't matter."
+    },
+    {
+      "start": 482.88,
+      "end": 490.32,
+      "text": " So if the body closes above the bearish candle, right, bearish candles body, then that is a valid"
+    },
+    {
+      "start": 492.0,
+      "end": 497.28,
+      "text": " demand zone or an auto block price comes back as long as this"
+    },
+    {
+      "start": 498.24,
+      "end": 503.68,
+      "text": " as long as the low the wick is not violated. So let's say there's the wick of this auto block, right?"
+    },
+    {
+      "start": 504.4,
+      "end": 512.72,
+      "text": " So you keep looking for market structure shift until this level is broken or this level is violated."
+    },
+    {
+      "start": 512.88,
+      "end": 515.76,
+      "text": " Once that happens, that auto block becomes invalid."
+    },
+    {
+      "start": 515.76,
+      "end": 519.04,
+      "text": " However, let's say that you have an auto block here."
+    },
+    {
+      "start": 519.04,
+      "end": 521.28,
+      "text": " Okay? Maybe you have an auto block here."
+    },
+    {
+      "start": 521.28,
+      "end": 524.4,
+      "text": " So you choose the body of the candle."
+    },
+    {
+      "start": 524.4,
+      "end": 525.44,
+      "text": " Oops, my bad."
+    },
+    {
+      "start": 526.88,
+      "end": 529.2,
+      "text": " You choose the body of the candle like that."
+    },
+    {
+      "start": 529.84,
+      "end": 530.48,
+      "text": " Cool."
+    },
+    {
+      "start": 530.48,
+      "end": 532.48,
+      "text": " And then you look for markers, structure shift."
+    },
+    {
+      "start": 533.28,
+      "end": 534.4,
+      "text": " On the smaller timeframe."
+    },
+    {
+      "start": 535.28,
+      "end": 536.64,
+      "text": " And you take your entry."
+    },
+    {
+      "start": 536.64,
+      "end": 537.84,
+      "text": " Couple one to two."
+    },
+    {
+      "start": 537.84,
+      "end": 538.56,
+      "text": " Simple as that."
+    },
+    {
+      "start": 539.6,
+      "end": 541.44,
+      "text": " I'll give you guys a couple of examples."
+    },
+    {
+      "start": 541.44,
+      "end": 542.56,
+      "text": " And then I'll end the video."
+    }
+  ]
+}

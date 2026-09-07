@@ -1,0 +1,473 @@
+{
+  "source": "F:\\new faiz\\23. Risk Management For Prop Firm Accounts.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 402.4715,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.18,
+      "end": 30.18,
+      "text": " Alright guys, so this is gonna be the last lecture of the course of date in this video. In this lecture we're gonna talk about how to do proper risk management for passing the prop from challenges. And also how to keep the account that you pass, okay? You see a lot of these people have the infinite amount of, you know, prop firm accounts and you wonder why you still don't have one, right? It's because they have a different approach to these accounts. They have a different risk management strategy"
+    },
+    {
+      "start": 30.18,
+      "end": 33.46,
+      "text": " for prop from challenges, that's why they have so many accounts."
+    },
+    {
+      "start": 33.46,
+      "end": 36.46,
+      "text": " It's not that it don't blow up their challenges, right?"
+    },
+    {
+      "start": 36.46,
+      "end": 37.94,
+      "text": " Even I do sometimes."
+    },
+    {
+      "start": 37.94,
+      "end": 41.78,
+      "text": " I don't, I don't, yeah, it happens with every single trader,"
+    },
+    {
+      "start": 41.78,
+      "end": 42.62,
+      "text": " right?"
+    },
+    {
+      "start": 42.62,
+      "end": 44.7,
+      "text": " It's not that if you fail a prop from challenge,"
+    },
+    {
+      "start": 44.7,
+      "end": 46.46,
+      "text": " you are an unsuccessful trader."
+    },
+    {
+      "start": 46.46,
+      "end": 48.98,
+      "text": " No, it's not the case."
+    },
+    {
+      "start": 48.98,
+      "end": 53.98,
+      "text": " 10% in 30 days or 8% 30 days is absolutely insane, okay?"
+    },
+    {
+      "start": 54.62,
+      "end": 58.18,
+      "text": " And it's like 60 to 50% chance that you're gonna tend that."
+    },
+    {
+      "start": 58.18,
+      "end": 68.18,
+      "text": " A normal experienced well-mannered trader is going to only be able to do 4-5% or 6% max per month."
+    },
+    {
+      "start": 68.18,
+      "end": 71.58,
+      "text": " But 8% is way too much or 10% is way too much."
+    },
+    {
+      "start": 71.58,
+      "end": 75.58,
+      "text": " But we have a risk management for this for passing the problem."
+    },
+    {
+      "start": 75.58,
+      "end": 81.78,
+      "text": " So on the first one, the very first phase, our goal is to win 2 trades in a row."
+    },
+    {
+      "start": 81.78,
+      "end": 88.22,
+      "text": " Then risk one person on your first trade and go for one to two R. Okay?"
+    },
+    {
+      "start": 88.22,
+      "end": 94.06,
+      "text": " So let's say you win your first trade. If you win the trade, then you take the second trade and risk two"
+    },
+    {
+      "start": 94.06,
+      "end": 99.78,
+      "text": " percent and go for one to three. If both trades hit TP, you will get eight percent, which is enough to pass the"
+    },
+    {
+      "start": 99.78,
+      "end": 106.18,
+      "text": " phased one. Right? So when you are on break even, right? You start your fresh account, you risk"
+    },
+    {
+      "start": 106.18,
+      "end": 113.18,
+      "text": " 1% and go for 1-2. Goal here is to win that trade. You have to look for an 8 plus setup."
+    },
+    {
+      "start": 113.18,
+      "end": 118.18,
+      "text": " The best setup possible win that trade you will get 1-2. So now you have a buffer."
+    },
+    {
+      "start": 118.18,
+      "end": 123.18,
+      "text": " Now if you win that trade you will have 2 or R in your account."
+    },
+    {
+      "start": 123.18,
+      "end": 130.18,
+      "text": " Now for the second trade you want to find an 8 plus setup as well and risk 2% for that."
+    },
+    {
+      "start": 130.18,
+      "end": 136.38,
+      "text": " and go for one to three right so you go for one to three that would be six percent and two percent from the first rate"
+    },
+    {
+      "start": 136.38,
+      "end": 138.38,
+      "text": " That is eight percent you will pass"
+    },
+    {
+      "start": 138.9,
+      "end": 144.62,
+      "text": " Most of the problem challenge however for F DMO what you can do here is you risk one percent right?"
+    },
+    {
+      "start": 145.1,
+      "end": 147.1,
+      "text": " You have two percent"
+    },
+    {
+      "start": 147.1,
+      "end": 149.1,
+      "text": " Then you take another"
+    },
+    {
+      "start": 149.1,
+      "end": 154.98,
+      "text": " You risk one percent again right you get four percent profit and then you can go for one to three"
+    },
+    {
+      "start": 154.98,
+      "end": 161.9,
+      "text": " So three dates gonna take for you to pause the FDM mode challenge. So the tight rate is gonna be two percent"
+    },
+    {
+      "start": 162.3,
+      "end": 169.68,
+      "text": " If you lose the first rate and are blow break even keep risking one person until you are up by two person and then risk two"
+    },
+    {
+      "start": 169.68,
+      "end": 172.66,
+      "text": " Person so the thing here is let's say you lose your first rate, right?"
+    },
+    {
+      "start": 172.66,
+      "end": 180.7,
+      "text": " It can happen you keep on risking one percent until you are in profit by two person and once you are in up by two person"
+    },
+    {
+      "start": 180.7,
+      "end": 182.7,
+      "text": " you risk"
+    },
+    {
+      "start": 182.7,
+      "end": 185.7,
+      "text": " 2% for the next trade."
+    },
+    {
+      "start": 185.7,
+      "end": 189.2,
+      "text": " And you're gonna go for 1-3, right?"
+    },
+    {
+      "start": 189.2,
+      "end": 191.56,
+      "text": " You normally will keep on going for 1-2,"
+    },
+    {
+      "start": 191.56,
+      "end": 193.6,
+      "text": " but once you are up by 2%, you go for 1-3"
+    },
+    {
+      "start": 193.6,
+      "end": 195.56,
+      "text": " by risking 2%, you'll get 8%."
+    },
+    {
+      "start": 195.56,
+      "end": 198.2,
+      "text": " For phase 2, once you pass the phase 1,"
+    },
+    {
+      "start": 198.2,
+      "end": 199.92,
+      "text": " for phase 2, how to pass that."
+    },
+    {
+      "start": 199.92,
+      "end": 202.34,
+      "text": " So risk 1% on your first trade"
+    },
+    {
+      "start": 202.34,
+      "end": 204.36,
+      "text": " and go for 1-2 to risk your wallet, right?"
+    },
+    {
+      "start": 204.36,
+      "end": 206.76,
+      "text": " If you win the trade, take the second trade"
+    },
+    {
+      "start": 206.76,
+      "end": 209.64,
+      "text": " and risk 1% and go for 1-3."
+    },
+    {
+      "start": 209.64,
+      "end": 212.56,
+      "text": " If both trades hit TP, you will get 5%"
+    },
+    {
+      "start": 212.56,
+      "end": 214.56,
+      "text": " which is enough to pass the face to."
+    },
+    {
+      "start": 214.56,
+      "end": 217.56,
+      "text": " If you lose the first straight and are below break even,"
+    },
+    {
+      "start": 217.56,
+      "end": 220.56,
+      "text": " keep risking 1% until you are up by 2%"
+    },
+    {
+      "start": 220.56,
+      "end": 224.56,
+      "text": " and then risk 1% again until you go for 1 to 3."
+    },
+    {
+      "start": 224.56,
+      "end": 227.56,
+      "text": " So for the first straight, we go for 1 to 2 and for the second rate,"
+    },
+    {
+      "start": 227.56,
+      "end": 228.56,
+      "text": " we go for 1 to 3."
+    },
+    {
+      "start": 228.56,
+      "end": 231.56,
+      "text": " You have to find the A plus setups for both of these trades."
+    },
+    {
+      "start": 231.56,
+      "end": 234.56,
+      "text": " I don't care about the rest of the trades,"
+    },
+    {
+      "start": 234.56,
+      "end": 239.56,
+      "text": " but for the first two trades, you have to find the best possible setups guys."
+    },
+    {
+      "start": 239.56,
+      "end": 241.92,
+      "text": " So that's pretty much it."
+    },
+    {
+      "start": 241.92,
+      "end": 244.48,
+      "text": " So now how do you keep your account?"
+    },
+    {
+      "start": 244.48,
+      "end": 247.96,
+      "text": " Let's say that you have paused these two accounts."
+    },
+    {
+      "start": 247.96,
+      "end": 255.88,
+      "text": " You have to risk 0.5% per trade on your funded account."
+    },
+    {
+      "start": 255.88,
+      "end": 257.32,
+      "text": " You have to do that."
+    },
+    {
+      "start": 257.32,
+      "end": 262.6,
+      "text": " And once you are up by, let's say, 1% or 2% in profits,"
+    },
+    {
+      "start": 262.6,
+      "end": 268.32,
+      "text": " you risk 1% and if you lose, you go back to, let's say,"
+    },
+    {
+      "start": 268.32,
+      "end": 269.32,
+      "text": " a break even."
+    },
+    {
+      "start": 269.32,
+      "end": 274.32,
+      "text": " you can risk 0.5 until you are up by one or two percent."
+    },
+    {
+      "start": 276.8,
+      "end": 278.52,
+      "text": " So let's say you're up by one percent,"
+    },
+    {
+      "start": 278.52,
+      "end": 282.24,
+      "text": " you risk one percent and you go for one to two."
+    },
+    {
+      "start": 282.24,
+      "end": 286.6,
+      "text": " Once you get one to two, you are in three-cap profit,"
+    },
+    {
+      "start": 286.6,
+      "end": 289.96,
+      "text": " three $3,000 on 100K account."
+    },
+    {
+      "start": 289.96,
+      "end": 292.56,
+      "text": " You just withdraw that profit."
+    },
+    {
+      "start": 292.56,
+      "end": 294.44,
+      "text": " Don't go for more."
+    },
+    {
+      "start": 294.44,
+      "end": 295.72,
+      "text": " Trust me, don't go for more."
+    },
+    {
+      "start": 295.72,
+      "end": 298.4,
+      "text": " Just get these tiny profits and get out."
+    },
+    {
+      "start": 298.4,
+      "end": 304.0,
+      "text": " go and buy another challenge phase and keep on building your account, your your"
+    },
+    {
+      "start": 304.0,
+      "end": 307.12,
+      "text": " funded account, right? How many accounts you have? You have to keep on building"
+    },
+    {
+      "start": 307.12,
+      "end": 312.36,
+      "text": " that. Don't just be stuck on one single account and don't be greedy, right? If"
+    },
+    {
+      "start": 312.36,
+      "end": 317.96,
+      "text": " you see like do the 3K per month on a 100K account has more than enough guys."
+    },
+    {
+      "start": 318.0,
+      "end": 322.76,
+      "text": " That's what I do. That's why you see me taking way too less trades every single"
+    },
+    {
+      "start": 322.76,
+      "end": 329.96,
+      "text": " month because I'd only need two to three percent. That's it. So when you start out, risk 0.5"
+    },
+    {
+      "start": 329.96,
+      "end": 336.04,
+      "text": " percent per trade. Once you are in one person or two percent profit. So let's say that you"
+    },
+    {
+      "start": 336.04,
+      "end": 340.62,
+      "text": " are in two percent profit. You have to risk one percent. Right? If you're in one"
+    },
+    {
+      "start": 340.62,
+      "end": 345.52,
+      "text": " percent profit, you also risk one person. So let's say you are in one person profit. You"
+    },
+    {
+      "start": 345.52,
+      "end": 350.92,
+      "text": " lose that trade. It's totally fine. You have your ad back at break even. So now you keep"
+    },
+    {
+      "start": 350.92,
+      "end": 354.96,
+      "text": " risk is 0.5 to your back at one person. Once you're back at one person"
+    },
+    {
+      "start": 354.96,
+      "end": 359.32,
+      "text": " percentage, right profits, you risk that one person and go for one to two. And"
+    },
+    {
+      "start": 359.32,
+      "end": 365.12,
+      "text": " why is that guys? So that's pretty much it about it guys. I really hope"
+    },
+    {
+      "start": 365.12,
+      "end": 368.92,
+      "text": " that you guys learned something from this course update. Of course, they're"
+    },
+    {
+      "start": 368.92,
+      "end": 372.8,
+      "text": " gonna be more course updates in the future. But for now, this is what you"
+    },
+    {
+      "start": 372.8,
+      "end": 378.76,
+      "text": " need to become an independent trader. Go and back test, back test and back test."
+    },
+    {
+      "start": 378.76,
+      "end": 382.68,
+      "text": " don't go on the live charts right you need to back test you need to be confident"
+    },
+    {
+      "start": 382.68,
+      "end": 388.76,
+      "text": " I'll see you guys in the next course update and I'll see you guys on YouTube in"
+    },
+    {
+      "start": 388.76,
+      "end": 395.2,
+      "text": " some days so let me guys hope you guys have a great night or day enjoy and"
+    },
+    {
+      "start": 395.2,
+      "end": 402.88,
+      "text": " yeah thank you so much for watching and bye bye"
+    }
+  ]
+}

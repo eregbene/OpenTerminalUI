@@ -1,0 +1,63 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, so here is the last example and example number two for the daily bias. So I'm looking at US Swiss and you can see that we have taken out this external liquidity here. So if I play this through, you can see that our draw on liquidity, where is it? Can you notice where it's gonna be a draw on liquidity? It's right here, this fair value gap around here. So this is gonna be a draw on liquidity.
+
+2
+00:00:30,000 --> 00:00:36,560
+Let's go to the hourly time from a rumor for the daily. We go from daily to hourly and then to five minutes
+
+3
+00:00:37,040 --> 00:00:42,680
+So right here, what do you see? We have a shift in the market structure happening right here
+
+4
+00:00:43,160 --> 00:00:48,080
+Cool now raise the fair value gap the fair value gap is right here
+
+5
+00:00:48,160 --> 00:00:54,040
+That should be red and butter entry model. So let's see price goes up to that level
+
+6
+00:00:54,040 --> 00:01:01,480
+price goes into this fair value gap so that could have been your entry. We are not
+
+7
+00:01:01,480 --> 00:01:05,020
+gonna talk about the fight minute time from at the moment but later on the
+
+8
+00:01:05,020 --> 00:01:10,280
+video so don't wear a layer on the course okay so don't worry. Your stop goes
+
+9
+00:01:10,280 --> 00:01:15,960
+here and your take profit just goes here so let's see how this plays out.
+
+10
+00:01:15,960 --> 00:01:25,730
+price goes ahead, it feels in this inefficiency and right away we have a
+
+11
+00:01:25,730 --> 00:01:31,810
+retake profit level hit. So now that you have known about monthly weekly and daily
+
+12
+00:01:31,810 --> 00:01:36,970
+bias and external and internal liquidity, remember I all this personally go
+
+13
+00:01:36,970 --> 00:01:42,010
+from external to internal, you can try messing around with internal to external
+
+14
+00:01:42,010 --> 00:01:48,090
+but I wouldn't recommend it. Okay, so that was pretty much it for this chapter
+
+15
+00:01:48,090 --> 00:01:55,470
+Let's move on to the next topic and that is going to be a game changer as well.
+
+16
+00:01:55,470 --> 00:01:56,830
+See you guys.

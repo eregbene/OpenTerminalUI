@@ -1,0 +1,155 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, this is an example for the buys. Of course, this is hindsight, it's not gonna always work. And this is, the auto floor trading strategy is not my favorite one. But you can back test it and you know, get used to it if that makes sense. Alright? So, what we have here is that we create a higher high, a higher low, and then another higher high. So basically, we create a higher high.
+
+2
+00:00:30,000 --> 00:00:35,040
+the structure and now this is a continuation of a trend, okay? And what do we have here?
+
+3
+00:00:35,040 --> 00:00:40,520
+imbalance plus auto block. But what happens here? Price does not hit the auto block,
+
+4
+00:00:40,520 --> 00:00:46,380
+but it hits the imbalance. So this is what I say that sometimes I'm gonna take
+
+5
+00:00:46,380 --> 00:00:50,760
+entries of the imbalance, sometimes of the auto block. I always take my entry
+
+6
+00:00:50,760 --> 00:00:55,160
+from the imbalance. If the imbalance is very short like this, okay? So I would
+
+7
+00:00:55,160 --> 00:01:00,920
+take my entry right around here and I put my stop loss here and I go for this level right around here.
+
+8
+00:01:01,560 --> 00:01:08,120
+This would have been a 3.73. Now we can see we created another higher high which is this.
+
+9
+00:01:08,120 --> 00:01:16,680
+Okay and then we got this imbalance plus the autoblog. Okay so now what happens here is that you
+
+10
+00:01:16,680 --> 00:01:24,440
+can see we have marked the autoblog but what it did it just maybe stopped you out. But if you want
+
+11
+00:01:24,440 --> 00:01:30,120
+be on the safe side, what you can do is put your stop below this low. Okay, because sometimes,
+
+12
+00:01:30,680 --> 00:01:35,400
+and I'm saying sometimes, I'm looking at this at the 500 time frame, right? But on the one minute
+
+13
+00:01:35,400 --> 00:01:40,680
+timeframe, there could be another imbalance in auto block around in this week. Okay, this whole
+
+14
+00:01:40,680 --> 00:01:47,720
+week is a price action as well. So maybe on the 30 second timeframe or 15 second timeframe,
+
+15
+00:01:47,720 --> 00:01:52,520
+there was an imbalance plus auto block right around here. So make sure you put your stop loss
+
+16
+00:01:52,520 --> 00:02:00,120
+here just to be on the safe side and as you can see we go up targeting this high and then we broke
+
+17
+00:02:00,120 --> 00:02:07,400
+the structure once again which is right here and then you can see we got the extreme
+
+18
+00:02:07,400 --> 00:02:12,440
+fair value gap at this level there's no imbalance here it's all filled all filled and we got
+
+19
+00:02:12,440 --> 00:02:18,920
+this auto block here and you can see we got a perfect entry around this level we would have entered
+
+20
+00:02:18,920 --> 00:02:29,460
+here and boom, turning the high. That was a 5.72 wrist reward trade guys. Very, very simple
+
+21
+00:02:29,460 --> 00:02:36,340
+guys. And yeah, this is how we trade. And let me give you another example. We broke the
+
+22
+00:02:36,340 --> 00:02:43,460
+structure again. So there is the extreme fair value gap around this level. So you could
+
+23
+00:02:43,460 --> 00:02:48,100
+have entered from the fair value gap, or you could have your entry around this auto block,
+
+24
+00:02:48,100 --> 00:02:53,100
+then you would have missed the entry by one pip.
+
+25
+00:02:53,100 --> 00:02:58,100
+But just to, just, I want to tell you guys this one thing,
+
+26
+00:02:59,700 --> 00:03:02,660
+you should always put your entry a little above your actual
+
+27
+00:03:02,660 --> 00:03:05,460
+entry point to deal with the spreads of the broker, right?
+
+28
+00:03:05,460 --> 00:03:09,700
+Because sometimes due to the spreads, you will not get your entry.
+
+29
+00:03:09,700 --> 00:03:14,380
+If your entry is exactly at the order block, okay?
+
+30
+00:03:14,380 --> 00:03:18,260
+So make sure you always have your entry a little shy
+
+31
+00:03:18,260 --> 00:03:20,580
+above the actual entry point.
+
+32
+00:03:20,580 --> 00:03:23,180
+And then you can see price went all the way up.
+
+33
+00:03:23,180 --> 00:03:26,100
+So we are done with the auto floor trading strategy.
+
+34
+00:03:26,100 --> 00:03:28,620
+My least favorite trading strategy,
+
+35
+00:03:28,620 --> 00:03:32,220
+but it can be your most favorite trading strategy, okay?
+
+36
+00:03:32,220 --> 00:03:34,620
+So as I said before in the course,
+
+37
+00:03:34,620 --> 00:03:37,980
+you must choose one strategy and work on it.
+
+38
+00:03:37,980 --> 00:03:42,540
+You should not try out a lot of other strategies.
+
+39
+00:03:42,540 --> 00:03:45,860
+So I'll see you guys in my next trading strategy video.

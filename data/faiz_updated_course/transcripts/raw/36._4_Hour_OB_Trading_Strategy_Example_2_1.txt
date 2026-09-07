@@ -1,0 +1,45 @@
+[00:00:00] Alright guys so here is the example number two for this strategy. So I'm looking at Euro GPP on 4 hour of course. And you can see we are making lor-lor-lor-high, lor-low, actually no lor-low high and then another lor-low. And the internal market structure been creating lor-low-low highs for quite some time now. So it is clear that the auto flow is bearish. I'm not going back here.
+[00:00:30] I'm just looking at the price here, okay?
+[00:00:33] And as you can see, we are making low lows.
+[00:00:36] Low lows, low highs, low lows, low highs.
+[00:00:38] Cool, so now what we do have is this autoblog, okay?
+[00:00:44] Of course, this is hindsight, but you're gonna notice these, okay?
+[00:00:48] So, this is the candle and prize goes back into our pure,
+[00:00:54] so let's drop down to 15 minute time from.
+[00:00:59] And you can see that just over here,
+[00:01:04] we have a shift in market structure,
+[00:01:06] but notice what happened.
+[00:01:09] The market structure shift did not happen
+[00:01:12] during kills on ours.
+[00:01:14] Okay, so the kills on ours are basically two till,
+[00:01:24] my god, seven,
+[00:01:26] right and then 730 for this specific strategy only okay to him till 7 that is your
+[00:01:42] London and then from 730 till 1130 is your New York session make sure you set
+[00:01:47] your time zone to New York so now we're gonna wait okay we are going to wait till
+[00:01:55] this high is taken out again because this is liquidy now. When you have a market
+[00:02:01] structure shift outside the kills on ours and the kills on ours start which
+[00:02:07] happens right here. You don't want to look for market structure shift here. You
+[00:02:12] want to wait for first price to take out this high over here and then you want to
+[00:02:16] look for a clean market structure shift and that happens right here and let me
+[00:02:20] show you how. We also took out this high here. Okay, so that is a clear shift.
+[00:02:27] Low low higher high high low higher high. And then we have a market structure shift
+[00:02:33] during kills on ours. Perfect. Now this right here are our consecutive
+[00:02:38] bearish candles. And also look at this breaker block. It is in alignment with the
+[00:02:44] auto block. And this consecutive bullish candles becomes your auto block. Right? So you're
+[00:02:50] going to take your entry here put your stop right above this high over here and you go for
+[00:02:57] one to two simple as that let's go and see how this plays out as you can see we got our entry
+[00:03:08] right here at 645 and you can see we hit our take profit if we held that would have been a
+[00:03:17] beautiful trade but we only go for one to two. So I hope you learned something from
+[00:03:23] this example. Remember if let's say that this candle did not take out the high
+[00:03:32] here and then you had a shift over here. That is a low probability
+[00:03:39] low probability market structure shift. I want this clean liquidity sweep and
+[00:03:43] And then displacement that gives us market structure shift.
+[00:03:47] Something like boom, boom, boom, okay?
+[00:03:51] This is prime.
+[00:03:53] You have a liquidity sweep, right?
+[00:03:57] And then you mark your structure shift.
+[00:03:58] And this leg has consecutive candles of the same color.
+[00:04:03] So if I was looking at here, I would love to see bullish candles.
+[00:04:08] Take out this liquidity and then a market structure shift and I take my entry from here, couple.
+[00:04:15] So I really really do hope that you learned something from the strategy and from this example.
+[00:04:24] I'll give you guys one more example.

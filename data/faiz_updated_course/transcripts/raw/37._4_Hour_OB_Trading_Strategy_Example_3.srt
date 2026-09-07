@@ -1,0 +1,119 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, so here is the last example for this strategy and I'm looking at USTCHF. I also want to, like, I'm showing you guys that it works with every single pair. So, auto flow is clearly bearish. You have to train your eyes to see this. So now, we have this auto block here. It comes back into our auto block. Let's go back to 15 minutes and you can see that we have higher
+
+2
+00:00:30,000 --> 00:00:33,840
+Hi, hello, and hi, hi.
+
+3
+00:00:33,840 --> 00:00:37,120
+Now this here, right here, candle, right?
+
+4
+00:00:37,120 --> 00:00:40,400
+It took out this liquidy here,
+
+5
+00:00:40,400 --> 00:00:43,960
+and then we have a market structure shift here.
+
+6
+00:00:43,960 --> 00:00:46,160
+Very tiny market structure shift,
+
+7
+00:00:46,160 --> 00:00:49,040
+but it is a market structure shift.
+
+8
+00:00:49,040 --> 00:00:52,360
+Let's go back to, let's say five minutes.
+
+9
+00:00:52,360 --> 00:00:56,200
+You can see that this is a clear, clean market structure shift,
+
+10
+00:00:56,200 --> 00:00:57,360
+right?
+
+11
+00:00:57,360 --> 00:00:59,480
+Now let's go back to 15 minute.
+
+12
+00:01:00,600 --> 00:01:04,000
+And now it doesn't have to be consecutive candles.
+
+13
+00:01:04,000 --> 00:01:06,920
+I know some of you might think that it has you consecutive.
+
+14
+00:01:06,920 --> 00:01:08,300
+No.
+
+15
+00:01:08,300 --> 00:01:10,000
+If it takes out liquidity and then you have,
+
+16
+00:01:10,000 --> 00:01:12,560
+if it takes out liquidity, it goes to your P.O.I.
+
+17
+00:01:12,560 --> 00:01:14,440
+and then you have a market shortage shift,
+
+18
+00:01:14,440 --> 00:01:16,000
+then that is your auto block.
+
+19
+00:01:16,000 --> 00:01:17,880
+Okay, you don't have to be consecutive candles.
+
+20
+00:01:17,880 --> 00:01:20,960
+You take your entry here, put your stop right above this high
+
+21
+00:01:20,960 --> 00:01:23,720
+over here, go for one, two,
+
+22
+00:01:23,720 --> 00:01:28,520
+And look at this.
+
+23
+00:01:28,520 --> 00:01:31,880
+Play this out beautifully.
+
+24
+00:01:31,880 --> 00:01:35,860
+And it hits your take profit.
+
+25
+00:01:35,860 --> 00:01:40,700
+Honestly this is one of my favorite trading strategies at the moment.
+
+26
+00:01:40,700 --> 00:01:46,060
+It's basically auto flow, but it only uses two time frames and you only have to see the
+
+27
+00:01:46,060 --> 00:01:50,500
+market share shift during kill zone hours and your energy must also be doing kills on
+
+28
+00:01:50,500 --> 00:01:54,140
+hours and you go for one to two.
+
+29
+00:01:54,140 --> 00:01:56,700
+So that was it for this strategy.
+
+30
+00:01:56,700 --> 00:01:58,700
+I'll see you guys in the next one.

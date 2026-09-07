@@ -1,0 +1,107 @@
+[00:00:00] Alright guys, so in this lecture, I'm gonna show you how you can identify daily bias easily. So this method was actually taught by ICT himself in one of his videos. I believe it was from sniper series or market maker, I'm not quite sure. But yeah, he thought that himself. He said that if you as a beginner, if you are having problem with finding daily bias manually, you can use this method. Okay? It's not gonna be as perfect as finding the daily bias manually, but it's gonna work.
+[00:00:30] Okay, and it's better than nothing.
+[00:00:32] So go to the indicator style here, type in moving
+[00:00:36] average, right?
+[00:00:39] And you open two moving averages.
+[00:00:42] So the one length is nine.
+[00:00:45] So the length of the first one is nine
+[00:00:47] and the length of the second one is going to be 18.
+[00:00:52] Once you have that, so whenever the moving averages
+[00:00:56] are to the upside, right, after the cross,
+[00:00:59] your bias is bullish.
+[00:01:01] Okay?
+[00:01:01] And whenever the moving averages are to the downside,
+[00:01:04] your bias is bearish.
+[00:01:07] Simple as that guys,
+[00:01:09] non-eat your complicated.
+[00:01:11] I repeat, when the moving averages give across
+[00:01:15] and the price is above the moving averages
+[00:01:17] or the moving averages are up to the upside.
+[00:01:19] Like here, your bias is gonna be bullish,
+[00:01:23] regardless of what price is doing.
+[00:01:25] Okay?
+[00:01:26] So this is one way to set foundation.
+[00:01:30] Okay.
+[00:01:31] So what I have found by back testing is one you
+[00:01:35] once you have a cross, right?
+[00:01:37] The next two to three days, you can have a bullish bias.
+[00:01:42] But after that, you want to look for some sort of liquidity sweep
+[00:01:46] before being bullish again.
+[00:01:48] Okay.
+[00:01:48] So right here you can see we had three consecutive bullish days.
+[00:01:51] So you have to expect some sort of retracement.
+[00:01:54] And that retracement could be from this fair value gap that was here.
+[00:01:58] So when price comes back to fair value gap,
+[00:01:59] you could either be bullish again here
+[00:02:02] or you do is wait for some sort of liquidity sweep.
+[00:02:05] So this right here is a liquidity sweep
+[00:02:08] and price candle closes here and your bias is bullish.
+[00:02:13] Very, very simple guys, okay?
+[00:02:17] And right here you can see we have a cross,
+[00:02:21] I believe right here.
+[00:02:22] So the next day was bearish, okay?
+[00:02:25] But then what happened was we took out this high here
+[00:02:32] and you can see the next day was bearish.
+[00:02:35] After that, what happened was we took out
+[00:02:38] this high over here and after taking out the high,
+[00:02:42] you can see the next couple of days were bearish.
+[00:02:45] So over here we have a cross again, actually cross here, right?
+[00:02:50] the next date was bullish as hell. And remember the volume imbalance video that I thought you guys
+[00:02:57] there is volume imbalance right here. And also what happened here was price took out this liquidity.
+[00:03:05] So then the next candle after the close of the next candle your bias is bullish. So see that move.
+[00:03:10] Yep, that's what I'm talking about crossover here. You can see kind of close here. Well, the next day
+[00:03:18] I would say was bullish. Okay, so there's nothing that you can do about it, but then the couple of so the next two days were bearish right here after that
+[00:03:26] You would have looked for a liquidity sweep surprise trip to look at it here
+[00:03:29] price console dated for a couple of days, but then you had this you know up and down up and down
+[00:03:34] But then you had the next couple of days bearish couple of days. Okay, and after that price look really boom
+[00:03:42] very simple guys
+[00:03:45] So let me show you guys here as well. We have a cross boom cross over here. Move move to the upside cross here
+[00:03:52] bearish cross here bullish. Okay, you can see price up liquidity here as well move to the upside
+[00:03:59] price to look at here as well
+[00:04:01] Well, this was you could have been bearish for some days, but then there was this you know
+[00:04:06] This auto block right here price came back here push up
+[00:04:10] But all you need are moving averages to identify daily bias guys
+[00:04:13] is not going to be as accurate as finding it manually.
+[00:04:17] If you want to learn how to identify a daily bias manually
+[00:04:23] with a higher accuracy level, you can watch my video on YouTube
+[00:04:26] if absolutely free, or you can learn by ICT himself.
+[00:04:31] So there's another trick that you can use.
+[00:04:36] And that trick is by me, actually.
+[00:04:39] So you look for ABC patterns.
+[00:04:42] Okay.
+[00:04:44] So this right here, you see ABC.
+[00:04:47] When you have a sweep, you wait for price to close back
+[00:04:50] and then you, when the price comes back to a retest,
+[00:04:54] as soon as it retest this line,
+[00:04:57] your bias could be bearish.
+[00:05:00] But as you can see, the moving averages here were bullish.
+[00:05:03] So you gotta play accordingly.
+[00:05:06] If the moving averages are bullish,
+[00:05:09] You look for bearish ABCs.
+[00:05:11] Oh, sorry, bullish ABCs, okay?
+[00:05:15] But I'm just showing you,
+[00:05:16] if you don't wanna use moving averages,
+[00:05:17] you can use this technique as well.
+[00:05:21] So let me show you how.
+[00:05:24] Let me go back, right here, remove the drawings.
+[00:05:27] Let's disable the moving averages.
+[00:05:32] So right here, you see we have ABC, right?
+[00:05:37] So ABC, then we, the price goes above the line
+[00:05:42] And when as soon as you have a retest, your bias becomes bullish.
+[00:05:48] Okay?
+[00:05:49] There was three really gap here as well.
+[00:05:51] And you can see how this works.
+[00:05:54] So your bias for the couple of days was bullish from just by identifying a daily bias.
+[00:06:02] Okay?
+[00:06:04] You can see right here, we have A, B, and then C.
+[00:06:10] price comes down, retest here and boom.
+[00:06:15] Price over here, ABC.
+[00:06:21] You can see that price.
+[00:06:23] Yes, it did go up here to fill in some imbalance or
+[00:06:28] if we were to gap on the lower time frame.
+[00:06:29] But then the next couple of days, as you can see, we're
+[00:06:31] bearish.
+[00:06:33] So this is it for identifying daily bias.
+[00:06:37] It's not going to be as accurate as finding the daily
+[00:06:39] as manually but it's better than nothing and it is going to increase or win
+[00:06:43] right definitely see you guys in the next video

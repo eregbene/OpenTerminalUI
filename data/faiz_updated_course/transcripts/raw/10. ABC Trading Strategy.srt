@@ -1,0 +1,420 @@
+1
+00:00:00,000 --> 00:00:04,640
+All right guys, so now we are going to learn the ABC trading strategy
+
+2
+00:00:04,640 --> 00:00:11,640
+It's it's kind of similar to the New York session trading strategy, but more advanced and more profitable
+
+3
+00:00:12,240 --> 00:00:15,760
+It's gonna have huge rich reward trades. So
+
+4
+00:00:17,040 --> 00:00:19,960
+It's quite simple you want to identify a
+
+5
+00:00:21,840 --> 00:00:23,840
+Aviv which is
+
+6
+00:00:24,360 --> 00:00:27,640
+This so let me put this out. This is an a with
+
+7
+00:00:28,280 --> 00:00:35,560
+This is a beehive which is a small trend in the opposite direction or a pullback, right and
+
+8
+00:00:36,080 --> 00:00:38,080
+Then a fake out
+
+9
+00:00:39,440 --> 00:00:42,080
+Now what you want to identify is
+
+10
+00:00:43,280 --> 00:00:45,920
+When the a leg is complete
+
+11
+00:00:46,840 --> 00:00:49,920
+Okay, when the a leg is complete
+
+12
+00:00:51,920 --> 00:00:53,920
+And the B leg is complete
+
+13
+00:00:54,920 --> 00:00:56,920
+The sea leg
+
+14
+00:00:58,520 --> 00:01:01,880
+Must create some sort of structure
+
+15
+00:01:02,600 --> 00:01:04,800
+Which is this right?
+
+16
+00:01:05,920 --> 00:01:11,240
+It went up lower low lower high and then it went lower low
+
+17
+00:01:11,240 --> 00:01:16,440
+All right, I want the price to create some sort of low or a high
+
+18
+00:01:17,120 --> 00:01:20,600
+Before the sea leg takes out the a
+
+19
+00:01:21,200 --> 00:01:26,760
+Okay, so we got the a we got the B and we got the C. So what are the rules?
+
+20
+00:01:29,920 --> 00:01:32,000
+Identify a leg
+
+21
+00:01:34,720 --> 00:01:36,560
+Okay
+
+22
+00:01:36,560 --> 00:01:38,560
+wait
+
+23
+00:01:39,160 --> 00:01:44,400
+For be like to form which is a
+
+24
+00:01:45,400 --> 00:01:49,120
+Significant pull back
+
+25
+00:01:50,800 --> 00:01:55,640
+Or small trend in opposite direction
+
+26
+00:01:58,160 --> 00:02:01,360
+Let me put this like this, okay
+
+27
+00:02:04,560 --> 00:02:08,520
+Once we have the beehive then wait for
+
+28
+00:02:08,520 --> 00:02:17,000
+The sea leg to take out the low of the a leg
+
+29
+00:02:17,760 --> 00:02:25,520
+the low slash high if you're looking for a cell position, all right of the a leg
+
+30
+00:02:26,840 --> 00:02:32,840
+Then wait for the sea leg to take out the low or high of the a leg depending on what
+
+31
+00:02:33,560 --> 00:02:35,560
+position you're trying to want to trade in
+
+32
+00:02:36,560 --> 00:02:38,720
+the
+
+33
+00:02:38,720 --> 00:02:44,200
+Sea leg must create some structure
+
+34
+00:02:46,600 --> 00:02:49,760
+Before taking out the a
+
+35
+00:02:52,240 --> 00:02:55,240
+legs low high
+
+36
+00:02:58,360 --> 00:03:03,440
+Then wait for price to reclaim
+
+37
+00:03:04,440 --> 00:03:06,440
+the a level
+
+38
+00:03:07,840 --> 00:03:12,880
+Okay, wait for price to reclaim the a level and break that
+
+39
+00:03:14,160 --> 00:03:19,160
+Structure created in the sea leg
+
+40
+00:03:21,240 --> 00:03:25,800
+Then identify an order block
+
+41
+00:03:26,640 --> 00:03:28,560
+slash
+
+42
+00:03:28,560 --> 00:03:34,560
+Fair value gap and take your entry from there
+
+43
+00:03:35,800 --> 00:03:37,800
+target the
+
+44
+00:03:37,880 --> 00:03:39,880
+high
+
+45
+00:03:40,880 --> 00:03:43,560
+Slash low of the beehive
+
+46
+00:03:45,000 --> 00:03:51,120
+So this is a bit this looks like a bit complicated, but it's very easy guys, okay when I'm gonna explain it to you
+
+47
+00:03:51,760 --> 00:03:53,000
+so
+
+48
+00:03:53,040 --> 00:04:01,720
+What you want to do is identify a leg, which is a main trend so this big push to the downside is the
+
+49
+00:04:04,200 --> 00:04:06,200
+A leg right
+
+50
+00:04:07,600 --> 00:04:09,200
+Now
+
+51
+00:04:09,200 --> 00:04:15,800
+We have a small term trend in the opposite direction, okay, so this is the beehive
+
+52
+00:04:16,520 --> 00:04:18,520
+okay
+
+53
+00:04:19,520 --> 00:04:26,600
+And then this line right here, so let me disable this just to make it a bit clear, okay, so this is the
+
+54
+00:04:27,960 --> 00:04:32,320
+High of the beehive leg right me put this like this
+
+55
+00:04:32,720 --> 00:04:38,160
+High of the beehive which is going to be our potential take profit area, okay?
+
+56
+00:04:39,120 --> 00:04:41,120
+We got the a leg
+
+57
+00:04:41,960 --> 00:04:43,960
+Sorry guys, I
+
+58
+00:04:44,960 --> 00:04:47,800
+Made a mistake, so this is the a leg
+
+59
+00:04:48,960 --> 00:04:53,200
+This is the beehive, okay, so we got the a we got the beehive here
+
+60
+00:04:53,200 --> 00:04:57,720
+This is the high of the beehive and then we got the sea all right, so we got the sea
+
+61
+00:04:59,440 --> 00:05:01,000
+leg
+
+62
+00:05:01,000 --> 00:05:05,520
+Okay, so this is like the sea leg, okay, so within that sea leg
+
+63
+00:05:06,280 --> 00:05:08,840
+All right, we want to create some sort of structure
+
+64
+00:05:09,280 --> 00:05:11,280
+So as you can see this sea leg
+
+65
+00:05:12,160 --> 00:05:16,760
+Create this structure right before taking out the low of the beehive
+
+66
+00:05:17,480 --> 00:05:19,320
+right
+
+67
+00:05:19,320 --> 00:05:22,480
+Once that happens you want to identify a
+
+68
+00:05:23,480 --> 00:05:25,480
+market structure shift
+
+69
+00:05:25,480 --> 00:05:30,640
+Not below the beehive but you want to wait for price to break this level because it is
+
+70
+00:05:31,960 --> 00:05:38,240
+Above the beehive if the market structure happens structure shift happens here, then it doesn't count
+
+71
+00:05:39,240 --> 00:05:41,240
+All right, very simple
+
+72
+00:05:41,920 --> 00:05:48,520
+When that happens as you can see this was a structure within the beehive and the sea leg and
+
+73
+00:05:49,440 --> 00:05:53,400
+The price did not take out our take profit area
+
+74
+00:05:54,080 --> 00:05:57,680
+So this trade is now this setup is now valid
+
+75
+00:05:59,040 --> 00:06:03,280
+Okay, so we have market structure shift right here. Let me make it a bigger
+
+76
+00:06:03,960 --> 00:06:07,800
+Let's make it 24. Okay, so now what do we have?
+
+77
+00:06:08,560 --> 00:06:14,480
+Here we got the imbalance and the autoblock. So we are going to enter right off this level
+
+78
+00:06:14,720 --> 00:06:19,440
+We put our stop loss right below this level and we target the high
+
+79
+00:06:21,080 --> 00:06:25,480
+Of the beehive this would have been a three ratio what trade?
+
+80
+00:06:25,880 --> 00:06:32,360
+This is one of my favorite strategies actually my favorite strategy out of all that I'm teaching
+
+81
+00:06:33,200 --> 00:06:35,440
+But really depends on you. So
+
+82
+00:06:36,080 --> 00:06:39,360
+Let let me move everything here and let's
+
+83
+00:06:40,360 --> 00:06:45,920
+Re-vice what I've taught here. So we got the a leg. This is the a leg
+
+84
+00:06:46,800 --> 00:06:54,600
+The main trend trend leg. Okay, so we are in a downtrend. We see a push down and then we see a pullback very simple, right?
+
+85
+00:06:55,680 --> 00:06:57,680
+This pullback
+
+86
+00:06:58,520 --> 00:07:02,080
+This move is called V-leg. Okay, so it went
+
+87
+00:07:02,800 --> 00:07:09,840
+Boom, it's a beehive and we want to identify the high of that beehive which is this, right?
+
+88
+00:07:10,280 --> 00:07:19,720
+The high of the beehive must not exceed and I repeat must not exceed the a leg. Okay, it just must not break the
+
+89
+00:07:21,280 --> 00:07:29,480
+A leg level, which is this. Okay, so this is where the big push started if the beehive crosses this level then the trade setups becomes becomes invalid
+
+90
+00:07:30,000 --> 00:07:32,000
+so
+
+91
+00:07:32,000 --> 00:07:37,680
+We got the beehive and now we want to identify the low of the beehive which is this
+
+92
+00:07:39,120 --> 00:07:42,120
+Perfect. Now we wait for price to break
+
+93
+00:07:42,840 --> 00:07:46,120
+break through that beehive. Okay, and
+
+94
+00:07:48,360 --> 00:07:52,900
+The move that breaks the beehive is called
+
+95
+00:07:53,720 --> 00:07:56,760
+C-leg so A, B, C actually
+
+96
+00:07:57,280 --> 00:08:01,720
+Now when the price is about to break the beehive level
+
+97
+00:08:02,400 --> 00:08:06,160
+It must and I mean must create some structure
+
+98
+00:08:06,960 --> 00:08:13,280
+All right, so we got as you can see lower lower lower high lower lower high and then we broke
+
+99
+00:08:13,440 --> 00:08:19,840
+Okay, now below the beehive we also created some structure and I also break this level
+
+100
+00:08:19,840 --> 00:08:24,920
+But this doesn't count. Okay, we are only going to look for structure which is inside
+
+101
+00:08:25,520 --> 00:08:29,400
+The beehive and the C-leg. Okay, the lines that I've drawn
+
+102
+00:08:29,560 --> 00:08:35,240
+The the low of the beehive and the high of the C-leg there must be some structure before price takes out the beehive
+
+103
+00:08:35,600 --> 00:08:41,160
+Then we identify a market structure shift that happens then we identify an auto block
+
+104
+00:08:41,800 --> 00:08:46,560
+Which is right here and we take our entry. So this is
+
+105
+00:08:47,400 --> 00:08:54,320
+Three risk reward trade very easy guys. So now in the next video, I'll give you some examples. See you guys
+

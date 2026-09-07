@@ -1,0 +1,168 @@
+{
+  "source": "F:\\new faiz\\10. THE MMXM EXAMPLE 1.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 184.4593125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.34,
+      "end": 30.34,
+      "text": " Alright guys, so here is an example number one of the market maker buy model. So remember we go from external to internal right and every single low or high right or external liquidity is a POI as well. Just like auto block and fair value gaps. If the high or low is taken out that is your POI as well or PD area as well. So remember from external we go to internal right."
+    },
+    {
+      "start": 30.34,
+      "end": 36.1,
+      "text": " So there is this fairly gap in that discount so that would have been a retarget now"
+    },
+    {
+      "start": 36.1,
+      "end": 38.7,
+      "text": " Let's go to the one-hour time frame and study what happened"
+    },
+    {
+      "start": 41.3,
+      "end": 43.86,
+      "text": " this line here is the purge on"
+    },
+    {
+      "start": 44.38,
+      "end": 46.38,
+      "text": " the external and"
+    },
+    {
+      "start": 47.18,
+      "end": 51.46,
+      "text": " Once price took out the liquidity we started identifying the"
+    },
+    {
+      "start": 54.14,
+      "end": 63.58,
+      "text": " Consolidation phases right so going to the daily time from once again, so let's go just here"
+    },
+    {
+      "start": 63.58,
+      "end": 69.3,
+      "text": " right this is our drawn look at it this fair value gap going to do you want our"
+    },
+    {
+      "start": 69.3,
+      "end": 79.24,
+      "text": " timeframe remember we go from what you say from external to internal right so"
+    },
+    {
+      "start": 79.24,
+      "end": 83.6,
+      "text": " now that is our drawn liquidity that's right here but once price came into our"
+    },
+    {
+      "start": 83.6,
+      "end": 88.26,
+      "text": " POI we want to start identifying the consolidation phases so we have one"
+    },
+    {
+      "start": 88.26,
+      "end": 92.16,
+      "text": " consolidation phase here right then we have the second consolidation phase"
+    },
+    {
+      "start": 92.16,
+      "end": 97.2,
+      "text": " right here. It's really that simple you just have to identify the consolidation"
+    },
+    {
+      "start": 97.2,
+      "end": 102.68,
+      "text": " phase right and that's pretty much it. So now what you do is you simply look for a"
+    },
+    {
+      "start": 102.68,
+      "end": 106.96,
+      "text": " shift in the market structure that happens right there there's your auto block"
+    },
+    {
+      "start": 106.96,
+      "end": 112.64,
+      "text": " so let me mark this out like that. Price taps into the auto block here you know"
+    },
+    {
+      "start": 112.64,
+      "end": 118.88,
+      "text": " and as you can see we have consolidation here, consolidation here so my target"
+    },
+    {
+      "start": 118.88,
+      "end": 124.72,
+      "text": " would be this a drawn liquidity which is also the freebelly gap and also a high in this consolidation phase"
+    },
+    {
+      "start": 124.8,
+      "end": 133.44,
+      "text": " So if I play this through you're gonna see that we eventually hit the take profit level and if I play this through once more"
+    },
+    {
+      "start": 133.44,
+      "end": 136.72,
+      "text": " You can see that after taking out the"
+    },
+    {
+      "start": 137.48,
+      "end": 143.12,
+      "text": " freebelly gap we also take out this consolidation phase high giving us a almost"
+    },
+    {
+      "start": 143.12,
+      "end": 154.18,
+      "text": " 1 to 5. So it's really that simple. So if you've spot like"
+    },
+    {
+      "start": 154.18,
+      "end": 157.54,
+      "text": " consolidation, right, you just mark out one consolidation to"
+    },
+    {
+      "start": 157.54,
+      "end": 160.84,
+      "text": " consolidation, right? The third one, maybe we had a"
+    },
+    {
+      "start": 160.84,
+      "end": 164.3,
+      "text": " third one here as well. Yes, this is some form of"
+    },
+    {
+      "start": 164.3,
+      "end": 167.7,
+      "text": " consolidation. Actually, then we have a manipulation and"
+    },
+    {
+      "start": 167.74,
+      "end": 171.1,
+      "text": " then distribution to the upside boom and boom. So remember,"
+    },
+    {
+      "start": 171.1,
+      "end": 174.78,
+      "text": " One price is coming into your POI, right?"
+    },
+    {
+      "start": 174.78,
+      "end": 180.38,
+      "text": " Tip took out the sell site, and then you had your consolidation phases, and then you had"
+    },
+    {
+      "start": 180.38,
+      "end": 182.18,
+      "text": " your entry."
+    },
+    {
+      "start": 182.18,
+      "end": 183.62,
+      "text": " Let me move on to the next example."
+    }
+  ]
+}

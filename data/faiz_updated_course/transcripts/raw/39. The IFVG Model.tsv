@@ -1,0 +1,510 @@
+start	end	text
+0	3680	All right, guys, this is a new chapter in this chapter.
+3680	7580	I'm going to teach you guys the power of three and inverse
+7580	9240	revenue gap model.
+9240	11640	This model is extremely powerful.
+11640	14980	And basically, if you use this model,
+14980	17920	then you would not need anything else.
+17920	21800	So essentially, first we need to understand what is power of three,
+21800	23680	and then I'm going to teach you the model.
+23680	27360	So power of three is basically an accumulation phase
+27360	32600	where price consolidates, creates liquidity, then price
+32600	37600	manipulates, and then it moves and distributes
+37600	40120	towards the original direction.
+40120	43240	Now we have accumulation, manipulation, and then
+43240	43880	distribution.
+43880	46000	This is power of three.
+46000	51360	Accumulation, manipulation, distribution, A, M, D. Very simple.
+51360	61120	And similarly, you have something like, oops, never mind,
+61120	66160	accumulation, manipulation, and then distribution, right?
+66160	69120	So what is the model that I use?
+69120	72000	So what exactly is inverse for a value gap?
+72000	74280	I've taught this before, but I'm going
+74280	77080	to teach it again in this video.
+77080	80520	So essentially, when you get a fairly gap,
+80520	85320	so over here you can see that we got a market structure break
+85320	88200	or break of structure.
+88200	91720	And let's suppose that price creates a fairly gap,
+91720	93200	a bullish fairly gap.
+93200	99160	Now, this fairly gap will become inverse if price doesn't
+99160	104680	respect it, and it closes below this bullish fairly gap.
+104680	109000	So let me just make it green, because it
+109000	110640	is a bullish fairly gap.
+110640	114000	But notice how price came back into the fairly gap,
+114000	115440	but it was not respected.
+115440	119120	And you can see that the candle, the body,
+119120	123280	closed below the fairly gap, so it was not respected.
+123280	125840	Now, once the body closes, this fairly gap
+125840	129680	becomes inverse for a fairly gap.
+129680	131880	So essentially, what you can do is just simply
+131880	136600	take your entry on the retest or on the close of the candle
+136680	140080	below this level.
+140080	140560	Right?
+140560	146120	So the model that I use is basically, so now that you guys know
+146120	148360	what exactly is an inverse fairly gap,
+148360	152720	there are chapters on this, on my old course
+152720	153720	and also on my YouTube.
+153720	156400	So I'm not going to explain it in detail.
+156400	157520	But here is the model.
+157520	161000	So what I look for on the one minute time from,
+161000	162800	and then there is another approach to it,
+162800	166880	but this is like one minute trading strategy, right?
+166880	169320	And you can basically trade it on NAS 100,
+169320	172960	gold, and also your USD.
+172960	177240	So I primarily trade NAS 100 with this,
+177240	179760	because it has the highest wind rate.
+179760	182520	So on the one minute time frame, I would try
+182520	187160	to identify a accumulation phase,
+187160	191600	then a manipulation phase, right?
+191600	194600	And then afterwards, what I'm looking for,
+194600	197520	so watch this carefully.
+197520	200720	This is the most important part of this model.
+200720	204920	So we have accumulation, and then we have manipulation.
+204920	209640	Inside this manipulation leg, okay?
+209640	213640	There should be only one fairly gap,
+213640	218120	only one fairly gap, okay, on the one minute time frame.
+218120	221920	So we have accumulation, then we have manipulation
+221920	224400	inside the manipulation leg, right?
+226120	231120	From this high to this low, we must have one fairly gap.
+233080	237360	Now, let's suppose that this leg has,
+237360	240000	okay, let me just guys, just give me a minute.
+240000	243160	I'm just gonna disable this.
+243160	246520	So it's connected to the LAN network.
+247400	250840	Anyways, it should have one fairly gap,
+250840	255640	but if it has multiple fairly gaps inside this leg, right?
+255640	258920	What you want to do is you have to go a bit higher
+258920	259760	on the time frame.
+259760	262120	So you would go on the two minute time frame,
+262120	264240	and then you would go on three minute time frame,
+264240	265840	and then four, and then five.
+265840	269840	The five minute is the highest that you can go.
+269840	272760	But on the five minute, you must also have
+272760	276600	a clear power of three, right?
+276600	279440	You must have consolidation on the five minute time frame
+279440	280720	as well.
+280720	284040	Now, if there's like no power of three, right,
+284040	285720	then there is no setup.
+285720	288840	But let's say that you want to stick
+288840	290360	on the one minute time frame, and I suggest
+290360	291920	that you just stick to one minute time frame
+291920	294800	because it's not cool to go to higher time frame
+294800	297240	to identify a single fairly gaps.
+297240	300840	So let's assume that while price was coming down
+300880	305360	and manipulating, price created one single fairly gap.
+307240	312240	And this is a bearish fairly gap.
+312400	315880	Now, usually people would expect price to come
+315880	318640	into this fairly gap and then go below.
+318640	322920	But the model here is that once price
+322920	326000	inverses this bearish fairly gap,
+326000	329560	the single fairly gap that was present
+329560	333720	inside this manipulation leg.
+333720	338640	When price closes above that, you want to enter right away.
+339760	343480	Okay, this is going to be your entry right away
+343480	346720	when the candle closes above the fairly gap
+346720	348280	and inverses it.
+348280	351000	Your stop will go below here.
+351000	353920	And this is the most important part.
+353920	358000	You must target the most recent,
+358000	362400	the most, the closest liquidity, right?
+362400	366400	So this high is the closest level.
+367320	371120	Now, let's suppose that your entry is triggered.
+371120	375280	Now, here's a risk management for this strategy.
+377240	382240	So, when the price reaches this,
+382680	387680	the closest liquidity level, you are going break even, okay?
+388040	390960	Straight away, you are going break even.
+390960	395960	Now, when price hits one to one risk reward ratio,
+396680	400600	you are taking 50% off your profit.
+400600	402760	And of course, you are also break even.
+403600	407400	And then you are letting the runners run
+409240	410880	for however you want.
+410880	415400	So for example, I usually go for one to 2.5
+415400	417400	or one to three with the strat
+417400	420000	and I target the high time frame, you know,
+420000	421880	target and draw on liquidity.
+423280	425600	Now, you can also use the standard deviation tool
+425600	427280	that I've taught in my previous lectures
+427280	429280	and you can target this level.
+429280	432960	But the main premise, the main idea is that you go break
+432960	437960	even once the closest liquidity level is taken, okay?
+438960	441760	Now, here's the deal, okay?
+441760	444400	Now, what price will do is sometimes,
+444400	448560	just let me do this, do, do, do, do, do, do, do, do, do, do.
+448560	452600	Okay, what price will do is instead of closing above
+452600	456720	the fair value gap, price will go up ahead
+456720	461720	and take out the liquidity before giving you entry, right?
+462360	467000	So the candle won't close but it will go way higher, right?
+467000	470800	And then it will just take out the most recent liquidity.
+470800	474360	Now, if that is the case, then the setup becomes invalid.
+474880	476680	Completely invalid, okay?
+477800	481960	I, my eyes are always on the most recent liquidity level.
+481960	484160	That is the most recent high.
+484160	487440	So this is the closest high, my apologies.
+489360	494280	Now, the candle closes, price can even be here, okay?
+494280	495320	Somewhere around here.
+495320	499040	Now, you can enter right away, right?
+499040	502160	And sometimes what can happen is price will go way far
+502160	503160	up ahead.
+503160	506040	So instead of entering here, you should be patient
+506040	509160	and then you should be waiting for a retest entry.
+509160	513080	Now, this is only applicable when the price has gone way far
+513080	516080	above the inverse fair value gap.
+516080	518000	And let's suppose that if you take your entry here,
+518000	520360	your stop loss would be massive, right?
+521240	525320	And it doesn't matter if you take your entry here or here,
+525320	529280	you must go break even when the closest liquidity level
+529280	530280	is taken out.
+531280	534880	And that is basically the model.
+534880	536560	Now, there are some few key things
+536560	538440	that you must keep in mind.
+538440	541520	Let me just take a sip of my tea and then I'll continue.
+543840	545240	Thank you very much.
+547200	551440	All right, now what I like to do most of the time
+551440	554600	is basically pair it up with higher time
+554600	557960	from key levels and SMT divergences.
+557960	560240	Now, this is something that if you wanna like,
+560240	562600	if you can implement this, then of course,
+562600	564600	it's gonna increase the win rate, okay?
+564600	567560	My goal is to teach you the most mechanical strategies
+567560	570400	that you can use because I understand the situation
+570400	571240	you guys are in.
+571240	573760	You guys may have jobs and you don't have time,
+573760	576680	enough time to analyze the markets every single day, right?
+576680	579480	You know, you know, using discretion and all that stuff.
+579480	582720	So I want to keep them as mechanical as possible.
+582720	585760	If you really wanna like take this model to next level,
+585760	588320	then use this technique.
+588320	590960	So since we're trading on the one minute down from,
+590960	595960	we will be marking out the 15 minute key levels, right?
+596040	599040	So let's assume there was a significant low
+599040	601120	somewhere around here that was taken out
+601120	606120	and afterwards price gave us this AMD model, okay?
+607320	610840	Now there could be a fair value gap,
+610840	614040	50% of the fair value gap or an auto block, right?
+615040	619840	It is always best to pair it this move with PD arrays.
+619840	622880	Now, SMT divergence is basically,
+622880	625240	let's suppose that on NAS100,
+625240	629640	we created the lower low, lower high,
+629640	631160	and then a lower low.
+631160	632360	Essentially it is power of three,
+632360	634360	but you can see we have lower low,
+634360	638160	consolidation, and then another lower low.
+638160	641160	Now, instead of on NAS100,
+641160	643160	let's suppose that we get lower low, lower high, lower low,
+643160	645520	but on S&P 500,
+645520	650520	we fail to create the lower low, right?
+651840	653160	Oh my God, this is messed.
+654160	656480	Yeah, so we fail to create that.
+656480	660840	Now, you wanna be trading the asset or the pair
+660840	662200	that swept liquidity.
+662200	665320	So you can see that we swept this liquidity, right?
+666160	669120	On S&P, we failed to sweep the liquidity
+669120	670300	or create another lower low,
+670300	672920	but on NAS100, we created lower low, lower high,
+672920	674200	lower low.
+674200	679200	So this right here is your SMT with PD array in mind,
+679560	682640	and I promise you, this is literally all you need.
+683840	685220	Basically, all you need.
+685220	689880	Now, here's another technique that you should implement,
+689880	693240	if you can, that's gonna also increase your win rate.
+693240	696280	So on the one minute timeframe, right,
+697160	698840	we have single fair value gap.
+698840	700520	We do not wanna have multiple fair value gaps.
+700520	702040	Only one in this leg.
+702880	706480	Now, okay, let's say is a price breaches
+706480	708320	in versus this fair value gap.
+708320	710360	Now, I will not enter right away.
+710360	713800	What I would do is I would go to the three minute timeframe,
+713800	714920	sorry, two minute timeframe,
+714920	717000	and see if there's any other fair value gap
+717000	720360	that price has not yet inversed, right?
+720360	721920	So on the one minute timeframe,
+721920	724000	your fair value gap could look like this,
+724000	725600	but on the two minute timeframe,
+725600	727800	your fair value gap could be a bit bigger,
+727800	730680	and on three minutes timeframe, it could be even bigger.
+730680	732120	Now, three minute is the highest
+732120	734360	that I would go to implement this trick.
+735560	739400	So I would wait for my highest fair value gap
+739400	742000	to be inversed instead of the one minute.
+742000	743000	Now, this is what it does,
+743000	747040	it extra confirms that the price will go towards my direction.
+747040	749200	Okay, this is very important.
+749200	752480	So not actually important, but if you implement this,
+752480	757480	it's gonna basically help you with your strike rate.
+758080	761240	So SMT PD arrays and this technique
+761240	764040	when combined together is just impossible
+764040	768200	to basically have lower and red than a 75% percent, all right?
+768200	771600	You're gonna have above 70 to 75% wind rate with this model.
+771600	773480	Just stick to the pairs that I suggested
+773480	774600	and assets that I suggested.
+774600	775960	Don't trade anything else with this,
+775960	778560	please don't do it for the sake of love, okay?
+778560	779400	Don't do it.
+780760	782760	And similarly, everything would apply
+782760	787360	when you are looking for shots.
+787360	792280	So basically, just do this and entry under retest.
+792280	794760	We have SMT into the PD array
+794760	798200	and you can see that we have accumulation, manipulation
+798200	800440	and then we get the distribution phase.
+800440	805320	And notice that also we have the closest liquidity level, right?
+805320	807320	This is the main point of the strategy
+807320	810480	is if it gets breached without entry, right?
+810480	813040	So the candle just keeps going down and down and down
+813040	816160	before closing below the fair value gap
+816160	818040	then the setup becomes invalid.
+818040	820560	However, if you have somewhere around here,
+820560	824120	you can still enter but you would go break even right away.
+824120	826800	After this level is taken, there's no comp,
+826800	829920	you know, you should not be just doing things
+829920	831680	when you're on just do what I say.
+831680	832720	Take your entry on the retest
+832720	834880	if price has gone way far below
+834880	838320	or enter right away when price is somewhere around here.
+838320	839840	Now, let's move on to the examples
+839840	842020	and then we'll move on to the next chapter.
+843520	845720	Now, one thing that I forgot to tell you about
+845720	847280	is the time factor.
+847280	849200	So when you should be trading this model,
+849200	854200	now the best results are gonna come from 9.30, sorry,
+857560	859960	till 11.30, right?
+859960	864960	So if you can find however many setups in this window period,
+865400	867840	your win rate is gonna be higher, okay?
+867840	869560	You're gonna have volatility
+869560	872960	but let's suppose that if there's news at 9.30, right?
+872960	875080	You should wait for news to pass over
+875080	877520	and trade after five to 10 minutes,
+877520	879840	actually 10 minutes because it's gonna just
+879840	883160	settle down the markets and then trade this model.
+883160	885240	Let's suppose that there is a news at 10,
+885240	889760	then you can do is wait till 10 and then trade after 10, 10 a.m.
+889760	892360	That makes sense after 10 minutes.
+892360	894400	So let me give you guys some examples.
+896120	898720	All right guys, so here is example number one.
+898720	902000	So we have accumulation right here
+902000	906360	and then we have manipulation, right?
+906360	909160	So let me just do this, accumulation,
+911960	916020	manipulation and then we have the distribution
+916020	916760	to the upside.
+917720	921360	Now here's how you would have approached it, right?
+921360	923320	So we get manipulation, right?
+923320	928320	Now notice a lower low, lower high and then a lower low.
+928680	931920	So our reference point is from this lower high
+931920	933080	to this lower low.
+934080	936240	Now notice what happens.
+937240	942080	We have this fair value gap, right?
+942080	946680	And we also have this closest liquidity level.
+946680	950560	So if this level was taken out before our entry
+950560	952720	then the setup would become invalid.
+952720	955360	Now notice how price closed right above
+955360	958560	the inverse fair value gap over here.
+958560	962160	So this would have been your entry, okay?
+963400	968320	And we would go break even with 50% profit
+968320	971920	at one to one restore wall ratio.
+971920	974360	Now you can see that this trade would have been closed
+974360	976960	at break even unfortunately.
+976960	978520	But you can see that price came back
+978520	983040	and retested this IFVG and then we had another push
+983040	985520	to take out these highs over here.
+987600	989120	So I want to show this example
+989120	991640	because not every trade is going to be perfect.
+992920	994760	So this is how you would approach, right?
+996200	999120	Accumulation, manipulation and then we have
+999120	1001720	this fair value gap that was inversed
+1001720	1003880	and a beautiful entry here
+1003880	1007160	with 50% profits taken here.
+1007160	1009200	Let's move on to another example.
+1010520	1011960	All right, so here is another example
+1011960	1013520	on the same day.
+1013520	1016280	You can see we have accumulation here
+1016280	1018280	and then we have manipulation.
+1018280	1020800	So essentially if you look for,
+1020800	1022640	if you don't want to look for Power of Three
+1022640	1024760	you can look for significant liquidity level streams
+1024760	1026080	and then you can look for this model.
+1026080	1027720	It's essentially the same thing.
+1028920	1029840	Power of Three is going to come
+1029840	1032720	in all different sizes and shapes and forms.
+1032720	1035000	So it's not always mechanical.
+1035000	1036720	You can't just identify Power of Three
+1036720	1037920	in a mechanical way.
+1037920	1040480	You have to see where the accumulation phase was
+1040520	1042200	and the manipulation phase.
+1042200	1045160	So accumulation phase, right?
+1045160	1047680	Manipulation, then we get the distribution.
+1047680	1050240	So how you would have approached this is basically,
+1050240	1053200	you can also see that we swept this high over here.
+1053200	1056720	Now, we have this low
+1056720	1059400	and then we have this high over here, right?
+1059400	1061120	Now notice this fair value gap.
+1063000	1066320	Inside from this low to this high over here
+1066320	1069120	there's only one fair value gap, okay?
+1069120	1071440	So this is very crucial and you can see
+1071440	1074680	that price inversed it just right here.
+1074680	1078640	So this would be my entry right away.
+1078640	1083640	Now you can see that my stop would go right above the high
+1083920	1086680	and on one to one I would go,
+1086680	1090680	actually I would go break even just around here
+1090680	1092760	and then I would take 50% of the profits here
+1092760	1095520	and as you can see price close to the set break
+1095520	1096680	even once again.
+1096680	1100000	But then you can see that price kept going down
+1100000	1103480	and down and down for the rest of the day.
+1103480	1104920	Price came back once again,
+1104920	1106760	tried to stop you out of break even,
+1106760	1108240	but then it kept going down.
+1108240	1112160	So now there are different ways to approach this.
+1112160	1113520	You can see that if you have taken your entry
+1113520	1118520	on the retest over here, just around here,
+1119360	1123920	this is the retest, stop somewhere around here
+1123920	1128120	and you could have easily taken one to one over here.
+1128120	1133120	Now, here is something that if you are really confident
+1134040	1136120	about your draw on liquidity.
+1136120	1139960	So for example, this is your draw on liquidity, right?
+1139960	1141480	This is the closest liquidity level
+1141480	1143760	that's when we go break even.
+1145160	1148240	But if you are extremely confident
+1148240	1151560	that okay price is going towards this high down frame,
+1152560	1154400	you know, sorry, not the higher
+1154400	1156560	but the significant liquidity level,
+1156560	1158840	then this could be your target
+1158840	1161080	and you can just avoid going break even.
+1161080	1165480	You can simply just decrease your stop loss to some degree.
+1165480	1169440	And then you can basically just go break even
+1169440	1174080	when this level is taken, take like 50% off
+1174080	1175280	and then keep it running.
+1177640	1180240	But yeah, these are two examples
+1180240	1185240	that show that this not every model,
+1185240	1188640	sorry, not everything is perfect, right?
+1188640	1191480	You're not going to get perfect trades every single time.
+1191480	1194600	Now I'm going to show you guys the perfect examples
+1194600	1197320	with the benefit of hindsight, right?
+1197320	1199880	And you guys are going to understand it correctly.
+1201400	1204280	All right guys, so here is the perfect example
+1204280	1209280	and you can see we have the accumulation phase over here,
+1209280	1210120	right?
+1210120	1212880	And then we have the manipulation.
+1212880	1215480	And while we manipulate it,
+1215480	1218960	you can see that this leg created the Fair Valley gap,
+1218960	1219960	the bullish Fair Valley gap.
+1219960	1224600	But since most of the SMC traders are taught
+1224600	1226120	to be taking a long position
+1226120	1227920	after getting a break of structure,
+1227920	1229720	you know, they get stopped out,
+1229720	1234720	the price inverses this bullish Fair Valley gap.
+1234720	1237220	So let me just color it green.
+1238060	1239660	The candle closes here.
+1240820	1243140	Now, this would be your entry,
+1243140	1244580	your stop right out of the high.
+1244580	1246820	This is the closest liquidity level.
+1246820	1248980	So when this level is taken,
+1248980	1252060	you would go break even right away, okay?
+1252060	1254140	This you have to just go break even there.
+1254140	1258180	There's just no ifs and buts, right?
+1258180	1259740	But since I said before,
+1259740	1261980	if your bias is extremely strong,
+1261980	1263940	then you can just go break even later.
+1263940	1266900	But you go break even right here, right?
+1266900	1269220	And since we are trading on the one minute,
+1269220	1274060	don't set, you know, stop loss orders
+1274060	1277060	and take profit levels to be hit automatically.
+1277060	1280180	You have to manage this trade manually.
+1280180	1282860	So you can't, you have to manually close
+1282860	1285620	when price reaches your stop loss level.
+1285620	1288300	You have to manually go break even when price reaches
+1288300	1289980	the exact break even point.
+1289980	1291420	And then you have to take your profits
+1291420	1294340	when price actually reaches this level, okay?
+1294340	1295940	You just don't set up the levels
+1295940	1298660	because what's gonna do is price will sometimes
+1298660	1300380	stop you out at break even,
+1300380	1302100	even when price is at due to spreads
+1302100	1302940	and whatnot.
+1302940	1304900	So it's just gonna really hurt you.
+1304900	1305820	I'm not kidding.
+1305820	1307220	It has happened to me before,
+1307220	1308900	but I think this is the best approach is
+1308900	1310180	keep watching the trade.
+1310180	1311580	Since we are trading on the one minute,
+1311580	1313700	you can be on the charts for 15 minutes, man.
+1313700	1314540	Come on, bro.
+1314540	1315860	You can't do that.
+1315860	1320180	So break even here, 50% off at one to one.
+1320180	1324180	And then the main target, the TP2,
+1324220	1326900	would be somewhere around here, right?
+1326900	1331220	And my last TP would be targeting the London lows.
+1332220	1335860	And this would give me roughly around this much.
+1335860	1340860	So this is like an extremely awesome model
+1341300	1342540	that you can use guys.
+1342540	1345460	It's basically a no brainer, okay?
+1345460	1346740	I've explained everything.
+1347660	1349900	SMTs to pair it up with,
+1351500	1353660	so for example, if you look at it here, right?
+1353660	1357500	We also swept the Asian high here, right?
+1357500	1359700	So when you combine these different things
+1359700	1363420	and take a trade with this model,
+1363420	1365100	trust me, you're gonna thank me.
+1365100	1366940	Now let's move on to the next example.
+1368340	1370900	All right guys, so here is another example.
+1370900	1373380	And you can see that in this price action,
+1373380	1375780	you could have taken so many of these trades.
+1375780	1380220	And some of them would have given you 50% profit at one to one.
+1380220	1382820	And some of them would have been closed at break even.
+1382820	1384620	But then there is, on the same day,
+1384620	1387660	we have accumulation, right?
+1387660	1388540	Somewhere around here.
+1388540	1390380	And then we have the manipulation, right?
+1390380	1392820	So basically, manipulation is liquidity sweep, right?
+1393820	1394700	Over here.
+1394700	1398620	And then notice that this leg created this bearish
+1398620	1399380	Fair Valley gap.
+1399380	1402880	So I'm just gonna name it, sorry, color it red.
+1404460	1405300	Right?
+1405300	1408300	So we close right above the Fair Valley gaps
+1408300	1409940	that inverses it.
+1409980	1414980	Now the closest liquidity level is this high over here.
+1414980	1417500	So now you can see that if I take my long position
+1417500	1421100	from this level and just put my stop here.
+1421100	1425620	Now I would go break even when this level is taken, right?
+1425620	1429660	And then I would take 50% off my profit at one to one.
+1430580	1435580	And then my second tip would be somewhere around here, right?
+1437420	1439900	Just around here, I would be break even.
+1439900	1444620	And my third tipi, the final tipi that I would look to
+1444620	1448020	is some form of high time frame level, right?
+1448020	1450420	Because you can see that price just kept going up, bro.
+1450420	1452220	That's insane, right?
+1452220	1455460	So yeah, that would be,
+1455460	1457940	or you can just take and close your entire position
+1457940	1459580	on the second tipi, okay?
+1460820	1461900	It doesn't really matter.
+1461900	1464540	As long as you're making profits, it should not matter.
+1464540	1466220	Let me give you guys one more example
+1466220	1468300	and then we will end this chapter.
+1469140	1471660	All right guys, so here's the final example.
+1471660	1474740	And you can see we have a very clean borrowed three.
+1474740	1478220	We have accumulation, then we have manipulation, right?
+1478220	1481420	And the manipulation leg created this fair value gap,
+1481420	1482820	the bullish fair value gap.
+1482820	1485540	So let me just color it green
+1485540	1487420	because it's a bullish fair value gap.
+1487420	1489180	And now it's inversed.
+1489180	1491100	This is the closest target, right?
+1491100	1493580	So this is where we were gonna go break even.
+1493580	1496660	So your entry would be here, stop somewhere around here, right?
+1496660	1499460	Or maybe above the, actually above the high
+1499460	1502900	and you would go break even here.
+1502900	1506180	50% at one to one, right?
+1506180	1509340	And your second tipi could basically be just this
+1509340	1511420	because this is a significant high.
+1511420	1514340	You can also see that this is a fair value gap.
+1514340	1515180	This is an auto blog.
+1515180	1516780	So this right here is a very good location
+1516780	1519980	to take your profits, right?
+1519980	1522500	One to one point five somewhere around that.
+1522500	1525780	You would have got close every given if you held for longer
+1525780	1529100	but you can surprise went further down below.
+1529100	1531500	So this is a very good scalloping guys model
+1531500	1532700	that you can use.
+1532700	1534220	It is absolutely powerful.
+1534220	1537180	Just pair it up with SMT, right?
+1537180	1540420	And the PD arrays and you're gonna thank me, all right?
+1540420	1542060	So thank you so much for watching.

@@ -1,0 +1,143 @@
+{
+  "source": "F:\\new faiz\\6. Weekly Bias Example 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 137.57825,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so here's an example, number two for the weekly buy, so I'm not gonna GPP NCD, so you can see we took out the extended liquidity right here. Where is the draw on liquidity? So this tiny probability gap that you can see right here, if I zoom in, you can see there's this gap right here. That is gonna be a draw on liquidity, so let's drop down to the four hours timeframe, remember for the weekly we go from weekly to four hour timeframe. This is when we took out the liquidity here. That is gonna be, this right here, if it breaks, that is gonna set up."
+    },
+    {
+      "start": 30.0,
+      "end": 36.8,
+      "text": " our bias and right here. What do we have? We have a market structure shift right? So now once this broke here"
+    },
+    {
+      "start": 36.8,
+      "end": 42.64,
+      "text": " that would be our bias till this liquid level is hit. So now where we could have entered from this"
+    },
+    {
+      "start": 43.52,
+      "end": 48.0,
+      "text": " bread and butter model this fair value gap right here that I see right in the"
+    },
+    {
+      "start": 49.12,
+      "end": 51.12,
+      "text": " premium and"
+    },
+    {
+      "start": 52.0,
+      "end": 54.0,
+      "text": " Let's see if price goes there"
+    },
+    {
+      "start": 54.0,
+      "end": 59.92,
+      "text": " Right there boom price goes into their free body gap and we have our drawn liquidity hit"
+    },
+    {
+      "start": 60.28,
+      "end": 66.28,
+      "text": " So let's go to the weekly tab from once again. I'm gonna show you another example that just happened"
+    },
+    {
+      "start": 66.92,
+      "end": 68.92,
+      "text": " Just around here so"
+    },
+    {
+      "start": 69.48,
+      "end": 76.24,
+      "text": " What happened here we took out extended liquidity here again and we have this free value gap right?"
+    },
+    {
+      "start": 76.24,
+      "end": 80.14,
+      "text": " We could we could use the zero point five level of this fib because that is"
+    },
+    {
+      "start": 80.14,
+      "end": 84.86,
+      "text": " is some part of it, the fair value gap is inside the discount."
+    },
+    {
+      "start": 84.86,
+      "end": 87.42,
+      "text": " So we should be going to be using 0.5 level."
+    },
+    {
+      "start": 87.42,
+      "end": 92.54,
+      "text": " Let's go to the for our timeframe and look for what have happened here."
+    },
+    {
+      "start": 92.54,
+      "end": 97.22,
+      "text": " So right here, we can see we have this freck deal low here."
+    },
+    {
+      "start": 97.22,
+      "end": 100.58,
+      "text": " And we also have this fair value gap."
+    },
+    {
+      "start": 100.58,
+      "end": 102.78,
+      "text": " So price took out the extended liquidity."
+    },
+    {
+      "start": 102.78,
+      "end": 105.9,
+      "text": " We have a market structure shift setting our bias."
+    },
+    {
+      "start": 105.9,
+      "end": 109.02,
+      "text": " This is the fair value gap that we take our entry from."
+    },
+    {
+      "start": 109.02,
+      "end": 113.02,
+      "text": " this for where the gap is filled and this is the only way we got that is left."
+    },
+    {
+      "start": 113.02,
+      "end": 118.02,
+      "text": " So we simply take our entry from this for where we get, we put our shop right above this high"
+    },
+    {
+      "start": 118.02,
+      "end": 122.82,
+      "text": " or you can put it here, it doesn't matter and use target this level which is our draw on"
+    },
+    {
+      "start": 122.82,
+      "end": 129.14,
+      "text": " liquidity and let's see how this plays out."
+    },
+    {
+      "start": 129.14,
+      "end": 132.74,
+      "text": " And price hits our take profit level."
+    },
+    {
+      "start": 132.74,
+      "end": 133.98,
+      "text": " Very simple guys."
+    },
+    {
+      "start": 133.98,
+      "end": 137.38,
+      "text": " So let's move on to the daily example number two now."
+    }
+  ]
+}

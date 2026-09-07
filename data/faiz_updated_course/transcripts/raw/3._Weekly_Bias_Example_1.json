@@ -1,0 +1,178 @@
+{
+  "source": "F:\\new faiz\\3. Weekly Bias Example 1.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 201.2009375,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.18,
+      "end": 30.18,
+      "text": " Alright guys, so here is an example for the weekly bias. I'm looking at AUDUSD on the weekly time frame of course. So right here you can see price took out the external liquidity which is a high over here. Where is the fair value gap? The fair value gap is right around here. Is it in the discount? It is not. So what you can do when the fair value gap is not in the discount, you can use the FIB. Right?"
+    },
+    {
+      "start": 30.18,
+      "end": 33.48,
+      "text": " from the freebelly gap starting kettle to the ending candle and"
+    },
+    {
+      "start": 34.14,
+      "end": 37.54,
+      "text": " The zero point five level is gonna be your drawn liquidity"
+    },
+    {
+      "start": 39.89,
+      "end": 45.37,
+      "text": " Cool so that the zero point five level of this freebelly gap is gonna be our draw liquidity because if you draw a roof"
+    },
+    {
+      "start": 45.37,
+      "end": 48.45,
+      "text": " We're been not you from bottom to top you can see that"
+    },
+    {
+      "start": 49.37,
+      "end": 52.39,
+      "text": " Okay, actually the zero point five levels here so"
+    },
+    {
+      "start": 53.33,
+      "end": 56.01,
+      "text": " This right here could be our target right there"
+    },
+    {
+      "start": 57.01,
+      "end": 59.01,
+      "text": " draw on liquidity"
+    },
+    {
+      "start": 59.01,
+      "end": 64.61,
+      "text": " Okay, so now let's since we have taken out external liquidity, let's go to"
+    },
+    {
+      "start": 65.41,
+      "end": 69.81,
+      "text": " Actually, I would only look to target this level because that is the fairly gap"
+    },
+    {
+      "start": 70.29,
+      "end": 74.85,
+      "text": " So I don't want to like you know hold risk for my bias or for my entry"
+    },
+    {
+      "start": 75.33,
+      "end": 81.01,
+      "text": " You just got to play it like that. So we took out the external liquidity on the weekly. Let's drop down remember from weekly"
+    },
+    {
+      "start": 81.09,
+      "end": 83.09,
+      "text": " We go to the for our timeframe"
+    },
+    {
+      "start": 84.77,
+      "end": 87.73,
+      "text": " And over here. What do you see we took out the"
+    },
+    {
+      "start": 87.73,
+      "end": 92.25,
+      "text": " extended liquidity here. Now we're simply waiting for a market structure shift."
+    },
+    {
+      "start": 92.25,
+      "end": 96.49,
+      "text": " So what do we get here? We have a higher high, higher low and a higher high,"
+    },
+    {
+      "start": 96.81,
+      "end": 100.97,
+      "text": " annotated by the indicator. And that in this indicator is a game changer. Okay."
+    },
+    {
+      "start": 101.37,
+      "end": 108.13,
+      "text": " So right here, what we see, we have this fractal low here and price took out the"
+    },
+    {
+      "start": 108.13,
+      "end": 113.21,
+      "text": " low. So now what do we have here once we take out the low? We have this fair"
+    },
+    {
+      "start": 113.21,
+      "end": 118.97,
+      "text": " Valley Gap. And we also have this auto block, this bullish candle that took out"
+    },
+    {
+      "start": 118.97,
+      "end": 127.01,
+      "text": " liquidity here, right? So right here, this could have been your entry. And simply"
+    },
+    {
+      "start": 127.17,
+      "end": 132.97,
+      "text": " you could have gone for stop over here. And the original target, which was"
+    },
+    {
+      "start": 133.05,
+      "end": 139.77,
+      "text": " somewhere around here, right? Let me see what was the original starting point of"
+    },
+    {
+      "start": 139.77,
+      "end": 146.01,
+      "text": " the Fairwater Gap. Okay, this is right here. Cool. So right here, you can see we got our entry."
+    },
+    {
+      "start": 146.13,
+      "end": 152.98,
+      "text": " And let's see how this plays out. Beautiful. And also you can see the zero part five"
+    },
+    {
+      "start": 152.98,
+      "end": 160.18,
+      "text": " level was also hit. So yeah, that's pretty much it guys for the weekly bias. However,"
+    },
+    {
+      "start": 160.18,
+      "end": 167.02,
+      "text": " as I've said before, you can have looked for multiple entries by using the smaller"
+    },
+    {
+      "start": 167.02,
+      "end": 171.26,
+      "text": " top frame which would have been the 15 minute timeframe and but I'll get to that"
+    },
+    {
+      "start": 171.26,
+      "end": 177.52,
+      "text": " later in the video so don't worry about it okay but this right here is a bread"
+    },
+    {
+      "start": 177.52,
+      "end": 182.46,
+      "text": " and butter butter oh my god I can't pronounce butter bread and butter"
+    },
+    {
+      "start": 182.46,
+      "end": 187.78,
+      "text": " model guys okay you can only have two top frames and look for this but"
+    },
+    {
+      "start": 187.78,
+      "end": 193.06,
+      "text": " generally I would be honest with you I like the three top frames and as I say"
+    },
+    {
+      "start": 193.06,
+      "end": 200.26,
+      "text": " before I'm gonna teach you that later on in the course. So let's move on to the daily example now."
+    }
+  ]
+}

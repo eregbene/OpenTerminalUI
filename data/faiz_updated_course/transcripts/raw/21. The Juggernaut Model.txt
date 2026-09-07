@@ -1,0 +1,106 @@
+All right, everybody, so this is going to be the last course update
+this is basically the part two of the course update and
+Starting off
+I'm gonna teach you a trading model
+that is called the juggernaut and
+It is basically
+If not the best one of my best
+Sculping no daily boss trading models
+It works on all time frames. So whether it's one minute 30 seconds or five minutes
+It will work the same
+now
+It is very simple and
+You must know what an inverse for everybody gap is
+So simply what is an inverse for the gap?
+So let's assume that we have a fair body gap here, right?
+Now price made a higher high higher low and then a higher high
+Now inside this higher high we have a fair body gap now when price is here
+When price is here, right?
+It is still a fair body gap, but if price closes below the fair body gap
+Right in this leg this leg closed below this fair body gap that once that happens
+It becomes inverse for everybody gap. So remember that
+One price went up there. We had a fair body gap
+But then it was not respected and it was broken through like this and the candle closed
+Notice what I said the candle closed once the candle closes
+This fair body gap becomes inverse for everybody gap. All right, so
+Now, what is the model?
+So we have you know a higher high a higher low and then a higher high
+This higher high must have only one fair body gap
+So this should not be multiple fair body gaps here, okay?
+So in this instance for example, let's say that this right here is the only was the only fair body gap in this leg
+All right, and let's say
+All right, so we have this really gap we have to wait for information of the inverse really get once the inverse really gap is formed
+We can take look to take our entry. So what are the rules number one look for a liquidity sweep?
+All right, it could be any liquidity sweep. All right
+once the liquidy sweep is done mark out the fair body gap and
+Make sure that there's only one fair body gap in the leg that swept the
+Liquidity, right? So over here you can see we swept this high over here, right?
+and
+This leg only had one for the gap
+now
+What if you're looking at this on one minute, but there are like multiple
+Ferebody gaps here what you can do is move higher
+So if there are multiple ferebody gaps go to two minute time frame and see if you get one fair body gap
+If there are multiple ferebody gaps on two minute time frame
+Go to three minute or four minute and keep going higher until you see one ferebody gap
+It is very important that there's only one ferebody gap in the leg that breaks the structure or sweeps the liquidity, right?
+It is very important now all you're looking for is after liquidy sweep you are waiting for formation of the inverse ferebody gap
+Right, and then you're looking to take your entry on the retest or on the body close
+So once the body closes you can enter directly or you wait for a retest, all right?
+So close in from in virtual gap forms wait for a retest and you target the most
+closest low
+so this is where the price action is gonna be look below and the
+closest low that you see
+That is gonna be your take profit one or your entire take profit level or a place where you should be going break even
+So let's assume that this low right here was the closest low here, okay?
+Now
+Once price takes out the slow, right? You can do three things here once it happens
+you go break even and target the
+Hard time frame draw on liquidity or what you can do is you can take
+30 to 40% of your position off here move your stop to break even and
+target some other form of higher time from liquidity or a significant level or
+You can take your entire take profit level here
+But make sure you are getting at least one-to-one restore reward and how would that happen?
+I would go short here first off. I will move my stop my take profit level
+I will move my take profit level to this level, okay?
+Now I will decrease the stop loss key decreasing the stop loss
+Right until I get one-to-one
+But if my stop is higher than the high over here
+I can then reduce it so I can get more restore what out of this range, right?
+but what if and
+What if the fair value gap was here and this is just an example and there was inverse rule gap, right?
+Apologies
+So what would happen my take profit level would be here so I would increase I would decrease my stop like that
+Until I get one-to-one restore reward, right?
+So now we do not have a restop above here
+But somewhere around here because we need to get at least one-to-one. Otherwise
+Your risk reward and like your total I would say profit factor would be very low, okay?
+So make sure you're getting at least one-to-one and then you can hold the trades if you want to till then like the
+Significant target level is hit
+This is very simple and this is why I call it the juggernaut because it is very quick and it is very powerful
+it has over 70% win rate and notice
+watch the video again because
+make sure first off that there is only one fair value gap, right and
+Wait for a formation of IFVG or inverse rule gap and free on the close or on the retest and target this level
+now, here's another way to look at it. So
+You would get like a
+Market structure shift. So now once you get a market structure shift, right this leg right here
+Right, you have to look for a single fair value gap inside this leg because now we had swept this low
+And we can also consider this as a market structure shift. So previously if I go
+Here we had a break of structure, right? And we looked for a free value gap in the
+this leg that broke the structure, but if we
+With this and now we look at the
+At this right we had a market structure shift now
+inside
+This leg that did the market structure shift or swept the liquidity, right?
+You have to look for a singular fair value gap and the singular fair value gap. Let's assume it's right here
+All right, you keep going higher you keep going to a high time frame until you see
+You know a single fair but you can stay on one minute
+And if you see like a single fair value gap from this range high to this range low then you should be good now
+All you're looking for is price to close above this level once the price closes this old fair value gap becomes inverse
+Fair value gap and from there onwards you're looking to take your entry on the retest and you're targeting the most recent
+High or most recent or more the closest the closest liquidity level and that is going to be this high over here
+So your entry would be here you stop would go. Let's go. Let's suppose you go along here, right?
+first off move your take profit level and
+We decrease the stop to till this level and we get 1.33 and we can then hold if you want to take some partials as I said before
+Now let me give you guys some examples and then everything is going to be clear

@@ -1,0 +1,473 @@
+{
+  "source": "F:\\new faiz\\31. Quarterly Theory part 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 427.270375,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.08,
+      "end": 30.08,
+      "text": " Alright guys, so this is how I personally use quarterly theory as a standalone model or I can use it with other things as well. So when do we want to look for manipulations and when we want to look for expansions? So when you are on the intraday chart, so this is going to be 15 minute, you will have of course, you know,"
+    },
+    {
+      "start": 30.08,
+      "end": 33.08,
+      "text": " then you're gonna have manipulation,"
+    },
+    {
+      "start": 33.08,
+      "end": 37.08,
+      "text": " then you will have distribution,"
+    },
+    {
+      "start": 37.08,
+      "end": 41.08,
+      "text": " and then you will have continuation, right?"
+    },
+    {
+      "start": 42.08,
+      "end": 47.08,
+      "text": " Now, you want to focus on the manipulation part here, okay?"
+    },
+    {
+      "start": 47.08,
+      "end": 50.08,
+      "text": " So, as I said before, you will have then quadrants,"
+    },
+    {
+      "start": 50.08,
+      "end": 55.08,
+      "text": " so there will be, you know, a simulation inside here,"
+    },
+    {
+      "start": 55.08,
+      "end": 65.2,
+      "text": " then manipulation and vice versa right now in the manipulation quarter which is"
+    },
+    {
+      "start": 65.2,
+      "end": 69.2,
+      "text": " this right let's remove this so you don't get confused so remember in each"
+    },
+    {
+      "start": 69.2,
+      "end": 73.78,
+      "text": " quarter they're gonna be four quadrants so in accumulation quarter you're"
+    },
+    {
+      "start": 73.78,
+      "end": 78.72,
+      "text": " gonna have four quadrants that will be accumulation manipulation distribution"
+    },
+    {
+      "start": 78.72,
+      "end": 84.64,
+      "text": " and continuation alright now we want to focus on the big the quarter right we do"
+    },
+    {
+      "start": 84.64,
+      "end": 88.72,
+      "text": " not want to focus on the quadrants at the moment. Now inside the manipulation"
+    },
+    {
+      "start": 88.72,
+      "end": 99.69,
+      "text": " quarter, we have to focus on the manipulation quadrant. Okay. So this is"
+    },
+    {
+      "start": 99.69,
+      "end": 103.93,
+      "text": " you have to decide on this carefully guys because this is the only"
+    },
+    {
+      "start": 103.93,
+      "end": 109.21,
+      "text": " possible way to explain this. So inside the manipulation quarter, you're"
+    },
+    {
+      "start": 109.21,
+      "end": 112.61,
+      "text": " going to have, you know, accumulation manipulation, distribution"
+    },
+    {
+      "start": 112.61,
+      "end": 118.83,
+      "text": " continuation. You want to focus on the manipulation part. So inside a manipulation"
+    },
+    {
+      "start": 118.83,
+      "end": 126.43,
+      "text": " quarter, you have to focus on a manipulation quarter. Now that is clear. Now let's"
+    },
+    {
+      "start": 126.43,
+      "end": 136.76,
+      "text": " go here. So let's say that the overflow is bearish. Okay. Now when the overflow is"
+    },
+    {
+      "start": 136.76,
+      "end": 145.08,
+      "text": " bearish, of course we want to take short positions. Now during the manipulation"
+    },
+    {
+      "start": 145.08,
+      "end": 151.92,
+      "text": " phase of the manipulation quarter you have to look for a liquidity sweep. So"
+    },
+    {
+      "start": 151.92,
+      "end": 158.44,
+      "text": " inside a manipulation red box or you could say a manipulation quarter you have to"
+    },
+    {
+      "start": 158.44,
+      "end": 165.04,
+      "text": " look for a liquidity sweep during a manipulation quadrant if that makes sense."
+    },
+    {
+      "start": 165.04,
+      "end": 167.84,
+      "text": " So this gonna be right here, right?"
+    },
+    {
+      "start": 167.84,
+      "end": 169.72,
+      "text": " Once you have a liquid use rep,"
+    },
+    {
+      "start": 169.72,
+      "end": 173.72,
+      "text": " you then have to look for a market structure shift, okay?"
+    },
+    {
+      "start": 173.72,
+      "end": 176.44,
+      "text": " Now this could be either on a lower timeframe."
+    },
+    {
+      "start": 176.44,
+      "end": 177.76,
+      "text": " So for example, if you're looking at this"
+    },
+    {
+      "start": 177.76,
+      "end": 179.4,
+      "text": " on the 15 minute timeframe,"
+    },
+    {
+      "start": 179.4,
+      "end": 181.6,
+      "text": " you can then drop down to two minutes time from,"
+    },
+    {
+      "start": 181.6,
+      "end": 184.16,
+      "text": " or one minute timeframe to look for a market structure shift."
+    },
+    {
+      "start": 184.16,
+      "end": 188.44,
+      "text": " However, I highly suggest you stick to the same timeframe."
+    },
+    {
+      "start": 188.44,
+      "end": 190.16,
+      "text": " So that's gonna be 15 minutes timeframe,"
+    },
+    {
+      "start": 190.16,
+      "end": 191.92,
+      "text": " then you look for a shift in market structure,"
+    },
+    {
+      "start": 191.92,
+      "end": 194.04,
+      "text": " and then you can look to take your entry."
+    },
+    {
+      "start": 195.04,
+      "end": 200.58,
+      "text": " Similarly, if you have a period array, so there's be a you know an auto blog here"
+    },
+    {
+      "start": 202.32,
+      "end": 210.36,
+      "text": " So we swept this liquidity before but then we have a fairly gap price can manipulate into that fairly gap"
+    },
+    {
+      "start": 210.64,
+      "end": 215.1,
+      "text": " Because remember fairly gap on a lower time frame is also a liquidity level"
+    },
+    {
+      "start": 215.8,
+      "end": 223.2,
+      "text": " Refer back to internal and external liquidity videos and then you will understand so price can also go into the period array"
+    },
+    {
+      "start": 225.04,
+      "end": 228.64,
+      "text": " without sweeping liquidity but in this case it's so"
+    },
+    {
+      "start": 228.64,
+      "end": 231.44,
+      "text": " liquidity and went into the fair value gap. That is also acceptable."
+    },
+    {
+      "start": 231.44,
+      "end": 236.88,
+      "text": " Okay but I prefer you look for liquidity soups because that you will be"
+    },
+    {
+      "start": 236.88,
+      "end": 242.24,
+      "text": " like satisfied that okay you will not be in fear that okay if I take my entry from"
+    },
+    {
+      "start": 242.24,
+      "end": 246.36,
+      "text": " this fair value gap price can maybe go ahead and take out that high. So I"
+    },
+    {
+      "start": 246.36,
+      "end": 250.44,
+      "text": " suggest look for liquidity soups. So here we have liquidity sheep and price"
+    },
+    {
+      "start": 250.44,
+      "end": 253.12,
+      "text": " also went into the fair value gap. You look for a market structure shift and"
+    },
+    {
+      "start": 253.12,
+      "end": 255.52,
+      "text": " then you can take your entry."
+    },
+    {
+      "start": 255.52,
+      "end": 259.32,
+      "text": " Now the price will distribute lower"
+    },
+    {
+      "start": 259.32,
+      "end": 263.6,
+      "text": " during the distribution phase."
+    },
+    {
+      "start": 263.6,
+      "end": 269.56,
+      "text": " And then it can reverse during the reversal quarter."
+    },
+    {
+      "start": 269.56,
+      "end": 272.32,
+      "text": " So this is very, very simple guys."
+    },
+    {
+      "start": 272.32,
+      "end": 275.0,
+      "text": " If you understood what I said in this video,"
+    },
+    {
+      "start": 275.0,
+      "end": 276.04,
+      "text": " I'll repeat this again."
+    },
+    {
+      "start": 276.04,
+      "end": 279.28,
+      "text": " So remember, we have four quarters."
+    },
+    {
+      "start": 279.28,
+      "end": 284.56,
+      "text": " We have accumulation, manipulation, distribution and continuation."
+    },
+    {
+      "start": 284.56,
+      "end": 288.44,
+      "text": " Now inside each quarter, we're going to have four quadrants."
+    },
+    {
+      "start": 288.44,
+      "end": 294.08,
+      "text": " So in a accumulation quarter, we're going to have accumulation, manipulation, distribution"
+    },
+    {
+      "start": 294.08,
+      "end": 295.88,
+      "text": " and continuation."
+    },
+    {
+      "start": 295.88,
+      "end": 300.08,
+      "text": " In the manipulation quarter, we're going to have four quadrants as well."
+    },
+    {
+      "start": 300.08,
+      "end": 303.88,
+      "text": " That's going to be accumulation, manipulation, distribution and continuation."
+    },
+    {
+      "start": 303.88,
+      "end": 307.16,
+      "text": " It goes on with these two as well."
+    },
+    {
+      "start": 307.16,
+      "end": 314.78,
+      "text": " Now we want to look for a manipulation inside a manipulation quarter during manipulation quadrant"
+    },
+    {
+      "start": 314.78,
+      "end": 317.32,
+      "text": " if that makes sense."
+    },
+    {
+      "start": 317.32,
+      "end": 320.12,
+      "text": " So the manipulation quarter is going to have four faces."
+    },
+    {
+      "start": 320.12,
+      "end": 325.84,
+      "text": " We're going to have to focus on the second face which is the manipulation face of the quadrant."
+    },
+    {
+      "start": 325.84,
+      "end": 330.98,
+      "text": " During that face we want to look for a liquid you sweep or a push to the period rate"
+    },
+    {
+      "start": 330.98,
+      "end": 334.28,
+      "text": " that could be fairly gap, breaker block, autoblock."
+    },
+    {
+      "start": 334.28,
+      "end": 338.6,
+      "text": " Now please note that we have to trade this with the high time frame trend or high time"
+    },
+    {
+      "start": 338.6,
+      "end": 340.68,
+      "text": " frame auto flow."
+    },
+    {
+      "start": 340.68,
+      "end": 345.52,
+      "text": " Without that you are just basically taking random liquidy strips and this might not work"
+    },
+    {
+      "start": 345.52,
+      "end": 346.52,
+      "text": " for you."
+    },
+    {
+      "start": 346.52,
+      "end": 350.64,
+      "text": " So understand that identifying the auto flow is very important to identify auto flow."
+    },
+    {
+      "start": 350.64,
+      "end": 353.72,
+      "text": " All you have to do is come onto the chart, look at the high time frame."
+    },
+    {
+      "start": 353.72,
+      "end": 357.0,
+      "text": " And if you see that the price is going down, you will instantly know the auto flow."
+    },
+    {
+      "start": 357.0,
+      "end": 359.12,
+      "text": " You will know that okay price is going in that direction."
+    },
+    {
+      "start": 359.12,
+      "end": 362.68,
+      "text": " But if you are confused and you can't identify the auto flow, you are like confused if"
+    },
+    {
+      "start": 362.68,
+      "end": 367.8,
+      "text": " if it's bullish or bearish, then it's best to avoid that pair or asset."
+    },
+    {
+      "start": 367.8,
+      "end": 370.12,
+      "text": " So that's pretty much it guys for this."
+    },
+    {
+      "start": 370.12,
+      "end": 373.24,
+      "text": " You don't have to focus on anything else."
+    },
+    {
+      "start": 373.24,
+      "end": 380.76,
+      "text": " Although there's another strategy that I use with this, so let's remove this."
+    },
+    {
+      "start": 380.76,
+      "end": 383.68,
+      "text": " You can use this model as well."
+    },
+    {
+      "start": 383.68,
+      "end": 387.36,
+      "text": " So inside the accumulation phase, you will mostly see consolidation."
+    },
+    {
+      "start": 387.36,
+      "end": 391.28,
+      "text": " So you will have a high of the accumulation phase and the low of the accumulation phase,"
+    },
+    {
+      "start": 391.28,
+      "end": 392.28,
+      "text": " right?"
+    },
+    {
+      "start": 392.28,
+      "end": 397.88,
+      "text": " the manipulation phase, what you can do is look for a purge of either the high or the"
+    },
+    {
+      "start": 397.88,
+      "end": 402.92,
+      "text": " low of the accumulation phase. So this is the high of the accumulation phase, right?"
+    },
+    {
+      "start": 402.92,
+      "end": 410.0,
+      "text": " This around here. Now during the manipulation quarter, look for a sweep of either the"
+    },
+    {
+      "start": 410.0,
+      "end": 414.36,
+      "text": " high or the low. And then you can look for a shift in the market structure, take your entry"
+    },
+    {
+      "start": 414.36,
+      "end": 418.76,
+      "text": " and you can target the low of the accumulation phase."
+    },
+    {
+      "start": 418.76,
+      "end": 424.92,
+      "text": " So let me give you guys some examples about how I use this in the real life market and"
+    },
+    {
+      "start": 424.92,
+      "end": 426.28,
+      "text": " then we'll move on to the next chapter."
+    }
+  ]
+}

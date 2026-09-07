@@ -1,0 +1,100 @@
+1
+00:00:00,000 --> 00:00:04,720
+Alright guys, so for an example, number 2 for the weekly bias, I'm looking at GPP NCD,
+
+2
+00:00:04,720 --> 00:00:10,600
+so you can see we took out the extended liquidity right here, where is the draw on liquidity.
+
+3
+00:00:10,600 --> 00:00:14,680
+So this tiny probability gap that you can see right here, if I zoom in, you can see there's
+
+4
+00:00:14,680 --> 00:00:18,240
+this gap right here, that is going to be a draw on liquidity, so let's drop down to
+
+5
+00:00:18,240 --> 00:00:23,680
+the 4 hours time frame, remember for the weekly, we go from weekly to 4 hour time frame.
+
+6
+00:00:23,680 --> 00:00:28,880
+This is when we took out the liquidity here, that is going to be this right here, if it
+
+7
+00:00:28,880 --> 00:00:33,680
+breaks, that is going to set our bias, and right here, what do we have, we have a market
+
+8
+00:00:33,680 --> 00:00:35,120
+structure shift, right?
+
+9
+00:00:35,120 --> 00:00:40,880
+So now, once this broke here, that would be our bias, till this liquidity level is hit,
+
+10
+00:00:40,880 --> 00:00:45,960
+so now where we could have entered from this bread and butter model, this fair value gap
+
+11
+00:00:45,960 --> 00:00:55,320
+right here, that I see right in the premium, and let's see, if price goes there, right
+
+12
+00:00:55,320 --> 00:01:00,760
+there, boom, price goes into the fair value gap, and we have our draw on liquidity hit,
+
+13
+00:01:00,760 --> 00:01:05,640
+so let's go to the weekly taproom once again, I'm going to show you another example, that
+
+14
+00:01:05,640 --> 00:01:13,760
+just happened, just around here, so what happened here, we took out extended liquidity here again,
+
+15
+00:01:13,760 --> 00:01:16,680
+and we have this fair value gap, right?
+
+16
+00:01:16,680 --> 00:01:23,120
+We could use the 0.5 level of this fib, because that is some part of it, the fair value gap
+
+17
+00:01:23,120 --> 00:01:29,280
+is inside the discount, so we should be using the 0.5 level, let's go to the for our time frame
+
+18
+00:01:29,280 --> 00:01:37,040
+and look for what have happened here, so right here, we can see we have this fractal low here,
+
+19
+00:01:37,040 --> 00:01:43,360
+and we also have this fair value gap, so price took out the extended liquidity, we have a market
+
+20
+00:01:43,360 --> 00:01:48,560
+structure shift, setting our bias, right, this is the fair value gap that we take our entry from,
+
+21
+00:01:48,720 --> 00:01:52,960
+right, this fair value gap is filled, and this is the only fair value gap that is left,
+
+22
+00:01:52,960 --> 00:01:57,920
+so we simply take our entry from this fair value gap, we put our shop right above this high,
+
+23
+00:01:57,920 --> 00:02:03,520
+or you can put it here, doesn't matter, and use target this level, which is our draw on liquidity,
+
+24
+00:02:03,520 --> 00:02:13,840
+and let's see how this plays out, and price hits our take profit level, very simple guys,
+
+25
+00:02:13,840 --> 00:02:17,920
+so let's move on to the daily example number two now.
+

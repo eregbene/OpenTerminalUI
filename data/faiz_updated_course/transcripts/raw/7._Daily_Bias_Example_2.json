@@ -1,0 +1,93 @@
+{
+  "source": "F:\\new faiz\\7. Daily Bias Example 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 118.1895625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so here is the last example and example number two for the daily bias. So I'm looking at US Swiss and you can see that we have taken out this external liquidity here. So if I play this through, you can see that our draw on liquidity, where is it? Can you notice where it's gonna be a draw on liquidity? It's right here, this fair value gap around here. So this is gonna be a draw on liquidity."
+    },
+    {
+      "start": 30.0,
+      "end": 36.56,
+      "text": " Let's go to the hourly time from a rumor for the daily. We go from daily to hourly and then to five minutes"
+    },
+    {
+      "start": 37.04,
+      "end": 42.68,
+      "text": " So right here, what do you see? We have a shift in the market structure happening right here"
+    },
+    {
+      "start": 43.16,
+      "end": 48.08,
+      "text": " Cool now raise the fair value gap the fair value gap is right here"
+    },
+    {
+      "start": 48.16,
+      "end": 54.04,
+      "text": " That should be red and butter entry model. So let's see price goes up to that level"
+    },
+    {
+      "start": 54.04,
+      "end": 61.48,
+      "text": " price goes into this fair value gap so that could have been your entry. We are not"
+    },
+    {
+      "start": 61.48,
+      "end": 65.02,
+      "text": " gonna talk about the fight minute time from at the moment but later on the"
+    },
+    {
+      "start": 65.02,
+      "end": 70.28,
+      "text": " video so don't wear a layer on the course okay so don't worry. Your stop goes"
+    },
+    {
+      "start": 70.28,
+      "end": 75.96,
+      "text": " here and your take profit just goes here so let's see how this plays out."
+    },
+    {
+      "start": 75.96,
+      "end": 85.73,
+      "text": " price goes ahead, it feels in this inefficiency and right away we have a"
+    },
+    {
+      "start": 85.73,
+      "end": 91.81,
+      "text": " retake profit level hit. So now that you have known about monthly weekly and daily"
+    },
+    {
+      "start": 91.81,
+      "end": 96.97,
+      "text": " bias and external and internal liquidity, remember I all this personally go"
+    },
+    {
+      "start": 96.97,
+      "end": 102.01,
+      "text": " from external to internal, you can try messing around with internal to external"
+    },
+    {
+      "start": 102.01,
+      "end": 108.09,
+      "text": " but I wouldn't recommend it. Okay, so that was pretty much it for this chapter"
+    },
+    {
+      "start": 108.09,
+      "end": 115.47,
+      "text": " Let's move on to the next topic and that is going to be a game changer as well."
+    },
+    {
+      "start": 115.47,
+      "end": 116.83,
+      "text": " See you guys."
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+WEBVTT
+
+00:00.000 --> 00:06.080
+All right guys, so now we are going to learn the Asian session liquidity trading strategy.
+
+00:06.080 --> 00:13.200
+So let me type that in Asian liquidity, Asian session liquidity trading
+
+00:14.960 --> 00:23.200
+strategy. Let me put this like this. All right, perfect. So what is Asian session liquidity trading
+
+00:23.280 --> 00:31.120
+strategy? Well, during the Asian session price, most of the time consolidates. Okay. So it's
+
+00:31.120 --> 00:39.280
+going to be like this and blah, blah, blah. Right. So let's suppose that this is an Asian session.
+
+00:40.640 --> 00:45.520
+All right. This is the start of the Asian session. And this is the end of the Asian session.
+
+00:46.320 --> 00:50.960
+All right. There you go. Perfect. This is the end. So
+
+00:52.640 --> 00:58.960
+if once the Asian session is over, we get a one to two hours time period of
+
+01:00.160 --> 01:08.720
+lunch. Okay. So let me draw this out like this. Once the Asian session is over, we get this one
+
+01:08.800 --> 01:15.920
+our break or to our break before London session starts. Okay. Now, during that break,
+
+01:16.480 --> 01:24.320
+I want the price to pull back and create another high, high or lower low, depending on where the
+
+01:24.320 --> 01:32.400
+price is going. All right. And once it does that, what you want the price to do is to break
+
+01:33.040 --> 01:41.760
+or do do a market structure shift, okay, or change of character, whatever you want to call it.
+
+01:44.160 --> 01:54.560
+Now the price can also break the structure after the London session starts. Okay. The only thing
+
+01:54.560 --> 02:02.000
+that you should be focusing on that the fake out like this happens during the lunch time period.
+
+02:02.080 --> 02:11.280
+Okay. Now it doesn't matter when price does a market structure shift or change of character
+
+02:12.400 --> 02:18.480
+within that lunch period or during the London session. All right. Once that market structure
+
+02:18.480 --> 02:28.400
+shift has happened, you want to identify auto block plus fair value gap. You want to go short,
+
+02:28.400 --> 02:34.800
+put your stop plus right above there. And you want to target the low of the Asian session. Okay.
+
+02:36.160 --> 02:43.040
+So what's price going to do is going to go back up. And then it's going to take out the
+
+02:44.960 --> 02:52.880
+low of the Asian session. All right. Similarly, let me draw this. Let me remove this.
+
+02:53.120 --> 03:03.040
+Do, if you're looking for buys during the lunch period, I want to see price
+
+03:05.040 --> 03:10.800
+fake out. And then a clear, a very clear market structure shift.
+
+03:12.880 --> 03:18.080
+We take our entry from the imbalance and fair value gap and we target the high of the Asian
+
+03:18.080 --> 03:25.680
+session. Very simple guys. Okay. You do not need you do not need any daily buys for it.
+
+03:25.680 --> 03:31.200
+It's an algorithmic trading strategy. So we see a market structure shift right around here.
+
+03:32.080 --> 03:38.800
+Okay. And we got the fair value gap right around here or auto block. Okay. We take our entry here
+
+03:38.800 --> 03:45.520
+and we target the Asian session liquidity high. So let me remove this. And let me show you an
+
+03:45.520 --> 03:54.000
+example. Okay. So you can see we created the lower low, lower high, lower low, higher high.
+
+03:54.800 --> 04:01.600
+But then we created another low low. And then we did not create anything. These were just wicks.
+
+04:01.600 --> 04:10.640
+Okay. We did create this level and we brought, we created another level. So after that, you can see
+
+04:10.640 --> 04:20.800
+that price faked out during the lunch period. And now what you want to do before we even start,
+
+04:21.600 --> 04:27.840
+you want to, how do we identify a Asian session, a London session, and the lunch breaks and all.
+
+04:27.840 --> 04:34.400
+You want to go to the indicator tab. You want to type in FX and Asian session range. Once you do
+
+04:34.400 --> 04:39.040
+that, you want to go to the settings tab here. You want to go to the style settings and you want
+
+04:39.040 --> 04:46.560
+to disable labels and lines. That is it. So the blue one is an Asian session. The green one is the
+
+04:46.560 --> 04:53.440
+London session. And the gray one is the New York session. All right, clear. All right. So let's move
+
+04:53.440 --> 04:59.360
+on. Now what do we have here? We got this market structure shift. And we broke a lot of structures,
+
+04:59.360 --> 05:07.600
+right? So this shows us that price want to go up and take out the high of the Asian session. All
+
+05:07.600 --> 05:14.320
+right. So what we do here is that we want to mark out the fair value gap and the autoblock. So as
+
+05:14.320 --> 05:21.360
+you can see, this is an autoblock with fair value gap. You want to enter from here. You want to put
+
+05:21.360 --> 05:28.080
+your stopwatch right below that autoblock and you want to target the high. Okay. Now you must
+
+05:28.080 --> 05:34.480
+always take all of your profits when the high is taken out because price can reverse heavily.
+
+05:34.480 --> 05:37.600
+Okay. So let me give you a few or more examples.
+

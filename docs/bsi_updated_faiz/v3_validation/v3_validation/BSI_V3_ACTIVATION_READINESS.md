@@ -1,0 +1,11 @@
+# BSI V3 Activation Readiness
+
+Ready for DEMO: `false`
+
+Blocks:
+
+- `GOLDEN_EXAMPLE_BAR_RECONSTRUCTION_NOT_AVAILABLE`
+- `STRATEGY_SPECIFIC_DETECTORS_NOT_FULLY_VALIDATED`
+- `GENERIC_RESEARCH_DETECTOR_USED_FOR_MULTIPLE_STRATEGIES`
+
+Do not activate V3 adaptive learning or MT5/cTrader routing yet.

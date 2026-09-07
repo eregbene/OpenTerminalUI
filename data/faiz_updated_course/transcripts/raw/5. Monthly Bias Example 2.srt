@@ -1,0 +1,188 @@
+1
+00:00:00,000 --> 00:00:06,360
+Alright guys, so here is example number two for the monthly bias, I'm looking at AUDUSD
+
+2
+00:00:06,360 --> 00:00:08,600
+on the monthly timeframe of course.
+
+3
+00:00:08,600 --> 00:00:12,040
+So now how do you manually identify highs and lows?
+
+4
+00:00:12,040 --> 00:00:17,120
+So a high and a low is a pattern of three candles, okay?
+
+5
+00:00:17,120 --> 00:00:20,320
+The first candle is like this.
+
+6
+00:00:20,320 --> 00:00:27,480
+The second candle is the highest and the third candle is lower than the second candle.
+
+7
+00:00:27,480 --> 00:00:29,400
+So the second candle has to be the highest.
+
+8
+00:00:29,400 --> 00:00:33,000
+You can see we have a wick here, wick here and wick here.
+
+9
+00:00:33,000 --> 00:00:36,760
+The second candle has the highest wick, okay?
+
+10
+00:00:36,760 --> 00:00:41,960
+Once we have that pattern, right, when the candle closes, that is your high, or you can
+
+11
+00:00:41,960 --> 00:00:44,280
+simply just use the fractals indicator.
+
+12
+00:00:44,280 --> 00:00:52,400
+But sometimes fractals might miss these small highs and lows, so you must know what is
+
+13
+00:00:52,400 --> 00:00:54,240
+high and a low.
+
+14
+00:00:54,240 --> 00:01:00,240
+So over here, what we have is a purge on the external liquidity and where is the drawn
+
+15
+00:01:00,240 --> 00:01:01,240
+liquidity?
+
+16
+00:01:01,240 --> 00:01:03,480
+It's going to be this fair valley gap.
+
+17
+00:01:03,480 --> 00:01:09,120
+So now let's drop down to the daily timeframe once we have taken out the monthly extended
+
+18
+00:01:09,120 --> 00:01:10,280
+liquidity.
+
+19
+00:01:10,280 --> 00:01:16,640
+So now what we want to wait for is a market structure shift and right there you can see
+
+20
+00:01:16,640 --> 00:01:20,720
+we have a shift in the market structure, beautiful.
+
+21
+00:01:20,720 --> 00:01:23,920
+So then you can see price fills in the fair valley gap.
+
+22
+00:01:23,920 --> 00:01:28,800
+So that is going to be our entry, right?
+
+23
+00:01:28,800 --> 00:01:32,960
+If the fair valley gap is big, you can simply just use the 0.5 level of the fib, which is
+
+24
+00:01:32,960 --> 00:01:34,000
+going to be this.
+
+25
+00:01:34,000 --> 00:01:36,360
+So let's say your entry is here.
+
+26
+00:01:36,360 --> 00:01:39,440
+Let me remove the fib.
+
+27
+00:01:39,440 --> 00:01:47,520
+Your stop goes above the high and you're simply targeting the monthly drawn liquidity,
+
+28
+00:01:47,520 --> 00:01:49,560
+which is the fair valley gap.
+
+29
+00:01:49,560 --> 00:01:51,160
+These two lines is a fair valley gap.
+
+30
+00:01:51,160 --> 00:01:53,920
+Remember I drew two lines.
+
+31
+00:01:53,920 --> 00:01:55,360
+So you have your entry.
+
+32
+00:01:55,360 --> 00:01:58,640
+So let's see what would have happened.
+
+33
+00:01:58,640 --> 00:01:59,640
+And there you go.
+
+34
+00:01:59,640 --> 00:02:00,640
+Take profit hit.
+
+35
+00:02:00,640 --> 00:02:06,000
+You can see we have been bearished throughout these many days.
+
+36
+00:02:06,000 --> 00:02:14,000
+Now if you were on the one hour timeframe, now let me give you some hints.
+
+37
+00:02:14,000 --> 00:02:18,880
+You could have taken your entry somewhere around here, maybe here.
+
+38
+00:02:18,880 --> 00:02:22,200
+If it took out some high or low, but we're going to talk about that later.
+
+39
+00:02:22,200 --> 00:02:25,000
+Just don't want to confuse you guys.
+
+40
+00:02:25,000 --> 00:02:29,960
+You can use this as a bread and butter model, just two time frames, right?
+
+41
+00:02:29,960 --> 00:02:38,920
+Remember time frame alignment, we are for monthly bias, we use monthly, daily and hourly.
+
+42
+00:02:38,920 --> 00:02:46,600
+For weekly, we use the weekly for our time frame and 15 minutes time frame.
+
+43
+00:02:46,600 --> 00:02:55,960
+For daily, we use daily one hour and five minutes and for four hour time frame, right?
+
+44
+00:02:55,960 --> 00:03:01,760
+For intraday bias, we use the four hour, 15 minutes and two minutes.
+
+45
+00:03:01,760 --> 00:03:06,480
+We're not going to use one minute because it is not reliable.
+
+46
+00:03:06,480 --> 00:03:12,480
+So price gives us a market structure shift for everybody gap, boom, right there.
+
+47
+00:03:12,480 --> 00:03:16,080
+Let me give you guys an example for the weekly bias now.
+

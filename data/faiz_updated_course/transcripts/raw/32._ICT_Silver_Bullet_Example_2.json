@@ -1,0 +1,188 @@
+{
+  "source": "F:\\new faiz\\32. ICT Silver Bullet Example 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 156.131,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so here is the example number two. So as you can see, I'm at here at 955 and we do not have a clear liquidity sweep here. So what we can do now? So if you didn't know this before, you know, these PD areas are drawn on liquidity as well. So it could be a fair value gap, right? And essentially, when you are marking with a fair value gap, the last candle, off the frame,"
+    },
+    {
+      "start": 30.0,
+      "end": 35.88,
+      "text": " everybody gap is basically a liquidy on a smaller time from. So if I go back to like one"
+    },
+    {
+      "start": 35.88,
+      "end": 40.6,
+      "text": " minute, you can see that this is a low right here. So we're going to wait for price"
+    },
+    {
+      "start": 40.6,
+      "end": 45.88,
+      "text": " to take out this low and this is our sell site liquidy taken out, right? And then we wait"
+    },
+    {
+      "start": 45.88,
+      "end": 52.4,
+      "text": " for a clear market structure shift inside like, you know, the internal market structure."
+    },
+    {
+      "start": 52.4,
+      "end": 57.64,
+      "text": " So you can see that we have this high over here."
+    },
+    {
+      "start": 57.64,
+      "end": 59.72,
+      "text": " And if it breaks, that is perfect."
+    },
+    {
+      "start": 59.72,
+      "end": 62.0,
+      "text": " And as you can see, it broke, right?"
+    },
+    {
+      "start": 62.0,
+      "end": 64.0,
+      "text": " Now here's the thing."
+    },
+    {
+      "start": 64.0,
+      "end": 67.68,
+      "text": " If this structure broke here, right, then I will consider this."
+    },
+    {
+      "start": 67.68,
+      "end": 73.16,
+      "text": " The more structure it breaks, the less the chances of that setup playing out."
+    },
+    {
+      "start": 73.16,
+      "end": 74.8,
+      "text": " Okay, remember that."
+    },
+    {
+      "start": 74.8,
+      "end": 78.2,
+      "text": " So we have a beautiful structure break here."
+    },
+    {
+      "start": 78.2,
+      "end": 81.48,
+      "text": " I could consider this as a structure break as well."
+    },
+    {
+      "start": 81.48,
+      "end": 84.08,
+      "text": " And now we have our fair value gap."
+    },
+    {
+      "start": 84.08,
+      "end": 87.88,
+      "text": " We take our entry here, put our stop right blue."
+    },
+    {
+      "start": 87.88,
+      "end": 91.28,
+      "text": " Actually let's go for five handles right here."
+    },
+    {
+      "start": 91.28,
+      "end": 93.72,
+      "text": " And our take profit, five handles as well."
+    },
+    {
+      "start": 93.72,
+      "end": 95.56,
+      "text": " And let's see how this plays out."
+    },
+    {
+      "start": 95.56,
+      "end": 98.36,
+      "text": " And you can see we hit our take profit level."
+    },
+    {
+      "start": 98.36,
+      "end": 107.6,
+      "text": " And if we held the trade, you can see it kept going up potentially up to 1.75."
+    },
+    {
+      "start": 107.6,
+      "end": 111.76,
+      "text": " And then we reversed back and stopping us out."
+    },
+    {
+      "start": 111.76,
+      "end": 114.64,
+      "text": " So this is how you can trade."
+    },
+    {
+      "start": 114.64,
+      "end": 119.0,
+      "text": " Essentially you would have gone for one to one as ICT says, okay?"
+    },
+    {
+      "start": 119.0,
+      "end": 120.44,
+      "text": " But I usually go for one to two."
+    },
+    {
+      "start": 120.44,
+      "end": 124.2,
+      "text": " I would have gone like break even once that what,"
+    },
+    {
+      "start": 124.2,
+      "end": 125.8,
+      "text": " Richter what was hit."
+    },
+    {
+      "start": 125.8,
+      "end": 128.76,
+      "text": " So this trade would have been a break even for me."
+    },
+    {
+      "start": 128.76,
+      "end": 132.8,
+      "text": " But you can see if you put your stop at five handles or maybe let's go."
+    },
+    {
+      "start": 132.8,
+      "end": 137.12,
+      "text": " If we actually put, if we let's ignore the five handle thing, right?"
+    },
+    {
+      "start": 137.12,
+      "end": 141.8,
+      "text": " If I put my stock right below the slope and if we went up, we would have easily got a"
+    },
+    {
+      "start": 141.8,
+      "end": 144.68,
+      "text": " two-wrestaur water trade."
+    },
+    {
+      "start": 144.68,
+      "end": 149.2,
+      "text": " But as I've said before, we would have gotten stopped at break even."
+    },
+    {
+      "start": 149.2,
+      "end": 153.36,
+      "text": " So yeah, that was it for this example."
+    },
+    {
+      "start": 153.36,
+      "end": 155.24,
+      "text": " Let me give you guys one last example."
+    }
+  ]
+}

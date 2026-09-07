@@ -1,0 +1,120 @@
+Alright guys, so here is a brand new chapter of the course and in this chapter I'm going
+to be talking about the session highs, lows and SMT.
+So the SMT that occurs at the highs and lows of the sessions are extremely powerful and
+by keeping that in mind, we can frame our trades whenever a setup is presented to us.
+So I'm looking at NAS100 and US30 because both of them are correlating assets.
+You can similarly look at your USD, GBP, USD, AUD, USD, NZD, USD, AUD, JPY and NZD, JPY
+and your JPY and GBP, JPY, right?
+So you can also look at S&P 500 but I'm looking at NAS100 and US30, right?
+You can look NAS100, US30 and S&P 500, three of them at once to look for the setup.
+So I'm going to mark out the high of the Asia session and low of the Asia session on NAS100
+and similarly I'm going to mark out the high of the Asian session.
+This is the high right here and low of the Asia session, right?
+So what do you notice here?
+The very first thing that you see.
+So on NAS100, we failed to take out the Asia low but on US30, on the fifth, so the time
+firm is very important.
+We have to stick to this time firm but on US30, we took out the Asia low, right?
+So notice this low here and notice this low here.
+We have SMT divergence.
+So you have to trade the one that did not sweep the liquidity.
+Why?
+Because this is a stronger pair, right?
+The reason why NAS100 failed to take out this low is because the bullish momentum on NAS100
+is stronger but on US30, it is weaker because we drop down and we took out liquidity, right?
+Now you can trade both of them but you primarily want to trade the one that did not sweep liquidity
+because it is showing bullish momentum.
+Now there are two ways to look for your entry.
+The number one and easiest way is to look for change in the state of delivery and what
+is changed in the state of delivery.
+So whenever a candle closes above a bearish autoblock, so this is a bullish autoblock,
+so I'm going to rephrase what I said, whenever a candle closes above a bullish autoblock,
+so this is a bullish autoblock, right?
+It's not bearish, so I am rephrasing what I said.
+So this is a bearish autoblock.
+We have SMT here, right?
+Price closes above the body of this bullish autoblock and that is called change in the
+state of delivery.
+Another way to look at it is the SMT candle, so this candle, right?
+This candle right here caused SMT, right?
+So you can also look for a closure above that candle and that is also considered a change
+in the state of delivery.
+However, primarily you want to wait for price to close above the bullish autoblock that
+is marked out around here.
+Now that is your change in the state of delivery and you can take your entry, right?
+Or if you go to the old ways, we can simply look for a market structure shift and from
+the autoblock and you can see how price went right up.
+Okay, so the key thing to note here is that the SMT is occurring at the lows and highs
+of the session.
+So as you can see on US steady, we took out the low, but on NAS100, we failed to take
+out the low.
+So this shows that there was a clear manipulation to the downside, so liquidity on US steady,
+but since the NAS100 was a stronger asset, it didn't suit liquidity and that's giving
+us a clue that, okay, now price will push to the upside.
+So your first target could be the Asia high, right?
+If you go back to the Asian session strategy from course one, you will know that if the
+low is taken, we take target high, if the high is taken, we target low.
+So the number one reason why you would have lost your Asian session strategy trade is
+because there could have been an SMT here and when price swept the Asia high and you
+look for a market structure shift and it didn't work out, you were like, okay, this
+strategy didn't work today, but in reality, we took out the low on another correlating
+asset or pair.
+I hope that makes sense.
+So let me give you guys a couple more examples.
+All right, so what can you see in this picture, right?
+Pause the video and see what happened in the London session, right?
+So it's very clear guys, very, very clear.
+You have your Asia, sorry, London high here, right, and you have your London high here.
+Now on NAS100, we took out the London high, right?
+It's very clear.
+We took out the London high with this candle over here.
+Notice this, right?
+Now we want to look at the same candle and you can see we failed to take out the London
+high on US 30.
+Now we are simply waiting for change in the state of delivery.
+Now once that happens, you can see price went back tapped into this autoblock once again.
+Push the price down, right, right away with extreme momentum.
+We took out London low and then you could have probably trailed your stop loss or you could
+have just went for one to two or one to three Richard Ward.
+But remember, you're always going to break even after one to one Richard Ward is hit
+because that keeps us safe from losing streaks.
+Because remember this, no matter what strategy you try, no matter what model you trade, even
+if ICT comes to you and teaches you a strategy personally, you are going to have losing streaks.
+So three trades in a row, four trades in a row, right?
+The key here is to protect your capital.
+That is the most important thing.
+So that is why we call break even, all right, offer one to one or in rare cases when your
+bias is strong and the auto flow is in alignment with your, with your high timeframe, you
+know, trend, then you can simply go break even after one to one point five are.
+Some people also take a partial at one to one point five because you do not want to
+take a trade, wait for an entire day and then close that break even.
+So it would be best if you take a partial, you know, there's not, there's not any
+strategy risk management strategy that is best.
+There are different ways to approach risk management.
+And I personally believe that going break even at one to one and then taking your profit
+at one to two is the best approach.
+Let me give you guys more examples.
+All right, guys.
+So in this example, you can see that we have the London high here and London high here.
+So London high was taken out on US 30, but on that's 100, it didn't take out.
+So this is the SMT candle.
+This candle caused SMT, right?
+So we want to refer back to it.
+And you can see right here, when candle closes, Floyd, I consider this an SMT divergence, right?
+And what happens afterwards?
+Look, we also had inverse for what you have to do.
+So you could have probably inverse it as well.
+But entry on the retest stops below, right?
+So your first target would have been the London low.
+And then you can see price just went down like crazily.
+Okay.
+So we do not look at the New York session because we do not want to be treating the PM
+session, but this is the model.
+Now make sure that if you want to increase your win rate, you are aligned with the high
+time from trend, which would be the four hour trend, right?
+So if we are bearish, you are only looking for longs.
+If we are, if we are sorry, if you are bearish, you are only looking for shots.
+If you are bullish, you are only looking for longs.
+It's very simple.
+Refer back to the old videos where I explain auto flow, but that would be it.
+So let's move on to the next chapter now.

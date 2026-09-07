@@ -1,0 +1,33 @@
+All right, so here is example number one.
+As you can see, the ancient session starts here,
+and it ends here, okay?
+So you mark out POIs.
+So I do not see any POI here, okay?
+You don't wanna go way for back and then look for POI.
+Just look for POIs near this price action, okay?
+So right here, what I can see,
+is this autoblock, this candle, okay?
+You can see it's a clear autoblock with free value gap, okay?
+I could use this as well, this candle here.
+So let's use that and consider this week as well.
+So now what we're gonna do is we're gonna wait for price
+to tap into our autoblock, which happens right here, okay?
+Let's go to the one minute timeframe again.
+And let's look for market structure shift.
+It happens right here.
+So now the free value gap is way, way too big.
+So in this scenario, I would have used a breaker block,
+which is right here, lower low, lower high, lower low.
+This is the last bullish candle before the move to the downside.
+Remember, so I would take my entry from here,
+put my stop right below somewhere around here
+to cover the free value gap, BPR, and the body
+of the autoblock here.
+6.7 stop loss, and we target something like
+this free value gap right here.
+So you're gonna see price taps into our breaker block,
+and we have a push to the upside.
+So yeah, that was a clean 3R or 2R.
+We targeted this free value gap right here,
+and yeah, it worked out perfectly.
+So let me give you guys another example.

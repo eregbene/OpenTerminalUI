@@ -1,0 +1,83 @@
+{
+  "source": "F:\\new faiz\\20. ABCD Trading Strategy Example.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 109.2266875,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so here's another example. You can see we got the AMOVE, we got the BMOVE and then we got the CMOVE right here. So let me draw this out. We take out the high of the AMOVE and then we take out the low of the BMOVE. Once we do that, we reclaim that level and then we enter on the retest. Put the shop those right below the slow and we target"
+    },
+    {
+      "start": 30.0,
+      "end": 40.18,
+      "text": " one to two. That is it. So I hope this is clear to you. This is a very simple"
+    },
+    {
+      "start": 40.18,
+      "end": 44.22,
+      "text": " trading strategy. So basically this is liquidity perch, liquidity perch, and then"
+    },
+    {
+      "start": 44.22,
+      "end": 52.5,
+      "text": " moving in the direction, the price is intended to move like originally. So after"
+    },
+    {
+      "start": 52.5,
+      "end": 56.02,
+      "text": " taking out the liquidity from the both sides, price is going to move to the"
+    },
+    {
+      "start": 56.02,
+      "end": 63.22,
+      "text": " direction it would want to go. So this is how you enter these trades. So guys,"
+    },
+    {
+      "start": 63.22,
+      "end": 68.62,
+      "text": " this is eight for this course. I will be uploading more videos in the future."
+    },
+    {
+      "start": 68.62,
+      "end": 75.38,
+      "text": " I'll be adding more content to this course in the future. So I really do hope"
+    },
+    {
+      "start": 75.38,
+      "end": 79.62,
+      "text": " that you learn something from this course and I can guarantee you if you"
+    },
+    {
+      "start": 79.62,
+      "end": 84.22,
+      "text": " back test these strategies and within three to four months you are going to be"
+    },
+    {
+      "start": 84.22,
+      "end": 89.38,
+      "text": " insanely profitable okay and I'm sure you're gonna pass your first ever"
+    },
+    {
+      "start": 89.38,
+      "end": 95.44,
+      "text": " prop from challenge so thank you so much guys for purchasing this course I"
+    },
+    {
+      "start": 95.44,
+      "end": 101.26,
+      "text": " really appreciate each and every one of you who trusted me and we will meet"
+    },
+    {
+      "start": 101.26,
+      "end": 109.26,
+      "text": " again in my future videos so thank you so much and goodbye"
+    }
+  ]
+}

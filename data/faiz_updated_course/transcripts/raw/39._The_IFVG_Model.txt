@@ -1,0 +1,345 @@
+[00:00:00] Alright guys, this is a new chapter and this chapter I'm gonna teach you guys the power of 3 and inverse for a regular gap model. This model is extremely powerful and basically if you use this model then you would not need anything else. So essentially first we need to understand what is power of 3 and then I'm gonna teach you the model. So, power of 3 is basically an accumulation phase where price consult dates, right, creates
+[00:00:30] liquidity, then price manipulates, right?
+[00:00:34] And then it moves and distributes towards the original
+[00:00:38] direction.
+[00:00:40] Now we have accumulation, manipulation, and then distribution.
+[00:00:43] This is power of three.
+[00:00:45] Acculation, manipulation, distribution, a,
+[00:00:48] am, d.
+[00:00:49] Very simple, right?
+[00:00:51] And similarly, you have something like, oops,
+[00:00:56] Oops, never mind. Accumulation, manipulation, and then distribution, right?
+[00:01:05] So, what is the model that I use? So, what exactly is in verse?
+[00:01:11] Foreverly gap, I've taught this before, but I'm gonna teach it again in this video.
+[00:01:16] So, essentially, when you get a Foreverly gap, so over here you can see that we got a
+[00:01:23] market structure break or break in break of structure and
+[00:01:28] Let's suppose that price creates a fairly gap a bullish fairly gap now
+[00:01:35] This fairly gap will become inverse if price doesn't respect it and it closes below this bullish fairly gap
+[00:01:44] right, so let me just make it
+[00:01:47] Green because it is a bullish for a body gap
+[00:01:49] But notice how price came back into the Ferrari gap, but it was not respected and you can see that
+[00:01:57] The candle the body closed below the Ferrari gap. So it was not respected
+[00:02:02] Now once the body closes this Ferrari gap becomes inverse Ferrari gap
+[00:02:08] Okay
+[00:02:09] So essentially what you can do is just simply take your entry on the retest or on the close of the candle below this level
+[00:02:17] So the model that I use is basically, so now that I know that you guys know what exactly
+[00:02:26] is a inverse from any gap, there are chapters on this on my old course on also on my
+[00:02:33] YouTube.
+[00:02:34] So I'm not going to explain it in detail.
+[00:02:36] But here is the model.
+[00:02:37] So what I look for on the one minute time from, and then there is another approach to
+[00:02:42] it, but this is like one minute trading strategy.
+[00:02:47] And you can basically trade it on NAS 100, gold, and also your USD.
+[00:02:53] So I primarily trade NAS 100 with this, because it has the highest win rate.
+[00:02:59] So on the one minute timeframe, I would try to identify a accumulation phase, and then
+[00:03:07] a manipulation phase, right?
+[00:03:11] And then afterwards what I'm looking for, so watch this carefully.
+[00:03:17] This is the most important part of this model.
+[00:03:20] So we have accumulation and then we have manipulation.
+[00:03:25] Inside this manipulation leg, they should be only one fair value gap, only one fair value
+[00:03:35] gap on the one minute time frame.
+[00:03:38] So we have accumulation, then we have manipulation inside the manipulation leg, right?
+[00:03:46] From this high to this low, we must have one fair value gap.
+[00:03:53] Now let's suppose that this leg has, okay, let me just guys, just give me a minute.
+[00:03:59] I'm just gonna disable this.
+[00:04:03] So it's connected to, you know, the LAN network.
+[00:04:07] Anyways, it should have one for a while, but if it has multiple for about the gaps inside
+[00:04:13] this leg, what you want to do is you have to go a bit higher on the time frame.
+[00:04:19] So you would go on the two minute time frame and then you would go on three minute
+[00:04:23] time frame and then four and then five.
+[00:04:25] The five minute is the highest that you can go.
+[00:04:30] But on the five minute, you must also have a clear power of three.
+[00:04:36] must have consolidation on the 5 minute time from as well. Now if there's like no power of 3
+[00:04:43] then there's no setup. But let's say that you want to stick on the 1 minute time from
+[00:04:49] and I suggest that you just stick to 1 minute time from because it's not cool to go to higher
+[00:04:54] time from to identify single-ferreli gaps. So let's assume that while price was coming down
+[00:05:00] and manipulating price credit one single fair value gap and this is a bearish
+[00:05:09] fair value gap. Now usually people would expect price to come into this fair value
+[00:05:16] gap and then go below but the model here is that once price inverses this
+[00:05:23] this bearish variable you get, the single variable you get that was present inside this
+[00:05:31] manipulation lag. When price closes above that, you want to enter right away. This is going
+[00:05:40] to be your entry right away when the candle closes above the variable you get and in
+[00:05:46] versus it. Your stop will go below here and this is the most important part. You must target
+[00:05:55] the most recent, the most, the closest liquidity, right? So this high is the closest level.
+[00:06:07] Now let's suppose that your entry is triggered. Now here's the risk management for this strategy.
+[00:06:15] So, when the price reaches the closest liquidity level, you are going break even.
+[00:06:27] Straight away, you are going break even.
+[00:06:31] Now, when price hits 1 to 1 risk reward ratio, you are taking 50% off your profit.
+[00:06:40] And of course, you are also break even.
+[00:06:44] And then you are letting the runners run for however you want.
+[00:06:50] So for example, I usually go for 1 to 2.5,
+[00:06:55] or 1 to 3 with the strat.
+[00:06:57] And I target the higher time frame,
+[00:06:59] target and draw on liquidity.
+[00:07:03] Now you can also use the standard deviation tool
+[00:07:05] that I've taught in my previous lectures.
+[00:07:07] And you can target this level.
+[00:07:09] But the main premise, the main idea,
+[00:07:11] is that you go break even once the closest liquidity level
+[00:07:16] is taken.
+[00:07:17] Okay, now here's the deal.
+[00:07:21] Okay, now what price we'll do is sometimes,
+[00:07:24] just let me do this, this, this, this, this, this,
+[00:07:27] okay, what price we'll do is instead of closing above
+[00:07:32] the fair value gap, price we'll go up ahead
+[00:07:36] and take out the liquidity before giving you entry.
+[00:07:42] So the candle won't close, but it will go way higher.
+[00:07:47] And then it will just take out the most recent liquidity.
+[00:07:50] Now, if that is the case, then the setup becomes invalid.
+[00:07:54] Completely invalid.
+[00:07:57] My eyes are always on the most recent liquidity level.
+[00:08:01] That is the most recent high.
+[00:08:04] So this is the closest type, my apologies.
+[00:08:09] Now, the candle closes.
+[00:08:11] Price can even be here, okay?
+[00:08:14] Somewhere around here.
+[00:08:15] Now you can enter right away, right?
+[00:08:19] And sometimes what can happen is price will go way far
+[00:08:22] up ahead.
+[00:08:23] So instead of entering here, you should be patient
+[00:08:26] and then you should be waiting for a retest entry.
+[00:08:29] Now this is only applicable when the price has gone way
+[00:08:32] far above the inverse probability gap.
+[00:08:36] And let's suppose that if you take your entry here,
+[00:08:37] your stop loss would be massive, right?
+[00:08:41] And it doesn't matter if you take your entry here or here.
+[00:08:45] You must go break even when the closest liquidity level
+[00:08:49] is taken out.
+[00:08:51] And that is basically the model.
+[00:08:54] Now there are some few key things
+[00:08:56] that you must keep in mind.
+[00:08:58] Let me just take a sip of my tea,
+[00:09:00] and then I'll continue.
+[00:09:03] Thank you very much.
+[00:09:07] All right.
+[00:09:08] Now, what I'd like to do most of the time
+[00:09:11] is basically pair it up with hard time from key levels
+[00:09:15] and SMT divergences.
+[00:09:17] Now, this is something that if you want to,
+[00:09:19] like if you can implement this, then of course,
+[00:09:22] it's going to increase the win rate.
+[00:09:24] My goal is to teach you the most mechanical strategies
+[00:09:27] that you can use because I understand the situation
+[00:09:30] you guys are in.
+[00:09:31] You guys may have jobs, and you don't have time,
+[00:09:33] enough time to analyze the markets every single day, right?
+[00:09:36] You know, using discretion and all that stuff.
+[00:09:39] So I want to keep them as mechanical as possible.
+[00:09:42] If you really want to like take this model to next level,
+[00:09:45] then use this technique.
+[00:09:48] So since you are training on the one minute done from,
+[00:09:50] we will be marking out 15 minute key levels, right?
+[00:09:55] So let's assume there was a significant low somewhere around here
+[00:09:59] that was taken out.
+[00:10:01] And afterwards, price gave us this AMD model.
+[00:10:05] OK?
+[00:10:07] Now, there could be a fairly good 50% of the fairly good
+[00:10:12] or an auto block, right?
+[00:10:15] It is always best to pair it this move with PDRS.
+[00:10:19] Now, SMT divergent is basically, let's
+[00:10:23] suppose that on NAS100, we created the lower low,
+[00:10:28] lower high and then a lower low. Essentially it is power of 3 but you can see we have
+[00:10:33] lower low consolidation and then another lower low. Now instead of on NAS100 let's suppose
+[00:10:41] that we get lower lower high lower low but on S&P 500 we fail to create the lower low.
+[00:10:51] Oh my god, this is messed. Yeah, so we failed to create that now you want to be trading the asset or the pair that swept liquidity
+[00:11:02] So you can see that we swept this liquidity, right?
+[00:11:05] On S&P we failed to sweep the liquidity or create another low low, but on NAS 100 we created low low or high low
+[00:11:13] So this right here is your SMT with
+[00:11:16] it's a PDF array in mind and I promise you this is literally all you need.
+[00:11:23] Basically all you need. Now here's another technique that you should implement if you can,
+[00:11:30] that's gonna also increase your win rate. So on the one minute timeframe, right? We have
+[00:11:37] single fair value gap. We do not want to have multiple fair value gaps. Only one in this
+[00:11:41] Now, okay, let's say the price breaches inverses this fairly gap.
+[00:11:48] Now I will not enter right away.
+[00:11:50] What I would do is I would go to the three minute time frame, sorry, two minute time
+[00:11:54] frame and see if there's any other fairly gap that price has not yet inversed.
+[00:12:00] So on the one minute time frame, your fairly gap could look like this, but on the two
+[00:12:04] minute time frame, your fairly gap could be a bit bigger.
+[00:12:07] And on three minutes time frame, it could be even bigger.
+[00:12:10] Now three minute is the highest that I would go to implement this trick.
+[00:12:15] So I would wait for my highest fairly gap to be inverse instead of the one minute.
+[00:12:22] Now this is what it does, it extra confirms that the price will go towards my direction.
+[00:12:27] This is very important.
+[00:12:29] So not actually important but if you implement this, it's going to basically help you
+[00:12:33] with your strike rate.
+[00:12:38] So SMT PD arrays and this technique when combined together is just impossible to basically
+[00:12:44] have low-run red then 75% or 5% alright.
+[00:12:48] You're gonna have above SAMDut to 75% when we're doing this model.
+[00:12:51] Just stick to the pairs that I suggested and assets that I suggested.
+[00:12:54] Don't trade anything else with this.
+[00:12:56] Please don't do it for the sake of love.
+[00:12:58] Okay, don't do it.
+[00:13:00] And similarly everything would apply when you are looking for shots.
+[00:13:07] basically just do this and entry on the retest.
+[00:13:12] We have SMT into the PDRA and you can see that
+[00:13:16] we have accumulation, manipulation,
+[00:13:18] and then we get the distribution phase.
+[00:13:20] And notice that also we have the closest liquidity level.
+[00:13:25] This is the main point of the strategy
+[00:13:27] is if it gets breached without entry.
+[00:13:30] So the candle just keeps going down and down and down
+[00:13:33] before closing below the probability gap,
+[00:13:36] and the setup becomes invalid.
+[00:13:38] However, if you have somewhere around here,
+[00:13:40] you can still enter, but you would go break even right away.
+[00:13:44] After this level is taken, there's no comp,
+[00:13:46] you know, you should not be just doing things on your own.
+[00:13:50] Just do what I say.
+[00:13:51] Take your entry on the read test.
+[00:13:52] The price has gone way far below
+[00:13:54] or enter right away when price is somewhere around here.
+[00:13:58] Now, let's move on to the examples
+[00:13:59] and then we'll move on to the next chapter.
+[00:14:03] Now, one thing that I forgot to tell you about
+[00:14:05] is the time factor.
+[00:14:07] So when you should be trading this model,
+[00:14:09] now the best results are gonna come from
+[00:14:13] nine 30, sorry, till 11 30, right?
+[00:14:20] So if you can find however many setups
+[00:14:23] in this window period,
+[00:14:25] your win rate is gonna be higher, okay?
+[00:14:27] You're gonna have volatility,
+[00:14:29] but let's suppose that if there's news at nine 30, right?
+[00:14:33] You should wait for news to pass over
+[00:14:35] and trade after five to 10 minutes.
+[00:14:37] actually 10 minutes because it's going to just settle down the markets and then trade this model.
+[00:14:42] Let's suppose that there is a news at 10, then you can do is wait till 10 and then trade after 10
+[00:14:48] 10 a.m. that makes sense after 10 minutes. So let me give you guys some examples.
+[00:14:55] All right guys so here is example number one. So we have accumulation right here
+[00:15:01] And then we have manipulation, right?
+[00:15:06] So let me just do this.
+[00:15:07] Circumulation, manipulation, and then we have the distribution to the upside.
+[00:15:17] Now, here's how you would have approached it, right?
+[00:15:21] So we get manipulation, right?
+[00:15:23] Now notice, a lower low, lower high, and then a lower low.
+[00:15:28] So, our reference point is from this lower high to this lower low.
+[00:15:33] Now, notice what happens.
+[00:15:36] We have this variable eGAP.
+[00:15:40] Right?
+[00:15:41] And we also have this closest liquidity level.
+[00:15:46] So, if this level was taken out before our entry,
+[00:15:50] then the setup would become invalid.
+[00:15:52] Now, notice how price closed right above the inverse variable eGAP.
+[00:15:57] over here. So this would have been your entry. Okay? And we would go break even with 50%
+[00:16:07] profit at one to one, rest your world ratio. Now you can see that this trade would have been
+[00:16:13] closed at break even unfortunately. But you can see that price came back and retested
+[00:16:19] this I F V G and then we had another push to take out these highs over here. So I want
+[00:16:27] to show this example because not every trade is going to be perfect. So this is how you
+[00:16:33] would approach, right? A accumulation, manipulation and then we have this fairly gap that
+[00:16:40] was inversed and a beautiful entry here with 50% profits taken here. Let's move on to another
+[00:16:48] example. Alright, so here is another example on the same day. You can see we have accumulation
+[00:16:55] here and then we have manipulation. So essentially if you look for if you if you don't
+[00:17:01] want to look for power trees you can look for significant liquidity level
+[00:17:04] streams and then you can look for this model. It's essentially the same thing.
+[00:17:07] Part of three is going to come in all different sizes and shapes and form so
+[00:17:12] it's not always mechanical. You know you can't just identify part of three in a
+[00:17:16] mechanical way. You have to see where the accumulation phase was then the
+[00:17:20] manipulation phase. So a commutation phase, right, manipulation, then we get the distribution.
+[00:17:27] So how you would have approached this is basically, you can also see that we swept this
+[00:17:31] high over here. Now, we have this low and then we have this high over here, right? Now,
+[00:17:39] notice this fair value gap. Inside from this low to this high over here, there's only one
+[00:17:47] fair about your gap. Okay, so this is very crucial. And you can see that price
+[00:17:52] inversed it right just right here. So this would be my entry right away. Now
+[00:17:58] you can see that my stop would go right above the high and on one to one I would
+[00:18:05] go actually I would go break even just around here and then I would take 50
+[00:18:11] percent of our profits here and as you can see price close to the set break
+[00:18:15] even once again. But then you can see that price kept going down and down and down for
+[00:18:21] the rest of the day. Price came back once again. Try to stop you out of break even. But then
+[00:18:26] it kept going down. So now there are different ways to approach this. You can see that
+[00:18:32] if you have taken your entry on the retest. You know over here, just around here. This
+[00:18:39] is the retest. I stopped somewhere around here and you could have easily taken one to one
+[00:18:47] over here. Now, here is something that if you are really confident about your draw on liquidity.
+[00:18:55] So for example, this is your draw on liquidity, right? This is the closest liquidity level. That's
+[00:19:01] when we go break even. But if you are extremely confident that okay price is
+[00:19:09] going towards this high time frame, sorry not the higher but the significant
+[00:19:15] liquidity level, then this could be your target and you can just avoid going
+[00:19:20] break even you can simply just decrease your stop loss to some degree and then
+[00:19:25] And you can basically just go break even when this level is taken, take 50% off and then
+[00:19:34] keep it running.
+[00:19:37] But yeah, these are two examples that show that this have not everything is perfect.
+[00:19:48] You're not going to get perfect rates every single time.
+[00:19:51] Now I'm gonna show you guys the perfect examples with the benefit of hindsight, right?
+[00:19:56] And you guys are gonna understand it correctly
+[00:20:00] All right guys, so here is the perfect example and you can see we have
+[00:20:06] the accumulation phase over here, right and then we have the manipulation and
+[00:20:13] While we manipulated you can see that this leg created the fair about the gap the bullish for what you got but
+[00:20:20] But since most of the SMC traders are taught to be taking a long position after getting
+[00:20:26] a break of structure, you know, they get stopped out.
+[00:20:29] The price inverses this bullish fair value gap.
+[00:20:34] So let me just color it green.
+[00:20:38] The candle closes here.
+[00:20:40] Now this would be your entry, your stop right above the high.
+[00:20:44] This is the closest liquidity level.
+[00:20:47] So when this level is taken, you would go break even right away.
+[00:20:52] You have to just go break even there.
+[00:20:54] There's just no if sent bots.
+[00:20:58] But since I said before, if your bias is extremely strong, then you can just go break
+[00:21:03] even later.
+[00:21:04] But you go break even right here.
+[00:21:07] And since we are training on the one minute, don't set stop loss orders and take profit
+[00:21:14] levels to be hit automatically. You have to manage this trade manually. So you can't you have to manually
+[00:21:22] close when price reaches your stop loss level. You have to manually go break even run price
+[00:21:27] reaches the exact breaking point. And then you have to take your profits when price actually reaches
+[00:21:32] this level. Okay. You just don't set up the levels because what's going to do is price will sometimes
+[00:21:38] stop you out at break even even when prices are due to spreads and whatnot. So it's just going to
+[00:21:43] really hurt you. I'm not getting it has happened to me before, but I think this is the best
+[00:21:48] approaches. Keep watching the trade since we're trading on the one minute you can be on the
+[00:21:52] charts for 15 minutes man. Come on bro, you can't do that. So break even here, uh, 50% off at
+[00:21:59] one to one and then the main target, the TP2 would be somewhere around here, right? And my last
+[00:22:07] Tp would be targeting the London lows and this would give me roughly around this much so
+[00:22:16] and this is like an extremely
+[00:22:20] Awesome model that you can use guys. It's basically
+[00:22:24] In no brainer. Okay, I've explained everything
+[00:22:27] S&Ts to pair it up with
+[00:22:31] So for example, if you look at it here right we also swept the Asian high here
+[00:22:36] So when you combine these different things and take a trade with this model, trust me,
+[00:22:43] you're going to tag me.
+[00:22:45] Now let's move on to the next example.
+[00:22:47] All right, guys, so here is another example and you can see that in this price action
+[00:22:53] you're going to have taken so many of these trades and some of them would have given you
+[00:22:57] 50% profit at one to one and some of them would have been closed at break even.
+[00:23:02] And then there is on the same day, we have accumulation,
+[00:23:07] somewhere around here.
+[00:23:08] And then we have the manipulation.
+[00:23:10] So basically, manipulation is liquidity sweep over here.
+[00:23:14] And then notice that this leg created this bearish
+[00:23:18] for a value gap.
+[00:23:19] So I'm just going to name it sorry color it red.
+[00:23:24] So we close right above the fair value gap.
+[00:23:28] So that in versus it.
+[00:23:29] Now the closest liquidity level is this high over here.
+[00:23:34] So now you can see that if I take my long position
+[00:23:37] from this level and just put my stop here,
+[00:23:41] now I would go break even when this level is taken, right?
+[00:23:45] And then I would take 50% of my profit at one to one.
+[00:23:50] And then my second TP would be somewhere around here, right?
+[00:23:57] Just around here, I would be break even.
+[00:23:59] And my third TP, the final TP that I would look to
+[00:24:04] is some form of high time film level, right?
+[00:24:08] Because you can see that probably just kept
+[00:24:09] going up, bro, that's insane, right?
+[00:24:12] So yeah, that would be, or you can just take
+[00:24:16] and close your entire position on the second TP, okay?
+[00:24:20] It doesn't really matter.
+[00:24:21] As long as you're making profits, it should not matter.
+[00:24:24] Let me do guys, one more example,
+[00:24:26] and then we will end this chapter.
+[00:24:28] Alright guys so here's the final example and you can see we have a very clean
+[00:24:33] borrow 3 we have accumulation then we have manipulation right and the
+[00:24:38] manipulation leg created this fairly gap the bullish fairly gap so let me
+[00:24:43] just color it green because it's a bullish fairly gap and now it's in
+[00:24:48] versed this is the closest target right so this is where we were gonna go break
+[00:24:52] even so your entry would be here stop somewhere around here right or maybe
+[00:24:57] above the actually above the high and you would go break even here. 50% at one
+[00:25:04] to one right and your second teepee could basically be just this because this is
+[00:25:09] a significant high. You can also see that this is a fair value gap. This is an
+[00:25:14] auto-blocks at this right here. It's a very good location to take your profits.
+[00:25:18] Right. One to one point five somewhere around that. You would have got close
+[00:25:23] I'll show you a bit of a video for you.
+[00:25:25] So, this is a very good scalloping.
+[00:25:30] It is absolutely powerful.
+[00:25:33] Just pair it up with SMT.
+[00:25:35] And the PDRA is.
+[00:25:38] You're going to thank me.
+[00:25:39] Alright?
+[00:25:40] So, thank you so much for watching.

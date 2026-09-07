@@ -1,0 +1,108 @@
+{
+  "source": "F:\\new faiz\\23. The Juggernaut Example 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 155.6665625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.11,
+      "end": 30.11,
+      "text": " Alright, everybody, so here is example number two. Looking at GPPU is the 10 minute time from now. And the reason why I'm looking at 10 minute is because if I go to the 6 minute time from, you can see that even though we have one probability gap and there's another probability gap here, right? But the range is too small and the take profit would have been already hit if I was on 6 minute. So to avoid looking at this, I would go to 10 minute and we have this one big probability gap."
+    },
+    {
+      "start": 30.11,
+      "end": 37.07,
+      "text": " big but yeah. And you can clearly see we took out some form of liquidity right? Or you"
+    },
+    {
+      "start": 37.07,
+      "end": 46.51,
+      "text": " could say break of structure and over here we have a fair value gap. Now once the candle"
+    },
+    {
+      "start": 46.51,
+      "end": 52.91,
+      "text": " closes below it it becomes inverse fair value gap. So this fair value gap becomes inverse."
+    },
+    {
+      "start": 52.91,
+      "end": 59.91,
+      "text": " All right. Now my entry would be on the retest and this is the closest low that is going"
+    },
+    {
+      "start": 59.91,
+      "end": 67.59,
+      "text": " be a my take profit level. Now it's giving me 1.31 so I can move my stop up a bit like that."
+    },
+    {
+      "start": 68.31,
+      "end": 73.99,
+      "text": " I'm just gonna give you 1 to 1. Now if this level is hit before the entry,"
+    },
+    {
+      "start": 74.55,
+      "end": 81.59,
+      "text": " then my setup would become invalid. All right, so this is my take profit level. If I play this"
+    },
+    {
+      "start": 81.59,
+      "end": 87.43,
+      "text": " through, you will see that we go down, but we do not take out the take profit level. And from there"
+    },
+    {
+      "start": 87.43,
+      "end": 95.99,
+      "text": " on what you can see that the take profit level was hit. Now you can see that it could have probably"
+    },
+    {
+      "start": 98.15,
+      "end": 102.31,
+      "text": " took some partial shares and then maybe you could have got got closed at break even."
+    },
+    {
+      "start": 103.27,
+      "end": 109.75,
+      "text": " But the higher target would have been these these equal lows here or the Asian low here"
+    },
+    {
+      "start": 110.31,
+      "end": 116.39,
+      "text": " and you can see that the Asian low was taken. But most probably if you didn't take your entire"
+    },
+    {
+      "start": 116.39,
+      "end": 122.63,
+      "text": " profits here, which I mostly do because that's when I get above 70% wind rate when I take"
+    },
+    {
+      "start": 122.63,
+      "end": 128.71,
+      "text": " one to once and target the closest lows or highs. But if you took some partial here and then"
+    },
+    {
+      "start": 128.71,
+      "end": 133.51,
+      "text": " you let the trade running and your main target was this, you could have gotten around."
+    },
+    {
+      "start": 134.79,
+      "end": 143.27,
+      "text": " One to two, two point eight or one to three you could say. So a very simple trading model that"
+    },
+    {
+      "start": 143.27,
+      "end": 151.83,
+      "text": " works brilliantly. It requires no daily bass and it is very very powerful. Trust me."
+    },
+    {
+      "start": 151.83,
+      "end": 159.19,
+      "text": " Alright, let me give you guys one more example."
+    }
+  ]
+}

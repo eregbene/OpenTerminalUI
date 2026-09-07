@@ -1,0 +1,39 @@
+[00:00:00] Alright guys, this is an example for the buys. Of course, this is hindsight, it's not gonna always work. And this is, the auto floor trading strategy is not my favorite one. But you can back test it and you know, get used to it if that makes sense. Alright? So, what we have here is that we create a higher high, a higher low, and then another higher high. So basically, we create a higher high.
+[00:00:30] the structure and now this is a continuation of a trend, okay? And what do we have here?
+[00:00:35] imbalance plus auto block. But what happens here? Price does not hit the auto block,
+[00:00:40] but it hits the imbalance. So this is what I say that sometimes I'm gonna take
+[00:00:46] entries of the imbalance, sometimes of the auto block. I always take my entry
+[00:00:50] from the imbalance. If the imbalance is very short like this, okay? So I would
+[00:00:55] take my entry right around here and I put my stop loss here and I go for this level right around here.
+[00:01:01] This would have been a 3.73. Now we can see we created another higher high which is this.
+[00:01:08] Okay and then we got this imbalance plus the autoblog. Okay so now what happens here is that you
+[00:01:16] can see we have marked the autoblog but what it did it just maybe stopped you out. But if you want
+[00:01:24] be on the safe side, what you can do is put your stop below this low. Okay, because sometimes,
+[00:01:30] and I'm saying sometimes, I'm looking at this at the 500 time frame, right? But on the one minute
+[00:01:35] timeframe, there could be another imbalance in auto block around in this week. Okay, this whole
+[00:01:40] week is a price action as well. So maybe on the 30 second timeframe or 15 second timeframe,
+[00:01:47] there was an imbalance plus auto block right around here. So make sure you put your stop loss
+[00:01:52] here just to be on the safe side and as you can see we go up targeting this high and then we broke
+[00:02:00] the structure once again which is right here and then you can see we got the extreme
+[00:02:07] fair value gap at this level there's no imbalance here it's all filled all filled and we got
+[00:02:12] this auto block here and you can see we got a perfect entry around this level we would have entered
+[00:02:18] here and boom, turning the high. That was a 5.72 wrist reward trade guys. Very, very simple
+[00:02:29] guys. And yeah, this is how we trade. And let me give you another example. We broke the
+[00:02:36] structure again. So there is the extreme fair value gap around this level. So you could
+[00:02:43] have entered from the fair value gap, or you could have your entry around this auto block,
+[00:02:48] then you would have missed the entry by one pip.
+[00:02:53] But just to, just, I want to tell you guys this one thing,
+[00:02:59] you should always put your entry a little above your actual
+[00:03:02] entry point to deal with the spreads of the broker, right?
+[00:03:05] Because sometimes due to the spreads, you will not get your entry.
+[00:03:09] If your entry is exactly at the order block, okay?
+[00:03:14] So make sure you always have your entry a little shy
+[00:03:18] above the actual entry point.
+[00:03:20] And then you can see price went all the way up.
+[00:03:23] So we are done with the auto floor trading strategy.
+[00:03:26] My least favorite trading strategy,
+[00:03:28] but it can be your most favorite trading strategy, okay?
+[00:03:32] So as I said before in the course,
+[00:03:34] you must choose one strategy and work on it.
+[00:03:37] You should not try out a lot of other strategies.
+[00:03:42] So I'll see you guys in my next trading strategy video.

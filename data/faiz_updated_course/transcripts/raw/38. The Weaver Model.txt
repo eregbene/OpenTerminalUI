@@ -1,0 +1,159 @@
+All right. So this is the chapter two of this brand new course. And in this chapter, I'm going to teach you another model that you can use. Now, this model works on all pairs and assets. So you can basically trade every single day if this setup presents itself.
+And you will get a set of setup every day, most of the time, and multiple setups per day, if that makes sense.
+So the very first thing that you have to do is you have to mark out the previous day low and previous day high.
+So let's assume that this daily candle is off Tuesday. So this is a Tuesday daily candle.
+Now, on the next day, right, so let's suppose that the next candle opens here. So this is the opening price, right?
+This is the opening price. Now, what I want to see is price take down, take out the daily low, previous daily low or previous daily high. So let's assume that the daily low is taken out.
+Now, once the daily low is taken out, so this right here is the daily low, previous daily low, right?
+I want you to drop down to one hour time frame. So one hour time frame. Okay. And afterwards, what you have to do is
+find a fairly valid gap in this leg on the one hour time frame. So, so this is how it's going to look like when you drop down to one hour time frame, right?
+So let's just basically say that this is the opening price, right? And price took out the previous daily low. So this is how it's going to look like. Okay.
+And that's how it's going to look like on the one hour time frame. So let's assume that the daily low was taken out, previous daily low was taken out.
+And then all you have to do is drop down to one hour time frame. Now inside this leg, notice how we had a lower low, lower high and then a lower low.
+Now I want to see a fairly valid gap inside this leg, not here, because the new dealing range is from this low, sorry, this high to this low over here.
+So inside this leg, we need to identify a fairly gap. Now, if there are multiple fairly gaps, we will be noticing the fairly gap in the premium.
+So using your fit from the high to low, you will get premium and discount levels. You want to prioritize the fairly gap that's in the premium.
+Now, once you have marked out the one hour time frame, fairly gap after the previous daily low was taken out, and you have your fairly gap marked out on the one hour time frame, you want to drop down to five or 15 minute time frame.
+So for this specific strategy, we're going to drop down to 15 minute time frame. Now, after that, what we are looking for is a 15 minute market structure shift.
+Okay. Now, if you want to be, you know, a bit, take a risk, you can go to five minute time frame and look for market structure shift, but 15 minute time frame market structure shifts are the best in my opinion.
+So once you get a market structure shift on the 15 minute time frame, right, you can simply take your entry from the breaker block, fairly gap or an auto block.
+Okay. Now, whichever PD array you use, you're going to sometimes miss a trade. There is absolutely no way to identify which PD array is going to be respected.
+Okay. So this breaker block could be violated, but then there would be a fairly gap that could be respected here. Okay.
+So it all depends on how much your stop loss is going to be, how much you are comfortable with, right?
+So let's assume I take my entry from the fairly gap. I will be targeting this one hour for a value gap. So this is one hour for a value gap.
+So I'm going to summarize this again so you don't get confused.
+The very first step is that you have to mark out the previous day high, right, and the previous day low.
+Now, on the next day, what you're waiting for is price to either take out the previous day high or the previous day low.
+Now, let's assume that the previous day low was taken out.
+Now, as soon as it's taken out, you want to drop down to one hour timeframe to find a fairly gap inside the recent dealing range on the one hour timeframe.
+So high to low, that is your dealing range, right?
+Now, if you can clearly see that when price keeps going down, right,
+you can look for market structure shift anywhere.
+Okay, as long as your one hour fair value gap is still there.
+Cool. Now, that is pretty much it. You take your entry and you target this fair value gap.
+Now, key thing to note is that if you use SMT divergence with this strategy, your win rate is going to skyrocket.
+Okay.
+Now, I like to keep much strategies as mechanical as possible, but sometimes SMT divergence, you know, it's going to really, really help you.
+So, let's assume that we were looking at your USD, right?
+We want to find a divergence with GBPUSD.
+So if there is a SMT divergence with GU, you could be confident that, okay, I can take it along here.
+Similarly, if you were looking at GU, you would look for SMT with EU and then you would take your trade.
+There is a SMT divergence chapter in the old course.
+You must watch it in order to understand what exactly is SMT.
+I'm not going to explain in this chapter because it's not what it's about.
+So similarly, if I flip the chart, if the daily high is taken out, right, you would drop down to one hour timeframe,
+identify a fair value gap in the recent dealing range, and then you mark it out.
+That is going to be your draw on liquidity.
+Then you drop down to 15 minute timeframe, look for a market structure shift, take your entry with SMT divergence
+if you really want to like increase your win rate, and then you target this level.
+So that's pretty much it for this strategy.
+I'm going to give you guys some examples, and then we will move on to the next chapter.
+Okay, guys.
+So this is example one looking at gold, and we're going to study these two candles.
+So this is the previous daily candle.
+So I'm going to mark out the high and the low.
+Okay.
+Now, what I'm going to do is I'm going to drop down to one hour timeframe and see what happened.
+So you can see that I have marked out the daily high and the daily high was taken out first.
+Now, only one over time frame by using this dealing range, right, we want to mark out this fair value gap.
+Okay.
+The one over fair value gap.
+This is going to be our draw on liquidity.
+Now, once it was taken now, right, and we had marked out our daily, sorry, one over fair value gap, which is here.
+I'm going to drop down to 15 minute timeframe.
+And we are looking for a market structure shift.
+Okay.
+Very simple.
+And we have it just around here.
+Now, we also have this fair value gap.
+And since the fair value gap is big, I'm going to use the 50% of it.
+And of course, this is hindsight.
+And then I would go for at least one to one point five rr.
+If my draw on liquidity was somewhere around here, then I would happily go for one to two.
+But sometimes you have to just target, you know, the safest number because our draw on liquidity is here.
+And once the price comes into this level, there is no guarantee that price is going to keep going down.
+So pretty simple guys.
+Daily high was taken out.
+Then we simply marked out the one over fair value gap in the dealing range.
+And then afterwards, we had a shift in the market structure entry.
+And that was it.
+Let's move on to another example.
+All right, guys.
+So here is example two looking at GBP, JPY this time.
+And ignore the background noise if you heard some because I'm actually not at my home.
+But you can see that we want to study these two candles.
+So actually this candle only because this is the next day.
+So this is the previous day, right?
+So you simply want to mark out the previous day high and the previous day low.
+Now on the next day, we are simply anticipating the high or low to be taken out.
+And as you can see, the high was taken out first.
+So I'm going to drop down to one over time frame, right?
+And if you study this, you can see that the daily high was taken out and we are on the one over time frame.
+So now we're going to use our Fibonacci tool.
+And we are basically going to measure the, you know, the, the premium and discount level.
+So what exactly is the dealing range?
+I've thought this before, but you can see that we swept liquidity and then we pushed up, right?
+So this is going to be a dealing range low because why it swept liquidity and then pushed up.
+This is not the dealing range low.
+Why? Because it didn't sweep any liquidity, if that makes sense.
+Okay.
+So I'm going to use my Fib from the dealing range low to dealing range high.
+Now you can see we swept liquidity.
+So this became dealing range high, but we then swept another liquidity.
+So now this becomes the dealing range high.
+Now you can see that we maybe have a tiny fair value gap here.
+Let's see.
+Yes. So you can see that we have a tiny fair value gap here.
+And that is below the 0.5 level.
+So that is going to be our draw on liquidity, right?
+So let me just remove this.
+So let's drop down to 15 minute time from now.
+And you can see that this is the one hour fair value gap.
+We had a higher high, higher low than a higher high, right?
+Then we have a shift in the market structure here.
+Cool. And then you have your autoblock.
+And since the autoblock is too huge, you can simply just use your Fib, right?
+And you can take your entry from the 50% of this level, okay?
+Of course, this is hindsight, but you have to learn these tactics if you really want to, like, increase your ratio or ratios.
+So now you can see that we comfortably get above to our R.
+So that's 2.5 R R trade.
+And, you know, when you know the draw or liquidity trading becomes so easy.
+Now, it's not that you only can take one trade and let it go towards your drawn liquidity.
+If you're comfortable and if you know how to scale in, you can see that we had this fair value gap that was formed.
+So you could have taken another entry here, put your stop somewhere around here, or maybe manage the trade accordingly,
+and then you would have made more profits.
+But according to me, and as my personal approach is that I only take one trade until my drawn liquidity is hit.
+Let me give you guys another example.
+All right, guys.
+So here is the last example.
+You can have GPPY once again, and I'm going to mark out the daily low and the daily high.
+So on the next day, I will be anticipating for price to either take out the daily high or the daily low.
+So this is the daily high, daily low.
+And on the next day, let's see what happens.
+We have taken out the daily high over here.
+And if I use my FIP tool from the dealing range low to dealing range high, you can see that the fair value gap resides in this level around here.
+So this is going to be our draw on liquidity, right?
+Now, technically, I could be using this as my dealing range, right?
+But because, why?
+Because we swept this liquidity and we pushed up, right?
+So, but since there is no fair value gap in the, so if let's suppose that I use the FIP tool here, there's no fair value gap below the 0.5 level.
+So we're going to just use the one that is available to us.
+So I'm going to drop down to 15 minute time from now.
+And you can clearly see that we got a market structure shift right here.
+Higher high, higher low, and then a higher high.
+Now, let's see if we have something clean on the five minute down from, we could either have a fair value gap or something that we can take our entry from.
+And just around here, you can see we have this fair value gap.
+So you can basically do this as well to refine your entries.
+Don't overdo it because that's going to just back for at you.
+So, we are getting somewhere at 1.81 RR so we can slightly decrease our stop loss to get one to two Richard Ward.
+So now let's see how this plays out.
+And since we are trading GPP JPY, right?
+Since we're trading the Japanese pair, we can actually trade the Asian session, okay?
+So that's totally all right.
+Now you can clearly see that the take profit level was beautifully hit.
+Just go for one to two Richard Ward at max, right?
+If you really want to be like, if you don't want to deal with psychological issues.
+But go ahead and try it out and please try to pair up SMT divergence with this.
+So for example, if you got SMT with like your JPY here, then that would give you extra confirmation.
+So that is it for this chapter guys.
+I'll see you guys next weekend.

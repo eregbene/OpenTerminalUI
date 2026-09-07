@@ -1,0 +1,158 @@
+{
+  "source": "F:\\new faiz\\2. Monthly Bias Example 1.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 212.6948125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.43,
+      "end": 30.43,
+      "text": " Alright guys, so in this very first example we're going to talk about monthly bias and if you see these arrows here, that is basically frecktels. It tells you the correct highs and lows so you don't, you know, like take a wrong low for a market structure shift or a long higher low for external liquidity. So you can just go to indicators here, type in frecktels, right? And you want to use the frecktels by Rachel T. So these are my colors."
+    },
+    {
+      "start": 30.43,
+      "end": 37.55,
+      "text": " black and this green over here it makes it clean okay so now on the monthly"
+    },
+    {
+      "start": 37.55,
+      "end": 42.25,
+      "text": " time frame what I can see here is price has taken out a dicks external liquidity"
+    },
+    {
+      "start": 42.25,
+      "end": 47.79,
+      "text": " right remember every single high or low is an external liquidity and what"
+    },
+    {
+      "start": 47.79,
+      "end": 54.87,
+      "text": " do we have below this over here you're right we have the internal liquidity"
+    },
+    {
+      "start": 54.87,
+      "end": 59.77,
+      "text": " which is the fair value gap cool so once we have taken out the external"
+    },
+    {
+      "start": 59.77,
+      "end": 64.09,
+      "text": " the lady here. What we want to do remember for monthly vibias we want to drop"
+    },
+    {
+      "start": 64.09,
+      "end": 68.73,
+      "text": " from monthly to daily time from. Now once we drop down to the daily time"
+    },
+    {
+      "start": 68.73,
+      "end": 75.33,
+      "text": " from you can see right here this if you didn't have the"
+    },
+    {
+      "start": 75.33,
+      "end": 78.97,
+      "text": " freckles on you would have considered this as your shift in the structure"
+    },
+    {
+      "start": 78.97,
+      "end": 84.93,
+      "text": " which is you know. So anyways this is our low hair we want to see a breach of"
+    },
+    {
+      "start": 84.93,
+      "end": 95.8,
+      "text": " this low and right here you can see we have a market structure shift right so now what do"
+    },
+    {
+      "start": 95.8,
+      "end": 103.62,
+      "text": " you see here we have taken out external so this is the fair value gap that we should"
+    },
+    {
+      "start": 103.62,
+      "end": 110.08,
+      "text": " look to target okay I mean when you are on the daily time from of course but we're talking"
+    },
+    {
+      "start": 110.08,
+      "end": 114.76,
+      "text": " about monthly so now what we have the market structure shift here we can simply take"
+    },
+    {
+      "start": 114.76,
+      "end": 122.84,
+      "text": " or entry from this fair value gap or this fair value gap but remember our target is this level."
+    },
+    {
+      "start": 122.84,
+      "end": 129.24,
+      "text": " So you can simply just go short right here put your stop right above this high and go for"
+    },
+    {
+      "start": 129.24,
+      "end": 137.16,
+      "text": " just target this level. So now once you get the market on your monthly bias is here."
+    },
+    {
+      "start": 137.16,
+      "end": 144.2,
+      "text": " So you're gonna be confident you can be taking trades until this level is hit but of course"
+    },
+    {
+      "start": 144.2,
+      "end": 150.44,
+      "text": " on the daily and the one-hour timeframe. But for now, let's see how this plays out. The simple"
+    },
+    {
+      "start": 150.44,
+      "end": 156.52,
+      "text": " bread and butter model we have our entry here. And that is basically for swing traders. Okay."
+    },
+    {
+      "start": 158.6,
+      "end": 164.36,
+      "text": " So right here you can see that beautiful price delivery. We took out the monthly extended liquidity"
+    },
+    {
+      "start": 164.36,
+      "end": 173.4,
+      "text": " here, right? And we went up and we then had a market structure shift right here. And this is the"
+    },
+    {
+      "start": 173.4,
+      "end": 182.16,
+      "text": " the free value gap in the premium. We take a trade here and we just drop down below. Very"
+    },
+    {
+      "start": 182.16,
+      "end": 191.48,
+      "text": " simple. But you could have taken trades with a high risk reward ratio on the one hour"
+    },
+    {
+      "start": 191.48,
+      "end": 196.44,
+      "text": " timeframe, but I will get to that later. Okay. Just remember that once you get a market"
+    },
+    {
+      "start": 196.44,
+      "end": 201.96,
+      "text": " structure to share if your bias is set. Okay, when body closes that, that's like"
+    },
+    {
+      "start": 201.96,
+      "end": 208.0,
+      "text": " you're okay. We are bearish till this level is taken out. So let me give you"
+    },
+    {
+      "start": 208.0,
+      "end": 211.2,
+      "text": " You guys an example for the weekly bias now."
+    }
+  ]
+}

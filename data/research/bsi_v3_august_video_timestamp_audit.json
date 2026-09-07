@@ -1,0 +1,884 @@
+{
+  "methodology": "BSI_BASELINE_V3_UPDATED_FAIZ",
+  "window": {
+    "start": "2026-08-01T00:00:00+00:00",
+    "end": "2026-09-01T00:00:00+00:00"
+  },
+  "selected_symbols": [
+    "EURUSD",
+    "XAUUSD"
+  ],
+  "scope": "TWO_PAIR_AUGUST_VIDEO_TIMESTAMP_AUDIT",
+  "status_counts": {
+    "VIDEO_TIMESTAMP_EVIDENCE_AVAILABLE": 15,
+    "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS": 8,
+    "OUT_OF_SCOPE_FOR_SELECTED_SYMBOLS": 3
+  },
+  "artifacts": {
+    "bsi_v3_order_flow": {
+      "status": "VIDEO_TIMESTAMP_EVIDENCE_AVAILABLE",
+      "source_video": "1. Order Flow Trading Strategy.mp4",
+      "video_path": "F:\\new faiz\\1. Order Flow Trading Strategy.mp4",
+      "transcript_path": "data\\faiz_updated_course\\transcripts\\raw\\1. Order Flow Trading Strategy.srt",
+      "contact_sheet_path": "data\\faiz_updated_course\\visual_contact_sheets\\1._Order_Flow_Trading_Strategy.jpg",
+      "duration": "00:03:25.85",
+      "timestamp_hits": [
+        {
+          "start": "00:00:26,360",
+          "end": "00:00:38,520",
+          "start_seconds": 26.36,
+          "keywords": [
+            "order flow"
+          ],
+          "text": "So in this video, in this video, we are going to learn order flow trading strategy, okay?"
+        },
+        {
+          "start": "00:00:38,520",
+          "end": "00:00:40,880",
+          "start_seconds": 38.52,
+          "keywords": [
+            "order flow"
+          ],
+          "text": "So what is an order flow trading strategy?"
+        },
+        {
+          "start": "00:00:44,520",
+          "end": "00:00:54,200",
+          "start_seconds": 44.52,
+          "keywords": [
+            "market structure shift",
+            "market structure break"
+          ],
+          "text": "We use everything together to take our trades, market structure break, market structure shift,"
+        },
+        {
+          "start": "00:00:54,200",
+          "end": "00:01:00,600",
+          "start_seconds": 54.2,
+          "keywords": [
+            "liquidity"
+          ],
+          "text": "liquidity, auto blog, premium discounted zone, imbalances."
+        }
+      ],
+      "extracted_frame_paths": [
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_order_flow_1._Order_Flow_Trading_Strategy_1.jpg",
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_order_flow_1._Order_Flow_Trading_Strategy_2.jpg"
+      ],
+      "bar_opportunity_id": "bsi_v3_order_flow:EURUSD:M15:2026-08-02:LONG:2026-08-02T23:30:00+00:00",
+      "bar_symbol": "EURUSD",
+      "bar_entry_time": "2026-08-02 23:30:00+00:00",
+      "bar_outcome": "sl"
+    },
+    "bsi_v3_smt_divergence": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "reason": "No two-pair August bar reconstruction to timestamp-audit."
+    },
+    "bsi_v3_abc": {
+      "status": "VIDEO_TIMESTAMP_EVIDENCE_AVAILABLE",
+      "source_video": "10. ABC Trading Strategy.mp4",
+      "video_path": "F:\\new faiz\\10. ABC Trading Strategy.mp4",
+      "transcript_path": "data\\faiz_updated_course\\transcripts\\raw\\10. ABC Trading Strategy.srt",
+      "contact_sheet_path": "data\\faiz_updated_course\\visual_contact_sheets\\10._ABC_Trading_Strategy.jpg",
+      "duration": "00:08:55.73",
+      "timestamp_hits": [
+        {
+          "start": "00:00:00,000",
+          "end": "00:00:04,640",
+          "start_seconds": 0.0,
+          "keywords": [
+            "abc"
+          ],
+          "text": "All right guys, so now we are going to learn the ABC trading strategy"
+        },
+        {
+          "start": "00:00:36,080",
+          "end": "00:00:38,080",
+          "start_seconds": 36.08,
+          "keywords": [
+            "fake out"
+          ],
+          "text": "Then a fake out"
+        },
+        {
+          "start": "00:00:43,280",
+          "end": "00:00:45,920",
+          "start_seconds": 43.28,
+          "keywords": [
+            "a leg"
+          ],
+          "text": "When the a leg is complete"
+        },
+        {
+          "start": "00:00:46,840",
+          "end": "00:00:49,920",
+          "start_seconds": 46.84,
+          "keywords": [
+            "a leg"
+          ],
+          "text": "Okay, when the a leg is complete"
+        }
+      ],
+      "extracted_frame_paths": [
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_abc_10._ABC_Trading_Strategy_1.jpg",
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_abc_10._ABC_Trading_Strategy_2.jpg"
+      ],
+      "bar_opportunity_id": "bsi_v3_abc:EURUSD:M15:2026-08-02:LONG:2026-08-02T23:30:00+00:00",
+      "bar_symbol": "EURUSD",
+      "bar_entry_time": "2026-08-02 23:30:00+00:00",
+      "bar_outcome": "sl"
+    },
+    "bsi_v3_abcd": {
+      "status": "VIDEO_TIMESTAMP_EVIDENCE_AVAILABLE",
+      "source_video": "16. ABCD 101.mp4",
+      "video_path": "F:\\new faiz\\16. ABCD 101.mp4",
+      "transcript_path": "data\\faiz_updated_course\\transcripts\\raw\\16. ABCD 101.srt",
+      "contact_sheet_path": "data\\faiz_updated_course\\visual_contact_sheets\\16._ABCD_101.jpg",
+      "duration": "00:05:29.03",
+      "timestamp_hits": [
+        {
+          "start": "00:00:03,200",
+          "end": "00:00:06,200",
+          "start_seconds": 3.2,
+          "keywords": [
+            "abcd"
+          ],
+          "text": "how I personally use ABCD tweeting strategy"
+        },
+        {
+          "start": "00:00:18,440",
+          "end": "00:00:22,520",
+          "start_seconds": 18.44,
+          "keywords": [
+            "abcd"
+          ],
+          "text": "So how do I use ABCD tweeting strategy?"
+        },
+        {
+          "start": "00:01:17,300",
+          "end": "00:01:22,220",
+          "start_seconds": 77.3,
+          "keywords": [
+            "abcd"
+          ],
+          "text": "Now, unlike, so in ABCD strategy,"
+        },
+        {
+          "start": "00:01:31,980",
+          "end": "00:01:36,980",
+          "start_seconds": 91.98,
+          "keywords": [
+            "abcd"
+          ],
+          "text": "But in ABCD, what can happen is,"
+        }
+      ],
+      "extracted_frame_paths": [
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_abcd_16._ABCD_101_1.jpg",
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_abcd_16._ABCD_101_2.jpg"
+      ],
+      "bar_opportunity_id": "bsi_v3_abcd:EURUSD:M15:2026-08-02:LONG:2026-08-02T23:30:00+00:00",
+      "bar_symbol": "EURUSD",
+      "bar_entry_time": "2026-08-02 23:30:00+00:00",
+      "bar_outcome": "sl"
+    },
+    "bsi_v3_asian_v2": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "reason": "No two-pair August bar reconstruction to timestamp-audit."
+    },
+    "bsi_v3_0930": {
+      "status": "OUT_OF_SCOPE_FOR_SELECTED_SYMBOLS",
+      "reason": "No two-pair August bar reconstruction to timestamp-audit."
+    },
+    "bsi_v3_reactionary_block": {
+      "status": "VIDEO_TIMESTAMP_EVIDENCE_AVAILABLE",
+      "source_video": "17. Reactionary Block Trading Strategy.mp4",
+      "video_path": "F:\\new faiz\\17. Reactionary Block Trading Strategy.mp4",
+      "transcript_path": "data\\faiz_updated_course\\transcripts\\raw\\17. Reactionary Block Trading Strategy.srt",
+      "contact_sheet_path": "data\\faiz_updated_course\\visual_contact_sheets\\17._Reactionary_Block_Trading_Strategy.jpg",
+      "duration": "00:04:41.38",
+      "timestamp_hits": [
+        {
+          "start": "00:00:00,000",
+          "end": "00:00:06,560",
+          "start_seconds": 0.0,
+          "keywords": [
+            "reactionary",
+            "order block"
+          ],
+          "text": "Alright guys, so now we are going to learn the reactionary order block trading strategy."
+        },
+        {
+          "start": "00:00:08,240",
+          "end": "00:00:14,400",
+          "start_seconds": 8.24,
+          "keywords": [
+            "confirmation"
+          ],
+          "text": "So this is actually auto flow trading strategy, but with more confirmation."
+        },
+        {
+          "start": "00:00:18,880",
+          "end": "00:00:21,760",
+          "start_seconds": 18.88,
+          "keywords": [
+            "same time frame"
+          ],
+          "text": "You will be confirming it on the same time frame."
+        },
+        {
+          "start": "00:00:38,240",
+          "end": "00:00:45,760",
+          "start_seconds": 38.24,
+          "keywords": [
+            "fair value gap"
+          ],
+          "text": "Okay, once you have that, you will have a fair value gap plus auto block at this level."
+        }
+      ],
+      "extracted_frame_paths": [
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_reactionary_block_17._Reactionary_Block_Trading_Strategy_1.jpg",
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_reactionary_block_17._Reactionary_Block_Trading_Strategy_2.jpg"
+      ],
+      "bar_opportunity_id": "bsi_v3_reactionary_block:EURUSD:M15:2026-08-02:LONG:2026-08-02T23:30:00+00:00",
+      "bar_symbol": "EURUSD",
+      "bar_entry_time": "2026-08-02 23:30:00+00:00",
+      "bar_outcome": "sl"
+    },
+    "bsi_v3_ict_silver_bullet": {
+      "status": "OUT_OF_SCOPE_FOR_SELECTED_SYMBOLS",
+      "reason": "No two-pair August bar reconstruction to timestamp-audit."
+    },
+    "bsi_v3_silver_bullet_with_bias": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "reason": "No two-pair August bar reconstruction to timestamp-audit."
+    },
+    "bsi_v3_4h_order_block": {
+      "status": "VIDEO_TIMESTAMP_EVIDENCE_AVAILABLE",
+      "source_video": "34. 4 Hour OB Trading Strategy.mp4",
+      "video_path": "F:\\new faiz\\34. 4 Hour OB Trading Strategy.mp4",
+      "transcript_path": "data\\faiz_updated_course\\transcripts\\raw\\34. 4 Hour OB Trading Strategy.srt",
+      "contact_sheet_path": "data\\faiz_updated_course\\visual_contact_sheets\\34._4_Hour_OB_Trading_Strategy.jpg",
+      "duration": "00:09:03.75",
+      "timestamp_hits": [
+        {
+          "start": "00:00:00,000",
+          "end": "00:00:06,800",
+          "start_seconds": 0.0,
+          "keywords": [
+            "four hour"
+          ],
+          "text": "Alright guys, so in this video, I will go over the four hour auto block trading"
+        },
+        {
+          "start": "00:00:21,240",
+          "end": "00:00:27,240",
+          "start_seconds": 21.24,
+          "keywords": [
+            "auto flow"
+          ],
+          "text": "auto flow trading strategy, but it is a bit unique to the normal traditional"
+        },
+        {
+          "start": "00:00:27,240",
+          "end": "00:00:34,680",
+          "start_seconds": 27.24,
+          "keywords": [
+            "auto flow"
+          ],
+          "text": "auto flow, you know, trading strategy. Okay, so this is how we look at it. So"
+        },
+        {
+          "start": "00:00:34,680",
+          "end": "00:00:44,760",
+          "start_seconds": 34.68,
+          "keywords": [
+            "four hour",
+            "auto flow"
+          ],
+          "text": "number one thing is look at the auto flow on four hour time frame. Now, when you"
+        }
+      ],
+      "extracted_frame_paths": [
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_4h_order_block_34._4_Hour_OB_Trading_Strategy_1.jpg",
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_4h_order_block_34._4_Hour_OB_Trading_Strategy_2.jpg"
+      ],
+      "bar_opportunity_id": "bsi_v3_4h_order_block:EURUSD:M15:2026-08-02:LONG:2026-08-02T23:30:00+00:00",
+      "bar_symbol": "EURUSD",
+      "bar_entry_time": "2026-08-02 23:30:00+00:00",
+      "bar_outcome": "sl"
+    },
+    "bsi_v3_mmxm": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "reason": "No two-pair August bar reconstruction to timestamp-audit."
+    },
+    "bsi_v3_mmxm_second_distribution": {
+      "status": "VIDEO_TIMESTAMP_EVIDENCE_AVAILABLE",
+      "source_video": "13. MMXM 2ND DISTRIBUTION ENTRY.mp4",
+      "video_path": "F:\\new faiz\\13. MMXM 2ND DISTRIBUTION ENTRY.mp4",
+      "transcript_path": "data\\faiz_updated_course\\transcripts\\raw\\13. MMXM 2ND DISTRIBUTION ENTRY.srt",
+      "contact_sheet_path": "data\\faiz_updated_course\\visual_contact_sheets\\13._MMXM_2ND_DISTRIBUTION_ENTRY.jpg",
+      "duration": "00:04:48.33",
+      "timestamp_hits": [
+        {
+          "start": "00:00:06,960",
+          "end": "00:00:14,720",
+          "start_seconds": 6.96,
+          "keywords": [
+            "distribution",
+            "entry"
+          ],
+          "text": "distribution entry model, okay, this model has to be has to have the like the best wind"
+        },
+        {
+          "start": "00:00:15,720",
+          "end": "00:00:20,880",
+          "start_seconds": 15.72,
+          "keywords": [
+            "entry"
+          ],
+          "text": "This is like a plus entry set up a plus model that you can use and become an independent"
+        },
+        {
+          "start": "00:00:22,040",
+          "end": "00:00:26,120",
+          "start_seconds": 22.04,
+          "keywords": [
+            "entry"
+          ],
+          "text": "After watching this model and understanding this model entry model, you will not need"
+        },
+        {
+          "start": "00:00:52,600",
+          "end": "00:00:59,040",
+          "start_seconds": 52.6,
+          "keywords": [
+            "liquidity"
+          ],
+          "text": "So now let's suppose that this key level is a daily external liquidity, right?"
+        }
+      ],
+      "extracted_frame_paths": [
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_mmxm_second_distribution_13._MMXM_2ND_DISTRIBUTION_ENTRY_1.jpg",
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_mmxm_second_distribution_13._MMXM_2ND_DISTRIBUTION_ENTRY_2.jpg"
+      ],
+      "bar_opportunity_id": "bsi_v3_mmxm_second_distribution:EURUSD:H1:2026-08-03:SHORT:2026-08-03T01:00:00+00:00",
+      "bar_symbol": "EURUSD",
+      "bar_entry_time": "2026-08-03 01:00:00+00:00",
+      "bar_outcome": "sl"
+    },
+    "bsi_v3_holy_grail": {
+      "status": "VIDEO_TIMESTAMP_EVIDENCE_AVAILABLE",
+      "source_video": "17. The Holy Grail.mp4",
+      "video_path": "F:\\new faiz\\17. The Holy Grail.mp4",
+      "transcript_path": "data\\faiz_updated_course\\transcripts\\raw\\17. The Holy Grail.srt",
+      "contact_sheet_path": "data\\faiz_updated_course\\visual_contact_sheets\\17._The_Holy_Grail.jpg",
+      "duration": "00:06:00.12",
+      "timestamp_hits": [
+        {
+          "start": "00:00:00,000",
+          "end": "00:00:07,620",
+          "start_seconds": 0.0,
+          "keywords": [
+            "model"
+          ],
+          "text": "alright guys so now that we have learned the market maker model now that we know"
+        },
+        {
+          "start": "00:00:13,560",
+          "end": "00:00:20,760",
+          "start_seconds": 13.56,
+          "keywords": [
+            "model"
+          ],
+          "text": "going to use a complete I'm gonna teach you the complete model that has like the"
+        },
+        {
+          "start": "00:00:51,120",
+          "end": "00:01:00,480",
+          "start_seconds": 51.12,
+          "keywords": [
+            "model"
+          ],
+          "text": "people's signals okay so here is the complete model number one we have to"
+        },
+        {
+          "start": "00:01:36,320",
+          "end": "00:01:42,240",
+          "start_seconds": 96.32,
+          "keywords": [
+            "liquidity"
+          ],
+          "text": "a purge on the external liquidity on the daily time frame okay and you have the"
+        }
+      ],
+      "extracted_frame_paths": [
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_holy_grail_17._The_Holy_Grail_1.jpg",
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_holy_grail_17._The_Holy_Grail_2.jpg"
+      ],
+      "bar_opportunity_id": "bsi_v3_holy_grail:EURUSD:M5:2026-08-03:SHORT:2026-08-03T00:00:00+00:00",
+      "bar_symbol": "EURUSD",
+      "bar_entry_time": "2026-08-03 00:00:00+00:00",
+      "bar_outcome": "sl"
+    },
+    "bsi_v3_juggernaut": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "reason": "No two-pair August bar reconstruction to timestamp-audit."
+    },
+    "bsi_v3_spectre": {
+      "status": "VIDEO_TIMESTAMP_EVIDENCE_AVAILABLE",
+      "source_video": "25. The Spectre Model.mp4",
+      "video_path": "F:\\new faiz\\25. The Spectre Model.mp4",
+      "transcript_path": "data\\faiz_updated_course\\transcripts\\raw\\25. The Spectre Model.srt",
+      "contact_sheet_path": "data\\faiz_updated_course\\visual_contact_sheets\\25._The_Spectre_Model.jpg",
+      "duration": "00:03:41.63",
+      "timestamp_hits": [
+        {
+          "start": "00:00:34,400",
+          "end": "00:00:40,560",
+          "start_seconds": 34.4,
+          "keywords": [
+            "inverse"
+          ],
+          "text": "you about the inverse probability gap so we can do the same with the autoblocks so here you can see"
+        },
+        {
+          "start": "00:01:35,360",
+          "end": "00:01:40,400",
+          "start_seconds": 95.36,
+          "keywords": [
+            "inverse"
+          ],
+          "text": "and then I want the body to close below the autoblock a reclaim of autoblock just like inverse"
+        },
+        {
+          "start": "00:01:40,400",
+          "end": "00:01:44,800",
+          "start_seconds": 100.4,
+          "keywords": [
+            "entry"
+          ],
+          "text": "probability gaps and then the entry on the retest and we target somewhere around here"
+        },
+        {
+          "start": "00:02:13,920",
+          "end": "00:02:19,920",
+          "start_seconds": 133.92,
+          "keywords": [
+            "entry"
+          ],
+          "text": "actually not most yes it can but we have to look for a confirmation entry like that okay but"
+        }
+      ],
+      "extracted_frame_paths": [
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_spectre_25._The_Spectre_Model_1.jpg",
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_spectre_25._The_Spectre_Model_2.jpg"
+      ],
+      "bar_opportunity_id": "bsi_v3_spectre:EURUSD:M15:2026-08-02:LONG:2026-08-02T23:30:00+00:00",
+      "bar_symbol": "EURUSD",
+      "bar_entry_time": "2026-08-02 23:30:00+00:00",
+      "bar_outcome": "sl"
+    },
+    "bsi_v3_monday_range": {
+      "status": "VIDEO_TIMESTAMP_EVIDENCE_AVAILABLE",
+      "source_video": "37. Utilizing Monday Range.mp4",
+      "video_path": "F:\\new faiz\\37. Utilizing Monday Range.mp4",
+      "transcript_path": "data\\faiz_updated_course\\transcripts\\raw\\37. Utilizing Monday Range.srt",
+      "contact_sheet_path": "data\\faiz_updated_course\\visual_contact_sheets\\37._Utilizing_Monday_Range.jpg",
+      "duration": "00:10:21.47",
+      "timestamp_hits": [
+        {
+          "start": "00:00:13,760",
+          "end": "00:00:20,440",
+          "start_seconds": 13.76,
+          "keywords": [
+            "monday range",
+            "range",
+            "monday"
+          ],
+          "text": "And in this very first chapter, I'm going to teach you guys about the Monday range."
+        },
+        {
+          "start": "00:00:34,440",
+          "end": "00:00:43,480",
+          "start_seconds": 34.44,
+          "keywords": [
+            "monday"
+          ],
+          "text": "So essentially what we're doing is we are marking out high of the Monday and low of"
+        },
+        {
+          "start": "00:00:43,480",
+          "end": "00:00:44,480",
+          "start_seconds": 43.48,
+          "keywords": [
+            "monday"
+          ],
+          "text": "the Monday."
+        },
+        {
+          "start": "00:00:44,480",
+          "end": "00:00:54,080",
+          "start_seconds": 44.48,
+          "keywords": [
+            "monday"
+          ],
+          "text": "So let's assume that this candle on the daily time from is the Monday candle and it closes."
+        }
+      ],
+      "extracted_frame_paths": [
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_monday_range_37._Utilizing_Monday_Range_1.jpg",
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_monday_range_37._Utilizing_Monday_Range_2.jpg"
+      ],
+      "bar_opportunity_id": "bsi_v3_monday_range:EURUSD:M15:2026-08-02:LONG:2026-08-02T23:30:00+00:00",
+      "bar_symbol": "EURUSD",
+      "bar_entry_time": "2026-08-02 23:30:00+00:00",
+      "bar_outcome": "sl"
+    },
+    "bsi_v3_weaver": {
+      "status": "VIDEO_TIMESTAMP_EVIDENCE_AVAILABLE",
+      "source_video": "38. The Weaver Model.mp4",
+      "video_path": "F:\\new faiz\\38. The Weaver Model.mp4",
+      "transcript_path": "data\\faiz_updated_course\\transcripts\\raw\\38. The Weaver Model.srt",
+      "contact_sheet_path": "data\\faiz_updated_course\\visual_contact_sheets\\38._The_Weaver_Model.jpg",
+      "duration": "00:14:41.87",
+      "timestamp_hits": [
+        {
+          "start": "00:02:20,000",
+          "end": "00:02:34,000",
+          "start_seconds": 140.0,
+          "keywords": [
+            "range"
+          ],
+          "text": "Now I want to see a fairly valid gap inside this leg, not here, because the new dealing range is from this low, sorry, this high to this low over here."
+        },
+        {
+          "start": "00:03:44,000",
+          "end": "00:03:56,000",
+          "start_seconds": 224.0,
+          "keywords": [
+            "entry"
+          ],
+          "text": "So once you get a market structure shift on the 15 minute time frame, right, you can simply take your entry from the breaker block, fairly gap or an auto block."
+        },
+        {
+          "start": "00:04:20,000",
+          "end": "00:04:28,000",
+          "start_seconds": 260.0,
+          "keywords": [
+            "entry"
+          ],
+          "text": "So let's assume I take my entry from the fairly gap. I will be targeting this one hour for a value gap. So this is one hour for a value gap."
+        },
+        {
+          "start": "00:04:51,000",
+          "end": "00:05:04,000",
+          "start_seconds": 291.0,
+          "keywords": [
+            "range"
+          ],
+          "text": "Now, as soon as it's taken out, you want to drop down to one hour timeframe to find a fairly gap inside the recent dealing range on the one hour timeframe."
+        }
+      ],
+      "extracted_frame_paths": [
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_weaver_38._The_Weaver_Model_1.jpg",
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_weaver_38._The_Weaver_Model_2.jpg"
+      ],
+      "bar_opportunity_id": "bsi_v3_weaver:EURUSD:M15:2026-08-02:LONG:2026-08-02T23:30:00+00:00",
+      "bar_symbol": "EURUSD",
+      "bar_entry_time": "2026-08-02 23:30:00+00:00",
+      "bar_outcome": "sl"
+    },
+    "bsi_v3_standard_deviation_po3": {
+      "status": "VIDEO_TIMESTAMP_EVIDENCE_AVAILABLE",
+      "source_video": "29. Standard Deviations.mp4",
+      "video_path": "F:\\new faiz\\29. Standard Deviations.mp4",
+      "transcript_path": "data\\faiz_updated_course\\transcripts\\raw\\29. Standard Deviations.srt",
+      "contact_sheet_path": "data\\faiz_updated_course\\visual_contact_sheets\\29._Standard_Deviations.jpg",
+      "duration": "00:17:56.42",
+      "timestamp_hits": [
+        {
+          "start": "00:00:29,720",
+          "end": "00:00:33,720",
+          "start_seconds": 29.72,
+          "keywords": [
+            "power of three"
+          ],
+          "text": "We we use this with a power of three. So"
+        },
+        {
+          "start": "00:00:35,000",
+          "end": "00:00:42,280",
+          "start_seconds": 35.0,
+          "keywords": [
+            "power of three"
+          ],
+          "text": "Remember one thing that every single candle has a power of three. It's gonna have accumulation manipulation and distribution"
+        },
+        {
+          "start": "00:00:55,640",
+          "end": "00:01:00,520",
+          "start_seconds": 55.64,
+          "keywords": [
+            "power of three"
+          ],
+          "text": "Price manipulates to the upside and then expands to the downside. So that is called power of three"
+        },
+        {
+          "start": "00:01:01,080",
+          "end": "00:01:04,920",
+          "start_seconds": 61.08,
+          "keywords": [
+            "standard deviation"
+          ],
+          "text": "Now what if I told you that by standard deviation projections, you can mayor the"
+        }
+      ],
+      "extracted_frame_paths": [
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_standard_deviation_po3_29._Standard_Deviations_1.jpg",
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_standard_deviation_po3_29._Standard_Deviations_2.jpg"
+      ],
+      "bar_opportunity_id": "bsi_v3_standard_deviation_po3:EURUSD:M5:2026-08-03:SHORT:2026-08-03T00:00:00+00:00",
+      "bar_symbol": "EURUSD",
+      "bar_entry_time": "2026-08-03 00:00:00+00:00",
+      "bar_outcome": "sl"
+    },
+    "bsi_v3_ar50": {
+      "status": "VIDEO_TIMESTAMP_EVIDENCE_AVAILABLE",
+      "source_video": "34. AR50 Trading Model.mp4",
+      "video_path": "F:\\new faiz\\34. AR50 Trading Model.mp4",
+      "transcript_path": "data\\faiz_updated_course\\transcripts\\raw\\34. AR50 Trading Model.srt",
+      "contact_sheet_path": "data\\faiz_updated_course\\visual_contact_sheets\\34._AR50_Trading_Model.jpg",
+      "duration": "00:09:07.40",
+      "timestamp_hits": [
+        {
+          "start": "00:00:10,400",
+          "end": "00:00:20,160",
+          "start_seconds": 10.4,
+          "keywords": [
+            "ar50",
+            "asian range",
+            "50"
+          ],
+          "text": "in this chapter, I'm going to teach you the how to trade the AR50 or the Asian range 50%"
+        },
+        {
+          "start": "00:01:06,880",
+          "end": "00:01:14,560",
+          "start_seconds": 66.88,
+          "keywords": [
+            "50"
+          ],
+          "text": "you'll be able to trade the air 50 the right way with very high probability with very high win rate."
+        },
+        {
+          "start": "00:02:36,560",
+          "end": "00:02:43,360",
+          "start_seconds": 156.56,
+          "keywords": [
+            "liquidity"
+          ],
+          "text": "on liquidity. Price is going to take out this high 80 to 90% of the time. Well, that's actually"
+        },
+        {
+          "start": "00:02:43,360",
+          "end": "00:02:50,560",
+          "start_seconds": 163.36,
+          "keywords": [
+            "ar50",
+            "50"
+          ],
+          "text": "a lot, but 80% of the time. So now once you have the closure here, you can be bullish with AR50"
+        }
+      ],
+      "extracted_frame_paths": [
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_ar50_34._AR50_Trading_Model_1.jpg",
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_ar50_34._AR50_Trading_Model_2.jpg"
+      ],
+      "bar_opportunity_id": "bsi_v3_ar50:EURUSD:M15:2026-08-02:LONG:2026-08-02T23:30:00+00:00",
+      "bar_symbol": "EURUSD",
+      "bar_entry_time": "2026-08-02 23:30:00+00:00",
+      "bar_outcome": "sl"
+    },
+    "bsi_v3_ifvg_po3": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "reason": "No two-pair August bar reconstruction to timestamp-audit."
+    },
+    "bsi_v3_turtle_soups_ranges": {
+      "status": "OUT_OF_SCOPE_FOR_SELECTED_SYMBOLS",
+      "reason": "No two-pair August bar reconstruction to timestamp-audit."
+    },
+    "bsi_v3_yin_yang": {
+      "status": "VIDEO_TIMESTAMP_EVIDENCE_AVAILABLE",
+      "source_video": "41. The Yin Yang Model.mp4",
+      "video_path": "F:\\new faiz\\41. The Yin Yang Model.mp4",
+      "transcript_path": "data\\faiz_updated_course\\transcripts\\raw\\41. The Yin Yang Model.srt",
+      "contact_sheet_path": "data\\faiz_updated_course\\visual_contact_sheets\\41._The_Yin_Yang_Model.jpg",
+      "duration": "00:18:55.47",
+      "timestamp_hits": [
+        {
+          "start": "00:00:03,280",
+          "end": "00:00:07,680",
+          "start_seconds": 3.28,
+          "keywords": [
+            "gold"
+          ],
+          "text": "I will be teaching you the most mechanical gold training strategy. So"
+        },
+        {
+          "start": "00:00:08,320",
+          "end": "00:00:15,480",
+          "start_seconds": 8.32,
+          "keywords": [
+            "gold"
+          ],
+          "text": "Previously, I made a video on gold and it was only for the people who could trade the Asian session, right?"
+        },
+        {
+          "start": "00:00:15,880",
+          "end": "00:00:21,640",
+          "start_seconds": 15.88,
+          "keywords": [
+            "london"
+          ],
+          "text": "But this one is gonna work in London session and I've been getting a lot of requests"
+        },
+        {
+          "start": "00:01:04,520",
+          "end": "00:01:09,840",
+          "start_seconds": 64.52,
+          "keywords": [
+            "london"
+          ],
+          "text": "London session starts at 3 a.m. New York time. All right, so let's assume that this is the"
+        }
+      ],
+      "extracted_frame_paths": [
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_yin_yang_41._The_Yin_Yang_Model_1.jpg",
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_yin_yang_41._The_Yin_Yang_Model_2.jpg"
+      ],
+      "bar_opportunity_id": "bsi_v3_yin_yang:XAUUSD:M15:2026-08-02:LONG:2026-08-02T23:00:00+00:00",
+      "bar_symbol": "XAUUSD",
+      "bar_entry_time": "2026-08-02 23:00:00+00:00",
+      "bar_outcome": "sl"
+    },
+    "bsi_v3_4h_candle_ranges": {
+      "status": "VIDEO_TIMESTAMP_EVIDENCE_AVAILABLE",
+      "source_video": "42. 4 Hour Candle Ranges.mp4",
+      "video_path": "F:\\new faiz\\42. 4 Hour Candle Ranges.mp4",
+      "transcript_path": "data\\faiz_updated_course\\transcripts\\raw\\42. 4 Hour Candle Ranges.srt",
+      "contact_sheet_path": "data\\faiz_updated_course\\visual_contact_sheets\\42._4_Hour_Candle_Ranges.jpg",
+      "duration": "00:17:56.57",
+      "timestamp_hits": [
+        {
+          "start": "00:00:05,080",
+          "end": "00:00:14,440",
+          "start_seconds": 5.08,
+          "keywords": [
+            "range"
+          ],
+          "text": "to CRD or Gandal range theory. Now I explained this concept over one and a half years ago"
+        },
+        {
+          "start": "00:00:20,160",
+          "end": "00:00:25,640",
+          "start_seconds": 20.16,
+          "keywords": [
+            "range"
+          ],
+          "text": "are ranges and basically you can take a turtle soup whenever the candle high is taken out"
+        },
+        {
+          "start": "00:00:45,700",
+          "end": "00:00:52,440",
+          "start_seconds": 45.7,
+          "keywords": [
+            "range"
+          ],
+          "text": "is CRD? So CRD is Gandal range theory, right? Every candle is a range and that is absolutely"
+        },
+        {
+          "start": "00:01:05,960",
+          "end": "00:01:12,720",
+          "start_seconds": 65.96,
+          "keywords": [
+            "range"
+          ],
+          "text": "candle is a range, it doesn't mean that every single candle's range is high probability."
+        }
+      ],
+      "extracted_frame_paths": [
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_4h_candle_ranges_42._4_Hour_Candle_Ranges_1.jpg",
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_4h_candle_ranges_42._4_Hour_Candle_Ranges_2.jpg"
+      ],
+      "bar_opportunity_id": "bsi_v3_4h_candle_ranges:EURUSD:M5:2026-08-03:SHORT:2026-08-03T00:00:00+00:00",
+      "bar_symbol": "EURUSD",
+      "bar_entry_time": "2026-08-03 00:00:00+00:00",
+      "bar_outcome": "sl"
+    },
+    "bsi_v3_smt_session_hl": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "reason": "No two-pair August bar reconstruction to timestamp-audit."
+    },
+    "bsi_v3_1h_candle_ranges": {
+      "status": "NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS",
+      "reason": "No two-pair August bar reconstruction to timestamp-audit."
+    },
+    "bsi_v3_enigma_range": {
+      "status": "VIDEO_TIMESTAMP_EVIDENCE_AVAILABLE",
+      "source_video": "45. The Enigma.mp4",
+      "video_path": "F:\\new faiz\\45. The Enigma.mp4",
+      "transcript_path": "data\\faiz_updated_course\\transcripts\\raw\\45. The Enigma.srt",
+      "contact_sheet_path": "data\\faiz_updated_course\\visual_contact_sheets\\45._The_Enigma.jpg",
+      "duration": "00:18:14.17",
+      "timestamp_hits": [
+        {
+          "start": "00:00:00,000",
+          "end": "00:00:07,400",
+          "start_seconds": 0.0,
+          "keywords": [
+            "enigma"
+          ],
+          "text": "All right, everybody. So this is the closest thing to Enigma. Now, I know actually he says"
+        },
+        {
+          "start": "00:00:07,920",
+          "end": "00:00:09,920",
+          "start_seconds": 7.92,
+          "keywords": [
+            "enigma"
+          ],
+          "text": "there is an Enigma, but"
+        },
+        {
+          "start": "00:00:10,960",
+          "end": "00:00:17,160",
+          "start_seconds": 10.96,
+          "keywords": [
+            "enigma"
+          ],
+          "text": "There is no Enigma, but this thing that I'm about to teach you right now is the closest thing to Enigma and"
+        },
+        {
+          "start": "00:00:48,800",
+          "end": "00:00:53,320",
+          "start_seconds": 48.8,
+          "keywords": [
+            "range",
+            "one-minute",
+            "nas 100"
+          ],
+          "text": "the the one-minute range a strategy on NAS 100 I"
+        }
+      ],
+      "extracted_frame_paths": [
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_enigma_range_45._The_Enigma_1.jpg",
+        "data\\research\\bsi_v3_video_timestamp_frames\\bsi_v3_enigma_range_45._The_Enigma_2.jpg"
+      ],
+      "bar_opportunity_id": "bsi_v3_enigma_range:EURUSD:H4:2026-08-02:LONG:2026-08-02T20:00:00+00:00",
+      "bar_symbol": "EURUSD",
+      "bar_entry_time": "2026-08-02 20:00:00+00:00",
+      "bar_outcome": "open_timeout"
+    }
+  }
+}

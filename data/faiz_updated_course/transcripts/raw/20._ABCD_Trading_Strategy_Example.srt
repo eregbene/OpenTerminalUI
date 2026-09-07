@@ -1,0 +1,55 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, so here's another example. You can see we got the AMOVE, we got the BMOVE and then we got the CMOVE right here. So let me draw this out. We take out the high of the AMOVE and then we take out the low of the BMOVE. Once we do that, we reclaim that level and then we enter on the retest. Put the shop those right below the slow and we target
+
+2
+00:00:30,000 --> 00:00:40,180
+one to two. That is it. So I hope this is clear to you. This is a very simple
+
+3
+00:00:40,180 --> 00:00:44,220
+trading strategy. So basically this is liquidity perch, liquidity perch, and then
+
+4
+00:00:44,220 --> 00:00:52,500
+moving in the direction, the price is intended to move like originally. So after
+
+5
+00:00:52,500 --> 00:00:56,020
+taking out the liquidity from the both sides, price is going to move to the
+
+6
+00:00:56,020 --> 00:01:03,220
+direction it would want to go. So this is how you enter these trades. So guys,
+
+7
+00:01:03,220 --> 00:01:08,620
+this is eight for this course. I will be uploading more videos in the future.
+
+8
+00:01:08,620 --> 00:01:15,380
+I'll be adding more content to this course in the future. So I really do hope
+
+9
+00:01:15,380 --> 00:01:19,620
+that you learn something from this course and I can guarantee you if you
+
+10
+00:01:19,620 --> 00:01:24,220
+back test these strategies and within three to four months you are going to be
+
+11
+00:01:24,220 --> 00:01:29,380
+insanely profitable okay and I'm sure you're gonna pass your first ever
+
+12
+00:01:29,380 --> 00:01:35,440
+prop from challenge so thank you so much guys for purchasing this course I
+
+13
+00:01:35,440 --> 00:01:41,260
+really appreciate each and every one of you who trusted me and we will meet
+
+14
+00:01:41,260 --> 00:01:49,260
+again in my future videos so thank you so much and goodbye

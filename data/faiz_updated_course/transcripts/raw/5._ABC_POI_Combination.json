@@ -1,0 +1,153 @@
+{
+  "source": "F:\\new faiz\\5. ABC POI Combination.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 118.63075,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " In this video, I'm going to give you some tips or a tip on how you can improve your wind rate with ABC trading strategy. Let's assume that you have a POI, it could be an auto block or a fair value gap on a higher timeframe. You can also take this into consideration that you had a lower low, lower high, and then you had a market structure break or break of structure. Usually, when you are trading smart money or auto floor trading strategy, you would take your entry."
+    },
+    {
+      "start": 30.0,
+      "end": 33.84,
+      "text": " from this level. However, if you want to increase your ABC"
+    },
+    {
+      "start": 33.84,
+      "end": 38.4,
+      "text": " strategy win rate, what you can do is look for an ABC pattern,"
+    },
+    {
+      "start": 38.4,
+      "end": 42.4,
+      "text": " near your POI, and the C leg goes into your POI."
+    },
+    {
+      "start": 42.4,
+      "end": 47.12,
+      "text": " Like this. So we have an ABC and the C leg"
+    },
+    {
+      "start": 47.12,
+      "end": 52.32,
+      "text": " goes into your POI. Now that is going to increase your win rate"
+    },
+    {
+      "start": 52.32,
+      "end": 55.84,
+      "text": " tremendously. Okay? Not tremendously, but it's going to give"
+    },
+    {
+      "start": 55.84,
+      "end": 59.52,
+      "text": " like a five percent or 10 percent increase to your win rate."
+    },
+    {
+      "start": 59.52,
+      "end": 63.0,
+      "text": " So you are going to then follow the rules again, right?"
+    },
+    {
+      "start": 63.0,
+      "end": 65.04,
+      "text": " As I have taught the APC strategy,"
+    },
+    {
+      "start": 65.04,
+      "end": 67.84,
+      "text": " you then wait for a market structure shift"
+    },
+    {
+      "start": 67.84,
+      "end": 69.76,
+      "text": " with displacement, with volume,"
+    },
+    {
+      "start": 69.76,
+      "end": 72.08,
+      "text": " and then you take your entry from the extreme fairly gap"
+    },
+    {
+      "start": 72.08,
+      "end": 72.92,
+      "text": " and caboom."
+    },
+    {
+      "start": 74.0,
+      "end": 77.96,
+      "text": " So this is something that you can take into consideration."
+    },
+    {
+      "start": 77.96,
+      "end": 78.8,
+      "text": " All right?"
+    },
+    {
+      "start": 78.8,
+      "end": 81.52,
+      "text": " What you wanna do is you wanna identify a POI,"
+    },
+    {
+      "start": 81.52,
+      "end": 84.68,
+      "text": " it could be an auto block, it could be a fairly gap,"
+    },
+    {
+      "start": 84.68,
+      "end": 86.32,
+      "text": " a high time frame, right?"
+    },
+    {
+      "start": 86.32,
+      "end": 91.16,
+      "text": " And then you wait for price to give you an ABC pattern near your P.O.I."
+    },
+    {
+      "start": 91.16,
+      "end": 95.16,
+      "text": " And the C leg goes into the P.O.I. right?"
+    },
+    {
+      "start": 95.16,
+      "end": 98.56,
+      "text": " And when it does, then you can look for a market structure shift"
+    },
+    {
+      "start": 98.56,
+      "end": 101.28,
+      "text": " within the range, which is here, right?"
+    },
+    {
+      "start": 101.28,
+      "end": 105.28,
+      "text": " So if the price breaks the structure somewhere around here,"
+    },
+    {
+      "start": 105.28,
+      "end": 107.36,
+      "text": " you look for your entry and boom."
+    },
+    {
+      "start": 107.36,
+      "end": 112.8,
+      "text": " Trust me, it's going to increase your win rate by 10 to even 15%."
+    },
+    {
+      "start": 112.8,
+      "end": 115.52,
+      "text": " So yeah, I hope you like the tip."
+    },
+    {
+      "start": 115.52,
+      "end": 117.52,
+      "text": " and let's move on to the next video."
+    }
+  ]
+}

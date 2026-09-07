@@ -1,0 +1,55 @@
+1
+00:00:00,110 --> 00:00:30,110
+Alright, everybody, so here is example number two, silver here. You can see we have this low. We had a market structure shift here and consecutive bearish candles or down close candles is your order block. If I mark the order block like that, you can clearly see that price ripped through the order block, taking out the order block liquidity. And afterwards, we had a reclaim and then a retest. I'm looking at a S100 and you can see that price has went up.
+
+2
+00:00:30,110 --> 00:00:38,030
+like that. So you can clearly see that we took our sell side here, right? And they made it look
+
+3
+00:00:38,030 --> 00:00:44,830
+so obvious. The sell side was taken. We had a market structure shift. So a lot of
+
+4
+00:00:44,830 --> 00:00:49,790
+ACG traders would try to go along either of this fair value gap or this entire auto
+
+5
+00:00:49,790 --> 00:00:59,140
+bar. But what happens? Price takes out the slow. And you might be asking me that what about
+
+6
+00:00:59,140 --> 00:01:06,500
+other training strategies. Now we are doing this without bias. Okay. So this is a no daily
+
+7
+00:01:06,500 --> 00:01:11,380
+bus strategy. That is when we're going to use this method and it's not going to happen
+
+8
+00:01:11,380 --> 00:01:17,780
+all the time. Most of the time or some sometimes it's going to react off this where we
+
+9
+00:01:17,780 --> 00:01:24,580
+go up and go up. It's not going to be a case where it happens every time. But if you see a pattern
+
+10
+00:01:24,580 --> 00:01:30,740
+like this where you have a sweep, right? And let's say your initial entry was here and you
+
+11
+00:01:30,740 --> 00:01:35,620
+lost the rate. But you can do is look for this pattern where price reclaims itself,
+
+12
+00:01:37,220 --> 00:01:43,780
+like that closes above it. So this is very important closes above it. And you have like a
+
+13
+00:01:45,220 --> 00:01:50,100
+a target level. This could be a take profit one. This could be your take profit two.
+
+14
+00:01:50,100 --> 00:01:53,100
+Let's move on to another example.

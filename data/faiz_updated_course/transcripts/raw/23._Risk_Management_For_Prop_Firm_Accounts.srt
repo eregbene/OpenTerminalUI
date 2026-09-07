@@ -1,0 +1,367 @@
+1
+00:00:00,180 --> 00:00:30,180
+Alright guys, so this is gonna be the last lecture of the course of date in this video. In this lecture we're gonna talk about how to do proper risk management for passing the prop from challenges. And also how to keep the account that you pass, okay? You see a lot of these people have the infinite amount of, you know, prop firm accounts and you wonder why you still don't have one, right? It's because they have a different approach to these accounts. They have a different risk management strategy
+
+2
+00:00:30,180 --> 00:00:33,460
+for prop from challenges, that's why they have so many accounts.
+
+3
+00:00:33,460 --> 00:00:36,460
+It's not that it don't blow up their challenges, right?
+
+4
+00:00:36,460 --> 00:00:37,940
+Even I do sometimes.
+
+5
+00:00:37,940 --> 00:00:41,780
+I don't, I don't, yeah, it happens with every single trader,
+
+6
+00:00:41,780 --> 00:00:42,620
+right?
+
+7
+00:00:42,620 --> 00:00:44,700
+It's not that if you fail a prop from challenge,
+
+8
+00:00:44,700 --> 00:00:46,460
+you are an unsuccessful trader.
+
+9
+00:00:46,460 --> 00:00:48,980
+No, it's not the case.
+
+10
+00:00:48,980 --> 00:00:53,980
+10% in 30 days or 8% 30 days is absolutely insane, okay?
+
+11
+00:00:54,620 --> 00:00:58,180
+And it's like 60 to 50% chance that you're gonna tend that.
+
+12
+00:00:58,180 --> 00:01:08,180
+A normal experienced well-mannered trader is going to only be able to do 4-5% or 6% max per month.
+
+13
+00:01:08,180 --> 00:01:11,580
+But 8% is way too much or 10% is way too much.
+
+14
+00:01:11,580 --> 00:01:15,580
+But we have a risk management for this for passing the problem.
+
+15
+00:01:15,580 --> 00:01:21,780
+So on the first one, the very first phase, our goal is to win 2 trades in a row.
+
+16
+00:01:21,780 --> 00:01:28,220
+Then risk one person on your first trade and go for one to two R. Okay?
+
+17
+00:01:28,220 --> 00:01:34,060
+So let's say you win your first trade. If you win the trade, then you take the second trade and risk two
+
+18
+00:01:34,060 --> 00:01:39,780
+percent and go for one to three. If both trades hit TP, you will get eight percent, which is enough to pass the
+
+19
+00:01:39,780 --> 00:01:46,180
+phased one. Right? So when you are on break even, right? You start your fresh account, you risk
+
+20
+00:01:46,180 --> 00:01:53,180
+1% and go for 1-2. Goal here is to win that trade. You have to look for an 8 plus setup.
+
+21
+00:01:53,180 --> 00:01:58,180
+The best setup possible win that trade you will get 1-2. So now you have a buffer.
+
+22
+00:01:58,180 --> 00:02:03,180
+Now if you win that trade you will have 2 or R in your account.
+
+23
+00:02:03,180 --> 00:02:10,180
+Now for the second trade you want to find an 8 plus setup as well and risk 2% for that.
+
+24
+00:02:10,180 --> 00:02:16,380
+and go for one to three right so you go for one to three that would be six percent and two percent from the first rate
+
+25
+00:02:16,380 --> 00:02:18,380
+That is eight percent you will pass
+
+26
+00:02:18,900 --> 00:02:24,620
+Most of the problem challenge however for F DMO what you can do here is you risk one percent right?
+
+27
+00:02:25,100 --> 00:02:27,100
+You have two percent
+
+28
+00:02:27,100 --> 00:02:29,100
+Then you take another
+
+29
+00:02:29,100 --> 00:02:34,980
+You risk one percent again right you get four percent profit and then you can go for one to three
+
+30
+00:02:34,980 --> 00:02:41,900
+So three dates gonna take for you to pause the FDM mode challenge. So the tight rate is gonna be two percent
+
+31
+00:02:42,300 --> 00:02:49,680
+If you lose the first rate and are blow break even keep risking one person until you are up by two person and then risk two
+
+32
+00:02:49,680 --> 00:02:52,660
+Person so the thing here is let's say you lose your first rate, right?
+
+33
+00:02:52,660 --> 00:03:00,700
+It can happen you keep on risking one percent until you are in profit by two person and once you are in up by two person
+
+34
+00:03:00,700 --> 00:03:02,700
+you risk
+
+35
+00:03:02,700 --> 00:03:05,700
+2% for the next trade.
+
+36
+00:03:05,700 --> 00:03:09,200
+And you're gonna go for 1-3, right?
+
+37
+00:03:09,200 --> 00:03:11,560
+You normally will keep on going for 1-2,
+
+38
+00:03:11,560 --> 00:03:13,600
+but once you are up by 2%, you go for 1-3
+
+39
+00:03:13,600 --> 00:03:15,560
+by risking 2%, you'll get 8%.
+
+40
+00:03:15,560 --> 00:03:18,200
+For phase 2, once you pass the phase 1,
+
+41
+00:03:18,200 --> 00:03:19,920
+for phase 2, how to pass that.
+
+42
+00:03:19,920 --> 00:03:22,340
+So risk 1% on your first trade
+
+43
+00:03:22,340 --> 00:03:24,360
+and go for 1-2 to risk your wallet, right?
+
+44
+00:03:24,360 --> 00:03:26,760
+If you win the trade, take the second trade
+
+45
+00:03:26,760 --> 00:03:29,640
+and risk 1% and go for 1-3.
+
+46
+00:03:29,640 --> 00:03:32,560
+If both trades hit TP, you will get 5%
+
+47
+00:03:32,560 --> 00:03:34,560
+which is enough to pass the face to.
+
+48
+00:03:34,560 --> 00:03:37,560
+If you lose the first straight and are below break even,
+
+49
+00:03:37,560 --> 00:03:40,560
+keep risking 1% until you are up by 2%
+
+50
+00:03:40,560 --> 00:03:44,560
+and then risk 1% again until you go for 1 to 3.
+
+51
+00:03:44,560 --> 00:03:47,560
+So for the first straight, we go for 1 to 2 and for the second rate,
+
+52
+00:03:47,560 --> 00:03:48,560
+we go for 1 to 3.
+
+53
+00:03:48,560 --> 00:03:51,560
+You have to find the A plus setups for both of these trades.
+
+54
+00:03:51,560 --> 00:03:54,560
+I don't care about the rest of the trades,
+
+55
+00:03:54,560 --> 00:03:59,560
+but for the first two trades, you have to find the best possible setups guys.
+
+56
+00:03:59,560 --> 00:04:01,920
+So that's pretty much it.
+
+57
+00:04:01,920 --> 00:04:04,480
+So now how do you keep your account?
+
+58
+00:04:04,480 --> 00:04:07,960
+Let's say that you have paused these two accounts.
+
+59
+00:04:07,960 --> 00:04:15,880
+You have to risk 0.5% per trade on your funded account.
+
+60
+00:04:15,880 --> 00:04:17,320
+You have to do that.
+
+61
+00:04:17,320 --> 00:04:22,600
+And once you are up by, let's say, 1% or 2% in profits,
+
+62
+00:04:22,600 --> 00:04:28,320
+you risk 1% and if you lose, you go back to, let's say,
+
+63
+00:04:28,320 --> 00:04:29,320
+a break even.
+
+64
+00:04:29,320 --> 00:04:34,320
+you can risk 0.5 until you are up by one or two percent.
+
+65
+00:04:36,800 --> 00:04:38,520
+So let's say you're up by one percent,
+
+66
+00:04:38,520 --> 00:04:42,240
+you risk one percent and you go for one to two.
+
+67
+00:04:42,240 --> 00:04:46,600
+Once you get one to two, you are in three-cap profit,
+
+68
+00:04:46,600 --> 00:04:49,960
+three $3,000 on 100K account.
+
+69
+00:04:49,960 --> 00:04:52,560
+You just withdraw that profit.
+
+70
+00:04:52,560 --> 00:04:54,440
+Don't go for more.
+
+71
+00:04:54,440 --> 00:04:55,720
+Trust me, don't go for more.
+
+72
+00:04:55,720 --> 00:04:58,400
+Just get these tiny profits and get out.
+
+73
+00:04:58,400 --> 00:05:04,000
+go and buy another challenge phase and keep on building your account, your your
+
+74
+00:05:04,000 --> 00:05:07,120
+funded account, right? How many accounts you have? You have to keep on building
+
+75
+00:05:07,120 --> 00:05:12,360
+that. Don't just be stuck on one single account and don't be greedy, right? If
+
+76
+00:05:12,360 --> 00:05:17,960
+you see like do the 3K per month on a 100K account has more than enough guys.
+
+77
+00:05:18,000 --> 00:05:22,760
+That's what I do. That's why you see me taking way too less trades every single
+
+78
+00:05:22,760 --> 00:05:29,960
+month because I'd only need two to three percent. That's it. So when you start out, risk 0.5
+
+79
+00:05:29,960 --> 00:05:36,040
+percent per trade. Once you are in one person or two percent profit. So let's say that you
+
+80
+00:05:36,040 --> 00:05:40,620
+are in two percent profit. You have to risk one percent. Right? If you're in one
+
+81
+00:05:40,620 --> 00:05:45,520
+percent profit, you also risk one person. So let's say you are in one person profit. You
+
+82
+00:05:45,520 --> 00:05:50,920
+lose that trade. It's totally fine. You have your ad back at break even. So now you keep
+
+83
+00:05:50,920 --> 00:05:54,960
+risk is 0.5 to your back at one person. Once you're back at one person
+
+84
+00:05:54,960 --> 00:05:59,320
+percentage, right profits, you risk that one person and go for one to two. And
+
+85
+00:05:59,320 --> 00:06:05,120
+why is that guys? So that's pretty much it about it guys. I really hope
+
+86
+00:06:05,120 --> 00:06:08,920
+that you guys learned something from this course update. Of course, they're
+
+87
+00:06:08,920 --> 00:06:12,800
+gonna be more course updates in the future. But for now, this is what you
+
+88
+00:06:12,800 --> 00:06:18,760
+need to become an independent trader. Go and back test, back test and back test.
+
+89
+00:06:18,760 --> 00:06:22,680
+don't go on the live charts right you need to back test you need to be confident
+
+90
+00:06:22,680 --> 00:06:28,760
+I'll see you guys in the next course update and I'll see you guys on YouTube in
+
+91
+00:06:28,760 --> 00:06:35,200
+some days so let me guys hope you guys have a great night or day enjoy and
+
+92
+00:06:35,200 --> 00:06:42,880
+yeah thank you so much for watching and bye bye

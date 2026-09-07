@@ -1,0 +1,137 @@
+[00:00:00] Alright guys, so in this video I will go over the 4 hour auto block trading strategy in detail. I have uploaded a couple of videos on this topic on YouTube but in this video I will explain it in detail. So basically it is an auto flow trading strategy but it is a bit unique to the normal traditional auto flow trading strategy.
+[00:00:30] So this is how we look at it.
+[00:00:34] So number one thing is, look at the autoflow
+[00:00:40] on for our timeframe.
+[00:00:43] Now, when you open the charts,
+[00:00:45] let's say you open your USD, okay?
+[00:00:47] You don't wanna go back.
+[00:00:49] What do you see at the current price, right?
+[00:00:53] What are you seeing?
+[00:00:54] Are you seeing price going up,
+[00:00:56] creating higher highs, higher lows, higher highs?
+[00:00:59] If you see like three higher highs like that,
+[00:01:03] the trend is bullish, okay?
+[00:01:05] And if you see like a market structure shift
+[00:01:09] and then a break of structure like that,
+[00:01:11] then that could be your shift in the market structure
+[00:01:16] or a reversal, okay?
+[00:01:19] Perfectly I would like to see another break of structure
+[00:01:21] like that.
+[00:01:22] So three break of like one break of structure
+[00:01:24] and two break of structures like that.
+[00:01:26] And that would be my trend reversal, specifically for this strategy.
+[00:01:32] So now that you know that, let's say that the auto flow is bullish.
+[00:01:39] Okay. So in real markets, this is not going to look like this.
+[00:01:43] It's not going to be that clean.
+[00:01:44] It's going to look something like, you know, something like that.
+[00:01:50] And then you're going to have this and then you're going to have something like that.
+[00:01:54] Yeah. So you're going to be making,
+[00:01:57] going to see price making hard highs, hard lows, hard highs like that. Cool. So now my point
+[00:02:05] here is the second point here is you have to mark out every single autoblog. So remember
+[00:02:13] the autoblog video that I thought like before like autoblog 2.0, right? You want to mark
+[00:02:18] out every single autoblog. But when you are, remember this thing, okay? For this strategy,
+[00:02:26] when you are looking at the higher time frame,
+[00:02:27] so we are currently looking at the higher time frame, right?
+[00:02:30] So let's say that this down move
+[00:02:33] is consecutive bearish candles.
+[00:02:35] So one, two, three bearish candles, okay?
+[00:02:38] When you're looking at the higher time frame,
+[00:02:40] which is the four hour, you wanna refine it, okay?
+[00:02:43] So let's say there are three candles in this leg here.
+[00:02:46] You wanna mark out the body of the last candle here, okay?
+[00:02:51] So in the auto-lock 2.0,
+[00:02:53] remember we use the body of the candle.
+[00:02:55] So you have three bearish candles, one, two, three.
+[00:02:57] That is a whole audible.
+[00:02:58] But we will define it.
+[00:02:59] We are going to refine it.
+[00:03:00] Okay.
+[00:03:01] We refine it and this is the candle.
+[00:03:03] So not what we are gonna wait for
+[00:03:05] is price to come back into our auto block.
+[00:03:09] Once that happens, we drop down to 15 minute time from.
+[00:03:13] Okay.
+[00:03:14] So you mark out, oops, mark out,
+[00:03:19] OB, near price action.
+[00:03:23] Okay.
+[00:03:24] Wait for price to come back into your OB.
+[00:03:31] Look for market structure shift during kill zone R's and entry during kill zone R's as well.
+[00:03:41] So you wait for price to come back into your auto block.
+[00:03:47] So once that happens, you drop down to 15 minutes timeframe.
+[00:03:50] You look for markers such as shift during
+[00:03:53] Kills on ours now when you're at 15 minute timeframe
+[00:03:57] So we are only using like two time frames for the strategy for our and 15 minutes
+[00:04:02] We're not gonna use any other time frame, okay?
+[00:04:04] For our and 15 minutes so now that you have a marker such a shift on 15 minute timeframe
+[00:04:10] Now you have to use the consecutive bearish candles as your autoblock and
+[00:04:15] Remember this one thing a lot of people don't get this right
+[00:04:19] So if you have something like this price did not take out the low here and then you have let's say a
+[00:04:25] Maybe a break of structure here. There was some structure here in price broke it. That is a low probability setup
+[00:04:30] I want my auto block to take out some sort of liquidity
+[00:04:34] So these are the consecutive bearish candles, right?
+[00:04:37] It if it takes out some form of liquidity could be just be a
+[00:04:41] Like a little low here right it takes out and then you have a marker structure shift now that guys
+[00:04:47] That is a hyper-wilty autoblog and let's say that there is a bigger block here as well
+[00:04:52] right so you know the definition of a bigger blocks right the first candle of this here and
+[00:04:59] the first candle and the first candle is like the of this leg right so this leg right here
+[00:05:05] the first count of this leg and the first candle of the autoblog are
+[00:05:09] In alignment with each other the size is the same here, okay?
+[00:05:13] so
+[00:05:16] You mark out this level right here right this is consecutive bearish candles on 15 minutes
+[00:05:22] Okay, you take your entry
+[00:05:25] Right there and you target one to two
+[00:05:28] You go for one to two for this trading strategy guys, okay, and you got you're gonna have above
+[00:05:34] 58 to 60% wind rate with this strategy. Okay. I'm not gonna say you're gonna have like a 70%
+[00:05:39] Personality person wind rate
+[00:05:41] You're gonna have 50-60% win rate.
+[00:05:44] You are gonna easily pass your FTMO challenges
+[00:05:47] or problem challenges if you follow the strategy correctly.
+[00:05:50] Remember, this works with every single pair.
+[00:05:54] I do not try this with indices.
+[00:05:56] I will comment, you do not try this with indices.
+[00:05:58] You can back test it, but the thing is try with Forex.
+[00:06:02] Every single pair here except these ones.
+[00:06:07] Just use these main ones.
+[00:06:10] So here's the risk management for this strategy.
+[00:06:14] So once the price hits one to one risk to reward,
+[00:06:18] let's say price hits one to one risk to reward.
+[00:06:20] You move your stop loss to break even.
+[00:06:23] And then you keep the trade open till one to two is hit.
+[00:06:27] That way it is like the least,
+[00:06:30] anxiety, like I would say it's the anxiety-free
+[00:06:32] hitting strategy guys.
+[00:06:36] It's quite rule-based and one more thing.
+[00:06:38] So let's do this.
+[00:06:40] Okay, boom, boom, boom.
+[00:06:42] So let's say the trend is bullish, right?
+[00:06:46] This strategy does not require break of structure
+[00:06:49] for the auto block to be valid, okay?
+[00:06:51] So it does not have to break the high over here, right?
+[00:06:59] And then you would consider this as your POI or auto block.
+[00:07:03] No, if you know that the trend is bullish,
+[00:07:06] you mark out every single bearish candle
+[00:07:10] below the price action. So let's say that this is a bearish candle, right?
+[00:07:15] And the bullish candle closes above it. So this is the bearish candle and this is the bullish candle,
+[00:07:21] right? Even that is a valid auto block. So you wait for price to come back into this auto block.
+[00:07:30] You drop down to 15 minute timeframe. You look for market structure shift. It's going to happen
+[00:07:34] something like that. You take your entry and boom. So let's say there was like, let's do this,
+[00:07:42] something like that. Okay. This is a bearish candle, right? And after that you have a bullish candle
+[00:07:55] and the body of the bullish candle closes above the body of the bearish candle. Wicks don't matter.
+[00:08:02] So if the body closes above the bearish candle, right, bearish candles body, then that is a valid
+[00:08:12] demand zone or an auto block price comes back as long as this
+[00:08:18] as long as the low the wick is not violated. So let's say there's the wick of this auto block, right?
+[00:08:24] So you keep looking for market structure shift until this level is broken or this level is violated.
+[00:08:32] Once that happens, that auto block becomes invalid.
+[00:08:35] However, let's say that you have an auto block here.
+[00:08:39] Okay? Maybe you have an auto block here.
+[00:08:41] So you choose the body of the candle.
+[00:08:44] Oops, my bad.
+[00:08:46] You choose the body of the candle like that.
+[00:08:49] Cool.
+[00:08:50] And then you look for markers, structure shift.
+[00:08:53] On the smaller timeframe.
+[00:08:55] And you take your entry.
+[00:08:56] Couple one to two.
+[00:08:57] Simple as that.
+[00:08:59] I'll give you guys a couple of examples.
+[00:09:01] And then I'll end the video.

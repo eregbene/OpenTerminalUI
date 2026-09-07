@@ -1,0 +1,887 @@
+1
+00:00:00,080 --> 00:00:10,480
+Alright guys, in this video I will teach you how to use STEM and Deviation Projections. Sand deviation is a very, very powerful tool. You can
+
+2
+00:00:10,480 --> 00:00:29,280
+measure your accumulation phases, actually not the accumulation phase, but you can measure the manipulation phase, and then you can also measure the expansion phase, and then you can measure your reversals or continuations. This is very, very powerful, and
+
+3
+00:00:29,280 --> 00:00:33,360
+We use this with a power of three.
+
+4
+00:00:33,360 --> 00:00:39,000
+So remember one thing that every single candle has a power of three.
+
+5
+00:00:39,000 --> 00:00:42,880
+It's going to have accumulation, manipulation and distribution.
+
+6
+00:00:42,880 --> 00:00:46,880
+Whenever you see a candle, it's going to have a wick, right?
+
+7
+00:00:46,880 --> 00:00:49,560
+Either to do one side or both sides.
+
+8
+00:00:49,560 --> 00:00:52,880
+So it's going to have a wick here, could have a wick here.
+
+9
+00:00:52,880 --> 00:00:55,560
+Right? So let's say this was the opening price.
+
+10
+00:00:55,560 --> 00:01:00,560
+Price manipulates to the upside and then expands to the downside. So that is called power of three
+
+11
+00:01:00,880 --> 00:01:04,960
+Now what if I told you that by standard deviation projections you can mayor the
+
+12
+00:01:05,680 --> 00:01:12,340
+Manipulation so you will know where the manipulation phase ends and you will also know where the expansion ends
+
+13
+00:01:12,620 --> 00:01:17,960
+So you can look to take both trades or you can look to take the trade after
+
+14
+00:01:20,200 --> 00:01:23,400
+The manipulation now keep in mind that
+
+15
+00:01:23,400 --> 00:01:27,720
+that we trade this with autoflow.
+
+16
+00:01:27,720 --> 00:01:30,320
+So if the autoflow is bearish,
+
+17
+00:01:30,320 --> 00:01:34,720
+we primarily want to see a manipulation
+
+18
+00:01:34,720 --> 00:01:36,320
+to the BICIDE liquidity.
+
+19
+00:01:36,320 --> 00:01:39,240
+So I want to see price go up, manipulate,
+
+20
+00:01:39,240 --> 00:01:43,360
+and then expand to the downside.
+
+21
+00:01:43,360 --> 00:01:46,120
+So when you combine autoflow with this,
+
+22
+00:01:46,120 --> 00:01:48,920
+then your win-win-win will significantly improve.
+
+23
+00:01:48,920 --> 00:01:51,240
+So what exactly is standard deviation?
+
+24
+00:01:51,240 --> 00:01:52,280
+Right?
+
+25
+00:01:52,280 --> 00:01:59,930
+So let's assume that, and also, I personally use this with
+
+26
+00:01:59,930 --> 00:02:03,710
+Borrow3, but you can also use this with key levels.
+
+27
+00:02:03,710 --> 00:02:09,670
+So this could be, let's say that there is a key level here.
+
+28
+00:02:09,670 --> 00:02:12,670
+Could be a hard time from auto block, right?
+
+29
+00:02:12,670 --> 00:02:14,390
+Could be a friendly gap.
+
+30
+00:02:14,390 --> 00:02:22,630
+And price goes into your key level,
+
+31
+00:02:22,630 --> 00:02:24,870
+and then gives you a market structure shift.
+
+32
+00:02:26,470 --> 00:02:32,190
+Now to mayor where the price is going to go from here, what you can do is use
+
+33
+00:02:32,190 --> 00:02:41,190
+your Fibonacci tool, use from the top to the high. So use it from the last high
+
+34
+00:02:41,190 --> 00:02:49,670
+to the last low. That was formed before market structure shift. Now let me turn
+
+35
+00:02:49,670 --> 00:03:01,430
+on some numbers here. So it's going to be 1.5 and this should be okay. So this is the key
+
+36
+00:03:01,430 --> 00:03:09,270
+level. Price goes into the key level gives you a shift in the market structure. So now look
+
+37
+00:03:09,270 --> 00:03:16,910
+at this negative 2 and negative 2.5% level. Also make sure you copy all these numbers.
+
+38
+00:03:16,910 --> 00:03:23,670
+your focus on the negative two and negative two point five. So I think let's just do this
+
+39
+00:03:23,670 --> 00:03:39,260
+like that. Okay. So the negative two and negative two point five remember that. Look at the
+
+40
+00:03:39,260 --> 00:03:45,220
+liquidity level below the negative two level. What is a significant liquidity pool? It could
+
+41
+00:03:45,220 --> 00:03:54,640
+be a low, could be a high. So this is negative two below that. But do we have this liquidity
+
+42
+00:03:54,640 --> 00:04:03,470
+level. This is going to be your final target level, if that makes sense. So you will be taking
+
+43
+00:04:03,470 --> 00:04:11,000
+your entry from the Fair Valley Gap, whatever is presented to you or auto block. And you
+
+44
+00:04:11,000 --> 00:04:19,940
+take your take profit level once this liquidity pool is hit. Or just to be even safer,
+
+45
+00:04:19,940 --> 00:04:26,480
+what I sometimes do is I take my profits at the negative two lines. So this over here.
+
+46
+00:04:26,480 --> 00:04:32,840
+Now this level here is from where price is going to reverse.
+
+47
+00:04:32,840 --> 00:04:41,000
+So whenever this level inside this level price can reverse from this level.
+
+48
+00:04:41,000 --> 00:04:47,160
+But if there are targets that are not met, if the price has some business that is left
+
+49
+00:04:47,160 --> 00:04:51,680
+out, so in this scenario it is this liquidity level, most of the time it's going to take
+
+50
+00:04:51,680 --> 00:04:54,480
+out that liquidity and then reverse.
+
+51
+00:04:54,480 --> 00:05:00,920
+Now price can also expand even further to negative 4 level.
+
+52
+00:05:00,920 --> 00:05:05,280
+And this happens when there is a significant target for price to achieve.
+
+53
+00:05:05,280 --> 00:05:14,770
+So there could be a higher level of liquidity pool down there near this level.
+
+54
+00:05:14,770 --> 00:05:20,850
+So price can take out this level here as well.
+
+55
+00:05:20,850 --> 00:05:30,190
+But mostly price will reverse from the negative 2 and negative 2.5 level.
+
+56
+00:05:30,190 --> 00:05:32,990
+So let's talk about the silver bullet zones.
+
+57
+00:05:32,990 --> 00:05:38,990
+So negative 1 and negative 1.5 inside this level.
+
+58
+00:05:38,990 --> 00:05:45,590
+So once you get like a market structure shift and an entry, now if you don't want to enter
+
+59
+00:05:45,590 --> 00:05:52,070
+directly from here to increase your wind rate, once price hits the negative 1 and negative
+
+60
+00:05:52,070 --> 00:05:59,790
+1.5 in between here, it should not go below the negative 1.5 level inside this box.
+
+61
+00:05:59,790 --> 00:06:07,870
+goes into this level and once it does that you mark out any PD array that is there so it could
+
+62
+00:06:07,870 --> 00:06:14,190
+be a friendly gap here could be a breaker block could be an auto block. Once you take your entry
+
+63
+00:06:15,310 --> 00:06:22,990
+price will rush towards the main target that is why it is called standard deviation silver bullet
+
+64
+00:06:22,990 --> 00:06:32,590
+entry. Also when price goes into this level, it significantly confirms that price will not head
+
+65
+00:06:32,590 --> 00:06:40,350
+towards the main target. So ideally, I will not hold till negative 4 because it is very risky.
+
+66
+00:06:41,710 --> 00:06:47,230
+I will just take my profit at negative 2 or if there's a closed target, so there could be
+
+67
+00:06:47,230 --> 00:06:51,790
+you know, a literally level below the negative 2, which could be just right around here, or it could
+
+68
+00:06:51,790 --> 00:06:59,070
+be here. Once price does take that out, I'm out of the trade. Now, I will take out some
+
+69
+00:06:59,070 --> 00:07:05,070
+partial. So maybe price breaks this level. I will take some partial here, grow big
+
+70
+00:07:05,070 --> 00:07:12,910
+agreement, right? I'll grow a breakeven here. And yeah. Now, let's talk about how we actually
+
+71
+00:07:12,910 --> 00:07:19,630
+use this with power of three. All right. So in this video, I will teach you a strategy that is
+
+72
+00:07:19,630 --> 00:07:26,990
+included in my upcoming course update. So this strategy uses daily power of three and standard
+
+73
+00:07:26,990 --> 00:07:34,190
+deviation projections. This happens every single day. So the setup is going to be there every
+
+74
+00:07:34,190 --> 00:07:39,310
+single day. So I want you guys to watch the entire video to in order to understand this whole
+
+75
+00:07:39,310 --> 00:07:47,230
+strategy. So 95% of the candles are going to have a week either to do one side or both sides,
+
+76
+00:07:47,230 --> 00:07:53,390
+Right only five percent of the candles will not have a wig and a complete body of that makes sense
+
+77
+00:07:54,350 --> 00:07:56,350
+So we want a trade
+
+78
+00:07:58,220 --> 00:08:02,340
+When we have a wig and then we have expansion to the downside
+
+79
+00:08:02,340 --> 00:08:05,960
+So the wig is mostly a manipulation move
+
+80
+00:08:06,660 --> 00:08:08,460
+Was the manipulation is over?
+
+81
+00:08:08,460 --> 00:08:15,000
+We want to get into the trade somewhere around here and then take the entire trade or example
+
+82
+00:08:15,000 --> 00:08:22,880
+I mean take the entire expansion to read down side if that makes sense right so let's assume that this
+
+83
+00:08:23,800 --> 00:08:25,800
+candle is a
+
+84
+00:08:25,800 --> 00:08:27,800
+bearish
+
+85
+00:08:27,800 --> 00:08:29,800
+Daily candle, okay
+
+86
+00:08:30,360 --> 00:08:39,560
+So all you have to do is mark out the daily candle opening price now once you have marked out the daily candle opening price
+
+87
+00:08:39,560 --> 00:08:42,500
+You have to drop down to five minute timeframe
+
+88
+00:08:42,500 --> 00:08:49,780
+Once you drop down to 500 times from you will have your opening price right now
+
+89
+00:08:49,780 --> 00:08:59,060
+the price will first of all manipulate okay so let's do let's remove this for
+
+90
+00:08:59,060 --> 00:09:06,980
+now and we have we will see price consolidate for some time and then we will
+
+91
+00:09:06,980 --> 00:09:12,260
+have a market structure shift and then we will have a manipulation which as I
+
+92
+00:09:12,260 --> 00:09:19,060
+it before is going to be a week, right? We will see a manipulation move. Now, the goal here
+
+93
+00:09:19,060 --> 00:09:24,820
+is to my year, the manipulation. We need to know where the manipulation is going to end. And
+
+94
+00:09:24,820 --> 00:09:32,660
+to do so, we use standard deviation projections. So user Fibonacci and use your Fibonacci from the
+
+95
+00:09:32,660 --> 00:09:41,060
+last low and last high that was formed before market structure sheds. So that is the opening
+
+96
+00:09:41,060 --> 00:09:49,380
+price, I want to see price go below this level. Okay, first off, I want to see price go and dip
+
+97
+00:09:49,380 --> 00:09:54,340
+below here and then give me a market structure shift. Now it can dip and give me a market
+
+98
+00:09:54,340 --> 00:10:00,340
+structure shift above the opening price, but it has to go down to some degree. Okay, for example,
+
+99
+00:10:00,340 --> 00:10:05,380
+here, here and here, it went down and then gave you a market structure shift. All right, so you use
+
+100
+00:10:05,380 --> 00:10:11,780
+Use your Fibonacci from the low to the high and you will get these projections.
+
+101
+00:10:11,780 --> 00:10:17,140
+So you can copy these numbers just to save all this just in case you want to copy these.
+
+102
+00:10:17,140 --> 00:10:22,060
+Alright, once you have these copied now you have to put your focus on the negative 2,
+
+103
+00:10:22,060 --> 00:10:25,900
+negative 2.5 and negative 4.
+
+104
+00:10:25,900 --> 00:10:29,380
+So we are first of all mering the manipulation move.
+
+105
+00:10:29,380 --> 00:10:38,260
+So once price goes to goes above negative 2, you have to start looking for a market structure
+
+106
+00:10:38,260 --> 00:10:47,020
+shift because from here onwards price will now reverse and expand towards its original direction
+
+107
+00:10:47,020 --> 00:10:48,940
+if that makes sense.
+
+108
+00:10:48,940 --> 00:10:53,940
+So over here we had a shift in the market structure, right?
+
+109
+00:10:53,940 --> 00:10:57,620
+And now we are projecting the manipulation move.
+
+110
+00:10:57,620 --> 00:11:04,860
+So here it can either, the manipulation move can either end above, just above negative 2,
+
+111
+00:11:04,860 --> 00:11:11,000
+it can end above negative 2.5 or it could go even further to negative 4.
+
+112
+00:11:11,000 --> 00:11:13,260
+But most is going to be somewhere around here.
+
+113
+00:11:13,260 --> 00:11:18,180
+Now from here onwards, what you're looking for is a shift in the market structure.
+
+114
+00:11:18,180 --> 00:11:24,620
+Now once you have a shift in the market structure, you have to now mare the expansion
+
+115
+00:11:24,620 --> 00:11:33,580
+move. And to do so, you want to use your Fibonacci from the last high to the last low that was formed
+
+116
+00:11:33,580 --> 00:11:44,220
+before market structure shift. Now, for the target, look below the negative two. And if you have any
+
+117
+00:11:44,220 --> 00:11:49,420
+liquidy level, any significant liquid level, it could be a low, it could be a high below the
+
+118
+00:11:49,420 --> 00:11:56,740
+negative 2, that is your take profit level. Okay? So you can then take your entry from the
+
+119
+00:11:56,740 --> 00:12:03,980
+breaker block or your fair value gap or an auto block. So I usually love to take my
+
+120
+00:12:03,980 --> 00:12:09,620
+entries from auto block. I would take my entry, I would take some partial around some
+
+121
+00:12:09,620 --> 00:12:15,260
+fair value gap that could be here. And then the last take profit level would be this
+
+122
+00:12:15,260 --> 00:12:17,060
+this liquidity level around here.
+
+123
+00:12:19,140 --> 00:12:22,140
+And similarly, if we invert the chart here,
+
+124
+00:12:22,980 --> 00:12:25,460
+and let's do this, to do.
+
+125
+00:12:26,540 --> 00:12:31,540
+So we have, let's say, this is the opening price, right?
+
+126
+00:12:31,540 --> 00:12:34,100
+And we are bullish.
+
+127
+00:12:34,100 --> 00:12:38,340
+We wanna see like the candle expanded bullish, right?
+
+128
+00:12:38,340 --> 00:12:40,100
+So this is what it's gonna look like
+
+129
+00:12:40,100 --> 00:12:42,060
+on the five minute timeframe.
+
+130
+00:12:42,060 --> 00:12:44,260
+We will see consolidation, probably.
+
+131
+00:12:44,260 --> 00:12:47,820
+All you have to do is look for a market structure shift.
+
+132
+00:12:47,820 --> 00:12:50,140
+Once you have a market structure shift,
+
+133
+00:12:50,140 --> 00:12:51,980
+you want to look for,
+
+134
+00:12:51,980 --> 00:12:54,580
+you won't have to admire the manipulation move.
+
+135
+00:12:54,580 --> 00:12:57,420
+So again, from the last high to the last low
+
+136
+00:12:57,420 --> 00:12:59,220
+before market structure shift,
+
+137
+00:12:59,220 --> 00:13:03,260
+price dips into this level, right?
+
+138
+00:13:03,260 --> 00:13:05,860
+And then we get a market structure shift.
+
+139
+00:13:05,860 --> 00:13:07,660
+Then once you get a market structure shift,
+
+140
+00:13:07,660 --> 00:13:10,300
+you wanna mirror the expansion move,
+
+141
+00:13:10,300 --> 00:13:13,060
+and that is gonna be here.
+
+142
+00:13:13,060 --> 00:13:18,380
+This is the liquidity level inside this key zone area above negative two level.
+
+143
+00:13:19,020 --> 00:13:19,340
+Right.
+
+144
+00:13:19,580 --> 00:13:22,140
+This is what you have to, this is like the entire strategy guys.
+
+145
+00:13:22,140 --> 00:13:27,860
+So this is how you can mayor the the wicks the entire daily power of three of that
+
+146
+00:13:27,860 --> 00:13:28,540
+makes sense.
+
+147
+00:13:29,140 --> 00:13:30,220
+This is very easy.
+
+148
+00:13:30,220 --> 00:13:37,540
+I go into more detail in the update, the course update video, but this should be enough.
+
+149
+00:13:37,580 --> 00:13:39,740
+The what I've taught you here, it should be enough.
+
+150
+00:13:39,740 --> 00:13:44,940
+So let me give you guys some examples and then I'll end the video and also my apologies
+
+151
+00:13:44,940 --> 00:13:45,940
+up.
+
+152
+00:13:45,940 --> 00:13:47,100
+There's no face in this video.
+
+153
+00:13:47,100 --> 00:13:48,900
+I'm a little bit sick.
+
+154
+00:13:48,900 --> 00:13:51,740
+But yeah, let's end this video.
+
+155
+00:13:51,740 --> 00:13:54,180
+Alright guys, so here's example number one.
+
+156
+00:13:54,180 --> 00:13:57,820
+Look how I used the cat on the daily town frame and we're going to study today's candle
+
+157
+00:13:57,820 --> 00:14:00,180
+that is still information.
+
+158
+00:14:00,180 --> 00:14:03,740
+So marking out the opening price, let's drop down to five minute down frame and see
+
+159
+00:14:03,740 --> 00:14:05,500
+what happened.
+
+160
+00:14:05,500 --> 00:14:13,420
+going back here. What I can see is this is the opening price and price went up. Gave us
+
+161
+00:14:13,420 --> 00:14:21,900
+this market structure shift, right? But if I use my fib from here to here, price never went down
+
+162
+00:14:21,900 --> 00:14:29,100
+to negative 2 and negative 2.5. But it went up swept the liquidity here, right? And then it gave us
+
+163
+00:14:29,100 --> 00:14:34,060
+a market structure shift by breaking this low. So using our perfect analogy of the last high
+
+164
+00:14:34,060 --> 00:14:39,580
+to the last low. What you can see, price dipped into negative 2 and negative 2.5, but we didn't get
+
+165
+00:14:39,580 --> 00:14:47,260
+a market structure shift. However, price dipped into negative 4, right? And then we had a shift in
+
+166
+00:14:47,260 --> 00:14:51,500
+the market structure. Once we have a shift in the market structure, I can see a clear,
+
+167
+00:14:51,500 --> 00:14:57,900
+fairly gap down here in the discount. Now to my or our expansion move, we want to use our
+
+168
+00:14:57,900 --> 00:15:01,140
+are from the last low to last high.
+
+169
+00:15:02,400 --> 00:15:04,060
+And this is negative two here.
+
+170
+00:15:04,060 --> 00:15:05,460
+Look slightly above it.
+
+171
+00:15:05,460 --> 00:15:08,580
+And we have this high over here.
+
+172
+00:15:08,580 --> 00:15:10,740
+That should be a take profit level.
+
+173
+00:15:10,740 --> 00:15:13,300
+So this would have given you around seven RR
+
+174
+00:15:13,300 --> 00:15:15,300
+if you took your trade from this fair value.
+
+175
+00:15:15,300 --> 00:15:16,140
+Yeah.
+
+176
+00:15:16,140 --> 00:15:19,260
+So let's move on to the next example.
+
+177
+00:15:19,260 --> 00:15:21,580
+All right guys, so here's example of a tool
+
+178
+00:15:21,580 --> 00:15:23,740
+looking at USD CAD on the daily term frame.
+
+179
+00:15:23,740 --> 00:15:24,860
+We're gonna study this candle.
+
+180
+00:15:24,860 --> 00:15:26,740
+So let's mark out the opening price.
+
+181
+00:15:26,740 --> 00:15:29,460
+and then we drop down to five minute time from.
+
+182
+00:15:29,460 --> 00:15:31,220
+Now if I go back here,
+
+183
+00:15:31,220 --> 00:15:32,060
+which you can see,
+
+184
+00:15:32,060 --> 00:15:34,540
+this is the opening price of the candle.
+
+185
+00:15:34,540 --> 00:15:37,500
+Price goes up and gives us a market structure shift.
+
+186
+00:15:37,500 --> 00:15:40,100
+So now we wanna measure our manipulation move.
+
+187
+00:15:40,100 --> 00:15:43,700
+So let's use our fifth from the last high to last slow.
+
+188
+00:15:43,700 --> 00:15:46,020
+Price dipped below the negative 2.5
+
+189
+00:15:46,020 --> 00:15:48,340
+and then gave us a market structure shift.
+
+190
+00:15:48,340 --> 00:15:49,500
+Before market structure shift,
+
+191
+00:15:49,500 --> 00:15:54,420
+we had a small liquidity strip, as you can see right there.
+
+192
+00:15:54,420 --> 00:15:57,420
+And afterwards we have a shift in the market structure.
+
+193
+00:15:57,420 --> 00:15:59,620
+Now if we look closely, what do we have?
+
+194
+00:15:59,620 --> 00:16:01,420
+We have this variable eGAP.
+
+195
+00:16:01,420 --> 00:16:05,220
+We also have this autoblock here,
+
+196
+00:16:05,220 --> 00:16:08,420
+surprise respected both variable eGAP and the autoblock.
+
+197
+00:16:08,420 --> 00:16:10,420
+Now to measure our expansion move,
+
+198
+00:16:10,420 --> 00:16:13,420
+we can use our favor of the last low to last high.
+
+199
+00:16:13,420 --> 00:16:18,420
+And above the negative two, we have this liquid level.
+
+200
+00:16:18,420 --> 00:16:20,420
+So that is going to be our target level.
+
+201
+00:16:20,420 --> 00:16:23,420
+And yes, you can take your entries during Asian session
+
+202
+00:16:23,420 --> 00:16:28,580
+session for this strategy. So pretty simple guys. Let's move on to the next
+
+203
+00:16:28,580 --> 00:16:33,900
+example. Alright guys, so here is example number three. I'm looking at aUDUD. So
+
+204
+00:16:33,900 --> 00:16:40,140
+this is the open price of the daily candle right here at 17. And you can see
+
+205
+00:16:40,140 --> 00:16:45,580
+that this green candle is both a high and a low. So if you're wondering what
+
+206
+00:16:45,580 --> 00:16:49,040
+indicator I'm using to determine highs and lows, go indicators, type in
+
+207
+00:16:49,040 --> 00:16:56,010
+fractals and the one by original is the one you should use and that's what I'm using.
+
+208
+00:16:56,010 --> 00:17:01,450
+So we're going to use from this is the low, this is the high and this gets a market
+
+209
+00:17:01,450 --> 00:17:02,450
+sugar shift here.
+
+210
+00:17:02,450 --> 00:17:07,930
+So we're going to use our fib from the last low to the last high and you can see price
+
+211
+00:17:07,930 --> 00:17:12,570
+dip above the negative two but we didn't get any market sugar shift here.
+
+212
+00:17:12,570 --> 00:17:17,770
+But then price went above negative 2.5 and from here onwards we had a clean market
+
+213
+00:17:17,770 --> 00:17:21,490
+structure shift and above that we have a very beautiful, very
+
+214
+00:17:21,490 --> 00:17:26,590
+lovely gap. Now to my your our expansion move, we're going to
+
+215
+00:17:26,590 --> 00:17:31,490
+my your from the Fibonacci from the last high to last low and just
+
+216
+00:17:31,490 --> 00:17:36,970
+below the negative two we have this high sorry this low that
+
+217
+00:17:36,970 --> 00:17:40,650
+should be a take profit level. You could have also targeted this
+
+218
+00:17:40,690 --> 00:17:45,410
+but we want to be safe so we just targeted this. So that's
+
+219
+00:17:45,410 --> 00:17:48,770
+pretty much it guys is very easy and mechanical in a way that
+
+220
+00:17:48,770 --> 00:17:52,330
+you can use it every single day on every single pair.
+
+221
+00:17:52,330 --> 00:17:56,090
+Just pick three to four pairs and use this on those pairs.
+
+222
+00:17:56,090 --> 00:17:56,930
+Okay.

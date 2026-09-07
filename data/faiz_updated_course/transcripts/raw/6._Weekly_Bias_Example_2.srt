@@ -1,0 +1,103 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, so here's an example, number two for the weekly buy, so I'm not gonna GPP NCD, so you can see we took out the extended liquidity right here. Where is the draw on liquidity? So this tiny probability gap that you can see right here, if I zoom in, you can see there's this gap right here. That is gonna be a draw on liquidity, so let's drop down to the four hours timeframe, remember for the weekly we go from weekly to four hour timeframe. This is when we took out the liquidity here. That is gonna be, this right here, if it breaks, that is gonna set up.
+
+2
+00:00:30,000 --> 00:00:36,800
+our bias and right here. What do we have? We have a market structure shift right? So now once this broke here
+
+3
+00:00:36,800 --> 00:00:42,640
+that would be our bias till this liquid level is hit. So now where we could have entered from this
+
+4
+00:00:43,520 --> 00:00:48,000
+bread and butter model this fair value gap right here that I see right in the
+
+5
+00:00:49,120 --> 00:00:51,120
+premium and
+
+6
+00:00:52,000 --> 00:00:54,000
+Let's see if price goes there
+
+7
+00:00:54,000 --> 00:00:59,920
+Right there boom price goes into their free body gap and we have our drawn liquidity hit
+
+8
+00:01:00,280 --> 00:01:06,280
+So let's go to the weekly tab from once again. I'm gonna show you another example that just happened
+
+9
+00:01:06,920 --> 00:01:08,920
+Just around here so
+
+10
+00:01:09,480 --> 00:01:16,240
+What happened here we took out extended liquidity here again and we have this free value gap right?
+
+11
+00:01:16,240 --> 00:01:20,140
+We could we could use the zero point five level of this fib because that is
+
+12
+00:01:20,140 --> 00:01:24,860
+is some part of it, the fair value gap is inside the discount.
+
+13
+00:01:24,860 --> 00:01:27,420
+So we should be going to be using 0.5 level.
+
+14
+00:01:27,420 --> 00:01:32,540
+Let's go to the for our timeframe and look for what have happened here.
+
+15
+00:01:32,540 --> 00:01:37,220
+So right here, we can see we have this freck deal low here.
+
+16
+00:01:37,220 --> 00:01:40,580
+And we also have this fair value gap.
+
+17
+00:01:40,580 --> 00:01:42,780
+So price took out the extended liquidity.
+
+18
+00:01:42,780 --> 00:01:45,900
+We have a market structure shift setting our bias.
+
+19
+00:01:45,900 --> 00:01:49,020
+This is the fair value gap that we take our entry from.
+
+20
+00:01:49,020 --> 00:01:53,020
+this for where the gap is filled and this is the only way we got that is left.
+
+21
+00:01:53,020 --> 00:01:58,020
+So we simply take our entry from this for where we get, we put our shop right above this high
+
+22
+00:01:58,020 --> 00:02:02,820
+or you can put it here, it doesn't matter and use target this level which is our draw on
+
+23
+00:02:02,820 --> 00:02:09,140
+liquidity and let's see how this plays out.
+
+24
+00:02:09,140 --> 00:02:12,740
+And price hits our take profit level.
+
+25
+00:02:12,740 --> 00:02:13,980
+Very simple guys.
+
+26
+00:02:13,980 --> 00:02:17,380
+So let's move on to the daily example number two now.

@@ -1,0 +1,25 @@
+Alright guys, so for an example, number 2 for the weekly bias, I'm looking at GPP NCD,
+so you can see we took out the extended liquidity right here, where is the draw on liquidity.
+So this tiny probability gap that you can see right here, if I zoom in, you can see there's
+this gap right here, that is going to be a draw on liquidity, so let's drop down to
+the 4 hours time frame, remember for the weekly, we go from weekly to 4 hour time frame.
+This is when we took out the liquidity here, that is going to be this right here, if it
+breaks, that is going to set our bias, and right here, what do we have, we have a market
+structure shift, right?
+So now, once this broke here, that would be our bias, till this liquidity level is hit,
+so now where we could have entered from this bread and butter model, this fair value gap
+right here, that I see right in the premium, and let's see, if price goes there, right
+there, boom, price goes into the fair value gap, and we have our draw on liquidity hit,
+so let's go to the weekly taproom once again, I'm going to show you another example, that
+just happened, just around here, so what happened here, we took out extended liquidity here again,
+and we have this fair value gap, right?
+We could use the 0.5 level of this fib, because that is some part of it, the fair value gap
+is inside the discount, so we should be using the 0.5 level, let's go to the for our time frame
+and look for what have happened here, so right here, we can see we have this fractal low here,
+and we also have this fair value gap, so price took out the extended liquidity, we have a market
+structure shift, setting our bias, right, this is the fair value gap that we take our entry from,
+right, this fair value gap is filled, and this is the only fair value gap that is left,
+so we simply take our entry from this fair value gap, we put our shop right above this high,
+or you can put it here, doesn't matter, and use target this level, which is our draw on liquidity,
+and let's see how this plays out, and price hits our take profit level, very simple guys,
+so let's move on to the daily example number two now.

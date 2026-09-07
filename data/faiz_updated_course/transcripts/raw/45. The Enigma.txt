@@ -1,0 +1,211 @@
+All right, everybody. So this is the closest thing to Enigma. Now, I know actually he says
+there is an Enigma, but
+There is no Enigma, but this thing that I'm about to teach you right now is the closest thing to Enigma and
+If you use this model correctly, I promise you you can actually make shit ton amount of money, okay?
+Now I have a lot of videos on YouTube. I have a lot of models in
+My courses in my first course we have models in this one we have models, but this is
+what I trade I
+Have never revealed this technique before so I'm just gonna close this here. So if you refer back to
+the the one-minute range a strategy on NAS 100 I
+Thought you how to trade ranges right on the one minute
+But the problem that arises with this with that model is that
+Let's suppose if price pushes in one direction
+So to identify the range we first have to see a move to the upside or to the downside
+So let's suppose that price went up, right? So that becomes our range high
+So I want to teach you the best way to trade ranges, okay? And
+If you understand this correctly, I promise you you will not need anything else and this is basically how I trade
+Most of the time all right when this setup is present. I'm going to take it regardless of my bias regardless of the order flow
+I do not care about that
+So let's suppose that price pushes in one direction that is your range high
+But the problem is that how do you actually identify the range low because what can price do is just keeps pulling back, right?
+So is this the range low?
+Or is this the range low right and you're gonna get faked out again and again most of the time
+So how do you actually identify the range low because for a range to be valid?
+We must have a range high and a range low, but
+It's hard to identify the range low right, but I'm going to teach you the method and that is exactly the juice of this course, okay?
+So all you have to do
+Is look for a market structure shift. Now once you have a market structure shift, right?
+This low over here caused a market structure shift. So
+This low becomes range low. This is a valid range low
+Not this low or not this low
+But this low and this low caused what a market structure shift, right?
+low low low low high low low and break in the structure and
+This is where we have our range level now
+We are simply waiting for price to either take take out the range low or range high
+Ideally, I want to see the range low first taken out
+Because because because in the in the in the on a high time frame
+We could be going up right because we had an initial move to the upside. So
+Ideally, I want to see this happen, but it is not necessary
+It is just it's just going to increase your windowed by five percent at max
+Okay, but you can see if price takes out high or low and then you can target the opposite liquidity
+So range low range high right over here. So let's suppose that price comes down and it takes out
+The range low, okay, so it works on all time frames
+But I trade it on 15 minute and above
+15 minute time frame is the best and above you can also trade all right a one hour is very good four hours very good
+Daily time frame breaks very well if you want to identify daily bias as well
+So range high range low range low was determined after we got a market structure shift now
+Once the range low is taken we have to look for a market structure shift, right?
+So let's suppose that we get a market structure shift now
+Market structure shift when we get it we have to wait for price to come back above the range
+This is very important market structure shift is not going to do anything by itself
+We have to wait for price to close above the range the range low
+We have to see price go up and close around here now
+All you got to do is take your entry from the autoblock. So this right here consecutive down closed candles
+That is your autoblock and from here you are going to take your entry
+Okay, you're going to put your stock right below this low over here now for the risk management
+This is a very important and if you skip the step the strategy will not work for you very simple
+Okay, so we have to use our fit from the range high to range low
+Now you have to copy these settings and you have to enable 0.79 level as well now
+Your initial entry is going to be here
+you are going to take a
+Partial at 0.5 level and you're also going break even when price hits the 0.5 level
+So when price goes up and hits the 0.5 level you're taking one partial alright
+Then what can happen is price will pull back slightly and then it will push up now
+sometimes
+0.79 should be your main target because often what price will often do is it will go to the 0.79 level and then it will reverse
+okay, if
+Your your you know your narrative is bullish then you hold tail negative
+Sorry than one level the range high okay, or what you can do is take one partial at 0.5
+The other at 0.79 and then close your entire position at one or
+You simply just take one partial at 0.5 and then you let the trade running until the range high is taken out
+very simple very mechanical and
+For the peers right peers. What does it work with really well?
+So I'm going to give you guys some pairs and assets right but before we do that
+I'm going to teach you the opposite example. So where we shot it right so let's assume that if I remove this this this this
+Okay, perfect. We have the range low range high and let's suppose that price takes out
+The range high right all we are doing afterwards is looking for a market structure shift, okay
+Then we are looking to take our entry from the autoblock. So that is going to be the consecutive up closed candles
+Right you are going to take your short position from this autoblock stop right above the high and
+Again, we are going to use
+From range low to range high right and we're gonna get the 0.79 level here 0.5 level here then you take your entry
+one partial at 0.5 go break even then you can close your entire trade at 0.79 or
+You hold till range low, okay, and and basically that's how the strategy works perfect, okay now
+Let's suppose that
+What makes this set up a low probability setup and I'm going to explain that right now
+So let's suppose that price goes to 0.5 level
+Before giving you an entry so you get a market structure shift
+But you don't get a retest of the autoblock and price goes to the 0.5 level and below
+then the setup becomes very low probability and if
+Price goes to the 0.79 level without giving you an entry then the setup becomes entirely invalid
+So we took out the range high we closed below the range which is very important. We have to close below the range
+Okay, we cannot get a market structure somewhere around here
+and you then you cannot take an entry from there you have to wait for price to close back into the range and
+Ideally, I do not want to see price go way up like that and then come back
+Then your stop loss gonna be massive and it just makes no sense right
+so now that we know how to trade and identify the range high and range low I'm gonna give you guys some examples and
+then we'll
+And the video but let's suppose that you price pushes down in one direction, right?
+So how do you basically identify range high now?
+We have range low right price pushes down in one direction
+That is your range low and then you have to look for a range high and you get it once you get a market structure shift
+So over here we have a higher high high low higher high high low higher high and then we finally get a market structure shift
+Right and this could be like of any low right it doesn't have to be significant low
+So let's suppose if price creates a low somewhere around here if it breaks then that is a valid
+Cause for this to become a range high as well
+I'm gonna show you examples and then you will understand what I'm trying to say
+But when you get a market structure shift that becomes your range
+High because oftentimes what you will see whenever you get a market structure shift and then you take your entry
+And then you lose a trade you ask yourself why did this not work out and then this is very simple prices just engineering a range
+Okay, it's engineering range and that's all it's doing every single time
+Well, of course not in the trending market, but when price starts to consolidate. That's what it's doing
+So let's assume that price takes out the range low you get a market shift close above the range autoblock entry and boom
+Just like that. So let me give you guys some examples now
+Okay for the peers and assets and crypto that it works with so it works with all the crypto, you know
+assets and pairs right
+Every single one of them. I don't care whether it's low cap or high cap
+It works with every single crypto coin
+Okay, you can trade anything and the best time frame if you want to sculpt and you want to be an intraday trader
+Is the 15-minute time frame you can trade the one hour a four hour daily as well and even weekly if you are a swing trader
+but in this example you can see we have the BNB USDT and also
+It works with NAS100 right it works with your USD and gold as well
+I suggest you avoid trading any other pair with it. Just stick to your USD
+NAS100 and
+Crypto every single crypto coin. It's gonna work phenomenally. So
+Price pushes up in one direction. That is your range. What?
+Range high now, we have to identify the range low. So is this a range low?
+I want to ask you a simple code. Is this a range low right here?
+Is this a range low? No, why because it didn't break any structure. We didn't get a market structure ship, right?
+So we have to wait and then you can see price pushes up and then it breaks this structure
+This gives us a market structure shift. So
+This right here becomes our range low
+So we have range high range low and then afterwards what happens? We look for a market structure ship
+Right there and our entry from the autoblocks
+So if I turn on the executions here, you can see I took this trade myself
+Entry was around somewhere here stops somewhere around here and at the range low I closed my position
+So you can see how well this works. Let me give you guys another example
+All right, so here is another example looking at sand USDT and I have the range high marked out here
+price pushes up in one direction and
+To identify the range low we have to look for a market structure shift. So we have a lower low lower high lower low
+And then afterwards we have a market structure shift. Okay. This is not a range low
+This is a range low. Why because this low caused a market structure shift to the upside?
+So what happens we mark this out as our range low now?
+We are simply looking for a price to take out the range lower range high and you can see price takes out range low
+You get a market structure shift and that is our autoblock
+But you can take your entry from a little discount because the autoblock is big and you need to have a good
+Rich reward ratio. So if I turn on the executions here
+You can see I entered somewhere around here my stop was somewhere around here because I believed price will not go here
+This was a tight range. So in this scenario, I put my stop here, but I recommend you always put it here
+I'm okay with losing trades guys
+But if you are someone who is not okay with losing trades, then please do put your stop here long here TP here
+I'm out and I'm just going about with my day. Let me give you guys another example
+All right, so this is an example with forex and the high probability ranges on forex and
+NAS 100 are gonna form pre Asia session. So
+The you know the no session price, right? So in this from this area to this area
+Price will form a high probability range or within the Asian range
+So we have a push to the downside, right? So we have range low price pushes back up
+We need to identify range high and we do so by identifying a market structure shift
+So we have a higher high high low high high low and then a higher high then we get a market structure shift right here
+So this becomes our range high right very simple then you can see price goes up
+Takes out the range high we look for a market structure shift
+And then we have this auto block price taps into this auto block
+Oops my bad right there, and you can see the push to the downside and then price goes back down again
+Goes up again. I don't care what it does, but I am out of the market and then this setup is complete
+Let's move on to another example
+So here is another example with your USD we push down we create a range low over here
+We can go up and look closely. We have a hard high
+hard low
+Higher high high low and then a higher high and then afterwards we have a market structure shift
+So this becomes our range high so we have range low and then we have a range high and then look what happened afterwards
+We take out the range low and then we push back up
+Price gives us a market structure shift and if you look closely this low was protected price never came below it
+So that was your entry you put up stop you could have put your stop here, right?
+And you can see how well it was but it was not the cleanest setup
+But you can see that let's suppose that you took your entry from the auto block stop right below here
+You target this level that would have given you 2.81 rr
+So you can see the power of this strategy guys like I said before
+This is the closest thing that comes to a nigma. There's no other stuff a thing called a nigma guys trust me on this
+I've been trading for like
+so many years now and
+This though this way of trading is one of the best ways and I personally use this every single day
+Mostly with crypto, but if there's a set of present on forex or indices I traded right away. Let's move on to next example
+All right guys, this is an example with nasa 100 price pushes down pre issue session
+You mark out the issue low
+Then we wait for a range high formation. So high high high low
+high high
+High low and then a higher high and then you can see we'll wick through this level
+So this becomes a range high
+Because this high caused a market structure shift to the downside
+Then we take out the range high and then we look for a market structure shift
+So high high high low higher high
+Market structure shift, but notice what happens here price didn't close below the range. So we wait for it that happens right there
+And then look at this
+The autoblock right here. This is the highest candle right up close candle
+Tap into it
+And price goes right to the range low and then from there onwards. I don't care what price does our setup is complete
+Let me give you guys one more example
+All right guys, this is the last example i'm looking at
+Us dt and you can see we have a push to the upside. So that is our range high
+And then we are looking for a market structure shift. So we have a lower low
+You can see president take out the low. So that is not a valid market structure shift
+We need to see lower low lower high lower low and then a market structure shift. Okay
+So price goes down once again, right and then we have this market structure shift right here. We also broke the structure. So
+So this level becomes our range
+Low so we have a range high range low
+Then price sweeps this high high high low higher high
+Then a shift in the market structure. We have a fair value gap
+And you can take your entry from the 50% of the autoblock as well
+Or on the retest of the range high
+You can see this would have been somewhere your entry would have been somewhere around here stops right above the high
+And you can see how well this played out
+Price takes out liquidity and then it pushes somewhere else. I don't care, but our play is done here
+So that was it guys. Thank you for watching. I'll see you guys in a couple of weeks

@@ -1,0 +1,228 @@
+{
+  "source": "F:\\new faiz\\35. 4 Hour OB Trading Strategy.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 202.2458125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 33.36,
+      "text": " Alright guys, so here is the example number one for this strategy. Okay, so now look at this. We have been bullish here, then we have been bearish, but we respected the OTE level, which is the 0.705 and 0.79 level. Okay, after that, what we did have was this shift in market structure, right? And then we had marked out this,"
+    },
+    {
+      "start": 33.36,
+      "end": 38.4,
+      "text": " OB here and then we got a perfect reaction from this level. Okay, so now our"
+    },
+    {
+      "start": 39.6,
+      "end": 42.8,
+      "text": " Narrative we know that price could be going up from here. Okay"
+    },
+    {
+      "start": 43.28,
+      "end": 45.5,
+      "text": " because we have been respecting the"
+    },
+    {
+      "start": 46.6,
+      "end": 51.52,
+      "text": " PD areas right here that discounted zone. We also had a shift in market structure"
+    },
+    {
+      "start": 51.52,
+      "end": 56.24,
+      "text": " We also been creating high high high high high high high high high high high high high high"
+    },
+    {
+      "start": 56.24,
+      "end": 58.68,
+      "text": " And then we have this low low lower high"
+    },
+    {
+      "start": 58.68,
+      "end": 65.04,
+      "text": " lower low right so if I if I had like another a lower low here then I would"
+    },
+    {
+      "start": 65.04,
+      "end": 70.44,
+      "text": " consider the trend to be bearish but since we have this here we are still"
+    },
+    {
+      "start": 70.44,
+      "end": 76.08,
+      "text": " bearish a bullish sorry okay so now look at this guys we have this bearish"
+    },
+    {
+      "start": 76.08,
+      "end": 80.76,
+      "text": " candle right and this candle the body of this candle closed above the body of"
+    },
+    {
+      "start": 80.76,
+      "end": 84.32,
+      "text": " this bearish candle so what I'm gonna do is I'm gonna mark out the body of"
+    },
+    {
+      "start": 84.32,
+      "end": 91.6,
+      "text": " this candle. Let's go back to 15 minute. And as you can see, we are now in the auto block."
+    },
+    {
+      "start": 91.6,
+      "end": 98.88,
+      "text": " So this is the structure that I'm going to see broken. And as you can see, the body closed"
+    },
+    {
+      "start": 98.88,
+      "end": 106.68,
+      "text": " above this level. So now these consecutive bearish candles also took out this liquidity here."
+    },
+    {
+      "start": 106.68,
+      "end": 112.68,
+      "text": " You see this low here price, the auto block took out this liquidity. So now we have these"
+    },
+    {
+      "start": 112.68,
+      "end": 120.12,
+      "text": " consecutive bearish candles. So now there's also this free value gap. So now"
+    },
+    {
+      "start": 120.12,
+      "end": 124.24,
+      "text": " that is a perfect entry gap and also look at this. We have a breaker block here."
+    },
+    {
+      "start": 124.24,
+      "end": 128.32,
+      "text": " L'or, L'or, L'or, L'or, L'or, L'or. And this is what I mean when the"
+    },
+    {
+      "start": 128.32,
+      "end": 132.96,
+      "text": " auto block and breaker block are in alignment with each other. You look at the"
+    },
+    {
+      "start": 132.96,
+      "end": 140.32,
+      "text": " closing price and the opening price of this candle. It just goes back down and"
+    },
+    {
+      "start": 140.32,
+      "end": 142.6,
+      "text": " And the size is the same here."
+    },
+    {
+      "start": 142.6,
+      "end": 146.76,
+      "text": " Now you can simply look for a long position here."
+    },
+    {
+      "start": 146.76,
+      "end": 152.04,
+      "text": " Put your stop right below the slope and go for one to two."
+    },
+    {
+      "start": 152.04,
+      "end": 153.04,
+      "text": " Cool."
+    },
+    {
+      "start": 153.04,
+      "end": 156.96,
+      "text": " And as you can see the marker such a shift happened during kills on ours."
+    },
+    {
+      "start": 156.96,
+      "end": 159.08,
+      "text": " Okay, that happened during London session."
+    },
+    {
+      "start": 159.08,
+      "end": 160.96,
+      "text": " So let's see what happens."
+    },
+    {
+      "start": 160.96,
+      "end": 162.28,
+      "text": " We filled in this early gap."
+    },
+    {
+      "start": 162.28,
+      "end": 163.44,
+      "text": " We had our entry."
+    },
+    {
+      "start": 163.44,
+      "end": 164.84,
+      "text": " The body was respected here."
+    },
+    {
+      "start": 164.84,
+      "end": 167.44,
+      "text": " The bodies did not close below this autoblog."
+    },
+    {
+      "start": 167.44,
+      "end": 169.16,
+      "text": " And let's see how this plays out."
+    },
+    {
+      "start": 169.16,
+      "end": 173.24,
+      "text": " We hit our take profit level and if I play this through, you can see the price is still"
+    },
+    {
+      "start": 173.24,
+      "end": 174.24,
+      "text": " going."
+    },
+    {
+      "start": 174.24,
+      "end": 176.76,
+      "text": " And this happened today."
+    },
+    {
+      "start": 176.76,
+      "end": 177.76,
+      "text": " Literally it to happen today."
+    },
+    {
+      "start": 177.76,
+      "end": 182.2,
+      "text": " It happens every single day guys."
+    },
+    {
+      "start": 182.2,
+      "end": 185.88,
+      "text": " The main thing is that you have to identify the autoflow."
+    },
+    {
+      "start": 185.88,
+      "end": 192.2,
+      "text": " If you can successfully do that, you are like in the right direction to become extremely"
+    },
+    {
+      "start": 192.2,
+      "end": 194.48,
+      "text": " profitable."
+    },
+    {
+      "start": 194.48,
+      "end": 199.48,
+      "text": " So I hope this example was somewhat educational."
+    },
+    {
+      "start": 199.48,
+      "end": 201.48,
+      "text": " I'll give you guys another example."
+    }
+  ]
+}

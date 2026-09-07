@@ -1,0 +1,29 @@
+[00:00:00] Okay guys, I want to give you an example of confirmation entries. So on the one hour timeframe, you have this change of collector and we also have this break of structure here. So, oops, my bad. What's happening, man? Okay, so we have change of collector and also we have break of structure, right? And there we have our order block with F
+[00:00:14] man. Okay, so we have change of lecture and also we have break of structure, right? And
+[00:00:19] there we have our autoblock with fair value gap. So this is our POI. Now when price comes
+[00:00:28] back into your POI, you want to drop down to the five minute timeframe. And you look
+[00:00:33] for market structure shift. So did we have a market structure shift here? No, we did not
+[00:00:38] break above this level. So I want to wait for a body closure. Okay, not the week. So
+[00:00:46] over here, we see price. Okay, so we have another liquidity sweep. So let's assume
+[00:00:57] okay, so I believe we have market structure shift. So this is our market structure shift, right?
+[00:01:02] And we have this fair value gap with OB. You can see. And if I take my entry from this
+[00:01:09] this level, put my stop right below this level. And we look to target maybe this high here,
+[00:01:20] these equal highs. Right? So see what happens. So I'm going to put this at three. And I'm
+[00:01:33] going to buy right here. Let's just beat this up. Okay, never mind. And I'm going to sell
+[00:01:41] it here, hat around this level. So let me just beat this up actually. And price just keeps
+[00:01:57] on going up. And eventually, yep, we hit our take profit. So I'm not sure what happened
+[00:02:11] here. How do I close this out? Alright, I'm just going to close this here. So you can
+[00:02:18] see that we, if we use confirmation entries, it's going to be really, really beneficial.
+[00:02:25] Right, so this trade right here was not doing the kill zone, but this was just to show
+[00:02:33] you as an example that how well it can work.
+[00:02:37] So make sure that your entries are always during kills and hours.
+[00:02:42] It's going to increase your win rate.
+[00:02:44] I'm not saying that you can not take a trade ever, like without being in a kill zone,
+[00:02:52] If you take kill zone into consideration
+[00:02:56] the chances are higher and
+[00:02:59] The algorithms are active at that time, but this right here. This was an exception and
+[00:03:04] This was also just for for an example. I just looked at the chart and I found it worked out pretty well
+[00:03:11] And this is a hindsight as well, but it does actually work so you can see that we came into our py
+[00:03:18] We had a market structure shift here and we took our entry from the freeable
+[00:03:23] to gap and it took its time and took out these level. This was our take profit level.
+[00:03:28] That would have been 9.3 risk to reward and this was beautiful.

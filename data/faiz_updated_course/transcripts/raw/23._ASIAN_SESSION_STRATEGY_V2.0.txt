@@ -1,0 +1,33 @@
+[00:00:00] Alright guys, so this is going to be the last lecture of this course update. There will be plenty of course updates in the future. I will also be teaching you guys the ICT true 23 mentorship when it's out. I'm gonna watch all of that content and I'm gonna upload it here. Like the important and the things that actually matter. And I'll, it will skip all the talking and you don't have to be watching like the long time.
+[00:00:30] videos that I see is going to put out. But in this last funnel lecture, we're going to learn
+[00:00:36] about Asian session strategy version 2.0. So you want to use fx and Asian session rage just
+[00:00:51] as the old one. Right. So what you want to look for is Asian session, right? So simply you
+[00:01:02] will you're going to have Asian session like this and look for POIs below the Asian low and above
+[00:01:16] the Asian high. So this does not require daily buys or markets, short, short or whatever. So let's
+[00:01:24] is zoom that whoops that was terrible. Okay. So let's assume you have a POI right here, which
+[00:01:43] could be an auto block. Okay. And once the Asian session is over, which is going to be,
+[00:01:52] I believe, um, to M New York time, right? And the indicators are going to show you when
+[00:02:05] The session is over.
+[00:02:06] So after that, when the session is over,
+[00:02:11] you wanna see price go to that POI.
+[00:02:15] So essentially you're looking at 15 minute first, 15 minute,
+[00:02:19] you market the POI on 15 minute.
+[00:02:23] And when the price reaches your POI,
+[00:02:25] you drop down to one minute timeframe.
+[00:02:27] Look for market structure shift.
+[00:02:28] Take your entry from free money gap,
+[00:02:30] break a block, BPR, free money gap,
+[00:02:33] whatever everyone you wanna use.
+[00:02:35] and kaboo. Is that simple guys? And similarly, let me remove this. And this if you have,
+[00:02:50] well, terrible again. Okay. So wait a minute, you have an auto block here, right? On the 15 minute
+[00:03:06] timeframe, make sure it's the first candle of the free value gap. We're going to use that type of
+[00:03:11] auto block in this strategy. Okay. And not like the ones like the way we use in auto flow.
+[00:03:18] So simply once the Asian is over, you wait for price to just drop down into your POI
+[00:03:24] and drop down then you want to drop down to one minute. Look for market structure shift,
+[00:03:29] take your entry and boom. Very simple. Okay. And unlike the Asian session version 1.0,
+[00:03:39] you can look for entry or you know price and come into your POY during the
+[00:03:46] London session as well okay so in the old strategy we had to look for shift in
+[00:03:53] market structure during the lunch hour okay but this version two can work in
+[00:04:00] the London session as well the starting hours of London session okay the
+[00:04:03] starting hours of London session price comes into your POI you get mark
+[00:04:07] shift with displacement, entry and boom. So I'm going to give you guys a couple of examples.

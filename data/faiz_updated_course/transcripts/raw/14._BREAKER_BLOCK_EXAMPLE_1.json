@@ -1,0 +1,88 @@
+{
+  "source": "F:\\new faiz\\14. BREAKER BLOCK EXAMPLE 1.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 83.0345625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, first of all apologies if you hear some noise in the background, currently it's daytime, so yeah. So anyways, here's an example for a breaker block, so you can see if we have lower, lower, lower, lower, lower. So this is the last candle before the move to the downside and then we have market structure shift. So now you can see that this brick, so now what you can do is you can either mark out the breaker,"
+    },
+    {
+      "start": 30.0,
+      "end": 33.32,
+      "text": " with the wig or just mark out that body, okay,"
+    },
+    {
+      "start": 33.32,
+      "end": 34.68,
+      "text": " from the body."
+    },
+    {
+      "start": 34.68,
+      "end": 36.24,
+      "text": " I usually mark out from the body,"
+    },
+    {
+      "start": 36.24,
+      "end": 38.32,
+      "text": " but you can do wig as well."
+    },
+    {
+      "start": 38.32,
+      "end": 43.12,
+      "text": " So notice that how we have fairly gap here as well."
+    },
+    {
+      "start": 43.12,
+      "end": 48.16,
+      "text": " And that is overlapping with the breaker block here, right?"
+    },
+    {
+      "start": 48.16,
+      "end": 53.16,
+      "text": " So price comes back and it hits this breaker block"
+    },
+    {
+      "start": 53.16,
+      "end": 55.76,
+      "text": " and then it goes up, right?"
+    },
+    {
+      "start": 55.76,
+      "end": 59.12,
+      "text": " So you can see that breaker blocks are going to hold"
+    },
+    {
+      "start": 59.12,
+      "end": 65.72,
+      "text": " they are very powerful when they is fairly gap overlapping with the breaker."
+    },
+    {
+      "start": 65.72,
+      "end": 70.74,
+      "text": " So you can see we had markers such as shift right here and we had our entry here."
+    },
+    {
+      "start": 70.74,
+      "end": 76.16,
+      "text": " There was also fairly gap and also we had breaker blocks."
+    },
+    {
+      "start": 76.16,
+      "end": 80.12,
+      "text": " So that was a perfect setup."
+    },
+    {
+      "start": 80.12,
+      "end": 82.12,
+      "text": " So let me give you guys another example."
+    }
+  ]
+}

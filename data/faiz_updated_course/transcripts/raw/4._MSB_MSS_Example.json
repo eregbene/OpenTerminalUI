@@ -1,0 +1,148 @@
+{
+  "source": "F:\\new faiz\\4. MSB & MSS Example.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 169.923625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright, so let me show you some examples on the real chart. So let's suppose that we are in a downtrend and then we are looking to identify market structure breaks. Okay? We are looking for market structure breaks. Okay? So as you can see, price made a new lower low, lower high, lower low, lower high, lower low, lower high, and then lower low,"
+    },
+    {
+      "start": 30.0,
+      "end": 36.96,
+      "text": " high then we made a lower low once again. So now this type of market structure is"
+    },
+    {
+      "start": 36.96,
+      "end": 45.24,
+      "text": " considered to be a market structure break okay when price continuously makes"
+    },
+    {
+      "start": 45.24,
+      "end": 52.64,
+      "text": " new lower lows and the trend is continuing that is considered to be a market"
+    },
+    {
+      "start": 52.64,
+      "end": 58.92,
+      "text": " structure break okay so as you can see right around this level price broke"
+    },
+    {
+      "start": 58.92,
+      "end": 63.9,
+      "text": " through it that is considered to be market structure break. Then we pull it back and then"
+    },
+    {
+      "start": 63.9,
+      "end": 69.08,
+      "text": " price broke through that previous low low and you can see that this is considered to be market"
+    },
+    {
+      "start": 69.08,
+      "end": 75.64,
+      "text": " structure break as well. Now what is market structure shift? So as you can see that we"
+    },
+    {
+      "start": 75.64,
+      "end": 82.12,
+      "text": " were continuously making low lows, lower highs, lower lows, lower highs, but then we made"
+    },
+    {
+      "start": 82.12,
+      "end": 93.18,
+      "text": " a higher high, higher low and higher high. Now this is considered to be now this break right"
+    },
+    {
+      "start": 93.18,
+      "end": 100.26,
+      "text": " around here when price breaks through this level, which is the previous low, we made a"
+    },
+    {
+      "start": 100.26,
+      "end": 106.9,
+      "text": " lower, lower, high, lower, lower, high, lower, lower, lower low. And then price reversed"
+    },
+    {
+      "start": 106.9,
+      "end": 116.64,
+      "text": " Breaking the previous low of the bearish trend. Now this is considered to be a market structure shift"
+    },
+    {
+      "start": 117.34,
+      "end": 125.82,
+      "text": " Very very easy guys. I hope you understood what I thought you guys. So this is considered to be market structure shift"
+    },
+    {
+      "start": 126.62,
+      "end": 128.3,
+      "text": " so I"
+    },
+    {
+      "start": 128.62,
+      "end": 130.62,
+      "text": " hope this is clear and"
+    },
+    {
+      "start": 130.62,
+      "end": 136.34,
+      "text": " And as you can see, the price has continued up for a bit, but then it made another, as"
+    },
+    {
+      "start": 136.34,
+      "end": 139.78,
+      "text": " you can see, price made another market structure shift."
+    },
+    {
+      "start": 139.78,
+      "end": 143.66,
+      "text": " So we made a higher high, higher low, higher high."
+    },
+    {
+      "start": 143.66,
+      "end": 151.82,
+      "text": " And then we created this lower low, lower high, and then lower low, lower high, lower"
+    },
+    {
+      "start": 151.82,
+      "end": 152.82,
+      "text": " low."
+    },
+    {
+      "start": 152.82,
+      "end": 153.82,
+      "text": " Okay."
+    },
+    {
+      "start": 153.82,
+      "end": 156.34,
+      "text": " So you can see how we identify the markets."
+    },
+    {
+      "start": 156.34,
+      "end": 158.74,
+      "text": " Now this was this move right here."
+    },
+    {
+      "start": 158.74,
+      "end": 161.78,
+      "text": " I'm going to price broke this level."
+    },
+    {
+      "start": 161.78,
+      "end": 165.46,
+      "text": " Then it is considered be a market structure shift."
+    },
+    {
+      "start": 165.46,
+      "end": 168.78,
+      "text": " So I hope this is clear now and I'll see you guys in the next video."
+    }
+  ]
+}

@@ -59,6 +59,7 @@ Module layout:
 """
 from __future__ import annotations
 
+import os
 from typing import Any
 
 from backend.mt5_strategies.context import StrategyContext
@@ -74,12 +75,17 @@ from backend.mt5_strategies.families.ema_trend import evaluate_ema_trend
 from backend.mt5_strategies.families.fx_relative_momentum import evaluate_fx_relative_momentum
 from backend.mt5_strategies.families.session_liquidity_breakout import evaluate_session_liquidity_breakout
 from backend.mt5_strategies.families.mean_reversion import evaluate_mean_reversion
+from backend.mt5_strategies.families.bsi_v2_engine import evaluate_bsi_v2_active as evaluate_bsi
+from backend.mt5_strategies.families.bsi_v3_engine import evaluate_bsi_v3_profile_gated
 from backend.mt5_strategies.families.momentum import evaluate_momentum
 from backend.mt5_strategies.families.smc_continuation import evaluate_smc_continuation
 from backend.mt5_strategies.families.support_resistance_bounce import evaluate_support_resistance_bounce
 from backend.mt5_strategies.families.trend_pullback import evaluate_trend_pullback
 from backend.mt5_strategies.families.vwap_reversion import evaluate_vwap_reversion
 from backend.mt5_strategies.models import StrategySignal
+
+if os.getenv("BSI_BASELINE_V3_UPDATED_FAIZ_ENABLED", "").strip().lower() in {"1", "true", "yes", "on"}:
+    evaluate_bsi = evaluate_bsi_v3_profile_gated
 
 EVALUATORS: dict[str, Any] = {
     "ema_trend": evaluate_ema_trend,
@@ -96,6 +102,7 @@ EVALUATORS: dict[str, Any] = {
     "donchian_trend_follow": evaluate_donchian_trend_follow,
     "session_liquidity_breakout": evaluate_session_liquidity_breakout,
     "fx_relative_momentum": evaluate_fx_relative_momentum,
+    "bsi": evaluate_bsi,
 }
 
 
@@ -165,4 +172,5 @@ __all__ = [
     "evaluate_session_breakout",
     "evaluate_vwap_reversion",
     "evaluate_wyckoff",
+    "evaluate_bsi",
 ]

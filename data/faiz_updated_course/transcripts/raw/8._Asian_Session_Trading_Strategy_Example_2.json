@@ -1,0 +1,98 @@
+{
+  "source": "F:\\new faiz\\8. Asian Session Trading Strategy Example 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 110.4573125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 18.78,
+      "text": " Alright guys, so here's another example of the Asian session, liquidity trading strategy. So as you can see, price was making lower, lower, high, lower, lower, high, lower, lower, high, and then we stripped the F"
+    },
+    {
+      "start": 18.78,
+      "end": 28.06,
+      "text": " flip the Asian session low during the lunch break right and then what we had here was a market"
+    },
+    {
+      "start": 28.06,
+      "end": 37.82,
+      "text": " structure shift okay and it just broke up with a lot of momentum okay so what do we have here"
+    },
+    {
+      "start": 37.82,
+      "end": 46.62,
+      "text": " now is we got some of the imbalance around here alright and we got this autoblog around here now if"
+    },
+    {
+      "start": 46.62,
+      "end": 51.82,
+      "text": " If you mark out the very extreme level, you will still have got an entry because as I said"
+    },
+    {
+      "start": 51.82,
+      "end": 58.62,
+      "text": " before, you must keep your entry point a bit above the actual entry point to deal with"
+    },
+    {
+      "start": 58.62,
+      "end": 59.94,
+      "text": " these spreads."
+    },
+    {
+      "start": 59.94,
+      "end": 60.94,
+      "text": " Okay?"
+    },
+    {
+      "start": 60.94,
+      "end": 67.38,
+      "text": " Or, worst case scenario, you can have entered at around this autobock, okay?"
+    },
+    {
+      "start": 67.38,
+      "end": 71.38,
+      "text": " And you would have your stop loss below this level."
+    },
+    {
+      "start": 71.38,
+      "end": 75.38,
+      "text": " And then you would target the Asian session."
+    },
+    {
+      "start": 75.38,
+      "end": 81.46,
+      "text": " Hi, this would have been a six-reshow-what, but if you had your entry around here and you"
+    },
+    {
+      "start": 81.46,
+      "end": 86.98,
+      "text": " start up here, this would have been a 13-restro-world trade."
+    },
+    {
+      "start": 86.98,
+      "end": 92.38,
+      "text": " So guys, this is like a FTM or challenge passed with one single trade, okay?"
+    },
+    {
+      "start": 92.38,
+      "end": 95.74,
+      "text": " So what I'm teaching right now, it's incredible."
+    },
+    {
+      "start": 95.74,
+      "end": 99.74,
+      "text": " You will not find it anywhere on the YouTube or any other courses."
+    },
+    {
+      "start": 99.74,
+      "end": 107.02,
+      "text": " a few people know about this but this is the deal guys crushed me alright"
+    }
+  ]
+}

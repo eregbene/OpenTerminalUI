@@ -1,0 +1,516 @@
+1
+00:00:00,000 --> 00:00:07,040
+Alright guys so welcome to course update 4.0 this update is going to actually
+
+2
+00:00:07,040 --> 00:00:13,760
+make you a monster okay this update has all the advanced ICT concepts and if you
+
+3
+00:00:13,760 --> 00:00:18,240
+understand these concepts guys trust me you will become an independent trader
+
+4
+00:00:18,240 --> 00:00:23,640
+you will not need anyone else okay you will be able to identify daily bias
+
+5
+00:00:23,640 --> 00:00:28,520
+multi bias weekly bias you will be able to create your own model I will teach
+
+6
+00:00:28,520 --> 00:00:33,480
+you a couple of new strategies that are insanely profitable and insanely
+
+7
+00:00:33,480 --> 00:00:39,600
+powerful but let's talk about our first topic of the course update which is the
+
+8
+00:00:39,600 --> 00:00:44,000
+monthly weekly and daily bias now before we get into the monthly weekly daily
+
+9
+00:00:44,000 --> 00:00:48,240
+bias you want to know about external liquidity and internal liquidity so
+
+10
+00:00:48,240 --> 00:00:52,880
+over here as you can see I have marked out this high as external liquidity I've
+
+11
+00:00:52,920 --> 00:00:59,800
+also marked out this low as external liquidity so basically price and this
+
+12
+00:00:59,800 --> 00:01:04,800
+right here this fair value gap in the discount so this is the equilibrium of
+
+13
+00:01:04,800 --> 00:01:09,280
+this move so if you use your Fibonacci from this to this that is your
+
+14
+00:01:09,280 --> 00:01:13,640
+equilibrium right and below any fair value gap below that is an internal
+
+15
+00:01:13,640 --> 00:01:21,440
+liquidity so what market does is it market only moves in two ways okay it
+
+16
+00:01:21,520 --> 00:01:27,720
+either takes out external liquidity right and seeks for internal liquidity right
+
+17
+00:01:27,720 --> 00:01:32,720
+so market will take out external liquidity and it will the drawn
+
+18
+00:01:32,720 --> 00:01:39,000
+liquidity would be the fair value gap in the discount okay that is one thing
+
+19
+00:01:39,000 --> 00:01:43,280
+that market does and the second and the last thing that market is is it moves
+
+20
+00:01:43,360 --> 00:01:52,560
+from internal sorry guys it moves from internal to external right here so this
+
+21
+00:01:52,560 --> 00:02:00,200
+right here is an external liquidity here as well so basically we are moving from
+
+22
+00:02:00,200 --> 00:02:05,840
+external to internal and from internal to external I repeat again external
+
+23
+00:02:05,840 --> 00:02:12,520
+liquidity is any high or low and internal liquidity is any fair value gap in the
+
+24
+00:02:12,560 --> 00:02:17,920
+discount or premium that is what you need to know about
+
+25
+00:02:17,920 --> 00:02:24,600
+external and internal liquidity okay so now how do we find our let's talk about
+
+26
+00:02:24,600 --> 00:02:31,880
+monthly bias okay so for monthly bias we want to be using three time frames
+
+27
+00:02:31,880 --> 00:02:37,360
+okay and for like for weekly bias we will use two times as well and for daily we
+
+28
+00:02:37,400 --> 00:02:43,400
+would use three time frames as well and you will be learning a new strategy in
+
+29
+00:02:43,400 --> 00:02:49,480
+this video as well so keep watching okay so how do we determine the monthly
+
+30
+00:02:49,480 --> 00:02:55,680
+bias it's very simple you mark out the closest high or low and if you see that
+
+31
+00:02:55,680 --> 00:03:00,040
+prices take on an extended liquidity look below it where is the fair value gap
+
+32
+00:03:00,040 --> 00:03:05,320
+in the discount okay so you want to use your frame from bottom to top on the
+
+33
+00:03:05,360 --> 00:03:11,120
+monthly time frame first okay we go to the monthly first once price has taken
+
+34
+00:03:11,120 --> 00:03:16,200
+out extended liquidity now we need to have a confluence that price is not
+
+35
+00:03:16,200 --> 00:03:20,000
+going to reverse into internal liquidity okay we can't just simply short from
+
+36
+00:03:20,000 --> 00:03:26,360
+here because we have no confirmation so once you have a purge of external
+
+37
+00:03:26,360 --> 00:03:31,280
+liquidity on the monthly time frame you want to drop down to the daily time
+
+38
+00:03:31,320 --> 00:03:35,600
+frame and once you drop down to daily time frame you want to look for a market
+
+39
+00:03:35,600 --> 00:03:40,680
+structure shift once you have a market structure shift guys that is your
+
+40
+00:03:40,680 --> 00:03:48,560
+confirmation that we are gonna seek this internal liquidity okay now you have
+
+41
+00:03:48,560 --> 00:03:53,600
+your high time frame and now you have your daily time frame supporting that
+
+42
+00:03:53,600 --> 00:03:57,880
+narrative as well that we are gonna go down into the internal liquidity right
+
+43
+00:03:57,920 --> 00:04:03,440
+here which is the fair value gap in the discount so once you have the market
+
+44
+00:04:03,440 --> 00:04:10,360
+structure shift what you want to do is you can literally take your entry from
+
+45
+00:04:10,360 --> 00:04:16,160
+that autoblock okay that is your like simple model okay you can simply use
+
+46
+00:04:16,160 --> 00:04:19,840
+this as a strategy once you get a market structure shift take your entry from
+
+47
+00:04:19,840 --> 00:04:25,960
+here take portions along the way your main target would be here okay although
+
+48
+00:04:25,960 --> 00:04:31,840
+when we go into different chapters of this course update I'm gonna teach you
+
+49
+00:04:31,840 --> 00:04:37,680
+my specific strategies that I use with this by combining daily bias and all but
+
+50
+00:04:37,680 --> 00:04:41,440
+for now what we are learning is how to identify your monthly bias so once you
+
+51
+00:04:41,440 --> 00:04:46,440
+have a market structure shift on the daily time frame your monthly bias would
+
+52
+00:04:46,440 --> 00:04:53,240
+be bearish until this internal liquidity is hit now of course it's not gonna be
+
+53
+00:04:53,240 --> 00:04:58,400
+hit like hundred percent of the time but most of the time price will draw
+
+54
+00:04:58,400 --> 00:05:03,080
+into the fair value gap that is in the discount and that is unmitigated the
+
+55
+00:05:03,080 --> 00:05:10,000
+fair value gap has to be unmitigated okay that is very important so you have a
+
+56
+00:05:10,000 --> 00:05:16,320
+market structure shift right and that is pretty much your level so once you have
+
+57
+00:05:16,320 --> 00:05:19,800
+a market structure shift you can look for simply take your entry from the
+
+58
+00:05:19,840 --> 00:05:26,720
+revenue gap you can use ABC strategy you can use ABCD trading strategy you can
+
+59
+00:05:26,720 --> 00:05:31,080
+use whatever you want once you have a market structure shift your bias is to
+
+60
+00:05:31,080 --> 00:05:37,600
+the downside now your entries and executions must be on the one hour time
+
+61
+00:05:37,600 --> 00:05:43,320
+frame okay when you're using ABC or ABCD whatever it is I'm gonna talk about
+
+62
+00:05:43,320 --> 00:05:46,920
+those later but once you have a market structure shift you can take your entry
+
+63
+00:05:46,920 --> 00:05:49,720
+on the daily time frame as well because we got the market structure shift
+
+64
+00:05:49,720 --> 00:05:54,360
+surprise is gonna go down anyways right so you can take your entry from I don't
+
+65
+00:05:54,360 --> 00:05:59,880
+know this fairly gap over here or could be an auto block here just remember your
+
+66
+00:05:59,880 --> 00:06:06,400
+target is over here and similarly for weekly bias we use these time streams
+
+67
+00:06:06,400 --> 00:06:09,920
+for the higher time frame is gonna be one week so our high time frame is
+
+68
+00:06:09,920 --> 00:06:17,040
+weekly our intermediate time is like four hour and our lowest time frame is
+
+69
+00:06:17,040 --> 00:06:21,040
+gonna be 15 minutes so similarly what you're looking for is price to take out
+
+70
+00:06:21,040 --> 00:06:25,160
+some form of high or low once practice has taken out higher low on the weekly
+
+71
+00:06:25,160 --> 00:06:30,920
+time frame you are simply looking for a market structure shift on a four hour
+
+72
+00:06:30,920 --> 00:06:36,360
+time frame now the thing is price cannot keep going up right like that and then
+
+73
+00:06:36,360 --> 00:06:41,560
+give you a market shift you want to see like a an instant market structure shift
+
+74
+00:06:41,560 --> 00:06:46,240
+runs price takes out liquidity okay you can yeah so you have to train your eyes
+
+75
+00:06:46,240 --> 00:06:49,640
+I'm gonna show you the examples and then that would be clear on how you can you
+
+76
+00:06:49,640 --> 00:06:56,360
+know differentiate it so once you have like a market structure shift on the
+
+77
+00:06:56,360 --> 00:07:00,160
+four hour time frame you can simply take your entry from the four hour time frame
+
+78
+00:07:00,160 --> 00:07:05,800
+itself or you can use 15 minute time frames for other strategies but don't
+
+79
+00:07:05,800 --> 00:07:09,640
+worry about that I'm gonna teach you that stuff later on but what we need to
+
+80
+00:07:09,640 --> 00:07:14,240
+know is once you get the market structure shift your bias is now set okay
+
+81
+00:07:14,240 --> 00:07:18,840
+your bias for the weekly your weekly bias is gonna be bearish until the
+
+82
+00:07:18,840 --> 00:07:23,160
+internal liquidity is hit right here so let me show you an example how this
+
+83
+00:07:23,160 --> 00:07:27,120
+would look like so let's say price takes out external liquidity on the weekly
+
+84
+00:07:27,120 --> 00:07:32,040
+time frame you drop down to the four hour time frame you mark out any low once
+
+85
+00:07:32,080 --> 00:07:36,280
+price breaks that low you will get a market structure shift so you simply use
+
+86
+00:07:36,280 --> 00:07:42,840
+your fit from top to bottom and look for your entry above the 0.5 level okay so
+
+87
+00:07:42,840 --> 00:07:47,280
+there could be a fairly gap and that is a simple model okay that you can use a
+
+88
+00:07:47,280 --> 00:07:53,840
+strategy but there are better ones I'm gonna teach you so don't worry so right
+
+89
+00:07:53,840 --> 00:07:57,600
+here you can see we get a market structure shift right here over here we
+
+90
+00:07:57,640 --> 00:08:03,400
+take our entry we target this level this fairly gap below the 0.5 level and from
+
+91
+00:08:03,400 --> 00:08:09,640
+here onwards you can see we move from internal to external now moving from
+
+92
+00:08:09,640 --> 00:08:18,320
+internal to external is is I would say is not that high probable if that makes
+
+93
+00:08:18,320 --> 00:08:23,320
+sense for example if you're looking to go from internal to external that would
+
+94
+00:08:23,360 --> 00:08:27,520
+require you to have a very very strong bias like if the auto flow is
+
+95
+00:08:27,520 --> 00:08:35,640
+extremely bullish then you can look for this type of bias setup right so this
+
+96
+00:08:35,640 --> 00:08:42,000
+whole concept this right here even though I knew ABC right this is ABC
+
+97
+00:08:42,000 --> 00:08:46,200
+basically and into the fairly gap and ABC right here and then into the
+
+98
+00:08:46,200 --> 00:08:52,320
+fairly gap or this low here this this was simplified big shout out to the
+
+99
+00:08:52,320 --> 00:08:58,560
+market maker I don't know what's his name the market maker maker or
+
+100
+00:08:58,560 --> 00:09:03,240
+something like that on Twitter and this is a this concept is from him so I want
+
+101
+00:09:03,240 --> 00:09:06,840
+to give a shout out to him credit to him the market maker model I think maker I
+
+102
+00:09:06,840 --> 00:09:11,720
+don't know wait let me just check so I am giving the shout out to the correct
+
+103
+00:09:11,720 --> 00:09:19,880
+person it is basically the the market maker trader okay the MMXM trader big
+
+104
+00:09:19,920 --> 00:09:26,600
+shout out to him so if you want to learn this concept from the the person who
+
+105
+00:09:26,600 --> 00:09:31,280
+like simplified at this you can go and you know learn from here but I'm teaching
+
+106
+00:09:31,280 --> 00:09:36,680
+the exact same thing so basically that is pretty much it you need to know about
+
+107
+00:09:36,680 --> 00:09:40,360
+extended and liquid foil and for the daily bias of course we're gonna use
+
+108
+00:09:40,360 --> 00:09:44,480
+three time frames as well so let's say that this is the daily time frame price
+
+109
+00:09:44,480 --> 00:09:48,920
+takes out extended liquidity on the daily time frame right here right you
+
+110
+00:09:48,920 --> 00:09:51,800
+want to drop down to one hour again and then you want to look for a
+
+111
+00:09:51,800 --> 00:09:55,800
+market such a shift once you have a market such a shift on the hourly time
+
+112
+00:09:55,800 --> 00:10:01,400
+frame you can simply look for your entry on the one hour time frame okay that is
+
+113
+00:10:01,400 --> 00:10:06,960
+your like your simple bread and butter model you can simply use that model to
+
+114
+00:10:06,960 --> 00:10:12,200
+take trades okay but if you want to increase your win rate I mean I wouldn't
+
+115
+00:10:12,200 --> 00:10:16,160
+say win rate but if you want to increase your risk reward ratio you have to use
+
+116
+00:10:16,440 --> 00:10:20,360
+this this time five minutes and I will get to that later in the video in the
+
+117
+00:10:20,360 --> 00:10:24,160
+course okay so don't worry about it once you get the market shift as I said
+
+118
+00:10:24,160 --> 00:10:29,880
+before your bias is confirmed okay price will not breach this high once you get
+
+119
+00:10:29,880 --> 00:10:35,520
+the market structure shift so your target will be here okay but that doesn't
+
+120
+00:10:35,520 --> 00:10:39,520
+mean that you take your trade and you hold the whole trade until internal
+
+121
+00:10:39,520 --> 00:10:43,840
+liquidity is hit we don't know about markets what they're gonna do so just
+
+122
+00:10:43,840 --> 00:10:48,360
+just take your target at a specific level could be 1 to 2 1 to 3 right you
+
+123
+00:10:48,360 --> 00:10:51,280
+just need to know the direction of the market you don't want to target the
+
+124
+00:10:51,280 --> 00:10:56,160
+exact same location which is this okay price can simply just go come down here
+
+125
+00:10:56,160 --> 00:11:00,360
+and then reverse but we are setting up a revised like okay this is gonna be hit
+
+126
+00:11:00,360 --> 00:11:04,720
+so we're gonna trade until you know we are above so basically your entries
+
+127
+00:11:04,720 --> 00:11:10,440
+also entries also must be above the you know the 0.5 level here okay so
+
+128
+00:11:10,440 --> 00:11:16,960
+remember that so now that we have talked about all these things and
+
+129
+00:11:16,960 --> 00:11:23,000
+external and internal liquidity let me give you guys a couple of examples
+

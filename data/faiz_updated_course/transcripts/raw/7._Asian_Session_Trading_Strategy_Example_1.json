@@ -1,0 +1,73 @@
+{
+  "source": "F:\\new faiz\\7. Asian Session Trading Strategy Example 1.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 80.7358125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 31.89,
+      "text": " Alright guys, so here's another example. You can see that we were creating low, low, low, high, low, low, low, high, and then we created this last, lower, low. During the lunch break, as you can see, the London session was over. Sorry, the Asian session was over at the scandal, right? So this next scandal, it just swept the low of the Asian session. And then we had a"
+    },
+    {
+      "start": 31.89,
+      "end": 36.81,
+      "text": " a market structure shift, which is right here or change of character, whatever you want"
+    },
+    {
+      "start": 36.81,
+      "end": 38.13,
+      "text": " to call it."
+    },
+    {
+      "start": 38.13,
+      "end": 41.25,
+      "text": " And then we left, we were left with this imbalance and auto block."
+    },
+    {
+      "start": 41.25,
+      "end": 43.89,
+      "text": " So let me mark this out."
+    },
+    {
+      "start": 43.89,
+      "end": 49.97,
+      "text": " As you can see, we marked this auto block out and this was a perfect, and I mean perfect entry."
+    },
+    {
+      "start": 49.97,
+      "end": 57.13,
+      "text": " Our shop loss would probably go here below this low or around here."
+    },
+    {
+      "start": 57.13,
+      "end": 63.77,
+      "text": " And as usual, we will target the high of the Asian range."
+    },
+    {
+      "start": 63.77,
+      "end": 68.69,
+      "text": " And as you can see, this was a 6.22 risk reward trade."
+    },
+    {
+      "start": 68.69,
+      "end": 71.73,
+      "text": " And as you can see, how perfectly price reverses then."
+    },
+    {
+      "start": 71.73,
+      "end": 75.21,
+      "text": " So this is the best place to take your profits."
+    },
+    {
+      "start": 75.21,
+      "end": 79.49,
+      "text": " And let me give you a few more examples before we move on to the next strategy."
+    }
+  ]
+}

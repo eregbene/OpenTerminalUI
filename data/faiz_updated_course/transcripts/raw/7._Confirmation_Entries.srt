@@ -1,0 +1,503 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, so in this video I'm going to talk about confirmation entries and I did not make a video about confirmation entries in the, you know, my course videos so I thought maybe I should share it with you guys and it's helping me a lot. It has helped me a lot and it's also going to help you a lot with the, with your win rate. Okay, so you are going to miss the trades sometimes but when you're going to take those trades
+
+2
+00:00:30,000 --> 00:00:38,240
+they gonna actually work out. So let's take ABC as an example. So let's say that you are
+
+3
+00:00:39,040 --> 00:00:46,640
+looking at ABC right on a five minute time from. So you have these small little pullbacks
+
+4
+00:00:47,680 --> 00:00:55,120
+then you have this one large pullback and then you have this big pullback. I was sorry, push
+
+5
+00:00:55,120 --> 00:01:04,160
+up again. So textbook ABC right we have taken out the high. So then on the five
+
+6
+00:01:04,160 --> 00:01:08,740
+minute let's say we are looking at the five minute time from right so on the
+
+7
+00:01:08,740 --> 00:01:17,050
+five minute we have a marker structure shift right following all the rules. So
+
+8
+00:01:17,050 --> 00:01:23,470
+you would have your free body gap or auto block marked up here right. So now
+
+9
+00:01:23,470 --> 00:01:29,910
+When you have your favorable gap and auto block marked, you want to drop down to the one minute timeframe or a smaller timeframe.
+
+10
+00:01:32,710 --> 00:01:34,110
+This was on the five minute.
+
+11
+00:01:34,110 --> 00:01:39,110
+So when you're going to drop down to the one minute, you're going to see a structure like this.
+
+12
+00:01:44,010 --> 00:01:50,890
+So on a smaller timeframe, one minute, you also wait for market structure shift through your POI.
+
+13
+00:01:50,890 --> 00:01:55,890
+So on a bigger timeframe we have a BC, right?
+
+14
+00:01:55,890 --> 00:01:58,170
+And then we have a market structure shift
+
+15
+00:01:58,170 --> 00:01:59,170
+on a bigger timeframe.
+
+16
+00:01:59,170 --> 00:02:00,690
+Once you have market structure shift
+
+17
+00:02:00,690 --> 00:02:02,210
+and you mark your POI,
+
+18
+00:02:02,210 --> 00:02:06,970
+you wanna drop down to the smaller timeframe
+
+19
+00:02:06,970 --> 00:02:09,970
+and wait for fractal confirmation, right?
+
+20
+00:02:09,970 --> 00:02:11,530
+You wanna wait for confirmation.
+
+21
+00:02:11,530 --> 00:02:16,090
+So on the one way, you wait for market structure shift again
+
+22
+00:02:16,090 --> 00:02:17,170
+with displacement.
+
+23
+00:02:17,170 --> 00:02:18,410
+And I'm gonna talk about displacement
+
+24
+00:02:18,410 --> 00:02:20,170
+in the coming videos.
+
+25
+00:02:20,170 --> 00:02:25,170
+So then you take your entry from here.
+
+26
+00:02:26,770 --> 00:02:29,530
+After market is received, you take your entry.
+
+27
+00:02:29,530 --> 00:02:31,690
+And this is going to increase the win rate
+
+28
+00:02:31,690 --> 00:02:33,170
+because this is confirmation rate
+
+29
+00:02:33,170 --> 00:02:35,010
+that the auto flow is now bearish.
+
+30
+00:02:35,010 --> 00:02:38,290
+So you can target something like this and can work out.
+
+31
+00:02:38,290 --> 00:02:40,330
+When you are not using confirmation entries,
+
+32
+00:02:40,330 --> 00:02:42,170
+what sometimes can happen is,
+
+33
+00:02:43,170 --> 00:02:46,810
+you have your ABC and you have broke the structure.
+
+34
+00:02:46,810 --> 00:02:52,650
+Price can simply just stop you out.
+
+35
+00:02:52,650 --> 00:02:56,770
+So I think it's better to look for confirmation entries.
+
+36
+00:02:56,770 --> 00:03:01,290
+When you have your ABC setup, you wait for confirmation
+
+37
+00:03:01,290 --> 00:03:02,130
+on smaller time frame.
+
+38
+00:03:02,130 --> 00:03:05,770
+So let's say that you are looking at the ABC on one
+
+39
+00:03:05,770 --> 00:03:10,410
+hour time frame and you have your market structure shift.
+
+40
+00:03:10,410 --> 00:03:14,010
+And then you have a PUI on the one hour time frame.
+
+41
+00:03:14,010 --> 00:03:16,090
+You want to drop down to the five minute time frame.
+
+42
+00:03:16,090 --> 00:03:20,570
+And then you want to look for a confirmation like this.
+
+43
+00:03:20,570 --> 00:03:25,170
+So you have a break on the five minute timeframe.
+
+44
+00:03:25,170 --> 00:03:31,090
+And you have your free body gap or OB here.
+
+45
+00:03:31,090 --> 00:03:33,570
+And then you take your entry from this level,
+
+46
+00:03:33,570 --> 00:03:37,410
+put your stop there, and Kaboom.
+
+47
+00:03:37,410 --> 00:03:41,450
+So this can be used with any strategy that I've taught you
+
+48
+00:03:41,450 --> 00:03:41,970
+guys.
+
+49
+00:03:41,970 --> 00:03:45,010
+So let's assume that we are looking at the autoflow trading
+
+50
+00:03:45,010 --> 00:03:50,710
+strategy. So on the one hour time from we have you know like a change of
+
+51
+00:03:50,710 --> 00:03:54,610
+connector here or market structure shift whatever you want to call it and then
+
+52
+00:03:54,610 --> 00:04:01,810
+we have our auto block here. So when when you have a market structure shift
+
+53
+00:04:01,810 --> 00:04:05,810
+what you want to do is you want to drop down to a smaller time from like 15
+
+54
+00:04:05,810 --> 00:04:11,170
+minute or five minute. I would say I dropped down to 15 minute right so you would
+
+55
+00:04:11,170 --> 00:04:16,530
+have a structure like this then and then you wait for market structure shift on a 15 minute
+
+56
+00:04:16,530 --> 00:04:22,050
+timeframe, right? You break the structure on the 15 minute timeframe. Remember we had a change
+
+57
+00:04:22,050 --> 00:04:27,410
+of connector on a one hour timeframe and then we had air confirmation from the POI from the one
+
+58
+00:04:27,410 --> 00:04:33,170
+RPOI on the 15 minute timeframe. So when you have a market structure shift, you can just take your
+
+59
+00:04:33,170 --> 00:04:40,370
+entry from this level here and you go along here and you put your stop there and
+
+60
+00:04:40,370 --> 00:04:44,990
+Kaboom. It's gonna work out in your favor. So what it does is first of all it
+
+61
+00:04:44,990 --> 00:04:50,470
+just gives you a better wrist-to-award entry and secondly it increases your
+
+62
+00:04:50,470 --> 00:04:58,770
+increases the chances of that trade going in your direction. So you want to
+
+63
+00:04:58,770 --> 00:05:03,050
+consider using the confirmation entry tactic in your,
+
+64
+00:05:03,050 --> 00:05:04,730
+um, in your strategy.
+
+65
+00:05:05,290 --> 00:05:08,610
+Now, this is going to take some backtesting because,
+
+66
+00:05:08,610 --> 00:05:10,090
+uh, for some people,
+
+67
+00:05:10,090 --> 00:05:14,770
+this might not be suitable because sometimes what price will do is, um,
+
+68
+00:05:15,690 --> 00:05:16,810
+let me draw this out, right?
+
+69
+00:05:17,050 --> 00:05:18,650
+So you have your purei here.
+
+70
+00:05:19,330 --> 00:05:21,770
+Right? So let me draw this out.
+
+71
+00:05:22,610 --> 00:05:25,610
+So what's going to happen is you're going to get your, uh,
+
+72
+00:05:25,630 --> 00:05:28,730
+confirmation mark on the shift, but price will not come back.
+
+73
+00:05:28,770 --> 00:05:32,770
+to the lower time for MPUI, your entry point,
+
+74
+00:05:32,770 --> 00:05:34,170
+and it's just gonna keep on going up.
+
+75
+00:05:34,170 --> 00:05:37,450
+So this can happen and you are going to miss out the trade.
+
+76
+00:05:37,450 --> 00:05:41,690
+But what's beneficial, what's the plus amount of this thing
+
+77
+00:05:41,690 --> 00:05:43,650
+is that you're gonna get a better ratio award
+
+78
+00:05:43,650 --> 00:05:47,530
+and you're also going to increase your win rate.
+
+79
+00:05:48,450 --> 00:05:53,450
+So make sure that you take this into consideration.
+
+80
+00:05:54,010 --> 00:05:58,410
+Also, a lot of people mess up this one thing.
+
+81
+00:05:58,410 --> 00:06:06,410
+So you want to go to the indicators and type in ICT kills on.
+
+82
+00:06:06,410 --> 00:06:15,190
+So you are going to have like kills on what is kills on is like the London session and the
+
+83
+00:06:15,190 --> 00:06:19,550
+New York session and there's specific timing that you should be using for your trades
+
+84
+00:06:19,550 --> 00:06:24,110
+because at that time is when the algorithms are active.
+
+85
+00:06:24,110 --> 00:06:26,790
+So you're going to have a kills London kills on and then you're going to have a New York
+
+86
+00:06:26,790 --> 00:06:29,790
+I'm gonna show you the indicator as well.
+
+87
+00:06:29,790 --> 00:06:32,070
+That is gonna show you the kill zones.
+
+88
+00:06:32,070 --> 00:06:37,070
+So your entry must be, so you have like,
+
+89
+00:06:37,310 --> 00:06:40,190
+a break of structure here.
+
+90
+00:06:40,190 --> 00:06:43,070
+So now, sorry, change of particular market
+
+91
+00:06:43,070 --> 00:06:45,830
+to share, you have market structure shift here, right?
+
+92
+00:06:45,830 --> 00:06:49,110
+So what, you don't wanna take your trade
+
+93
+00:06:49,110 --> 00:06:52,430
+outside the kill zone, you wanna take your entry
+
+94
+00:06:53,550 --> 00:06:54,950
+during the kill zone hour.
+
+95
+00:06:54,950 --> 00:06:56,630
+So let's suppose this is London,
+
+96
+00:06:56,630 --> 00:06:57,310
+Kildon, right?
+
+97
+00:06:57,310 --> 00:06:59,250
+So you have your entry and boom.
+
+98
+00:07:00,350 --> 00:07:03,350
+Similarly over here, you wanna wait for,
+
+99
+00:07:05,110 --> 00:07:07,190
+price to give you the entry
+
+100
+00:07:07,190 --> 00:07:10,990
+during the New York Kildon.
+
+101
+00:07:10,990 --> 00:07:12,670
+So this is a must thing.
+
+102
+00:07:12,670 --> 00:07:14,310
+And a lot of people must have stopped
+
+103
+00:07:14,310 --> 00:07:16,590
+they take trades during long,
+
+104
+00:07:16,590 --> 00:07:18,310
+during a wrong timing.
+
+105
+00:07:18,310 --> 00:07:20,710
+And it could be the reason why
+
+106
+00:07:20,710 --> 00:07:23,310
+the trade doesn't work out in your favor.
+
+107
+00:07:23,310 --> 00:07:29,550
+So in this lecture what I've taught you is a confirmation entries, right?
+
+108
+00:07:29,550 --> 00:07:38,750
+And I've also taught as the KillZuns how they are beneficial for your win rate.
+
+109
+00:07:38,750 --> 00:07:44,430
+So if I go here, let me go to the fight minutavre.
+
+110
+00:07:44,430 --> 00:07:48,470
+I have the, yep, so there we have our KillZuns.
+
+111
+00:07:48,470 --> 00:07:56,470
+You can see this is the London Kilzone, and this is the New York Kilzone that you are looking at.
+
+112
+00:07:56,470 --> 00:08:00,470
+So your entry must be between these ours.
+
+113
+00:08:00,470 --> 00:08:04,470
+It's that simple.
+
+114
+00:08:04,470 --> 00:08:11,990
+So you can see that actually for indices, personally I would still be looking to trade till
+
+115
+00:08:11,990 --> 00:08:16,990
+before take my entry before 11.59.
+
+116
+00:08:17,670 --> 00:08:20,990
+But over here, this skills on indicator says that 1040.
+
+117
+00:08:20,990 --> 00:08:25,510
+And also, this is an actual kill zone, right?
+
+118
+00:08:25,510 --> 00:08:26,590
+Which ICT teaches.
+
+119
+00:08:26,590 --> 00:08:31,190
+But for indices, you can go till 11.59.
+
+120
+00:08:31,190 --> 00:08:35,950
+If you get actually, I would correct myself there.
+
+121
+00:08:35,950 --> 00:08:36,870
+I messed up.
+
+122
+00:08:36,870 --> 00:08:45,870
+When the clock hits 12 on indices, if you are in a trade, you should close it immediately because price can reverse.
+
+123
+00:08:45,870 --> 00:08:52,870
+Alright, so the best time would be till 1130. If you get your entry at 1130, that's prime.
+
+124
+00:08:52,870 --> 00:08:57,870
+Okay, you don't want to hold your trade till 12. You want to close it before 12.
+
+125
+00:08:57,870 --> 00:09:01,870
+So yeah, make sure you know that.
+
+126
+00:09:01,870 --> 00:09:08,870
+So yeah, I'll end this lecture here and we'll continue with other tactics.

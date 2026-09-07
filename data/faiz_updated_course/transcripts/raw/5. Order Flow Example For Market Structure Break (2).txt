@@ -1,0 +1,78 @@
+All right guys, so this is an example for the buys.
+Of course, this is hindsight,
+it's not gonna always work.
+And this is, the auto-flow trading strategy
+is not my favorite one, but you can back test it
+and you know, get used to it, if that makes sense, all right?
+So what we have here is that we create a higher high,
+a higher low, and then another higher high.
+So basically, we broke the structure
+and now this is a continuation of a trend, okay?
+And what do we have here?
+Imbalance plus auto-block, but what happens here?
+Price does not hit the auto-block,
+but it hits the imbalance.
+So this is what I say that sometimes I'm gonna take entries
+of the imbalance, sometimes of the auto-block.
+I always take my entry from the imbalance,
+if the imbalance is very short like this, okay?
+So I would take my entry right around here
+and I put my stop plus here
+and I go for this level right around here.
+This would have been a 3.73.
+Now we can see we created another higher high,
+which is this, okay?
+And then we got this imbalance plus the auto-block, okay?
+So now what happens here is that you can see
+we have marked the auto-block,
+but what it did, it just maybe stopped you out.
+But if you wanna be on the safe side,
+what you can do is put your stop below this low.
+Okay, because sometimes, and I'm saying sometimes,
+I'm looking at this at the five minute timeframe, right?
+But on the one minute timeframe,
+there could be another imbalance and auto-block
+around in this week, okay?
+This whole week is a price action as well.
+So maybe on the 30 second timeframe
+or 15 second timeframe, there was an imbalance
+plus auto-block right around here.
+So make sure you put your stop plus here
+just to be on the safe side.
+And as you can see, we go up targeting this high
+and then we broke the structure once again,
+which is right here.
+And then you can see we got the extreme
+fair value gap at this level.
+There's no imbalance here, it's all filled, all filled.
+And we got this auto-block here.
+And you can see we got a perfect entry around this level.
+We would have entered here and boom,
+targeting the high.
+That was a 5.72 risk to reward trade guys.
+Very, very simple guys.
+And yeah, this is how we trade.
+And let me give you another example.
+We broke the structure again.
+So there is the extreme fair value gap around this level.
+So you could have entered from the fair value gap
+or you could have your entry around this auto-block,
+but then you would have missed the entry
+by one people.
+But just to just, I want to tell you guys this one thing,
+you should always put your entry a little
+above your actual entry point to deal
+with the spreads of the broker, right?
+Because sometimes, due to the spreads,
+you will not get your entry if your entry
+is exactly at the auto-block, okay?
+So make sure you always have your entry a little shy
+above the actual entry point.
+And then you can see price went all the way up.
+So we are done with the auto-flow trading strategy,
+my least favorite trading strategy,
+but it can be your most favorite trading strategy, okay?
+So as I said before, in the course,
+you must choose one strategy and work on it.
+You should not try out a lot of other strategies.
+So I'll see you guys in my next trading strategy video.

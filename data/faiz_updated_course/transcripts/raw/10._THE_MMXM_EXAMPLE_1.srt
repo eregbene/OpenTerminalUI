@@ -1,0 +1,123 @@
+1
+00:00:00,340 --> 00:00:30,340
+Alright guys, so here is an example number one of the market maker buy model. So remember we go from external to internal right and every single low or high right or external liquidity is a POI as well. Just like auto block and fair value gaps. If the high or low is taken out that is your POI as well or PD area as well. So remember from external we go to internal right.
+
+2
+00:00:30,340 --> 00:00:36,100
+So there is this fairly gap in that discount so that would have been a retarget now
+
+3
+00:00:36,100 --> 00:00:38,700
+Let's go to the one-hour time frame and study what happened
+
+4
+00:00:41,300 --> 00:00:43,860
+this line here is the purge on
+
+5
+00:00:44,380 --> 00:00:46,380
+the external and
+
+6
+00:00:47,180 --> 00:00:51,460
+Once price took out the liquidity we started identifying the
+
+7
+00:00:54,140 --> 00:01:03,580
+Consolidation phases right so going to the daily time from once again, so let's go just here
+
+8
+00:01:03,580 --> 00:01:09,300
+right this is our drawn look at it this fair value gap going to do you want our
+
+9
+00:01:09,300 --> 00:01:19,240
+timeframe remember we go from what you say from external to internal right so
+
+10
+00:01:19,240 --> 00:01:23,600
+now that is our drawn liquidity that's right here but once price came into our
+
+11
+00:01:23,600 --> 00:01:28,260
+POI we want to start identifying the consolidation phases so we have one
+
+12
+00:01:28,260 --> 00:01:32,160
+consolidation phase here right then we have the second consolidation phase
+
+13
+00:01:32,160 --> 00:01:37,200
+right here. It's really that simple you just have to identify the consolidation
+
+14
+00:01:37,200 --> 00:01:42,680
+phase right and that's pretty much it. So now what you do is you simply look for a
+
+15
+00:01:42,680 --> 00:01:46,960
+shift in the market structure that happens right there there's your auto block
+
+16
+00:01:46,960 --> 00:01:52,640
+so let me mark this out like that. Price taps into the auto block here you know
+
+17
+00:01:52,640 --> 00:01:58,880
+and as you can see we have consolidation here, consolidation here so my target
+
+18
+00:01:58,880 --> 00:02:04,720
+would be this a drawn liquidity which is also the freebelly gap and also a high in this consolidation phase
+
+19
+00:02:04,800 --> 00:02:13,440
+So if I play this through you're gonna see that we eventually hit the take profit level and if I play this through once more
+
+20
+00:02:13,440 --> 00:02:16,720
+You can see that after taking out the
+
+21
+00:02:17,480 --> 00:02:23,120
+freebelly gap we also take out this consolidation phase high giving us a almost
+
+22
+00:02:23,120 --> 00:02:34,180
+1 to 5. So it's really that simple. So if you've spot like
+
+23
+00:02:34,180 --> 00:02:37,540
+consolidation, right, you just mark out one consolidation to
+
+24
+00:02:37,540 --> 00:02:40,840
+consolidation, right? The third one, maybe we had a
+
+25
+00:02:40,840 --> 00:02:44,300
+third one here as well. Yes, this is some form of
+
+26
+00:02:44,300 --> 00:02:47,700
+consolidation. Actually, then we have a manipulation and
+
+27
+00:02:47,740 --> 00:02:51,100
+then distribution to the upside boom and boom. So remember,
+
+28
+00:02:51,100 --> 00:02:54,780
+One price is coming into your POI, right?
+
+29
+00:02:54,780 --> 00:03:00,380
+Tip took out the sell site, and then you had your consolidation phases, and then you had
+
+30
+00:03:00,380 --> 00:03:02,180
+your entry.
+
+31
+00:03:02,180 --> 00:03:03,620
+Let me move on to the next example.

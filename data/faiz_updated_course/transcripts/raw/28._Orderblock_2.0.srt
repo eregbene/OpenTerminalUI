@@ -1,0 +1,299 @@
+1
+00:00:00,620 --> 00:00:30,620
+Hey guys, hope you guys are doing well. This is the very first video of the course of date. In this video, I will teach you about different variations of order blocks and how we can use them. In my last couple of videos on YouTube, you might have noticed that I've been using order blocks in a different way. I'm not using it because they work better than the method that I've taught before. I'm just using it because it's quite simple and it's good for my side.
+
+2
+00:00:30,620 --> 00:00:35,620
+So as you know, this is the old method.
+
+3
+00:00:35,620 --> 00:00:36,620
+Excuse me.
+
+4
+00:00:36,620 --> 00:00:38,620
+So this is the old method, right?
+
+5
+00:00:38,620 --> 00:00:40,620
+If you have lower, lower, lower, high, lower, lower, lower, lower, lower, lower, lower, lower,
+
+6
+00:00:40,620 --> 00:00:43,620
+then you have a martyst of this shift, right?
+
+7
+00:00:43,620 --> 00:00:48,620
+And you have a freeable gap here as I have denoted here, as you can see, freeable
+
+8
+00:00:48,620 --> 00:00:49,620
+gap.
+
+9
+00:00:49,620 --> 00:00:57,620
+So most of the time we used the first candle of the freeable gap as our autoblock, right?
+
+10
+00:00:57,620 --> 00:01:03,140
+You guys must know that because I have taught this before in my course videos and as well on YouTube
+
+11
+00:01:03,700 --> 00:01:06,540
+Now this right here is you have L'Or low
+
+12
+00:01:07,140 --> 00:01:14,540
+L'Or high L'Or low and then mark a structure ship and now these consecutive bearish candles are your autoblock
+
+13
+00:01:15,380 --> 00:01:17,380
+Or is your autoblock?
+
+14
+00:01:17,900 --> 00:01:25,100
+Right, so over here you can see we have used the first candle of the very gap as our autoblock over here
+
+15
+00:01:25,100 --> 00:01:29,740
+You can see we have lower low, lower high, lower low.
+
+16
+00:01:29,740 --> 00:01:33,620
+So this consecutive candles in this last lower low,
+
+17
+00:01:33,620 --> 00:01:36,580
+before Marker structure shift, is your autoblock.
+
+18
+00:01:37,940 --> 00:01:42,540
+Now, now it is for autofool strategy,
+
+19
+00:01:42,540 --> 00:01:47,250
+I'm using this as my autoblock.
+
+20
+00:01:47,250 --> 00:01:50,810
+You know, and for other strategies, I use this.
+
+21
+00:01:50,810 --> 00:01:55,010
+Now, what are the pros and cons of both of these methods, right?
+
+22
+00:01:55,010 --> 00:01:57,730
+This right here is a refined autoblock.
+
+23
+00:01:57,730 --> 00:01:58,570
+Okay?
+
+24
+00:01:58,570 --> 00:02:00,970
+And this is not a refined autoblock.
+
+25
+00:02:00,970 --> 00:02:05,530
+You are going to miss entries when you are going to trade this autoblock.
+
+26
+00:02:05,530 --> 00:02:06,210
+Okay?
+
+27
+00:02:06,210 --> 00:02:08,890
+So let's say price comes back into this level.
+
+28
+00:02:09,850 --> 00:02:12,210
+It's not going to happen all the time.
+
+29
+00:02:12,210 --> 00:02:18,730
+However, the chances that price comes back and it mediates this autoblock right here
+
+30
+00:02:18,730 --> 00:02:23,410
+and then goes back up is higher than the chances of this autoblock.
+
+31
+00:02:23,410 --> 00:02:24,410
+Okay?
+
+32
+00:02:24,410 --> 00:02:29,290
+You're going to have a greater ratio of what when you take you entry from this level,
+
+33
+00:02:29,290 --> 00:02:34,010
+from this auto block, and you're going to have a lower ratio of what if you take you entry from this.
+
+34
+00:02:34,010 --> 00:02:38,490
+So I take my entry from this. Another thing, when you have this type of auto block,
+
+35
+00:02:38,490 --> 00:02:43,690
+fairly gap is not necessary in this leg. Okay? All you need is these consecutive candles,
+
+36
+00:02:44,250 --> 00:02:49,770
+or it could just be a single candle. Okay? It could just be a single candle like that. Okay?
+
+37
+00:02:49,770 --> 00:02:51,770
+It doesn't have to be one or two.
+
+38
+00:02:52,490 --> 00:02:57,370
+But if they're like, let's say, as I said before, if they're like two candles like that,
+
+39
+00:02:57,370 --> 00:03:02,250
+yeah, then that could be, you can take your entry from here or if you want to refine it,
+
+40
+00:03:02,250 --> 00:03:05,930
+of course you can take it from here, but it is going to decrease,
+
+41
+00:03:05,930 --> 00:03:09,130
+it's going to decrease the chances of you getting triggered in the trade.
+
+42
+00:03:09,850 --> 00:03:14,730
+Okay. So now here's the hyperbolic setup for this setup right here.
+
+43
+00:03:14,730 --> 00:03:18,810
+When you have like a breaker block in alignment with this
+
+44
+00:03:19,810 --> 00:03:22,410
+or a block, that is a high probability trade setup.
+
+45
+00:03:22,970 --> 00:03:25,850
+What is a breaker block? You have lower low, lower high, lower low.
+
+46
+00:03:26,330 --> 00:03:32,410
+The candle over here, the first candle of this lower low, you know, it's going to be here.
+
+47
+00:03:32,730 --> 00:03:37,250
+If it is in alignment, let's the size is the same, right?
+
+48
+00:03:37,690 --> 00:03:41,450
+Then that to me is a high probability setup.
+
+49
+00:03:41,450 --> 00:03:42,770
+And then what's gonna happen?
+
+50
+00:03:42,770 --> 00:03:45,290
+Prior to just going to tap into this auto block
+
+51
+00:03:45,290 --> 00:03:47,170
+and you're gonna have a push like that.
+
+52
+00:03:47,170 --> 00:03:50,450
+The reason why I go one to two with this type of setup
+
+53
+00:03:50,450 --> 00:03:52,930
+is because you don't wanna trust the price
+
+54
+00:03:52,930 --> 00:03:54,730
+to keep going higher, okay?
+
+55
+00:03:54,730 --> 00:03:57,530
+I just take my one to two and then I'm out the markets.
+
+56
+00:03:57,530 --> 00:04:01,210
+This right here is a refined entry.
+
+57
+00:04:01,210 --> 00:04:03,050
+So when you get an entry from here,
+
+58
+00:04:03,050 --> 00:04:05,850
+that is like, it's gonna give you more rest your reward.
+
+59
+00:04:05,850 --> 00:04:08,130
+It's really that simple, yeah?
+
+60
+00:04:08,130 --> 00:04:11,370
+So, yeah, that's about it guys.
+
+61
+00:04:11,370 --> 00:04:13,290
+So you can use both of these auto blocks.
+
+62
+00:04:13,290 --> 00:04:15,450
+You don't have to be confused about which one to use.
+
+63
+00:04:15,450 --> 00:04:18,490
+It really comes down to your style of trading.
+
+64
+00:04:18,490 --> 00:04:21,010
+I am mostly trading this auto block nowadays.
+
+65
+00:04:21,010 --> 00:04:23,170
+And this is what ICT teaches.
+
+66
+00:04:23,170 --> 00:04:26,610
+This consecutive bearish candles or a bearish-glass bearish candle
+
+67
+00:04:26,610 --> 00:04:29,730
+before the move to the upside that breaks the structure.
+
+68
+00:04:29,730 --> 00:04:30,610
+But it's really up to you.
+
+69
+00:04:30,610 --> 00:04:32,250
+This one works as well.
+
+70
+00:04:32,250 --> 00:04:35,970
+And this is what I've been trading like most of my life.
+
+71
+00:04:35,970 --> 00:04:37,610
+And it works absolutely well.
+
+72
+00:04:37,610 --> 00:04:42,970
+Only downside you're gonna miss trades. So it's really up to you now if you want to trade this one or this one
+
+73
+00:04:43,130 --> 00:04:49,030
+This one has its one pro you don't need to see a fair value gap. Okay, you can simply trade off this level
+
+74
+00:04:49,330 --> 00:04:54,650
+Okay, so what I'm gonna do is I'm gonna give you a couple of examples of this thing right here
+
+75
+00:04:54,650 --> 00:05:00,650
+You guys know already know this right so I'm gonna give you an example of this one this other block example

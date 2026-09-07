@@ -1,0 +1,153 @@
+{
+  "source": "F:\\new faiz\\1. Order Flow Trading Strategy.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 205.7985,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.94,
+      "end": 32.48,
+      "text": " Alright guys, so now we are at the very most important part of this course. So in this part of the course, we are going to learn different strategies that you can use. I will recommend that you stick to one trading strategy. Alright, you don't want to use different strategies and master that strategy. So in this video, in this video, we are going to learn"
+    },
+    {
+      "start": 32.48,
+      "end": 43.56,
+      "text": " order flow trading strategy. Okay, so what is an auto flow trading strategy? Basically it is what we have learned so far."
+    },
+    {
+      "start": 44.16,
+      "end": 46.16,
+      "text": " We use everything"
+    },
+    {
+      "start": 46.44,
+      "end": 48.6,
+      "text": " together to take our trades."
+    },
+    {
+      "start": 50.36,
+      "end": 53.0,
+      "text": " Market structure break market structure shift,"
+    },
+    {
+      "start": 54.12,
+      "end": 55.44,
+      "text": " liquidity,"
+    },
+    {
+      "start": 55.44,
+      "end": 57.12,
+      "text": " auto blog,"
+    },
+    {
+      "start": 57.12,
+      "end": 59.12,
+      "text": " premium discounted zone,"
+    },
+    {
+      "start": 59.12,
+      "end": 62.76,
+      "text": " imbalances, we use each and everything together"
+    },
+    {
+      "start": 62.76,
+      "end": 69.76,
+      "text": " to give the best possible probability rate."
+    },
+    {
+      "start": 69.76,
+      "end": 74.76,
+      "text": " So I'm going to give you a few examples."
+    },
+    {
+      "start": 74.76,
+      "end": 76.76,
+      "text": " What it is autofortrating strategy."
+    },
+    {
+      "start": 76.76,
+      "end": 78.76,
+      "text": " Basically, everything that we have learned so far."
+    },
+    {
+      "start": 78.76,
+      "end": 85.76,
+      "text": " So in this particular example, we're going to talk about market structure shift."
+    },
+    {
+      "start": 85.76,
+      "end": 89.76,
+      "text": " How you can take advantage of market structure shift."
+    },
+    {
+      "start": 89.76,
+      "end": 96.76,
+      "text": " So as you can see we we saw a push up so we create a higher high, high, high, high, high"
+    },
+    {
+      "start": 96.76,
+      "end": 112.22,
+      "text": " and then we break this level which is what? Market structure shift. Okay. Now you want to"
+    },
+    {
+      "start": 112.22,
+      "end": 120.98,
+      "text": " drought your Fibonacci, sorry my bad, from the very top to the very low. Okay. And now"
+    },
+    {
+      "start": 120.98,
+      "end": 127.62,
+      "text": " you want to take your entry from the most extreme zone. Okay. The most extreme imbalance"
+    },
+    {
+      "start": 127.62,
+      "end": 136.5,
+      "text": " or more, the most extreme autoblog. Now, as you can see, there was some imbalance at around"
+    },
+    {
+      "start": 136.5,
+      "end": 147.22,
+      "text": " this level too. But you would have gotten a more accurate entry from this imbalance, which"
+    },
+    {
+      "start": 147.22,
+      "end": 158.38,
+      "text": " is at the extreme. Okay. And you can also see their price created liquidity. Okay. Let me"
+    },
+    {
+      "start": 158.38,
+      "end": 165.54,
+      "text": " remove Fibonacci. So it's clear. So now liquidity comes in all shapes and forms, all retail"
+    },
+    {
+      "start": 165.54,
+      "end": 172.58,
+      "text": " trading patterns, everything. Okay, so this is a trend line, right? And this is basically liquidity,"
+    },
+    {
+      "start": 172.58,
+      "end": 181.38,
+      "text": " as you can see. Oops, by that. Okay, there you go. So this is liquidity. And then we had an imbalance"
+    },
+    {
+      "start": 181.38,
+      "end": 189.14,
+      "text": " above that liquidity and price filled the fair value gap. Okay? And then it just dropped down"
+    },
+    {
+      "start": 189.14,
+      "end": 200.26,
+      "text": " heavily holy crap. So you can see how massive that move was. So this was an example for"
+    },
+    {
+      "start": 200.26,
+      "end": 205.06,
+      "text": " market structure shift. How you can take advantage of it. Okay."
+    }
+  ]
+}

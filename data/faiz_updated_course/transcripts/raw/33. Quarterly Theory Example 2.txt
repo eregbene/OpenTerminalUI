@@ -1,0 +1,35 @@
+Alright guys, so this is example number two. So the thing is there is not a fixed way to
+use quarterly theory. It works with every strategy. You can say it is a tool to confirm
+your entries. Typically, the prime entry that you would get is during the manipulation phase
+because that is when price is going into some form of PD array to either sweep sell
+site liquidity, buy site liquidity, or it will go into a PD array. So I want to give
+you an example here. So if I go to the four hour time premiere, now this is going to be
+how I use this with the auto flow trading strategy. So over here, you can see we are clearly
+sorry for that. Okay, so you can clearly said, see that we are bullish here. Now, you can see
+we have this auto block here, this auto block right here. Focus on that. I will mark this
+out like that. Now let's go to 15 minute time frame. Now if I go to 15 minutes time frame,
+you can see over here, we came into the auto block. So if I disable this just to be just to make
+the chart clean, this was the four hour auto block price tapped into it. And we had a shift in
+market structure. Now notice, when did price come into the PD array? And when did price take out
+this this low here? First off, the big quarter was the manipulation quarter. During this phase,
+the manipulation quadrant of the manipulation quarter, you can see we also took out this
+liquidity and this liquidity. But you can see during the manipulation quarter, we tapped into the
+auto block. Now afterwards, what do we have? We have a shift in the market structure right here.
+Now the green box is the expansion quarter. And over here, you can see we have a beautiful
+auto block here. And once price came into our auto block, and you can see that during the
+manipulation phase of the distribution quarter. So this green box is the expansion quarter. Okay.
+But look at the manipulation quadrant, the red box here. This box went into this auto block.
+So do you understand what I'm trying to teach here? If you can understand this,
+this will significantly improve the way you trade. All right.
+Look at this carefully. We marked out the four hour auto block during the manipulation phase
+during the manipulation quarter. We went into the higher time frame PD array. Now afterwards,
+we have a shift in the market structure. Now we had a lower time frame auto block. And during
+the expansion quarter, we had a manipulative quadrant. And that pushed the price into this
+auto block for expansion. So we also had this break a block, you can say price taps into here,
+and it pushed back up. So by now, you must get the idea what I'm trying to teach you. We use the
+quarterly theory to improve our win rate. And when we are using this with other strategies,
+we want to make sure that we are taking our entries at the right time. All right. Are we
+taking our entry during the manipulation phase? Or are we taking our entry during the expansion
+phase? We primarily want to take our entry on the lower time frame during the expansion phase.
+And we want to see price go into our PD high time frame PD array during the manipulation phase.
+I hope that clears it. I'll just move on to another example.

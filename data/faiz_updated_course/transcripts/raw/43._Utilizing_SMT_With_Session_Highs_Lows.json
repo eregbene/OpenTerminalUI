@@ -1,0 +1,703 @@
+{
+  "source": "F:\\new faiz\\43. Utilizing SMT With Session Highs & Lows.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 567.379625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.53,
+      "end": 30.53,
+      "text": " Alright guys, so here is a brand new chapter of the course and in this chapter I'm going to be talking about the session highs, lows and SMT. So the SMT that occurs at the highs and lows of the sessions are extremely powerful. But keeping that in mind, we can frame our trades whenever a setup is presented to us. Alright? So I'm looking at NAS100 and"
+    },
+    {
+      "start": 30.53,
+      "end": 37.01,
+      "text": " US 30 because both of them are correlating assets. You can similarly look at your USD,"
+    },
+    {
+      "start": 37.01,
+      "end": 54.13,
+      "text": " JPP USD, AUD USD, NCD USD, AUD JPPY and JPPY and JPPY. So you can also look at S&P 500,"
+    },
+    {
+      "start": 54.13,
+      "end": 57.29,
+      "text": " But I'm looking at NAS100 and US30."
+    },
+    {
+      "start": 57.29,
+      "end": 62.53,
+      "text": " You can look NAS100, US30, and S&P 500,"
+    },
+    {
+      "start": 62.53,
+      "end": 66.01,
+      "text": " three of them at once to look for the setup."
+    },
+    {
+      "start": 66.01,
+      "end": 71.25,
+      "text": " So I'm going to mark out the high of the Asia session"
+    },
+    {
+      "start": 71.25,
+      "end": 74.09,
+      "text": " and low of the Asia session on NAS100."
+    },
+    {
+      "start": 74.09,
+      "end": 75.57,
+      "text": " And similarly, I'm going to mark out"
+    },
+    {
+      "start": 75.57,
+      "end": 78.37,
+      "text": " the high of the Asian session."
+    },
+    {
+      "start": 78.37,
+      "end": 82.41,
+      "text": " Actually, this is the high right here and low"
+    },
+    {
+      "start": 82.41,
+      "end": 91.37,
+      "text": " the issue session. So what do you notice here? The very first thing that you see. So on NAS 100,"
+    },
+    {
+      "start": 92.25,
+      "end": 100.89,
+      "text": " we failed to take out the issue alone. But on US 30, on the 50, so the time from is very important."
+    },
+    {
+      "start": 100.89,
+      "end": 109.45,
+      "text": " We have to stick to this time from. But on US 30, we took out the issue alone. So notice this"
+    },
+    {
+      "start": 109.45,
+      "end": 120.65,
+      "text": " low here and notice this low here. We have SMT divergence. So you have to trade the one that did"
+    },
+    {
+      "start": 120.65,
+      "end": 129.77,
+      "text": " not sweep the liquidity. Why? Because this is a stronger pair. Right? The reason why NAS 100 failed"
+    },
+    {
+      "start": 129.77,
+      "end": 137.29,
+      "text": " to take out this low is because the bullish momentum on NAS 100 is stronger. But on US 30, it is"
+    },
+    {
+      "start": 137.29,
+      "end": 143.45,
+      "text": " weaker because we dropped down and we took out liquidity. Right. Now you can trade both of them,"
+    },
+    {
+      "start": 143.45,
+      "end": 150.25,
+      "text": " but you primarily want to trade the one that did not suit liquidity because it is showing"
+    },
+    {
+      "start": 150.25,
+      "end": 155.85,
+      "text": " bullish momentum. Now there are two ways to look for your entry. The number one and easiest way"
+    },
+    {
+      "start": 155.85,
+      "end": 160.17,
+      "text": " is to look for change in the state of delivery and what is change in the state of delivery."
+    },
+    {
+      "start": 160.17,
+      "end": 171.49,
+      "text": " So whenever a candle closes above a bearish autoblock, so this is a bullish autoblock, so I'm going to"
+    },
+    {
+      "start": 171.49,
+      "end": 178.77,
+      "text": " rephrase what I said, whenever a candle closes above a bullish autoblock, so this is a bullish"
+    },
+    {
+      "start": 178.77,
+      "end": 185.01,
+      "text": " autoblock, right? It's not bearish, so I am rephrasing what I said. So this is a bearish autoblock,"
+    },
+    {
+      "start": 185.01,
+      "end": 187.57,
+      "text": " we have SMT here, right?"
+    },
+    {
+      "start": 187.57,
+      "end": 192.53,
+      "text": " Price closes above the body of this bullish autoblock."
+    },
+    {
+      "start": 192.53,
+      "end": 195.53,
+      "text": " And that is called change in the state of delivery."
+    },
+    {
+      "start": 195.53,
+      "end": 198.49,
+      "text": " Another way to look at it is the SMT candle."
+    },
+    {
+      "start": 198.49,
+      "end": 201.05,
+      "text": " So this candle, right?"
+    },
+    {
+      "start": 201.05,
+      "end": 204.33,
+      "text": " This candle right here, caused SMT, right?"
+    },
+    {
+      "start": 204.33,
+      "end": 207.09,
+      "text": " So you can also look for a closure above that candle"
+    },
+    {
+      "start": 207.09,
+      "end": 208.93,
+      "text": " and that is also considered a change"
+    },
+    {
+      "start": 208.93,
+      "end": 210.81,
+      "text": " in the state of delivery."
+    },
+    {
+      "start": 210.81,
+      "end": 213.77,
+      "text": " However, primarily you wanna wait for price to close"
+    },
+    {
+      "start": 213.77,
+      "end": 217.29,
+      "text": " above the bullish auto block that is marked out around here."
+    },
+    {
+      "start": 217.29,
+      "end": 219.29,
+      "text": " Now that is your change instead of delivery"
+    },
+    {
+      "start": 219.29,
+      "end": 222.41,
+      "text": " and you can take your entry, right?"
+    },
+    {
+      "start": 222.41,
+      "end": 224.65,
+      "text": " Or if you go to the old ways,"
+    },
+    {
+      "start": 224.65,
+      "end": 227.25,
+      "text": " we can simply look for a market structure shift"
+    },
+    {
+      "start": 227.25,
+      "end": 228.65,
+      "text": " entry from the auto block"
+    },
+    {
+      "start": 228.65,
+      "end": 231.77,
+      "text": " and you can see how price went right up."
+    },
+    {
+      "start": 233.09,
+      "end": 237.93,
+      "text": " Okay, so the key thing to note here is that the SMT"
+    },
+    {
+      "start": 237.93,
+      "end": 241.13,
+      "text": " is occurring at the lows and highs of the session."
+    },
+    {
+      "start": 241.13,
+      "end": 245.77,
+      "text": " So as you can see on US study, we took out the low."
+    },
+    {
+      "start": 245.77,
+      "end": 249.85,
+      "text": " But on NAS100, we failed to take out the low."
+    },
+    {
+      "start": 249.85,
+      "end": 252.81,
+      "text": " So this shows that there was a clear manipulation"
+    },
+    {
+      "start": 252.81,
+      "end": 255.09,
+      "text": " to the downside liquidity on US study."
+    },
+    {
+      "start": 255.09,
+      "end": 258.65,
+      "text": " But since the NAS100 was a stronger asset,"
+    },
+    {
+      "start": 258.65,
+      "end": 259.89,
+      "text": " it didn't suit liquidity."
+    },
+    {
+      "start": 259.89,
+      "end": 263.69,
+      "text": " And that's giving us a clue that, OK, now price"
+    },
+    {
+      "start": 263.69,
+      "end": 265.41,
+      "text": " will push to the upside."
+    },
+    {
+      "start": 265.41,
+      "end": 269.93,
+      "text": " So your first target could be the Asia high, right?"
+    },
+    {
+      "start": 269.93,
+      "end": 273.81,
+      "text": " If you go back to the Asian session strategy from course one,"
+    },
+    {
+      "start": 273.81,
+      "end": 276.29,
+      "text": " you will know that we target,"
+    },
+    {
+      "start": 276.29,
+      "end": 278.13,
+      "text": " if the low is taken, we take target high,"
+    },
+    {
+      "start": 278.13,
+      "end": 280.41,
+      "text": " if the high is taken, we target low."
+    },
+    {
+      "start": 280.41,
+      "end": 283.41,
+      "text": " So the number one reason why you would have lost"
+    },
+    {
+      "start": 283.41,
+      "end": 285.97,
+      "text": " your Asian session strategy trade"
+    },
+    {
+      "start": 285.97,
+      "end": 288.81,
+      "text": " is because there could have been an SMT here"
+    },
+    {
+      "start": 288.81,
+      "end": 292.05,
+      "text": " and when price swept the Asia high"
+    },
+    {
+      "start": 292.05,
+      "end": 293.57,
+      "text": " and you look for a market structure shift"
+    },
+    {
+      "start": 293.57,
+      "end": 295.13,
+      "text": " and it didn't work out, you were like,"
+    },
+    {
+      "start": 295.13,
+      "end": 296.77,
+      "text": " okay, this strategy didn't work today."
+    },
+    {
+      "start": 296.77,
+      "end": 300.63,
+      "text": " But in reality, we took out the low on another correlating"
+    },
+    {
+      "start": 300.63,
+      "end": 302.37,
+      "text": " acid or pear."
+    },
+    {
+      "start": 302.37,
+      "end": 304.09,
+      "text": " I hope that makes sense."
+    },
+    {
+      "start": 304.09,
+      "end": 309.01,
+      "text": " So let me give you guys a couple more examples."
+    },
+    {
+      "start": 309.01,
+      "end": 313.13,
+      "text": " All right, so what can you see in this picture?"
+    },
+    {
+      "start": 313.13,
+      "end": 319.57,
+      "text": " Pause the video and see what happened in the London session."
+    },
+    {
+      "start": 319.57,
+      "end": 322.01,
+      "text": " So it's very clear, guys."
+    },
+    {
+      "start": 322.01,
+      "end": 324.13,
+      "text": " Very, very clear."
+    },
+    {
+      "start": 324.13,
+      "end": 327.37,
+      "text": " You have your issue, sorry, London high here."
+    },
+    {
+      "start": 329.29,
+      "end": 333.6,
+      "text": " And you have your London high here."
+    },
+    {
+      "start": 333.6,
+      "end": 338.6,
+      "text": " Now, on NAS 100, we took out the London high."
+    },
+    {
+      "start": 338.6,
+      "end": 339.6,
+      "text": " Right?"
+    },
+    {
+      "start": 339.6,
+      "end": 340.64,
+      "text": " It's very clear."
+    },
+    {
+      "start": 340.64,
+      "end": 344.6,
+      "text": " We took out the London high with this candle over here."
+    },
+    {
+      "start": 344.6,
+      "end": 345.64,
+      "text": " Notice this?"
+    },
+    {
+      "start": 345.64,
+      "end": 346.76,
+      "text": " Right?"
+    },
+    {
+      "start": 346.76,
+      "end": 350.88,
+      "text": " Now, we wanna look at the same candle"
+    },
+    {
+      "start": 350.88,
+      "end": 353.6,
+      "text": " and you can see we failed to take out the London high"
+    },
+    {
+      "start": 353.6,
+      "end": 355.36,
+      "text": " on US 30."
+    },
+    {
+      "start": 355.36,
+      "end": 360.36,
+      "text": " Now we are simply waiting for change in the state of delivery."
+    },
+    {
+      "start": 361.72,
+      "end": 366.04,
+      "text": " Now once that happens, you can see price went back tapped"
+    },
+    {
+      "start": 366.04,
+      "end": 368.52,
+      "text": " into this auto block once again,"
+    },
+    {
+      "start": 369.48,
+      "end": 374.48,
+      "text": " pushed the price down right away with extreme momentum."
+    },
+    {
+      "start": 374.96,
+      "end": 377.16,
+      "text": " We took out London low."
+    },
+    {
+      "start": 378.56,
+      "end": 382.48,
+      "text": " And then you could have probably trailed your shop loss"
+    },
+    {
+      "start": 382.48,
+      "end": 385.7,
+      "text": " or you could have just went for one to two"
+    },
+    {
+      "start": 385.7,
+      "end": 387.46,
+      "text": " or one to three, wish or what."
+    },
+    {
+      "start": 387.46,
+      "end": 390.06,
+      "text": " But remember, you're always going break"
+    },
+    {
+      "start": 390.06,
+      "end": 392.42,
+      "text": " even after one to one,"
+    },
+    {
+      "start": 392.42,
+      "end": 393.98,
+      "text": " wish or what is hit,"
+    },
+    {
+      "start": 393.98,
+      "end": 398.1,
+      "text": " because that keeps us safe from losing streaks."
+    },
+    {
+      "start": 398.1,
+      "end": 402.66,
+      "text": " Because remember this, no matter what strategy you try,"
+    },
+    {
+      "start": 402.66,
+      "end": 405.5,
+      "text": " no matter what model you trade,"
+    },
+    {
+      "start": 405.5,
+      "end": 407.3,
+      "text": " even if ICT comes to you"
+    },
+    {
+      "start": 407.3,
+      "end": 410.5,
+      "text": " and teaches you a strategy personally,"
+    },
+    {
+      "start": 410.5,
+      "end": 412.18,
+      "text": " you are going to have losing streaks."
+    },
+    {
+      "start": 412.18,
+      "end": 416.06,
+      "text": " So three trades in a row, four trades in a row, right?"
+    },
+    {
+      "start": 416.06,
+      "end": 418.66,
+      "text": " The key here is to protect your capital."
+    },
+    {
+      "start": 418.66,
+      "end": 420.54,
+      "text": " That is the most important thing."
+    },
+    {
+      "start": 420.54,
+      "end": 423.42,
+      "text": " So that is why we go break even, all right?"
+    },
+    {
+      "start": 423.42,
+      "end": 424.26,
+      "text": " After one, two, one."
+    },
+    {
+      "start": 424.26,
+      "end": 427.06,
+      "text": " Or in rare cases when your bias is strong"
+    },
+    {
+      "start": 427.06,
+      "end": 430.62,
+      "text": " and the auto flow is in alignment with your,"
+    },
+    {
+      "start": 430.62,
+      "end": 432.78,
+      "text": " with your high timeframe trend."
+    },
+    {
+      "start": 434.46,
+      "end": 439.02,
+      "text": " Then you can simply go break even after one to one point five"
+    },
+    {
+      "start": 439.02,
+      "end": 448.02,
+      "text": " are. Some people also take a partial at 1 to 1.5 because you do not want to take a trade"
+    },
+    {
+      "start": 448.02,
+      "end": 453.9,
+      "text": " wait for an entire day and then close at break even. So it would be best if you take a partial."
+    },
+    {
+      "start": 453.9,
+      "end": 458.9,
+      "text": " You know there's not there's not any strategy risk management strategy that is best."
+    },
+    {
+      "start": 458.9,
+      "end": 462.58,
+      "text": " There are different ways to approach risk management and I personally believe that going"
+    },
+    {
+      "start": 462.58,
+      "end": 467.5,
+      "text": " break even at 1 to 1 and then taking your profit at 1 to 2 is the best approach. Let me"
+    },
+    {
+      "start": 467.5,
+      "end": 478.42,
+      "text": " me to be guys more examples. All right guys, so in this example, you can see that we have"
+    },
+    {
+      "start": 478.42,
+      "end": 486.94,
+      "text": " the London high here and London high here. So London high was taken out on US 30, but on"
+    },
+    {
+      "start": 486.94,
+      "end": 493.7,
+      "text": " NAS 100 it didn't take out. So this is the SMT candle. This candle caused SMT, right?"
+    },
+    {
+      "start": 493.7,
+      "end": 500.2,
+      "text": " So we want to refer back to it and you can see right here when candle closes,"
+    },
+    {
+      "start": 500.2,
+      "end": 503.7,
+      "text": " I consider this an SMT divergence."
+    },
+    {
+      "start": 503.7,
+      "end": 505.7,
+      "text": " Right?"
+    },
+    {
+      "start": 505.7,
+      "end": 507.7,
+      "text": " And what happens afterwards?"
+    },
+    {
+      "start": 507.7,
+      "end": 509.7,
+      "text": " Look, we also had inverse value."
+    },
+    {
+      "start": 509.7,
+      "end": 512.7,
+      "text": " So you could have probably inverse it as well."
+    },
+    {
+      "start": 512.7,
+      "end": 517.7,
+      "text": " But entry on the retest stops below."
+    },
+    {
+      "start": 517.7,
+      "end": 523.1,
+      "text": " So your first target would have been the London low and then you can see"
+    },
+    {
+      "start": 523.1,
+      "end": 526.26,
+      "text": " price just went down like crazily."
+    },
+    {
+      "start": 526.26,
+      "end": 527.7,
+      "text": " OK."
+    },
+    {
+      "start": 527.7,
+      "end": 531.42,
+      "text": " So we do not look at the New York session,"
+    },
+    {
+      "start": 531.42,
+      "end": 534.42,
+      "text": " because we do not want to be treating the PM session."
+    },
+    {
+      "start": 534.42,
+      "end": 538.06,
+      "text": " But this is the model."
+    },
+    {
+      "start": 538.06,
+      "end": 543.06,
+      "text": " Now, make sure that if you want to increase your win rate,"
+    },
+    {
+      "start": 543.06,
+      "end": 545.02,
+      "text": " you are aligned with the high time from trend,"
+    },
+    {
+      "start": 545.02,
+      "end": 547.86,
+      "text": " which would be the four hour trend."
+    },
+    {
+      "start": 547.86,
+      "end": 551.66,
+      "text": " So if we are bearish, you are only looking for longs."
+    },
+    {
+      "start": 551.66,
+      "end": 556.54,
+      "text": " If we are sorry, if you're bareish, we're only looking for shots."
+    },
+    {
+      "start": 556.54,
+      "end": 558.62,
+      "text": " If we are bullish, we're only looking for longs."
+    },
+    {
+      "start": 558.62,
+      "end": 560.18,
+      "text": " It's very simple."
+    },
+    {
+      "start": 560.18,
+      "end": 565.22,
+      "text": " We refer back to the old videos where I explain autoflow, but that would be it."
+    },
+    {
+      "start": 565.22,
+      "end": 567.26,
+      "text": " So let's move on to the next chapter now."
+    }
+  ]
+}

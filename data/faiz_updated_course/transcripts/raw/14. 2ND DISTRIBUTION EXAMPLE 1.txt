@@ -1,0 +1,43 @@
+All right guys, so here is an example number one of the market maker second distribution entry model
+So right here, but do we have we have taken out the external liquidity, right?
+This fairly gap is gonna be a drawn look. So let's see what have happened here going to the one-hour time frame
+This is when we took out the external liquidity, right?
+We have the consolidation right here and we have this drawn liquidity right here
+We have this pullback which is the accumulation phase one, right?
+You only want to see a small pullback or consolidation. That's pretty much it. So now let's look at it here
+After price took out the liquid. What do we have? We have a lower low lower high lower low
+Now that's when we get a market structure shift and we also have the first stage of the market maker
+Second distribution model complete which is double break of structure, right?
+Once you have a double break of structure
+You want to wait for a purge of any lower high now what is a lower high?
+We have lower low lower high. This is a lower high, right?
+But do we have here lower low lower high lower low, right?
+Now this is that lower high that you want to put your focus on we took out this
+lower high here now
+We want to wait for a double break of structure once again, right?
+So we have this level taken out. We also took out this level, but this is not necessary
+We took out this lower high now. We simply wait for a double break of structure. So what do we have? We have a lower low
+Right zooming in here. We have a lower low lower high and a lower low
+Once you have that look at where is the unmitigated fair value gap
+This right here is the fair value gap that we're talking about now
+This is your second distribution entry model and guys
+Once you get this set up
+There's like no going back, okay, so this is like a live trade
+I think we can't play it forward. So like this is happening right now. It happened on
+Monday
+You can see at three we got the entry and
+This is the beauty of this model once you get this type of setup
+You have to train your mind to see this type of setup guys. It's not it's not I
+Like my other strategies is not easy. It's not like it's like a piece of you know
+Cake no, it is not that you have to identify these structures and one more thing to help you with this is
+Wicks maker okay in this strategy
+So you don't have to wait for body closure if you get a wick
+That is your shift in market structure if you get like a wick here and then a wick here
+That is your break of structure. So let's say if the body didn't close here
+But it was just a wick that was a clean setup. Okay, you don't you can also wait for wicks in this type of strategy. So
+This second distribution is complete and we hit this
+Almost trying to hit this level. We will take out the slope and this would have been a 14.98
+Let's say you put your stop here. Maybe here
+Let's say even here three you would get one to three, but usually I would put my stop here
+That was 13.46. It happened recently. That was your challenge pass in one trade
+Let's move on to the next example

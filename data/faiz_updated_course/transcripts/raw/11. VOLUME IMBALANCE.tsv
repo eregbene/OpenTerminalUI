@@ -1,0 +1,76 @@
+start	end	text
+0	2000	Hey guys, what is up?
+2000	4000	Faz here.
+4000	6000	So, this is the very first video of the course update.
+6000	13000	Actually, I had all the videos ready, but unfortunately, my windows got corrupted for some reason.
+13000	20000	Like, I put it up my computer, I went to the login screen, I typed in my password, and it just won't let me login.
+20000	26000	So, I had to reinstall the windows, and all the data was, like, gone, poof.
+26000	29000	So, this is me remaking these videos once again.
+29000	37000	Alright, so, we use volume imbalance for our entries, okay, most of the time.
+37000	44000	And we can also use them as support and resistance levels, institutional support and resistance levels.
+44000	48000	Now, what is a volume imbalance?
+48000	54000	It is a difference between a close and the open.
+54000	58000	It is a gap between the close and the open of the candle.
+58000	65000	So, in this example, you can see this candle right here, it closed right here.
+65000	79000	And the next candle, instead of opening at the closing price, it opens below the closing price, leaving this imbalance or volume imbalance around here.
+80000	86000	Now, this is a two-candle pattern, okay, so...
+92000	96000	So, this volume imbalance occurs between two candles, okay?
+96000	108000	So, you can see right here, the candle closed here, and the next candle, instead of opening at the closing price of the previous candle, it opens just below it, right?
+108000	113000	So, there was so much volume that the candle just, you know, opened here.
+113000	128000	So, the gap right from the close to the open is what you call volume imbalance, okay, sorry for that.
+128000	141000	And the, over here for the long example, the difference or the gap between the close and the open of the next candle is called volume imbalance.
+141000	155000	I'm going to repeat this again, you can see this down candle closed here, and normally what would happen is the next candle would open from the closing price of the previous candle.
+155000	178000	But when this happens, the next candle opens below the closing price of the previous candle, or above the closing price of the previous candle, the gap between the opening and close is what you call volume imbalance, okay?
+178000	185000	So, in the future, if price comes back into this level, you can look for long positions, okay?
+185000	195000	And similarly for this, sorry, this is short positions, so you can look too shorted, okay?
+195000	203000	And, yeah, you can long from here as well, because this X has a resistance and support level.
+203000	211000	So, if the volume imbalance is broken, that if the support resistance level is broken, it's going to turn into support, right?
+211000	223000	So, let's say price comes back, gives a small reaction, pushes up, and then you can take this volume imbalance as a support level, then you can look for longs, just like support and resistance, okay?
+223000	233000	But these are very stronger than support and resistance, normal support and resistance, and sometimes I even find them more powerful than your value gap.
+233000	237000	So, let me give you guys some examples.
+237000	251000	So, right here, you can see, I'm looking at E-mini S&P on a daily timeframe, and one thing, I also use volume imbalance to identify my daily bias, okay?
+251000	259000	Not all the time, but if it is at a clear volume imbalance area, then I can take my decision.
+259000	261000	However, let's talk about this.
+261000	270000	So, you can see right here, let me know about this, the candle closes here, and the next candle opens right here, okay?
+270000	280000	So, there is this gap or volume, no, this is not gap, this is volume imbalance, okay?
+280000	291000	And you can see price came into this volume imbalance, first of all, it just smashed through this level, so this didn't work as a support level, okay?
+291000	303000	Very cool, but then, when it gets broken, it can react as a resistance level, so price went back to this volume imbalance, and you can see price shot down.
+303000	307000	Now, over here, you can see we have another volume imbalance.
+307000	311000	So, the candle closed here, right?
+311000	316000	And the next candle opened here, instead of opening from here, okay?
+316000	327000	And what you're going to see here is this right here, a volume imbalance just right here.
+327000	333000	And what happens, price mashes through it, right?
+333000	343000	It didn't work as a support level, but then, in the future, it became a resistance level, and price couldn't go above this level.
+343000	354000	So, when price came into this level, you could be bearish as hell for the next one, two, three, four, five days, guys, until this liquidity level was taken out, okay?
+355000	367000	Over here, you can see, just like that, we have volume imbalance, price came back into this level, we had a sharp reaction.
+367000	373000	Over here, we have volume imbalance as well, price came down, boom.
+373000	380000	Over here, we have volume imbalance, price came down, boom.
+380000	388000	And over here, you can see, it didn't exactly tapped into the volume imbalance, I believe.
+388000	390000	Okay, it did, actually.
+390000	395000	So, it came back again, tapped perfectly into this volume imbalance.
+395000	400000	Also, considering the fact that we had order block here, that is another confluence.
+400000	407000	And you can see we have this old volume imbalance, price pushed up, came back into this volume imbalance.
+407000	411000	So, you see how this works as support and resistance levels.
+411000	417000	Push it back up again, then we have this volume imbalance, and let me do this.
+417000	420000	Yep, you can see it reacted off this level here.
+420000	429000	Price went back here, smashed through this level, then we have all imbalance here, volume imbalance, price came back into this level.
+429000	439000	We have a push up, then we have this volume imbalance, price came back, a little bit of liquidation here, and then pushed back up.
+439000	443000	Right, this old volume imbalance, price came back here.
+443000	446000	So, you see how accurate these levels are.
+446000	454000	And you can see this old volume imbalance right here, if I drag this along, you can see that the price is now reacting off this level.
+454000	457000	So, this is the beauty of volume imbalance.
+457000	462000	You mostly find volume imbalances on futures indices.
+462000	470000	You can find them on Forex as well, but I would suggest that you use this with indices, okay?
+470000	475000	I'm not saying that you cannot use with Forex, but of course, yeah.
+475000	484000	So, normally I would not use volume imbalances when training my strategies for entries, okay?
+484000	491000	But for daily bias, and yeah, you can look for entries you're using volume imbalance too, okay?
+491000	497000	It's just like a variable gap, actually stronger than a variable gap, but sometimes it's hard to spot these levels.
+497000	502000	But let's assume that if I have a volume imbalance here, right?
+502000	506000	At this old level, right? So, let's do this.
+506000	511000	So, we have volume imbalance, right? And we also have some variable gap here.
+511000	516000	Now, that is a double confidence, so then I can look to take my entry here, okay?
+516000	521000	But you can just enter a volume imbalance by itself, okay?
+521000	527000	So, you guys, I hope this video was clear, and I hope you guys know what a volume imbalance is.
+527000	535000	It looks something like this, where you have a, you know, a close.
+535000	543000	And then the open is actually from here, you can see, candle closed here, open is right here.
+543000	547000	So, I'll see you guys in the next video.

@@ -1,0 +1,16 @@
+[00:00:00] Alright guys, so here is the last example and example number two for the daily bias. So I'm looking at US Swiss and you can see that we have taken out this external liquidity here. So if I play this through, you can see that our draw on liquidity, where is it? Can you notice where it's gonna be a draw on liquidity? It's right here, this fair value gap around here. So this is gonna be a draw on liquidity.
+[00:00:30] Let's go to the hourly time from a rumor for the daily. We go from daily to hourly and then to five minutes
+[00:00:37] So right here, what do you see? We have a shift in the market structure happening right here
+[00:00:43] Cool now raise the fair value gap the fair value gap is right here
+[00:00:48] That should be red and butter entry model. So let's see price goes up to that level
+[00:00:54] price goes into this fair value gap so that could have been your entry. We are not
+[00:01:01] gonna talk about the fight minute time from at the moment but later on the
+[00:01:05] video so don't wear a layer on the course okay so don't worry. Your stop goes
+[00:01:10] here and your take profit just goes here so let's see how this plays out.
+[00:01:15] price goes ahead, it feels in this inefficiency and right away we have a
+[00:01:25] retake profit level hit. So now that you have known about monthly weekly and daily
+[00:01:31] bias and external and internal liquidity, remember I all this personally go
+[00:01:36] from external to internal, you can try messing around with internal to external
+[00:01:42] but I wouldn't recommend it. Okay, so that was pretty much it for this chapter
+[00:01:48] Let's move on to the next topic and that is going to be a game changer as well.
+[00:01:55] See you guys.

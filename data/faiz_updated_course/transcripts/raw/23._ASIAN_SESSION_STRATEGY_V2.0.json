@@ -1,0 +1,178 @@
+{
+  "source": "F:\\new faiz\\23. ASIAN SESSION STRATEGY V2.0.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 254.8158125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.18,
+      "end": 30.18,
+      "text": " Alright guys, so this is going to be the last lecture of this course update. There will be plenty of course updates in the future. I will also be teaching you guys the ICT true 23 mentorship when it's out. I'm gonna watch all of that content and I'm gonna upload it here. Like the important and the things that actually matter. And I'll, it will skip all the talking and you don't have to be watching like the long time."
+    },
+    {
+      "start": 30.18,
+      "end": 36.26,
+      "text": " videos that I see is going to put out. But in this last funnel lecture, we're going to learn"
+    },
+    {
+      "start": 36.26,
+      "end": 51.78,
+      "text": " about Asian session strategy version 2.0. So you want to use fx and Asian session rage just"
+    },
+    {
+      "start": 51.78,
+      "end": 62.19,
+      "text": " as the old one. Right. So what you want to look for is Asian session, right? So simply you"
+    },
+    {
+      "start": 62.19,
+      "end": 76.16,
+      "text": " will you're going to have Asian session like this and look for POIs below the Asian low and above"
+    },
+    {
+      "start": 76.16,
+      "end": 84.72,
+      "text": " the Asian high. So this does not require daily buys or markets, short, short or whatever. So let's"
+    },
+    {
+      "start": 84.72,
+      "end": 103.16,
+      "text": " is zoom that whoops that was terrible. Okay. So let's assume you have a POI right here, which"
+    },
+    {
+      "start": 103.16,
+      "end": 112.89,
+      "text": " could be an auto block. Okay. And once the Asian session is over, which is going to be,"
+    },
+    {
+      "start": 112.89,
+      "end": 125.01,
+      "text": " I believe, um, to M New York time, right? And the indicators are going to show you when"
+    },
+    {
+      "start": 125.01,
+      "end": 126.61,
+      "text": " The session is over."
+    },
+    {
+      "start": 126.61,
+      "end": 131.02,
+      "text": " So after that, when the session is over,"
+    },
+    {
+      "start": 131.02,
+      "end": 135.1,
+      "text": " you wanna see price go to that POI."
+    },
+    {
+      "start": 135.1,
+      "end": 139.78,
+      "text": " So essentially you're looking at 15 minute first, 15 minute,"
+    },
+    {
+      "start": 139.9,
+      "end": 142.42,
+      "text": " you market the POI on 15 minute."
+    },
+    {
+      "start": 143.46,
+      "end": 145.22,
+      "text": " And when the price reaches your POI,"
+    },
+    {
+      "start": 145.22,
+      "end": 147.3,
+      "text": " you drop down to one minute timeframe."
+    },
+    {
+      "start": 147.3,
+      "end": 148.9,
+      "text": " Look for market structure shift."
+    },
+    {
+      "start": 148.9,
+      "end": 150.42,
+      "text": " Take your entry from free money gap,"
+    },
+    {
+      "start": 150.42,
+      "end": 153.22,
+      "text": " break a block, BPR, free money gap,"
+    },
+    {
+      "start": 153.22,
+      "end": 155.02,
+      "text": " whatever everyone you wanna use."
+    },
+    {
+      "start": 155.02,
+      "end": 167.13,
+      "text": " and kaboo. Is that simple guys? And similarly, let me remove this. And this if you have,"
+    },
+    {
+      "start": 170.62,
+      "end": 186.34,
+      "text": " well, terrible again. Okay. So wait a minute, you have an auto block here, right? On the 15 minute"
+    },
+    {
+      "start": 186.34,
+      "end": 191.3,
+      "text": " timeframe, make sure it's the first candle of the free value gap. We're going to use that type of"
+    },
+    {
+      "start": 191.3,
+      "end": 197.3,
+      "text": " auto block in this strategy. Okay. And not like the ones like the way we use in auto flow."
+    },
+    {
+      "start": 198.02,
+      "end": 203.38,
+      "text": " So simply once the Asian is over, you wait for price to just drop down into your POI"
+    },
+    {
+      "start": 204.1,
+      "end": 209.22,
+      "text": " and drop down then you want to drop down to one minute. Look for market structure shift,"
+    },
+    {
+      "start": 209.22,
+      "end": 219.38,
+      "text": " take your entry and boom. Very simple. Okay. And unlike the Asian session version 1.0,"
+    },
+    {
+      "start": 219.38,
+      "end": 226.7,
+      "text": " you can look for entry or you know price and come into your POY during the"
+    },
+    {
+      "start": 226.7,
+      "end": 233.18,
+      "text": " London session as well okay so in the old strategy we had to look for shift in"
+    },
+    {
+      "start": 233.18,
+      "end": 240.7,
+      "text": " market structure during the lunch hour okay but this version two can work in"
+    },
+    {
+      "start": 240.7,
+      "end": 243.86,
+      "text": " the London session as well the starting hours of London session okay the"
+    },
+    {
+      "start": 243.86,
+      "end": 247.56,
+      "text": " starting hours of London session price comes into your POI you get mark"
+    },
+    {
+      "start": 247.56,
+      "end": 253.4,
+      "text": " shift with displacement, entry and boom. So I'm going to give you guys a couple of examples."
+    }
+  ]
+}

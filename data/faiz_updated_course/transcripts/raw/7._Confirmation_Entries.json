@@ -1,0 +1,643 @@
+{
+  "source": "F:\\new faiz\\7. Confirmation Entries.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 551.6596875,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so in this video I'm going to talk about confirmation entries and I did not make a video about confirmation entries in the, you know, my course videos so I thought maybe I should share it with you guys and it's helping me a lot. It has helped me a lot and it's also going to help you a lot with the, with your win rate. Okay, so you are going to miss the trades sometimes but when you're going to take those trades"
+    },
+    {
+      "start": 30.0,
+      "end": 38.24,
+      "text": " they gonna actually work out. So let's take ABC as an example. So let's say that you are"
+    },
+    {
+      "start": 39.04,
+      "end": 46.64,
+      "text": " looking at ABC right on a five minute time from. So you have these small little pullbacks"
+    },
+    {
+      "start": 47.68,
+      "end": 55.12,
+      "text": " then you have this one large pullback and then you have this big pullback. I was sorry, push"
+    },
+    {
+      "start": 55.12,
+      "end": 64.16,
+      "text": " up again. So textbook ABC right we have taken out the high. So then on the five"
+    },
+    {
+      "start": 64.16,
+      "end": 68.74,
+      "text": " minute let's say we are looking at the five minute time from right so on the"
+    },
+    {
+      "start": 68.74,
+      "end": 77.05,
+      "text": " five minute we have a marker structure shift right following all the rules. So"
+    },
+    {
+      "start": 77.05,
+      "end": 83.47,
+      "text": " you would have your free body gap or auto block marked up here right. So now"
+    },
+    {
+      "start": 83.47,
+      "end": 89.91,
+      "text": " When you have your favorable gap and auto block marked, you want to drop down to the one minute timeframe or a smaller timeframe."
+    },
+    {
+      "start": 92.71,
+      "end": 94.11,
+      "text": " This was on the five minute."
+    },
+    {
+      "start": 94.11,
+      "end": 99.11,
+      "text": " So when you're going to drop down to the one minute, you're going to see a structure like this."
+    },
+    {
+      "start": 104.01,
+      "end": 110.89,
+      "text": " So on a smaller timeframe, one minute, you also wait for market structure shift through your POI."
+    },
+    {
+      "start": 110.89,
+      "end": 115.89,
+      "text": " So on a bigger timeframe we have a BC, right?"
+    },
+    {
+      "start": 115.89,
+      "end": 118.17,
+      "text": " And then we have a market structure shift"
+    },
+    {
+      "start": 118.17,
+      "end": 119.17,
+      "text": " on a bigger timeframe."
+    },
+    {
+      "start": 119.17,
+      "end": 120.69,
+      "text": " Once you have market structure shift"
+    },
+    {
+      "start": 120.69,
+      "end": 122.21,
+      "text": " and you mark your POI,"
+    },
+    {
+      "start": 122.21,
+      "end": 126.97,
+      "text": " you wanna drop down to the smaller timeframe"
+    },
+    {
+      "start": 126.97,
+      "end": 129.97,
+      "text": " and wait for fractal confirmation, right?"
+    },
+    {
+      "start": 129.97,
+      "end": 131.53,
+      "text": " You wanna wait for confirmation."
+    },
+    {
+      "start": 131.53,
+      "end": 136.09,
+      "text": " So on the one way, you wait for market structure shift again"
+    },
+    {
+      "start": 136.09,
+      "end": 137.17,
+      "text": " with displacement."
+    },
+    {
+      "start": 137.17,
+      "end": 138.41,
+      "text": " And I'm gonna talk about displacement"
+    },
+    {
+      "start": 138.41,
+      "end": 140.17,
+      "text": " in the coming videos."
+    },
+    {
+      "start": 140.17,
+      "end": 145.17,
+      "text": " So then you take your entry from here."
+    },
+    {
+      "start": 146.77,
+      "end": 149.53,
+      "text": " After market is received, you take your entry."
+    },
+    {
+      "start": 149.53,
+      "end": 151.69,
+      "text": " And this is going to increase the win rate"
+    },
+    {
+      "start": 151.69,
+      "end": 153.17,
+      "text": " because this is confirmation rate"
+    },
+    {
+      "start": 153.17,
+      "end": 155.01,
+      "text": " that the auto flow is now bearish."
+    },
+    {
+      "start": 155.01,
+      "end": 158.29,
+      "text": " So you can target something like this and can work out."
+    },
+    {
+      "start": 158.29,
+      "end": 160.33,
+      "text": " When you are not using confirmation entries,"
+    },
+    {
+      "start": 160.33,
+      "end": 162.17,
+      "text": " what sometimes can happen is,"
+    },
+    {
+      "start": 163.17,
+      "end": 166.81,
+      "text": " you have your ABC and you have broke the structure."
+    },
+    {
+      "start": 166.81,
+      "end": 172.65,
+      "text": " Price can simply just stop you out."
+    },
+    {
+      "start": 172.65,
+      "end": 176.77,
+      "text": " So I think it's better to look for confirmation entries."
+    },
+    {
+      "start": 176.77,
+      "end": 181.29,
+      "text": " When you have your ABC setup, you wait for confirmation"
+    },
+    {
+      "start": 181.29,
+      "end": 182.13,
+      "text": " on smaller time frame."
+    },
+    {
+      "start": 182.13,
+      "end": 185.77,
+      "text": " So let's say that you are looking at the ABC on one"
+    },
+    {
+      "start": 185.77,
+      "end": 190.41,
+      "text": " hour time frame and you have your market structure shift."
+    },
+    {
+      "start": 190.41,
+      "end": 194.01,
+      "text": " And then you have a PUI on the one hour time frame."
+    },
+    {
+      "start": 194.01,
+      "end": 196.09,
+      "text": " You want to drop down to the five minute time frame."
+    },
+    {
+      "start": 196.09,
+      "end": 200.57,
+      "text": " And then you want to look for a confirmation like this."
+    },
+    {
+      "start": 200.57,
+      "end": 205.17,
+      "text": " So you have a break on the five minute timeframe."
+    },
+    {
+      "start": 205.17,
+      "end": 211.09,
+      "text": " And you have your free body gap or OB here."
+    },
+    {
+      "start": 211.09,
+      "end": 213.57,
+      "text": " And then you take your entry from this level,"
+    },
+    {
+      "start": 213.57,
+      "end": 217.41,
+      "text": " put your stop there, and Kaboom."
+    },
+    {
+      "start": 217.41,
+      "end": 221.45,
+      "text": " So this can be used with any strategy that I've taught you"
+    },
+    {
+      "start": 221.45,
+      "end": 221.97,
+      "text": " guys."
+    },
+    {
+      "start": 221.97,
+      "end": 225.01,
+      "text": " So let's assume that we are looking at the autoflow trading"
+    },
+    {
+      "start": 225.01,
+      "end": 230.71,
+      "text": " strategy. So on the one hour time from we have you know like a change of"
+    },
+    {
+      "start": 230.71,
+      "end": 234.61,
+      "text": " connector here or market structure shift whatever you want to call it and then"
+    },
+    {
+      "start": 234.61,
+      "end": 241.81,
+      "text": " we have our auto block here. So when when you have a market structure shift"
+    },
+    {
+      "start": 241.81,
+      "end": 245.81,
+      "text": " what you want to do is you want to drop down to a smaller time from like 15"
+    },
+    {
+      "start": 245.81,
+      "end": 251.17,
+      "text": " minute or five minute. I would say I dropped down to 15 minute right so you would"
+    },
+    {
+      "start": 251.17,
+      "end": 256.53,
+      "text": " have a structure like this then and then you wait for market structure shift on a 15 minute"
+    },
+    {
+      "start": 256.53,
+      "end": 262.05,
+      "text": " timeframe, right? You break the structure on the 15 minute timeframe. Remember we had a change"
+    },
+    {
+      "start": 262.05,
+      "end": 267.41,
+      "text": " of connector on a one hour timeframe and then we had air confirmation from the POI from the one"
+    },
+    {
+      "start": 267.41,
+      "end": 273.17,
+      "text": " RPOI on the 15 minute timeframe. So when you have a market structure shift, you can just take your"
+    },
+    {
+      "start": 273.17,
+      "end": 280.37,
+      "text": " entry from this level here and you go along here and you put your stop there and"
+    },
+    {
+      "start": 280.37,
+      "end": 284.99,
+      "text": " Kaboom. It's gonna work out in your favor. So what it does is first of all it"
+    },
+    {
+      "start": 284.99,
+      "end": 290.47,
+      "text": " just gives you a better wrist-to-award entry and secondly it increases your"
+    },
+    {
+      "start": 290.47,
+      "end": 298.77,
+      "text": " increases the chances of that trade going in your direction. So you want to"
+    },
+    {
+      "start": 298.77,
+      "end": 303.05,
+      "text": " consider using the confirmation entry tactic in your,"
+    },
+    {
+      "start": 303.05,
+      "end": 304.73,
+      "text": " um, in your strategy."
+    },
+    {
+      "start": 305.29,
+      "end": 308.61,
+      "text": " Now, this is going to take some backtesting because,"
+    },
+    {
+      "start": 308.61,
+      "end": 310.09,
+      "text": " uh, for some people,"
+    },
+    {
+      "start": 310.09,
+      "end": 314.77,
+      "text": " this might not be suitable because sometimes what price will do is, um,"
+    },
+    {
+      "start": 315.69,
+      "end": 316.81,
+      "text": " let me draw this out, right?"
+    },
+    {
+      "start": 317.05,
+      "end": 318.65,
+      "text": " So you have your purei here."
+    },
+    {
+      "start": 319.33,
+      "end": 321.77,
+      "text": " Right? So let me draw this out."
+    },
+    {
+      "start": 322.61,
+      "end": 325.61,
+      "text": " So what's going to happen is you're going to get your, uh,"
+    },
+    {
+      "start": 325.63,
+      "end": 328.73,
+      "text": " confirmation mark on the shift, but price will not come back."
+    },
+    {
+      "start": 328.77,
+      "end": 332.77,
+      "text": " to the lower time for MPUI, your entry point,"
+    },
+    {
+      "start": 332.77,
+      "end": 334.17,
+      "text": " and it's just gonna keep on going up."
+    },
+    {
+      "start": 334.17,
+      "end": 337.45,
+      "text": " So this can happen and you are going to miss out the trade."
+    },
+    {
+      "start": 337.45,
+      "end": 341.69,
+      "text": " But what's beneficial, what's the plus amount of this thing"
+    },
+    {
+      "start": 341.69,
+      "end": 343.65,
+      "text": " is that you're gonna get a better ratio award"
+    },
+    {
+      "start": 343.65,
+      "end": 347.53,
+      "text": " and you're also going to increase your win rate."
+    },
+    {
+      "start": 348.45,
+      "end": 353.45,
+      "text": " So make sure that you take this into consideration."
+    },
+    {
+      "start": 354.01,
+      "end": 358.41,
+      "text": " Also, a lot of people mess up this one thing."
+    },
+    {
+      "start": 358.41,
+      "end": 366.41,
+      "text": " So you want to go to the indicators and type in ICT kills on."
+    },
+    {
+      "start": 366.41,
+      "end": 375.19,
+      "text": " So you are going to have like kills on what is kills on is like the London session and the"
+    },
+    {
+      "start": 375.19,
+      "end": 379.55,
+      "text": " New York session and there's specific timing that you should be using for your trades"
+    },
+    {
+      "start": 379.55,
+      "end": 384.11,
+      "text": " because at that time is when the algorithms are active."
+    },
+    {
+      "start": 384.11,
+      "end": 386.79,
+      "text": " So you're going to have a kills London kills on and then you're going to have a New York"
+    },
+    {
+      "start": 386.79,
+      "end": 389.79,
+      "text": " I'm gonna show you the indicator as well."
+    },
+    {
+      "start": 389.79,
+      "end": 392.07,
+      "text": " That is gonna show you the kill zones."
+    },
+    {
+      "start": 392.07,
+      "end": 397.07,
+      "text": " So your entry must be, so you have like,"
+    },
+    {
+      "start": 397.31,
+      "end": 400.19,
+      "text": " a break of structure here."
+    },
+    {
+      "start": 400.19,
+      "end": 403.07,
+      "text": " So now, sorry, change of particular market"
+    },
+    {
+      "start": 403.07,
+      "end": 405.83,
+      "text": " to share, you have market structure shift here, right?"
+    },
+    {
+      "start": 405.83,
+      "end": 409.11,
+      "text": " So what, you don't wanna take your trade"
+    },
+    {
+      "start": 409.11,
+      "end": 412.43,
+      "text": " outside the kill zone, you wanna take your entry"
+    },
+    {
+      "start": 413.55,
+      "end": 414.95,
+      "text": " during the kill zone hour."
+    },
+    {
+      "start": 414.95,
+      "end": 416.63,
+      "text": " So let's suppose this is London,"
+    },
+    {
+      "start": 416.63,
+      "end": 417.31,
+      "text": " Kildon, right?"
+    },
+    {
+      "start": 417.31,
+      "end": 419.25,
+      "text": " So you have your entry and boom."
+    },
+    {
+      "start": 420.35,
+      "end": 423.35,
+      "text": " Similarly over here, you wanna wait for,"
+    },
+    {
+      "start": 425.11,
+      "end": 427.19,
+      "text": " price to give you the entry"
+    },
+    {
+      "start": 427.19,
+      "end": 430.99,
+      "text": " during the New York Kildon."
+    },
+    {
+      "start": 430.99,
+      "end": 432.67,
+      "text": " So this is a must thing."
+    },
+    {
+      "start": 432.67,
+      "end": 434.31,
+      "text": " And a lot of people must have stopped"
+    },
+    {
+      "start": 434.31,
+      "end": 436.59,
+      "text": " they take trades during long,"
+    },
+    {
+      "start": 436.59,
+      "end": 438.31,
+      "text": " during a wrong timing."
+    },
+    {
+      "start": 438.31,
+      "end": 440.71,
+      "text": " And it could be the reason why"
+    },
+    {
+      "start": 440.71,
+      "end": 443.31,
+      "text": " the trade doesn't work out in your favor."
+    },
+    {
+      "start": 443.31,
+      "end": 449.55,
+      "text": " So in this lecture what I've taught you is a confirmation entries, right?"
+    },
+    {
+      "start": 449.55,
+      "end": 458.75,
+      "text": " And I've also taught as the KillZuns how they are beneficial for your win rate."
+    },
+    {
+      "start": 458.75,
+      "end": 464.43,
+      "text": " So if I go here, let me go to the fight minutavre."
+    },
+    {
+      "start": 464.43,
+      "end": 468.47,
+      "text": " I have the, yep, so there we have our KillZuns."
+    },
+    {
+      "start": 468.47,
+      "end": 476.47,
+      "text": " You can see this is the London Kilzone, and this is the New York Kilzone that you are looking at."
+    },
+    {
+      "start": 476.47,
+      "end": 480.47,
+      "text": " So your entry must be between these ours."
+    },
+    {
+      "start": 480.47,
+      "end": 484.47,
+      "text": " It's that simple."
+    },
+    {
+      "start": 484.47,
+      "end": 491.99,
+      "text": " So you can see that actually for indices, personally I would still be looking to trade till"
+    },
+    {
+      "start": 491.99,
+      "end": 496.99,
+      "text": " before take my entry before 11.59."
+    },
+    {
+      "start": 497.67,
+      "end": 500.99,
+      "text": " But over here, this skills on indicator says that 1040."
+    },
+    {
+      "start": 500.99,
+      "end": 505.51,
+      "text": " And also, this is an actual kill zone, right?"
+    },
+    {
+      "start": 505.51,
+      "end": 506.59,
+      "text": " Which ICT teaches."
+    },
+    {
+      "start": 506.59,
+      "end": 511.19,
+      "text": " But for indices, you can go till 11.59."
+    },
+    {
+      "start": 511.19,
+      "end": 515.95,
+      "text": " If you get actually, I would correct myself there."
+    },
+    {
+      "start": 515.95,
+      "end": 516.87,
+      "text": " I messed up."
+    },
+    {
+      "start": 516.87,
+      "end": 525.87,
+      "text": " When the clock hits 12 on indices, if you are in a trade, you should close it immediately because price can reverse."
+    },
+    {
+      "start": 525.87,
+      "end": 532.87,
+      "text": " Alright, so the best time would be till 1130. If you get your entry at 1130, that's prime."
+    },
+    {
+      "start": 532.87,
+      "end": 537.87,
+      "text": " Okay, you don't want to hold your trade till 12. You want to close it before 12."
+    },
+    {
+      "start": 537.87,
+      "end": 541.87,
+      "text": " So yeah, make sure you know that."
+    },
+    {
+      "start": 541.87,
+      "end": 548.87,
+      "text": " So yeah, I'll end this lecture here and we'll continue with other tactics."
+    }
+  ]
+}

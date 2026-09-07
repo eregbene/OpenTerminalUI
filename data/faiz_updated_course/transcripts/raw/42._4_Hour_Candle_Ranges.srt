@@ -1,0 +1,1031 @@
+1
+00:00:00,340 --> 00:00:30,340
+Hey guys, hope you're doing good. In the chapter I'm going to teach you my personal approach to CRD or Gandal range theory. Now I explain this concept over one and a half years ago on my YouTube, but it wasn't really in that much detail. I just told you guys that candles are ranges and basically you can take a turtle soup whenever the candle highs taken out or the candle low is taken out. Now a lot of people on Twitter,
+
+2
+00:00:30,340 --> 00:00:36,460
+Consider this as their own concept. It is not my concept. It is not their concept. This is all ICT
+
+3
+00:00:36,700 --> 00:00:38,700
+right there's nothing
+
+4
+00:00:39,580 --> 00:00:44,460
+There's nothing that someone invented right someone else invented. This is all ICT
+
+5
+00:00:44,660 --> 00:00:53,500
+So what exactly is CRD so serious candle range theory right every candle is a range and that is absolutely obvious right that
+
+6
+00:00:53,500 --> 00:00:57,720
+There's nothing new to it, but then there are some timings that if we
+
+7
+00:00:57,720 --> 00:01:05,760
+focus on, you know, you can trade with very high probability. So although every
+
+8
+00:01:05,760 --> 00:01:10,800
+single candle is a range, it doesn't mean that every single candle's range is
+
+9
+00:01:10,800 --> 00:01:17,240
+high probability. We have specific times that make those candle ranges high
+
+10
+00:01:17,240 --> 00:01:23,280
+probability. So the number one is 1M for our candle. So this is a 4 hour candle
+
+11
+00:01:23,280 --> 00:01:29,900
+And this is also a four hour candle. Okay, so we're gonna have two high probability turtle soups in a day
+
+12
+00:01:30,340 --> 00:01:33,240
+Now one can work and one cannot work or both
+
+13
+00:01:33,840 --> 00:01:37,040
+Total soups can work in a day so basically you will win two trades in a day
+
+14
+00:01:38,160 --> 00:01:41,560
+Now don't get confused. I'm gonna explain each and everything all right
+
+15
+00:01:41,560 --> 00:01:45,640
+So this may sound a bit complicated, but it is not just listen to me
+
+16
+00:01:46,480 --> 00:01:51,320
+So this is the first four hour candle and that's gonna open at 1am
+
+17
+00:01:51,320 --> 00:01:55,160
+And then this is the second four hour candle and that's gonna open at 5M
+
+18
+00:01:56,080 --> 00:01:58,640
+So practically we want to wait
+
+19
+00:01:59,320 --> 00:02:04,960
+For the candle closure so the 1M4 hour candle needs to close so once it closes
+
+20
+00:02:05,840 --> 00:02:11,920
+We are simply marking out the 1M4 hour candle high and low
+
+21
+00:02:15,140 --> 00:02:17,780
+Now there are two ways to trade this
+
+22
+00:02:17,780 --> 00:02:23,580
+Okay, the very first step is we need to see when the candle closes, right?
+
+23
+00:02:23,580 --> 00:02:25,780
+The 1M4 our candle.
+
+24
+00:02:25,780 --> 00:02:35,380
+We have to drop down to 5 minute time from and let's suppose that the high is taken out.
+
+25
+00:02:35,380 --> 00:02:45,610
+Now, I want to see a market structure shift also acceptance back into the range, the candle
+
+26
+00:02:45,610 --> 00:02:46,610
+range.
+
+27
+00:02:46,610 --> 00:02:54,290
+range high, this is a candle range low. Once the candle closes, we are waiting for a rate either
+
+28
+00:02:54,290 --> 00:03:00,770
+to the candle high or the candle low. So in this example, you can see that the next candle opened
+
+29
+00:03:00,770 --> 00:03:07,890
+here and on the five minute dump room, we took out the four hour candle high. And then we also have
+
+30
+00:03:07,890 --> 00:03:13,250
+a marker structure shift and we also have acceptance back into the range. I want to see price come
+
+31
+00:03:13,250 --> 00:03:19,570
+back into the range. Right? And that's going to increase the probability. Now, I am simply
+
+32
+00:03:19,570 --> 00:03:28,690
+just taking my entry from the Fair Valley Gap or a breaker block or an autoblock. And here is the risk
+
+33
+00:03:28,690 --> 00:03:35,010
+management for this strategy. You take your entry, put your short bit of the high, and you close
+
+34
+00:03:35,010 --> 00:03:42,290
+50% off your position at one to one risk to the water ratio. So once you reach one to one, you are
+
+35
+00:03:42,290 --> 00:03:50,690
+basically taking 50% off your position and then you're also going break even. Now you are leaving the trade
+
+36
+00:03:51,410 --> 00:04:00,130
+till the candle low is taken out. So this is going to maximize the profits. Now the second way
+
+37
+00:04:00,130 --> 00:04:06,050
+your trade is you have a period rate on the four hour time from this is a four hour candle
+
+38
+00:04:06,050 --> 00:04:07,570
+on the forward timer.
+
+39
+00:04:07,570 --> 00:04:09,670
+Let's suppose that you have a fair value gap.
+
+40
+00:04:09,670 --> 00:04:14,670
+Now, once price takes out the four hour candle high
+
+41
+00:04:14,870 --> 00:04:17,570
+and it also taps into a period, right?
+
+42
+00:04:17,570 --> 00:04:19,070
+And then gives you a marker structure shift
+
+43
+00:04:19,070 --> 00:04:22,610
+on the five minute diagram that makes it high probability.
+
+44
+00:04:22,610 --> 00:04:23,450
+Okay?
+
+45
+00:04:23,450 --> 00:04:26,310
+There are always some ways to increase the probabilities
+
+46
+00:04:26,310 --> 00:04:27,770
+of the strategy, all right?
+
+47
+00:04:27,770 --> 00:04:29,930
+And that's what I'm teaching my goal is to teach you ways
+
+48
+00:04:29,930 --> 00:04:31,530
+that you can approach the strategy.
+
+49
+00:04:31,530 --> 00:04:32,410
+And there are two ways.
+
+50
+00:04:32,410 --> 00:04:35,610
+One is of course gonna have low probability
+
+51
+00:04:35,610 --> 00:04:40,490
+is not a huge difference. If you're in account for PD arrays, your win was going to just go
+
+52
+00:04:41,050 --> 00:04:47,610
+5 to 10% higher. That's it. But it's not very significant when you're going to win these
+
+53
+00:04:47,610 --> 00:04:53,130
+massive trades. So you take 50% off at 1 to 1 and then you basically hold till this level.
+
+54
+00:04:53,130 --> 00:04:56,890
+Now of course I'm going to give you examples and your confusion will be gone.
+
+55
+00:04:58,650 --> 00:05:04,170
+So it's very simple. Just five minute mark is actually shift. Now here is one scenario that
+
+56
+00:05:04,170 --> 00:05:06,090
+second I can write.
+
+57
+00:05:06,090 --> 00:05:09,690
+So let's assume, just let me just remove this.
+
+58
+00:05:10,930 --> 00:05:15,930
+The new candle opens, you have price keeps going up, right?
+
+59
+00:05:15,930 --> 00:05:18,210
+And then you get a market structure shift.
+
+60
+00:05:18,210 --> 00:05:20,050
+Now I will not take my entry, why?
+
+61
+00:05:20,050 --> 00:05:23,210
+Because price didn't come back into the range.
+
+62
+00:05:23,210 --> 00:05:26,330
+So even though price can come, go here,
+
+63
+00:05:26,330 --> 00:05:29,450
+and I wanna see price close below the range.
+
+64
+00:05:29,450 --> 00:05:33,450
+So now once it does that, let me just remove this.
+
+65
+00:05:33,450 --> 00:05:36,370
+Once it does that, then I can look to take my entry
+
+66
+00:05:36,370 --> 00:05:39,170
+from any pediatric that is present, right?
+
+67
+00:05:39,170 --> 00:05:41,130
+So I can basically just consider this
+
+68
+00:05:41,130 --> 00:05:43,690
+as a autoblog and then take my entry.
+
+69
+00:05:43,690 --> 00:05:48,340
+I just wanna see price come back into the range.
+
+70
+00:05:48,340 --> 00:05:50,540
+So, very simple that.
+
+71
+00:05:50,540 --> 00:05:54,700
+Now, here's another thing that you need to know.
+
+72
+00:05:54,700 --> 00:05:57,260
+Okay, this is very important.
+
+73
+00:05:57,260 --> 00:06:02,260
+So if you do not get an entry before the five AM candle closes,
+
+74
+00:06:02,260 --> 00:06:12,300
+right? So let's suppose that the 1M4 are kind of closed but you know the rate the
+
+75
+00:06:12,300 --> 00:06:20,940
+price doesn't take out the 1M candle high or the low before the 5M kind of
+
+76
+00:06:20,940 --> 00:06:27,380
+closes. That's gonna be around 8 right? I'm gonna explain everything when I go
+
+77
+00:06:27,380 --> 00:06:31,980
+to the live charts but try to understand what I'm saying. If the rate doesn't
+
+78
+00:06:31,980 --> 00:06:36,700
+happen. So let's suppose price keeps on, you know,
+
+79
+00:06:36,740 --> 00:06:41,740
+console letting, console letting, normal, right? But then the new candle opens
+
+80
+00:06:41,820 --> 00:06:47,740
+the five, if candle opens and, you know, it basically, oh, my bad, my bad,
+
+81
+00:06:47,740 --> 00:06:51,740
+my bad, let me explain it because this is very confusing, right? So the five
+
+82
+00:06:51,740 --> 00:06:59,060
+in candle open is when you're going to see the rate, right? So this open is the
+
+83
+00:06:59,060 --> 00:07:03,420
+open of this candle. I hope that makes sense. The open of this candle is the open of this
+
+84
+00:07:03,420 --> 00:07:09,980
+candle. This is just for like, it's a picture to explain things, right? So if you don't
+
+85
+00:07:09,980 --> 00:07:17,180
+get a raid before the five him can encloses, then you have to wait for the raid of the
+
+86
+00:07:17,180 --> 00:07:23,380
+five him candle. I know it's confusing, right? Don't worry, I'm gonna go to the live
+
+87
+00:07:23,380 --> 00:07:26,500
+type charts and it's going to clear each and everything.
+
+88
+00:07:26,500 --> 00:07:32,620
+But if the rate doesn't happen of this candle,
+
+89
+00:07:32,620 --> 00:07:36,180
+then we have to wait for this candle to close.
+
+90
+00:07:36,180 --> 00:07:38,260
+Then we have to look for the rate of this candle.
+
+91
+00:07:38,260 --> 00:07:41,140
+This one becomes useless.
+
+92
+00:07:41,140 --> 00:07:43,500
+This candle becomes useless.
+
+93
+00:07:43,500 --> 00:07:45,100
+Now I'm just going to go to the live charts.
+
+94
+00:07:45,100 --> 00:07:46,260
+And I'm going to explain everything.
+
+95
+00:07:46,260 --> 00:07:50,790
+So all of your confusion is going to be over.
+
+96
+00:07:50,790 --> 00:07:51,230
+All right.
+
+97
+00:07:51,230 --> 00:07:54,510
+So here is example one.
+
+98
+00:07:54,510 --> 00:07:59,510
+This is the one AM candle and this is the five AM candle.
+
+99
+00:07:59,710 --> 00:08:03,070
+Now, look at this one AM candle.
+
+100
+00:08:03,070 --> 00:08:07,030
+All you need to do is mark out the high
+
+101
+00:08:07,030 --> 00:08:09,130
+and the low of that candle.
+
+102
+00:08:10,030 --> 00:08:12,310
+Very simple, all right?
+
+103
+00:08:12,310 --> 00:08:15,430
+Now, if I drop down to five minute time from,
+
+104
+00:08:16,990 --> 00:08:21,480
+you can see that this was the candle high
+
+105
+00:08:21,480 --> 00:08:24,480
+and it got swept right here.
+
+106
+00:08:24,480 --> 00:08:27,800
+Now we simply look for a shift in the market structure, right?
+
+107
+00:08:29,720 --> 00:08:32,280
+And around here, we have that.
+
+108
+00:08:33,840 --> 00:08:38,680
+Now I was going to send this setup today in the discord,
+
+109
+00:08:39,280 --> 00:08:43,800
+but I send the other one, which was this and it turned out to be a loser.
+
+110
+00:08:44,680 --> 00:08:47,960
+So very unfortunate, whoever took that trade.
+
+111
+00:08:49,440 --> 00:08:51,320
+This would have been an awesome winner.
+
+112
+00:08:51,320 --> 00:08:55,040
+You can see that we had this auto block here.
+
+113
+00:08:56,120 --> 00:08:59,160
+Right? This fair value gap as well.
+
+114
+00:08:59,160 --> 00:09:01,520
+This could have been basically your entry
+
+115
+00:09:01,520 --> 00:09:02,760
+somewhere around here.
+
+116
+00:09:03,840 --> 00:09:07,160
+And you would go shot right here.
+
+117
+00:09:07,160 --> 00:09:08,720
+Stop right above the high.
+
+118
+00:09:09,960 --> 00:09:14,960
+At one to one, you would take like 50% or 40% of your trade.
+
+119
+00:09:16,320 --> 00:09:19,560
+Go break even and then hold till here.
+
+120
+00:09:19,560 --> 00:09:31,560
+Now, what I sometimes like to do is use my fib from the last high that was formed to the last low that was formed before market structure shift and I used the standard deviation projections to take my profits.
+
+121
+00:09:31,560 --> 00:09:47,560
+Right? So, if the real draw on liquidity, which is the kind of low is near the negative 2 or negative 2.5 or negative 4, then it increases the probability of the setup.
+
+122
+00:09:47,560 --> 00:09:51,840
+So this happened today and it happens every single day.
+
+123
+00:09:51,840 --> 00:09:57,240
+Now I want to give you guys the pairs and assets that this works with.
+
+124
+00:09:57,240 --> 00:10:06,520
+So first off it works with gold that it works with your USD and that works with NAS100,
+
+125
+00:10:06,520 --> 00:10:09,240
+US30 and S&P 500.
+
+126
+00:10:09,240 --> 00:10:10,240
+Alright?
+
+127
+00:10:10,240 --> 00:10:12,880
+You don't have to trade anything else.
+
+128
+00:10:12,880 --> 00:10:18,520
+single day you choose one pair or asset and then you trade that asset or pair.
+
+129
+00:10:18,520 --> 00:10:24,260
+You don't have to take two different rates. So for example if you are short on
+
+130
+00:10:24,260 --> 00:10:31,320
+gold you do not want to buy your USD. You just have to trade one pair which
+
+131
+00:10:31,320 --> 00:10:38,120
+ever presents the setup. Don't trade multiple pairs at the same time. So let's
+
+132
+00:10:38,120 --> 00:10:41,360
+So, first I want to the next example now.
+
+133
+00:10:41,360 --> 00:10:43,360
+Alright guys, so here is example two.
+
+134
+00:10:43,360 --> 00:10:46,080
+So over here you can see that we have a PDA rate,
+
+135
+00:10:46,080 --> 00:10:48,520
+that is a four hour free body gap,
+
+136
+00:10:48,520 --> 00:10:51,240
+then we have the five AM four hour candle.
+
+137
+00:10:51,240 --> 00:10:52,080
+Alright?
+
+138
+00:10:52,080 --> 00:10:56,080
+So this is the opening price, the candle closes here.
+
+139
+00:10:57,360 --> 00:11:00,000
+So we simply mark out the high,
+
+140
+00:11:00,000 --> 00:11:01,040
+and the low of that candle.
+
+141
+00:11:01,040 --> 00:11:02,360
+So this is a method two,
+
+142
+00:11:02,360 --> 00:11:04,680
+where price goes into the PDA rate.
+
+143
+00:11:04,680 --> 00:11:08,180
+So you can see that the high of the five
+
+144
+00:11:08,180 --> 00:11:13,160
+candle was taken out and price also was in a PDA ray.
+
+145
+00:11:13,160 --> 00:11:14,920
+And this is the candle low.
+
+146
+00:11:14,920 --> 00:11:17,000
+So this would be a redraw on liquidity.
+
+147
+00:11:17,000 --> 00:11:21,280
+So if I go to the five minute time from now,
+
+148
+00:11:21,280 --> 00:11:25,520
+zoom out a bit, you can see that this was the high.
+
+149
+00:11:25,520 --> 00:11:29,320
+So this tiny bit, let me just mark this up like that.
+
+150
+00:11:29,320 --> 00:11:33,440
+So at nine, actually, the five AM candle closes.
+
+151
+00:11:33,440 --> 00:11:35,640
+at 9M, the 5M candle closes.
+
+152
+00:11:35,640 --> 00:11:36,480
+Remember that.
+
+153
+00:11:37,360 --> 00:11:41,160
+So we get a clean shift in the market structure.
+
+154
+00:11:41,160 --> 00:11:43,240
+We have this big auto block,
+
+155
+00:11:43,240 --> 00:11:47,440
+so a good entry point would be this
+
+156
+00:11:47,440 --> 00:11:50,640
+because that is a BPR.
+
+157
+00:11:50,640 --> 00:11:52,280
+And you can see that this would have been
+
+158
+00:11:52,280 --> 00:11:54,520
+a shot position just right here.
+
+159
+00:11:54,520 --> 00:11:56,440
+You can also take your, you know,
+
+160
+00:11:56,440 --> 00:12:00,000
+usually I would wait for the extreme level to be taken,
+
+161
+00:12:00,000 --> 00:12:03,400
+but since price is already giving me one to two,
+
+162
+00:12:03,400 --> 00:12:08,040
+right? There is no need to take your entry from here because price is giving us decent
+
+163
+00:12:08,040 --> 00:12:17,120
+restorer wall. Now, you can see that your entry would have been here at one to one. You would
+
+164
+00:12:17,120 --> 00:12:23,600
+take around 40 to 50% of your position, go break even, right? And then you can see that
+
+165
+00:12:23,600 --> 00:12:31,200
+the take profit was hit. Your entry, remember must be before 12. Always, okay, 12. So our
+
+166
+00:12:31,200 --> 00:12:37,680
+entry was at 11 something. So this was a beautiful trade we tapped into PDA Ray, you know,
+
+167
+00:12:37,680 --> 00:12:43,760
+and this is meant to do. Let's move on to the next example. All right, guys, so here is
+
+168
+00:12:43,760 --> 00:12:49,520
+another example. And you can see that we have the one M candle here. Price did take it out,
+
+169
+00:12:50,160 --> 00:12:56,880
+but it went up and you may have got stopped at break even with one partial. Now, however,
+
+170
+00:12:56,880 --> 00:13:00,800
+If we look at the 5M4 hour candle, right,
+
+171
+00:13:00,800 --> 00:13:05,440
+we simply mark out the low and the high of that candle.
+
+172
+00:13:05,440 --> 00:13:09,200
+Okay, so we get, we have the 1M and the 5M candle.
+
+173
+00:13:09,200 --> 00:13:14,000
+These are important. Now if I go to the 5 minute chart here,
+
+174
+00:13:14,000 --> 00:13:18,480
+you can see that after taking this, we had a shift in the market structure,
+
+175
+00:13:18,480 --> 00:13:22,880
+so you can account for weeks as well for this strategy.
+
+176
+00:13:22,880 --> 00:13:30,160
+And most importantly, we closed back above the range, above this low.
+
+177
+00:13:30,160 --> 00:13:34,080
+Then we have the autoblock, right?
+
+178
+00:13:34,080 --> 00:13:37,400
+A very clean trade.
+
+179
+00:13:37,400 --> 00:13:40,920
+And if we use our standard deviation tool,
+
+180
+00:13:40,920 --> 00:13:44,200
+although the draw on liquidity is here,
+
+181
+00:13:44,200 --> 00:13:47,960
+there's a higher draw on liquidity that might be here.
+
+182
+00:13:47,960 --> 00:13:52,280
+So this around here, because it is above the negative two.
+
+183
+00:13:52,280 --> 00:13:57,280
+So this could be your final take profit level.
+
+184
+00:13:57,600 --> 00:14:00,080
+Let me just close this real quick.
+
+185
+00:14:00,080 --> 00:14:03,760
+So this could be your final take profit level.
+
+186
+00:14:03,760 --> 00:14:07,200
+So a very beautiful entry from this auto block here
+
+187
+00:14:07,200 --> 00:14:09,280
+and it played out perfectly.
+
+188
+00:14:09,280 --> 00:14:11,480
+And this strategy works really well
+
+189
+00:14:11,480 --> 00:14:13,720
+for some reason with the US study.
+
+190
+00:14:13,720 --> 00:14:16,280
+If you want like insane consistency,
+
+191
+00:14:16,280 --> 00:14:18,240
+then I suggest you trade this,
+
+192
+00:14:18,240 --> 00:14:23,240
+because it has like a very, very high win rate for this like S.
+
+193
+00:14:25,280 --> 00:14:27,120
+Let me give you guys one more example
+
+194
+00:14:27,120 --> 00:14:29,240
+and then I will end this chapter.
+
+195
+00:14:30,840 --> 00:14:33,120
+All right guys, so here is the final example
+
+196
+00:14:33,120 --> 00:14:35,760
+and I'm looking at the one M candle,
+
+197
+00:14:35,760 --> 00:14:37,320
+so I'm gonna mark out the low.
+
+198
+00:14:38,360 --> 00:14:40,240
+And I'm gonna mark out the high.
+
+199
+00:14:42,080 --> 00:14:45,480
+Now, do note that we are inside this PRA.
+
+200
+00:14:45,480 --> 00:14:48,800
+This is a autoblock, right?
+
+201
+00:14:50,280 --> 00:14:51,640
+A bullish autoblock.
+
+202
+00:14:51,640 --> 00:14:54,400
+So that increases the probabilities.
+
+203
+00:14:54,400 --> 00:14:58,240
+Always remember that.
+
+204
+00:14:58,240 --> 00:14:59,920
+And one key thing to note,
+
+205
+00:14:59,920 --> 00:15:01,920
+we are in the discount.
+
+206
+00:15:01,920 --> 00:15:03,840
+So that is also a plus point.
+
+207
+00:15:03,840 --> 00:15:06,760
+These small things, if you try to implement them
+
+208
+00:15:06,760 --> 00:15:09,360
+in every strategy that I've taught you,
+
+209
+00:15:09,360 --> 00:15:12,160
+your win rate is gonna improve, all right?
+
+210
+00:15:12,160 --> 00:15:15,040
+So the one M candle low was taken off.
+
+211
+00:15:15,040 --> 00:15:18,930
+So let's study what happened.
+
+212
+00:15:18,930 --> 00:15:29,180
+So if I go here, right, the low was taken out first,
+
+213
+00:15:29,180 --> 00:15:30,420
+and notice what happened.
+
+214
+00:15:30,420 --> 00:15:33,260
+This has to be the cleanest example.
+
+215
+00:15:33,260 --> 00:15:37,460
+We swept this low, we broke the structure, market structure.
+
+216
+00:15:37,460 --> 00:15:39,900
+We also broke the structure.
+
+217
+00:15:39,900 --> 00:15:41,980
+Very nice.
+
+218
+00:15:41,980 --> 00:15:44,380
+Then we have this fair value gap.
+
+219
+00:15:44,380 --> 00:15:46,300
+Look at the precision here.
+
+220
+00:15:46,300 --> 00:15:49,660
+The bodies were beautifully respected.
+
+221
+00:15:49,660 --> 00:15:52,120
+So this could have been a long position.
+
+222
+00:15:52,120 --> 00:15:59,020
+Your stop would go right below this low and at one to one,
+
+223
+00:16:00,260 --> 00:16:02,380
+somewhere around here, right?
+
+224
+00:16:03,580 --> 00:16:04,820
+One to one.
+
+225
+00:16:07,180 --> 00:16:08,820
+This is the entry.
+
+226
+00:16:08,820 --> 00:16:10,020
+Probably goes up here.
+
+227
+00:16:10,020 --> 00:16:11,580
+So let me just do that.
+
+228
+00:16:11,580 --> 00:16:13,700
+You would go break even somewhere around here.
+
+229
+00:16:14,900 --> 00:16:20,060
+And then you can see that if you held till here,
+
+230
+00:16:20,060 --> 00:16:25,340
+this would have given you a beautiful wrist or what ratio.
+
+231
+00:16:25,340 --> 00:16:29,620
+So this is pretty much it, right?
+
+232
+00:16:29,620 --> 00:16:34,600
+So let me just show you one thing.
+
+233
+00:16:34,600 --> 00:16:35,440
+This is very important.
+
+234
+00:16:35,440 --> 00:16:36,880
+So notice this, okay?
+
+235
+00:16:38,000 --> 00:16:41,680
+This is, so let's assume that this is the 1M candle
+
+236
+00:16:41,680 --> 00:16:44,760
+and this is the 5M candle, all right?
+
+237
+00:16:44,760 --> 00:16:48,360
+Now, let's say that you mark out the low and the high
+
+238
+00:16:48,360 --> 00:16:50,080
+of the 1M candle.
+
+239
+00:16:50,080 --> 00:16:55,080
+But you see that the high and low were not taken out
+
+240
+00:16:55,640 --> 00:16:58,440
+in the next candle, which is the 5M candle.
+
+241
+00:16:58,440 --> 00:17:01,440
+So now we wanna stop looking at this candle
+
+242
+00:17:01,440 --> 00:17:02,840
+and we're gonna mark out the high
+
+243
+00:17:02,840 --> 00:17:04,920
+and low of the 5M candle.
+
+244
+00:17:04,920 --> 00:17:05,760
+Why?
+
+245
+00:17:05,760 --> 00:17:08,000
+Because the 5M candle could not,
+
+246
+00:17:08,000 --> 00:17:11,680
+couldn't take out the high and low of the 1M candle.
+
+247
+00:17:11,680 --> 00:17:16,680
+I repeat, if the high or the low of the 1M candle
+
+248
+00:17:16,680 --> 00:17:23,400
+1m candle is not taken out between the 5m candle,
+
+249
+00:17:23,400 --> 00:17:27,680
+then we wait for the 5m candle to close.
+
+250
+00:17:27,680 --> 00:17:32,760
+And then we mark out the 5m candle high and low.
+
+251
+00:17:32,760 --> 00:17:35,120
+And that's where our focus is going to go.
+
+252
+00:17:35,120 --> 00:17:37,440
+We forget about the 1m candle.
+
+253
+00:17:37,440 --> 00:17:40,760
+And then we look for the price of the 5m low
+
+254
+00:17:40,760 --> 00:17:42,880
+and we target the high.
+
+255
+00:17:42,880 --> 00:17:44,560
+So thank you so much for watching.
+
+256
+00:17:44,560 --> 00:17:46,560
+Please practice, all right?
+
+257
+00:17:46,560 --> 00:17:51,060
+Just by watching this and trading this on the live market, it's not going to help you.
+
+258
+00:17:51,060 --> 00:17:55,060
+Go and back test and see the results by yourself.

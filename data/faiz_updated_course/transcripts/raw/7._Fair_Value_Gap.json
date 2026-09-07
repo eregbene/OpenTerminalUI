@@ -1,0 +1,423 @@
+{
+  "source": "F:\\new faiz\\7. Fair Value Gap.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 500.0185,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.11,
+      "end": 30.11,
+      "text": " Okay guys, so in this video we are going to learn about fair value gaps and imbalances. They are the same thing, but different names. You could either call it fair value gap or imbalances. It's really up to you. But shout out to this guy over here. Great presentation or diagram you could say. Okay, so a gap of liquidity left during the move down in price due to new brand price share overlapping that part of the move in the previous or next candle."
+    },
+    {
+      "start": 30.11,
+      "end": 38.03,
+      "text": " is fair about your gap is the space between the three candles. Alright, so this is the one candle,"
+    },
+    {
+      "start": 38.03,
+      "end": 45.95,
+      "text": " second candle and third candle. So as you can see from the left side from this low and the third"
+    },
+    {
+      "start": 45.95,
+      "end": 54.83,
+      "text": " candle to the right, this high, there's this gap. Alright, there's nothing around this level."
+    },
+    {
+      "start": 54.83,
+      "end": 59.83,
+      "text": " So this is considered to be imbalance."
+    },
+    {
+      "start": 59.83,
+      "end": 60.83,
+      "text": " I will repeat."
+    },
+    {
+      "start": 60.83,
+      "end": 65.83,
+      "text": " You can see that price went up and then we had three candles."
+    },
+    {
+      "start": 65.83,
+      "end": 68.83,
+      "text": " So this is like a three candle."
+    },
+    {
+      "start": 68.83,
+      "end": 74.83,
+      "text": " You could say so you can see one, two, three, three candles."
+    },
+    {
+      "start": 74.83,
+      "end": 78.83,
+      "text": " And in between those three candles, there should be a gap."
+    },
+    {
+      "start": 78.83,
+      "end": 81.83,
+      "text": " So how do we determine a gap?"
+    },
+    {
+      "start": 81.83,
+      "end": 83.83,
+      "text": " We look if we are looking at a"
+    },
+    {
+      "start": 84.71,
+      "end": 89.79,
+      "text": " Short position we're gonna look from the first we're gonna look start looking from the first candle"
+    },
+    {
+      "start": 89.79,
+      "end": 91.79,
+      "text": " So this is the first candle and"
+    },
+    {
+      "start": 92.27,
+      "end": 104.39,
+      "text": " We look at the low of the first candle which is this and then we look at the high of the third candle and if there is gap between the"
+    },
+    {
+      "start": 105.39,
+      "end": 109.83,
+      "text": " low of the first candle and the high of the third candle"
+    },
+    {
+      "start": 109.83,
+      "end": 117.83,
+      "text": " then that area could be considered as fair value gap or imbalance. Now why does"
+    },
+    {
+      "start": 117.83,
+      "end": 124.03,
+      "text": " this happen is when big institutional buyers or sellers are in the market when"
+    },
+    {
+      "start": 124.03,
+      "end": 131.91,
+      "text": " there is unfair or you could say huge amounts of selling or buying going on market"
+    },
+    {
+      "start": 131.91,
+      "end": 139.71,
+      "text": " leaves unfair price okay and that price should always be filled it should be"
+    },
+    {
+      "start": 139.71,
+      "end": 147.71,
+      "text": " filled to keep the value of the market fair if that makes sense. So that is why we call it a"
+    },
+    {
+      "start": 147.71,
+      "end": 155.39,
+      "text": " fair value gap because when price comes into this level, it makes a price fair if that makes sense."
+    },
+    {
+      "start": 155.39,
+      "end": 163.95,
+      "text": " All right. So if we look at the by example here, we look for the high of the first candle and the"
+    },
+    {
+      "start": 163.95,
+      "end": 171.39,
+      "text": " low of the third candle. So this is again a three candle formation. Remember that one, two, three."
+    },
+    {
+      "start": 171.39,
+      "end": 178.19,
+      "text": " All right. So the first candle we're looking at a by example. Okay. So the first candle,"
+    },
+    {
+      "start": 178.75,
+      "end": 185.63,
+      "text": " the high of the first candle and the low of the third candle, we have to look for these two"
+    },
+    {
+      "start": 185.63,
+      "end": 191.23,
+      "text": " things. All right. The high of the first candle and the low of the third candle. If there's any space"
+    },
+    {
+      "start": 191.23,
+      "end": 197.11,
+      "text": " between the first candle and the third candle then that space should be"
+    },
+    {
+      "start": 197.11,
+      "end": 203.95,
+      "text": " considered as fair value gap. Alright so let me give you some examples. So as"
+    },
+    {
+      "start": 203.95,
+      "end": 212.15,
+      "text": " you can see we got let me zoom in a bit you can see one two three candles"
+    },
+    {
+      "start": 212.15,
+      "end": 217.23,
+      "text": " right so we're looking at three candles okay so we got one candle right"
+    },
+    {
+      "start": 217.23,
+      "end": 225.95,
+      "text": " here the second candle right here and the third candle right around here right and in between these"
+    },
+    {
+      "start": 226.91,
+      "end": 235.55,
+      "text": " three candles we got fair value gap right so let me put that in like this and let me go to the"
+    },
+    {
+      "start": 235.55,
+      "end": 241.31,
+      "text": " repo mode so it's clear for you guys all right okay so as you can see what we discussed when"
+    },
+    {
+      "start": 241.31,
+      "end": 247.83,
+      "text": " When we're looking for a short position, we are going to look for the low of the first candle,"
+    },
+    {
+      "start": 247.83,
+      "end": 250.71,
+      "text": " which is this as you can see, there is a week, right?"
+    },
+    {
+      "start": 250.71,
+      "end": 255.27,
+      "text": " So this is the low of the first candle."
+    },
+    {
+      "start": 255.27,
+      "end": 258.63,
+      "text": " And then we look at the high of the third candle."
+    },
+    {
+      "start": 258.63,
+      "end": 262.75,
+      "text": " And there you can see this gap around this level, right?"
+    },
+    {
+      "start": 262.75,
+      "end": 271.27,
+      "text": " And what we should be expecting is that price is going to fill this level, this area"
+    },
+    {
+      "start": 271.27,
+      "end": 273.55,
+      "text": " imbalance and go down."
+    },
+    {
+      "start": 273.55,
+      "end": 276.38,
+      "text": " All right?"
+    },
+    {
+      "start": 276.38,
+      "end": 278.5,
+      "text": " So let's see what happens."
+    },
+    {
+      "start": 278.5,
+      "end": 282.74,
+      "text": " Price fills the imbalance and then it drops down."
+    },
+    {
+      "start": 283.9,
+      "end": 286.1,
+      "text": " Very simple guys, okay?"
+    },
+    {
+      "start": 286.1,
+      "end": 288.74,
+      "text": " And as you can see, price goes up a bit."
+    },
+    {
+      "start": 288.74,
+      "end": 291.5,
+      "text": " Fills all the imbalance here."
+    },
+    {
+      "start": 291.5,
+      "end": 294.14,
+      "text": " And there should be some imbalance"
+    },
+    {
+      "start": 294.14,
+      "end": 297.34,
+      "text": " on a smaller timeframe, right?"
+    },
+    {
+      "start": 297.34,
+      "end": 301.42,
+      "text": " So we are looking at this imbalance on a five-minute timeframe,"
+    },
+    {
+      "start": 301.42,
+      "end": 304.82,
+      "text": " But I'm pretty sure there's gonna be imbalance"
+    },
+    {
+      "start": 304.82,
+      "end": 307.5,
+      "text": " on a short time frame."
+    },
+    {
+      "start": 307.5,
+      "end": 309.34,
+      "text": " So let's go to the one minute timeframe."
+    },
+    {
+      "start": 310.9,
+      "end": 319.56,
+      "text": " And as you can see, as you can see, if we zoom in,"
+    },
+    {
+      "start": 319.56,
+      "end": 321.52,
+      "text": " you can see there's gap, all right?"
+    },
+    {
+      "start": 321.52,
+      "end": 323.16,
+      "text": " From here to here."
+    },
+    {
+      "start": 323.16,
+      "end": 327.96,
+      "text": " So a one, two, three candles, very nice."
+    },
+    {
+      "start": 327.96,
+      "end": 331.92,
+      "text": " And then you can see we got this gap, all right?"
+    },
+    {
+      "start": 331.92,
+      "end": 343.37,
+      "text": " price must fill this level. So if we draw this out, you can see how perfectly price"
+    },
+    {
+      "start": 343.37,
+      "end": 350.41,
+      "text": " filled the balance here, make the price fair and then it went down all the way"
+    },
+    {
+      "start": 350.41,
+      "end": 357.89,
+      "text": " down. Alright, so let me play this ad for you. Yep, so it went all the way down."
+    },
+    {
+      "start": 357.89,
+      "end": 365.33,
+      "text": " Let me should give you an example for buy position. Alright, so we are looking at"
+    },
+    {
+      "start": 365.33,
+      "end": 373.77,
+      "text": " this. So we got, let me label it so it's easier for you. So we got the one candle"
+    },
+    {
+      "start": 373.77,
+      "end": 385.85,
+      "text": " around here. So this is our first candle. So this is the first candle. This is the second"
+    },
+    {
+      "start": 385.85,
+      "end": 392.13,
+      "text": " and this is third. When we're looking for buys, we are going to look at the high, the"
+    },
+    {
+      "start": 392.13,
+      "end": 400.29,
+      "text": " very high of the first candle and the low of the third candle and then we wait for the price"
+    },
+    {
+      "start": 400.29,
+      "end": 409.65,
+      "text": " to fill this level and as you can see if we draw this out price filled this level fill this imbalance"
+    },
+    {
+      "start": 409.65,
+      "end": 416.85,
+      "text": " or fill a value gap and it went all the way up all right and I'm pretty sure that there was some"
+    },
+    {
+      "start": 416.85,
+      "end": 422.93,
+      "text": " imbalance around this level here as well. Alright on a 30 second timeframe or I"
+    },
+    {
+      "start": 422.93,
+      "end": 428.69,
+      "text": " don't know 15 second timeframe remember guys price is fractal alright so whatever is"
+    },
+    {
+      "start": 428.69,
+      "end": 433.81,
+      "text": " happening on the one minute it could be happening on a smaller timeframe so it"
+    },
+    {
+      "start": 433.81,
+      "end": 437.97,
+      "text": " doesn't really matter what timeframe you're looking at as long as you are following"
+    },
+    {
+      "start": 437.97,
+      "end": 445.09,
+      "text": " your rules. Okay so as you can see price fills the imbalance and the farewell you"
+    },
+    {
+      "start": 445.09,
+      "end": 453.41,
+      "text": " gap and it just goes all the way up. Now we should not use the fair value gap or"
+    },
+    {
+      "start": 454.41,
+      "end": 458.21,
+      "text": " imbalance, whatever you want to call it, as an independent strategy. All right."
+    },
+    {
+      "start": 459.33,
+      "end": 462.93,
+      "text": " This is something that we're going to use with a lot of other conferences like"
+    },
+    {
+      "start": 462.93,
+      "end": 469.17,
+      "text": " liquidity, market structure break, okay, market structure shift and all. So keep watching."
+    },
+    {
+      "start": 469.17,
+      "end": 476.77,
+      "text": " And I'm pretty sure that you should be pretty clear about imbalances and what they are."
+    },
+    {
+      "start": 478.37,
+      "end": 481.49,
+      "text": " I tried my best, my very best to explain it to you."
+    },
+    {
+      "start": 482.61,
+      "end": 488.21,
+      "text": " I really do hope that you understood it. If you did not, I would highly recommend that you watch"
+    },
+    {
+      "start": 488.21,
+      "end": 494.93,
+      "text": " this video again because this is one of the most important things of this course."
+    },
+    {
+      "start": 494.93,
+      "end": 498.77,
+      "text": " So yeah, I'll see you guys in the next video."
+    }
+  ]
+}

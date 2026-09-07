@@ -1,0 +1,33 @@
+All right, everybody, so here is example number one on how I would combine the daily bias technique with the air 50 strategies
+So over here you can see that this was the daily candle and we closed above this candle here
+so now our draw on
+Liquid is gonna be this daily high so now if I drop down to let's say the five minute
+That's when we want to trade the air 50 strategy. So this is the daily high
+This is initially going to be going to be our draw on liquidity
+Right, you can clearly see it was not breached. So as long as it's not breached
+Right, we have the draw on liquidity intact. So now
+What are the rules of the air 50 training strategy if you are new watcher of the strategy I?
+Use this indicator
+FXN Asian
+session range by Rob Minty
+The Asian session starts from 20 New York time till 2m New York time. I
+Once the Asian session is over at 2 I mark out the Asian session high and
+the Asian session low
+now
+When our bias is bullish in this scenario, it is I want the offer to him
+I want the price to break above the Asian session high and
+Close above it once it closes above it. What I'm doing is I'm using my Fibonacci from the Asian low to Asian high
+Cool
+Asian low
+to Asian high
+Now my entry is going to be from the 0.5 level or the 50% of the Asian range hence the AR 50 Asian range 50
+Now our bias is bullish. So I'm going to with confidence
+I'm going to take a long position here put much drop right above this low and
+I'm going to go for the draw on liquidity, which is the issue the daily high
+So if I play this through we get a beautiful entry and since our bias is bullish
+You will see that the take profit level was hit
+and
+To make it up like that. You should have gotten one to two restore what I
+Think this is basically the best model that you can use
+It's really really good guys. All right. I think it's I think it's my favorite model at the moment
+But yeah guys, let's move on to another example

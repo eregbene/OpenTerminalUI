@@ -1,0 +1,388 @@
+{
+  "source": "F:\\new faiz\\22. ORDERFLOW 101 EXAMPLE 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 366.2948125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so here is example number two. So basically there are some other things that I want to throw it out. So when you are extremely bullish or bearish, you know, every auto block or I would say, demand zone could be, you know, a POI. And you can look for confirmation entries from those POIs. So for example, right here, you can see we are bullish right here. I'm looking at GVPUSD."
+    },
+    {
+      "start": 30.0,
+      "end": 35.0,
+      "text": " And there is this auto block right here."
+    },
+    {
+      "start": 36.0,
+      "end": 38.96,
+      "text": " Right?"
+    },
+    {
+      "start": 38.96,
+      "end": 41.04,
+      "text": " And the thing that I was talking about"
+    },
+    {
+      "start": 41.04,
+      "end": 45.08,
+      "text": " how to combine DXY with the Australian strategy."
+    },
+    {
+      "start": 45.08,
+      "end": 50.08,
+      "text": " So when you have a institutional support level"
+    },
+    {
+      "start": 52.68,
+      "end": 56.72,
+      "text": " or auto block here and price comes back"
+    },
+    {
+      "start": 56.72,
+      "end": 60.0,
+      "text": " into this auto block, when price comes back"
+    },
+    {
+      "start": 60.0,
+      "end": 70.16,
+      "text": " this autoblog on GPPUSD, you go to DXY and see if price is also at the resistance"
+    },
+    {
+      "start": 70.16,
+      "end": 80.32,
+      "text": " level of some sort. So as you know, the DXY chart is inverse to this. So if the"
+    },
+    {
+      "start": 80.32,
+      "end": 83.82,
+      "text": " as we used is going up, DXY is gonna go down."
+    },
+    {
+      "start": 83.82,
+      "end": 85.2,
+      "text": " Simple, right?"
+    },
+    {
+      "start": 85.2,
+      "end": 90.2,
+      "text": " But around here, when price reaches this autoblock"
+    },
+    {
+      "start": 92.4,
+      "end": 97.4,
+      "text": " and on DXY, price at the same time, okay?"
+    },
+    {
+      "start": 98.0,
+      "end": 101.68,
+      "text": " Not at the same time, but if it's at the resistance level,"
+    },
+    {
+      "start": 101.68,
+      "end": 104.16,
+      "text": " right, let's assume that this is DXY"
+    },
+    {
+      "start": 104.16,
+      "end": 108.48,
+      "text": " and this is autoblock, and price is here"
+    },
+    {
+      "start": 108.48,
+      "end": 112.44,
+      "text": " at the autoblock and also on GPPUSD prices"
+    },
+    {
+      "start": 112.44,
+      "end": 119.23,
+      "text": " at the support level or bullish autoblock, right?"
+    },
+    {
+      "start": 120.03,
+      "end": 123.99,
+      "text": " Then that is a confluence that you can use."
+    },
+    {
+      "start": 123.99,
+      "end": 127.63,
+      "text": " So in other words, in simple words,"
+    },
+    {
+      "start": 127.63,
+      "end": 152.22,
+      "text": " uh, zbp-USD-USD-Audz. If they are at some OB and at this if one of these are at some"
+    },
+    {
+      "start": 152.22,
+      "end": 163.9,
+      "text": " OB and at the same time dxy is at some OB as well. So OB could be a resistance or support"
+    },
+    {
+      "start": 163.9,
+      "end": 169.38,
+      "text": " level. So generally auto blocks are supported resistance levels. Okay. So that's why I'm calling"
+    },
+    {
+      "start": 169.38,
+      "end": 178.98,
+      "text": " them support and resistance. So let's assume that GVP and your USD both of them hit the"
+    },
+    {
+      "start": 178.98,
+      "end": 189.24,
+      "text": " autoblock right here. Okay. Or I would say that GPP USD hits the autoblock. Your"
+    },
+    {
+      "start": 189.24,
+      "end": 197.04,
+      "text": " USD does not hit the autoblock and DXY also is at some sort of resistance level. Right."
+    },
+    {
+      "start": 197.04,
+      "end": 204.98,
+      "text": " Then you should trade GPP USD. If your USD hits the autoblock right and GPP USD and"
+    },
+    {
+      "start": 204.98,
+      "end": 210.18,
+      "text": " AUDU SD do not hit the auto block, which is right here, do not touch the auto block."
+    },
+    {
+      "start": 210.18,
+      "end": 214.38,
+      "text": " And at the same time, DXY is at the resistance level."
+    },
+    {
+      "start": 214.38,
+      "end": 219.34,
+      "text": " It is touching the resistance or an auto block here, which could be actually this, my"
+    },
+    {
+      "start": 219.34,
+      "end": 220.34,
+      "text": " bad."
+    },
+    {
+      "start": 220.34,
+      "end": 223.26,
+      "text": " Right?"
+    },
+    {
+      "start": 223.26,
+      "end": 225.58,
+      "text": " Then you want to trade your USD."
+    },
+    {
+      "start": 225.58,
+      "end": 228.54,
+      "text": " I know this is sounding a little bit complicated, but it is not."
+    },
+    {
+      "start": 228.54,
+      "end": 232.06,
+      "text": " If you really focus on that, what I'm trying to say."
+    },
+    {
+      "start": 232.06,
+      "end": 238.42,
+      "text": " And let's say the GBUSD and the USB both are not touching the auto block and they are"
+    },
+    {
+      "start": 238.42,
+      "end": 241.22,
+      "text": " somewhere around here, right?"
+    },
+    {
+      "start": 241.22,
+      "end": 248.9,
+      "text": " And aUDUSD has already touched this auto block and at the same time DXY is also at some sort"
+    },
+    {
+      "start": 248.9,
+      "end": 251.18,
+      "text": " of resistance level."
+    },
+    {
+      "start": 251.18,
+      "end": 255.82,
+      "text": " Then that my friend is the sign that you should be trading aUDUSD."
+    },
+    {
+      "start": 255.82,
+      "end": 260.3,
+      "text": " I hope that is clear guys."
+    },
+    {
+      "start": 260.3,
+      "end": 263.14,
+      "text": " So let me show you how this works."
+    },
+    {
+      "start": 263.14,
+      "end": 268.58,
+      "text": " So we know that we are bullish, right?"
+    },
+    {
+      "start": 268.58,
+      "end": 269.58,
+      "text": " Price going up."
+    },
+    {
+      "start": 269.58,
+      "end": 273.42,
+      "text": " We have this auto block right here."
+    },
+    {
+      "start": 273.42,
+      "end": 277.02,
+      "text": " So I dropped down to 15 minute time from."
+    },
+    {
+      "start": 277.02,
+      "end": 280.7,
+      "text": " Look for a shift in market structure."
+    },
+    {
+      "start": 280.7,
+      "end": 281.22,
+      "text": " There you go."
+    },
+    {
+      "start": 281.22,
+      "end": 283.82,
+      "text": " We have a market structure shift."
+    },
+    {
+      "start": 283.82,
+      "end": 285.54,
+      "text": " And this right here."
+    },
+    {
+      "start": 285.54,
+      "end": 288.06,
+      "text": " OK, so here's another thing."
+    },
+    {
+      "start": 288.06,
+      "end": 289.9,
+      "text": " On the photo time for when you're looking"
+    },
+    {
+      "start": 289.9,
+      "end": 293.62,
+      "text": " to identify your POI, you should mark out"
+    },
+    {
+      "start": 293.62,
+      "end": 295.78,
+      "text": " consecutive bearish candles."
+    },
+    {
+      "start": 297.42,
+      "end": 299.78,
+      "text": " Okay, most of the time,"
+    },
+    {
+      "start": 299.78,
+      "end": 303.26,
+      "text": " it's like so many bearish candles, right?"
+    },
+    {
+      "start": 303.26,
+      "end": 305.46,
+      "text": " Just mark out the last candle,"
+    },
+    {
+      "start": 305.46,
+      "end": 308.5,
+      "text": " or the one above it, from above it."
+    },
+    {
+      "start": 308.5,
+      "end": 312.98,
+      "text": " Okay, but when you are looking for entries on 15 minutes,"
+    },
+    {
+      "start": 312.98,
+      "end": 314.74,
+      "text": " you should always take your entry"
+    },
+    {
+      "start": 314.74,
+      "end": 317.42,
+      "text": " from the very last bearish candle"
+    },
+    {
+      "start": 317.42,
+      "end": 320.3,
+      "text": " before the multi-ups are that broke the structure."
+    },
+    {
+      "start": 320.3,
+      "end": 322.06,
+      "text": " So let's wait for price to come back"
+    },
+    {
+      "start": 322.06,
+      "end": 328.63,
+      "text": " into our PIO, into our entry zone, kaboom."
+    },
+    {
+      "start": 328.63,
+      "end": 332.35,
+      "text": " That is our entry during London session."
+    },
+    {
+      "start": 332.35,
+      "end": 334.87,
+      "text": " So that is a plus point."
+    },
+    {
+      "start": 334.87,
+      "end": 337.27,
+      "text": " Put our stop right below this level."
+    },
+    {
+      "start": 337.27,
+      "end": 342.56,
+      "text": " Target one to two, and I go back home."
+    },
+    {
+      "start": 342.56,
+      "end": 346.04,
+      "text": " And there you go, perfect, perfect move."
+    },
+    {
+      "start": 346.04,
+      "end": 348.08,
+      "text": " But you can see, you can hold, it really depends on."
+    },
+    {
+      "start": 348.08,
+      "end": 351.04,
+      "text": " You guys, I only look for one to two, as I've said before,"
+    },
+    {
+      "start": 351.04,
+      "end": 353.28,
+      "text": " in my videos multiple times."
+    },
+    {
+      "start": 353.28,
+      "end": 360.28,
+      "text": " So, yeah guys, I hope you guys understood what I tried to teach."
+    },
+    {
+      "start": 360.28,
+      "end": 364.96,
+      "text": " If you did not, feel free to ask questions and I'll try to answer them in my discord server."
+    }
+  ]
+}

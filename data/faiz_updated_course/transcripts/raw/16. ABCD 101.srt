@@ -1,0 +1,372 @@
+1
+00:00:00,000 --> 00:00:03,200
+Alright guys, so in this lecture, I'm gonna show you
+
+2
+00:00:03,200 --> 00:00:06,200
+how I personally use ABCD tweeting strategy
+
+3
+00:00:06,200 --> 00:00:10,400
+and trust me guys, this is like, I would say,
+
+4
+00:00:11,880 --> 00:00:15,960
+even powerful than ABC, if used properly.
+
+5
+00:00:15,960 --> 00:00:18,440
+And I'm gonna show you how to use it properly.
+
+6
+00:00:18,440 --> 00:00:22,520
+So how do I use ABCD tweeting strategy?
+
+7
+00:00:23,560 --> 00:00:25,900
+First of all, as I said before,
+
+8
+00:00:26,840 --> 00:00:29,280
+I look at the overall market structure.
+
+9
+00:00:29,280 --> 00:00:32,160
+Are we bullish or are we bearish?
+
+10
+00:00:32,160 --> 00:00:35,800
+Okay, once I know the direction of the market,
+
+11
+00:00:35,800 --> 00:00:38,560
+so I look back 30 days or 20 days,
+
+12
+00:00:38,560 --> 00:00:42,720
+and if the market is going up, I look for longs.
+
+13
+00:00:42,720 --> 00:00:45,600
+And if the market has been going down
+
+14
+00:00:45,600 --> 00:00:49,840
+for the past 30 days, I only shot guys.
+
+15
+00:00:49,840 --> 00:00:53,140
+That is one simple rule, to identify trends.
+
+16
+00:00:54,140 --> 00:00:59,140
+So, you have A, B, C, right?
+
+17
+00:01:01,460 --> 00:01:04,460
+You look for D-leg, okay?
+
+18
+00:01:08,300 --> 00:01:11,860
+And after that, you look for market structure shift
+
+19
+00:01:11,860 --> 00:01:14,900
+on a smaller timeframe, okay?
+
+20
+00:01:14,900 --> 00:01:17,300
+So there could be structure here.
+
+21
+00:01:17,300 --> 00:01:22,220
+Now, unlike, so in ABCD strategy,
+
+22
+00:01:22,220 --> 00:01:26,140
+we look for market structure shift above the range
+
+23
+00:01:27,100 --> 00:01:31,980
+or below the range, okay?
+
+24
+00:01:31,980 --> 00:01:36,980
+But in ABCD, what can happen is,
+
+25
+00:01:40,020 --> 00:01:42,500
+as long as this level is not broken,
+
+26
+00:01:42,500 --> 00:01:45,460
+you can look for market structure shifts.
+
+27
+00:01:45,460 --> 00:01:48,300
+And while this level gets broken,
+
+28
+00:01:48,300 --> 00:01:52,100
+you can still look for market structure shifts, okay?
+
+29
+00:01:52,300 --> 00:01:54,460
+If the trend is bullish, right?
+
+30
+00:01:56,500 --> 00:02:00,140
+This level can act as a liquidity level as well.
+
+31
+00:02:00,140 --> 00:02:03,820
+But most of the time, the pattern is gonna look like this.
+
+32
+00:02:03,820 --> 00:02:06,540
+A, B, C, D.
+
+33
+00:02:06,540 --> 00:02:08,940
+The D-leg takes out the low of the B-leg,
+
+34
+00:02:08,940 --> 00:02:10,700
+and then you look at the market structure shift
+
+35
+00:02:10,700 --> 00:02:12,660
+on a smaller timeframe.
+
+36
+00:02:12,660 --> 00:02:16,740
+So, the recommended timing,
+
+37
+00:02:16,740 --> 00:02:18,180
+the timing that I use,
+
+38
+00:02:18,180 --> 00:02:21,260
+the timeframe that I use for this strategy is four hour
+
+39
+00:02:21,260 --> 00:02:24,220
+and 15 minutes, okay?
+
+40
+00:02:24,220 --> 00:02:28,780
+And guys, trust me, I'm not lying.
+
+41
+00:02:28,780 --> 00:02:33,220
+This is like the best timeframe to use these strategies.
+
+42
+00:02:33,220 --> 00:02:37,420
+So, on the four hour, you look at the market structure
+
+43
+00:02:37,420 --> 00:02:39,900
+and you identify the ABC pattern.
+
+44
+00:02:39,900 --> 00:02:42,700
+And after that, you look for the D-leg
+
+45
+00:02:42,700 --> 00:02:44,940
+that takes out the low of the B-leg.
+
+46
+00:02:44,940 --> 00:02:46,980
+Once that low is taken out,
+
+47
+00:02:46,980 --> 00:02:49,500
+you drop down to 15 minutes timeframe,
+
+48
+00:02:49,500 --> 00:02:51,240
+and then you look for market structure shift,
+
+49
+00:02:51,240 --> 00:02:53,720
+with displacement that has favorably gapped
+
+50
+00:02:53,720 --> 00:02:56,120
+before market structure shift.
+
+51
+00:02:56,120 --> 00:02:59,560
+And you take your entry during Killzone hours, okay?
+
+52
+00:02:59,560 --> 00:03:02,440
+As explained in the ABC video, I have shown the timings.
+
+53
+00:03:02,440 --> 00:03:04,560
+You must follow that timing.
+
+54
+00:03:04,560 --> 00:03:08,480
+And you take your entry and you can look for one to two,
+
+55
+00:03:08,480 --> 00:03:10,640
+target some favorably gapped here.
+
+56
+00:03:10,640 --> 00:03:13,800
+Probably there is a supply zone or an auto block
+
+57
+00:03:13,800 --> 00:03:15,080
+with favorably gapped.
+
+58
+00:03:15,080 --> 00:03:16,800
+Your first target would be that.
+
+59
+00:03:16,800 --> 00:03:18,340
+You would take some partials,
+
+60
+00:03:18,340 --> 00:03:20,380
+you take some partials along the way,
+
+61
+00:03:20,380 --> 00:03:23,500
+and probably you could be trading your stop loss.
+
+62
+00:03:23,500 --> 00:03:26,060
+It really depends on your risk management style.
+
+63
+00:03:27,180 --> 00:03:30,820
+So, similarly, if we have a downtrend
+
+64
+00:03:30,820 --> 00:03:33,300
+for the past 30 days or 20 days,
+
+65
+00:03:34,180 --> 00:03:38,100
+you look for a purge of this level.
+
+66
+00:03:38,100 --> 00:03:41,060
+So we have ABC and this D-leg
+
+67
+00:03:41,060 --> 00:03:43,780
+takes out the high of the B-leg right here.
+
+68
+00:03:43,780 --> 00:03:45,740
+Once that is taken out,
+
+69
+00:03:45,740 --> 00:03:49,300
+you look for market structure shift on 15 minute timeframe.
+
+70
+00:03:49,340 --> 00:03:54,180
+And yeah, it's gonna break out perfectly, okay?
+
+71
+00:03:55,060 --> 00:04:00,060
+Now, sometimes what I do to make it even more perfect,
+
+72
+00:04:03,300 --> 00:04:08,300
+I would look for an ABC panel like that.
+
+73
+00:04:09,300 --> 00:04:14,300
+And I would use the fib from the start of a leg
+
+74
+00:04:16,060 --> 00:04:18,180
+and the end of C-leg.
+
+75
+00:04:19,420 --> 00:04:24,420
+And if the D-leg comes into 0.705 level of fib
+
+76
+00:04:27,340 --> 00:04:31,580
+or 0.79 level, right?
+
+77
+00:04:31,580 --> 00:04:33,540
+And then gives you a market structure shift.
+
+78
+00:04:33,540 --> 00:04:38,540
+Then guys, that is an A-plus setup, I would say, okay?
+
+79
+00:04:39,060 --> 00:04:41,980
+I mean, the previous setup is also A-plus,
+
+80
+00:04:41,980 --> 00:04:45,180
+but this adds in more confluence, right?
+
+81
+00:04:45,180 --> 00:04:48,300
+And if there is a perfect auto block
+
+82
+00:04:48,300 --> 00:04:50,580
+with fair value gap around this level,
+
+83
+00:04:50,580 --> 00:04:53,260
+then oh guys, trust me, you're gonna love
+
+84
+00:04:53,260 --> 00:04:55,740
+when this trade's gonna play out in your favor.
+
+85
+00:04:55,740 --> 00:04:58,220
+So you look for market structure shift on 15 minutes,
+
+86
+00:04:58,220 --> 00:05:03,020
+when price touches the 0.705 or 0.79 level
+
+87
+00:05:03,020 --> 00:05:07,540
+or an auto block around this area, right?
+
+88
+00:05:07,540 --> 00:05:10,780
+And I could say 0.5 above the 0.5 level
+
+89
+00:05:10,780 --> 00:05:14,580
+if you find an auto block or these levels,
+
+90
+00:05:15,180 --> 00:05:18,220
+the ODE levels, 0.79, 0.705.
+
+91
+00:05:18,220 --> 00:05:19,420
+You look for market structure shift
+
+92
+00:05:19,420 --> 00:05:24,180
+and you take your entry targeting favor gaps or auto blocks.
+
+93
+00:05:25,660 --> 00:05:27,860
+So let me give you guys a couple of examples.
+

@@ -1,0 +1,548 @@
+{
+  "source": "F:\\new faiz\\26. DAILY BIAS MADE EASY.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 407.370875,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.11,
+      "end": 30.11,
+      "text": " Alright guys, so in this lecture, I'm gonna show you how you can identify daily bias easily. So this method was actually taught by ICT himself in one of his videos. I believe it was from sniper series or market maker, I'm not quite sure. But yeah, he thought that himself. He said that if you as a beginner, if you are having problem with finding daily bias manually, you can use this method. Okay? It's not gonna be as perfect as finding the daily bias manually, but it's gonna work."
+    },
+    {
+      "start": 30.11,
+      "end": 32.43,
+      "text": " Okay, and it's better than nothing."
+    },
+    {
+      "start": 32.43,
+      "end": 35.39,
+      "text": " So go to the indicator style here, type in moving"
+    },
+    {
+      "start": 36.71,
+      "end": 39.03,
+      "text": " average, right?"
+    },
+    {
+      "start": 39.03,
+      "end": 42.99,
+      "text": " And you open two moving averages."
+    },
+    {
+      "start": 42.99,
+      "end": 45.27,
+      "text": " So the one length is nine."
+    },
+    {
+      "start": 45.27,
+      "end": 47.31,
+      "text": " So the length of the first one is nine"
+    },
+    {
+      "start": 47.31,
+      "end": 50.55,
+      "text": " and the length of the second one is going to be 18."
+    },
+    {
+      "start": 52.15,
+      "end": 56.43,
+      "text": " Once you have that, so whenever the moving averages"
+    },
+    {
+      "start": 56.43,
+      "end": 59.63,
+      "text": " are to the upside, right, after the cross,"
+    },
+    {
+      "start": 59.63,
+      "end": 61.15,
+      "text": " your bias is bullish."
+    },
+    {
+      "start": 61.15,
+      "end": 61.99,
+      "text": " Okay?"
+    },
+    {
+      "start": 61.99,
+      "end": 64.71,
+      "text": " And whenever the moving averages are to the downside,"
+    },
+    {
+      "start": 64.71,
+      "end": 67.47,
+      "text": " your bias is bearish."
+    },
+    {
+      "start": 67.47,
+      "end": 69.27,
+      "text": " Simple as that guys,"
+    },
+    {
+      "start": 69.27,
+      "end": 70.75,
+      "text": " non-eat your complicated."
+    },
+    {
+      "start": 71.79,
+      "end": 75.59,
+      "text": " I repeat, when the moving averages give across"
+    },
+    {
+      "start": 75.59,
+      "end": 77.79,
+      "text": " and the price is above the moving averages"
+    },
+    {
+      "start": 77.79,
+      "end": 79.87,
+      "text": " or the moving averages are up to the upside."
+    },
+    {
+      "start": 79.87,
+      "end": 83.75,
+      "text": " Like here, your bias is gonna be bullish,"
+    },
+    {
+      "start": 83.75,
+      "end": 85.59,
+      "text": " regardless of what price is doing."
+    },
+    {
+      "start": 85.59,
+      "end": 86.91,
+      "text": " Okay?"
+    },
+    {
+      "start": 86.91,
+      "end": 90.87,
+      "text": " So this is one way to set foundation."
+    },
+    {
+      "start": 90.87,
+      "end": 91.39,
+      "text": " Okay."
+    },
+    {
+      "start": 91.39,
+      "end": 95.39,
+      "text": " So what I have found by back testing is one you"
+    },
+    {
+      "start": 95.39,
+      "end": 97.23,
+      "text": " once you have a cross, right?"
+    },
+    {
+      "start": 97.23,
+      "end": 102.23,
+      "text": " The next two to three days, you can have a bullish bias."
+    },
+    {
+      "start": 102.39,
+      "end": 106.83,
+      "text": " But after that, you want to look for some sort of liquidity sweep"
+    },
+    {
+      "start": 106.83,
+      "end": 108.35,
+      "text": " before being bullish again."
+    },
+    {
+      "start": 108.35,
+      "end": 108.87,
+      "text": " Okay."
+    },
+    {
+      "start": 108.87,
+      "end": 111.63,
+      "text": " So right here you can see we had three consecutive bullish days."
+    },
+    {
+      "start": 111.63,
+      "end": 114.27,
+      "text": " So you have to expect some sort of retracement."
+    },
+    {
+      "start": 114.27,
+      "end": 118.07,
+      "text": " And that retracement could be from this fair value gap that was here."
+    },
+    {
+      "start": 118.07,
+      "end": 119.91,
+      "text": " So when price comes back to fair value gap,"
+    },
+    {
+      "start": 119.91,
+      "end": 122.35,
+      "text": " you could either be bullish again here"
+    },
+    {
+      "start": 122.35,
+      "end": 125.67,
+      "text": " or you do is wait for some sort of liquidity sweep."
+    },
+    {
+      "start": 125.67,
+      "end": 128.67,
+      "text": " So this right here is a liquidity sweep"
+    },
+    {
+      "start": 128.67,
+      "end": 133.15,
+      "text": " and price candle closes here and your bias is bullish."
+    },
+    {
+      "start": 133.15,
+      "end": 135.91,
+      "text": " Very, very simple guys, okay?"
+    },
+    {
+      "start": 137.75,
+      "end": 140.51,
+      "text": " And right here you can see we have a cross,"
+    },
+    {
+      "start": 141.43,
+      "end": 142.95,
+      "text": " I believe right here."
+    },
+    {
+      "start": 142.95,
+      "end": 145.95,
+      "text": " So the next day was bearish, okay?"
+    },
+    {
+      "start": 145.95,
+      "end": 150.95,
+      "text": " But then what happened was we took out this high here"
+    },
+    {
+      "start": 152.07,
+      "end": 155.47,
+      "text": " and you can see the next day was bearish."
+    },
+    {
+      "start": 155.47,
+      "end": 158.79,
+      "text": " After that, what happened was we took out"
+    },
+    {
+      "start": 158.79,
+      "end": 162.51,
+      "text": " this high over here and after taking out the high,"
+    },
+    {
+      "start": 162.51,
+      "end": 165.83,
+      "text": " you can see the next couple of days were bearish."
+    },
+    {
+      "start": 165.83,
+      "end": 170.95,
+      "text": " So over here we have a cross again, actually cross here, right?"
+    },
+    {
+      "start": 170.95,
+      "end": 177.67,
+      "text": " the next date was bullish as hell. And remember the volume imbalance video that I thought you guys"
+    },
+    {
+      "start": 177.67,
+      "end": 185.27,
+      "text": " there is volume imbalance right here. And also what happened here was price took out this liquidity."
+    },
+    {
+      "start": 185.27,
+      "end": 189.99,
+      "text": " So then the next candle after the close of the next candle your bias is bullish. So see that move."
+    },
+    {
+      "start": 190.87,
+      "end": 198.01,
+      "text": " Yep, that's what I'm talking about crossover here. You can see kind of close here. Well, the next day"
+    },
+    {
+      "start": 198.01,
+      "end": 205.53,
+      "text": " I would say was bullish. Okay, so there's nothing that you can do about it, but then the couple of so the next two days were bearish right here after that"
+    },
+    {
+      "start": 206.25,
+      "end": 209.69,
+      "text": " You would have looked for a liquidity sweep surprise trip to look at it here"
+    },
+    {
+      "start": 209.69,
+      "end": 214.45,
+      "text": " price console dated for a couple of days, but then you had this you know up and down up and down"
+    },
+    {
+      "start": 214.69,
+      "end": 221.65,
+      "text": " But then you had the next couple of days bearish couple of days. Okay, and after that price look really boom"
+    },
+    {
+      "start": 222.05,
+      "end": 225.47,
+      "text": " very simple guys"
+    },
+    {
+      "start": 225.47,
+      "end": 231.99,
+      "text": " So let me show you guys here as well. We have a cross boom cross over here. Move move to the upside cross here"
+    },
+    {
+      "start": 232.35,
+      "end": 238.71,
+      "text": " bearish cross here bullish. Okay, you can see price up liquidity here as well move to the upside"
+    },
+    {
+      "start": 239.39,
+      "end": 241.39,
+      "text": " price to look at here as well"
+    },
+    {
+      "start": 241.87,
+      "end": 246.15,
+      "text": " Well, this was you could have been bearish for some days, but then there was this you know"
+    },
+    {
+      "start": 246.59,
+      "end": 250.03,
+      "text": " This auto block right here price came back here push up"
+    },
+    {
+      "start": 250.31,
+      "end": 253.55,
+      "text": " But all you need are moving averages to identify daily bias guys"
+    },
+    {
+      "start": 253.55,
+      "end": 257.63,
+      "text": " is not going to be as accurate as finding it manually."
+    },
+    {
+      "start": 257.63,
+      "end": 263.03,
+      "text": " If you want to learn how to identify a daily bias manually"
+    },
+    {
+      "start": 263.03,
+      "end": 266.67,
+      "text": " with a higher accuracy level, you can watch my video on YouTube"
+    },
+    {
+      "start": 266.67,
+      "end": 271.43,
+      "text": " if absolutely free, or you can learn by ICT himself."
+    },
+    {
+      "start": 271.43,
+      "end": 276.39,
+      "text": " So there's another trick that you can use."
+    },
+    {
+      "start": 276.39,
+      "end": 279.71,
+      "text": " And that trick is by me, actually."
+    },
+    {
+      "start": 279.71,
+      "end": 282.87,
+      "text": " So you look for ABC patterns."
+    },
+    {
+      "start": 282.87,
+      "end": 284.51,
+      "text": " Okay."
+    },
+    {
+      "start": 284.51,
+      "end": 286.67,
+      "text": " So this right here, you see ABC."
+    },
+    {
+      "start": 287.87,
+      "end": 290.63,
+      "text": " When you have a sweep, you wait for price to close back"
+    },
+    {
+      "start": 290.63,
+      "end": 294.23,
+      "text": " and then you, when the price comes back to a retest,"
+    },
+    {
+      "start": 294.23,
+      "end": 297.35,
+      "text": " as soon as it retest this line,"
+    },
+    {
+      "start": 297.35,
+      "end": 300.71,
+      "text": " your bias could be bearish."
+    },
+    {
+      "start": 300.71,
+      "end": 303.47,
+      "text": " But as you can see, the moving averages here were bullish."
+    },
+    {
+      "start": 303.47,
+      "end": 306.95,
+      "text": " So you gotta play accordingly."
+    },
+    {
+      "start": 306.95,
+      "end": 309.11,
+      "text": " If the moving averages are bullish,"
+    },
+    {
+      "start": 309.11,
+      "end": 311.63,
+      "text": " You look for bearish ABCs."
+    },
+    {
+      "start": 311.63,
+      "end": 314.03,
+      "text": " Oh, sorry, bullish ABCs, okay?"
+    },
+    {
+      "start": 315.63,
+      "end": 316.47,
+      "text": " But I'm just showing you,"
+    },
+    {
+      "start": 316.47,
+      "end": 317.91,
+      "text": " if you don't wanna use moving averages,"
+    },
+    {
+      "start": 317.91,
+      "end": 320.11,
+      "text": " you can use this technique as well."
+    },
+    {
+      "start": 321.19,
+      "end": 324.77,
+      "text": " So let me show you how."
+    },
+    {
+      "start": 324.77,
+      "end": 327.13,
+      "text": " Let me go back, right here, remove the drawings."
+    },
+    {
+      "start": 327.13,
+      "end": 332.13,
+      "text": " Let's disable the moving averages."
+    },
+    {
+      "start": 332.13,
+      "end": 337.75,
+      "text": " So right here, you see we have ABC, right?"
+    },
+    {
+      "start": 337.75,
+      "end": 342.43,
+      "text": " So ABC, then we, the price goes above the line"
+    },
+    {
+      "start": 342.43,
+      "end": 348.27,
+      "text": " And when as soon as you have a retest, your bias becomes bullish."
+    },
+    {
+      "start": 348.27,
+      "end": 349.27,
+      "text": " Okay?"
+    },
+    {
+      "start": 349.27,
+      "end": 351.95,
+      "text": " There was three really gap here as well."
+    },
+    {
+      "start": 351.95,
+      "end": 354.51,
+      "text": " And you can see how this works."
+    },
+    {
+      "start": 354.51,
+      "end": 362.58,
+      "text": " So your bias for the couple of days was bullish from just by identifying a daily bias."
+    },
+    {
+      "start": 362.58,
+      "end": 364.7,
+      "text": " Okay?"
+    },
+    {
+      "start": 364.7,
+      "end": 370.98,
+      "text": " You can see right here, we have A, B, and then C."
+    },
+    {
+      "start": 370.98,
+      "end": 373.38,
+      "text": " price comes down, retest here and boom."
+    },
+    {
+      "start": 375.3,
+      "end": 379.06,
+      "text": " Price over here, ABC."
+    },
+    {
+      "start": 381.42,
+      "end": 383.58,
+      "text": " You can see that price."
+    },
+    {
+      "start": 383.74,
+      "end": 388.14,
+      "text": " Yes, it did go up here to fill in some imbalance or"
+    },
+    {
+      "start": 388.14,
+      "end": 389.58,
+      "text": " if we were to gap on the lower time frame."
+    },
+    {
+      "start": 389.98,
+      "end": 391.86,
+      "text": " But then the next couple of days, as you can see, we're"
+    },
+    {
+      "start": 391.86,
+      "end": 392.38,
+      "text": " bearish."
+    },
+    {
+      "start": 393.06,
+      "end": 397.1,
+      "text": " So this is it for identifying daily bias."
+    },
+    {
+      "start": 397.5,
+      "end": 399.62,
+      "text": " It's not going to be as accurate as finding the daily"
+    },
+    {
+      "start": 399.62,
+      "end": 403.38,
+      "text": " as manually but it's better than nothing and it is going to increase or win"
+    },
+    {
+      "start": 403.38,
+      "end": 408.34,
+      "text": " right definitely see you guys in the next video"
+    }
+  ]
+}

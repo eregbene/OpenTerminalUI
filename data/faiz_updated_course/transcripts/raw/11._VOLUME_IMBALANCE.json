@@ -1,0 +1,678 @@
+{
+  "source": "F:\\new faiz\\11. VOLUME IMBALANCE.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 547.5033125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.18,
+      "end": 30.18,
+      "text": " Hey guys, what is up? Faiz here. So this is the very first video of the course update. Actually I had all the videos ready, but unfortunately my windows got corrupted for some reason. Like I put it up my computer. I went to the login screen. I typed in my password and it just won't let me log in. So I had to reinstall the windows and all the data was like gone, poof. So this is me remaking these videos once again. Alright, so"
+    },
+    {
+      "start": 30.18,
+      "end": 35.18,
+      "text": " We use volume imbalance for our entries."
+    },
+    {
+      "start": 35.18,
+      "end": 37.18,
+      "text": " Okay, most of the time."
+    },
+    {
+      "start": 37.18,
+      "end": 41.98,
+      "text": " And we can also use them as support and resistance levels."
+    },
+    {
+      "start": 41.98,
+      "end": 44.94,
+      "text": " Institutional support and resistance levels."
+    },
+    {
+      "start": 44.94,
+      "end": 47.3,
+      "text": " Now what is a volume imbalance?"
+    },
+    {
+      "start": 48.46,
+      "end": 53.46,
+      "text": " It is a difference between a close and the open."
+    },
+    {
+      "start": 54.18,
+      "end": 58.58,
+      "text": " It is a gap between the close and the open of the candle."
+    },
+    {
+      "start": 58.58,
+      "end": 65.3,
+      "text": " So in this example, you can see this candle right here, it closed right here."
+    },
+    {
+      "start": 65.7,
+      "end": 74.38,
+      "text": " And the next candle, instead of opening at the closing price, it opens below the"
+    },
+    {
+      "start": 74.38,
+      "end": 79.02,
+      "text": " closing price, leaving this imbalance or volume imbalance around here."
+    },
+    {
+      "start": 80.14,
+      "end": 84.94,
+      "text": " Now this is a two pattern, two candle pattern."
+    },
+    {
+      "start": 84.94,
+      "end": 99.14,
+      "text": " Okay, so so this volume imbalance occurs between two candles. Okay, so you can see right here the candle closed here"
+    },
+    {
+      "start": 99.86,
+      "end": 106.9,
+      "text": " and the next candle instead of opening at the closing price of the previous candle it opens just below it"
+    },
+    {
+      "start": 107.54,
+      "end": 114.54,
+      "text": " Right, so there was so much volume that the candle just you know opened here. So the gap"
+    },
+    {
+      "start": 116.22,
+      "end": 119.22,
+      "text": " Right from the close to the open"
+    },
+    {
+      "start": 120.34,
+      "end": 122.34,
+      "text": " is what you call a volume imbalance."
+    },
+    {
+      "start": 122.34,
+      "end": 126.9,
+      "text": " Okay, sorry for that."
+    },
+    {
+      "start": 126.9,
+      "end": 130.9,
+      "text": " And the over here for the long example,"
+    },
+    {
+      "start": 130.9,
+      "end": 134.9,
+      "text": " the difference or the gap between the close"
+    },
+    {
+      "start": 134.9,
+      "end": 138.9,
+      "text": " and the open of the next candle is called volume imbalance."
+    },
+    {
+      "start": 138.9,
+      "end": 141.9,
+      "text": " I'm going to repeat this again."
+    },
+    {
+      "start": 141.9,
+      "end": 145.9,
+      "text": " You can see this down candle closed here"
+    },
+    {
+      "start": 145.9,
+      "end": 149.9,
+      "text": " and normally what would happen is the next candle"
+    },
+    {
+      "start": 149.9,
+      "end": 154.9,
+      "text": " the standard would open from the closing price of the previous candle."
+    },
+    {
+      "start": 154.9,
+      "end": 163.9,
+      "text": " But when this happens, the next candle opens below the closing price of the previous candle,"
+    },
+    {
+      "start": 163.9,
+      "end": 169.9,
+      "text": " or above the closing price of the previous candle,"
+    },
+    {
+      "start": 169.9,
+      "end": 177.9,
+      "text": " the gap between the opening and close is what you call volume imbalance."
+    },
+    {
+      "start": 177.9,
+      "end": 183.9,
+      "text": " So in the future, if price comes back into this level, you can look for long positions."
+    },
+    {
+      "start": 183.9,
+      "end": 185.9,
+      "text": " Okay?"
+    },
+    {
+      "start": 185.9,
+      "end": 187.9,
+      "text": " And similarly for this."
+    },
+    {
+      "start": 187.9,
+      "end": 190.9,
+      "text": " Sorry, this is a short position."
+    },
+    {
+      "start": 190.9,
+      "end": 192.9,
+      "text": " So you can look too short."
+    },
+    {
+      "start": 192.9,
+      "end": 195.82,
+      "text": " Okay?"
+    },
+    {
+      "start": 195.82,
+      "end": 202.82,
+      "text": " And yeah, you can long from here as well because this X as a resistance and support level."
+    },
+    {
+      "start": 202.82,
+      "end": 210.18,
+      "text": " level. So if the volume imbalance is broken, that if the support resistance level is broken,"
+    },
+    {
+      "start": 210.18,
+      "end": 214.2,
+      "text": " it's going to turn into support, right? So let's say price comes back, gives a small"
+    },
+    {
+      "start": 214.2,
+      "end": 220.14,
+      "text": " direction, pushes up, and then you can take this volume imbalance as a support level,"
+    },
+    {
+      "start": 220.14,
+      "end": 224.94,
+      "text": " then you can look for longs, just like support and resistance. Okay? But these are very"
+    },
+    {
+      "start": 224.94,
+      "end": 230.86,
+      "text": " stronger than support and resistance, normal support and resistance. And sometimes I even"
+    },
+    {
+      "start": 230.86,
+      "end": 235.3,
+      "text": " find them more powerful than we were able to get. So let me give you guys some"
+    },
+    {
+      "start": 235.3,
+      "end": 243.32,
+      "text": " examples. So right here you can see I'm looking at E-mini S&P on a daily time"
+    },
+    {
+      "start": 243.32,
+      "end": 250.72,
+      "text": " frame and one thing I also use volume imbalance to identify my daily bias, okay?"
+    },
+    {
+      "start": 250.72,
+      "end": 256.88,
+      "text": " Not all the time but if it is at a you know a clear volume imbalance area"
+    },
+    {
+      "start": 256.88,
+      "end": 262.96,
+      "text": " then I can take my decision. However, let's talk about this. So you can see right"
+    },
+    {
+      "start": 262.96,
+      "end": 268.96,
+      "text": " here, let me remove this, the candle closes here and the next candle opens right"
+    },
+    {
+      "start": 268.96,
+      "end": 275.96,
+      "text": " here. Okay, so there is this gap or volume, no, this is not gap, this is volume"
+    },
+    {
+      "start": 275.96,
+      "end": 284.06,
+      "text": " imbalance. Okay, and you can see price came into this volume imbalance. First of"
+    },
+    {
+      "start": 284.06,
+      "end": 287.58,
+      "text": " for it just smash through this level."
+    },
+    {
+      "start": 287.58,
+      "end": 290.7,
+      "text": " So this didn't work as a support level."
+    },
+    {
+      "start": 290.7,
+      "end": 292.18,
+      "text": " Okay, very cool."
+    },
+    {
+      "start": 292.18,
+      "end": 294.5,
+      "text": " But then when it gets broken,"
+    },
+    {
+      "start": 294.5,
+      "end": 296.78,
+      "text": " it can react as a resistance level."
+    },
+    {
+      "start": 296.78,
+      "end": 300.06,
+      "text": " So price went back to this volume imbalance"
+    },
+    {
+      "start": 300.06,
+      "end": 302.62,
+      "text": " and you can see price shot down."
+    },
+    {
+      "start": 303.5,
+      "end": 306.82,
+      "text": " Now over here, you can see we have another volume imbalance."
+    },
+    {
+      "start": 307.78,
+      "end": 311.86,
+      "text": " So the candle closed here, right?"
+    },
+    {
+      "start": 311.86,
+      "end": 315.26,
+      "text": " And the next candle open here instead of opening from here."
+    },
+    {
+      "start": 315.26,
+      "end": 315.94,
+      "text": " Okay?"
+    },
+    {
+      "start": 316.96,
+      "end": 321.96,
+      "text": " And what you're gonna see here is this right here,"
+    },
+    {
+      "start": 325.5,
+      "end": 327.52,
+      "text": " a volume imbalance just right here."
+    },
+    {
+      "start": 328.48,
+      "end": 329.62,
+      "text": " And what happens?"
+    },
+    {
+      "start": 330.74,
+      "end": 334.02,
+      "text": " Price matches through it, right?"
+    },
+    {
+      "start": 334.02,
+      "end": 335.82,
+      "text": " It didn't work as a support level."
+    },
+    {
+      "start": 336.74,
+      "end": 341.14,
+      "text": " But then in the future, it became a resistance level."
+    },
+    {
+      "start": 341.14,
+      "end": 343.58,
+      "text": " and price couldn't go above this level."
+    },
+    {
+      "start": 343.58,
+      "end": 345.54,
+      "text": " So when price came into this level,"
+    },
+    {
+      "start": 345.54,
+      "end": 348.86,
+      "text": " you could be bearish as hell for the next one, two, three, four,"
+    },
+    {
+      "start": 348.86,
+      "end": 353.22,
+      "text": " five days, guys, until this, this liquid level was taken up."
+    },
+    {
+      "start": 353.22,
+      "end": 354.06,
+      "text": " Okay."
+    },
+    {
+      "start": 355.3,
+      "end": 359.06,
+      "text": " Over here, you can see, just like that,"
+    },
+    {
+      "start": 359.06,
+      "end": 362.62,
+      "text": " we have volume imbalance."
+    },
+    {
+      "start": 362.62,
+      "end": 365.9,
+      "text": " Price came back into this level."
+    },
+    {
+      "start": 365.9,
+      "end": 367.9,
+      "text": " We had a short reaction."
+    },
+    {
+      "start": 367.9,
+      "end": 370.26,
+      "text": " Over here, we have volume imbalance as well."
+    },
+    {
+      "start": 370.26,
+      "end": 373.54,
+      "text": " price came down, boom."
+    },
+    {
+      "start": 373.54,
+      "end": 376.18,
+      "text": " Over here, we have volume imbalance."
+    },
+    {
+      "start": 376.18,
+      "end": 380.66,
+      "text": " Price came down, boom."
+    },
+    {
+      "start": 380.66,
+      "end": 385.06,
+      "text": " And over here, you can see, it didn't exactly"
+    },
+    {
+      "start": 385.06,
+      "end": 388.58,
+      "text": " tapped into the volume imbalance, I believe."
+    },
+    {
+      "start": 388.58,
+      "end": 390.74,
+      "text": " OK, it did actually."
+    },
+    {
+      "start": 390.74,
+      "end": 392.78,
+      "text": " So it came back again, tapped perfectly"
+    },
+    {
+      "start": 392.78,
+      "end": 395.46,
+      "text": " into this volume imbalance."
+    },
+    {
+      "start": 395.46,
+      "end": 398.42,
+      "text": " Also considered in the fact that we had order block here."
+    },
+    {
+      "start": 398.42,
+      "end": 400.94,
+      "text": " So that is another confluence."
+    },
+    {
+      "start": 400.94,
+      "end": 404.54,
+      "text": " And you can see we have this old volume imbalance,"
+    },
+    {
+      "start": 404.54,
+      "end": 408.02,
+      "text": " price pushed up, came back into this volume imbalance."
+    },
+    {
+      "start": 408.02,
+      "end": 411.82,
+      "text": " So you see how this works as support and resistance levels."
+    },
+    {
+      "start": 412.62,
+      "end": 414.38,
+      "text": " Pushes back up again."
+    },
+    {
+      "start": 414.38,
+      "end": 416.22,
+      "text": " Then we have this volume imbalance."
+    },
+    {
+      "start": 416.22,
+      "end": 418.74,
+      "text": " And let me do this."
+    },
+    {
+      "start": 418.74,
+      "end": 421.42,
+      "text": " Yep, you can see it reacted off this level here."
+    },
+    {
+      "start": 421.42,
+      "end": 424.78,
+      "text": " Price went back here, smashed through this level."
+    },
+    {
+      "start": 424.78,
+      "end": 428.1,
+      "text": " Then we have old imbalance here, volume imbalance."
+    },
+    {
+      "start": 428.1,
+      "end": 430.22,
+      "text": " Price came back into this level."
+    },
+    {
+      "start": 430.22,
+      "end": 433.4,
+      "text": " We have a push up, then we have this imbalance,"
+    },
+    {
+      "start": 433.4,
+      "end": 436.16,
+      "text": " volume imbalance, price came back,"
+    },
+    {
+      "start": 436.16,
+      "end": 438.06,
+      "text": " a little bit of liquidation here,"
+    },
+    {
+      "start": 438.06,
+      "end": 440.72,
+      "text": " and then pushed back up, right?"
+    },
+    {
+      "start": 440.72,
+      "end": 443.94,
+      "text": " This old volume balance, price came back here."
+    },
+    {
+      "start": 443.94,
+      "end": 447.06,
+      "text": " So you see how accurate these levels are."
+    },
+    {
+      "start": 447.06,
+      "end": 450.74,
+      "text": " And you can see this old volume imbalance right here,"
+    },
+    {
+      "start": 450.74,
+      "end": 452.18,
+      "text": " if I drag this along,"
+    },
+    {
+      "start": 452.18,
+      "end": 454.94,
+      "text": " you can see that the price is now reacting of this level."
+    },
+    {
+      "start": 454.94,
+      "end": 458.26,
+      "text": " So this is the beauty of volume imbalance."
+    },
+    {
+      "start": 458.26,
+      "end": 463.26,
+      "text": " you mostly find volume imbalances on futures indices."
+    },
+    {
+      "start": 463.42,
+      "end": 465.06,
+      "text": " You can find them on Forex as well,"
+    },
+    {
+      "start": 465.06,
+      "end": 470.06,
+      "text": " but I would suggest that you use this with indices, okay?"
+    },
+    {
+      "start": 471.06,
+      "end": 472.94,
+      "text": " I'm not saying that you cannot use with Forex,"
+    },
+    {
+      "start": 472.94,
+      "end": 475.54,
+      "text": " but of course, yeah."
+    },
+    {
+      "start": 475.54,
+      "end": 480.54,
+      "text": " So normally I would not use volume imbalances"
+    },
+    {
+      "start": 481.1,
+      "end": 484.9,
+      "text": " when training my strategies for entries, okay?"
+    },
+    {
+      "start": 484.9,
+      "end": 487.1,
+      "text": " But for daily bias, and yeah,"
+    },
+    {
+      "start": 487.1,
+      "end": 491.34,
+      "text": " You can look for entries you're using volume of balance too."
+    },
+    {
+      "start": 491.34,
+      "end": 492.46,
+      "text": " It's just like frame of gap."
+    },
+    {
+      "start": 492.46,
+      "end": 494.06,
+      "text": " Actually stronger than frame of gap."
+    },
+    {
+      "start": 494.06,
+      "end": 497.3,
+      "text": " But sometimes it's hard to spot these levels."
+    },
+    {
+      "start": 497.3,
+      "end": 503.3,
+      "text": " But let's assume that if I have a volume of balance here,"
+    },
+    {
+      "start": 503.3,
+      "end": 506.38,
+      "text": " at this old level, let's do this."
+    },
+    {
+      "start": 506.38,
+      "end": 508.54,
+      "text": " So we have volume of balance."
+    },
+    {
+      "start": 508.54,
+      "end": 511.02,
+      "text": " And we also have some frame of gap here."
+    },
+    {
+      "start": 511.02,
+      "end": 512.3,
+      "text": " Now that is a double confidence."
+    },
+    {
+      "start": 512.3,
+      "end": 516.1,
+      "text": " So then I can look to take my entry here."
+    },
+    {
+      "start": 516.1,
+      "end": 519.34,
+      "text": " But you can just enter a volume of balance by itself."
+    },
+    {
+      "start": 519.34,
+      "end": 520.18,
+      "text": " Okay."
+    },
+    {
+      "start": 521.02,
+      "end": 523.5,
+      "text": " So you guys, I hope this video was clear."
+    },
+    {
+      "start": 523.5,
+      "end": 527.54,
+      "text": " And I hope you guys know what a volume of balance is."
+    },
+    {
+      "start": 527.54,
+      "end": 531.1,
+      "text": " It looks something like this where you have a,"
+    },
+    {
+      "start": 531.1,
+      "end": 532.38,
+      "text": " you know, a close,"
+    },
+    {
+      "start": 535.18,
+      "end": 539.82,
+      "text": " and then the open is actually from here."
+    },
+    {
+      "start": 539.82,
+      "end": 541.58,
+      "text": " You can see candle close here."
+    },
+    {
+      "start": 541.58,
+      "end": 542.62,
+      "text": " Open is right here."
+    },
+    {
+      "start": 542.62,
+      "end": 546.34,
+      "text": " So, I'll see you guys in the next video."
+    }
+  ]
+}

@@ -1,0 +1,383 @@
+{
+  "source": "F:\\new faiz\\12. BPR.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 411.0860625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so in this video, we're going to talk about balanced price range. Basically, it is another entry pattern that we use with fair value gap. And what it does is it makes the fair value gap even stronger. So let's assume that you have a fair value gap here. And if we have BPR here as well, there are much more chances that that fair value gap is going to hold the trade and it's going to go into your direction. Now, it's not necessary to always look"
+    },
+    {
+      "start": 30.0,
+      "end": 37.32,
+      "text": " for BPR, but you know it could be a nice confidence and it is also a nice entry pattern"
+    },
+    {
+      "start": 37.32,
+      "end": 38.88,
+      "text": " that you can use."
+    },
+    {
+      "start": 38.88,
+      "end": 40.76,
+      "text": " So what is a BPR?"
+    },
+    {
+      "start": 40.76,
+      "end": 46.96,
+      "text": " So let's assume that you have a push, a move to the down, right?"
+    },
+    {
+      "start": 46.96,
+      "end": 47.96,
+      "text": " Boom."
+    },
+    {
+      "start": 47.96,
+      "end": 51.04,
+      "text": " So let's assume there was some liquid industry right here."
+    },
+    {
+      "start": 51.04,
+      "end": 55.32,
+      "text": " And after that you have a market structure shift right here."
+    },
+    {
+      "start": 55.32,
+      "end": 59.48,
+      "text": " Now you look at the extreme family gap, which is right here, right?"
+    },
+    {
+      "start": 59.48,
+      "end": 66.68,
+      "text": " look at the left. So there is a variable you get up here as well. Right? So you are"
+    },
+    {
+      "start": 66.68,
+      "end": 70.64,
+      "text": " looking at this variable you get up. But if you look at the left, the move that took"
+    },
+    {
+      "start": 70.64,
+      "end": 75.28,
+      "text": " out liquidity, not necessarily don't have to be the move that takes out liquidity. I'm"
+    },
+    {
+      "start": 75.28,
+      "end": 79.52,
+      "text": " just showing it as an example. But when you have a move and then you have a market structure"
+    },
+    {
+      "start": 79.52,
+      "end": 85.52,
+      "text": " shift, look at the last move before market structure shift. And look at here, if there"
+    },
+    {
+      "start": 85.52,
+      "end": 93.1,
+      "text": " is fabley gap here and there is fabley gap in the new move that broke the"
+    },
+    {
+      "start": 93.1,
+      "end": 98.32,
+      "text": " market structure and the old fabley gap and the new fabley gap is overlapping"
+    },
+    {
+      "start": 98.32,
+      "end": 106.8,
+      "text": " with each other if that is happening then that area becomes BPR okay and"
+    },
+    {
+      "start": 106.8,
+      "end": 111.28,
+      "text": " when price comes back into this area it's gonna push up so let me explain this"
+    },
+    {
+      "start": 111.28,
+      "end": 119.15,
+      "text": " again. Do you see this move right here? Let me remove this to clear confusion, right? You have a move"
+    },
+    {
+      "start": 119.15,
+      "end": 126.91,
+      "text": " up. So let's assume you have lower low, lower high, sorry, lower low, lower high, lower low. And"
+    },
+    {
+      "start": 126.91,
+      "end": 133.23,
+      "text": " this low low gets broken with Marcus structures shift. And this is extreme frode gap. Normally, you"
+    },
+    {
+      "start": 133.23,
+      "end": 139.47,
+      "text": " would enter from this extreme frode gap right here. But look to the left of this extreme"
+    },
+    {
+      "start": 139.47,
+      "end": 151.1,
+      "text": " probably gap. This right here. If there is fair value gap here as well, you know, and price"
+    },
+    {
+      "start": 151.1,
+      "end": 156.86,
+      "text": " does not respect the old fair value gap and it pushes through this level, breaking market structure"
+    },
+    {
+      "start": 156.86,
+      "end": 163.74,
+      "text": " or shifting the market structure and also leaving the fair value gap that overlaps with the"
+    },
+    {
+      "start": 163.74,
+      "end": 171.54,
+      "text": " previous fear of a lega, then that level becomes balanced price range. I hope I"
+    },
+    {
+      "start": 171.54,
+      "end": 175.62,
+      "text": " explained it well and what I'm going to show you examples is going to be clear."
+    },
+    {
+      "start": 175.62,
+      "end": 183.62,
+      "text": " So let me show you example number one. So you see you have lower low, lower high,"
+    },
+    {
+      "start": 183.62,
+      "end": 195.98,
+      "text": " lower low, and then you have a market structure shift. Look at here. Do you see"
+    },
+    {
+      "start": 195.98,
+      "end": 202.98,
+      "text": " this fair value gap right here, from here to here, what happened is price did not"
+    },
+    {
+      "start": 202.98,
+      "end": 208.98,
+      "text": " respect this old fair value gap and what happened is price went back up and did"
+    },
+    {
+      "start": 208.98,
+      "end": 217.22,
+      "text": " market structure shift. Now, look at this, this fair value gap is way too big, okay? It's"
+    },
+    {
+      "start": 217.22,
+      "end": 221.94,
+      "text": " just way too big. So if you take your entry from the here, your stop loss is going to"
+    },
+    {
+      "start": 221.94,
+      "end": 231.66,
+      "text": " be huge. But if you look at here, you have BPR. And the new free value gap is overlapping"
+    },
+    {
+      "start": 231.66,
+      "end": 238.26,
+      "text": " with the old free value gap. So in this case, what you can do is you can take your entry"
+    },
+    {
+      "start": 238.26,
+      "end": 247.3,
+      "text": " from the BPR or old free value gap. Okay. So essentially, what is happening here is that"
+    },
+    {
+      "start": 247.3,
+      "end": 255.3,
+      "text": " the old free value gap, instead of acting as a resistance level, when it is broken, it is"
+    },
+    {
+      "start": 255.3,
+      "end": 259.54,
+      "text": " not reacting as a support level, the old free value gap."
+    },
+    {
+      "start": 259.54,
+      "end": 265.9,
+      "text": " And also if there is new free value gap that is overlapping with the old free value gap, then"
+    },
+    {
+      "start": 265.9,
+      "end": 268.14,
+      "text": " that level becomes BPR."
+    },
+    {
+      "start": 268.14,
+      "end": 277.94,
+      "text": " And trust me that move is going to be big if your whole model was perfect."
+    },
+    {
+      "start": 277.94,
+      "end": 280.86,
+      "text": " So you can see a BPR right here."
+    },
+    {
+      "start": 280.86,
+      "end": 287.66,
+      "text": " It overlaps and what I mean by overlap is it must have some part of fairly gap between"
+    },
+    {
+      "start": 287.66,
+      "end": 288.66,
+      "text": " this box."
+    },
+    {
+      "start": 288.66,
+      "end": 290.14,
+      "text": " So you see this box that I've drawn."
+    },
+    {
+      "start": 290.14,
+      "end": 294.94,
+      "text": " You draw the box from the BPR right, the old fairly gap, you drag it along."
+    },
+    {
+      "start": 294.94,
+      "end": 301.94,
+      "text": " And if any part of the fair value gap, even a tiny bit is in that level in this box, then"
+    },
+    {
+      "start": 301.94,
+      "end": 303.86,
+      "text": " you can take your entry from BPR."
+    },
+    {
+      "start": 303.86,
+      "end": 309.68,
+      "text": " Let me show you another example."
+    },
+    {
+      "start": 309.68,
+      "end": 317.18,
+      "text": " Right here."
+    },
+    {
+      "start": 317.18,
+      "end": 318.18,
+      "text": " Okay."
+    },
+    {
+      "start": 318.18,
+      "end": 323.37,
+      "text": " So you can see right here."
+    },
+    {
+      "start": 323.37,
+      "end": 326.17,
+      "text": " So you have a market structure shift, right big."
+    },
+    {
+      "start": 326.17,
+      "end": 330.29,
+      "text": " And before market structure shift, we had this BPR right here."
+    },
+    {
+      "start": 330.29,
+      "end": 335.17,
+      "text": " You see this old fair value gap, boom, boom, boom, boom, right?"
+    },
+    {
+      "start": 335.17,
+      "end": 343.25,
+      "text": " price did not respect this level. It just went down, data market structure shift. Now the old"
+    },
+    {
+      "start": 343.25,
+      "end": 351.09,
+      "text": " free value gap, right? And this new free value gap. So this is the new free value gap. Whoa,"
+    },
+    {
+      "start": 351.65,
+      "end": 360.77,
+      "text": " whoa, right? And this right here, whoa. And whoa. So you drag the box along. It is overlapping with"
+    },
+    {
+      "start": 360.77,
+      "end": 362.21,
+      "text": " with the old familiar gap."
+    },
+    {
+      "start": 362.21,
+      "end": 364.81,
+      "text": " This is the old familiar gap, boom, boom."
+    },
+    {
+      "start": 364.81,
+      "end": 366.77,
+      "text": " This is the new familiar gap, boom, boom."
+    },
+    {
+      "start": 366.77,
+      "end": 370.17,
+      "text": " You draw the box from the old familiar gap, boom, boom."
+    },
+    {
+      "start": 370.17,
+      "end": 371.49,
+      "text": " Drag it along."
+    },
+    {
+      "start": 371.49,
+      "end": 373.17,
+      "text": " If the new familiar gap is overlapping,"
+    },
+    {
+      "start": 373.17,
+      "end": 376.37,
+      "text": " it has some sort of part in the old familiar gap box"
+    },
+    {
+      "start": 376.37,
+      "end": 377.45,
+      "text": " that I've drawn."
+    },
+    {
+      "start": 377.45,
+      "end": 379.45,
+      "text": " Then you can take your entry from that box."
+    },
+    {
+      "start": 379.45,
+      "end": 382.73,
+      "text": " So you can see you have your familiar gap right here."
+    },
+    {
+      "start": 382.73,
+      "end": 385.89,
+      "text": " If you took your entry from this familiar gap,"
+    },
+    {
+      "start": 385.89,
+      "end": 389.69,
+      "text": " price went down and you move your stop loss to break even."
+    },
+    {
+      "start": 389.69,
+      "end": 395.45,
+      "text": " what happened is then price came back filled the BPR level and then pushed down to its original"
+    },
+    {
+      "start": 395.45,
+      "end": 402.17,
+      "text": " destination. So I hope that this video was clear guys. If you did not understand this, make sure"
+    },
+    {
+      "start": 402.17,
+      "end": 407.93,
+      "text": " you've watched it again and again I tried my best to explain this. I hope you guys understood it."
+    },
+    {
+      "start": 407.93,
+      "end": 413.93,
+      "text": " Well, let's move on to the next video."
+    }
+  ]
+}

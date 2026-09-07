@@ -1,0 +1,55 @@
+1
+00:00:00,000 --> 00:00:29,200
+Right, so here is example number one. As you can see, the Asian session starts here and it ends here. So you mark out POIs. So I do not see any POI here. You don't want to go way far back and then look for POI. Just look for POIs near this price action. So right here, what I can see,
+
+2
+00:00:30,000 --> 00:00:37,840
+is this autoblock. This candle, okay, you can see it's a clear autoblock with three
+
+3
+00:00:37,840 --> 00:00:44,720
+value gap. Okay, I could use this as well. This candle here. So let's use that and consider this
+
+4
+00:00:44,720 --> 00:00:49,600
+week as well. So now what we're gonna do is we're gonna wait for price to tap into our autoblock
+
+5
+00:00:49,600 --> 00:00:58,260
+which happens right here. Okay, let's go to the one minute time frame again and let's look for
+
+6
+00:00:58,260 --> 00:01:05,060
+market structure shift, it happens right here. So now the fair quality gap is way way too big.
+
+7
+00:01:05,700 --> 00:01:11,140
+So in this scenario, I would have used a breaker block, which is right here. Lurlo, Lurlo,
+
+8
+00:01:11,140 --> 00:01:19,700
+Lurlo, this is the last bullish candle before the multi-d downside. Remember, so I would take my entry
+
+9
+00:01:19,700 --> 00:01:26,580
+from here, put my stop right below somewhere around here to cover the fair quality gap, BPR and the
+
+10
+00:01:26,580 --> 00:01:34,380
+the body of the auto block here. 6.7 stop loss and we target something like like
+
+11
+00:01:34,380 --> 00:01:38,340
+this very well you gap right here. So you're going to see price taps into our
+
+12
+00:01:38,340 --> 00:01:58,740
+breaker block and we have a push to the upside. So yeah that was a clean 3R or
+
+13
+00:01:58,740 --> 00:02:04,180
+2R we targeted this very well you gap right here and yeah it worked out perfectly.
+
+14
+00:02:04,180 --> 00:02:07,180
+So let me give you guys another example.

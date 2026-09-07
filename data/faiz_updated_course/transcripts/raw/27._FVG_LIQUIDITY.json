@@ -1,0 +1,183 @@
+{
+  "source": "F:\\new faiz\\27. FVG LIQUIDITY.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 214.1344375,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.3,
+      "end": 30.3,
+      "text": " Alright, so welcome back. This is course update. Point four, I believe. So I think this will be the last course update for now because I do not want to put out all the information that can fuse with all the stuff that's out there. Just want to put out the useful stuff I believe because this update is really, really good."
+    },
+    {
+      "start": 30.3,
+      "end": 33.46,
+      "text": " I think it's one of my best updates so far."
+    },
+    {
+      "start": 34.58,
+      "end": 36.3,
+      "text": " And you will learn a lot of stuff from here."
+    },
+    {
+      "start": 36.3,
+      "end": 37.34,
+      "text": " So in this video,"
+    },
+    {
+      "start": 39.94,
+      "end": 42.38,
+      "text": " we will learn about the highs and lows"
+    },
+    {
+      "start": 42.38,
+      "end": 44.74,
+      "text": " that are formed inside a fair value gap."
+    },
+    {
+      "start": 45.66,
+      "end": 50.14,
+      "text": " And you can use this technique to find your daily buzz."
+    },
+    {
+      "start": 50.14,
+      "end": 53.74,
+      "text": " And you can also use it as a model, if you like."
+    },
+    {
+      "start": 54.82,
+      "end": 59.82,
+      "text": " So over here, let's assume that there was a fair value gap,"
+    },
+    {
+      "start": 59.82,
+      "end": 70.82,
+      "text": " price came into this fair value gap. It created a low and then it pushed back up and it went into"
+    },
+    {
+      "start": 72.26,
+      "end": 78.9,
+      "text": " this fair value gap right here. So this high over here. So let's assume there's a"
+    },
+    {
+      "start": 78.9,
+      "end": 84.74,
+      "text": " old fair value gap here, right? Browse right into this fair value gap and create it this high over"
+    },
+    {
+      "start": 84.74,
+      "end": 90.98,
+      "text": " here inside the fair value gap. Now, let's assume that we are looking at this on"
+    },
+    {
+      "start": 90.98,
+      "end": 100.1,
+      "text": " 15 minute timeframe. So once price takes out the low that was formed inside this"
+    },
+    {
+      "start": 100.1,
+      "end": 106.66,
+      "text": " variable you get we can drop down to one minute timeframe and look for a"
+    },
+    {
+      "start": 106.66,
+      "end": 113.3,
+      "text": " market structure shift. Once we get a market structure shift our next target would"
+    },
+    {
+      "start": 113.3,
+      "end": 121.14,
+      "text": " be the high that was formed inside the variable you get. So price is mostly doing"
+    },
+    {
+      "start": 121.14,
+      "end": 127.06,
+      "text": " this to deliver price of that makes sense. So you get a market"
+    },
+    {
+      "start": 127.06,
+      "end": 131.86,
+      "text": " certificate, then you can look to take your entry and you can look to target the"
+    },
+    {
+      "start": 131.86,
+      "end": 139.62,
+      "text": " high over here and that could be your lost take profit level. Don't forget about"
+    },
+    {
+      "start": 139.62,
+      "end": 144.9,
+      "text": " the fair value gaps in this leg. You can look to take partials but this should"
+    },
+    {
+      "start": 144.9,
+      "end": 150.78,
+      "text": " be your draw on liquidity because price what it does it takes out the low"
+    },
+    {
+      "start": 150.78,
+      "end": 154.14,
+      "text": " that was found side of the friday gap and goes to the high that was formed inside"
+    },
+    {
+      "start": 154.14,
+      "end": 161.22,
+      "text": " the friday gap or it goes to the high that was formed inside the friday gap to"
+    },
+    {
+      "start": 161.22,
+      "end": 164.86,
+      "text": " the low that was formed side of friday up just gonna take out the high that it"
+    },
+    {
+      "start": 164.86,
+      "end": 171.98,
+      "text": " will take out the low so this is what you can use to find your daily bias"
+    },
+    {
+      "start": 171.98,
+      "end": 179.54,
+      "text": " monthly bus weekly bus you can use it as a model itself so you can see we use 15"
+    },
+    {
+      "start": 179.54,
+      "end": 182.42,
+      "text": " minutes and one minute combination then you can use the daily and one"
+    },
+    {
+      "start": 182.42,
+      "end": 187.5,
+      "text": " hour you can use the four hour and 15 minutes combination and you can use the"
+    },
+    {
+      "start": 187.5,
+      "end": 191.66,
+      "text": " weekly and four hour combination and four monthly you can use the one month and"
+    },
+    {
+      "start": 191.66,
+      "end": 199.42,
+      "text": " daily timeframe combination sorry for that so yeah that's literally about it"
+    },
+    {
+      "start": 199.42,
+      "end": 204.22,
+      "text": " But for this, let me see if I can find some examples."
+    },
+    {
+      "start": 204.22,
+      "end": 209.22,
+      "text": " I mean, I will find I was trying to find examples in this video, so I will just pause"
+    },
+    {
+      "start": 209.22,
+      "end": 212.94,
+      "text": " the video and find some examples in hindsight, and then I'll let you know."
+    }
+  ]
+}

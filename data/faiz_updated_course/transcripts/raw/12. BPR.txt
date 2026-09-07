@@ -1,0 +1,103 @@
+All right, guys, so in this video, we're going to talk about balanced price range.
+Basically, it is another entry pattern that we use with Fair Value Gap.
+And what it does is it makes the Fair Value Gap even stronger.
+So let's assume that you have a Fair Value Gap here.
+And if we have BPR here as well, there are much more chances that that Fair Value Gap is
+going to hold the trade and it's going to go into your direction.
+Now, it's not necessary to always look for BPR, but, you know, it could be a nice
+confluence and it is also a nice entry pattern that you can use.
+So what is a BPR?
+So let's assume that you have a push, a move to the down, right?
+Boom.
+So let's assume there was some liquidity sweep right here.
+And after that, you have a market structure shift right here.
+Now, you look at the extreme Fair Value Gap, which is right here, right?
+And look at the left.
+So there is Fair Value Gap here as well, right?
+So you are looking at this Fair Value Gap, but if you look at to the left, the move
+that took out liquidity, now it necessarily don't have to be the move that takes out
+liquidity.
+I'm just, I'm just showing it as an example.
+But when you have a move and then you have a market structure shift, look at the last
+move before market structure shift and look at here.
+If there is Fair Value Gap here and there is Fair Value Gap in the new move that
+broke the market structure and the old Fair Value Gap and the new Fair Value
+Gap is overlapping with each other.
+If that is happening, then that area becomes BPR.
+Okay.
+And when price comes back into this area, it's going to push up.
+So let me explain this again.
+Do you see this move right here?
+Let me remove this to clear confusion, right?
+You have a move up.
+So let's assume you have lower low, lower high, sorry, lower low, lower high, lower low.
+And this lower low gets broken with market structure shift.
+And this is extreme Fair Value Gap.
+Now, normally you would enter from this extreme Fair Value Gap right here.
+But look to the left of this extreme Fair Value Gap.
+That's right here.
+If there is Fair Value Gap here as well, you know, and price does not respect the old
+Fair Value Gap and it pushes through this level, breaking market structure or shifting
+the market structure and also leaving the Fair Value Gap that overlaps with the
+previous Fair Value Gap, then that level becomes balanced price range.
+I hope I explained it well.
+And what I'm going to show you examples is going to be clear.
+So let me show you example number one.
+So you see you have lower low, lower high, lower low, and then you have a market structure shift.
+Look at here.
+Do you see this Fair Value Gap right here?
+From here to here.
+What happened is price did not respect this old Fair Value Gap.
+And what happened is price went back up and did market structure shift.
+Okay.
+Now, look at this, this Fair Value Gap is way too big.
+Okay.
+It's just way too big.
+So if you take your entry from the here, your stop loss is going to be huge.
+But if you look at here, you have BPR and the new Fair Value Gap is overlapping with the old Fair Value Gap.
+So in this case, what you can do is you can take your entry from the BPR or old Fair Value Gap.
+Okay.
+So essentially, what is happening here is that the old Fair Value Gap,
+instead of acting as a resistance level, when it is broken, it is not reacting as a support level,
+the old Fair Value Gap.
+And also, if there is new Fair Value Gap that is overlapping with the old Fair Value Gap,
+then that level becomes BPR.
+And trust me, that move is going to be big if your whole model was perfect.
+So you can see Fair Value BPR right here, it overlaps.
+And what I mean by overlap is it must have some part of Fair Value Gap between this box.
+So you see this box that I've drawn, you draw the box from the BPR, right?
+The old Fair Value Gap, you drag it along.
+And if any part of the Fair Value Gap, even a tiny bit is in that level, in this box,
+then you can take your entry from BPR.
+Let me show you another example.
+Right here.
+Okay.
+So you can see right here.
+So you have a market structure shift, right?
+Big.
+And before market structure shift, we had this BPR right here.
+You see this old Fair Value Gap, boom, boom, boom, boom, right?
+And price did not respect this level.
+It just went down data market structure shift.
+Now the old Fair Value Gap, right?
+And this new Fair Value Gap.
+So this is the new Fair Value Gap, whoa, whoa, right?
+And this right here, womb and womb.
+So you drag the box along.
+It is overlapping with the old Fair Value Gap.
+This is the old Fair Value Gap, boom, boom.
+This is the new Fair Value Gap, boom, boom.
+You draw the box from the old Fair Value Gap, boom, boom.
+Drag it along.
+If the new Fair Value Gap is overlapping, it has some sort of part in the old Fair Value Gap box that I've drawn.
+Then you can take your entry from that box.
+So you can see you have your Fair Value Gap right here.
+If you took your entry from this Fair Value Gap, price went down,
+and you move your store blocks to break even.
+But what happened is then price came back, filled the BPR level,
+and then pushed down to its original destination.
+So I hope this video was clear, guys.
+If you did not understand this, make sure you watch it again.
+And again, I tried my best to explain this.
+I hope you guys understood it well.
+Let's move on to the next video.

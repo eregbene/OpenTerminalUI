@@ -1,0 +1,311 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, so in this lecture, I'm going to teach you how I personally use auto-flow trading strategy from A to Z, what I look for and all. Okay. So this is my personal method, the matter that I've taught you before, it works as well, but this is a little bit different how I approach it. Okay. So first of all, as you know me, I like to stick with higher time frames. So first of all, I would go to the 4 hour time frame or daily. Okay.
+
+2
+00:00:30,000 --> 00:00:32,440
+So let's suppose I'm looking at your USD.
+
+3
+00:00:32,440 --> 00:00:35,680
+So for auto flow, what I like to do is use your USD,
+
+4
+00:00:35,680 --> 00:00:40,480
+to be used D and AUD USD because I like to,
+
+5
+00:00:40,480 --> 00:00:44,040
+you know, combine DXY and these pairs together
+
+6
+00:00:44,040 --> 00:00:46,560
+to find auto flow trades.
+
+7
+00:00:46,560 --> 00:00:48,520
+And I'm gonna explain that later in the video.
+
+8
+00:00:48,520 --> 00:00:52,040
+So if I'm on the four hour timeframe
+
+9
+00:00:52,040 --> 00:00:56,360
+and the market structure is bullish, right?
+
+10
+00:00:56,360 --> 00:01:03,360
+only going to look for long positions.
+
+11
+00:01:03,360 --> 00:01:05,760
+And I want a clear trending market.
+
+12
+00:01:05,760 --> 00:01:10,720
+I do not want consolidation, something like that.
+
+13
+00:01:10,720 --> 00:01:14,880
+I want a clear perfect trend.
+
+14
+00:01:14,880 --> 00:01:21,120
+So what happens is when you are on a four-a-ton frame, you're going to have, so let's say
+
+15
+00:01:21,120 --> 00:01:23,000
+you have a new break of structure.
+
+16
+00:01:23,000 --> 00:01:25,760
+So this right here is a new break of structure.
+
+17
+00:01:25,760 --> 00:01:32,240
+going to be an auto block and for you know when I'm on a higher timeframe and also for the auto
+
+18
+00:01:32,240 --> 00:01:40,800
+flow strategy I use the auto blocks the last bearish candle before move to the upside or consecutive
+
+19
+00:01:40,800 --> 00:01:47,600
+bearish candles before move to the upside I have made a video about auto blocks on my youtube you
+
+20
+00:01:47,600 --> 00:01:54,960
+can go and watch it that type of auto blocks I use for this strategy specifically only okay so
+
+21
+00:01:54,960 --> 00:02:00,560
+So what I'm going to do is I'm going to patiently wait for price to come back into your
+
+22
+00:02:00,560 --> 00:02:02,760
+autoblock.
+
+23
+00:02:02,760 --> 00:02:07,440
+And when that happens, wait, yep.
+
+24
+00:02:07,440 --> 00:02:12,240
+When that happens, I'm going to drop down to 15 minute timeframe and I'm simply going to look
+
+25
+00:02:12,240 --> 00:02:19,680
+for market structure shift entry during kills on ours and boom.
+
+26
+00:02:19,680 --> 00:02:22,240
+That is absolutely it guys.
+
+27
+00:02:22,240 --> 00:02:24,520
+No need to complicate it.
+
+28
+00:02:24,520 --> 00:02:29,920
+I will give you examples and it's gonna be clear to you, but let me show you another bearish diagram
+
+29
+00:02:30,160 --> 00:02:33,100
+So let's assume that you have a bearish trend
+
+30
+00:02:34,120 --> 00:02:35,960
+and you have
+
+31
+00:02:35,960 --> 00:02:41,360
+consecutive bullish candles before moved to the downside so you mark that out the body of the candle, okay?
+
+32
+00:02:41,360 --> 00:02:43,680
+You're gonna watch you have to watch that video on YouTube
+
+33
+00:02:44,440 --> 00:02:48,640
+And then you're gonna know what I'm talking about so when price comes back
+
+34
+00:02:49,920 --> 00:02:52,160
+Right you drop down to 15 minute
+
+35
+00:02:52,160 --> 00:03:02,500
+you look for market structure shift okay and once you have like market
+
+36
+00:03:02,500 --> 00:03:10,580
+structure shift you take your entry from that last bullish candle that is going
+
+37
+00:03:10,580 --> 00:03:15,760
+to be here the body of the candle okay or you could use consecutive bullish
+
+38
+00:03:15,760 --> 00:03:21,240
+candles so I will give you an examples I'll give you a couple of examples and it's
+
+39
+00:03:21,240 --> 00:03:27,220
+going to be clear what I'm talking about. So the very first rule is identify high
+
+40
+00:03:27,220 --> 00:03:38,690
+timeframe market structure. Price action has to be in a solid trending position.
+
+41
+00:03:39,410 --> 00:03:45,610
+Okay. It has to trend. Okay. It does not need to be console dating. No, we do
+
+42
+00:03:45,610 --> 00:03:50,450
+not want that. Because when price is console dating, that is the condition where
+
+43
+00:03:50,450 --> 00:03:56,090
+there's gonna be a lot of liquidy sweeps. So even though your buys or your prediction
+
+44
+00:03:56,090 --> 00:04:01,810
+about the trend is accurate, it's gonna stop you out most of the time. So just see guys,
+
+45
+00:04:01,810 --> 00:04:09,170
+forics is the game of patience. If a guy is good with his psychology and it has some sort
+
+46
+00:04:09,170 --> 00:04:15,170
+of patience, he's gonna just kill these markets. Whereas a person who has like the best
+
+47
+00:04:15,170 --> 00:04:20,170
+in the world but his psychology is shit. He's gonna lose money. Trust me. Okay?
+
+48
+00:04:21,330 --> 00:04:28,010
+Because when I studied ICT back in like 2018 and 17, I was a student and
+
+49
+00:04:28,970 --> 00:04:33,770
+I knew what I was doing but my psychology was so bad guys like I
+
+50
+00:04:35,210 --> 00:04:38,610
+Literally would over risk revenge trade and all so don't do that. Okay?
+
+51
+00:04:39,210 --> 00:04:44,330
+I'm just saying these things because so you don't have to go through those things again
+
+52
+00:04:45,170 --> 00:04:50,150
+So in a solid training position, we have that perfect weight for
+
+53
+00:04:51,010 --> 00:04:53,410
+Be a break of structure and also
+
+54
+00:04:54,290 --> 00:04:56,290
+let me point this out
+
+55
+00:04:56,290 --> 00:04:58,050
+the
+
+56
+00:04:58,050 --> 00:05:04,130
+Autoblog that is right here right it could be here as well too and it means any
+
+57
+00:05:04,690 --> 00:05:07,970
+Autoblog above the 0.5 level, okay?
+
+58
+00:05:07,970 --> 00:05:12,490
+You just have to look for confirmation and we so let's say there is a bullish
+
+59
+00:05:12,490 --> 00:05:17,490
+this is, yeah, if there is a bullish candle right here,
+
+60
+00:05:17,690 --> 00:05:19,690
+something around here, right?
+
+61
+00:05:19,690 --> 00:05:22,450
+You wait for price to come back here.
+
+62
+00:05:22,450 --> 00:05:23,610
+Let me do that.
+
+63
+00:05:28,440 --> 00:05:32,080
+Okay, so you wait for price to come back
+
+64
+00:05:32,080 --> 00:05:34,840
+and do the auto block, look for market structure shift.
+
+65
+00:05:35,800 --> 00:05:37,160
+And if it gives you market structure shift
+
+66
+00:05:37,160 --> 00:05:40,400
+or confirmation entry, take that trade, okay?
+
+67
+00:05:40,400 --> 00:05:43,800
+Simple as that.
+
+68
+00:05:43,800 --> 00:05:48,680
+And what I sometimes like is when I'm on the four
+
+69
+00:05:48,680 --> 00:05:50,760
+all the time frame, right?
+
+70
+00:05:50,760 --> 00:05:52,520
+And there's auto block here.
+
+71
+00:05:52,520 --> 00:05:55,680
+I wanna see some sort of little bit of consolidation here,
+
+72
+00:05:55,680 --> 00:05:56,520
+guys.
+
+73
+00:05:56,520 --> 00:05:59,920
+Like, if you have the patience to look for this, right?
+
+74
+00:05:59,920 --> 00:06:02,520
+And then price goes back into your POI,
+
+75
+00:06:02,520 --> 00:06:05,800
+look for confirmation entry and boom.
+
+76
+00:06:05,800 --> 00:06:06,640
+Okay.
+
+77
+00:06:06,640 --> 00:06:11,440
+So, yeah, guys, let me give you guys a couple of examples.
+
+78
+00:06:11,440 --> 00:06:13,200
+And that is going to be clear for you.

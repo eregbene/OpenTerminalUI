@@ -1,0 +1,135 @@
+1
+00:00:00,300 --> 00:00:30,300
+Alright, so welcome back. This is course update. Point four, I believe. So I think this will be the last course update for now because I do not want to put out all the information that can fuse with all the stuff that's out there. Just want to put out the useful stuff I believe because this update is really, really good.
+
+2
+00:00:30,300 --> 00:00:33,460
+I think it's one of my best updates so far.
+
+3
+00:00:34,580 --> 00:00:36,300
+And you will learn a lot of stuff from here.
+
+4
+00:00:36,300 --> 00:00:37,340
+So in this video,
+
+5
+00:00:39,940 --> 00:00:42,380
+we will learn about the highs and lows
+
+6
+00:00:42,380 --> 00:00:44,740
+that are formed inside a fair value gap.
+
+7
+00:00:45,660 --> 00:00:50,140
+And you can use this technique to find your daily buzz.
+
+8
+00:00:50,140 --> 00:00:53,740
+And you can also use it as a model, if you like.
+
+9
+00:00:54,820 --> 00:00:59,820
+So over here, let's assume that there was a fair value gap,
+
+10
+00:00:59,820 --> 00:01:10,820
+price came into this fair value gap. It created a low and then it pushed back up and it went into
+
+11
+00:01:12,260 --> 00:01:18,900
+this fair value gap right here. So this high over here. So let's assume there's a
+
+12
+00:01:18,900 --> 00:01:24,740
+old fair value gap here, right? Browse right into this fair value gap and create it this high over
+
+13
+00:01:24,740 --> 00:01:30,980
+here inside the fair value gap. Now, let's assume that we are looking at this on
+
+14
+00:01:30,980 --> 00:01:40,100
+15 minute timeframe. So once price takes out the low that was formed inside this
+
+15
+00:01:40,100 --> 00:01:46,660
+variable you get we can drop down to one minute timeframe and look for a
+
+16
+00:01:46,660 --> 00:01:53,300
+market structure shift. Once we get a market structure shift our next target would
+
+17
+00:01:53,300 --> 00:02:01,140
+be the high that was formed inside the variable you get. So price is mostly doing
+
+18
+00:02:01,140 --> 00:02:07,060
+this to deliver price of that makes sense. So you get a market
+
+19
+00:02:07,060 --> 00:02:11,860
+certificate, then you can look to take your entry and you can look to target the
+
+20
+00:02:11,860 --> 00:02:19,620
+high over here and that could be your lost take profit level. Don't forget about
+
+21
+00:02:19,620 --> 00:02:24,900
+the fair value gaps in this leg. You can look to take partials but this should
+
+22
+00:02:24,900 --> 00:02:30,780
+be your draw on liquidity because price what it does it takes out the low
+
+23
+00:02:30,780 --> 00:02:34,140
+that was found side of the friday gap and goes to the high that was formed inside
+
+24
+00:02:34,140 --> 00:02:41,220
+the friday gap or it goes to the high that was formed inside the friday gap to
+
+25
+00:02:41,220 --> 00:02:44,860
+the low that was formed side of friday up just gonna take out the high that it
+
+26
+00:02:44,860 --> 00:02:51,980
+will take out the low so this is what you can use to find your daily bias
+
+27
+00:02:51,980 --> 00:02:59,540
+monthly bus weekly bus you can use it as a model itself so you can see we use 15
+
+28
+00:02:59,540 --> 00:03:02,420
+minutes and one minute combination then you can use the daily and one
+
+29
+00:03:02,420 --> 00:03:07,500
+hour you can use the four hour and 15 minutes combination and you can use the
+
+30
+00:03:07,500 --> 00:03:11,660
+weekly and four hour combination and four monthly you can use the one month and
+
+31
+00:03:11,660 --> 00:03:19,420
+daily timeframe combination sorry for that so yeah that's literally about it
+
+32
+00:03:19,420 --> 00:03:24,220
+But for this, let me see if I can find some examples.
+
+33
+00:03:24,220 --> 00:03:29,220
+I mean, I will find I was trying to find examples in this video, so I will just pause
+
+34
+00:03:29,220 --> 00:03:32,940
+the video and find some examples in hindsight, and then I'll let you know.

@@ -1,0 +1,278 @@
+{
+  "source": "F:\\new faiz\\21. The Holy Grail Example 3.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 292.7571875,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so here is another example for the Holy Grail strategy and for this I'm going to use the continuation purge or the ABC or the ABCD combination with this. You can say that it's a continuation purge but if you are familiar with my concepts you can call them ABC or ABCD as well. So on the daily timeframe we're going to go from daily to hourly to 5 minute to frame our trade. So over here we have"
+    },
+    {
+      "start": 30.0,
+      "end": 35.34,
+      "text": " this external liquidity taken out and in the discount we have this"
+    },
+    {
+      "start": 36.04,
+      "end": 43.12,
+      "text": " Fair value gap right so now let's go to the hourly timeframe and we have to wait for a shift in the market structure right and"
+    },
+    {
+      "start": 46.14,
+      "end": 53.88,
+      "text": " See what has happened here. We got a break to have a low low low high lower low"
+    },
+    {
+      "start": 53.88,
+      "end": 59.14,
+      "text": " Right so that is a shift in the market structure as well considering the fact that we have taken out the objective"
+    },
+    {
+      "start": 59.14,
+      "end": 63.14,
+      "text": " So now what we want to wait for is a continuation purge."
+    },
+    {
+      "start": 63.14,
+      "end": 64.14,
+      "text": " Right?"
+    },
+    {
+      "start": 64.14,
+      "end": 69.14,
+      "text": " And over here, what do we have?"
+    },
+    {
+      "start": 69.14,
+      "end": 72.14,
+      "text": " We have this BICIDE, right?"
+    },
+    {
+      "start": 72.14,
+      "end": 78.14,
+      "text": " Or a high over here, the indicator failed to do so."
+    },
+    {
+      "start": 78.14,
+      "end": 80.14,
+      "text": " So that is a high."
+    },
+    {
+      "start": 80.14,
+      "end": 82.14,
+      "text": " So we wait for Prash to take out that high."
+    },
+    {
+      "start": 82.14,
+      "end": 87.14,
+      "text": " Once that happens, you want to mark out the move."
+    },
+    {
+      "start": 87.14,
+      "end": 90.66,
+      "text": " We want to scout out the market maker model inside here, right?"
+    },
+    {
+      "start": 90.66,
+      "end": 94.42,
+      "text": " And look at when the, when the purge happened at around eight."
+    },
+    {
+      "start": 94.42,
+      "end": 100.18,
+      "text": " So remember when I say that the purges happen roughly from eight to 10, 30, right?"
+    },
+    {
+      "start": 100.18,
+      "end": 101.54,
+      "text": " That is like your sweet spot."
+    },
+    {
+      "start": 101.54,
+      "end": 103.54,
+      "text": " It can happen anytime of a day, right?"
+    },
+    {
+      "start": 103.54,
+      "end": 104.98,
+      "text": " But that is what you want to look for."
+    },
+    {
+      "start": 104.98,
+      "end": 112.66,
+      "text": " So going into the five minute timeframe now, first off, you simply want to mark out your"
+    },
+    {
+      "start": 112.66,
+      "end": 113.54,
+      "text": " consolidation phase."
+    },
+    {
+      "start": 113.54,
+      "end": 120.26,
+      "text": " So we have this beautiful consolidation face right with with this equal lows here. That is our clear draw on liquidity, right?"
+    },
+    {
+      "start": 120.5,
+      "end": 124.66,
+      "text": " So now we wait for is a shift in the market structure and over here"
+    },
+    {
+      "start": 124.66,
+      "end": 128.1,
+      "text": " We have a shift in the market structure, but there's no fair value gap, right?"
+    },
+    {
+      "start": 128.1,
+      "end": 132.66,
+      "text": " And there is these this equal highs over here, right?"
+    },
+    {
+      "start": 132.66,
+      "end": 138.7,
+      "text": " And this auto block didn't take out any liquidity here. So this is not a valid auto block here, right?"
+    },
+    {
+      "start": 138.7,
+      "end": 145.22,
+      "text": " So you want to keep these things in mind you want to wait for a clean shift in the market structure with fair value gap"
+    },
+    {
+      "start": 145.22,
+      "end": 147.04,
+      "text": " Fair value gap is very necessary here guys"
+    },
+    {
+      "start": 148.58,
+      "end": 154.98,
+      "text": " So we wait for price to give us something here and right away you can see we took out these equal highs"
+    },
+    {
+      "start": 155.9,
+      "end": 159.66,
+      "text": " Over here right this build up of liquidity this engineer look at it"
+    },
+    {
+      "start": 159.66,
+      "end": 167.5,
+      "text": " We have this shift in the market structure right you have this fair value gap and also this fair value gap"
+    },
+    {
+      "start": 167.5,
+      "end": 173.22,
+      "text": " like this whole thoroughly at right your entry should be from this FPG your stop"
+    },
+    {
+      "start": 173.22,
+      "end": 179.56,
+      "text": " goes here and you target simply this but since that your wrist reward is 1.61"
+    },
+    {
+      "start": 179.56,
+      "end": 184.46,
+      "text": " we need at least two R R right so you want to just decrease your stop until"
+    },
+    {
+      "start": 184.46,
+      "end": 188.78,
+      "text": " you get one to two but your target remains the same all right so let's see how"
+    },
+    {
+      "start": 188.78,
+      "end": 194.1,
+      "text": " this plays out we tap in and we have a small scalp on the five minute time"
+    },
+    {
+      "start": 194.1,
+      "end": 199.7,
+      "text": " from. So now we are in the scalloping territory here, right? So we're gonna get like one to two or"
+    },
+    {
+      "start": 199.7,
+      "end": 206.26,
+      "text": " one to three or four max out of these trades, even sometimes one to four as well. But you can see"
+    },
+    {
+      "start": 206.26,
+      "end": 212.26,
+      "text": " that you have to look for these guys. Look, a normal trader once he saw this structure break,"
+    },
+    {
+      "start": 213.46,
+      "end": 218.58,
+      "text": " he could have taken the entry from, I don't know, from somewhere here, because there's no"
+    },
+    {
+      "start": 218.58,
+      "end": 223.14,
+      "text": " don't probably gap here right there's no clean auto block look at the so many"
+    },
+    {
+      "start": 223.14,
+      "end": 229.98,
+      "text": " candles here but then price but it did it created these equal highs over here so"
+    },
+    {
+      "start": 229.98,
+      "end": 236.38,
+      "text": " now these these concepts are not like ABC or ABCD trading strategy right you"
+    },
+    {
+      "start": 236.38,
+      "end": 241.14,
+      "text": " don't just follow the rules like a robot no you have to look at these things"
+    },
+    {
+      "start": 241.14,
+      "end": 245.26,
+      "text": " you have to look for a clean shift and market structure look at this we took"
+    },
+    {
+      "start": 245.26,
+      "end": 251.9,
+      "text": " out the liquidity and we didn't have any double top right we don't have any highs around here."
+    },
+    {
+      "start": 251.9,
+      "end": 256.14,
+      "text": " So once you get the shift we can simply take our entry here there's a very good gap here."
+    },
+    {
+      "start": 258.86,
+      "end": 265.26,
+      "text": " There's a brick block here as well that you could have utilized but fairly gap is my best"
+    },
+    {
+      "start": 265.26,
+      "end": 272.14,
+      "text": " friend for this strategy. So consolidation is all you need to identify and you can get a setup out"
+    },
+    {
+      "start": 272.14,
+      "end": 277.06,
+      "text": " of it right like this is like the the best strategy guys there's I don't think"
+    },
+    {
+      "start": 277.06,
+      "end": 283.14,
+      "text": " there's something better out there that is better than this okay so yeah we"
+    },
+    {
+      "start": 283.14,
+      "end": 289.86,
+      "text": " look for a continuation perch here you can see and bats about it so let me"
+    },
+    {
+      "start": 289.86,
+      "end": 293.7,
+      "text": " give you guys one more example"
+    }
+  ]
+}

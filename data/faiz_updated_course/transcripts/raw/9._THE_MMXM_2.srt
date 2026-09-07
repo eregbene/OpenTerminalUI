@@ -1,0 +1,251 @@
+1
+00:00:00,000 --> 00:00:30,000
+Before we're giving you the example, I want to show you the market maker buy model as well, a depiction of it. Similarly, what you will have is you will have your POI right there. You can see there's a POI. You want to drop down to the one-hour timeframe. Once you have a POI comes into your POI, you want to start identifying or sniping.
+
+2
+00:00:30,000 --> 00:00:32,560
+or scouting the original consolidation.
+
+3
+00:00:32,560 --> 00:00:37,800
+So when was the first consolidation before price started moving to
+
+4
+00:00:37,800 --> 00:00:39,080
+what's your POI?
+
+5
+00:00:39,080 --> 00:00:39,760
+Right?
+
+6
+00:00:39,760 --> 00:00:43,440
+So if this was the consolidation, right, I will show you how to
+
+7
+00:00:43,440 --> 00:00:43,960
+identify them.
+
+8
+00:00:43,960 --> 00:00:44,440
+Don't worry.
+
+9
+00:00:44,440 --> 00:00:45,400
+I'll show you the examples.
+
+10
+00:00:45,400 --> 00:00:46,280
+Tons of examples.
+
+11
+00:00:46,280 --> 00:00:49,000
+So then that would be absolutely clear.
+
+12
+00:00:49,000 --> 00:00:52,120
+But you simply look for a consolidation phase one.
+
+13
+00:00:52,120 --> 00:00:54,160
+And then a consolidation phase two.
+
+14
+00:00:54,160 --> 00:00:57,000
+This one is not necessary, but it is going to, as I said,
+
+15
+00:00:57,000 --> 00:00:59,960
+before it's going to make your win rate even higher.
+
+16
+00:00:59,960 --> 00:01:07,800
+price comes into your pure not remember the time from alignment from daily to one hour to five minutes
+
+17
+00:01:07,800 --> 00:01:11,040
+So once you get a market structure shift your
+
+18
+00:01:11,760 --> 00:01:16,180
+Bias or like your setup is gonna be like officially active
+
+19
+00:01:16,180 --> 00:01:21,100
+Okay, cuz you have a market structure shift if you don't have a market structure shift you are not doing anything
+
+20
+00:01:21,100 --> 00:01:24,960
+But you are just identifying the consolidation right you're identifying the market maker by model
+
+21
+00:01:24,960 --> 00:01:28,960
+But once you get a marker, search your ship, one simple thing.
+
+22
+00:01:28,960 --> 00:01:31,840
+You enter from here, right?
+
+23
+00:01:31,840 --> 00:01:33,960
+And target, try to target these levels.
+
+24
+00:01:33,960 --> 00:01:37,480
+However, you don't have to hold till here.
+
+25
+00:01:37,480 --> 00:01:40,320
+Because we don't know what's price gonna do, right?
+
+26
+00:01:40,320 --> 00:01:42,720
+We are just only putting the probabilities in play.
+
+27
+00:01:42,720 --> 00:01:44,680
+Like we have high probability, of course.
+
+28
+00:01:44,680 --> 00:01:46,880
+But price can simply take out, you know,
+
+29
+00:01:46,880 --> 00:01:48,640
+like let's say this high over here,
+
+30
+00:01:48,640 --> 00:01:50,680
+this consolidation and then reverse.
+
+31
+00:01:50,680 --> 00:01:53,720
+So you have to take partials along the way.
+
+32
+00:01:53,720 --> 00:01:57,440
+You have to trade your stop loss or you have to go break even at some point.
+
+33
+00:01:57,640 --> 00:01:59,600
+It all depends on your trading style.
+
+34
+00:02:00,760 --> 00:02:03,120
+So remember the mitigation blocks, right?
+
+35
+00:02:03,680 --> 00:02:06,720
+Price if price gives you an entry, right?
+
+36
+00:02:06,920 --> 00:02:09,000
+You are, you can take longs.
+
+37
+00:02:09,120 --> 00:02:12,920
+So if there's a fair value gap on auto block inside this mitigation block,
+
+38
+00:02:13,120 --> 00:02:17,160
+which is an old auto block, bearish auto block, you take your entry from there.
+
+39
+00:02:17,360 --> 00:02:20,360
+Let's say price breaks through this level, this mitigation block,
+
+40
+00:02:20,360 --> 00:02:23,160
+this friendly gap on auto block inside there.
+
+41
+00:02:23,160 --> 00:02:26,080
+You take entry from there and you go there.
+
+42
+00:02:26,080 --> 00:02:27,400
+Simple as that.
+
+43
+00:02:27,400 --> 00:02:31,040
+But once you get a market shut to shift, right,
+
+44
+00:02:31,040 --> 00:02:36,040
+you wanna mark out your range low and this range high.
+
+45
+00:02:37,200 --> 00:02:40,840
+So now once price comes into your one hour POI,
+
+46
+00:02:40,840 --> 00:02:43,120
+you drop down to five minute timeframe
+
+47
+00:02:43,120 --> 00:02:46,000
+and then you start looking for consolidation
+
+48
+00:02:46,000 --> 00:02:48,240
+on the five minute timeframe around here,
+
+49
+00:02:48,240 --> 00:02:49,760
+the original consolidation, right?
+
+50
+00:02:49,760 --> 00:02:54,060
+And then let's say you have another consolidation
+
+51
+00:02:54,060 --> 00:02:58,240
+and price came into your POI, right?
+
+52
+00:02:58,240 --> 00:03:00,680
+You then look for a market structure shift
+
+53
+00:03:00,680 --> 00:03:02,800
+on the five minute timeframe once again.
+
+54
+00:03:02,800 --> 00:03:07,280
+So that's, let's say price comes into your one hour autoblock
+
+55
+00:03:07,280 --> 00:03:08,960
+or any POI.
+
+56
+00:03:08,960 --> 00:03:11,360
+Oh my God, let me disable this arrow.
+
+57
+00:03:12,320 --> 00:03:13,920
+Just making the chart so messy.
+
+58
+00:03:13,920 --> 00:03:16,280
+So on the five minute, let's say price comes into
+
+59
+00:03:16,280 --> 00:03:18,240
+the one hour autoblock or POI.
+
+60
+00:03:18,240 --> 00:03:22,880
+You get a market structure shift and you have the original consolidation with a second consolidation.
+
+61
+00:03:22,880 --> 00:03:26,160
+You take your entry and I bet you it's going to hit the take profit.
+
+62
+00:03:28,000 --> 00:03:29,280
+It's really that simple.
+
+63
+00:03:30,040 --> 00:03:35,600
+I mean, it's a little complicated, but I'm going to show you the examples and then it will become very simple for you.

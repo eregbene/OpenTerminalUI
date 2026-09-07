@@ -1,0 +1,298 @@
+{
+  "source": "F:\\new faiz\\30. ICT Silver Bullet.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 314.166,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.3,
+      "end": 30.3,
+      "text": " Alright guys, so in this video I will teach you the ICT Silver Bullet Trading Strategy. On my YouTube I have already uploaded a video on this topic but it is not like in detail. But in this video I'm going to explain each and everything in detail and how you can trade it to make profits. If that makes sense. Okay, so what ICT exactly says. Listen to this very carefully. He says that before 10 AM, New York time,"
+    },
+    {
+      "start": 30.3,
+      "end": 35.3,
+      "text": " Look for a liquidity that has been swept."
+    },
+    {
+      "start": 35.9,
+      "end": 40.9,
+      "text": " So before 10 am, look for liquidity that has been already swept."
+    },
+    {
+      "start": 49.64,
+      "end": 53.12,
+      "text": " Before 10 am, look for liquidity that has been already swept."
+    },
+    {
+      "start": 54.92,
+      "end": 58.52,
+      "text": " Now once you identify the liquidity that has been swept,"
+    },
+    {
+      "start": 58.52,
+      "end": 60.52,
+      "text": " you want to identify"
+    },
+    {
+      "start": 61.52,
+      "end": 63.52,
+      "text": " liquidity"
+    },
+    {
+      "start": 63.52,
+      "end": 67.52,
+      "text": " that has not been swept yet"
+    },
+    {
+      "start": 68.52,
+      "end": 70.52,
+      "text": " so let's say that"
+    },
+    {
+      "start": 71.52,
+      "end": 73.52,
+      "text": " okay one minute"
+    },
+    {
+      "start": 73.52,
+      "end": 74.52,
+      "text": " you have"
+    },
+    {
+      "start": 74.52,
+      "end": 75.52,
+      "text": " buy site here"
+    },
+    {
+      "start": 75.52,
+      "end": 76.52,
+      "text": " and you have"
+    },
+    {
+      "start": 76.52,
+      "end": 77.52,
+      "text": " sell site here right"
+    },
+    {
+      "start": 77.52,
+      "end": 78.52,
+      "text": " so this is"
+    },
+    {
+      "start": 79.52,
+      "end": 80.52,
+      "text": " buy site"
+    },
+    {
+      "start": 80.52,
+      "end": 81.52,
+      "text": " liquidity"
+    },
+    {
+      "start": 81.52,
+      "end": 82.52,
+      "text": " and this is sell site"
+    },
+    {
+      "start": 82.52,
+      "end": 83.52,
+      "text": " liquidity"
+    },
+    {
+      "start": 84.52,
+      "end": 85.52,
+      "text": " so let's say"
+    },
+    {
+      "start": 85.52,
+      "end": 86.52,
+      "text": " before 10 am"
+    },
+    {
+      "start": 86.52,
+      "end": 87.52,
+      "text": " you see that price has taken out"
+    },
+    {
+      "start": 87.52,
+      "end": 94.24,
+      "text": " out these equal highs over here. So now price could be going up, you know, could be"
+    },
+    {
+      "start": 94.24,
+      "end": 108.0,
+      "text": " consolidating whatnot. But after 10M, right, after 10M, look for market structure shift"
+    },
+    {
+      "start": 108.0,
+      "end": 119.12,
+      "text": " with displacement on one minute timeframe. Okay. So let's say the clock hits, let me go here."
+    },
+    {
+      "start": 119.12,
+      "end": 129.36,
+      "text": " The clock hits 10 am right here. So 10 am. Yeah. Now you want to start looking for market"
+    },
+    {
+      "start": 129.36,
+      "end": 139.09,
+      "text": " structure shifts. Okay, so let's say you get a beautiful displacement, okay, like that. Now,"
+    },
+    {
+      "start": 140.05,
+      "end": 146.29,
+      "text": " ICT says you mark out the fair value gap, you take your entry, you put your stop to five handles."
+    },
+    {
+      "start": 146.85,
+      "end": 153.41,
+      "text": " Okay, five handles on E-M-E-S-N-P is going to be somewhere around it. I'm going to teach you what"
+    },
+    {
+      "start": 153.41,
+      "end": 158.29,
+      "text": " it means, okay? But for now, he says your stop loss goes to five handles and you take profit goes to"
+    },
+    {
+      "start": 158.29,
+      "end": 165.57,
+      "text": " five handles. So basically it tells us to import one to one. Now that in my eyes is very low."
+    },
+    {
+      "start": 166.13,
+      "end": 172.45,
+      "text": " Okay, but it has, he says that it has a probability of around above 80 percent. Okay, so you're"
+    },
+    {
+      "start": 172.45,
+      "end": 181.34,
+      "text": " gonna win most of the time. However, what I've noticed with my back testing is, is when you can"
+    },
+    {
+      "start": 181.34,
+      "end": 187.18,
+      "text": " simply go for one to two. That is the perfect rich tree wall ratio for the strategy that I found"
+    },
+    {
+      "start": 187.18,
+      "end": 194.7,
+      "text": " backtesting. Okay, and when price goes to like one to one, you go break even. So when price comes back to"
+    },
+    {
+      "start": 194.7,
+      "end": 201.02,
+      "text": " one to one, you go break even. So here are some key things that you must note. So let's say there's like"
+    },
+    {
+      "start": 201.02,
+      "end": 208.62,
+      "text": " a significant low here or maybe here, you know, a significant one. Okay, and price takes out that"
+    },
+    {
+      "start": 208.62,
+      "end": 214.54,
+      "text": " low before coming back to your entry. Then you have to be cautious. Okay, because price has already"
+    },
+    {
+      "start": 214.54,
+      "end": 221.18,
+      "text": " taken out and sell side it could just go back up again. You want to identify so let me give you"
+    },
+    {
+      "start": 221.18,
+      "end": 231.98,
+      "text": " this little example here. So this is external market structure and inside this you're going to have"
+    },
+    {
+      "start": 231.98,
+      "end": 238.38,
+      "text": " like this lower low or high lower low or high lower low or high low or high low. So you want to"
+    },
+    {
+      "start": 238.38,
+      "end": 243.9,
+      "text": " look for market structure shift of internal market structure. You do not want to look for this"
+    },
+    {
+      "start": 243.9,
+      "end": 248.7,
+      "text": " If the price comes back and takes out this low here and then comes back to your entry,"
+    },
+    {
+      "start": 248.7,
+      "end": 251.34,
+      "text": " do not take that. It's not going to work out."
+    },
+    {
+      "start": 253.26,
+      "end": 258.54,
+      "text": " You must identify the internal market structure, which is this right here on the one minute"
+    },
+    {
+      "start": 258.54,
+      "end": 262.7,
+      "text": " time from. You look for a market structure shift. It happens right here with displacement. Take your"
+    },
+    {
+      "start": 262.7,
+      "end": 269.9,
+      "text": " entry. Go for five handles and or just put your stop at the high over here and go for one to two."
+    },
+    {
+      "start": 269.9,
+      "end": 276.9,
+      "text": " So let me let me show you what I mean by handles right."
+    },
+    {
+      "start": 276.9,
+      "end": 278.9,
+      "text": " Let me go to futures right here."
+    },
+    {
+      "start": 278.9,
+      "end": 287.9,
+      "text": " Okay so let's say that your for example okay let's say your entry is at the close"
+    },
+    {
+      "start": 287.9,
+      "end": 288.9,
+      "text": " of this body."
+    },
+    {
+      "start": 288.9,
+      "end": 289.9,
+      "text": " You put your entry here."
+    },
+    {
+      "start": 289.9,
+      "end": 291.9,
+      "text": " Now notice this number right here."
+    },
+    {
+      "start": 291.9,
+      "end": 293.9,
+      "text": " Stops 3.50 right."
+    },
+    {
+      "start": 293.9,
+      "end": 295.9,
+      "text": " It shows 3.50."
+    },
+    {
+      "start": 295.9,
+      "end": 305.8,
+      "text": " you move it to 5 and that is your 5 handles stop loss you go for 1 to 1 that is your 5 handles take profit"
+    },
+    {
+      "start": 307.1,
+      "end": 313.0,
+      "text": " So let me give you guys a couple of examples and then we will move on to the next topic"
+    }
+  ]
+}

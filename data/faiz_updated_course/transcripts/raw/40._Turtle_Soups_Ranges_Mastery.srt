@@ -1,0 +1,1111 @@
+1
+00:00:00,300 --> 00:00:30,300
+Alright guys, welcome to the new chapter. In this chapter, I'm gonna teach you guys our range trading and how it is one of the best ways to trade. This works on the one minute time from in most scenarios and this works. It doesn't work really well with Forex, but it works really well with indices and crypto. It works really well with crypto, right? So the reason why I'm giving you so many miles is that you can choose your
+
+2
+00:00:30,300 --> 00:00:36,480
+own style. All of them are extremely profitable. Now of course you're gonna have
+
+3
+00:00:36,480 --> 00:00:40,400
+losing days, losing weeks and even losing month right? That's totally normal.
+
+4
+00:00:40,400 --> 00:00:44,200
+Trading is not trading without losses. You need to understand this and you have to
+
+5
+00:00:44,200 --> 00:00:47,560
+keep this in mind. The number one reason why you are still not profitable is
+
+6
+00:00:47,560 --> 00:00:51,360
+because whenever you take two or three losses in a row you move on to the next
+
+7
+00:00:51,360 --> 00:00:55,560
+strategy in hopes of finding something that works 24-7 every single time right?
+
+8
+00:00:55,560 --> 00:00:59,880
+It doesn't work like that guys. You just need to have a small edge and you have
+
+9
+00:00:59,880 --> 00:01:05,320
+just make like three, four, five percent per month, right? Sometimes you will lose,
+
+10
+00:01:05,320 --> 00:01:12,200
+all right? You will be stopping at break even for a month. But this is where you are,
+
+11
+00:01:12,200 --> 00:01:17,800
+you know, keeping yourself behind. The best traders out there, they know that losing is
+
+12
+00:01:17,800 --> 00:01:22,520
+part of the game. But this model that I'm about to teach you is very important. So first of all,
+
+13
+00:01:22,520 --> 00:01:28,280
+we need to identify a range, right? There are, there's a consolidation, but there's a range,
+
+14
+00:01:28,280 --> 00:01:31,080
+and I'm gonna explain what it is.
+
+15
+00:01:31,080 --> 00:01:34,520
+So let's assume that price pushes up, right?
+
+16
+00:01:35,560 --> 00:01:39,560
+And then it goes up once again,
+
+17
+00:01:39,560 --> 00:01:42,680
+and then we have a significant pullback,
+
+18
+00:01:42,680 --> 00:01:46,040
+just like ABC strategy, right?
+
+19
+00:01:46,040 --> 00:01:48,000
+You have this big push up.
+
+20
+00:01:48,000 --> 00:01:52,960
+Now, mark out these significant high, all right?
+
+21
+00:01:52,960 --> 00:01:55,080
+So you see why this is a significant high
+
+22
+00:01:55,080 --> 00:01:57,200
+because after this high was printed,
+
+23
+00:01:57,200 --> 00:02:01,360
+We had a bigger pullback, a bigger pullback than average pullback.
+
+24
+00:02:01,360 --> 00:02:04,440
+So this pullback is very small.
+
+25
+00:02:04,440 --> 00:02:07,360
+This pullback is very small, but this one is huge.
+
+26
+00:02:07,360 --> 00:02:11,280
+So this right here becomes a range high.
+
+27
+00:02:11,280 --> 00:02:14,600
+Now, how do you identify a range low?
+
+28
+00:02:14,600 --> 00:02:16,480
+So you're gonna have small pullbacks,
+
+29
+00:02:16,480 --> 00:02:18,520
+but then you're gonna have a bit push
+
+30
+00:02:18,520 --> 00:02:20,440
+towards the upside, right?
+
+31
+00:02:20,440 --> 00:02:25,440
+And that is gonna determine the range low over here.
+
+32
+00:02:25,440 --> 00:02:34,480
+Now to find a plus range, what I want to see is a buildup of liquidity
+
+33
+00:02:35,320 --> 00:02:41,520
+near the swing high, the significant high and also near the range low.
+
+34
+00:02:41,900 --> 00:02:42,960
+So we have range I hear.
+
+35
+00:02:43,160 --> 00:02:46,280
+I want to see these highs build up around this area.
+
+36
+00:02:46,600 --> 00:02:49,300
+And also similarly, I want to see, you know,
+
+37
+00:02:49,300 --> 00:02:51,120
+lows build up around this area.
+
+38
+00:02:51,840 --> 00:02:54,080
+Now this is a plus range.
+
+39
+00:02:54,080 --> 00:02:56,880
+Okay, you have Byside here, Celside here.
+
+40
+00:02:56,880 --> 00:03:00,280
+And this is on the one minute timeframe, NAS 100.
+
+41
+00:03:00,280 --> 00:03:02,440
+And this is during London and New York session,
+
+42
+00:03:02,440 --> 00:03:04,120
+we are not going to trade Asian session
+
+43
+00:03:04,120 --> 00:03:07,040
+because there will be low volume, right?
+
+44
+00:03:07,040 --> 00:03:12,040
+So with a very easy strategy, guys,
+
+45
+00:03:12,280 --> 00:03:17,280
+all you're looking for is a sweep of the range low.
+
+46
+00:03:18,280 --> 00:03:20,160
+Now let's assume that you are bullish,
+
+47
+00:03:20,160 --> 00:03:22,960
+the trend overall trend is bullish.
+
+48
+00:03:22,960 --> 00:03:27,520
+You want to see primarily, you want to see the range low taken out first.
+
+49
+00:03:28,640 --> 00:03:30,640
+All right, this is very important.
+
+50
+00:03:30,640 --> 00:03:33,840
+And pair it up with one minute fair value gap.
+
+51
+00:03:33,840 --> 00:03:37,560
+That is, that may be present inside this level over here.
+
+52
+00:03:38,320 --> 00:03:42,720
+This is not necessary, but this is significantly going to improve the win rate.
+
+53
+00:03:43,200 --> 00:03:48,720
+Okay. Now, you can also look for SMT divergence when a sweep happens.
+
+54
+00:03:48,720 --> 00:03:54,880
+So on, let's suppose that S&P 500 price failed to strip liquidity and it just went here.
+
+55
+00:03:54,880 --> 00:03:57,040
+But on NAS100 we swap liquidity.
+
+56
+00:03:57,840 --> 00:04:02,560
+You know, I want to keep the things mechanical as possible, but there are some things that
+
+57
+00:04:02,560 --> 00:04:08,000
+are going to improve your winner. For example, pairing it up with PDA Ray or using S&T S&T is one
+
+58
+00:04:08,000 --> 00:04:12,800
+of my favorite confirmation tools. I always use this with my trades and you should too.
+
+59
+00:04:12,800 --> 00:04:19,960
+Now, once you get the SMT after price took out the range low, you are simply looking for
+
+60
+00:04:19,960 --> 00:04:26,080
+a market structure shift and you want the price to come back into the range.
+
+61
+00:04:26,080 --> 00:04:27,840
+So what I mean by this?
+
+62
+00:04:27,840 --> 00:04:31,080
+So let's assume price took out the range low, right?
+
+63
+00:04:31,080 --> 00:04:34,240
+And let's suppose that it pushes down, pushes down, and then you have a shift in the market
+
+64
+00:04:34,240 --> 00:04:35,240
+structure.
+
+65
+00:04:35,240 --> 00:04:40,360
+I will not take my entry unless and until price comes back into the range.
+
+66
+00:04:40,360 --> 00:04:46,560
+Once it happens, I can basically take my entry from anywhere that looks good.
+
+67
+00:04:46,560 --> 00:04:49,920
+And I will be targeting the range high.
+
+68
+00:04:49,920 --> 00:04:58,840
+So this is a very common strategy in ICT community, but no one really knows how to trade
+
+69
+00:04:58,840 --> 00:04:59,840
+it.
+
+70
+00:04:59,840 --> 00:05:00,680
+And no one really talks about it.
+
+71
+00:05:00,680 --> 00:05:05,800
+It is one of the best models that you can trade with NAS100 and crypto.
+
+72
+00:05:05,800 --> 00:05:08,760
+On crypto, it works on every single time for him.
+
+73
+00:05:08,760 --> 00:05:14,440
+On the higher time frame, most of the time price is just going up or going down.
+
+74
+00:05:14,440 --> 00:05:18,320
+But on one minute down from you're going to see this structure where ranges are built.
+
+75
+00:05:18,320 --> 00:05:19,920
+So keep this in mind.
+
+76
+00:05:19,920 --> 00:05:23,240
+Now you have a shift in the market such a price came back into the range.
+
+77
+00:05:23,240 --> 00:05:27,400
+It is very similar to the ABC strategy but what we're doing here is we're waiting for
+
+78
+00:05:27,400 --> 00:05:29,560
+liquidity build ups on both sides.
+
+79
+00:05:29,560 --> 00:05:34,440
+So we have range high, liquidity build up here, range low, liquidity build up here.
+
+80
+00:05:34,440 --> 00:05:41,320
+two three touches, a near the range loop and one to near the swimming high, the range high.
+
+81
+00:05:41,320 --> 00:05:43,600
+You got a shift in the market structure.
+
+82
+00:05:43,600 --> 00:05:47,560
+This right here could literally be your entry zone.
+
+83
+00:05:47,560 --> 00:05:51,240
+Your free value gap, or you could take your entry from the breaker block, is really up
+
+84
+00:05:51,240 --> 00:05:52,240
+to you.
+
+85
+00:05:52,240 --> 00:05:53,840
+Now, this is very important.
+
+86
+00:05:53,840 --> 00:06:01,320
+When you take, when you are triggered, you are going to take around 30 to 40% at 50%
+
+87
+00:06:01,320 --> 00:06:02,320
+of the range.
+
+88
+00:06:02,320 --> 00:06:08,780
+use your fib from the range high to range low and at 0.5% you are going to take off some
+
+89
+00:06:08,780 --> 00:06:12,680
+of your profits and you're going to go break even. Now most of the time price is going
+
+90
+00:06:12,680 --> 00:06:18,200
+towards the range high and it's going to sweep all the liquidity. Period it up with
+
+91
+00:06:18,200 --> 00:06:23,280
+SMT divergence and you are in for the best trading model. I'm not even getting best
+
+92
+00:06:23,280 --> 00:06:28,560
+scalloping model that works on the one minute time frame. Then also you can pair it up
+
+93
+00:06:28,560 --> 00:06:33,040
+with standard deviation tool to look for your profit.
+
+94
+00:06:33,040 --> 00:06:35,720
+So negative four could be your profit as well.
+
+95
+00:06:35,720 --> 00:06:40,720
+If you haven't watched the standard deviation course video,
+
+96
+00:06:41,840 --> 00:06:43,480
+I highly suggest that you do.
+
+97
+00:06:43,480 --> 00:06:46,280
+So negative four, this could be your take profit level.
+
+98
+00:06:47,400 --> 00:06:49,800
+Now similarly, if I flip the chart over
+
+99
+00:06:49,800 --> 00:06:51,720
+to identify the range lower range high.
+
+100
+00:06:51,720 --> 00:06:54,200
+So let's suppose that we are in the bearish market
+
+101
+00:06:54,200 --> 00:06:56,880
+and price printed this low.
+
+102
+00:06:56,880 --> 00:06:59,160
+And then we had a pullback, significant pullback.
+
+103
+00:06:59,160 --> 00:07:01,920
+Now, this low becomes a significant low.
+
+104
+00:07:01,920 --> 00:07:05,000
+Why? Because we had a relatively big pullback,
+
+105
+00:07:05,000 --> 00:07:05,840
+then these pullbacks.
+
+106
+00:07:05,840 --> 00:07:06,680
+So look at this.
+
+107
+00:07:06,680 --> 00:07:08,720
+We have small pullback, small pullback.
+
+108
+00:07:08,720 --> 00:07:10,600
+And then you want to look for a significant pullback
+
+109
+00:07:10,600 --> 00:07:11,520
+to the upside.
+
+110
+00:07:11,520 --> 00:07:14,400
+Now, we have inside this pullback leg,
+
+111
+00:07:14,400 --> 00:07:15,680
+we are also going to have pullback.
+
+112
+00:07:15,680 --> 00:07:17,360
+So look, pullback, pullback.
+
+113
+00:07:17,360 --> 00:07:19,480
+But then this one is a significant pullback.
+
+114
+00:07:19,480 --> 00:07:21,640
+And price engineers liquidity,
+
+115
+00:07:21,640 --> 00:07:24,320
+near this range low.
+
+116
+00:07:24,320 --> 00:07:26,640
+And similarly, around the range high,
+
+117
+00:07:26,640 --> 00:07:28,520
+we also engineer liquidity.
+
+118
+00:07:28,520 --> 00:07:32,160
+Now, one price breaks and takes out deep range high.
+
+119
+00:07:32,160 --> 00:07:34,560
+You're looking for SMT, this is optional,
+
+120
+00:07:34,560 --> 00:07:36,680
+but it is very crucial if you want to increase
+
+121
+00:07:36,680 --> 00:07:39,320
+or wind up to 65, 70% all right.
+
+122
+00:07:39,320 --> 00:07:41,160
+Then we get a shift in the market structure price
+
+123
+00:07:41,160 --> 00:07:43,000
+closes back into the range.
+
+124
+00:07:43,000 --> 00:07:44,760
+You take your entry from the breaker block
+
+125
+00:07:44,760 --> 00:07:48,160
+or for everybody gap and you take your 30 to 40%
+
+126
+00:07:48,160 --> 00:07:52,400
+or even 50% at the 50% of the range.
+
+127
+00:07:52,400 --> 00:07:55,080
+I highly suggest that you go break even at one to one
+
+128
+00:07:55,080 --> 00:08:01,400
+And then you take your profits at half profits at the 50% of the range and then you target the range low.
+
+129
+00:08:01,680 --> 00:08:04,720
+This is very simple guys, very, very mechanical.
+
+130
+00:08:04,760 --> 00:08:07,320
+I'm going to give you guys some examples and that's going to clear everything.
+
+131
+00:08:09,740 --> 00:08:10,260
+All right, guys.
+
+132
+00:08:10,260 --> 00:08:12,460
+So here is example number one.
+
+133
+00:08:12,500 --> 00:08:17,500
+So you can clearly see that we have been bullish overall on the one, I'm looking at the one minute timeframe.
+
+134
+00:08:17,500 --> 00:08:20,340
+You do not want to go to the high time firms that are not necessary.
+
+135
+00:08:20,740 --> 00:08:25,180
+So during the Asian session, you can see that we had a significant high printed.
+
+136
+00:08:25,180 --> 00:08:30,060
+Why? Because then afterwards we had a significant pullback. So look at this pullback. This is a small pullback
+
+137
+00:08:30,060 --> 00:08:36,820
+small pullback, but then we had a significant pullback that was bigger than the average price action, right?
+
+138
+00:08:36,820 --> 00:08:43,740
+And then afterwards you can see inside this pullback like we had a pullback pullback, but then we had a significant pullback
+
+139
+00:08:43,740 --> 00:08:49,460
+that broke these structures, right? So this becomes a significant level. Now price
+
+140
+00:08:49,460 --> 00:08:55,420
+engineered liquidity just near this range low so you can see we have a bunch of
+
+141
+00:08:55,420 --> 00:08:59,900
+liquidity build up here also near the range high we have this hard this hard
+
+142
+00:08:59,900 --> 00:09:04,900
+this high all of this liquidity that is going to be swept right this high
+
+143
+00:09:04,900 --> 00:09:11,080
+becomes more significant when there is a bunch of liquidity just below it so
+
+144
+00:09:11,080 --> 00:09:16,740
+right after you know the during the London session at 250 you can see we had a
+
+145
+00:09:16,740 --> 00:09:19,340
+to the upside that swept the range high.
+
+146
+00:09:19,340 --> 00:09:22,820
+And then we had a beautiful displacement to the downside.
+
+147
+00:09:22,820 --> 00:09:26,540
+Now, if your target is reached before entry,
+
+148
+00:09:26,540 --> 00:09:28,100
+so let's suppose that a range load is taken
+
+149
+00:09:28,100 --> 00:09:30,980
+before your entry, your setup becomes invalid.
+
+150
+00:09:30,980 --> 00:09:32,540
+Okay, so just around here,
+
+151
+00:09:32,540 --> 00:09:34,940
+you can see that we have a fair value gap.
+
+152
+00:09:35,780 --> 00:09:38,220
+This is of course with benefit of hindsight,
+
+153
+00:09:38,220 --> 00:09:40,060
+but I'm teaching you how you can take your entry.
+
+154
+00:09:40,060 --> 00:09:42,300
+So this right here is your fair value gap.
+
+155
+00:09:42,300 --> 00:09:43,340
+You can basically take your entry
+
+156
+00:09:43,340 --> 00:09:45,020
+from the 50% of this level.
+
+157
+00:09:45,020 --> 00:09:47,140
+And then there's my apologies.
+
+158
+00:09:47,140 --> 00:09:48,380
+There's this fairly gap as well.
+
+159
+00:09:48,380 --> 00:09:49,540
+So to account for that,
+
+160
+00:09:49,540 --> 00:09:51,820
+you just wanna put your stop slightly above it
+
+161
+00:09:51,820 --> 00:09:53,100
+so you don't miss the trade.
+
+162
+00:09:54,340 --> 00:09:56,660
+And you would go literally break even
+
+163
+00:09:56,660 --> 00:09:59,340
+once this range low is taken out.
+
+164
+00:09:59,340 --> 00:10:01,100
+And since we always go for one to two
+
+165
+00:10:01,100 --> 00:10:03,060
+and since this range wasn't big,
+
+166
+00:10:03,060 --> 00:10:05,380
+it didn't give you one to two at the range low.
+
+167
+00:10:05,380 --> 00:10:08,020
+So we wanna keep things mechanical
+
+168
+00:10:08,020 --> 00:10:11,140
+and we go for one to two regardless of the range low.
+
+169
+00:10:11,140 --> 00:10:13,300
+Regardless of whether the range low is taken or not, right?
+
+170
+00:10:13,300 --> 00:10:17,300
+So if you get an entry and the range low is taken and you're not getting one to two,
+
+171
+00:10:17,300 --> 00:10:22,340
+just go break even, take some partial around this level and then keep the trade running.
+
+172
+00:10:22,340 --> 00:10:27,620
+You can also see that we took out asian low here, so that could have been a decent draw on liquidity as well.
+
+173
+00:10:27,620 --> 00:10:29,780
+Now, let me give you guys some other examples.
+
+174
+00:10:32,130 --> 00:10:35,970
+All right guys, here is another example. So you can see that we were bullish overall.
+
+175
+00:10:35,970 --> 00:10:42,930
+So our very small time from bias would be that we primarily want to see the range low taken out first.
+
+176
+00:10:42,930 --> 00:10:48,130
+So you can see we have printed the significant high over here and after what we had a significant pull back to the downside.
+
+177
+00:10:48,130 --> 00:10:54,430
+Now, over around here you can see that this leg over here was a significant one, alright?
+
+178
+00:10:54,430 --> 00:10:57,230
+It broke this structure, it broke this structure, right?
+
+179
+00:10:57,230 --> 00:11:02,130
+And this overall looks very, very, um, uh, you know, significant.
+
+180
+00:11:02,130 --> 00:11:07,830
+After that we printed this low near this level, then we printed this low over here.
+
+181
+00:11:07,830 --> 00:11:12,730
+And around this significant high we had this liquidity, all of this liquidity over here.
+
+182
+00:11:12,730 --> 00:11:16,890
+is what's making this high a significant level.
+
+183
+00:11:16,890 --> 00:11:20,730
+So you can see we had a shift in the market structure over here
+
+184
+00:11:20,730 --> 00:11:24,130
+right with displacement and we came back into the range.
+
+185
+00:11:24,130 --> 00:11:26,730
+This was your entry.
+
+186
+00:11:26,730 --> 00:11:30,730
+So let's suppose that you went along just around here.
+
+187
+00:11:30,730 --> 00:11:33,130
+You stop what I've been here somewhere around here.
+
+188
+00:11:33,130 --> 00:11:37,730
+You could have gone for one to two and this would have given you a decent trade.
+
+189
+00:11:37,730 --> 00:11:46,830
+Now, once the range low was taken out, you can see that it swept the liquidity and it pushed
+
+190
+00:11:46,830 --> 00:11:47,830
+back down.
+
+191
+00:11:47,830 --> 00:11:51,470
+Our target or objective was already complete, so we wouldn't look for any more trades.
+
+192
+00:11:51,470 --> 00:11:57,570
+But you can see how price on NAS 101, when the timeframe creates ranges, then streams ranges
+
+193
+00:11:57,570 --> 00:11:59,570
+and then move to as the original direction.
+
+194
+00:11:59,570 --> 00:12:01,570
+Let me give you guys some more examples.
+
+195
+00:12:01,570 --> 00:12:05,850
+All right, so on the same day, I want you to identify the range first.
+
+196
+00:12:05,850 --> 00:12:09,850
+Alright, I'm gonna give you some seconds. There are two ranges that worked out perfectly.
+
+197
+00:12:10,490 --> 00:12:16,090
+One, two, three, four, five. Alright, so the very first range that was created is somewhere around here.
+
+198
+00:12:16,090 --> 00:12:20,490
+You can see we have a low printed and then we had a significant pullback.
+
+199
+00:12:20,490 --> 00:12:26,090
+So that created a range low and then we have a significant range high Y because look at this move
+
+200
+00:12:26,090 --> 00:12:29,690
+right here, right? It is significant and it swept the liquidity right away.
+
+201
+00:12:29,690 --> 00:12:35,490
+Now this is not an A plus setup why? Because there wasn't enough liquidity build up
+
+202
+00:12:35,490 --> 00:12:40,770
+around this swing the significant high the range high. However near the range low
+
+203
+00:12:40,770 --> 00:12:45,490
+we had some form of liquidity are built up so this low this low over here and
+
+204
+00:12:45,490 --> 00:12:51,650
+also this low over here that you can see. So the idea was that there's a bunch of
+
+205
+00:12:51,650 --> 00:12:56,170
+liquidity around this low the range low here so we will primarily want to see
+
+206
+00:12:56,170 --> 00:12:58,410
+the range low taken out first.
+
+207
+00:12:58,410 --> 00:13:00,310
+And then afterwards you can see we have
+
+208
+00:13:00,310 --> 00:13:03,530
+shifting the marker structure with this placement.
+
+209
+00:13:03,530 --> 00:13:07,090
+And we swept this low hair, making this an auto block
+
+210
+00:13:07,090 --> 00:13:08,690
+and with the benefit of hindsight,
+
+211
+00:13:08,690 --> 00:13:10,650
+you can see that it worked out perfectly.
+
+212
+00:13:10,650 --> 00:13:13,890
+Now, once this range was over,
+
+213
+00:13:13,890 --> 00:13:15,130
+we created another range.
+
+214
+00:13:15,130 --> 00:13:18,050
+So look at this significant low, right?
+
+215
+00:13:18,050 --> 00:13:19,930
+And then we pushed our push up
+
+216
+00:13:19,930 --> 00:13:21,810
+and then we created this significant high.
+
+217
+00:13:21,810 --> 00:13:22,930
+So significant low significant,
+
+218
+00:13:22,930 --> 00:13:24,490
+and why this is significant high?
+
+219
+00:13:24,490 --> 00:13:29,250
+Because once this was created, we had a significant pullback.
+
+220
+00:13:29,250 --> 00:13:32,250
+So inside a pullback, we had another pullback.
+
+221
+00:13:32,250 --> 00:13:35,130
+And then you can see that this becomes significant high,
+
+222
+00:13:35,130 --> 00:13:36,050
+significant low.
+
+223
+00:13:36,050 --> 00:13:40,010
+So in other words, range low and range high.
+
+224
+00:13:40,010 --> 00:13:43,070
+The more significant the range high are,
+
+225
+00:13:43,070 --> 00:13:45,330
+the more well it's going to play out.
+
+226
+00:13:45,330 --> 00:13:47,630
+All right, I'm trying to explain it to my own, you know,
+
+227
+00:13:47,630 --> 00:13:48,470
+words.
+
+228
+00:13:48,470 --> 00:13:50,730
+I'm not like 100% perfect for that.
+
+229
+00:13:50,730 --> 00:13:52,250
+English, but I try my best.
+
+230
+00:13:52,250 --> 00:13:53,730
+All right, so everyone can understand.
+
+231
+00:13:54,490 --> 00:13:57,370
+So in this example, you can see near the range low,
+
+232
+00:13:57,370 --> 00:13:59,050
+we had a bunch of liquidity build up.
+
+233
+00:13:59,050 --> 00:14:01,530
+So this low, this low, this low over here.
+
+234
+00:14:01,530 --> 00:14:03,090
+Now what does that tell us?
+
+235
+00:14:03,090 --> 00:14:05,370
+It tells us that the range low
+
+236
+00:14:05,370 --> 00:14:07,570
+is could be taken out first.
+
+237
+00:14:07,570 --> 00:14:08,410
+Why?
+
+238
+00:14:08,410 --> 00:14:11,530
+Because this range low has more liquidity than range high.
+
+239
+00:14:11,530 --> 00:14:12,770
+And whenever you see that,
+
+240
+00:14:12,770 --> 00:14:14,010
+let's suppose that if range low
+
+241
+00:14:14,010 --> 00:14:15,610
+has more liquidity around it,
+
+242
+00:14:15,610 --> 00:14:17,730
+it's gonna be swept first.
+
+243
+00:14:17,730 --> 00:14:19,650
+So right around here,
+
+244
+00:14:19,650 --> 00:14:21,570
+we have our shift in the structure, right?
+
+245
+00:14:21,570 --> 00:14:22,530
+We have a further gap,
+
+246
+00:14:22,530 --> 00:14:27,090
+we have a tiny bit of volume imbalance. If you don't know what it is, just go to the old course
+
+247
+00:14:27,090 --> 00:14:32,290
+and watch it. Okay. Now of course, as if it's the benefit of hindsight, you know, everything is perfect
+
+248
+00:14:32,290 --> 00:14:37,250
+when I'm showing you the benefit of hindsight. But you know, you got to be careful when you are
+
+249
+00:14:37,250 --> 00:14:41,970
+trading it in real markets. My goal is to just show you how well it works. So this could have
+
+250
+00:14:41,970 --> 00:14:46,690
+been your entry right beautiful entry. You could have targeted this high and you could have also
+
+251
+00:14:46,690 --> 00:14:53,090
+target the New York hide. It could have been your third profit or whatnot. So let me give you guys
+
+252
+00:14:53,090 --> 00:14:58,210
+one more example and then I want you to backtest and practice this okay. It works really well.
+
+253
+00:14:59,810 --> 00:15:06,050
+As you can see it happens every single day over and over again. You do not need bias. Well of course
+
+254
+00:15:06,050 --> 00:15:12,690
+if you pair it up with 15 minutes or one hour bias it's gonna help you but literally this is what
+
+255
+00:15:12,690 --> 00:15:17,650
+you need. So you can see that overall we have been bearish in the Asian session. We have
+
+256
+00:15:17,650 --> 00:15:23,250
+also been bearish around here. So afterwards what we did, we printed the range load wide
+
+257
+00:15:23,250 --> 00:15:27,570
+because after this load was created, we had a significant pullback to the upside.
+
+258
+00:15:28,930 --> 00:15:34,690
+Right? Look at this pullback. It is small. This is small. This is small. But then this is big. So this
+
+259
+00:15:35,410 --> 00:15:40,690
+makes it the range load. Now afterwards, this becomes range high. Why? Because once this pullback
+
+260
+00:15:40,690 --> 00:15:47,490
+was complete we had a push to the downside that was significant then the average price over here.
+
+261
+00:15:47,490 --> 00:15:53,330
+So this makes it the range high. Now around the range high area we have build up of liquidity we
+
+262
+00:15:53,330 --> 00:15:59,170
+have this high right we have all of this liquidity we have this high all of this liquidity this high
+
+263
+00:15:59,170 --> 00:16:04,370
+this high over here. Near the range low we have this liquidity this liquidity this liquidity this
+
+264
+00:16:04,370 --> 00:16:10,050
+look at it. Right this and this and this and this and this is like the perfect range setup that
+
+265
+00:16:10,050 --> 00:16:15,010
+you can trade. All right. I don't know what the hell just happened here. I'm just going to go back.
+
+266
+00:16:16,210 --> 00:16:25,570
+Okay, perfect. So you can see that the range high was swept first. Right? It was swept first.
+
+267
+00:16:26,130 --> 00:16:30,850
+We swept the liquidity and then we had a shift in the market structure. Now our first entry could
+
+268
+00:16:30,850 --> 00:16:37,490
+that being from this breaker block, you can see price tab into it. But primarily, I want to see
+
+269
+00:16:39,490 --> 00:16:45,330
+a buildup of liquidity, right? Sorry, a buildup of free value gap, not liquidity. So you can see
+
+270
+00:16:45,330 --> 00:16:50,690
+that we have this free value gap that was built and your first entry could have been here. So let's
+
+271
+00:16:50,690 --> 00:16:56,770
+suppose that you took your entry here. You start with a bin going here. Wow, this would have
+
+272
+00:16:56,770 --> 00:17:01,490
+I've been a very nice trade given you almost one to 12, but then if you took your entry from the
+
+273
+00:17:01,490 --> 00:17:06,370
+Fair Valley gap, put your stop right about this high, this would have given you around 3.43,
+
+274
+00:17:06,370 --> 00:17:13,490
+of course, with adding the appartials and whatnot. So if you have any questions about this
+
+275
+00:17:13,490 --> 00:17:17,730
+strategy, I will be coming live on Saturday and I will be answering your questions. This is
+
+276
+00:17:17,730 --> 00:17:22,370
+literally all you need. I'm going to end the chapter right here. And the next chapter is going to
+
+277
+00:17:22,370 --> 00:17:26,690
+be about psychology and then we're going to move on to the advanced strategies that I've
+
+278
+00:17:26,690 --> 00:17:31,090
+been cooking for you guys. See you guys around.

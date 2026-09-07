@@ -1,0 +1,143 @@
+{
+  "source": "F:\\new faiz\\4. Daily Bias Example 1.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 156.68825,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.34,
+      "end": 30.34,
+      "text": " Alright guys, so have an example for the daily bias. As you can see I'm the daily timeframe and I'm looking at USD CAD. It happened recently actually, like a couple of days ago. So you can see we have this external liquidity marked out here. And where do you see the draw on liquidity which is our internal liquidity, this fair value gap right here. So that is our draw on liquidity right here. We took out this low which is an external liquidity. So let's drop down to the one hour timeframe."
+    },
+    {
+      "start": 30.34,
+      "end": 37.22,
+      "text": " for the daily bias we go from daily to one hour. So let's drop down to the one hour timeframe."
+    },
+    {
+      "start": 37.22,
+      "end": 41.94,
+      "text": " Now we're simply looking for a market structure shift that supports our high time frame narrative."
+    },
+    {
+      "start": 43.06,
+      "end": 49.86,
+      "text": " And right there what you can see is we have a shift in the market structure. Now this right"
+    },
+    {
+      "start": 49.86,
+      "end": 56.58,
+      "text": " here is an auto block consecutive bearish candles right as I explained in the auto block 2.0 video."
+    },
+    {
+      "start": 56.58,
+      "end": 61.94,
+      "text": " So right here, but you can see this would have been a reentry point. We go long here"
+    },
+    {
+      "start": 62.74,
+      "end": 63.94,
+      "text": " right"
+    },
+    {
+      "start": 63.94,
+      "end": 67.1,
+      "text": " For every simple and we look to target"
+    },
+    {
+      "start": 67.86,
+      "end": 74.54,
+      "text": " this level here and now that is your bread and butter model going for five point five five"
+    },
+    {
+      "start": 74.54,
+      "end": 77.94,
+      "text": " Rr you see we get our entry here and"
+    },
+    {
+      "start": 78.82,
+      "end": 85.06,
+      "text": " It is currently weekend that I'm recording so I'm pretty much sure that's gonna take out this level"
+    },
+    {
+      "start": 85.06,
+      "end": 89.86,
+      "text": " But as you can see how beautifully it distributed to the app site."
+    },
+    {
+      "start": 89.86,
+      "end": 91.18,
+      "text": " We also had for everybody gap here."
+    },
+    {
+      "start": 91.18,
+      "end": 95.94,
+      "text": " So if price fill the for everybody gap, also there was on autoblog and you could say"
+    },
+    {
+      "start": 95.94,
+      "end": 96.94,
+      "text": " a breaker block."
+    },
+    {
+      "start": 96.94,
+      "end": 104.74,
+      "text": " So you can see you can easily identify your targets, which is the beauty of this concept."
+    },
+    {
+      "start": 104.74,
+      "end": 110.42,
+      "text": " Although if you were using the five minute timeframe, you could have taken multiple entries"
+    },
+    {
+      "start": 110.42,
+      "end": 116.34,
+      "text": " here. And I want to talk about those later in the video when we get to the more advanced concepts."
+    },
+    {
+      "start": 117.54,
+      "end": 124.66,
+      "text": " So let me give you guys an example for the monthly bias once again. And then I will do one more for"
+    },
+    {
+      "start": 124.66,
+      "end": 129.62,
+      "text": " the weekly and one more for the daily. And then we will move on to the next chapter. I want you"
+    },
+    {
+      "start": 129.62,
+      "end": 134.98,
+      "text": " guys to understand these concepts very clearly. And I'm like, yeah, I'm very confident you guys are"
+    },
+    {
+      "start": 134.98,
+      "end": 140.74,
+      "text": " going to absolutely kill the markets once this course is out and you master this. Of"
+    },
+    {
+      "start": 140.74,
+      "end": 144.66,
+      "text": " course, you will have to back test first. Give it a month or two back test these"
+    },
+    {
+      "start": 144.66,
+      "end": 148.5,
+      "text": " concepts or I don't know if you are a quick learner. You could just give it a"
+    },
+    {
+      "start": 148.5,
+      "end": 153.38,
+      "text": " one week or back testing and then get into the markets right away. So let me give"
+    },
+    {
+      "start": 153.38,
+      "end": 157.3,
+      "text": " you guys an example for the monthly buy us once again."
+    }
+  ]
+}

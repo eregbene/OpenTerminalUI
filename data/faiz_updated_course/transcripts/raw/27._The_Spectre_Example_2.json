@@ -1,0 +1,83 @@
+{
+  "source": "F:\\new faiz\\27. The Spectre Example 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 114.3583125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.11,
+      "end": 30.11,
+      "text": " Alright, everybody, so here is example number two, silver here. You can see we have this low. We had a market structure shift here and consecutive bearish candles or down close candles is your order block. If I mark the order block like that, you can clearly see that price ripped through the order block, taking out the order block liquidity. And afterwards, we had a reclaim and then a retest. I'm looking at a S100 and you can see that price has went up."
+    },
+    {
+      "start": 30.11,
+      "end": 38.03,
+      "text": " like that. So you can clearly see that we took our sell side here, right? And they made it look"
+    },
+    {
+      "start": 38.03,
+      "end": 44.83,
+      "text": " so obvious. The sell side was taken. We had a market structure shift. So a lot of"
+    },
+    {
+      "start": 44.83,
+      "end": 49.79,
+      "text": " ACG traders would try to go along either of this fair value gap or this entire auto"
+    },
+    {
+      "start": 49.79,
+      "end": 59.14,
+      "text": " bar. But what happens? Price takes out the slow. And you might be asking me that what about"
+    },
+    {
+      "start": 59.14,
+      "end": 66.5,
+      "text": " other training strategies. Now we are doing this without bias. Okay. So this is a no daily"
+    },
+    {
+      "start": 66.5,
+      "end": 71.38,
+      "text": " bus strategy. That is when we're going to use this method and it's not going to happen"
+    },
+    {
+      "start": 71.38,
+      "end": 77.78,
+      "text": " all the time. Most of the time or some sometimes it's going to react off this where we"
+    },
+    {
+      "start": 77.78,
+      "end": 84.58,
+      "text": " go up and go up. It's not going to be a case where it happens every time. But if you see a pattern"
+    },
+    {
+      "start": 84.58,
+      "end": 90.74,
+      "text": " like this where you have a sweep, right? And let's say your initial entry was here and you"
+    },
+    {
+      "start": 90.74,
+      "end": 95.62,
+      "text": " lost the rate. But you can do is look for this pattern where price reclaims itself,"
+    },
+    {
+      "start": 97.22,
+      "end": 103.78,
+      "text": " like that closes above it. So this is very important closes above it. And you have like a"
+    },
+    {
+      "start": 105.22,
+      "end": 110.1,
+      "text": " a target level. This could be a take profit one. This could be your take profit two."
+    },
+    {
+      "start": 110.1,
+      "end": 113.1,
+      "text": " Let's move on to another example."
+    }
+  ]
+}

@@ -1,0 +1,271 @@
+1
+00:00:00,000 --> 00:00:30,000
+So here's the example number three. Now this is a very informative example. It's going to help you a lot. So as you can see, I'm looking at the price section after at 9.15 AM, right? And I will mark out the low of the day and the high of the day and the midnight open just for, you know, for my own information. So the open is 1.1334. So this is the open right. You don't have to mark out these
+
+2
+00:00:30,000 --> 00:00:35,440
+midnight opens, it just tells you from where you should start looking for the high and the low.
+
+3
+00:00:35,440 --> 00:00:39,120
+You should only start looking for high and low after 12 am.
+
+4
+00:00:39,120 --> 00:00:44,080
+Okay? And so as you can see right now we have a,
+
+5
+00:00:46,160 --> 00:00:49,680
+this liquidity level and then we have the high, which is a liquidity level.
+
+6
+00:00:50,400 --> 00:00:58,960
+And if you, if you think, if you can see these two equal relatively equal lows, right?
+
+7
+00:00:58,960 --> 00:01:00,240
+Hi, sorry.
+
+8
+00:01:00,240 --> 00:01:02,280
+These are relatively equal highs.
+
+9
+00:01:02,280 --> 00:01:07,040
+So you can actually drop down to the 500 time frame.
+
+10
+00:01:07,040 --> 00:01:07,960
+OK?
+
+11
+00:01:07,960 --> 00:01:10,120
+And if it's not clear, you can also drop down
+
+12
+00:01:10,120 --> 00:01:11,600
+to the 1 minute time frame.
+
+13
+00:01:11,600 --> 00:01:18,240
+And now you can see that we have a clear, equal highs zone.
+
+14
+00:01:18,240 --> 00:01:21,120
+You can see we have a tap, and then we have a tap.
+
+15
+00:01:21,120 --> 00:01:22,600
+And we are going down.
+
+16
+00:01:22,600 --> 00:01:25,760
+And the time is 9.19 am.
+
+17
+00:01:25,760 --> 00:01:27,520
+Now this is a clear.
+
+18
+00:01:27,520 --> 00:01:30,000
+And I mean clear liquid zone, okay?
+
+19
+00:01:30,000 --> 00:01:31,360
+As I have taught above,
+
+20
+00:01:31,360 --> 00:01:35,120
+you can see these are clear relative equal lows,
+
+21
+00:01:35,120 --> 00:01:38,240
+equal highs, my bad, and they are not the best,
+
+22
+00:01:38,240 --> 00:01:39,720
+but they are, okay?
+
+23
+00:01:39,720 --> 00:01:43,240
+So you gotta wait for price to sweep that level.
+
+24
+00:01:43,240 --> 00:01:47,920
+And as you can see, price swept this level.
+
+25
+00:01:47,920 --> 00:01:50,480
+And it also swept the low of the day.
+
+26
+00:01:50,480 --> 00:01:53,320
+So what you should be looking for here is a
+
+27
+00:01:54,440 --> 00:01:57,200
+market structure shift, but it doesn't happen.
+
+28
+00:01:57,200 --> 00:02:01,120
+Now, what you can do since the imbalance was so big,
+
+29
+00:02:01,120 --> 00:02:04,360
+you can take your entry from the autoblock level.
+
+30
+00:02:06,810 --> 00:02:08,450
+There was no market relationship and went straight
+
+31
+00:02:08,450 --> 00:02:09,290
+into the autoblock.
+
+32
+00:02:09,290 --> 00:02:12,530
+So as you can see, our daily bias,
+
+33
+00:02:12,530 --> 00:02:15,370
+the market structure, the overall market structure was bearish,
+
+34
+00:02:15,370 --> 00:02:17,450
+and we are only taking short positions.
+
+35
+00:02:17,450 --> 00:02:18,930
+We would not take long.
+
+36
+00:02:18,930 --> 00:02:20,690
+The previous example that I showed,
+
+37
+00:02:20,690 --> 00:02:22,050
+we should have not taken the long,
+
+38
+00:02:22,050 --> 00:02:24,050
+because the market structure was bearish,
+
+39
+00:02:24,050 --> 00:02:25,570
+but it still works.
+
+40
+00:02:25,570 --> 00:02:29,730
+But I'm saying that if you take the trades in the overall
+
+41
+00:02:29,730 --> 00:02:32,130
+market direction, the win rate is going to be higher.
+
+42
+00:02:32,130 --> 00:02:33,490
+And I mean much higher.
+
+43
+00:02:33,490 --> 00:02:37,330
+So the reason why I did not take entry from this very,
+
+44
+00:02:37,330 --> 00:02:40,290
+very gap is because the imbalance is way too big.
+
+45
+00:02:40,290 --> 00:02:43,290
+And if I have my entry around here, my stop loss would be very
+
+46
+00:02:43,290 --> 00:02:44,130
+huge.
+
+47
+00:02:44,130 --> 00:02:47,410
+So I would rather mist the trade, then take this trade and
+
+48
+00:02:47,410 --> 00:02:52,690
+risk 1% with a huge stop loss and a very low reward level
+
+49
+00:02:52,690 --> 00:02:53,610
+and reward.
+
+50
+00:02:53,610 --> 00:02:56,850
+So you're gonna take in your entry from this autoblock.
+
+51
+00:02:56,850 --> 00:02:58,770
+Okay, you could have put your stop here.
+
+52
+00:02:58,770 --> 00:03:00,930
+You could have targeted this level.
+
+53
+00:03:00,930 --> 00:03:03,730
+You would take some partial tier and then you take your whole
+
+54
+00:03:03,730 --> 00:03:06,970
+trade, you take all the profits here.
+
+55
+00:03:06,970 --> 00:03:08,650
+So let's see how this plays out.
+
+56
+00:03:08,650 --> 00:03:11,250
+I'm actually not sure how this plays out because I just,
+
+57
+00:03:12,210 --> 00:03:13,490
+okay, it took some partial tier.
+
+58
+00:03:13,490 --> 00:03:15,270
+You are break even now and,
+
+59
+00:03:16,930 --> 00:03:19,330
+and boom, this hit the take profit level.
+
+60
+00:03:19,330 --> 00:03:22,570
+So what are the key things that we noted?
+
+61
+00:03:22,570 --> 00:03:28,010
+So if the price before 9.15, if you see a liquidity level like this,
+
+62
+00:03:28,010 --> 00:03:33,330
+equal highs or a significant high or, you know,
+
+63
+00:03:33,370 --> 00:03:36,130
+any type of liquidity guys, it doesn't matter.
+
+64
+00:03:36,810 --> 00:03:40,530
+And then you see this huge displacement after liquidity sweep,
+
+65
+00:03:40,570 --> 00:03:41,610
+you take your entry.
+
+66
+00:03:43,930 --> 00:03:47,650
+Yeah, guys, it was a very, very excellent strategy.
+
+67
+00:03:47,650 --> 00:03:51,050
+And I use this on daily basis with indices, of course.
+
+68
+00:03:51,050 --> 00:03:58,210
+So I hope this you guys liked this lecture and I'll see you guys in the next video

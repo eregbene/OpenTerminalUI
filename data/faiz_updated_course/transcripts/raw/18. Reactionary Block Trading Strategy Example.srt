@@ -1,0 +1,84 @@
+1
+00:00:00,000 --> 00:00:05,040
+All right guys, so here's the example for the reactionary block trading strategy. So
+
+2
+00:00:06,080 --> 00:00:12,240
+you can see we had this sweep, right? And then then we had a change of corrector or
+
+3
+00:00:13,120 --> 00:00:18,640
+market structure shift, whatever you want to call it. And then you had this
+
+4
+00:00:20,080 --> 00:00:29,120
+auto block right around here and some imbalance around here, right? So usually in this case,
+
+5
+00:00:29,120 --> 00:00:36,080
+I would just mark out this candle as well. And as you can see, when price reacted from this level,
+
+6
+00:00:37,040 --> 00:00:48,000
+it created an impulsive move and left imbalance and auto block just as I explained. So you want
+
+7
+00:00:48,000 --> 00:00:56,480
+to take your entry from here. There you go. I want to put your stop right up there.
+
+8
+00:00:57,440 --> 00:01:06,080
+And that was a beautiful trade. There you go, your 10 wrist reward trade right here. Very simple guys.
+
+9
+00:01:08,000 --> 00:01:15,040
+So this is basically it guys. You just want to, if you want a confirmation entry. Now,
+
+10
+00:01:15,840 --> 00:01:21,200
+in most of the time, you might miss out the trade, okay, just because you didn't confirm it.
+
+11
+00:01:21,920 --> 00:01:29,840
+But the thing is that with confirmation entries, your win rate is going to increase dramatically.
+
+12
+00:01:29,840 --> 00:01:37,840
+All right. So I would say just go with this. I mean, there are so many strategies that I have
+
+13
+00:01:37,840 --> 00:01:43,520
+uploaded. You only need to master one of those. Okay, you don't want to master each and every
+
+14
+00:01:43,520 --> 00:01:49,360
+trading strategy. Just find one didn't strategy, just choose one trading strategy and stick to it.
+
+15
+00:01:49,360 --> 00:01:56,640
+Just keep on backtesting it. Okay, just build that confidence. And that's pretty much it for
+
+16
+00:01:56,640 --> 00:02:03,360
+this trading strategy. As you can see, I want to show you more examples, but I really want to move
+
+17
+00:02:03,360 --> 00:02:10,560
+to the ABCD strategy because it is a great one as well. And this one is relatively, I hope you're
+
+18
+00:02:10,560 --> 00:02:16,320
+clear by now. I don't think you want more examples. It's just that you just want to see a reaction
+
+19
+00:02:16,320 --> 00:02:23,920
+from that auto block or fair value gap that creates the simple smooth, creates fair value gap.
+
+20
+00:02:24,640 --> 00:02:33,600
+And then you take your entry from here. That's pretty much it. So I do hope that you
+
+21
+00:02:33,600 --> 00:02:40,480
+like this strategy as well. It's a very good one. So yeah, guys, see you.
+

@@ -1,0 +1,710 @@
+{
+  "profile_id": "BSI_V3_ADAPTIVE_PROFILE_SEPTEMBER_2026_DEMO",
+  "methodology": "BSI_BASELINE_V3_UPDATED_FAIZ",
+  "effective_from_utc": "2026-09-08T00:00:00+00:00",
+  "train_window": {
+    "start": "2026-01-01T00:00:00+00:00",
+    "end": "2026-08-01T00:00:00+00:00"
+  },
+  "validation_window": {
+    "start": "2026-08-01T00:00:00+00:00",
+    "end": "2026-09-01T00:00:00+00:00"
+  },
+  "validation_result": {
+    "trades": 3137,
+    "wins": 1838,
+    "losses": 1299,
+    "win_rate": 58.59,
+    "net_r": 356.0068,
+    "expectancy": 0.1135,
+    "profit_factor": 1.2893,
+    "max_losing_streak": 9,
+    "max_drawdown_r": 138.905
+  },
+  "source_forward_artifact": "data\\research\\bsi_v3_forward_adaptive_jan_july_train_august_test.json",
+  "symbols": [
+    "EURUSD",
+    "GBPUSD",
+    "USDJPY",
+    "AUDUSD",
+    "USDCAD",
+    "USDCHF",
+    "NZDUSD",
+    "EURJPY",
+    "GBPJPY",
+    "XAUUSD"
+  ],
+  "allowed_buckets": [
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "EURJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "GBPJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "GBPUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "USDCAD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "USDCHF",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "XAUUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "AUDUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "EURJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "EURUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "GBPJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "GBPUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "NZDUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "USDCAD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "USDCHF",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "USDJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "XAUUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "AUDUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "EURJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "EURUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "GBPJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "GBPUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "NZDUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "USDCAD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "USDCHF",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "USDJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "XAUUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "AUDUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "EURJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "EURUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "GBPJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "GBPUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "NZDUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "USDCAD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "USDCHF",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "USDJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "XAUUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "symbol": "NZDUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "symbol": "USDCHF",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "symbol": "USDJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "symbol": "XAUUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_monday_range",
+      "symbol": "EURUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_monday_range",
+      "symbol": "XAUUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "AUDUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "EURJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "EURUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "GBPJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "GBPUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "USDCAD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "USDCHF",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "USDJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "XAUUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "AUDUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "EURJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "EURUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "GBPJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "GBPUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "NZDUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "USDCAD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "USDCHF",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "USDJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "XAUUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "AUDUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "EURJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "EURUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "GBPJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "GBPUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "NZDUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "USDCAD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "USDCHF",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "USDJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "XAUUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "AUDUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "EURJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "EURUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "GBPJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "GBPUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "NZDUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "USDCAD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "USDCHF",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "USDJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "XAUUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "AUDUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "EURJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "EURUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "GBPJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "GBPUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "NZDUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "USDCAD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "USDCHF",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "USDJPY",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "XAUUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    },
+    {
+      "strategy_id": "bsi_v3_yin_yang",
+      "symbol": "XAUUSD",
+      "detector_validation": "STRATEGY_SPECIFIC_DETECTOR_REGISTERED",
+      "entry_routing": "DEMO_ALLOWED_FROM_2026-09-08_IF_GLOBAL_V3_FLAGS_ENABLED"
+    }
+  ],
+  "excluded_buckets": [
+    {
+      "strategy_id": "bsi_v3_0930",
+      "symbol": "*",
+      "reason": "STRATEGY_EXCLUDED_FROM_DEMO_SCOPE_UNTIL_DETECTOR_REGISTERED",
+      "source_videos": [
+        "13. 930AM Trading Strategy (Updated).mp4"
+      ]
+    },
+    {
+      "strategy_id": "bsi_v3_1h_candle_ranges",
+      "symbol": "*",
+      "reason": "STRATEGY_EXCLUDED_FROM_DEMO_SCOPE_UNTIL_DETECTOR_REGISTERED",
+      "source_videos": [
+        "44. 1 Hour Candle Ranges.mp4"
+      ]
+    },
+    {
+      "strategy_id": "bsi_v3_asian_v2",
+      "symbol": "*",
+      "reason": "STRATEGY_EXCLUDED_FROM_DEMO_SCOPE_UNTIL_DETECTOR_REGISTERED",
+      "source_videos": [
+        "23. ASIAN SESSION STRATEGY V2.0.mp4"
+      ]
+    },
+    {
+      "strategy_id": "bsi_v3_ict_silver_bullet",
+      "symbol": "*",
+      "reason": "STRATEGY_EXCLUDED_FROM_DEMO_SCOPE_UNTIL_DETECTOR_REGISTERED",
+      "source_videos": [
+        "30. ICT Silver Bullet.mp4"
+      ]
+    },
+    {
+      "strategy_id": "bsi_v3_ifvg_po3",
+      "symbol": "*",
+      "reason": "STRATEGY_EXCLUDED_FROM_DEMO_SCOPE_UNTIL_DETECTOR_REGISTERED",
+      "source_videos": [
+        "39. The IFVG Model.mp4"
+      ]
+    },
+    {
+      "strategy_id": "bsi_v3_juggernaut",
+      "symbol": "*",
+      "reason": "STRATEGY_EXCLUDED_FROM_DEMO_SCOPE_UNTIL_DETECTOR_REGISTERED",
+      "source_videos": [
+        "21. The Juggernaut Model.mp4"
+      ]
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm",
+      "symbol": "*",
+      "reason": "STRATEGY_EXCLUDED_FROM_DEMO_SCOPE_UNTIL_DETECTOR_REGISTERED",
+      "source_videos": [
+        "8. THE MMXM.mp4",
+        "9. THE MMXM 2.mp4"
+      ]
+    },
+    {
+      "strategy_id": "bsi_v3_silver_bullet_with_bias",
+      "symbol": "*",
+      "reason": "STRATEGY_EXCLUDED_FROM_DEMO_SCOPE_UNTIL_DETECTOR_REGISTERED",
+      "source_videos": [
+        "24. Silver Bullet With Bias.mp4"
+      ]
+    },
+    {
+      "strategy_id": "bsi_v3_smt_divergence",
+      "symbol": "*",
+      "reason": "STRATEGY_EXCLUDED_FROM_DEMO_SCOPE_UNTIL_DETECTOR_REGISTERED",
+      "source_videos": [
+        "1. SMT Divergence.mp4"
+      ]
+    },
+    {
+      "strategy_id": "bsi_v3_smt_session_hl",
+      "symbol": "*",
+      "reason": "STRATEGY_EXCLUDED_FROM_DEMO_SCOPE_UNTIL_DETECTOR_REGISTERED",
+      "source_videos": [
+        "43. Utilizing SMT With Session Highs & Lows.mp4"
+      ]
+    },
+    {
+      "strategy_id": "bsi_v3_turtle_soups_ranges",
+      "symbol": "*",
+      "reason": "STRATEGY_EXCLUDED_FROM_DEMO_SCOPE_UNTIL_DETECTOR_REGISTERED",
+      "source_videos": [
+        "40. Turtle Soups & Ranges Mastery.mp4"
+      ]
+    }
+  ],
+  "generic_detector_routing_count": 0,
+  "unregistered_detector_routing_count": 0,
+  "demo_routing_contract": {
+    "route_only_allowed_buckets": true,
+    "route_only_strategy_specific_detectors": true,
+    "block_unconverted_strategies": true,
+    "sl_moves_must_improve_risk": true,
+    "partial_volumes_floor_to_broker_step": true,
+    "never_round_partial_volume_up_to_minimum": true
+  },
+  "risk_circuit_breakers": {
+    "monthly_loss_guard_required": true,
+    "basis": "Rolling walk-forward showed July 2026 was negative even after adaptive filtering; profile must pause/tighten after a severe current-month drawdown.",
+    "pause_v3_new_entries_after_month_net_r": -25.0,
+    "resume_requires_next_month_or_manual_review": true
+  },
+  "rolling_walk_forward_summary": {
+    "trades": 18205,
+    "wins": 11642,
+    "losses": 6563,
+    "win_rate": 63.95,
+    "net_r": 4355.8124,
+    "expectancy": 0.2393,
+    "profit_factor": 1.6902,
+    "max_month_drawdown_r": 296.7373,
+    "max_month_losing_streak": 12
+  },
+  "status": "READY_AS_PROFILE_NOT_YET_CONNECTED_TO_LIVE_ENGINE"
+}

@@ -1,0 +1,334 @@
+[00:00:00] Alright guys, in this video, we, in this lecture, you could say, we are going to learn about SMT divergence and how you can trade with SMT divergence or you could, you know, add SMT divergence in other trading strategies as a confidence. Okay? So, we're going to trade SMT divergence or you could say, smart money technique divergence.
+[00:00:30] This is a very powerful tool that you can use and it's going to increase your wind rate
+[00:00:38] by a lot.
+[00:00:39] You can use it as a single strategy by its own.
+[00:00:43] You could use this single thing by its own and you will be shocked.
+[00:00:48] Or you could add this as a confluence with other strategies and it's going to work perfectly
+[00:00:53] fine as well.
+[00:00:55] What is an SMT or sorry SMT divergence or you could say smart-made technique
+[00:01:02] divergence? So for this strategy you need two or three correlated pairs.
+[00:01:10] The pairs or assets or instruments that have similar movements, they have correlation between
+[00:01:20] each other. Right. So for example, Bitcoin, right, BTC and Ethereum, they have similar movements.
+[00:01:29] Right. If Bitcoin is going up, Ethereum should be going up as well. If Bitcoin is going down,
+[00:01:35] Ethereum should be going down. Then we have NAS100, S and B500 and US30. Right. So these three pairs
+[00:01:48] have similar movement as well. Now for Forex, you could use, you know, your USD, GVP USD,
+[00:01:58] AOD USD, with dollar index, DXY. Right? You're sorry. Now what is DXY? It is a, you
+[00:02:12] dollar index, it shows the strength of a dollar.
+[00:02:17] So you can use like Bitcoin and 3M, they have correlation,
+[00:02:23] NAS100, S&P 500 and US 30.
+[00:02:27] You can use your USG, GP, USG, AUD, USD, with.
+[00:02:32] So you don't wanna use your USG, GP, USD,
+[00:02:35] together, you don't wanna use your USG,
+[00:02:38] PUSD or AUDUSD together, you want to use one of these with DXY, a dollar index.
+[00:02:45] Okay.
+[00:02:49] And yeah, you can just simply trade with these instruments and pairs and assets.
+[00:02:55] So let's talk about what SMT divergence really is in detail.
+[00:03:01] Okay.
+[00:03:02] So let's assume that, let me draw this out first.
+[00:03:14] So this right here, let's assume that this is S&P500 and this is NAS100.
+[00:03:38] Cool?
+[00:03:39] So notice this right?
+[00:03:43] On S&P500 we have higher high, higher high, higher high, higher high, higher high, higher
+[00:03:51] high, right?
+[00:03:52] On NAS 100 we have higher high, higher low, higher high, higher low.
+[00:03:59] And then NAS 100 fails to create another higher high.
+[00:04:04] So I will repeat it again.
+[00:04:05] On S&P 500 we have higher high, higher low, higher high, higher low, higher high, and
+[00:04:12] on NAS 100 we have higher high, high low, higher high, high low.
+[00:04:18] And then NAS100 failed to create a higher high, whereas S&P managed to create another higher
+[00:04:25] high.
+[00:04:26] So what does this tell us?
+[00:04:31] This right here, for me personally, is a liquidity sweep, right?
+[00:04:37] This right here.
+[00:04:38] Why?
+[00:04:39] Because on NAS100, price couldn't make a higher high.
+[00:04:43] What does that tell me?
+[00:04:44] It tells me that the autoflow has shifted into a bearish trend.
+[00:04:49] This right here is a liquidity sweep.
+[00:04:52] All right, why?
+[00:04:53] Because NAS100 could not make another higher high.
+[00:04:59] But this S&P 500 did actually create a higher high.
+[00:05:03] This tells me there was a liquidity sweep.
+[00:05:05] So now what we can do is let's suppose
+[00:05:08] that you are looking at S&P divergence
+[00:05:10] on a 15 minute timeframe.
+[00:05:13] Once you have the liquidity sweep, right,
+[00:05:15] and you see that the other asset or pair
+[00:05:19] could not make a higher high.
+[00:05:21] And this period, let's say, made a higher high.
+[00:05:23] You drop down to the one minute timeframe.
+[00:05:25] If you're looking at at a 15 minute timeframe,
+[00:05:28] you drop down to one minute timeframe after liquid sweep,
+[00:05:31] you wait for market structure shift
+[00:05:33] and you take your entry from the extreme variable you got.
+[00:05:35] Just really that simple.
+[00:05:37] So you can see that S&P 500 managed to create a higher high,
+[00:05:42] but on NAS 100, we could not make a higher high,
+[00:05:46] tells us that the auto flow has shifted into a what into a bearish trend. You want to trade
+[00:05:55] the pair or asset or instrument that has swept the liquidity. Right. You do not want to trade this.
+[00:06:02] You can trade it because the movement is going to be the same. Okay. So if NASA is going down,
+[00:06:08] this should go down as well. But I recommend that you trade the pair or asset that sweeps the
+[00:06:14] because you're gonna get a better racial war entry.
+[00:06:19] So in a bearish scenario, let me note this,
+[00:06:26] we have, let's suppose,
+[00:06:29] low, low, low, low, low, low, high,
+[00:06:32] and low, low, right?
+[00:06:34] And on S100, we have low, low, low, low, low, low,
+[00:06:41] low, low, low, low, low, high,
+[00:06:43] And then we fail to create another low-low.
+[00:06:48] So right here, we have divergence, SMT divergence.
+[00:06:53] SMP 500 managed to create a lower low.
+[00:06:56] But on NAS 100, we could not create a lower low.
+[00:07:01] So what does that tell us?
+[00:07:04] What does that tell us according to marbles?
+[00:07:07] So it shows that the autoflow or the momentum
+[00:07:13] has now shifted into a bullish trend.
+[00:07:16] So they'd create a low low on S&P 500,
+[00:07:19] but we could not create it on NAS 100.
+[00:07:21] Or similarly, if you just switch these pairs,
+[00:07:24] like this, sorry, assets, it doesn't matter.
+[00:07:29] You can trade any one of these pairs.
+[00:07:30] You should trade any one of the pairs or assets
+[00:07:34] that sweep the liquidity.
+[00:07:35] So let me put this here just so you don't get confused.
+[00:07:40] So once you see that NAS100 or any other
+[00:07:43] as a repair has failed to create a lower lower high,
+[00:07:47] you then wait for liquidity sweep on S&P 500
+[00:07:52] or any other pair as you're looking at.
+[00:07:54] And then you trade that pair or asset that swept the liquidity,
+[00:07:58] after the liquidity sweep you look for marked
+[00:08:00] shift to shift on a smaller timeframe.
+[00:08:02] And then you take your entry from the extreme failure gap
+[00:08:05] or on a block.
+[00:08:07] So I will try to give you guys some examples.
+[00:08:10] And I'll also give you some techniques
+[00:08:13] that you can use with the strategy to increase the win rate.
+[00:08:16] All right, guys, so here is example number one.
+[00:08:19] Looking at your USD and dollar index.
+[00:08:22] So when you, for specifically for dollar index,
+[00:08:27] when you are going to put it out on your chart,
+[00:08:29] it's gonna look like this.
+[00:08:30] It's gonna be inverted, unlike Bitcoin Ethereum,
+[00:08:33] that's 100 and S&P 500, or any other correlated pair.
+[00:08:38] So if you don't want to get confused,
+[00:08:40] what you can do is press Alt plus I.
+[00:08:44] Alt plus I on your keyboard,
+[00:08:48] and it's gonna flip the chart upside down.
+[00:08:51] And then it's just gonna make,
+[00:08:53] it just won't confuse you anymore.
+[00:08:55] So here is an example.
+[00:08:56] We took this trade in the community as well.
+[00:09:00] If you're watching it,
+[00:09:01] I shared it in the Mentors chart channel of the Discord.
+[00:09:06] So what did I see here?
+[00:09:09] So as you can see on the EuroUSD, we had this high, right?
+[00:09:16] And we created a higher high, higher low.
+[00:09:19] And then this right here, this right here, right?
+[00:09:24] Is a liquidy sweep.
+[00:09:26] However, if you look at it here, price did not manage to break this high.
+[00:09:34] It did not manage to break this high here.
+[00:09:38] So what does this tell us?
+[00:09:41] Now this tells us two things, right?
+[00:09:44] That the auto flow has not switched
+[00:09:47] into a bearish trend.
+[00:09:49] And over here, what you can see is we have a liquidity sweep.
+[00:09:53] So once you have a liquidity sweep,
+[00:09:55] what you can do now is you can go back
+[00:09:57] to the one minute timeframe on your USD.
+[00:10:01] After the liquidity sweep and you wait
+[00:10:02] for market structure shift. Simple as that. So right here what we have is a market
+[00:10:10] structure shift. Also we have this structure break, right? So we have a break of
+[00:10:14] structure as well. This right here is an extreme fair value gap level that you
+[00:10:19] can look for for an entry. You can take your entry from this extreme fair value
+[00:10:25] gap, put your stop maybe both the first candle of the fair value gap or maybe
+[00:10:30] above here just to be on the safe side. And I remember we targeted this, this
+[00:10:37] low here, but we could have targeted this level here as well because this is an
+[00:10:42] ABC formation and on the ABC strategy as we know, we target this level as our
+[00:10:48] take profit. So if I play this through, you're gonna see that we got our entry,
+[00:10:54] right? And if I play this through, you can see just because we knew that intraday
+[00:11:03] bias, we knew that the autoflow has shifted on you know the dollar and we
+[00:11:08] knew that your USD has set the liquidity, we took this entry and look at that
+[00:11:16] beautiful move. This is like textbook example of this strategy or technique
+[00:11:21] that you can use in your trading. So right here I use this technique with ABC
+[00:11:27] strategy. You can use it as a standalone strategy as well and it's going to work perfectly fine.
+[00:11:35] It doesn't have to be combined with any other strategy. It can work just absolutely fine. But
+[00:11:40] please keep that in mind. I can give you the best strategy in the world and it will not work for you
+[00:11:47] if you are not going to backtest it. It's just not simple. For instance, it's not simple.
+[00:11:51] trading is not that simple okay yeah the strategies that I'm teaching you are
+[00:11:55] simple but they require backtesting okay they're not just like you're gonna
+[00:12:00] start using them on the real chart right now and you're gonna make profits no
+[00:12:04] yeah maybe if you get lucky but if you don't know the movement right if you
+[00:12:08] don't know your peer if you don't know the asset that you're trading you
+[00:12:12] don't know the movement of that asset all right you're gonna fail tremendously
+[00:12:16] So backtesting is a must at least test 100 times
+[00:12:22] for your own sake, okay?
+[00:12:25] So this was a perfect example. We got 6.81 and
+[00:12:30] Notice that we are in a New York session around here, right?
+[00:12:35] So make sure your entries are during kill zones or you know a New York session preferably
+[00:12:42] You can trade at in a London session as well
+[00:12:45] make sure you don't trade Asian. It's just not reliable for me. I mean it can
+[00:12:53] work for you but it's just not for me. So I only trade London and New York.
+[00:12:58] So this was an example number one. We used your USD and dollar index. Now similarly, if you
+[00:13:09] have a liquid history, right? And let's say you have a liquid history on Bitcoin and you don't
+[00:13:16] have a liquid history on Ethereum, it's just and the Ethereum is telling you that the
+[00:13:19] auto has shifted in a very strong, you can trade Ethereum as well because Ethereum is now a
+[00:13:25] weaker or you could say weaker in terms of bullish, right? In terms of bullishness. So you can
+[00:13:32] trade that pair as well instead of the one that swept the liquidity, but notice that how we got
+[00:13:37] a greater ratio of ratio because we traded the pair that swept the liquidity.
+[00:13:43] So I hope that clears that doubt.
+[00:13:46] So let me move on to the next example.
+[00:13:49] All right, this example is for crypto bros.
+[00:13:54] So we are looking at Bitcoin and Ethereum SMT divergence here.
+[00:13:59] So on Bitcoin, you can see we have a higher high.
+[00:14:03] Right, we have a higher high, higher low.
+[00:14:04] And then we have a liquidity sweep.
+[00:14:07] But over here, you can see if we may hear from this candle, right?
+[00:14:12] You can see that price failed to break the high of this candle and also this high.
+[00:14:21] Right? So this clearly shows us that the auto for has shifted into a bearish trend.
+[00:14:28] After the liquid is cheap, you can see that the candle that sweeps the liquid.
+[00:14:31] You want to point your cursor towards that candle and you see if it has swept the high on it here.
+[00:14:37] as well in this example it has not right so often liquid use sweep what you do is simply go back to
+[00:14:44] the one minute timeframe if you are looking at the 15 minute timeframe right and you look for
+[00:14:49] extreme fair value gap and extreme fair value gap is around here you can see and I can use this
+[00:14:58] whole candle as my stop-offs. I will put my stop here and I can look to target
+[00:15:06] maybe this fear-body gap here right there's this fear-body gap here or I could
+[00:15:14] target this low here as well or I could target this low here as well so let's
+[00:15:22] target a 3.5 or it eventually just do actually let's do this. So you can see we have our entry
+[00:15:32] of the liquidity sweep and it just melts like a candle. Just goes down and it hits our take profit.
+[00:15:46] So look at the power of this thing. You knew that your short term bias is bearish because of the
+[00:15:54] the SMT divergence, right?
+[00:15:58] And due to that, you managed to win this trade.
+[00:16:01] It's really that simple.
+[00:16:03] This is a very, very powerful tool that you can use.
+[00:16:06] So you can see that we had a small divergence here.
+[00:16:14] And over here, you can see that we failed
+[00:16:18] to create a higher high.
+[00:16:20] So this tells us only one thing.
+[00:16:23] You could have traded this as well.
+[00:16:26] You could have looked for a fairly gap around this level, or maybe here, and then you took
+[00:16:32] a trade here.
+[00:16:33] But I recommend, as I always said, recommend that you trade the pair or asset that sweeps
+[00:16:39] the liquidity.
+[00:16:41] That was a beautiful trade.
+[00:16:43] As you can see, it works with crypto as well if you're using Bitcoin Ethereum, because
+[00:16:49] they have similar movements, as you can see.
+[00:16:53] So and also notice that this was also an ABC strategy, right?
+[00:16:59] So we had an ABC pattern and then we had a divergence of sorry, a auto flow shift on
+[00:17:09] ethereum.
+[00:17:10] This tells us that the momentum is moving to the downside, right?
+[00:17:15] The ethereum is now weaker in terms of being bullish, right?
+[00:17:21] this right here tells us there was a liquidity sweep so we trade this and we write it down.
+[00:17:26] So this was example number two as you can see it works with crypto as well.
+[00:17:33] And yeah guys let's move on to the another example. All right guys in this last example
+[00:17:40] I'm gonna show you how you can use three correlated pairs together in order to trade so we have
+[00:17:45] three correlated pairs like NAS 100, Dodge Jones, US 30, and S&P 500. So you can look at three
+[00:17:56] of these shots, right? Three of these, you can look three of them, right? And look for the one
+[00:18:03] that's used to look at it out of all these three, right? So you can see over here we have higher
+[00:18:10] higher high, higher, higher, high on NAS 100.
+[00:18:14] So yes, we swept the liquidity here.
+[00:18:17] Over here you can see this right,
+[00:18:19] if I mayor from this candle,
+[00:18:22] we could not make a,
+[00:18:24] we could not break this candle high here
+[00:18:27] just like NAS 100 did, right?
+[00:18:30] You can clearly see that this candle
+[00:18:33] on US 30 price failed to create a higher high.
+[00:18:38] It just kept on going down.
+[00:18:40] this right here, this exact reference candle, this right here, right?
+[00:18:44] That's what the liquidity, you move your pointer to that candle and look at this
+[00:18:47] candle, it did not sweep the liquidity.
+[00:18:50] So we can trade this pair.
+[00:18:54] Also, if you look at S&P 500, you can see that S&P 500 also swept the
+[00:19:02] liquidity, right?
+[00:19:03] So you could trade this pair as well.
+[00:19:08] It's that simple.
+[00:19:10] If this one pair is showing weakness in bullish direction, you can trade the other pairs in
+[00:19:18] the same momentum, right?
+[00:19:20] The bearish momentum because the autofoil has now shifted into a bearish trend.
+[00:19:25] So you can trade this and this as well.
+[00:19:29] So on NAS100, after the liquidity sweep, if you go back to the one minute timeframe, we
+[00:19:35] look for market structure shift and it happens right here, right? It happened right here,
+[00:19:42] you can see. So now when you have a fair value gap, this big, right? What you can do is
+[00:19:48] go back to go to the higher time frame like this and it's going to show you another
+[00:19:53] fair value gap which is right here. If I go to the three minute time frame, alright,
+[00:19:58] so the two minute time frame is this fair value gap. And to further refine your entry,
+[00:20:04] you can do is you can use your Fibonacci from the start of the fairly gap to the end of the
+[00:20:10] fairly gap and you can take your entry from the 0.5 level.
+[00:20:15] Yeah, out of 10 times you're going to miss your entry two times or three times but you're
+[00:20:22] going to get a better entry.
+[00:20:24] So we could take our entry from here.
+[00:20:27] We can put our stop loss at the top of the fairly gap candle.
+[00:20:31] remove this and let's wait for our target to be made. Alright so I think we have a
+[00:20:41] target here which would be this low here. So let's see how this plays out.
+[00:20:46] Alright so we get our entry right and if I play this through you're gonna see
+[00:20:55] that we eventually go ahead and hit the take profit level. So this is 3.56 if you
+[00:21:05] took a refined entry right if you took your entry from this free body gap and
+[00:21:09] put it here this would have been a 1 to 2.28 which is really nice. So this is
+[00:21:21] how you can use combinations and look for divergences and trade SMT guys. So I'm going to
+[00:21:31] give you a little bit of tips that you can use to even increase the wind rate of the
+[00:21:38] strategy. Right? So what is as in my previous course videos, I have taught you guys premium
+[00:21:48] and discount zones.
+[00:21:49] So let's suppose that on a hard time frame,
+[00:21:53] like the four hour time frame on a or a one hour time frame,
+[00:21:56] price direction is bullish.
+[00:21:59] So price is continuously making high, high, high, high, high.
+[00:22:04] So when you have a high, high, high, high,
+[00:22:07] and then you have a new higher high here,
+[00:22:10] you use your Fibonacci from that new higher high.
+[00:22:17] And you wait for price to come back into a discounted zone.
+[00:22:21] So now when the price comes back into a discounted zone,
+[00:22:25] then you can look for SMT divergence
+[00:22:29] around this level on a 15 minute timeframe.
+[00:22:33] Right?
+[00:22:34] Now that is going to increase your win rate by even more.
+[00:22:36] So notice what I have explained here.
+[00:22:40] You use premium in discount with SMT
+[00:22:43] and it's gonna increase the win rate.
+[00:22:45] All right, if you are really serious about that doing that,
+[00:22:48] because sometimes when I tell people about using
+[00:22:51] premium discount and using like a hard time
+[00:22:53] for my confidence, they just don't wanna do it.
+[00:22:57] Why? Because they want easier way to trade.
+[00:23:00] But if you just implement this little thing
+[00:23:03] in this strategy, it's gonna increase your wind rate, okay?
+[00:23:07] So you look at the hard time frame.
+[00:23:10] So let's suppose that this is a,
+[00:23:12] What are your time from?
+[00:23:15] Or let's do four hour time from.
+[00:23:17] Okay.
+[00:23:18] So price is making a higher, higher, higher, higher, higher, high, on a four hour time from.
+[00:23:23] You know that the market structure is bullish.
+[00:23:27] Now what do you do?
+[00:23:29] You wait for price to come back into a discounted zone below a 0.5 level.
+[00:23:34] And then you look for small time from SMT divergence.
+[00:23:38] So let's suppose that you're looking at your USD here.
+[00:23:41] right so you're looking at your USD so on your USD you have liquidity sweep and on dxy
+[00:23:49] dollar index what you have is a is a weakness all right so you have a weakness in dxy in
+[00:24:00] terms of bullish so now this is going to like oh my god this is going to be like the best entry
+[00:24:07] that you can take okay so sorry guys I have flew at the moment so yeah so you notice how
+[00:24:15] we can implement PD areas premium discount areas into our trading and it can't work like a charm
+[00:24:24] and let me take what comes what else comes to my mind so make sure that you are
+[00:24:33] trading during kill zone hours all right you can go into the indicators tab and you can just type
+[00:24:38] type in iced tea kill zones, right?
+[00:24:43] And there are so many indicators that you can use.
+[00:24:45] So let's say iced tea kill zone boxes.
+[00:24:47] This one right here.
+[00:24:49] And now you can trade within these kill zones, right?
+[00:24:53] You should get the entry within this time period.
+[00:24:57] So you can use like a high time frame structure, PD array, premium discount.
+[00:25:08] right SMT divergence on 15 minutes right and some model time frame
+[00:25:23] Microsoft has shift with fair value gap and you take your entry so this is
+[00:25:35] like a whole model that you can use to trade you can yeah of course you can
+[00:25:41] use this as a standalone strategy as well, the SFT divergence, but if you just add these
+[00:25:47] things together, because you know, you gotta do a little, you gotta just add these things
+[00:25:54] together and combine them together to create your own strategy, right? Like if every single person
+[00:26:01] starts using the same strategy, right, it just makes no sense because everyone is going to be
+[00:26:07] a millionaire. So it's just going to destroy the economy and everyone is sitting with
+[00:26:11] a billion dollars in their bank accounts. Right. There is no perfect strategy. Guys, the
+[00:26:17] perfect strategy is only when you backtest it and just, you know, change the strategy
+[00:26:24] in your own way. You just create that strategy in your own way by backtesting, forward
+[00:26:31] testing and you know just journaling each and everything. So I will add this
+[00:26:37] lecture on SMT divergence right now and we are going to move forward with our
+[00:26:44] course videos. If you have any questions about the strategy you can ask me in
+[00:26:49] the discord channel and if you didn't understand anything please re-watch the
+[00:26:54] video and I'll see you guys in the next video.

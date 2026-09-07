@@ -1,0 +1,107 @@
+1
+00:00:00,050 --> 00:00:30,050
+Alright guys, so here's another variation to this model that you can use. So everything the same right, you have your external taken out, your drone liquidity is this fair value gap. Now on the one hour timeframe, let's say you get a market structure shift but you don't have a clean PD error, you don't have a fair value gap here, you don't have a clean order block here. What you can do is you have to wait for an ABCD setup to form here.
+
+2
+00:00:30,050 --> 00:00:32,050
+D right
+
+3
+00:00:32,810 --> 00:00:38,390
+Even if you don't want to take your trade from let's say the free body gap you can look for this pattern here
+
+4
+00:00:38,690 --> 00:00:44,490
+So a BCD once you have the a BCD price takes out this high over here
+
+5
+00:00:44,490 --> 00:00:49,750
+So now we zoom in onto the five minute time frame. This is when price takes out this level, right?
+
+6
+00:00:49,750 --> 00:00:52,690
+So we want to mark out this low
+
+7
+00:00:53,170 --> 00:00:59,890
+Right, and we want to scout out the market maker consolidation from this move right here, right to the
+
+8
+00:01:00,050 --> 00:01:07,050
+So this right here is consolidation, then we get second accumulation, right?
+
+9
+00:01:07,050 --> 00:01:13,050
+So now when price takes out the high, we look for a market structure shift from the five minute timeframe, right?
+
+10
+00:01:13,050 --> 00:01:20,050
+From here onwards, when you get a market structure shift, what you can do is look for a second distribution entry model, right?
+
+11
+00:01:20,050 --> 00:01:27,050
+You can do that or you can just simply enter from the fair value gap that forms here or the auto block.
+
+12
+00:01:27,050 --> 00:01:35,300
+Okay, so the continuation is mostly gonna happen from 8am till 1030.
+
+13
+00:01:37,700 --> 00:01:42,500
+Okay, so look for a continuation setup in between these times.
+
+14
+00:01:42,700 --> 00:01:48,100
+And remember guys, let's say that there is a news on the same day and
+
+15
+00:01:48,100 --> 00:01:53,100
+your setup forms before the news, you don't have to take that setup.
+
+16
+00:01:53,100 --> 00:01:59,540
+You have to in most cases wait for the news to be over and then you can look for the setups
+
+17
+00:02:00,260 --> 00:02:04,520
+Okay, especially when you are trading on the five minute time from because using this
+
+18
+00:02:05,140 --> 00:02:08,620
+Combination daily early in five minute. We're gonna be taking trades on the five minute
+
+19
+00:02:08,620 --> 00:02:13,900
+So we have to trade after the news is over not before that. Okay
+
+20
+00:02:16,370 --> 00:02:22,370
+So this is the continuation pattern, right? You get a purge a BCD
+
+21
+00:02:22,370 --> 00:02:28,130
+right then you wait for a market structure shift on the five minute time frame so the ABC the occurs on the one hour
+
+22
+00:02:28,770 --> 00:02:30,770
+Once that happens you mark out the
+
+23
+00:02:31,690 --> 00:02:38,010
+Move right that is where you want to scout out the market maker model that has consolidation like that and
+
+24
+00:02:40,730 --> 00:02:46,410
+You drop down to five minute get a market structure shift take your entry mitigation blocks boom boom boom boom
+
+25
+00:02:46,770 --> 00:02:48,770
+That is your take profit level
+
+26
+00:02:50,010 --> 00:02:52,010
+so
+
+27
+00:02:52,370 --> 00:03:01,370
+Yeah guys, that's pretty much about it. I'm gonna give you guys some examples and then we'll move on to the last couple of lectures.

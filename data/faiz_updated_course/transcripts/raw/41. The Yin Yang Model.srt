@@ -1,0 +1,972 @@
+1
+00:00:00,000 --> 00:00:03,280
+Hey, everybody. Hope you're doing well in this chapter
+
+2
+00:00:03,280 --> 00:00:07,680
+I will be teaching you the most mechanical gold training strategy. So
+
+3
+00:00:08,320 --> 00:00:15,480
+Previously, I made a video on gold and it was only for the people who could trade the Asian session, right?
+
+4
+00:00:15,880 --> 00:00:21,640
+But this one is gonna work in London session and I've been getting a lot of requests
+
+5
+00:00:21,640 --> 00:00:28,040
+So this chapter of this course is gonna explain each and everything about the strategy
+
+6
+00:00:28,120 --> 00:00:35,280
+So make sure you watch till the end so you don't miss anything. Now my goal always has been to
+
+7
+00:00:35,880 --> 00:00:42,440
+You simplify trading. All right, I don't want you guys to be looking for daily buyers and doing these top-down analysis
+
+8
+00:00:42,720 --> 00:00:47,760
+Yes, of course they they have a little bit of advantage over mechanical strategies
+
+9
+00:00:48,040 --> 00:00:50,920
+But this strategy that about to teach you right now
+
+10
+00:00:51,400 --> 00:00:57,200
+Bro, trust me. It works every single day like there is no day that it won't work
+
+11
+00:00:58,080 --> 00:01:03,920
+Alright, so what exactly is the strategy, right? So we know that the
+
+12
+00:01:04,520 --> 00:01:09,840
+London session starts at 3 a.m. New York time. All right, so let's assume that this is the
+
+13
+00:01:10,520 --> 00:01:13,240
+London session open right now
+
+14
+00:01:13,680 --> 00:01:17,720
+All you have to do is go to the 15 minute time frame
+
+15
+00:01:18,480 --> 00:01:19,960
+right and
+
+16
+00:01:19,960 --> 00:01:25,680
+The very first forever you got that forms during the London session. So this is the London open
+
+17
+00:01:25,960 --> 00:01:31,880
+You are basically waiting for price to create some form of a fair valley gap the very first
+
+18
+00:01:31,880 --> 00:01:36,000
+Fair valley gap that forms during the London session. Remember that
+
+19
+00:01:37,080 --> 00:01:43,160
+So let's assume that we have this fair valley gap formed around here
+
+20
+00:01:43,680 --> 00:01:50,400
+All right, so all I'm actually waiting for is to price for the price to inverse it and
+
+21
+00:01:50,760 --> 00:01:53,440
+What I mean by this is I want the price
+
+22
+00:01:54,120 --> 00:01:56,120
+to close below it
+
+23
+00:01:56,960 --> 00:02:03,600
+Okay, so the entire strategy is basically how this is how it goes. So during London
+
+24
+00:02:04,720 --> 00:02:06,720
+Mark out
+
+25
+00:02:07,440 --> 00:02:14,400
+The first a fidget that forms and then wait for it to get in first
+
+26
+00:02:15,040 --> 00:02:17,840
+All right, so remember this now
+
+27
+00:02:18,680 --> 00:02:23,020
+All you are waiting for to do from here onwards when the fair valley gap gets
+
+28
+00:02:23,160 --> 00:02:27,960
+Inversed is you are taking your entry on the retest you're going for one to two and
+
+29
+00:02:28,800 --> 00:02:32,000
+you are targeting some form of liquidity, right and
+
+30
+00:02:33,600 --> 00:02:40,080
+Basically you're putting your stop above the bodies. So this is your entry. So let's suppose that this is weak
+
+31
+00:02:40,080 --> 00:02:45,840
+Right. So this part of this price is the wake, but then over here are the bodies
+
+32
+00:02:45,920 --> 00:02:49,760
+So you're gonna put your stop here not above the wick but above the bodies
+
+33
+00:02:51,440 --> 00:02:57,000
+Literally, this is literally it's gonna work every single day guys. All right now
+
+34
+00:02:58,080 --> 00:03:02,600
+It works for forex as well, but there are some other methods for it
+
+35
+00:03:02,600 --> 00:03:05,640
+I'm gonna teach that in the upcoming chapters
+
+36
+00:03:05,880 --> 00:03:13,520
+But for now, this is the best goal strategy for the London session, right and similarly if you look at it here
+
+37
+00:03:13,520 --> 00:03:17,720
+You know, we have this London open here at three, right?
+
+38
+00:03:17,720 --> 00:03:21,960
+And I'm gonna give you guys some examples. So don't worry. I'm gonna explain all of the other things as well
+
+39
+00:03:22,560 --> 00:03:29,320
+You can see that we have the fresh privilege gap that forms right the very first. All right, you have to put entire focus on that
+
+40
+00:03:29,320 --> 00:03:31,320
+fair valley gap and
+
+41
+00:03:31,320 --> 00:03:33,320
+Then you can see that whenever price
+
+42
+00:03:33,760 --> 00:03:36,960
+Inverses it is when you take your entry from the retest
+
+43
+00:03:37,480 --> 00:03:42,520
+All right, so what is a high probability setup in this for this strategy, right?
+
+44
+00:03:42,840 --> 00:03:44,200
+so
+
+45
+00:03:44,200 --> 00:03:50,640
+Let's assume that price created some form of liquidity before going into London open and
+
+46
+00:03:51,760 --> 00:03:58,360
+We create a fair valley gap the very first fair valley gap that forms during the London session. All right
+
+47
+00:03:58,840 --> 00:04:05,680
+And you have these equal highs liquidity level somewhere around here. Now. This is the high probability
+
+48
+00:04:06,160 --> 00:04:13,240
+Setup so when price inverses that fresh valley gap you can actually take you into your own the retest or on the body closure
+
+49
+00:04:13,240 --> 00:04:17,400
+So if the body closes slightly above it, then you can take your entry
+
+50
+00:04:17,920 --> 00:04:18,680
+straight away
+
+51
+00:04:18,680 --> 00:04:20,680
+but if it's gone way far up ahead and
+
+52
+00:04:21,320 --> 00:04:28,280
+You know, you think that your stop was gonna be big then you take your entry from the retest put your stop below the bodies
+
+53
+00:04:28,280 --> 00:04:32,360
+And then you can target easily target these equal highs over here
+
+54
+00:04:33,440 --> 00:04:35,440
+now, what if the
+
+55
+00:04:35,840 --> 00:04:39,600
+liquidity is swept before you get your entry, right and
+
+56
+00:04:40,000 --> 00:04:45,120
+This is what's gonna make the setup low probability because we have already reached our target
+
+57
+00:04:45,320 --> 00:04:51,320
+But rest assured even if the liquidity is swept there might be some high time from liquidity resting above here
+
+58
+00:04:51,520 --> 00:04:58,680
+That the price will take out all you need to do is just look for the very first fair valley gap that forms during the London session
+
+59
+00:04:58,680 --> 00:05:03,480
+And then you're waiting for it to get in versed and then you're looking to take your entry from the retest or
+
+60
+00:05:03,480 --> 00:05:07,480
+Or or or you know, just entering straight away now
+
+61
+00:05:07,480 --> 00:05:11,240
+Do you think to note is that if there is some form of news, right?
+
+62
+00:05:11,440 --> 00:05:17,520
+You just want to avoid that setup and wait till 15 minutes pass right after news
+
+63
+00:05:17,520 --> 00:05:23,120
+You do not want to trade before news because what's gonna happen is price is gonna do something like this, right?
+
+64
+00:05:23,120 --> 00:05:27,940
+It's gonna just mess up everything. So you want to avoid the high impact news
+
+65
+00:05:28,940 --> 00:05:33,780
+So by now this should be clean perfectly clean, right?
+
+66
+00:05:33,780 --> 00:05:39,900
+now there is another way to to improve the windward and that is by marking some form of high time from PDRA and
+
+67
+00:05:40,060 --> 00:05:45,780
+Price dips into that PDRA and then it reverses the first really gap that prompt, right?
+
+68
+00:05:45,780 --> 00:05:49,540
+Or it's simply just swept some form of liquidity here, right?
+
+69
+00:05:49,540 --> 00:05:55,100
+And once it's swept sweeps that and inverses the very first fair valley gap of the London session
+
+70
+00:05:55,140 --> 00:06:01,500
+Then you can take your entry this setup is insanely powerful guys, and I'm gonna give you guys some examples now
+
+71
+00:06:01,940 --> 00:06:06,940
+And you are going to thank me before I move to the examples if you're watching this on YouTube
+
+72
+00:06:06,940 --> 00:06:11,140
+I want to let you know that my new course is coming out very soon
+
+73
+00:06:11,140 --> 00:06:17,500
+So if you want free access to my course, you have to enroll into my current course right now
+
+74
+00:06:17,820 --> 00:06:23,020
+Otherwise if you don't do it and the new course releases is gonna be priced at a different level
+
+75
+00:06:23,020 --> 00:06:29,900
+But now if you enroll into my current course, you can actually get the entire access to my discord where I have the course videos
+
+76
+00:06:29,900 --> 00:06:33,460
+We're absolutely free. So let's move on to the examples now
+
+77
+00:06:34,180 --> 00:06:35,020
+All right guys
+
+78
+00:06:35,020 --> 00:06:40,540
+So here is example one and we're waiting for the London Open and at 3 a.m. We have the London Open
+
+79
+00:06:40,540 --> 00:06:43,180
+so we now we are waiting for a fair valley gap formation and
+
+80
+00:06:44,140 --> 00:06:50,540
+Straight away. What do we have we have a fairly gap that formed around here? So now we're waiting for price to inverse it
+
+81
+00:06:51,420 --> 00:06:55,980
+Right and you can see we also set some form of liquidity here
+
+82
+00:06:56,700 --> 00:06:59,300
+so now we're waiting for price to inverse and
+
+83
+00:07:00,140 --> 00:07:06,380
+Right away. We have the inversion. So I'm gonna take my entry on the retest. I'm gonna put my stop right below these bodies
+
+84
+00:07:06,380 --> 00:07:08,860
+not below the wake but below the body and
+
+85
+00:07:10,300 --> 00:07:12,460
+Probably we can target one to two here
+
+86
+00:07:13,580 --> 00:07:19,500
+And I can leave some runners till here, but I usually go for one to two and that's it
+
+87
+00:07:21,020 --> 00:07:23,500
+So you can see we get our entry on the retest
+
+88
+00:07:25,500 --> 00:07:31,580
+And the take profit level was hit and then price, you know, eventually it went up to that
+
+89
+00:07:33,020 --> 00:07:35,020
+liquidity level and it took it out
+
+90
+00:07:35,580 --> 00:07:42,620
+Although I would always go for one to two and you can see how price just went up ahead and reacted from this auto block here
+
+91
+00:07:43,180 --> 00:07:46,540
+Push down below. Well, if you had your stop below the wake then
+
+92
+00:07:47,340 --> 00:07:53,420
+Maybe you could have but you would still be close at break even so it's best to always take your profit at one to two
+
+93
+00:07:54,220 --> 00:07:59,980
+Let me give you guys some more examples. All right guys. So here is example two and this is the london open
+
+94
+00:08:00,140 --> 00:08:02,140
+so I'm waiting for a fairly gap formation
+
+95
+00:08:03,420 --> 00:08:04,620
+and
+
+96
+00:08:04,620 --> 00:08:11,180
+Just around here we have the very first fairly gap of the london session. So the london session is from 3am to 7am, right?
+
+97
+00:08:12,140 --> 00:08:14,140
+So I'm waiting for price to inverse it
+
+98
+00:08:14,700 --> 00:08:20,860
+And right away, but do we have we have inverse it and we have these equal highs resting around this area
+
+99
+00:08:21,340 --> 00:08:25,180
+And we have also swept some form of liquidity here. So
+
+100
+00:08:27,020 --> 00:08:29,820
+I'm just gonna long here put my stop below the body here
+
+101
+00:08:30,460 --> 00:08:36,860
+And I can go for one to two. I don't care. All right. I'm just gonna go break even at one to one. So I'm risk-free
+
+102
+00:08:38,620 --> 00:08:40,620
+So
+
+103
+00:08:41,500 --> 00:08:43,500
+Let's zoom what happened here
+
+104
+00:08:44,940 --> 00:08:52,940
+You can see that at this point I would go break even right but since one to one. Yeah, so I'm just gonna hold till one to two
+
+105
+00:08:56,140 --> 00:08:59,420
+And eventually it goes up ahead and takes out
+
+106
+00:09:00,460 --> 00:09:02,460
+This high over here as well
+
+107
+00:09:02,940 --> 00:09:10,140
+So you can see how we inverse the very first fairly gap and we had these liquidity resting above here
+
+108
+00:09:10,620 --> 00:09:15,100
+It is not necessary these two steps, right the liquidity sweep and the
+
+109
+00:09:16,300 --> 00:09:18,540
+The resting liquidity is not necessary, but
+
+110
+00:09:19,740 --> 00:09:23,660
+It's gonna improve the win rate always always gonna always improve the win rate
+
+111
+00:09:23,980 --> 00:09:26,540
+But if you want to keep things as mechanical as possible
+
+112
+00:09:26,860 --> 00:09:30,860
+Just wait for the first fairly gap to get inverse and take your entry bro. It's
+
+113
+00:09:31,660 --> 00:09:35,900
+It's really really not that hot and if I go just around here you can see
+
+114
+00:09:36,620 --> 00:09:37,660
+that
+
+115
+00:09:37,660 --> 00:09:41,980
+We have this fairly gap the very first probably gap that formed during the london
+
+116
+00:09:43,660 --> 00:09:45,660
+And notice what happened we had
+
+117
+00:09:47,180 --> 00:09:50,300
+This liquidity level resting around here, right?
+
+118
+00:09:50,780 --> 00:09:53,980
+And we swept this liquidity here and then we
+
+119
+00:09:54,540 --> 00:09:57,740
+Inversed the fairly gap the first fairly gap of the london session
+
+120
+00:09:58,540 --> 00:10:02,300
+short position right here stop right above the bodies here and
+
+121
+00:10:02,940 --> 00:10:05,420
+A beautiful one to two risk to reward
+
+122
+00:10:05,980 --> 00:10:11,100
+Right away. So two examples in one clip. Let me give you guys some more examples
+
+123
+00:10:11,500 --> 00:10:16,620
+All right guys. So here is another example and we have the london open here. So I'm waiting for a fairly gap formation
+
+124
+00:10:18,060 --> 00:10:23,660
+And we do have it around here. So notice two things now we have swept
+
+125
+00:10:25,500 --> 00:10:28,700
+This liquidity these relative equal highs over here
+
+126
+00:10:29,660 --> 00:10:31,660
+Right
+
+127
+00:10:31,660 --> 00:10:39,100
+We also swept this high over here. That's perfect and we have these equal lows resting around this level
+
+128
+00:10:39,980 --> 00:10:46,060
+So what does this directly tell you that we're going to inverse it and then we're going to push down like crazily
+
+129
+00:10:46,860 --> 00:10:48,700
+All right
+
+130
+00:10:48,700 --> 00:10:55,980
+So right away. What do we have? We have an inversion entry on the retest stops above the bodies of the highest wick
+
+131
+00:10:56,380 --> 00:10:58,380
+So this is the highest wick
+
+132
+00:10:58,380 --> 00:11:01,820
+The bodies. All right, because if price goes here
+
+133
+00:11:02,940 --> 00:11:06,700
+There's 99 percent chance gonna take out this level. So just don't bother
+
+134
+00:11:08,220 --> 00:11:10,700
+And one to two. So let's see how this plays out
+
+135
+00:11:11,740 --> 00:11:13,740
+We get our retest
+
+136
+00:11:15,500 --> 00:11:22,300
+And we push down and the take profit was hit notice how the bodies were respected inside this inversion
+
+137
+00:11:23,500 --> 00:11:27,020
+All right, this is all algorithm bro. Like it's it's it's it's
+
+138
+00:11:27,500 --> 00:11:30,300
+Insane how well this shit works
+
+139
+00:11:31,020 --> 00:11:33,020
+All right. So over here
+
+140
+00:11:33,900 --> 00:11:37,420
+You can see bro. It just happens every single day
+
+141
+00:11:37,980 --> 00:11:42,620
+So this is the London session start right no further gap no further gap and then
+
+142
+00:11:43,340 --> 00:11:48,300
+Out of nowhere. We have a fairly gap. We sweep the liquidity here, right
+
+143
+00:11:49,180 --> 00:11:52,700
+And we have this insane amount of liquidity resting here
+
+144
+00:11:53,740 --> 00:11:56,300
+Right and you can just see how well
+
+145
+00:11:57,180 --> 00:11:58,780
+It works. So
+
+146
+00:11:58,780 --> 00:11:59,980
+inversion
+
+147
+00:11:59,980 --> 00:12:04,620
+Entry on the retest or actually I would enter here because it's just way close way too close
+
+148
+00:12:05,660 --> 00:12:09,740
+And my stop you can see this is the highest wick some I would put it somewhere around here
+
+149
+00:12:11,500 --> 00:12:12,860
+And wow
+
+150
+00:12:12,860 --> 00:12:14,700
+Insane guys, it's just
+
+151
+00:12:15,820 --> 00:12:18,380
+It's incredible how well it works. All right
+
+152
+00:12:19,180 --> 00:12:25,180
+All right guys. So here is the last example and this is the London open. So we're waiting for a fairly gap formation
+
+153
+00:12:26,060 --> 00:12:27,420
+And right away
+
+154
+00:12:27,420 --> 00:12:31,820
+We have the very first fairly gap that forms during the London session and over here
+
+155
+00:12:31,820 --> 00:12:35,740
+You can see we have equal highs and those were swept as well
+
+156
+00:12:36,300 --> 00:12:40,700
+And then we have this London sorry Asian low as I withdraw on liquidity
+
+157
+00:12:42,540 --> 00:12:46,060
+And you can also see we tapped into this volume imbalance here
+
+158
+00:12:46,300 --> 00:12:49,820
+So there are just so many confluences telling you to shot this bro
+
+159
+00:12:50,380 --> 00:12:53,900
+And then we have the inversion here, right and on the retest
+
+160
+00:12:54,780 --> 00:12:55,980
+You can see
+
+161
+00:12:55,980 --> 00:12:57,980
+Straight away
+
+162
+00:12:57,980 --> 00:13:04,540
+Stopped right above the bodies, but since the wick is not that big. I can actually put it here. It's no problem. All right
+
+163
+00:13:06,140 --> 00:13:08,140
+I would go for one to two
+
+164
+00:13:08,620 --> 00:13:10,620
+But let's see how this plays out. So we got our entry
+
+165
+00:13:11,740 --> 00:13:14,140
+And price just melted
+
+166
+00:13:14,940 --> 00:13:17,500
+All right. So the key thing to note here is guys
+
+167
+00:13:18,380 --> 00:13:22,140
+If if you really want this model to work every single way number one
+
+168
+00:13:23,100 --> 00:13:25,100
+Look
+
+169
+00:13:25,260 --> 00:13:27,260
+For liquidity sweep
+
+170
+00:13:29,260 --> 00:13:31,260
+All right
+
+171
+00:13:31,260 --> 00:13:33,900
+This is key because you know, it's not like
+
+172
+00:13:34,700 --> 00:13:42,300
+Necessary, but as I showed I showed you so many examples where price strips some form of significant liquidity equal highs equal lows
+
+173
+00:13:42,940 --> 00:13:44,940
+And then the push is insane
+
+174
+00:13:45,180 --> 00:13:47,420
+Right. So look for liquidity sweep, right?
+
+175
+00:13:48,060 --> 00:13:52,140
+And or price goes into some form of key level here and then
+
+176
+00:13:53,820 --> 00:13:59,420
+Clear draw on liquidity, right? You have clear draw on liquidity in this example. We had this
+
+177
+00:14:01,660 --> 00:14:08,940
+Lr Lr something and I don't want to use complicated words. It's just liquidity bro. All right, trendline liquidity. What I want to call it
+
+178
+00:14:09,980 --> 00:14:13,020
+Clear draw liquidity and then you are waiting for the first
+
+179
+00:14:14,620 --> 00:14:16,620
+inversion of
+
+180
+00:14:17,820 --> 00:14:21,500
+First for the furbity gap that forms in london
+
+181
+00:14:22,940 --> 00:14:24,940
+This is literally
+
+182
+00:14:25,500 --> 00:14:31,180
+Your bread and butter guys like it works so well that you have no idea
+
+183
+00:14:32,140 --> 00:14:34,780
+All right. Now some days what's going to happen is
+
+184
+00:14:35,820 --> 00:14:37,820
+So let me just show you here. Okay
+
+185
+00:14:38,780 --> 00:14:45,900
+Actually, we inverse this here as well. This was a tiny little furbity gap and you can see that we formed it at three, right?
+
+186
+00:14:46,380 --> 00:14:48,380
+so
+
+187
+00:14:48,380 --> 00:14:54,220
+Sometimes the furbity gap is going to format exactly at three. So the the second candle
+
+188
+00:14:54,780 --> 00:15:01,180
+If it's at three then it's acceptable. However, if the second candle is at two forty five
+
+189
+00:15:01,580 --> 00:15:07,340
+So furbity gap is off three candles, right? One two three. Now. I want the second candle
+
+190
+00:15:07,980 --> 00:15:11,180
+To be at three am exact. This should be the one
+
+191
+00:15:11,580 --> 00:15:12,300
+All right
+
+192
+00:15:12,300 --> 00:15:15,020
+If it doesn't form here, then I'm looking for another furbity gap to form
+
+193
+00:15:15,420 --> 00:15:18,060
+But since what people would do is they would consider this
+
+194
+00:15:18,620 --> 00:15:22,780
+As the first furbity gap and I do not want to see this. All right
+
+195
+00:15:23,340 --> 00:15:29,820
+Why? Because the second candle formed at two forty five. So this is not the furbity gap that formed in the london. However
+
+196
+00:15:30,540 --> 00:15:32,460
+This one right here
+
+197
+00:15:32,460 --> 00:15:34,940
+It formed right during london
+
+198
+00:15:36,300 --> 00:15:37,420
+So
+
+199
+00:15:37,420 --> 00:15:38,940
+Yeah guys um
+
+200
+00:15:38,940 --> 00:15:44,860
+This is practically the entire model and you can see that we had this inverse furbity gap here as well
+
+201
+00:15:45,260 --> 00:15:49,020
+And price is dip below it bro. Uh, let me show you guys a losing
+
+202
+00:15:50,220 --> 00:15:52,220
+Trade hopefully I can find it
+
+203
+00:15:53,180 --> 00:15:55,580
+So we inverse the first furbity gap here
+
+204
+00:15:57,100 --> 00:16:00,700
+Oh my god, bro. I'm just gonna end the video when I find a losing
+
+205
+00:16:04,060 --> 00:16:06,460
+The losing trade. This is the first furbity gap
+
+206
+00:16:09,580 --> 00:16:11,580
+Oh my god inverse and it just went up
+
+207
+00:16:12,540 --> 00:16:15,340
+There's there is there any furbity gap
+
+208
+00:16:16,540 --> 00:16:18,540
+There's no furbity gap bro
+
+209
+00:16:19,020 --> 00:16:21,020
+So you just simply skip the day
+
+210
+00:16:21,820 --> 00:16:24,860
+This is the first furbity gap body didn't close no inversion
+
+211
+00:16:27,660 --> 00:16:31,020
+Dude, there's not a single losing trade bro
+
+212
+00:16:33,020 --> 00:16:39,260
+Come on. I gotta find one losing trade bro. Oh my god. There's another inverse. Look at it. Look at it
+
+213
+00:16:40,220 --> 00:16:45,100
+Oh my god. This this isn't saying please. Please. Please. I need to find a losing trade
+
+214
+00:16:45,260 --> 00:16:47,580
+Otherwise, I won't be able to end the video
+
+215
+00:16:49,020 --> 00:16:54,140
+Okay, this is some form of a losing. I don't know. I just I just want a losing trade, bro
+
+216
+00:16:55,340 --> 00:16:59,900
+Even though it was way late in the london and this is the first furbity gap that formed
+
+217
+00:17:00,780 --> 00:17:05,340
+No, this is not a this is not a good losing trade. I want to see a better losing trade
+
+218
+00:17:06,140 --> 00:17:07,580
+Oh my god
+
+219
+00:17:07,580 --> 00:17:10,460
+Wow, dude dude dude guys guys. I'm telling you
+
+220
+00:17:11,100 --> 00:17:15,340
+Okay, this shit is insane. Look at this. All right
+
+221
+00:17:16,540 --> 00:17:21,180
+There's no losing trade bro. Hopefully here hopefully hopefully hopefully hopefully
+
+222
+00:17:22,860 --> 00:17:24,860
+Ah
+
+223
+00:17:24,860 --> 00:17:29,260
+All right, so you might have noticed one thing if the furbity gap forms way too late
+
+224
+00:17:29,500 --> 00:17:34,620
+So in the sixth hour so from six sam to seven it becomes lower probability
+
+225
+00:17:35,340 --> 00:17:39,180
+Even though we had a beautiful reaction from here and we took out
+
+226
+00:17:39,660 --> 00:17:41,340
+The liquidity
+
+227
+00:17:41,340 --> 00:17:47,180
+Anyways, I want to see a losing trade guys. I'm losing my mind over here. Come on. Give me a losing trade
+
+228
+00:17:47,740 --> 00:17:50,220
+This is the first furbity gap that forms in the london
+
+229
+00:17:51,020 --> 00:17:53,020
+We sweep liquidity
+
+230
+00:17:53,980 --> 00:17:56,540
+And we take out this level. This is insanity
+
+231
+00:17:57,980 --> 00:18:00,700
+Hopefully here hopefully we here have a losing trade
+
+232
+00:18:01,980 --> 00:18:04,300
+first inverse
+
+233
+00:18:04,380 --> 00:18:05,900
+Oh my god
+
+234
+00:18:05,900 --> 00:18:08,220
+Guys, I think the video is never going to end
+
+235
+00:18:11,420 --> 00:18:16,940
+There's no furbity gap here actually hopefully guys guys I finally found a losing trade
+
+236
+00:18:18,780 --> 00:18:21,660
+No, no freaking with this this is not a furbity gap
+
+237
+00:18:22,540 --> 00:18:28,060
+Oh my god. I'm losing my mind. I'm losing my mind guys. There's no furbity gap here
+
+238
+00:18:29,500 --> 00:18:31,820
+Okay, finally bro finally
+
+239
+00:18:32,140 --> 00:18:34,860
+God damn it
+
+240
+00:18:35,580 --> 00:18:40,940
+And the reason why we lost this trade was we didn't sweep this significant liquidity over here
+
+241
+00:18:42,860 --> 00:18:44,860
+All right guys, this is gonna be the end
+
+242
+00:18:44,860 --> 00:18:50,460
+We finally found the losing trade. I hope you guys leave a subscribe and if you're watching it into this code
+
+243
+00:18:50,620 --> 00:18:55,260
+I hope you guys enjoyed watching this and learn something from it. I'll see you guys in the next chapter
+

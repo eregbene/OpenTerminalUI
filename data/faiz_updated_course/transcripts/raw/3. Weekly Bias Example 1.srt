@@ -1,0 +1,160 @@
+1
+00:00:00,000 --> 00:00:07,240
+All right guys, so here is an example for the weekly bias. I'm looking at AUDUSD on the weekly time frame of course
+
+2
+00:00:07,520 --> 00:00:13,000
+So right here you can see price took out the extended liquidity, which is a high over here
+
+3
+00:00:13,400 --> 00:00:18,400
+Where is the fair valley gap? The fair valley gap is right around here. Is it in the?
+
+4
+00:00:19,920 --> 00:00:27,240
+Discount it is not so what you can do when the fair valley gap is not in the discount you can use the fib
+
+5
+00:00:28,200 --> 00:00:30,200
+right
+
+6
+00:00:30,200 --> 00:00:37,560
+From the freewhelly gap starting candle to the ending candle and the 0.5 level is gonna be your drawn liquidity
+
+7
+00:00:39,840 --> 00:00:46,800
+Cool so that the 0.5 level of this freewhelly gap is gonna be a drawn liquidy because if you draw a refer bonacci from bottom to top
+
+8
+00:00:46,880 --> 00:00:48,880
+You can see that
+
+9
+00:00:49,320 --> 00:00:52,440
+Okay, actually the 0.5 level is here. So
+
+10
+00:00:53,360 --> 00:00:56,000
+This right here could be our target right there
+
+11
+00:00:57,240 --> 00:00:58,920
+draw on liquidity
+
+12
+00:00:58,920 --> 00:01:04,640
+Okay, so now let's since we have taken out extended liquidity. Let's go to
+
+13
+00:01:05,360 --> 00:01:09,800
+Actually, I would only look to target this level because that is the fair valley gap
+
+14
+00:01:10,000 --> 00:01:14,920
+So I don't want to like, you know hold risk for my bias or for my entry
+
+15
+00:01:15,080 --> 00:01:20,960
+You just got to play like that. So we took out the external liquidity on the weekly. Let's drop down remember from weekly
+
+16
+00:01:20,960 --> 00:01:22,960
+we go to the for our time frame and
+
+17
+00:01:23,800 --> 00:01:24,960
+And
+
+18
+00:01:24,960 --> 00:01:30,240
+Over here, what do you see? We took out the extended liquidity here now?
+
+19
+00:01:30,240 --> 00:01:33,160
+We're simply waiting for a market structure shift. So what do we get here?
+
+20
+00:01:33,160 --> 00:01:36,240
+We have a higher high higher low and a higher high
+
+21
+00:01:36,840 --> 00:01:42,000
+Annotated by the indicator and that in this indicator is a game changer. Okay, so right here
+
+22
+00:01:42,360 --> 00:01:46,040
+What we see we have this freck the low here and
+
+23
+00:01:46,680 --> 00:01:51,400
+Price took out the low. So now what do we have here once we take out the low?
+
+24
+00:01:51,960 --> 00:02:00,120
+We have this very valley gap and we also have this auto block this bullish candle that took out liquidity here, right?
+
+25
+00:02:01,280 --> 00:02:04,400
+so right here this could have been your entry and
+
+26
+00:02:06,400 --> 00:02:14,320
+Simply you could have gone for stop over here and the original target which was somewhere around here, right?
+
+27
+00:02:15,560 --> 00:02:17,240
+Let me see
+
+28
+00:02:17,280 --> 00:02:22,280
+What was the original starting point of the fairly gap? Okay, this is right here cool
+
+29
+00:02:23,480 --> 00:02:27,240
+So right here, you can see we got our entry and let's see how this plays out
+
+30
+00:02:29,480 --> 00:02:34,080
+Beautiful and also you can see the the 0.5 level was also hit
+
+31
+00:02:35,160 --> 00:02:36,600
+so
+
+32
+00:02:36,600 --> 00:02:43,640
+Yeah, that's pretty much it guys for the weekly bus. However, as I've said before you could have looked for multiple entries
+
+33
+00:02:44,360 --> 00:02:46,360
+by using the
+
+34
+00:02:46,360 --> 00:02:52,520
+Smaller top frame which would have been the 15 minute time frame and but I'll get to that later in the video
+
+35
+00:02:52,520 --> 00:02:54,520
+So don't worry about it. Okay
+
+36
+00:02:55,800 --> 00:03:03,280
+But this right here is a bread and butter model button. Oh my god, I can't pronounce burger bread and butter model guys
+
+37
+00:03:03,560 --> 00:03:06,720
+Okay, you can only have two time frames and look for this
+
+38
+00:03:07,240 --> 00:03:08,400
+but
+
+39
+00:03:08,400 --> 00:03:14,440
+Generally, I would be honest with you. I like the three time frames and as I said before I'm gonna teach you that
+
+40
+00:03:14,440 --> 00:03:20,160
+Later on in the course. So let's move on to the daily example now
+

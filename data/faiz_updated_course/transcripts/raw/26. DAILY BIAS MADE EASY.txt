@@ -1,0 +1,85 @@
+All right guys, so in this lecture, I'm gonna show you how you can identify daily bias easily
+So this method was actually taught by ICT himself in one of his videos. I believe it was from sniper series or
+Market maker. I'm not quite sure
+But yeah, he taught that himself
+He said that if you as a beginner if you have if you are having problem with finding daily bias manually
+You can use this method. Okay, it's not gonna be as perfect as finding the daily bias manually
+But it's gonna work. Okay, and it's better than nothing. So go to the indicators tab here type in moving
+average
+right and you
+Open two moving averages. So the one length is nine
+So the length of the first one is nine and the length of the second one is going to be 18
+Once you have that
+So whenever the moving averages are to the upside right after the cross your bias is bullish
+Okay, and whenever the moving averages are to the downside your bias is
+bearish simple as that guys non-natural or complicated I
+Repeat when the moving averages give across and the price is above the moving averages
+Or the moving averages are up to the to the upside like here your bias is gonna be
+bullish regardless of what price is doing, okay?
+so
+This is one way to set foundation, okay, so what I have
+Found but back testing if one you once you have a cross right the next two to three days
+You can have a bullish bias
+But after that you want to look for some sort of liquidy sweep before being bullish again
+Okay, so right here you can see we had three consecutive bullish days
+So you have to expect some sort of retracement and that retracement
+Could be from this very well you gap that was here
+So when price comes back to very well you gap you could either be bullish again here or you what you do is you wait for some
+Sort of liquidy sweep. So this right here is a liquidy sweep and price candle closes here and your bias is bullish
+very very simple guys, okay, um
+And right here you can see we have a cross I
+Believe right here. So the next day was bearish. Okay, but then what happened was we took out this
+High here and you can see the next day was bearish after that
+What happened was we took out this high over here and after taking out the high
+You can see the next couple of days were bearish
+So over here we have a cross again actually cross here, right?
+so the next day was bullish as hell and
+Remember the volume imbalance video that I thought you guys there is volume imbalance right here and
+Also, what happened here was price took out this liquidy
+So then the next candle after the close of the next candle your bias is bullish. So see that move
+Yep, that's what I'm talking about crossover here
+You
+Can see kind of close here. Well, the next day I would say it was bullish. Okay, so there's nothing that you can do about it
+But then the couple of so the next two days were bearish right here after that
+You would have looked for liquidy sweep surprise swept the liquidy here price consolidated for a couple of days
+But then you had this, you know up and down up and down
+But then you had the next couple of days bearish couple of days
+Okay, and after that price swept liquidy boom very simple guys
+So let me show you guys here as well. We have a cross boom cross over here boom move move to the upside cross here
+bearish cross here bullish, okay, you can see price up liquidy here as well move to the upside
+Price swept liquidy here as well. Well, this was you could have been bearish for some days
+But then there was this, you know, this autoblock right here price came back here push up
+But all you need are moving averages to identify a deli bias guys
+It's not gonna be as accurate as finding it manually if you want to learn how to
+You know identify a deli bias manually
+With a higher accuracy level you can watch my video on YouTube. It's absolutely free or you can learn by ICT himself
+So there's another trick that you can use and
+That trick is by me actually so you look for ABC patterns, okay?
+So this right here you see ABC
+When you have a sweep you wait for price to close back and then you when the price comes back to retest as
+soon as it retests this line your
+Bias could be bearish, but as you can see the moving averages here were bullish
+So you got to play
+Accordingly if the moving averages are bullish you look for bearish ABCs. Oh, sorry bullish ABCs, okay?
+But I'm just showing you if you don't want to use moving averages you can use this technique as well
+So let me show you how
+Let me go back right here remove the drawings. Let's disable the moving averages
+So right here you see we have a BC, right?
+So a BC
+Then we the price goes above the line and went as soon as you have a retest
+Your bias becomes bullish, okay? There was really gap here as well
+And you can see how this works
+So your bias for the couple of days I was bullish from just for by identifying a daily bias
+Okay
+You can see right here
+We have a
+B and then see price comes down retest here and boom
+Price
+over here ABC
+You can see that
+Price yes, it did go up here to fill a fill in some imbalance or for every gap on the lower time frame
+But then the next couple of days as you can see we're bearish
+So this is it for
+Identifying daily bias. It's not gonna be as accurate as finding the daily bias manually
+But it's better than nothing and it is going to increase or win rate definitely
+See you guys in the next video

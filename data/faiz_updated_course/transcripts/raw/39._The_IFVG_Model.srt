@@ -1,0 +1,1379 @@
+1
+00:00:00,460 --> 00:00:30,460
+Alright guys, this is a new chapter and this chapter I'm gonna teach you guys the power of 3 and inverse for a regular gap model. This model is extremely powerful and basically if you use this model then you would not need anything else. So essentially first we need to understand what is power of 3 and then I'm gonna teach you the model. So, power of 3 is basically an accumulation phase where price consult dates, right, creates
+
+2
+00:00:30,460 --> 00:00:34,860
+liquidity, then price manipulates, right?
+
+3
+00:00:34,860 --> 00:00:38,780
+And then it moves and distributes towards the original
+
+4
+00:00:38,780 --> 00:00:40,060
+direction.
+
+5
+00:00:40,060 --> 00:00:43,860
+Now we have accumulation, manipulation, and then distribution.
+
+6
+00:00:43,860 --> 00:00:45,940
+This is power of three.
+
+7
+00:00:45,940 --> 00:00:48,300
+Acculation, manipulation, distribution, a,
+
+8
+00:00:48,300 --> 00:00:49,580
+am, d.
+
+9
+00:00:49,580 --> 00:00:51,340
+Very simple, right?
+
+10
+00:00:51,340 --> 00:00:56,340
+And similarly, you have something like, oops,
+
+11
+00:00:56,340 --> 00:01:05,370
+Oops, never mind. Accumulation, manipulation, and then distribution, right?
+
+12
+00:01:05,370 --> 00:01:11,290
+So, what is the model that I use? So, what exactly is in verse?
+
+13
+00:01:11,290 --> 00:01:16,490
+Foreverly gap, I've taught this before, but I'm gonna teach it again in this video.
+
+14
+00:01:16,490 --> 00:01:23,490
+So, essentially, when you get a Foreverly gap, so over here you can see that we got a
+
+15
+00:01:23,490 --> 00:01:27,070
+market structure break or break in break of structure and
+
+16
+00:01:28,250 --> 00:01:33,290
+Let's suppose that price creates a fairly gap a bullish fairly gap now
+
+17
+00:01:35,010 --> 00:01:43,330
+This fairly gap will become inverse if price doesn't respect it and it closes below this bullish fairly gap
+
+18
+00:01:44,130 --> 00:01:46,130
+right, so let me just make it
+
+19
+00:01:47,370 --> 00:01:49,970
+Green because it is a bullish for a body gap
+
+20
+00:01:49,970 --> 00:01:57,250
+But notice how price came back into the Ferrari gap, but it was not respected and you can see that
+
+21
+00:01:57,490 --> 00:02:02,290
+The candle the body closed below the Ferrari gap. So it was not respected
+
+22
+00:02:02,930 --> 00:02:07,930
+Now once the body closes this Ferrari gap becomes inverse Ferrari gap
+
+23
+00:02:08,370 --> 00:02:09,370
+Okay
+
+24
+00:02:09,370 --> 00:02:17,890
+So essentially what you can do is just simply take your entry on the retest or on the close of the candle below this level
+
+25
+00:02:17,890 --> 00:02:26,580
+So the model that I use is basically, so now that I know that you guys know what exactly
+
+26
+00:02:26,580 --> 00:02:33,260
+is a inverse from any gap, there are chapters on this on my old course on also on my
+
+27
+00:02:33,260 --> 00:02:34,260
+YouTube.
+
+28
+00:02:34,260 --> 00:02:36,540
+So I'm not going to explain it in detail.
+
+29
+00:02:36,540 --> 00:02:37,620
+But here is the model.
+
+30
+00:02:37,620 --> 00:02:42,620
+So what I look for on the one minute time from, and then there is another approach to
+
+31
+00:02:42,620 --> 00:02:47,020
+it, but this is like one minute trading strategy.
+
+32
+00:02:47,020 --> 00:02:53,080
+And you can basically trade it on NAS 100, gold, and also your USD.
+
+33
+00:02:53,080 --> 00:02:59,920
+So I primarily trade NAS 100 with this, because it has the highest win rate.
+
+34
+00:02:59,920 --> 00:03:07,460
+So on the one minute timeframe, I would try to identify a accumulation phase, and then
+
+35
+00:03:07,460 --> 00:03:11,680
+a manipulation phase, right?
+
+36
+00:03:11,680 --> 00:03:17,600
+And then afterwards what I'm looking for, so watch this carefully.
+
+37
+00:03:17,600 --> 00:03:20,800
+This is the most important part of this model.
+
+38
+00:03:20,800 --> 00:03:25,400
+So we have accumulation and then we have manipulation.
+
+39
+00:03:25,400 --> 00:03:35,520
+Inside this manipulation leg, they should be only one fair value gap, only one fair value
+
+40
+00:03:35,520 --> 00:03:38,160
+gap on the one minute time frame.
+
+41
+00:03:38,160 --> 00:03:46,400
+So we have accumulation, then we have manipulation inside the manipulation leg, right?
+
+42
+00:03:46,400 --> 00:03:53,160
+From this high to this low, we must have one fair value gap.
+
+43
+00:03:53,160 --> 00:03:59,920
+Now let's suppose that this leg has, okay, let me just guys, just give me a minute.
+
+44
+00:03:59,920 --> 00:04:03,280
+I'm just gonna disable this.
+
+45
+00:04:03,280 --> 00:04:07,480
+So it's connected to, you know, the LAN network.
+
+46
+00:04:07,480 --> 00:04:13,800
+Anyways, it should have one for a while, but if it has multiple for about the gaps inside
+
+47
+00:04:13,800 --> 00:04:19,720
+this leg, what you want to do is you have to go a bit higher on the time frame.
+
+48
+00:04:19,720 --> 00:04:23,320
+So you would go on the two minute time frame and then you would go on three minute
+
+49
+00:04:23,320 --> 00:04:25,880
+time frame and then four and then five.
+
+50
+00:04:25,880 --> 00:04:30,000
+The five minute is the highest that you can go.
+
+51
+00:04:30,000 --> 00:04:36,640
+But on the five minute, you must also have a clear power of three.
+
+52
+00:04:36,640 --> 00:04:43,360
+must have consolidation on the 5 minute time from as well. Now if there's like no power of 3
+
+53
+00:04:43,360 --> 00:04:49,740
+then there's no setup. But let's say that you want to stick on the 1 minute time from
+
+54
+00:04:49,740 --> 00:04:54,280
+and I suggest that you just stick to 1 minute time from because it's not cool to go to higher
+
+55
+00:04:54,280 --> 00:05:00,640
+time from to identify single-ferreli gaps. So let's assume that while price was coming down
+
+56
+00:05:00,640 --> 00:05:09,880
+and manipulating price credit one single fair value gap and this is a bearish
+
+57
+00:05:09,880 --> 00:05:16,520
+fair value gap. Now usually people would expect price to come into this fair value
+
+58
+00:05:16,520 --> 00:05:23,900
+gap and then go below but the model here is that once price inverses this
+
+59
+00:05:23,900 --> 00:05:31,980
+this bearish variable you get, the single variable you get that was present inside this
+
+60
+00:05:31,980 --> 00:05:40,780
+manipulation lag. When price closes above that, you want to enter right away. This is going
+
+61
+00:05:40,780 --> 00:05:46,940
+to be your entry right away when the candle closes above the variable you get and in
+
+62
+00:05:46,940 --> 00:05:55,580
+versus it. Your stop will go below here and this is the most important part. You must target
+
+63
+00:05:55,580 --> 00:06:06,140
+the most recent, the most, the closest liquidity, right? So this high is the closest level.
+
+64
+00:06:07,180 --> 00:06:15,020
+Now let's suppose that your entry is triggered. Now here's the risk management for this strategy.
+
+65
+00:06:15,020 --> 00:06:27,190
+So, when the price reaches the closest liquidity level, you are going break even.
+
+66
+00:06:27,190 --> 00:06:31,030
+Straight away, you are going break even.
+
+67
+00:06:31,030 --> 00:06:40,670
+Now, when price hits 1 to 1 risk reward ratio, you are taking 50% off your profit.
+
+68
+00:06:40,670 --> 00:06:44,030
+And of course, you are also break even.
+
+69
+00:06:44,030 --> 00:06:50,910
+And then you are letting the runners run for however you want.
+
+70
+00:06:50,910 --> 00:06:55,390
+So for example, I usually go for 1 to 2.5,
+
+71
+00:06:55,390 --> 00:06:57,390
+or 1 to 3 with the strat.
+
+72
+00:06:57,390 --> 00:06:59,990
+And I target the higher time frame,
+
+73
+00:06:59,990 --> 00:07:03,270
+target and draw on liquidity.
+
+74
+00:07:03,270 --> 00:07:05,590
+Now you can also use the standard deviation tool
+
+75
+00:07:05,590 --> 00:07:07,270
+that I've taught in my previous lectures.
+
+76
+00:07:07,270 --> 00:07:09,270
+And you can target this level.
+
+77
+00:07:09,270 --> 00:07:11,230
+But the main premise, the main idea,
+
+78
+00:07:11,230 --> 00:07:16,230
+is that you go break even once the closest liquidity level
+
+79
+00:07:16,590 --> 00:07:17,910
+is taken.
+
+80
+00:07:17,910 --> 00:07:19,990
+Okay, now here's the deal.
+
+81
+00:07:21,350 --> 00:07:24,390
+Okay, now what price we'll do is sometimes,
+
+82
+00:07:24,390 --> 00:07:27,550
+just let me do this, this, this, this, this, this,
+
+83
+00:07:27,550 --> 00:07:32,550
+okay, what price we'll do is instead of closing above
+
+84
+00:07:32,630 --> 00:07:36,750
+the fair value gap, price we'll go up ahead
+
+85
+00:07:36,750 --> 00:07:42,390
+and take out the liquidity before giving you entry.
+
+86
+00:07:42,390 --> 00:07:47,030
+So the candle won't close, but it will go way higher.
+
+87
+00:07:47,030 --> 00:07:50,870
+And then it will just take out the most recent liquidity.
+
+88
+00:07:50,870 --> 00:07:54,910
+Now, if that is the case, then the setup becomes invalid.
+
+89
+00:07:54,910 --> 00:07:57,910
+Completely invalid.
+
+90
+00:07:57,910 --> 00:08:01,950
+My eyes are always on the most recent liquidity level.
+
+91
+00:08:01,950 --> 00:08:04,190
+That is the most recent high.
+
+92
+00:08:04,190 --> 00:08:07,430
+So this is the closest type, my apologies.
+
+93
+00:08:09,390 --> 00:08:11,150
+Now, the candle closes.
+
+94
+00:08:11,150 --> 00:08:14,310
+Price can even be here, okay?
+
+95
+00:08:14,310 --> 00:08:15,350
+Somewhere around here.
+
+96
+00:08:15,350 --> 00:08:19,070
+Now you can enter right away, right?
+
+97
+00:08:19,070 --> 00:08:22,150
+And sometimes what can happen is price will go way far
+
+98
+00:08:22,150 --> 00:08:23,110
+up ahead.
+
+99
+00:08:23,110 --> 00:08:26,030
+So instead of entering here, you should be patient
+
+100
+00:08:26,030 --> 00:08:29,150
+and then you should be waiting for a retest entry.
+
+101
+00:08:29,150 --> 00:08:32,350
+Now this is only applicable when the price has gone way
+
+102
+00:08:32,350 --> 00:08:36,030
+far above the inverse probability gap.
+
+103
+00:08:36,030 --> 00:08:37,990
+And let's suppose that if you take your entry here,
+
+104
+00:08:37,990 --> 00:08:41,190
+your stop loss would be massive, right?
+
+105
+00:08:41,190 --> 00:08:45,270
+And it doesn't matter if you take your entry here or here.
+
+106
+00:08:45,270 --> 00:08:49,230
+You must go break even when the closest liquidity level
+
+107
+00:08:49,230 --> 00:08:50,230
+is taken out.
+
+108
+00:08:51,670 --> 00:08:54,830
+And that is basically the model.
+
+109
+00:08:54,830 --> 00:08:56,550
+Now there are some few key things
+
+110
+00:08:56,550 --> 00:08:58,390
+that you must keep in mind.
+
+111
+00:08:58,390 --> 00:09:00,310
+Let me just take a sip of my tea,
+
+112
+00:09:00,310 --> 00:09:03,800
+and then I'll continue.
+
+113
+00:09:03,800 --> 00:09:07,170
+Thank you very much.
+
+114
+00:09:07,170 --> 00:09:08,330
+All right.
+
+115
+00:09:08,330 --> 00:09:11,450
+Now, what I'd like to do most of the time
+
+116
+00:09:11,450 --> 00:09:15,490
+is basically pair it up with hard time from key levels
+
+117
+00:09:15,490 --> 00:09:17,970
+and SMT divergences.
+
+118
+00:09:17,970 --> 00:09:19,810
+Now, this is something that if you want to,
+
+119
+00:09:19,810 --> 00:09:22,610
+like if you can implement this, then of course,
+
+120
+00:09:22,610 --> 00:09:24,610
+it's going to increase the win rate.
+
+121
+00:09:24,610 --> 00:09:27,530
+My goal is to teach you the most mechanical strategies
+
+122
+00:09:27,530 --> 00:09:30,370
+that you can use because I understand the situation
+
+123
+00:09:30,370 --> 00:09:31,050
+you guys are in.
+
+124
+00:09:31,050 --> 00:09:33,770
+You guys may have jobs, and you don't have time,
+
+125
+00:09:33,770 --> 00:09:36,650
+enough time to analyze the markets every single day, right?
+
+126
+00:09:36,650 --> 00:09:39,370
+You know, using discretion and all that stuff.
+
+127
+00:09:39,370 --> 00:09:42,610
+So I want to keep them as mechanical as possible.
+
+128
+00:09:42,610 --> 00:09:45,690
+If you really want to like take this model to next level,
+
+129
+00:09:45,690 --> 00:09:48,210
+then use this technique.
+
+130
+00:09:48,210 --> 00:09:50,850
+So since you are training on the one minute done from,
+
+131
+00:09:50,850 --> 00:09:55,930
+we will be marking out 15 minute key levels, right?
+
+132
+00:09:55,930 --> 00:09:59,730
+So let's assume there was a significant low somewhere around here
+
+133
+00:09:59,730 --> 00:10:01,010
+that was taken out.
+
+134
+00:10:01,010 --> 00:10:05,810
+And afterwards, price gave us this AMD model.
+
+135
+00:10:05,810 --> 00:10:07,210
+OK?
+
+136
+00:10:07,210 --> 00:10:12,290
+Now, there could be a fairly good 50% of the fairly good
+
+137
+00:10:12,290 --> 00:10:15,250
+or an auto block, right?
+
+138
+00:10:15,250 --> 00:10:19,810
+It is always best to pair it this move with PDRS.
+
+139
+00:10:19,810 --> 00:10:23,050
+Now, SMT divergent is basically, let's
+
+140
+00:10:23,050 --> 00:10:28,730
+suppose that on NAS100, we created the lower low,
+
+141
+00:10:28,730 --> 00:10:33,150
+lower high and then a lower low. Essentially it is power of 3 but you can see we have
+
+142
+00:10:33,150 --> 00:10:41,510
+lower low consolidation and then another lower low. Now instead of on NAS100 let's suppose
+
+143
+00:10:41,510 --> 00:10:51,650
+that we get lower lower high lower low but on S&P 500 we fail to create the lower low.
+
+144
+00:10:51,650 --> 00:11:02,090
+Oh my god, this is messed. Yeah, so we failed to create that now you want to be trading the asset or the pair that swept liquidity
+
+145
+00:11:02,090 --> 00:11:04,950
+So you can see that we swept this liquidity, right?
+
+146
+00:11:05,810 --> 00:11:13,210
+On S&P we failed to sweep the liquidity or create another low low, but on NAS 100 we created low low or high low
+
+147
+00:11:13,770 --> 00:11:16,870
+So this right here is your SMT with
+
+148
+00:11:16,870 --> 00:11:23,910
+it's a PDF array in mind and I promise you this is literally all you need.
+
+149
+00:11:23,910 --> 00:11:30,830
+Basically all you need. Now here's another technique that you should implement if you can,
+
+150
+00:11:30,830 --> 00:11:37,670
+that's gonna also increase your win rate. So on the one minute timeframe, right? We have
+
+151
+00:11:37,670 --> 00:11:41,510
+single fair value gap. We do not want to have multiple fair value gaps. Only one in this
+
+152
+00:11:41,510 --> 00:11:48,310
+Now, okay, let's say the price breaches inverses this fairly gap.
+
+153
+00:11:48,310 --> 00:11:50,430
+Now I will not enter right away.
+
+154
+00:11:50,430 --> 00:11:54,630
+What I would do is I would go to the three minute time frame, sorry, two minute time
+
+155
+00:11:54,630 --> 00:12:00,470
+frame and see if there's any other fairly gap that price has not yet inversed.
+
+156
+00:12:00,470 --> 00:12:04,510
+So on the one minute time frame, your fairly gap could look like this, but on the two
+
+157
+00:12:04,510 --> 00:12:07,910
+minute time frame, your fairly gap could be a bit bigger.
+
+158
+00:12:07,910 --> 00:12:10,710
+And on three minutes time frame, it could be even bigger.
+
+159
+00:12:10,710 --> 00:12:15,670
+Now three minute is the highest that I would go to implement this trick.
+
+160
+00:12:15,670 --> 00:12:22,070
+So I would wait for my highest fairly gap to be inverse instead of the one minute.
+
+161
+00:12:22,070 --> 00:12:27,750
+Now this is what it does, it extra confirms that the price will go towards my direction.
+
+162
+00:12:27,750 --> 00:12:29,310
+This is very important.
+
+163
+00:12:29,310 --> 00:12:33,910
+So not actually important but if you implement this, it's going to basically help you
+
+164
+00:12:33,910 --> 00:12:38,230
+with your strike rate.
+
+165
+00:12:38,230 --> 00:12:44,470
+So SMT PD arrays and this technique when combined together is just impossible to basically
+
+166
+00:12:44,470 --> 00:12:48,230
+have low-run red then 75% or 5% alright.
+
+167
+00:12:48,230 --> 00:12:51,830
+You're gonna have above SAMDut to 75% when we're doing this model.
+
+168
+00:12:51,830 --> 00:12:54,590
+Just stick to the pairs that I suggested and assets that I suggested.
+
+169
+00:12:54,590 --> 00:12:56,030
+Don't trade anything else with this.
+
+170
+00:12:56,030 --> 00:12:58,110
+Please don't do it for the sake of love.
+
+171
+00:12:58,110 --> 00:13:00,870
+Okay, don't do it.
+
+172
+00:13:00,870 --> 00:13:07,550
+And similarly everything would apply when you are looking for shots.
+
+173
+00:13:07,550 --> 00:13:12,310
+basically just do this and entry on the retest.
+
+174
+00:13:12,310 --> 00:13:16,310
+We have SMT into the PDRA and you can see that
+
+175
+00:13:16,310 --> 00:13:18,190
+we have accumulation, manipulation,
+
+176
+00:13:18,190 --> 00:13:20,590
+and then we get the distribution phase.
+
+177
+00:13:20,590 --> 00:13:25,390
+And notice that also we have the closest liquidity level.
+
+178
+00:13:25,390 --> 00:13:27,350
+This is the main point of the strategy
+
+179
+00:13:27,350 --> 00:13:30,470
+is if it gets breached without entry.
+
+180
+00:13:30,470 --> 00:13:33,030
+So the candle just keeps going down and down and down
+
+181
+00:13:33,030 --> 00:13:36,190
+before closing below the probability gap,
+
+182
+00:13:36,190 --> 00:13:38,090
+and the setup becomes invalid.
+
+183
+00:13:38,090 --> 00:13:40,590
+However, if you have somewhere around here,
+
+184
+00:13:40,590 --> 00:13:44,190
+you can still enter, but you would go break even right away.
+
+185
+00:13:44,190 --> 00:13:46,790
+After this level is taken, there's no comp,
+
+186
+00:13:46,790 --> 00:13:50,310
+you know, you should not be just doing things on your own.
+
+187
+00:13:50,310 --> 00:13:51,710
+Just do what I say.
+
+188
+00:13:51,710 --> 00:13:52,750
+Take your entry on the read test.
+
+189
+00:13:52,750 --> 00:13:54,910
+The price has gone way far below
+
+190
+00:13:54,910 --> 00:13:58,390
+or enter right away when price is somewhere around here.
+
+191
+00:13:58,390 --> 00:13:59,870
+Now, let's move on to the examples
+
+192
+00:13:59,870 --> 00:14:02,110
+and then we'll move on to the next chapter.
+
+193
+00:14:03,550 --> 00:14:05,750
+Now, one thing that I forgot to tell you about
+
+194
+00:14:05,750 --> 00:14:07,310
+is the time factor.
+
+195
+00:14:07,310 --> 00:14:09,230
+So when you should be trading this model,
+
+196
+00:14:09,230 --> 00:14:11,990
+now the best results are gonna come from
+
+197
+00:14:13,350 --> 00:14:20,000
+nine 30, sorry, till 11 30, right?
+
+198
+00:14:20,000 --> 00:14:23,560
+So if you can find however many setups
+
+199
+00:14:23,560 --> 00:14:25,440
+in this window period,
+
+200
+00:14:25,440 --> 00:14:27,880
+your win rate is gonna be higher, okay?
+
+201
+00:14:27,880 --> 00:14:29,560
+You're gonna have volatility,
+
+202
+00:14:29,560 --> 00:14:33,000
+but let's suppose that if there's news at nine 30, right?
+
+203
+00:14:33,000 --> 00:14:35,120
+You should wait for news to pass over
+
+204
+00:14:35,120 --> 00:14:37,480
+and trade after five to 10 minutes.
+
+205
+00:14:37,480 --> 00:14:42,600
+actually 10 minutes because it's going to just settle down the markets and then trade this model.
+
+206
+00:14:42,600 --> 00:14:48,360
+Let's suppose that there is a news at 10, then you can do is wait till 10 and then trade after 10
+
+207
+00:14:48,920 --> 00:14:54,040
+10 a.m. that makes sense after 10 minutes. So let me give you guys some examples.
+
+208
+00:14:55,960 --> 00:15:01,000
+All right guys so here is example number one. So we have accumulation right here
+
+209
+00:15:01,000 --> 00:15:06,000
+And then we have manipulation, right?
+
+210
+00:15:06,000 --> 00:15:07,960
+So let me just do this.
+
+211
+00:15:07,960 --> 00:15:17,150
+Circumulation, manipulation, and then we have the distribution to the upside.
+
+212
+00:15:17,150 --> 00:15:21,150
+Now, here's how you would have approached it, right?
+
+213
+00:15:21,150 --> 00:15:23,150
+So we get manipulation, right?
+
+214
+00:15:23,150 --> 00:15:28,150
+Now notice, a lower low, lower high, and then a lower low.
+
+215
+00:15:28,150 --> 00:15:33,150
+So, our reference point is from this lower high to this lower low.
+
+216
+00:15:33,150 --> 00:15:36,150
+Now, notice what happens.
+
+217
+00:15:36,150 --> 00:15:40,150
+We have this variable eGAP.
+
+218
+00:15:40,150 --> 00:15:41,150
+Right?
+
+219
+00:15:41,150 --> 00:15:46,150
+And we also have this closest liquidity level.
+
+220
+00:15:46,150 --> 00:15:50,150
+So, if this level was taken out before our entry,
+
+221
+00:15:50,150 --> 00:15:52,150
+then the setup would become invalid.
+
+222
+00:15:52,150 --> 00:15:57,150
+Now, notice how price closed right above the inverse variable eGAP.
+
+223
+00:15:57,150 --> 00:16:07,290
+over here. So this would have been your entry. Okay? And we would go break even with 50%
+
+224
+00:16:07,290 --> 00:16:13,550
+profit at one to one, rest your world ratio. Now you can see that this trade would have been
+
+225
+00:16:13,550 --> 00:16:19,470
+closed at break even unfortunately. But you can see that price came back and retested
+
+226
+00:16:19,470 --> 00:16:27,970
+this I F V G and then we had another push to take out these highs over here. So I want
+
+227
+00:16:27,970 --> 00:16:33,650
+to show this example because not every trade is going to be perfect. So this is how you
+
+228
+00:16:33,650 --> 00:16:40,330
+would approach, right? A accumulation, manipulation and then we have this fairly gap that
+
+229
+00:16:40,330 --> 00:16:48,450
+was inversed and a beautiful entry here with 50% profits taken here. Let's move on to another
+
+230
+00:16:48,450 --> 00:16:55,290
+example. Alright, so here is another example on the same day. You can see we have accumulation
+
+231
+00:16:55,290 --> 00:17:01,570
+here and then we have manipulation. So essentially if you look for if you if you don't
+
+232
+00:17:01,570 --> 00:17:04,290
+want to look for power trees you can look for significant liquidity level
+
+233
+00:17:04,290 --> 00:17:07,690
+streams and then you can look for this model. It's essentially the same thing.
+
+234
+00:17:07,690 --> 00:17:12,810
+Part of three is going to come in all different sizes and shapes and form so
+
+235
+00:17:12,810 --> 00:17:16,810
+it's not always mechanical. You know you can't just identify part of three in a
+
+236
+00:17:16,810 --> 00:17:20,610
+mechanical way. You have to see where the accumulation phase was then the
+
+237
+00:17:20,610 --> 00:17:27,650
+manipulation phase. So a commutation phase, right, manipulation, then we get the distribution.
+
+238
+00:17:27,650 --> 00:17:31,450
+So how you would have approached this is basically, you can also see that we swept this
+
+239
+00:17:31,450 --> 00:17:39,570
+high over here. Now, we have this low and then we have this high over here, right? Now,
+
+240
+00:17:39,570 --> 00:17:47,420
+notice this fair value gap. Inside from this low to this high over here, there's only one
+
+241
+00:17:47,420 --> 00:17:52,100
+fair about your gap. Okay, so this is very crucial. And you can see that price
+
+242
+00:17:52,100 --> 00:17:58,740
+inversed it right just right here. So this would be my entry right away. Now
+
+243
+00:17:58,740 --> 00:18:05,460
+you can see that my stop would go right above the high and on one to one I would
+
+244
+00:18:05,460 --> 00:18:11,700
+go actually I would go break even just around here and then I would take 50
+
+245
+00:18:11,700 --> 00:18:15,380
+percent of our profits here and as you can see price close to the set break
+
+246
+00:18:15,380 --> 00:18:21,420
+even once again. But then you can see that price kept going down and down and down for
+
+247
+00:18:21,420 --> 00:18:26,900
+the rest of the day. Price came back once again. Try to stop you out of break even. But then
+
+248
+00:18:26,900 --> 00:18:32,540
+it kept going down. So now there are different ways to approach this. You can see that
+
+249
+00:18:32,540 --> 00:18:39,420
+if you have taken your entry on the retest. You know over here, just around here. This
+
+250
+00:18:39,420 --> 00:18:47,340
+is the retest. I stopped somewhere around here and you could have easily taken one to one
+
+251
+00:18:47,340 --> 00:18:55,340
+over here. Now, here is something that if you are really confident about your draw on liquidity.
+
+252
+00:18:55,980 --> 00:19:01,660
+So for example, this is your draw on liquidity, right? This is the closest liquidity level. That's
+
+253
+00:19:01,660 --> 00:19:09,300
+when we go break even. But if you are extremely confident that okay price is
+
+254
+00:19:09,300 --> 00:19:15,140
+going towards this high time frame, sorry not the higher but the significant
+
+255
+00:19:15,140 --> 00:19:20,500
+liquidity level, then this could be your target and you can just avoid going
+
+256
+00:19:20,500 --> 00:19:25,660
+break even you can simply just decrease your stop loss to some degree and then
+
+257
+00:19:25,660 --> 00:19:34,300
+And you can basically just go break even when this level is taken, take 50% off and then
+
+258
+00:19:34,300 --> 00:19:37,820
+keep it running.
+
+259
+00:19:37,820 --> 00:19:48,700
+But yeah, these are two examples that show that this have not everything is perfect.
+
+260
+00:19:48,700 --> 00:19:51,100
+You're not going to get perfect rates every single time.
+
+261
+00:19:51,100 --> 00:19:56,780
+Now I'm gonna show you guys the perfect examples with the benefit of hindsight, right?
+
+262
+00:19:56,780 --> 00:19:58,780
+And you guys are gonna understand it correctly
+
+263
+00:20:00,940 --> 00:20:05,200
+All right guys, so here is the perfect example and you can see we have
+
+264
+00:20:06,860 --> 00:20:12,240
+the accumulation phase over here, right and then we have the manipulation and
+
+265
+00:20:13,740 --> 00:20:20,060
+While we manipulated you can see that this leg created the fair about the gap the bullish for what you got but
+
+266
+00:20:20,060 --> 00:20:26,600
+But since most of the SMC traders are taught to be taking a long position after getting
+
+267
+00:20:26,600 --> 00:20:29,880
+a break of structure, you know, they get stopped out.
+
+268
+00:20:29,880 --> 00:20:34,840
+The price inverses this bullish fair value gap.
+
+269
+00:20:34,840 --> 00:20:38,360
+So let me just color it green.
+
+270
+00:20:38,360 --> 00:20:40,920
+The candle closes here.
+
+271
+00:20:40,920 --> 00:20:44,680
+Now this would be your entry, your stop right above the high.
+
+272
+00:20:44,680 --> 00:20:47,000
+This is the closest liquidity level.
+
+273
+00:20:47,000 --> 00:20:52,320
+So when this level is taken, you would go break even right away.
+
+274
+00:20:52,320 --> 00:20:54,360
+You have to just go break even there.
+
+275
+00:20:54,360 --> 00:20:58,360
+There's just no if sent bots.
+
+276
+00:20:58,360 --> 00:21:03,000
+But since I said before, if your bias is extremely strong, then you can just go break
+
+277
+00:21:03,000 --> 00:21:04,160
+even later.
+
+278
+00:21:04,160 --> 00:21:07,160
+But you go break even right here.
+
+279
+00:21:07,160 --> 00:21:14,800
+And since we are training on the one minute, don't set stop loss orders and take profit
+
+280
+00:21:14,800 --> 00:21:22,400
+levels to be hit automatically. You have to manage this trade manually. So you can't you have to manually
+
+281
+00:21:22,400 --> 00:21:27,760
+close when price reaches your stop loss level. You have to manually go break even run price
+
+282
+00:21:27,760 --> 00:21:32,880
+reaches the exact breaking point. And then you have to take your profits when price actually reaches
+
+283
+00:21:32,880 --> 00:21:38,560
+this level. Okay. You just don't set up the levels because what's going to do is price will sometimes
+
+284
+00:21:38,560 --> 00:21:43,840
+stop you out at break even even when prices are due to spreads and whatnot. So it's just going to
+
+285
+00:21:43,840 --> 00:21:48,000
+really hurt you. I'm not getting it has happened to me before, but I think this is the best
+
+286
+00:21:48,000 --> 00:21:52,320
+approaches. Keep watching the trade since we're trading on the one minute you can be on the
+
+287
+00:21:52,320 --> 00:21:59,280
+charts for 15 minutes man. Come on bro, you can't do that. So break even here, uh, 50% off at
+
+288
+00:21:59,280 --> 00:22:07,760
+one to one and then the main target, the TP2 would be somewhere around here, right? And my last
+
+289
+00:22:07,760 --> 00:22:16,000
+Tp would be targeting the London lows and this would give me roughly around this much so
+
+290
+00:22:16,960 --> 00:22:19,120
+and this is like an extremely
+
+291
+00:22:20,400 --> 00:22:23,280
+Awesome model that you can use guys. It's basically
+
+292
+00:22:24,000 --> 00:22:26,400
+In no brainer. Okay, I've explained everything
+
+293
+00:22:27,520 --> 00:22:29,520
+S&Ts to pair it up with
+
+294
+00:22:31,200 --> 00:22:36,480
+So for example, if you look at it here right we also swept the Asian high here
+
+295
+00:22:36,480 --> 00:22:43,920
+So when you combine these different things and take a trade with this model, trust me,
+
+296
+00:22:43,920 --> 00:22:45,120
+you're going to tag me.
+
+297
+00:22:45,120 --> 00:22:47,360
+Now let's move on to the next example.
+
+298
+00:22:47,360 --> 00:22:53,280
+All right, guys, so here is another example and you can see that in this price action
+
+299
+00:22:53,280 --> 00:22:57,160
+you're going to have taken so many of these trades and some of them would have given you
+
+300
+00:22:57,160 --> 00:23:02,880
+50% profit at one to one and some of them would have been closed at break even.
+
+301
+00:23:02,880 --> 00:23:07,640
+And then there is on the same day, we have accumulation,
+
+302
+00:23:07,640 --> 00:23:08,520
+somewhere around here.
+
+303
+00:23:08,520 --> 00:23:10,360
+And then we have the manipulation.
+
+304
+00:23:10,360 --> 00:23:14,720
+So basically, manipulation is liquidity sweep over here.
+
+305
+00:23:14,720 --> 00:23:18,560
+And then notice that this leg created this bearish
+
+306
+00:23:18,560 --> 00:23:19,360
+for a value gap.
+
+307
+00:23:19,360 --> 00:23:24,960
+So I'm just going to name it sorry color it red.
+
+308
+00:23:24,960 --> 00:23:28,120
+So we close right above the fair value gap.
+
+309
+00:23:28,120 --> 00:23:29,920
+So that in versus it.
+
+310
+00:23:29,920 --> 00:23:34,920
+Now the closest liquidity level is this high over here.
+
+311
+00:23:34,960 --> 00:23:37,480
+So now you can see that if I take my long position
+
+312
+00:23:37,480 --> 00:23:41,080
+from this level and just put my stop here,
+
+313
+00:23:41,080 --> 00:23:45,560
+now I would go break even when this level is taken, right?
+
+314
+00:23:45,560 --> 00:23:49,640
+And then I would take 50% of my profit at one to one.
+
+315
+00:23:50,560 --> 00:23:55,560
+And then my second TP would be somewhere around here, right?
+
+316
+00:23:57,400 --> 00:23:59,840
+Just around here, I would be break even.
+
+317
+00:23:59,840 --> 00:24:04,600
+And my third TP, the final TP that I would look to
+
+318
+00:24:04,600 --> 00:24:08,000
+is some form of high time film level, right?
+
+319
+00:24:08,000 --> 00:24:09,440
+Because you can see that probably just kept
+
+320
+00:24:09,440 --> 00:24:12,200
+going up, bro, that's insane, right?
+
+321
+00:24:12,200 --> 00:24:16,280
+So yeah, that would be, or you can just take
+
+322
+00:24:16,280 --> 00:24:19,600
+and close your entire position on the second TP, okay?
+
+323
+00:24:20,840 --> 00:24:21,880
+It doesn't really matter.
+
+324
+00:24:21,880 --> 00:24:24,520
+As long as you're making profits, it should not matter.
+
+325
+00:24:24,520 --> 00:24:26,200
+Let me do guys, one more example,
+
+326
+00:24:26,200 --> 00:24:28,280
+and then we will end this chapter.
+
+327
+00:24:28,280 --> 00:24:33,840
+Alright guys so here's the final example and you can see we have a very clean
+
+328
+00:24:33,840 --> 00:24:38,640
+borrow 3 we have accumulation then we have manipulation right and the
+
+329
+00:24:38,640 --> 00:24:43,100
+manipulation leg created this fairly gap the bullish fairly gap so let me
+
+330
+00:24:43,100 --> 00:24:48,240
+just color it green because it's a bullish fairly gap and now it's in
+
+331
+00:24:48,240 --> 00:24:52,640
+versed this is the closest target right so this is where we were gonna go break
+
+332
+00:24:52,640 --> 00:24:57,280
+even so your entry would be here stop somewhere around here right or maybe
+
+333
+00:24:57,280 --> 00:25:04,440
+above the actually above the high and you would go break even here. 50% at one
+
+334
+00:25:04,440 --> 00:25:09,820
+to one right and your second teepee could basically be just this because this is
+
+335
+00:25:09,820 --> 00:25:14,600
+a significant high. You can also see that this is a fair value gap. This is an
+
+336
+00:25:14,600 --> 00:25:18,160
+auto-blocks at this right here. It's a very good location to take your profits.
+
+337
+00:25:18,160 --> 00:25:23,600
+Right. One to one point five somewhere around that. You would have got close
+
+338
+00:25:23,600 --> 00:25:25,600
+I'll show you a bit of a video for you.
+
+339
+00:25:25,600 --> 00:25:30,600
+So, this is a very good scalloping.
+
+340
+00:25:30,600 --> 00:25:33,600
+It is absolutely powerful.
+
+341
+00:25:33,600 --> 00:25:35,600
+Just pair it up with SMT.
+
+342
+00:25:35,600 --> 00:25:38,600
+And the PDRA is.
+
+343
+00:25:38,600 --> 00:25:39,600
+You're going to thank me.
+
+344
+00:25:39,600 --> 00:25:40,600
+Alright?
+
+345
+00:25:40,600 --> 00:25:41,600
+So, thank you so much for watching.

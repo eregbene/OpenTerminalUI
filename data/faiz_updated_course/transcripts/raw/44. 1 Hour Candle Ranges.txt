@@ -1,0 +1,125 @@
+All right guys, so in this chapter, I'm going to be teaching you the one RCRD, all right.
+So previously, I talked about four RCRDs, right.
+So you would market the high and low of the four-hour candle.
+But this one is on one our time from, and not every single one R candle is going to present
+you a CRT trade.
+Only at a very specific time, you will get a one RCRD candle.
+And that is eight M.
+So you wait for the eight M candle to close on the one R time frame, and then you are simply
+marking out the high and the low of that candle, okay.
+So afterwards, what you're doing is you're dropping down to one minute time frame, okay.
+We are not dropping down to 15 minute or five minute, we're straight up going into one minute
+time frame.
+And then we're waiting for price to either take out the one R low or one R high.
+Once we have taken that out, we are waiting for some form of confirmation.
+So whether it's changing the state of delivery, which happens right here or a market structure
+shift.
+So right here, we got a market structure shift, right.
+And we also have this Fair Valley gap around here.
+So the next step would be to simply take our entry from this zone.
+Now make sure that you keep an eye on the 930 AM news, high impact news.
+So if there's a high impact news at 930, you have to avoid trading because you always want
+to be trading afterwards after 15 minutes at least, right.
+So you could probably take your trade at 945 if the news is over at 930, right.
+So the news will happen at 930, you wait for price to settle down, give it like 15 minutes,
+and then you can take your trade.
+If the targets are hit, then you will not take that trade because the trade becomes
+invalid.
+If the high is taken out, if both the high and the low are taken out, if that makes
+sense.
+So this would be your entry.
+And if I play this through, you can see that the take profit was hit now, a key thumb.
+The key rule here is to use a firm from the CRT low to CRD high.
+And at the 50% of the range, you are basically taking one partial and then you are going
+break even, all right.
+Or simply, you could just go break even at one to one wrist to the right ratio.
+But the best approach is going break even at 0.5 level and taking one partial here,
+going break even and then letting the trade run until the CRD high is taken out.
+Let me give you guys more examples.
+All right guys, so here is another example.
+You can see we have the 8M candle.
+So I'm going to simply mark out the high and the low of this candle.
+Okay, very simple.
+Then what I'm doing is I'm dropping down to one of them before I do that.
+If the 9M candle, so this is the 8M candle, if the 9M candle opens and then it goes up
+ahead and sweeps the 8M high and also sweeps some form of liquidity, then that makes it
+a high probability CRD, one hour CRD, all right.
+So I'm going to explain what I mean by that in a minute.
+So let's go to the one minute.
+We have the high and the low and you can see we take out the CRD high.
+So now we are waiting for a market structure shift with displacement and that what happens
+here.
+We broke the structure and we also broke the structure.
+Then we have this fair value gap.
+This would be your entry.
+Stop right above the high and our TP would be somewhere around here.
+So we got a tap and the take profit was hit.
+Extremely beautiful trade.
+So what I mean by that, if I go to one hour time for him, you can see that the, let me
+just remove this.
+So this is the 8M high, 8M low.
+The 9M candle, when it's swept liquidity, it's swept this high over here, right?
+After it's swept this high, we got a one minute market structure shift and that made it a
+high probability.
+So you can see how the price displaced, right?
+And one key thing to note there, if there's some form of like equal lows or equal highs
+as a target, then that also makes it high probability.
+Other guys, it's everything is based on liquidity and drawn liquidity, right?
+Sweep of liquidity and then draw on liquidity, if that makes sense.
+Let's move on to the next example.
+All right guys, so here is another example, the 8M candle, just mark out the high and the
+low of that candle.
+Notice to the left, we have this PDA, right?
+This is an auto block.
+Surprise is currently in this auto block that makes it a high probability CRT, right?
+So now I'm just going to go to the one minute chart and you can also go to the two minute
+chart if you really want to look for very, very high probability market structure shifts.
+But I like to stick on the one minute for this model.
+So we took out the high, but we failed to close below this low.
+And for this strategy, it is crucial that the body closes below it, okay?
+But then price went up ahead, tapped into, I believe, the 50% of that auto block that
+I showed you previously, and then we got a market structure shift.
+So now if you look at it here, we have this tiny bit of fair value gap resting around
+this level, right?
+So what happens next?
+It's very clear.
+You can see we got tapped into this fair value gap.
+The bodies were respected and then you can see price went up ahead and also swept the
+liquidity that was formed inside the fair value gap.
+So if you are, if you have been watching my YouTube videos, you must have an idea about
+what I'm talking about here, why this liquidity was swept.
+There is a course video as well from our previous, but if you don't know about this, you need
+to really watch my videos in detail, because the liquidity that forms inside the fair
+value gaps are very high probability liquidity, and they are going to be swept in some time.
+And that happened right there.
+So anyways, price went into this fair value gap, and then we had a beautiful push delivery
+to the downside.
+Very beautiful.
+So let's move on to the next example, oops.
+Alright guys, so here is the final example, and this is the ATM candle, and look at where
+the price is at, around here, right?
+And look at what happened at the 9M candle.
+We tapped into the 0.5 level of this autoblock, and we also swept the 8M candle high.
+So let's go back, right, when I marked out the 8M candle high and 8M candle low, then
+I'm simply dropping down to one minute shot, and I'm waiting for price to take out that
+high.
+We got the high taken out, this is my market structure shift level.
+We got it successfully right here, the body closed.
+We have this autoblock, price tapped into the autoblock, filled this fair value gap.
+So it tapped into this BPR, right here.
+And you can see that the take profit was hit.
+So I like to keep things mechanical, guys.
+I really don't want you to be over-analyzing stuff.
+This is, you can literally make a living with this simple model, the 8M candle.
+Who would know that this is trading is very simple.
+Who would know that trading was this simple, right?
+Well anyways, this should be it for the first part of the course.
+There will be more videos in the future.
+I will be teaching you volume trading as well in this course, in the upcoming chapters
+that will be coming in the future.
+But I do not want to overdose you with so many concepts and educational content.
+So that would be it.
+Thank you so much for purchasing the course and watching it.
+I really do hope that you get funded with the models that are provided to you.
+And with practice, I promise you, you're going to achieve that.
+And always, goodbye for now.

@@ -1,0 +1,101 @@
+[00:00:00] Alright guys, so this is the chapter number two of the course of day. In this video, in this topic, we are going to learn about the market maker buy model and market maker sell model. Now this is advanced market structure and if you can identify this structure, your win rate is gonna be like insanely crazy, like 75 to 80% I'm not even getting. Now the reason why I don't create this,
+[00:00:30] is because I'm a type of trader who want to be on the chart for like five to ten minutes max and
+[00:00:35] Just disappear right?
+[00:00:37] So that's why I use the auto flow trading strategy. It's very easy. You just look for market shortages
+[00:00:42] But I can use these setups and make more money
+[00:00:45] But I don't I'm okay with two to three percent per month because I have funded accounts, right?
+[00:00:49] So I have three funded accounts. So if I'm making like two to three percent that's enough for me
+[00:00:55] That's why I don't I don't use these methods. However
+[00:00:58] If you want to make more money, or let's say you want to pause to challenge the slides instantly,
+[00:01:03] the next few topics are going to change your life and you have my word.
+[00:01:08] So let's talk about market structure, sorry, the market maker model, the market maker sell model and the market maker buy model.
+[00:01:15] So let's assume that this right here is a key level, right? I have drawn this key level.
+[00:01:21] So, once price comes into a key level, before you do anything, you have to look for this
+[00:01:28] structure.
+[00:01:29] So, what is basically a market maker model?
+[00:01:32] So you have to identify a consolidation phase before price comes into a pure right?
+[00:01:38] So there will be a consolidation, a clean consolidation, the very first consolidation before
+[00:01:43] price comes into your pure right?
+[00:01:46] You want to have a consolidation phase?
+[00:01:48] then you can have another consolidation phase and another.
+[00:01:53] Now, these two consolidation phases are not necessary to see,
+[00:01:56] but you have to identify the main consolidation, right?
+[00:02:00] So let's say price is something like that, right?
+[00:02:06] And then price consolidation consult dates a bit
+[00:02:09] and you have like your high time frame level right there.
+[00:02:14] Now, you have to identify a clean consolidation.
+[00:02:18] price goes up. Now these, if you want to add these, that's going to make like a very beautiful
+[00:02:24] market market maker sell model. So even if you find like the second consolidation, you don't have to
+[00:02:29] look for tight consolidation. However, I recommend you find at least two consolidation phases before
+[00:02:34] price comes into your POI. So first consolidation and then a second consolidation, right? And
+[00:02:41] third one is not necessary. But if you see this, then that's even better. When price comes back
+[00:02:47] into your POI you simply look for a market shift. So let's say price comes back
+[00:02:54] here right into your POI you drop down to let's say you were looking at the
+[00:02:59] daily timeframe POI. So price comes into your daily POI you drop down to one
+[00:03:05] hour timeframe and then on one hour timeframe you look for this market maker
+[00:03:10] cell model. Okay, wait, let me do this first. Like that. So I'm gonna repeat this
+[00:03:20] again. You have your daily POI, right? Price comes into your daily POI. You drop
+[00:03:26] down to the one-hour timeframe. Once you drop down to the one-hour timeframe, you
+[00:03:31] want to identify a market maker model, which is basically a consolidation,
+[00:03:36] original consolidation from where price consolidated and then starting moving up
+[00:03:39] towards your POI. And if you see a pullback or a some sort of consolidation along the way,
+[00:03:46] that is even better. Now once price comes into your POI, you will look for a market structure
+[00:03:52] shift on one hour timeframe. Now once you have a market structure shift on a one hour
+[00:03:59] timeframe, you can simply look to take your entry from the fairly gap, right? Or what is
+[00:04:08] a medication blog. Let's talk about mitigations blog. Now that is the most important part of this thing.
+[00:04:13] So we have a buy curve here. So price was going up. That's why we call it a buy curve.
+[00:04:19] Okay, a buy side curve. So it's like it's price is going up. Right. Now you have to mark out
+[00:04:26] every single bullish auto block right here. So let's say there was a bullish auto block here.
+[00:04:34] right and there is a bullish auto block here we are going to utilize these
+[00:04:41] auto blocks in our sell side curve okay so since we have a market such a shift
+[00:04:45] we had the biker right now we're going to have the sell side curve so we are
+[00:04:50] going to use these auto blocks as our POS how oh my god so let's say price
+[00:04:58] breaks through this auto block right and it creates a free value gap or an
+[00:05:03] an auto block inside this old bullish auto block.
+[00:05:07] Now that when that happens,
+[00:05:09] this become mitigated mitigation block.
+[00:05:12] This becomes mitigation block when price breaks through it.
+[00:05:15] If it has to be able to gap,
+[00:05:16] you simply take your entry.
+[00:05:20] Or if there's an auto block inside here,
+[00:05:22] you take your entry from the auto block.
+[00:05:23] Let's say price breaks this mitigation block again.
+[00:05:26] You have a mitigation block right over here.
+[00:05:29] And let's say there's a friendly gap formed inside the box
+[00:05:32] or in auto block, you take your entry from there
+[00:05:34] and you keep shawting until this liquidity level
+[00:05:38] is taken out.
+[00:05:39] Oops, my bad.
+[00:05:40] Until this level, which is the original consolidation,
+[00:05:43] below of the original consolidation is taken out.
+[00:05:47] Now, remember about the time from alignment, right?
+[00:05:50] So for the daily bias and daily trading,
+[00:05:53] we go from day one to one hour and to five minute.
+[00:05:57] For weekly, we go from weekly to four hour
+[00:06:00] and then to 15 minutes, right?
+[00:06:02] For monthly, we go from monthly to daily,
+[00:06:05] and then from daily to one hour.
+[00:06:07] Remember that?
+[00:06:09] Okay, so let's remove,
+[00:06:13] let me remove this right here.
+[00:06:16] Oops.
+[00:06:19] Okay, so let me zoom in a bit.
+[00:06:21] Once you get the market structure shift, right,
+[00:06:25] on the one hour timeframe,
+[00:06:27] now what you can do here is to increase,
+[00:06:30] you know, like your probabilities is inside this range, right?
+[00:06:36] Inside this range here from this low to this high,
+[00:06:42] you look for another market maker cell model.
+[00:06:46] Okay? So for example, when you drop down to the five minute
+[00:06:49] timeframe, you will have to identify original consolidation
+[00:06:52] around here, right?
+[00:06:54] And then price goes back into your POI,
+[00:06:56] which would have been your entry on the one-hour timeframe.
+[00:06:59] And then you simply target this low here on the five minute.
+[00:07:03] You look for the exact same setup.
+[00:07:05] What is that?
+[00:07:05] Consolidation, another consolidation.
+[00:07:08] Not necessary, but a plus point consolidation.
+[00:07:13] And you take your entry and you target this.
+[00:07:17] So I will give you guys a couple of examples
+[00:07:18] then I'll end the video.

@@ -1,0 +1,148 @@
+{
+  "source": "F:\\new faiz\\18. The Holy Grail 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 182.7875,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.05,
+      "end": 30.05,
+      "text": " Alright guys, so here's another variation to this model that you can use. So everything the same right, you have your external taken out, your drone liquidity is this fair value gap. Now on the one hour timeframe, let's say you get a market structure shift but you don't have a clean PD error, you don't have a fair value gap here, you don't have a clean order block here. What you can do is you have to wait for an ABCD setup to form here."
+    },
+    {
+      "start": 30.05,
+      "end": 32.05,
+      "text": " D right"
+    },
+    {
+      "start": 32.81,
+      "end": 38.39,
+      "text": " Even if you don't want to take your trade from let's say the free body gap you can look for this pattern here"
+    },
+    {
+      "start": 38.69,
+      "end": 44.49,
+      "text": " So a BCD once you have the a BCD price takes out this high over here"
+    },
+    {
+      "start": 44.49,
+      "end": 49.75,
+      "text": " So now we zoom in onto the five minute time frame. This is when price takes out this level, right?"
+    },
+    {
+      "start": 49.75,
+      "end": 52.69,
+      "text": " So we want to mark out this low"
+    },
+    {
+      "start": 53.17,
+      "end": 59.89,
+      "text": " Right, and we want to scout out the market maker consolidation from this move right here, right to the"
+    },
+    {
+      "start": 60.05,
+      "end": 67.05,
+      "text": " So this right here is consolidation, then we get second accumulation, right?"
+    },
+    {
+      "start": 67.05,
+      "end": 73.05,
+      "text": " So now when price takes out the high, we look for a market structure shift from the five minute timeframe, right?"
+    },
+    {
+      "start": 73.05,
+      "end": 80.05,
+      "text": " From here onwards, when you get a market structure shift, what you can do is look for a second distribution entry model, right?"
+    },
+    {
+      "start": 80.05,
+      "end": 87.05,
+      "text": " You can do that or you can just simply enter from the fair value gap that forms here or the auto block."
+    },
+    {
+      "start": 87.05,
+      "end": 95.3,
+      "text": " Okay, so the continuation is mostly gonna happen from 8am till 1030."
+    },
+    {
+      "start": 97.7,
+      "end": 102.5,
+      "text": " Okay, so look for a continuation setup in between these times."
+    },
+    {
+      "start": 102.7,
+      "end": 108.1,
+      "text": " And remember guys, let's say that there is a news on the same day and"
+    },
+    {
+      "start": 108.1,
+      "end": 113.1,
+      "text": " your setup forms before the news, you don't have to take that setup."
+    },
+    {
+      "start": 113.1,
+      "end": 119.54,
+      "text": " You have to in most cases wait for the news to be over and then you can look for the setups"
+    },
+    {
+      "start": 120.26,
+      "end": 124.52,
+      "text": " Okay, especially when you are trading on the five minute time from because using this"
+    },
+    {
+      "start": 125.14,
+      "end": 128.62,
+      "text": " Combination daily early in five minute. We're gonna be taking trades on the five minute"
+    },
+    {
+      "start": 128.62,
+      "end": 133.9,
+      "text": " So we have to trade after the news is over not before that. Okay"
+    },
+    {
+      "start": 136.37,
+      "end": 142.37,
+      "text": " So this is the continuation pattern, right? You get a purge a BCD"
+    },
+    {
+      "start": 142.37,
+      "end": 148.13,
+      "text": " right then you wait for a market structure shift on the five minute time frame so the ABC the occurs on the one hour"
+    },
+    {
+      "start": 148.77,
+      "end": 150.77,
+      "text": " Once that happens you mark out the"
+    },
+    {
+      "start": 151.69,
+      "end": 158.01,
+      "text": " Move right that is where you want to scout out the market maker model that has consolidation like that and"
+    },
+    {
+      "start": 160.73,
+      "end": 166.41,
+      "text": " You drop down to five minute get a market structure shift take your entry mitigation blocks boom boom boom boom"
+    },
+    {
+      "start": 166.77,
+      "end": 168.77,
+      "text": " That is your take profit level"
+    },
+    {
+      "start": 170.01,
+      "end": 172.01,
+      "text": " so"
+    },
+    {
+      "start": 172.37,
+      "end": 181.37,
+      "text": " Yeah guys, that's pretty much about it. I'm gonna give you guys some examples and then we'll move on to the last couple of lectures."
+    }
+  ]
+}

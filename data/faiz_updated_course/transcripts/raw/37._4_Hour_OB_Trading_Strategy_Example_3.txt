@@ -1,0 +1,30 @@
+[00:00:00] Alright guys, so here is the last example for this strategy and I'm looking at USTCHF. I also want to, like, I'm showing you guys that it works with every single pair. So, auto flow is clearly bearish. You have to train your eyes to see this. So now, we have this auto block here. It comes back into our auto block. Let's go back to 15 minutes and you can see that we have higher
+[00:00:30] Hi, hello, and hi, hi.
+[00:00:33] Now this here, right here, candle, right?
+[00:00:37] It took out this liquidy here,
+[00:00:40] and then we have a market structure shift here.
+[00:00:43] Very tiny market structure shift,
+[00:00:46] but it is a market structure shift.
+[00:00:49] Let's go back to, let's say five minutes.
+[00:00:52] You can see that this is a clear, clean market structure shift,
+[00:00:56] right?
+[00:00:57] Now let's go back to 15 minute.
+[00:01:00] And now it doesn't have to be consecutive candles.
+[00:01:04] I know some of you might think that it has you consecutive.
+[00:01:06] No.
+[00:01:08] If it takes out liquidity and then you have,
+[00:01:10] if it takes out liquidity, it goes to your P.O.I.
+[00:01:12] and then you have a market shortage shift,
+[00:01:14] then that is your auto block.
+[00:01:16] Okay, you don't have to be consecutive candles.
+[00:01:17] You take your entry here, put your stop right above this high
+[00:01:20] over here, go for one, two,
+[00:01:23] And look at this.
+[00:01:28] Play this out beautifully.
+[00:01:31] And it hits your take profit.
+[00:01:35] Honestly this is one of my favorite trading strategies at the moment.
+[00:01:40] It's basically auto flow, but it only uses two time frames and you only have to see the
+[00:01:46] market share shift during kill zone hours and your energy must also be doing kills on
+[00:01:50] hours and you go for one to two.
+[00:01:54] So that was it for this strategy.
+[00:01:56] I'll see you guys in the next one.

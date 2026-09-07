@@ -1,0 +1,37 @@
+Alright guys, so here is the example number two for this strategy.
+So I'm looking at Euro GBP on 4-hour of course, and you can see we are making lower low, lower
+high, lower low, actually no, lower low, lower high, and then another lower low, and the internal
+market structure been creating lower low, lower highs for quite some time now.
+So it is clear that the auto flow is bearish, I'm not going back here, I'm just looking
+at the price here, okay, and as you can see we are making lower lows, lower lows, lower
+highs, lower lows, lower highs, cool.
+So now what we do have is this auto block, okay, of course this is hindsight, but you're
+going to notice these, okay, so this is the candle and price goes back into our PUI, so
+let's drop down to 15 minute time for them, and you can see that just over here we have
+a shift in market structure, but notice what happened, the market structure shift did not
+happen during kills on ours, okay, so the kills on ours are basically two, till, I got
+seven, it's my bad, right, and then 7.30, 11.30.
+For this specific strategy only, okay, 2am, till 7, that is your London, and then from
+7.30 till 11.30 is your New York session, make sure you set your time zone to New York.
+So now we're going to wait, okay, we are going to wait till this high is taken out again,
+because this is liquidy now, when you have a market structure shift outside the kills
+and the kills on ours start, which happens right here, you don't want to look for market
+structure shift here, you want to wait for first press take out this high over here,
+and then you want to look for a clean market structure shift, and that happens right here,
+and let me show you how, we also took out this high here, okay, so that is a clear shift,
+lower low, higher high, higher low, higher high, and then we have a market structure shift
+during kills on ours, perfect, now this right here are our consecutive bullish candles,
+and also look at this breaker block, it is in alignment with the auto block, and this
+consecutive bullish candles becomes your auto block, right, so you're going to take your entry,
+here, put your stop right above this high over here, and you go for one to two,
+simple as that, let's go and see how this plays out, as you can see we got our entry right here at 645,
+and you can see we hit our take profit, if we held that would have been a beautiful trade,
+but we only go for one to two, so I hope you learned something from this example, remember if,
+let's say that this candle did not take out the high here, and then you had a shift over here,
+that is a low probability, low probability market structure shift, I want this clean
+liquidity sweep, and then displacement, that gives us market structure shift, something like
+boom, boom, boom, okay, this is prime, you have a liquidity sweep, right, and then your market
+structure shift, and this leg has consecutive candles of the same color, so if I was looking at
+here, I would love to see bullish candles take out this liquidity, and then a market structure
+shift, and I take my entry from here, kaboom, so I really, really do hope that you learned
+something from this strategy, and from this example, I'll give you guys one more example,

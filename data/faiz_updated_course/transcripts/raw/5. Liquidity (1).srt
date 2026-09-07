@@ -1,0 +1,272 @@
+1
+00:00:00,000 --> 00:00:07,920
+okay so we are slowly moving forward today in this video I'm gonna teach you
+
+2
+00:00:07,920 --> 00:00:14,840
+about liquidity and the actual concept about liquidity so I'm pretty sure you
+
+3
+00:00:14,840 --> 00:00:21,640
+have watched a lot of videos on liquidity maybe on YouTube or you bought
+
+4
+00:00:21,640 --> 00:00:27,360
+someone else's course and you you know they taught you about liquidity so it's
+
+5
+00:00:27,400 --> 00:00:33,360
+my job to teach you as well because you spend a lot of money right so it's just
+
+6
+00:00:33,360 --> 00:00:40,000
+it's just best for me to explain what is liquidity so let's suppose that this
+
+7
+00:00:40,000 --> 00:00:47,360
+is resistance right and this is support level all right so we are told to sell
+
+8
+00:00:47,360 --> 00:00:53,820
+at the resistance and then buy at the support level okay and now you might
+
+9
+00:00:53,820 --> 00:00:59,940
+have noticed that I have labeled the resistance as buy side liquidity and I
+
+10
+00:00:59,940 --> 00:01:05,380
+have labeled the support level as sell side liquidity and I want to explain to
+
+11
+00:01:05,380 --> 00:01:12,060
+you why I did that but let me explain a bit more about liquidity so you can see
+
+12
+00:01:12,060 --> 00:01:18,660
+that price goes up to resistance and then we see a huge sell-off right so now
+
+13
+00:01:18,660 --> 00:01:24,940
+this area becomes a resistance because price couldn't go above that
+
+14
+00:01:24,940 --> 00:01:30,980
+level and there are heavy sellers around this area so price goes down and then
+
+15
+00:01:30,980 --> 00:01:37,220
+from this area price goes back up in like with a momentum all right so now
+
+16
+00:01:37,220 --> 00:01:41,380
+this place could be considered as a support level this level and this level
+
+17
+00:01:41,380 --> 00:01:47,020
+is now considered to be a support level so a lot of retail traders what they are
+
+18
+00:01:47,060 --> 00:01:51,180
+expecting is that when the price is gonna come back to this level which is
+
+19
+00:01:51,180 --> 00:01:57,460
+the resistance the price is gonna fall down okay so what price actually does
+
+20
+00:01:57,460 --> 00:02:06,500
+is let me explain to you oh sorry doo doo doo doo doo price fakes out like this
+
+21
+00:02:06,940 --> 00:02:20,820
+all right and then goes down all right fakes out the support level and then it
+
+22
+00:02:20,820 --> 00:02:26,140
+could it might either go up or down depending on the daily bias all right
+
+23
+00:02:26,140 --> 00:02:32,460
+so I'll assume that it just goes down so now what really happened here all
+
+24
+00:02:32,460 --> 00:02:42,540
+right a lot of retail traders what they do is they go short on the resistance
+
+25
+00:02:42,540 --> 00:02:47,660
+level and they put their stop losses right above the resistance level all
+
+26
+00:02:47,660 --> 00:02:53,460
+right so what price does it stops you out but then why am I calling it a
+
+27
+00:02:53,460 --> 00:03:01,140
+bi-side liquidity let me explain it to you very very easily all right so when
+
+28
+00:03:01,180 --> 00:03:08,260
+price breaks out the breakout artists people who trade breakout patterns what
+
+29
+00:03:08,260 --> 00:03:14,260
+they're gonna do is they're gonna buy once the resistance level is broken right
+
+30
+00:03:14,260 --> 00:03:20,900
+and they're gonna put their stop loss below the this level all right so they
+
+31
+00:03:20,900 --> 00:03:28,500
+have a buy order all right and their stop loss order is a sell order so if a
+
+32
+00:03:28,540 --> 00:03:35,740
+person buys if a person goes long and then he gets stopped out then that stop
+
+33
+00:03:35,740 --> 00:03:41,500
+order would be considered as a sell position all right so the reason why it
+
+34
+00:03:41,500 --> 00:03:47,460
+happens is that the so that the price can go down with a momentum with huge
+
+35
+00:03:47,460 --> 00:03:52,700
+volume because when the price breaks out people buy right but then they have
+
+36
+00:03:52,700 --> 00:03:58,260
+stop loss order so what price is it just goes down triggers a lot of stop loss
+
+37
+00:03:58,260 --> 00:04:05,540
+orders which are sell orders right so it's gonna create more sell orders here
+
+38
+00:04:05,540 --> 00:04:13,100
+and the price gonna go way down all right so people who just shorted at the
+
+39
+00:04:13,100 --> 00:04:17,420
+resistance level they got stopped out as well people who went long on the
+
+40
+00:04:17,420 --> 00:04:22,740
+breakout they got stopped out as well and as you can see price would go right
+
+41
+00:04:22,820 --> 00:04:28,540
+down all right this is why I call it buy side liquidity because people are
+
+42
+00:04:28,540 --> 00:04:34,940
+going to buy when the price breaks out of the resistance level and when the
+
+43
+00:04:34,940 --> 00:04:41,780
+price breaks out people are gonna buy here put their stop loss below this
+
+44
+00:04:41,780 --> 00:04:48,220
+this resistance level and price goes back down triggers sell orders or stop
+
+45
+00:04:48,220 --> 00:04:53,820
+loss orders and it just goes down similarly when price breaks through the
+
+46
+00:04:53,820 --> 00:05:03,220
+support level people are going to short right and when people short here they
+
+47
+00:05:03,220 --> 00:05:07,880
+gonna have their stop loss right here so the breakout artists they're gonna
+
+48
+00:05:07,880 --> 00:05:11,140
+short here put their stop loss right above the support level and what happens
+
+49
+00:05:11,140 --> 00:05:18,820
+price stops you out triggers buy orders okay so when we are shorting let's say
+
+50
+00:05:18,820 --> 00:05:25,660
+you shorted here right and price stops you out then it would trigger buy orders
+
+51
+00:05:25,660 --> 00:05:30,300
+because you are selling right so when you get stopped out it will trigger buy
+
+52
+00:05:30,300 --> 00:05:36,980
+orders and then with the momentum with liquidity price is gonna go back up with
+
+53
+00:05:37,020 --> 00:05:42,540
+momentum it's gonna go back to its original destination with heavy
+
+54
+00:05:42,540 --> 00:05:49,540
+momentum so this is the concept of liquidity now liquidity could be
+
+55
+00:05:49,540 --> 00:05:57,940
+literally anywhere it could be right here right this level all right when we
+
+56
+00:05:57,940 --> 00:06:03,940
+are in and we are in an uptrend the you can see the higher high and higher low
+
+57
+00:06:03,940 --> 00:06:08,500
+this high low could be considered as liquidity as well because people are
+
+58
+00:06:08,500 --> 00:06:16,740
+going to buy oops my bad at the breakout of this previous high so let's say
+
+59
+00:06:16,740 --> 00:06:21,060
+people buy here they might put their stop loss right below this previous
+
+60
+00:06:21,060 --> 00:06:27,820
+high low right and then in the future the price can come back down right to
+
+61
+00:06:28,820 --> 00:06:35,420
+some autoblock here or demand zone and then the price can just actually move
+
+62
+00:06:35,420 --> 00:06:41,740
+back up oops my bad it can just move back up like that so it could be anywhere
+
+63
+00:06:41,740 --> 00:06:50,260
+but we need to identify the most important liquidity areas so the the
+
+64
+00:06:50,260 --> 00:06:56,380
+more prominent that area is the more it's gonna be you know working with your
+
+65
+00:06:56,380 --> 00:07:00,700
+strategies the strategies that I'm gonna teach you in the upcoming videos we
+
+66
+00:07:00,700 --> 00:07:06,100
+are going to use liquidity we are gonna trade with liquidity liquidity is
+
+67
+00:07:06,100 --> 00:07:12,580
+everything all right so I hope you did understand the concept of liquidity and
+
+68
+00:07:12,580 --> 00:07:20,020
+I'll give you some examples in the next part of this concept
+

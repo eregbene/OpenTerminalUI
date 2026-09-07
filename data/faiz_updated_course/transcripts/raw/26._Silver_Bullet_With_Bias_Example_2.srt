@@ -1,0 +1,95 @@
+1
+00:00:00,140 --> 00:00:33,760
+Alright guys, so here is an example number two for using the Silver Bullet with PIS. So in the 15 minutes, as you can see, we have taken out this external, right? And we took this out at 845, but we have our drawn liquidity still intact. So let's go to the 1 minute time from here and let's wait for that 10 o'clock time to hit. So we're gonna wait for that. Okay, so over here, this is when the clock hits 10, right? We have the 10 here.
+
+2
+00:00:33,760 --> 00:00:38,760
+We have the shift in the marker structure as well.
+
+3
+00:00:38,760 --> 00:00:40,760
+We have it here as well.
+
+4
+00:00:40,760 --> 00:00:42,760
+We filled it in this fair value gap.
+
+5
+00:00:42,760 --> 00:00:44,760
+So now we only have this fair value gap left.
+
+6
+00:00:44,760 --> 00:00:46,760
+This is our drawn liquidity.
+
+7
+00:00:46,760 --> 00:00:50,760
+So our entry is going to be off this fair value gap.
+
+8
+00:00:50,760 --> 00:00:53,760
+Or the 0.5 level of this fair value gap.
+
+9
+00:00:53,760 --> 00:00:54,760
+Right.
+
+10
+00:00:54,760 --> 00:00:57,760
+And if I play this through,
+
+11
+00:00:57,760 --> 00:01:00,760
+you can see that the take profit was hit.
+
+12
+00:01:00,760 --> 00:01:04,800
+And from there onwards, I don't know what price does.
+
+13
+00:01:04,800 --> 00:01:06,880
+I don't have to think about it.
+
+14
+00:01:07,000 --> 00:01:08,080
+My target is hit.
+
+15
+00:01:08,280 --> 00:01:10,920
+I sculpt out the silver bullet, right?
+
+16
+00:01:11,280 --> 00:01:16,120
+One to one or one to one point five or one to two is what I see suggest.
+
+17
+00:01:16,360 --> 00:01:19,640
+So you could have easily gone on that by going long here,
+
+18
+00:01:19,640 --> 00:01:22,000
+putting your stop here and then targeting this.
+
+19
+00:01:22,560 --> 00:01:26,080
+So just go and experiment with this.
+
+20
+00:01:26,120 --> 00:01:27,440
+It's very, very powerful.
+
+21
+00:01:27,440 --> 00:01:33,120
+and maybe that can become your model. I don't know, but it's really up to you.
+
+22
+00:01:33,920 --> 00:01:39,120
+And I'm showing the things that work. So good luck. We're using that. So let's
+
+23
+00:01:39,120 --> 00:01:45,120
+we want the last lecture guys. I'm going to teach you how you can use proper risk management
+
+24
+00:01:45,120 --> 00:01:51,840
+to pass your prop from challenges. So see you guys in the next one.

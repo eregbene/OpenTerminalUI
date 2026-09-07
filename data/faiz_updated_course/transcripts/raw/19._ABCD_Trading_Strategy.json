@@ -1,0 +1,293 @@
+{
+  "source": "F:\\new faiz\\19. ABCD Trading Strategy.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 247.10675,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.02,
+      "end": 32.29,
+      "text": " Alright guys, so in the final trading strategy video, we are going to learn ABCD trading strategy. This one is just like ABCD, but it's a reversal. So I'm going to explain what it looks like, but let me explain it. So this is the ABCD trading strategy. Right? Now, what is the D here? No, what is ABCD, but what is the D here?"
+    },
+    {
+      "start": 32.29,
+      "end": 40.73,
+      "text": " So we got the A wave, we got the B wave, then we got the C wave, right?"
+    },
+    {
+      "start": 40.73,
+      "end": 43.41,
+      "text": " This is pretty much it."
+    },
+    {
+      "start": 43.41,
+      "end": 48.93,
+      "text": " But then we got the D wave, right?"
+    },
+    {
+      "start": 48.93,
+      "end": 52.73,
+      "text": " That takes out this high, sorry, this low, right?"
+    },
+    {
+      "start": 52.73,
+      "end": 54.37,
+      "text": " This is your take profit."
+    },
+    {
+      "start": 54.37,
+      "end": 59.77,
+      "text": " When you, so let me just draw it in a more clear way."
+    },
+    {
+      "start": 59.77,
+      "end": 64.65,
+      "text": " So you will get your entry at the retest, right?"
+    },
+    {
+      "start": 64.65,
+      "end": 68.42,
+      "text": " Or some auto block over here."
+    },
+    {
+      "start": 68.42,
+      "end": 73.42,
+      "text": " And then you see price take out this low."
+    },
+    {
+      "start": 75.26,
+      "end": 77.3,
+      "text": " And then what you want to do is you want to wait"
+    },
+    {
+      "start": 77.3,
+      "end": 79.1,
+      "text": " for price to go back up again."
+    },
+    {
+      "start": 79.1,
+      "end": 82.14,
+      "text": " And then you want to take entry again from this level."
+    },
+    {
+      "start": 82.14,
+      "end": 84.06,
+      "text": " And it will go up there."
+    },
+    {
+      "start": 84.06,
+      "end": 87.18,
+      "text": " So this is APCD fitting strategy."
+    },
+    {
+      "start": 88.66,
+      "end": 90.46,
+      "text": " Let me explain once again."
+    },
+    {
+      "start": 90.46,
+      "end": 97.46,
+      "text": " So what we have is a A, B, C, right?"
+    },
+    {
+      "start": 97.9,
+      "end": 101.18,
+      "text": " Pretty much it."
+    },
+    {
+      "start": 101.18,
+      "end": 106.18,
+      "text": " Then we wait for the D move that breaks the,"
+    },
+    {
+      "start": 108.02,
+      "end": 113.02,
+      "text": " the low of the B move, right?"
+    },
+    {
+      "start": 116.85,
+      "end": 122.37,
+      "text": " And then price goes up, root has this level,"
+    },
+    {
+      "start": 122.37,
+      "end": 124.49,
+      "text": " or some fair value gap down there."
+    },
+    {
+      "start": 124.49,
+      "end": 127.49,
+      "text": " And it goes all the way up."
+    },
+    {
+      "start": 127.49,
+      "end": 132.28,
+      "text": " Very simple trading strategy guys."
+    },
+    {
+      "start": 132.28,
+      "end": 134.28,
+      "text": " So let me show you an example."
+    },
+    {
+      "start": 134.28,
+      "end": 138.94,
+      "text": " So what do we have here?"
+    },
+    {
+      "start": 138.94,
+      "end": 141.94,
+      "text": " We got the A with."
+    },
+    {
+      "start": 141.94,
+      "end": 143.94,
+      "text": " We got the B with."
+    },
+    {
+      "start": 143.94,
+      "end": 145.94,
+      "text": " And we got the C with, right?"
+    },
+    {
+      "start": 145.94,
+      "end": 149.61,
+      "text": " Let me put this like this."
+    },
+    {
+      "start": 149.61,
+      "end": 151.61,
+      "text": " Put it like this."
+    },
+    {
+      "start": 151.61,
+      "end": 153.61,
+      "text": " And bam."
+    },
+    {
+      "start": 153.61,
+      "end": 154.61,
+      "text": " We broke this level."
+    },
+    {
+      "start": 154.61,
+      "end": 155.61,
+      "text": " Very nice."
+    },
+    {
+      "start": 155.61,
+      "end": 165.17,
+      "text": " nice. So as you can see, let me remove that. We got this level. We broke this level. We reclaimed"
+    },
+    {
+      "start": 165.17,
+      "end": 171.69,
+      "text": " this level. Didn't quite break the structure over here, but this is a new accession trading"
+    },
+    {
+      "start": 171.69,
+      "end": 177.87,
+      "text": " strategy. And sometimes it couldn't work in the land session as well. Only sometimes, okay?"
+    },
+    {
+      "start": 177.87,
+      "end": 179.27,
+      "text": " So keep that in mind."
+    },
+    {
+      "start": 179.27,
+      "end": 190.44,
+      "text": " So as you can see, when price breaks this level, which is, sorry, my bad, this level."
+    },
+    {
+      "start": 190.44,
+      "end": 194.72,
+      "text": " So you can see we got the A, we got the B, we got the C, and then we got the D."
+    },
+    {
+      "start": 194.72,
+      "end": 198.92,
+      "text": " The D takes out the low of the B move, the B leg, right?"
+    },
+    {
+      "start": 198.92,
+      "end": 201.52,
+      "text": " And then it reclaims that level."
+    },
+    {
+      "start": 201.52,
+      "end": 206.52,
+      "text": " You can enter on the retest here, put your stop-loss below this low, and go for one"
+    },
+    {
+      "start": 206.52,
+      "end": 207.52,
+      "text": " to two."
+    },
+    {
+      "start": 207.52,
+      "end": 210.37,
+      "text": " That is pretty much it."
+    },
+    {
+      "start": 210.37,
+      "end": 213.25,
+      "text": " This is a very simple setting strategy guys."
+    },
+    {
+      "start": 213.25,
+      "end": 219.61,
+      "text": " They are going to be endless opportunities for you to enter the market."
+    },
+    {
+      "start": 219.61,
+      "end": 223.61,
+      "text": " As you can see, for more confluence, it also broke some structure here."
+    },
+    {
+      "start": 223.61,
+      "end": 228.36,
+      "text": " So let me point this out."
+    },
+    {
+      "start": 228.36,
+      "end": 232.76,
+      "text": " Then we had a very tiny imbalance around this level."
+    },
+    {
+      "start": 232.76,
+      "end": 234.64,
+      "text": " So let me put this in this."
+    },
+    {
+      "start": 234.64,
+      "end": 237.08,
+      "text": " There's very tiny balance that I can see."
+    },
+    {
+      "start": 237.08,
+      "end": 238.12,
+      "text": " Let me zoom it in."
+    },
+    {
+      "start": 238.12,
+      "end": 239.12,
+      "text": " Yep."
+    },
+    {
+      "start": 239.12,
+      "end": 243.8,
+      "text": " price just ripped it off this auto block and it went all the way up."
+    },
+    {
+      "start": 243.8,
+      "end": 247.4,
+      "text": " So let me give you one more example."
+    }
+  ]
+}

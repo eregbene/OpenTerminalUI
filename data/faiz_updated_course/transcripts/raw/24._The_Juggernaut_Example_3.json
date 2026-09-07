@@ -1,0 +1,238 @@
+{
+  "source": "F:\\new faiz\\24. The Juggernaut Example 3.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 278.0589375,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.21,
+      "end": 31.58,
+      "text": " Alright guys, so here is the final example and over here we can see is we clearly take out these relative equal highs here and we also form a Fravale gap. Right? And there's from this range low to this range high. There's only one Fravale gap and that's on the 10 minute. Okay? So now I'm gonna draw this out. I'm gonna wait for price to close below it. And just now, as you can see, we closed below it. So now this is going to be my take"
+    },
+    {
+      "start": 31.58,
+      "end": 35.74,
+      "text": " profit level as indicated by the fractals indicator by Rachel T."
+    },
+    {
+      "start": 36.74,
+      "end": 38.9,
+      "text": " And I'm going to take my entry on the retest."
+    },
+    {
+      "start": 39.14,
+      "end": 43.1,
+      "text": " So if I put my shot position here, first off,"
+    },
+    {
+      "start": 43.1,
+      "end": 46.22,
+      "text": " I'm going to adjust my take profit level and that is giving me one,"
+    },
+    {
+      "start": 46.22,
+      "end": 51.22,
+      "text": " two, one, point four. Now, as long as my stop is above the wake,"
+    },
+    {
+      "start": 52.22,
+      "end": 54.46,
+      "text": " I can get unlimited risk reward, right?"
+    },
+    {
+      "start": 54.7,
+      "end": 61.37,
+      "text": " So it's giving me 1.85. So that is perfect. Now look at the timing."
+    },
+    {
+      "start": 61.37,
+      "end": 67.77,
+      "text": " We are in the kill zone, right? It is the so that we can also trade the strategy during the lunch breaks."
+    },
+    {
+      "start": 68.09,
+      "end": 75.13,
+      "text": " So usually there's a lunch break from five to six or from, you know, also, but it doesn't really matter for the strategy."
+    },
+    {
+      "start": 75.61,
+      "end": 77.21,
+      "text": " You can literally just trade it. So."
+    },
+    {
+      "start": 79.05,
+      "end": 83.77,
+      "text": " This is when we get the retest. Look at this beautiful delivery that this is when you would be in the trade."
+    },
+    {
+      "start": 85.37,
+      "end": 89.93,
+      "text": " And if I play this through, you're going to see that the take profit level was hit."
+    },
+    {
+      "start": 89.93,
+      "end": 100.21,
+      "text": " And probably you could have targeted this low because that was a significant liquidity level."
+    },
+    {
+      "start": 100.21,
+      "end": 105.17,
+      "text": " This could have given you 2.45 registered reward ratio."
+    },
+    {
+      "start": 105.17,
+      "end": 108.29,
+      "text": " So a very simple model."
+    },
+    {
+      "start": 108.29,
+      "end": 112.49,
+      "text": " You have to rewatch the video again and again until you understand this."
+    },
+    {
+      "start": 112.49,
+      "end": 116.81,
+      "text": " And here are some key notes that you should know."
+    },
+    {
+      "start": 116.81,
+      "end": 122.45,
+      "text": " So this is very important, listen very closely, to increase the wind rate of the strategy."
+    },
+    {
+      "start": 122.45,
+      "end": 127.53,
+      "text": " What you can do is you can identify one hour highs and lows."
+    },
+    {
+      "start": 127.53,
+      "end": 132.57,
+      "text": " So this is one hour time from now you look for any type of you know, a strip of the"
+    },
+    {
+      "start": 132.57,
+      "end": 134.37,
+      "text": " bicep or sell side."
+    },
+    {
+      "start": 134.37,
+      "end": 139.29,
+      "text": " So let's say you want our price takes out bicep, you drop down to five minute time from"
+    },
+    {
+      "start": 139.29,
+      "end": 142.61,
+      "text": " and then you look for bearish inverse fairly gaps."
+    },
+    {
+      "start": 142.61,
+      "end": 150.37,
+      "text": " So you might see this on the 5 minute and you can see that we have another bicep sweep"
+    },
+    {
+      "start": 150.37,
+      "end": 153.41,
+      "text": " and we're gonna have one for value gap here."
+    },
+    {
+      "start": 153.41,
+      "end": 157.85,
+      "text": " We must have one for value gap inside there."
+    },
+    {
+      "start": 157.85,
+      "end": 162.77,
+      "text": " You can mark at the fair value gap once the price closes below it."
+    },
+    {
+      "start": 162.77,
+      "end": 166.13,
+      "text": " You go short on the retest, target this level."
+    },
+    {
+      "start": 166.13,
+      "end": 172.25,
+      "text": " Now this is gonna increase the window to some degree but I haven't noticed like a much"
+    },
+    {
+      "start": 172.25,
+      "end": 180.01,
+      "text": " significant difference. All right. So you should be fine. Also, if you watch my SMT video,"
+    },
+    {
+      "start": 180.57,
+      "end": 189.93,
+      "text": " and if you can use SMT with this, so let's say on the DXY price failed to create another higher"
+    },
+    {
+      "start": 189.93,
+      "end": 198.97,
+      "text": " high, but on GPPUSD, we do create a higher high. Now then the inverse roger gap is going to act"
+    },
+    {
+      "start": 198.97,
+      "end": 204.65,
+      "text": " even more strong. And there's a high chance. There will be even higher chance that price will"
+    },
+    {
+      "start": 204.65,
+      "end": 213.21,
+      "text": " take out this low over here. And make sure you stick to two to three pairs only because if you"
+    },
+    {
+      "start": 213.21,
+      "end": 217.93,
+      "text": " trade every single pair you're going to over trade and that is not good. Make sure you only take"
+    },
+    {
+      "start": 217.93,
+      "end": 224.17,
+      "text": " two to three trades max per day with the strategy. You do not have to over trade because some days"
+    },
+    {
+      "start": 224.17,
+      "end": 246.17,
+      "text": " you know for what reason God knows what reason you know every single trading strategy can have a losing day so this can have it to start to minimize the losses keep your maximum trades to two or three and only choose two to three pairs or two assets this could be smp 500 and naz 100."
+    },
+    {
+      "start": 246.17,
+      "end": 250.73,
+      "text": " This should be it for this model."
+    },
+    {
+      "start": 250.73,
+      "end": 253.93,
+      "text": " I hope you guys make good profits with it."
+    },
+    {
+      "start": 253.93,
+      "end": 258.61,
+      "text": " Of course, on a demo, I'm not a financial advisor, but make sure you practice this first"
+    },
+    {
+      "start": 258.61,
+      "end": 266.17,
+      "text": " and try to trade above two minute time from, but it works on all time frames."
+    },
+    {
+      "start": 266.17,
+      "end": 272.37,
+      "text": " As I said before, keep your trades two or three per day, not more than that."
+    },
+    {
+      "start": 272.37,
+      "end": 274.57,
+      "text": " Otherwise, the strategy will not work."
+    },
+    {
+      "start": 274.57,
+      "end": 277.57,
+      "text": " Alright, let's move on to the next chapter now."
+    }
+  ]
+}

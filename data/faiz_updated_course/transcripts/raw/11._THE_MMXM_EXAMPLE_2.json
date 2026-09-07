@@ -1,0 +1,113 @@
+{
+  "source": "F:\\new faiz\\11. THE MMXM EXAMPLE 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 131.2624375,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.34,
+      "end": 30.34,
+      "text": " Alright guys, so here is an example number two. So I'm looking at NCDUSD, the daily timeframe. As you can see, we took out this external liquidity, which is this high over here. And our draw on liquidity would be this fair value gap. But let's go to the one over time frame and see what happened. So price took out the liquidity here, right? Now price is in our POI. So now essentially what we are waiting for is we have to identify original consolidation. So where's our original consolidation? In my eyes, it's right here. You can see we have a lot of money."
+    },
+    {
+      "start": 30.34,
+      "end": 35.96,
+      "text": " up and down from here, but then we have a small consolidation here giving us two"
+    },
+    {
+      "start": 35.96,
+      "end": 42.16,
+      "text": " consolidations, right? And when price came back into our POI took out liquidity, we"
+    },
+    {
+      "start": 42.16,
+      "end": 46.72,
+      "text": " had a shift in the market structure. And right away what we have is an auto"
+    },
+    {
+      "start": 46.72,
+      "end": 51.22,
+      "text": " block, which is consecutive bullish candles. We have this variable you get. Now"
+    },
+    {
+      "start": 51.22,
+      "end": 58.06,
+      "text": " price goes down, goes down, goes down, goes down. You can see there is a, there's an"
+    },
+    {
+      "start": 58.06,
+      "end": 65.26,
+      "text": " Auto block here, right? Remember mitigation blocks. So this bearish candle price broke through that. What do we have inside it?"
+    },
+    {
+      "start": 65.58,
+      "end": 71.66,
+      "text": " A bearish auto block price taps into that bearish auto block. Then we have what another mitigation block?"
+    },
+    {
+      "start": 72.22,
+      "end": 77.18,
+      "text": " Price breaks through this. What do we have? Fairly gap. Of course price ran a little higher from here"
+    },
+    {
+      "start": 77.18,
+      "end": 82.46,
+      "text": " because this is not a clean high. So our stop would be here because that is a high. Remember,"
+    },
+    {
+      "start": 82.46,
+      "end": 89.46,
+      "text": " Highs are the highest candle is the mid one and the left and the right candle is the lowest like from this week"
+    },
+    {
+      "start": 91.46,
+      "end": 92.46,
+      "text": " And"
+    },
+    {
+      "start": 92.46,
+      "end": 98.34,
+      "text": " As you can see the price is currently on its way down to take out this low here"
+    },
+    {
+      "start": 98.34,
+      "end": 106.02,
+      "text": " And it went really well because this is the original consolidation as you can see when price like starting moving up"
+    },
+    {
+      "start": 106.58,
+      "end": 108.58,
+      "text": " right and"
+    },
+    {
+      "start": 108.58,
+      "end": 113.86,
+      "text": " Or you could just simply say like this is one big console they should face right there. Yeah"
+    },
+    {
+      "start": 113.86,
+      "end": 116.54,
+      "text": " So maybe we can just take out this level here as well"
+    },
+    {
+      "start": 118.06,
+      "end": 120.46,
+      "text": " We have a tiny console lesion here as well and"
+    },
+    {
+      "start": 121.7,
+      "end": 125.98,
+      "text": " Pretty much it sums up everything that I've taught right now"
+    },
+    {
+      "start": 126.82,
+      "end": 130.06,
+      "text": " So let's move on to the next example"
+    }
+  ]
+}

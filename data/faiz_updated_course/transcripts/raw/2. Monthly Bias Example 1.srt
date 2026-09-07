@@ -1,0 +1,196 @@
+1
+00:00:00,000 --> 00:00:07,560
+All right, guys, so in this very first example, we're going to talk about monthly bias.
+
+2
+00:00:07,560 --> 00:00:11,960
+And if you see these arrows here, that is basically fractals.
+
+3
+00:00:11,960 --> 00:00:15,120
+It tells you the correct highs and lows.
+
+4
+00:00:15,120 --> 00:00:20,040
+So you don't, you know, like take a wrong low for a market structure shift or a long
+
+5
+00:00:20,040 --> 00:00:21,760
+higher low for external degree.
+
+6
+00:00:21,760 --> 00:00:25,760
+So you can just go to indicator shares, type in fractals, right?
+
+7
+00:00:25,760 --> 00:00:28,560
+And you want to use the fractals by Rachel T.
+
+8
+00:00:28,560 --> 00:00:30,200
+So these are my colors.
+
+9
+00:00:30,200 --> 00:00:36,620
+I use black and this green over here, it makes it clean, okay?
+
+10
+00:00:36,620 --> 00:00:41,760
+So now on the monthly timeframe, what I can see here is price has taken out a fixed external
+
+11
+00:00:41,760 --> 00:00:42,920
+liquidity, right?
+
+12
+00:00:42,920 --> 00:00:47,520
+Remember, every single high or low is an external liquidity.
+
+13
+00:00:47,520 --> 00:00:52,480
+And what do we have below this over here?
+
+14
+00:00:52,480 --> 00:00:53,480
+You are right.
+
+15
+00:00:53,480 --> 00:00:56,880
+We have the internal liquidity, which is the fair value gap.
+
+16
+00:00:56,880 --> 00:00:57,880
+Cool.
+
+17
+00:00:57,880 --> 00:01:02,880
+We have taken out the external liquidity here, what we want to do, remember for monthly
+
+18
+00:01:02,880 --> 00:01:06,920
+for bias, we want to drop from monthly to daily timeframe.
+
+19
+00:01:06,920 --> 00:01:15,080
+Now once we drop down to the daily timeframe, you can see right here this, if you didn't
+
+20
+00:01:15,080 --> 00:01:19,480
+have the fractals on, you would have considered this as your shift in the structure, which
+
+21
+00:01:19,480 --> 00:01:23,800
+is, you know, so anyways, this is our low here.
+
+22
+00:01:23,800 --> 00:01:29,480
+We want to see a bridge of this low.
+
+23
+00:01:29,480 --> 00:01:35,120
+And right here, you can see we have a market structure shift, right?
+
+24
+00:01:35,120 --> 00:01:37,920
+So now what do you see here?
+
+25
+00:01:37,920 --> 00:01:39,480
+We have taken out external.
+
+26
+00:01:39,480 --> 00:01:45,600
+So this is the fair value gap that we should look to target, okay?
+
+27
+00:01:45,600 --> 00:01:50,720
+I mean, when you are on the daily timeframe, of course, but we're talking about monthly.
+
+28
+00:01:50,720 --> 00:01:55,760
+So now when we have the market structure shift here, we can simply take our entry from
+
+29
+00:01:55,760 --> 00:01:58,520
+this fair value gap, okay?
+
+30
+00:01:58,520 --> 00:02:02,840
+Or this fair value gap, but remember our target is this level.
+
+31
+00:02:02,840 --> 00:02:08,280
+So you can simply just go short right here, put your stop right above this high and go
+
+32
+00:02:08,280 --> 00:02:12,600
+for one, just target this level, okay?
+
+33
+00:02:12,600 --> 00:02:17,160
+So now once you get the marketer shift, your monthly bias is here, okay?
+
+34
+00:02:17,160 --> 00:02:23,040
+So just you are, you're going to be like confident, you can be taking trades until
+
+35
+00:02:23,040 --> 00:02:27,480
+this level is hit, but of course on the daily and the one hour timeframe.
+
+36
+00:02:27,480 --> 00:02:29,960
+But for now, let's see how this plays out.
+
+37
+00:02:29,960 --> 00:02:34,480
+The simple bread and butter model, we have our entry here.
+
+38
+00:02:34,480 --> 00:02:38,840
+And that is basically for swing traders, okay?
+
+39
+00:02:38,840 --> 00:02:44,080
+So right here, you can see that beautiful price delivery, we took out the monthly extended
+
+40
+00:02:44,160 --> 00:02:46,240
+liquidity here, right?
+
+41
+00:02:46,240 --> 00:02:52,280
+And we went up and we then had a market structure shift right here.
+
+42
+00:02:52,280 --> 00:02:56,560
+And this is the fair value gap in the premium.
+
+43
+00:02:56,560 --> 00:03:02,160
+We take a trade here and we just drop down below.
+
+44
+00:03:02,160 --> 00:03:06,040
+Very simple.
+
+45
+00:03:06,040 --> 00:03:12,400
+But you could have taken trades with a high risk reward ratio on the one hour timeframe,
+
+46
+00:03:12,400 --> 00:03:14,960
+but I will get to that later, okay?
+
+47
+00:03:14,960 --> 00:03:20,120
+Just remember that once you get a market structure shift, your bias is set, okay?
+
+48
+00:03:20,120 --> 00:03:26,920
+When body closes, that's like you're, okay, we are bearish till this level is taken up.
+
+49
+00:03:26,920 --> 00:03:33,040
+So let me give you guys an example for the weekly bias now.
+

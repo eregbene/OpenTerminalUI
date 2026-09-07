@@ -1,0 +1,428 @@
+{
+  "source": "F:\\new faiz\\13. 930AM Trading Strategy (Updated).mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 321.3641875,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 33.3,
+      "text": " So in this lecture, we're going to learn about the 930 AM trading strategy. Burian Mine, it works the best with indices, for example, NAS100, as in P500. It does work with Forex as well, but I would recommend that you stick to indices with this trading strategy. So first of all, you want to change your time zone to New York. And then you want to trade. You can only trade between 930 AM,"
+    },
+    {
+      "start": 33.3,
+      "end": 40.3,
+      "text": " till 11.59 am New York time."
+    },
+    {
+      "start": 41.1,
+      "end": 42.86,
+      "text": " So this is your window period."
+    },
+    {
+      "start": 42.86,
+      "end": 45.06,
+      "text": " You can only trade within these hours."
+    },
+    {
+      "start": 45.06,
+      "end": 48.5,
+      "text": " So this is the very first rule of the trading strategy."
+    },
+    {
+      "start": 48.5,
+      "end": 55.5,
+      "text": " The second rule is you want to identify some sort of liquidity."
+    },
+    {
+      "start": 56.66,
+      "end": 60.0,
+      "text": " So you want to identify some sort of liquidity"
+    },
+    {
+      "start": 60.0,
+      "end": 61.7,
+      "text": " between these hours."
+    },
+    {
+      "start": 61.7,
+      "end": 71.54,
+      "text": " Okay. And or you can start looking for some sort of liquidity at 925."
+    },
+    {
+      "start": 71.54,
+      "end": 80.02,
+      "text": " Yeah, okay. You can take trades after 930. Okay. So let's say if, okay, I'm going to explain it later,"
+    },
+    {
+      "start": 80.02,
+      "end": 86.34,
+      "text": " but you want the rule number two is you want to define some sort of liquidity. Okay. And the rule"
+    },
+    {
+      "start": 86.34,
+      "end": 97.94,
+      "text": " number three is you want to wait for price to sweep that liquid. So you want to"
+    },
+    {
+      "start": 97.94,
+      "end": 102.54,
+      "text": " wait for price to take out the liquidity that you have identified. Once we"
+    },
+    {
+      "start": 102.54,
+      "end": 107.62,
+      "text": " advance the price, once the price sweeps out the liquidity, you want to wait"
+    },
+    {
+      "start": 107.62,
+      "end": 114.62,
+      "text": " for you then wait for market structure shift."
+    },
+    {
+      "start": 114.62,
+      "end": 120.62,
+      "text": " Once price takes out the liquidity, then you then wait for market structure shift."
+    },
+    {
+      "start": 120.62,
+      "end": 124.62,
+      "text": " And now there are two ways to enter."
+    },
+    {
+      "start": 124.62,
+      "end": 135.42,
+      "text": " You can either take the entry from the first fair value gap, or you take your entry from"
+    },
+    {
+      "start": 135.42,
+      "end": 141.11,
+      "text": " the extreme fare value gap."
+    },
+    {
+      "start": 141.11,
+      "end": 145.95,
+      "text": " So what I mean by that is let's say this is liquidity,"
+    },
+    {
+      "start": 145.95,
+      "end": 147.63,
+      "text": " right?"
+    },
+    {
+      "start": 147.63,
+      "end": 151.55,
+      "text": " Before, so this is the ninth tier you open, right?"
+    },
+    {
+      "start": 151.55,
+      "end": 153.43,
+      "text": " This is where, let's say, for example,"
+    },
+    {
+      "start": 153.43,
+      "end": 156.71,
+      "text": " okay, the ninth tier e times starts from here."
+    },
+    {
+      "start": 156.71,
+      "end": 160.15,
+      "text": " And you have this liquidity zone equal highs,"
+    },
+    {
+      "start": 160.15,
+      "end": 163.83,
+      "text": " you know, day of the high, it could be any sort of liquidity,"
+    },
+    {
+      "start": 163.83,
+      "end": 164.67,
+      "text": " liquidity, okay?"
+    },
+    {
+      "start": 164.67,
+      "end": 166.87,
+      "text": " So it could be equal highs."
+    },
+    {
+      "start": 166.87,
+      "end": 169.87,
+      "text": " It could be a major swing high or a swing low."
+    },
+    {
+      "start": 169.87,
+      "end": 172.43,
+      "text": " It could be a daily high, daily low,"
+    },
+    {
+      "start": 172.43,
+      "end": 174.59,
+      "text": " or previous day high, previous day low."
+    },
+    {
+      "start": 174.59,
+      "end": 177.27,
+      "text": " It could be a weekly high, a weekly low."
+    },
+    {
+      "start": 177.27,
+      "end": 179.31,
+      "text": " So any sort of liquidity."
+    },
+    {
+      "start": 179.31,
+      "end": 180.27,
+      "text": " Okay."
+    },
+    {
+      "start": 180.27,
+      "end": 183.87,
+      "text": " And then you wait for price to sweep the liquidity."
+    },
+    {
+      "start": 183.87,
+      "end": 184.87,
+      "text": " Okay."
+    },
+    {
+      "start": 184.87,
+      "end": 187.75,
+      "text": " And on the, once the price sweeps the liquidity,"
+    },
+    {
+      "start": 187.75,
+      "end": 190.07,
+      "text": " or actually when you spot the liquidity,"
+    },
+    {
+      "start": 190.07,
+      "end": 191.87,
+      "text": " you wanna go down to the one minute timeframe."
+    },
+    {
+      "start": 191.87,
+      "end": 195.43,
+      "text": " So you are looking for liquidity on a 15 minute timeframe."
+    },
+    {
+      "start": 195.43,
+      "end": 197.67,
+      "text": " Okay, keep this in mind."
+    },
+    {
+      "start": 197.67,
+      "end": 202.27,
+      "text": " You have to look for liquidity on a 15 minute timeframe."
+    },
+    {
+      "start": 202.27,
+      "end": 204.03,
+      "text": " 1, 5, 15, okay."
+    },
+    {
+      "start": 204.03,
+      "end": 205.59,
+      "text": " And once you have spotted the liquidity"
+    },
+    {
+      "start": 205.59,
+      "end": 208.35,
+      "text": " and the 930 starts, you go to the 1 minute timeframe,"
+    },
+    {
+      "start": 208.35,
+      "end": 210.03,
+      "text": " you wait for price to sleep out the liquidity."
+    },
+    {
+      "start": 210.03,
+      "end": 213.23,
+      "text": " And then on the 1 minute timeframe,"
+    },
+    {
+      "start": 213.23,
+      "end": 215.83,
+      "text": " this is how the price is gonna look like, right?"
+    },
+    {
+      "start": 215.83,
+      "end": 216.91,
+      "text": " Price sweeps the liquidity"
+    },
+    {
+      "start": 216.91,
+      "end": 218.99,
+      "text": " and then you wait for market structure shift."
+    },
+    {
+      "start": 218.99,
+      "end": 221.59,
+      "text": " So this right here is a market structure shift."
+    },
+    {
+      "start": 221.59,
+      "end": 225.83,
+      "text": " As you can see, now before the price breaks this structure,"
+    },
+    {
+      "start": 225.83,
+      "end": 228.23,
+      "text": " there would be some fair value gap here, here,"
+    },
+    {
+      "start": 228.23,
+      "end": 230.07,
+      "text": " and the extreme one here."
+    },
+    {
+      "start": 230.07,
+      "end": 231.79,
+      "text": " So you can either take your entry"
+    },
+    {
+      "start": 231.79,
+      "end": 234.67,
+      "text": " from the very first fair value gap, okay?"
+    },
+    {
+      "start": 234.67,
+      "end": 236.47,
+      "text": " But you'll gotta keep your stopless up there."
+    },
+    {
+      "start": 236.47,
+      "end": 239.47,
+      "text": " So, and there's another option that is"
+    },
+    {
+      "start": 239.47,
+      "end": 241.87,
+      "text": " you take your entry from the extreme fair value gap."
+    },
+    {
+      "start": 241.87,
+      "end": 243.71,
+      "text": " Now, what would happen with this"
+    },
+    {
+      "start": 243.71,
+      "end": 245.47,
+      "text": " is if you take your entry from the extreme fair value gap,"
+    },
+    {
+      "start": 245.47,
+      "end": 249.83,
+      "text": " you're gonna get a higher risk to reward trade, okay?"
+    },
+    {
+      "start": 249.83,
+      "end": 258.03,
+      "text": " But if you take your entry from let's say the very first fairbody gap, you're gonna have a bigger stop loss, but you're not gonna miss a trade."
+    },
+    {
+      "start": 258.03,
+      "end": 262.83,
+      "text": " Okay, so sometimes if you have your entry at the very extreme fairbody gap, you're gonna miss out the trade."
+    },
+    {
+      "start": 262.83,
+      "end": 270.83,
+      "text": " So I would say that strict with the extreme fairbody gap because you know, it's okay to do sometimes Mr. Trade."
+    },
+    {
+      "start": 270.83,
+      "end": 277.43,
+      "text": " As long as you're getting the trades with big ratio of world trades and it's gonna cover up the miss trades if that makes sense."
+    },
+    {
+      "start": 277.43,
+      "end": 280.15,
+      "text": " So here's the thing, when the price seems to look really,"
+    },
+    {
+      "start": 280.15,
+      "end": 281.67,
+      "text": " you wanna wait for market structure shift"
+    },
+    {
+      "start": 281.67,
+      "end": 283.75,
+      "text": " and then you enter at the fair value gap"
+    },
+    {
+      "start": 283.75,
+      "end": 288.07,
+      "text": " and you target some sort of fair value gap here."
+    },
+    {
+      "start": 288.07,
+      "end": 291.19,
+      "text": " Or I go by this rule when I take my entry"
+    },
+    {
+      "start": 291.19,
+      "end": 294.71,
+      "text": " and I have my stop loss, I go for minimum ratio wall three"
+    },
+    {
+      "start": 294.71,
+      "end": 297.43,
+      "text": " and I can go for maximum five ratio wall."
+    },
+    {
+      "start": 297.43,
+      "end": 299.67,
+      "text": " This is all I go for, okay?"
+    },
+    {
+      "start": 299.67,
+      "end": 301.71,
+      "text": " I do not chase big ratio wall trades"
+    },
+    {
+      "start": 301.71,
+      "end": 305.07,
+      "text": " because there's so much going on in the world right now"
+    },
+    {
+      "start": 305.07,
+      "end": 309.39,
+      "text": " and I do not want to hold my trades for a longer duration."
+    },
+    {
+      "start": 309.39,
+      "end": 312.95,
+      "text": " So yes, we have then you can either take the entry"
+    },
+    {
+      "start": 312.95,
+      "end": 314.03,
+      "text": " from the first regular gap"
+    },
+    {
+      "start": 314.03,
+      "end": 315.55,
+      "text": " or you can take your entry from the stream"
+    },
+    {
+      "start": 315.55,
+      "end": 316.39,
+      "text": " really gap."
+    },
+    {
+      "start": 316.39,
+      "end": 318.47,
+      "text": " So I'm going to give you guys some examples"
+    },
+    {
+      "start": 318.47,
+      "end": 320.83,
+      "text": " and it's going to be crucial clear to you guys."
+    }
+  ]
+}

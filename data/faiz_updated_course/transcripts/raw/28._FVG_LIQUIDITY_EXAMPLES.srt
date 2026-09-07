@@ -1,0 +1,79 @@
+1
+00:00:00,500 --> 00:00:32,770
+Alright, so I just found the example. So you can see we have the fair value gap here. And price created this high inside the fair value gap. And we also have this fair value gap. Price came into this fair value gap, right created this low here. So what happens then? Price takes out the high that was formed inside the fair value gap. And then it goes to the low that was formed inside the fair value gap.
+
+2
+00:00:32,770 --> 00:00:42,370
+the free rally gap. So this is like I think one of the best ways to find your daily bias or
+
+3
+00:00:42,370 --> 00:00:51,330
+actually you can use it as a trading model itself, but I wouldn't suggest it. So over here you can
+
+4
+00:00:51,330 --> 00:00:59,410
+also see that we have another free rally gap, right? And this high was formed inside this free
+
+5
+00:00:59,410 --> 00:01:06,410
+variable you get. So price takes out the high and then you can see that we have this
+
+6
+00:01:06,410 --> 00:01:15,290
+variable you get as well, right? And this low was formed inside the variable you get
+
+7
+00:01:15,290 --> 00:01:21,410
+right here. So price takes out the high that was formed inside this variable you get. And
+
+8
+00:01:21,410 --> 00:01:29,130
+then it goes towards the low that was formed inside this tiny variable you get. So you
+
+9
+00:01:29,130 --> 00:01:36,970
+use it as I say before to find your daily bus or a model itself. So I hope by now it is clear
+
+10
+00:01:36,970 --> 00:01:42,330
+and just want to make a very short video about this because this is very easy and it is very,
+
+11
+00:01:42,330 --> 00:01:51,290
+very effective. Remember it only works with fairly gaps. And also one thing to note is that let's
+
+12
+00:01:51,290 --> 00:01:58,810
+say price comes into the fairly gap, right? And as soon as it comes and creates a high and then
+
+13
+00:01:58,810 --> 00:02:05,130
+the high gets purged, then you don't have to look for anything that favorable gaps becomes invalid.
+
+14
+00:02:05,850 --> 00:02:13,770
+Only one high is allowed in one favorable e-gap. If there are two highs, that favorable gap is invalid.
+
+15
+00:02:13,770 --> 00:02:20,490
+Okay? So for example, this is another high that is created inside this frivial e-gap, right?
+
+16
+00:02:20,490 --> 00:02:25,770
+And it took out the first high. Now I will not be looking at this because the job is done here.
+
+17
+00:02:25,770 --> 00:02:28,490
+So I will move on and look to fun on their setup.
+
+18
+00:02:30,050 --> 00:02:35,810
+If if there's one high like this, then that that liquid pool is valid.
+
+19
+00:02:37,530 --> 00:02:39,490
+So yeah, that's what I wanted to tell you.
+
+20
+00:02:40,090 --> 00:02:42,090
+Let's move on to next chapter.

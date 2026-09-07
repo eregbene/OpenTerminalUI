@@ -1,0 +1,44 @@
+1
+00:00:00,000 --> 00:00:09,000
+Here is example number three, so you can clearly see we took out buy side here, and afterwards we had a market structure shift.
+
+2
+00:00:09,000 --> 00:00:16,000
+And now we have consecutive bullish candles here, or up close candles, so if I mark these out, like that, and I drag this along,
+
+3
+00:00:16,000 --> 00:00:22,000
+you can see price came into the autoblock, but it wicked above it, taking out the autoblock liquidity as well.
+
+4
+00:00:22,000 --> 00:00:29,000
+Or you can say this is the ICT3 strike pattern, what I've thought before on the channel, but we will not go into detail, but this is what you have to look for.
+
+5
+00:00:29,000 --> 00:00:39,000
+In autoblock, I sweep off the autoblock liquidity, and afterwards we have a close below it, so goes up, and then closes below it, like that, right?
+
+6
+00:00:39,000 --> 00:00:55,000
+Or I reclaim, and then we enter on the retest. So now once we enter on the retest, like that, stop goes above the wig, or above the autoblock, like that.
+
+7
+00:00:55,000 --> 00:01:07,000
+And you go for one to two, and you can see that one to two was hit, and a significant target could have been hit as well, I think.
+
+8
+00:01:07,000 --> 00:01:15,000
+If I believe this low was taken out, yep, this was taken out like that, just this level here, by this level.
+
+9
+00:01:15,000 --> 00:01:19,000
+So that's pretty much it for this strategy guys, going back test.
+
+10
+00:01:19,000 --> 00:01:27,000
+And now let's move on to the most requested video, how to trade the AR50 with daily bias.
+
+11
+00:01:27,000 --> 00:01:30,000
+Let's move on to that chapter.
+

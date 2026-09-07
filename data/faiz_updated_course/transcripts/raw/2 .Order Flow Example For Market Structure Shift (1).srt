@@ -1,0 +1,192 @@
+1
+00:00:00,000 --> 00:00:03,480
+Okay, here's another example of how you can create
+
+2
+00:00:03,480 --> 00:00:08,000
+market structure shifts using the autofold training strategy.
+
+3
+00:00:08,000 --> 00:00:13,000
+So you can see that we were making hard, high,
+
+4
+00:00:15,120 --> 00:00:18,200
+hard, low, hard, high, high, low, hard, high,
+
+5
+00:00:18,200 --> 00:00:23,200
+and then we made this move, which broke this level.
+
+6
+00:00:25,240 --> 00:00:29,640
+Okay, there you go, it broke this level, this low.
+
+7
+00:00:29,640 --> 00:00:33,880
+Okay, high, high, low, high, high, high, high, high, high,
+
+8
+00:00:33,880 --> 00:00:36,800
+and then price broke this higher low.
+
+9
+00:00:36,800 --> 00:00:41,800
+So that is considered to be as market structure shift.
+
+10
+00:00:46,600 --> 00:00:49,960
+And then what you wanna do, remember,
+
+11
+00:00:49,960 --> 00:00:52,500
+you wanna draw your Fibonacci tool, not necessarily,
+
+12
+00:00:52,500 --> 00:00:56,920
+but if you just want to see where are the zones, right?
+
+13
+00:00:56,920 --> 00:00:58,840
+You wanna draw out the Fibonacci
+
+14
+00:00:58,840 --> 00:01:02,120
+from the top to the bottom,
+
+15
+00:01:02,120 --> 00:01:05,680
+and then you wanna choose the extreme zone, okay?
+
+16
+00:01:05,680 --> 00:01:10,680
+So as you can see, we got an autoblock
+
+17
+00:01:13,080 --> 00:01:15,080
+right around here.
+
+18
+00:01:15,080 --> 00:01:16,120
+What are autoblocks?
+
+19
+00:01:16,120 --> 00:01:18,240
+The first candle that create imbalance,
+
+20
+00:01:18,240 --> 00:01:20,200
+you can see first, second, third,
+
+21
+00:01:20,200 --> 00:01:21,740
+there's some gap here as well.
+
+22
+00:01:22,560 --> 00:01:26,980
+And basically, you do not, okay, so yeah,
+
+23
+00:01:26,980 --> 00:01:29,500
+so basically you can see you would have entered
+
+24
+00:01:30,540 --> 00:01:32,820
+right around here, put your stop loss
+
+25
+00:01:32,820 --> 00:01:37,820
+right above that level, and kaboom, very easy guys.
+
+26
+00:01:39,660 --> 00:01:42,940
+And you would have taken your take profit at this level,
+
+27
+00:01:42,940 --> 00:01:45,260
+which is another liquidity pool.
+
+28
+00:01:45,260 --> 00:01:50,260
+And before price went up, you can see price created
+
+29
+00:01:50,500 --> 00:01:54,380
+these relative equal highs, okay?
+
+30
+00:01:54,380 --> 00:01:58,620
+This is liquidity, this is basically a resistance level.
+
+31
+00:01:58,620 --> 00:02:00,660
+If that makes sense, okay?
+
+32
+00:02:00,660 --> 00:02:03,580
+So make sure you identify liquidity
+
+33
+00:02:03,580 --> 00:02:05,300
+before taking these entries.
+
+34
+00:02:05,300 --> 00:02:08,100
+If there's no liquidity, you're going to lose, okay?
+
+35
+00:02:08,100 --> 00:02:10,260
+If there's no liquidity, what's probably gonna do,
+
+36
+00:02:10,260 --> 00:02:11,940
+it's just gonna go up.
+
+37
+00:02:11,940 --> 00:02:13,700
+It will not respect your level
+
+38
+00:02:13,700 --> 00:02:16,900
+because there's no reason for it to respect it, okay?
+
+39
+00:02:17,740 --> 00:02:21,900
+So you can see price broke the structure,
+
+40
+00:02:21,900 --> 00:02:24,140
+there was a market structure shift,
+
+41
+00:02:24,140 --> 00:02:27,460
+then price engineered liquidity,
+
+42
+00:02:27,460 --> 00:02:30,220
+and then it went all the way up to the extreme zone
+
+43
+00:02:30,220 --> 00:02:33,980
+of that move that broke the market structure.
+
+44
+00:02:33,980 --> 00:02:35,700
+If that makes sense.
+
+45
+00:02:35,700 --> 00:02:38,820
+So this was another example, how you can use each
+
+46
+00:02:38,820 --> 00:02:42,060
+and everything together to trade.
+
+47
+00:02:42,060 --> 00:02:44,140
+So I'll give you now examples
+
+48
+00:02:44,140 --> 00:02:47,740
+for the long positions.
+

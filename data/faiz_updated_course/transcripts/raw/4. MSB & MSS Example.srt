@@ -1,0 +1,204 @@
+1
+00:00:00,000 --> 00:00:03,480
+All right, so let me show you some examples on the real chat.
+
+2
+00:00:03,480 --> 00:00:06,120
+So let's suppose that we are in a downtrend
+
+3
+00:00:06,120 --> 00:00:09,680
+and then we are looking to identify market structure breaks.
+
+4
+00:00:09,680 --> 00:00:12,640
+Okay, we are looking for market structure breaks.
+
+5
+00:00:12,640 --> 00:00:16,880
+Okay, so as you can see, price made a new lower low,
+
+6
+00:00:16,880 --> 00:00:21,880
+lower high, lower low, lower high, lower low, lower high,
+
+7
+00:00:22,320 --> 00:00:27,320
+lower low, lower high, and then lower low,
+
+8
+00:00:28,160 --> 00:00:31,200
+made another lower high,
+
+9
+00:00:31,200 --> 00:00:34,240
+then we made a lower low once again.
+
+10
+00:00:34,240 --> 00:00:36,880
+So now this type of market structure
+
+11
+00:00:36,880 --> 00:00:41,880
+is considered to be a market structure break, okay?
+
+12
+00:00:43,520 --> 00:00:47,000
+When price continuously makes new lower lows
+
+13
+00:00:48,040 --> 00:00:50,800
+and the trend is continuing,
+
+14
+00:00:50,800 --> 00:00:54,640
+that is considered to be a market structure break, okay?
+
+15
+00:00:54,640 --> 00:00:58,320
+So as you can see, right around this level,
+
+16
+00:00:58,320 --> 00:00:59,360
+price broke through it,
+
+17
+00:00:59,360 --> 00:01:01,800
+that is considered to be market structure break,
+
+18
+00:01:01,800 --> 00:01:05,240
+then we pull it back and then price broke through
+
+19
+00:01:05,240 --> 00:01:07,000
+that previous low low,
+
+20
+00:01:07,000 --> 00:01:08,720
+and you can see that this is considered
+
+21
+00:01:08,720 --> 00:01:11,000
+to be market structure break as well.
+
+22
+00:01:11,000 --> 00:01:14,240
+Now what is market structure shift?
+
+23
+00:01:14,240 --> 00:01:17,540
+So as you can see that we were continuously making
+
+24
+00:01:17,540 --> 00:01:20,800
+lower lows, lower highs, lower lows, lower highs,
+
+25
+00:01:20,840 --> 00:01:25,840
+but then we made a higher high, higher low, and higher high.
+
+26
+00:01:27,240 --> 00:01:28,840
+Now this is considered to be,
+
+27
+00:01:30,760 --> 00:01:33,800
+now this break right around here,
+
+28
+00:01:33,800 --> 00:01:37,160
+when price breaks through this level,
+
+29
+00:01:37,160 --> 00:01:39,840
+which is the previous low,
+
+30
+00:01:39,840 --> 00:01:41,840
+we made a lower low, lower high,
+
+31
+00:01:41,840 --> 00:01:44,840
+lower low, lower high, then lower low,
+
+32
+00:01:44,840 --> 00:01:47,040
+and then price reversed,
+
+33
+00:01:47,120 --> 00:01:51,600
+breaking the previous low of the bearish trend.
+
+34
+00:01:51,600 --> 00:01:56,600
+Now this is considered to be a market structure shift.
+
+35
+00:01:57,600 --> 00:01:59,960
+Very, very easy guys.
+
+36
+00:01:59,960 --> 00:02:02,720
+I hope you understood what I thought you guys.
+
+37
+00:02:02,720 --> 00:02:06,960
+So this is considered to be market structure shift.
+
+38
+00:02:06,960 --> 00:02:10,280
+So I hope this is clear,
+
+39
+00:02:10,280 --> 00:02:11,640
+and as you can see,
+
+40
+00:02:11,640 --> 00:02:14,320
+the price has continued up for a bit,
+
+41
+00:02:14,320 --> 00:02:16,800
+but then it made another, as you can see,
+
+42
+00:02:16,800 --> 00:02:19,760
+price made another market structure shift.
+
+43
+00:02:19,760 --> 00:02:23,360
+So we made a higher high, higher low, higher high,
+
+44
+00:02:23,360 --> 00:02:28,360
+and then we created this lower low, lower high,
+
+45
+00:02:28,360 --> 00:02:32,600
+and then lower low, lower high, lower low.
+
+46
+00:02:32,600 --> 00:02:36,280
+Okay, so you can see how we identified the markets.
+
+47
+00:02:36,280 --> 00:02:38,800
+Now this was, this move right here,
+
+48
+00:02:39,720 --> 00:02:41,680
+when price broke this level,
+
+49
+00:02:41,680 --> 00:02:45,360
+then it is considered be a market structure shift.
+
+50
+00:02:45,360 --> 00:02:47,080
+So I hope this is clear now,
+
+51
+00:02:47,080 --> 00:02:49,040
+and I'll see you guys in the next video.
+

@@ -1,0 +1,255 @@
+1
+00:00:00,000 --> 00:00:41,300
+Alright guys, so here's another example for the ABCD trading strategy. So we got the ALAG right around here. Right? So we want to mark out the value of the ALAG right? Something like that. And then we got the BLAG which is the significant pullback or a small down trend, small sorry small trend in an opposite direction which is this.
+
+2
+00:00:41,300 --> 00:00:50,260
+So this is the B leg and then we got the C leg right around here, which is this
+
+3
+00:00:50,900 --> 00:00:52,900
+Okay, and we got the
+
+4
+00:00:53,940 --> 00:01:02,500
+Low of the B leg. Sorry. How about
+
+5
+00:01:03,220 --> 00:01:05,740
+We got the high of the B leg right here
+
+6
+00:01:06,540 --> 00:01:08,540
+right
+
+7
+00:01:08,820 --> 00:01:13,580
+B leg high which is our take profit area and we got the a leg
+
+8
+00:01:14,380 --> 00:01:16,380
+low here so
+
+9
+00:01:16,380 --> 00:01:20,400
+Let me delete that.
+
+10
+00:01:20,400 --> 00:01:22,560
+We wait for price to fake out.
+
+11
+00:01:22,560 --> 00:01:31,290
+Before price, it created structure.
+
+12
+00:01:31,290 --> 00:01:39,410
+You can see lower low, lower high, lower low, lower high, and then price broke down.
+
+13
+00:01:39,410 --> 00:01:45,050
+Price faked out and before faking out, before crossing this line, price created some
+
+14
+00:01:45,050 --> 00:01:46,770
+structure.
+
+15
+00:01:46,770 --> 00:01:56,340
+And there we have market structure shift and we got imbalance just here.
+
+16
+00:01:56,340 --> 00:02:02,840
+So if I remove the line, you can see we got the imbalance between this level.
+
+17
+00:02:02,840 --> 00:02:11,940
+So this whole candle is our auto block, right?
+
+18
+00:02:11,940 --> 00:02:23,530
+And we target the B leg high, which is this.
+
+19
+00:02:23,530 --> 00:02:25,530
+So that was 4.74.
+
+20
+00:02:25,530 --> 00:02:27,690
+Easy, guys.
+
+21
+00:02:27,690 --> 00:02:34,930
+You see the accuracy, it took out the B leg high and then it reversed.
+
+22
+00:02:34,930 --> 00:02:39,090
+So let me repeat this again.
+
+23
+00:02:39,090 --> 00:02:40,970
+So let's see what happened.
+
+24
+00:02:40,970 --> 00:02:46,930
+We got the A leg, okay, we got the A leg and then we got the B leg, right?
+
+25
+00:02:46,930 --> 00:02:49,250
+And then we got the C leg.
+
+26
+00:02:49,250 --> 00:02:56,370
+The C leg created structure before taking out the low of the A leg, which is this.
+
+27
+00:02:56,370 --> 00:03:04,770
+then we get so went once that low was taken out before taking out the low price credit
+
+28
+00:03:04,770 --> 00:03:09,850
+some structure okay it created structure here it created structure here and these structures
+
+29
+00:03:09,850 --> 00:03:15,650
+were taken out so this is market structure shift and when price took out the level it created
+
+30
+00:03:15,650 --> 00:03:22,290
+some imbalance and auto block so this was our entry right around here and a beautiful
+
+31
+00:03:22,290 --> 00:03:31,810
+trade guys. Very, very simple guys. So I hope by now it's gonna be clear. I tried my best
+
+32
+00:03:31,810 --> 00:03:39,090
+to explain the strategy literally my throat is hurting right now. I don't know why. So I would
+
+33
+00:03:39,090 --> 00:03:44,530
+repeat it once again. And the ABC structure and the ABC definition is one identified the
+
+34
+00:03:44,530 --> 00:03:49,050
+the L-E leg, the B leg and the C leg.
+
+35
+00:03:49,050 --> 00:03:53,810
+The C leg must take out this level, okay,
+
+36
+00:03:53,810 --> 00:03:56,410
+which is the start of the B leg.
+
+37
+00:03:56,410 --> 00:04:00,650
+And before taking out the start of the B leg,
+
+38
+00:04:00,650 --> 00:04:03,850
+it must create some structure, all right?
+
+39
+00:04:03,850 --> 00:04:05,570
+And that structure gets broken here.
+
+40
+00:04:06,490 --> 00:04:11,250
+To add the A, B, C, and then we got this beautiful entry
+
+41
+00:04:11,250 --> 00:04:15,090
+here, wait for price to come back into the,
+
+42
+00:04:15,970 --> 00:04:20,730
+Auto block and very well you get and as you can see it just went crazily down
+
+43
+00:04:21,250 --> 00:04:24,730
+Then you can see that we can continue this. Okay, so we got the
+
+44
+00:04:25,510 --> 00:04:28,290
+Let's let me show you one amazing thing about the strategy
+
+45
+00:04:28,290 --> 00:04:35,370
+So we got the now this whole thing is an a leg this whole thing is a b leg and this thing is a c leg
+
+46
+00:04:36,170 --> 00:04:38,670
+Okay, so it just can't continue forever
+
+47
+00:04:40,650 --> 00:04:44,110
+So let me go ahead and draw out this level
+
+48
+00:04:44,110 --> 00:04:54,110
+Okay, so before price took out this level, price created some structure here and it left some imbalance.
+
+49
+00:04:54,110 --> 00:05:06,110
+Now unfortunately it did not hit our auto block which were right here but it did fill in the imbalance around here and as you can see if you
+
+50
+00:05:06,110 --> 00:05:12,510
+If you would have taken the entry from this level, put your stop right below this level.
+
+51
+00:05:12,510 --> 00:05:20,650
+You could have made another 4.21% return on the straight guys.
+
+52
+00:05:20,650 --> 00:05:23,450
+Absolutely brilliant trading strategy.
+
+53
+00:05:23,450 --> 00:05:30,050
+So yeah guys, I hope that things are clear enough now.
+
+54
+00:05:30,050 --> 00:05:34,010
+This works on any timeframe.
+
+55
+00:05:34,010 --> 00:05:39,010
+If you want to sculpt, you can work on the 5-minute timeframe.
+
+56
+00:05:39,010 --> 00:05:43,770
+Also, it works really, really good with the 1R timeframe.
+
+57
+00:05:43,770 --> 00:05:47,690
+So what are the best pairs for this tragedy?
+
+58
+00:05:47,690 --> 00:05:57,990
+Well honestly, every pair, according to my backtesting data, anything works with it.
+
+59
+00:05:57,990 --> 00:06:03,190
+Crypto, Forex, stocks, indices, everything.
+
+60
+00:06:03,190 --> 00:06:07,910
+So yeah guys this was my favorite trading strategy and this is what I'm currently using
+
+61
+00:06:07,910 --> 00:06:11,190
+nowadays and it is highly profitable.
+
+62
+00:06:11,190 --> 00:06:14,190
+You can see these big moves right?
+
+63
+00:06:14,190 --> 00:06:20,150
+And yeah, so I'll see you guys in the next trading strategy.
+
+64
+00:06:20,150 --> 00:06:20,470
+Goodbye.

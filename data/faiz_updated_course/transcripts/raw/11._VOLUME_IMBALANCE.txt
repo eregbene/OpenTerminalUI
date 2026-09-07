@@ -1,0 +1,133 @@
+[00:00:00] Hey guys, what is up? Faiz here. So this is the very first video of the course update. Actually I had all the videos ready, but unfortunately my windows got corrupted for some reason. Like I put it up my computer. I went to the login screen. I typed in my password and it just won't let me log in. So I had to reinstall the windows and all the data was like gone, poof. So this is me remaking these videos once again. Alright, so
+[00:00:30] We use volume imbalance for our entries.
+[00:00:35] Okay, most of the time.
+[00:00:37] And we can also use them as support and resistance levels.
+[00:00:41] Institutional support and resistance levels.
+[00:00:44] Now what is a volume imbalance?
+[00:00:48] It is a difference between a close and the open.
+[00:00:54] It is a gap between the close and the open of the candle.
+[00:00:58] So in this example, you can see this candle right here, it closed right here.
+[00:01:05] And the next candle, instead of opening at the closing price, it opens below the
+[00:01:14] closing price, leaving this imbalance or volume imbalance around here.
+[00:01:20] Now this is a two pattern, two candle pattern.
+[00:01:24] Okay, so so this volume imbalance occurs between two candles. Okay, so you can see right here the candle closed here
+[00:01:39] and the next candle instead of opening at the closing price of the previous candle it opens just below it
+[00:01:47] Right, so there was so much volume that the candle just you know opened here. So the gap
+[00:01:56] Right from the close to the open
+[00:02:00] is what you call a volume imbalance.
+[00:02:02] Okay, sorry for that.
+[00:02:06] And the over here for the long example,
+[00:02:10] the difference or the gap between the close
+[00:02:14] and the open of the next candle is called volume imbalance.
+[00:02:18] I'm going to repeat this again.
+[00:02:21] You can see this down candle closed here
+[00:02:25] and normally what would happen is the next candle
+[00:02:29] the standard would open from the closing price of the previous candle.
+[00:02:34] But when this happens, the next candle opens below the closing price of the previous candle,
+[00:02:43] or above the closing price of the previous candle,
+[00:02:49] the gap between the opening and close is what you call volume imbalance.
+[00:02:57] So in the future, if price comes back into this level, you can look for long positions.
+[00:03:03] Okay?
+[00:03:05] And similarly for this.
+[00:03:07] Sorry, this is a short position.
+[00:03:10] So you can look too short.
+[00:03:12] Okay?
+[00:03:15] And yeah, you can long from here as well because this X as a resistance and support level.
+[00:03:22] level. So if the volume imbalance is broken, that if the support resistance level is broken,
+[00:03:30] it's going to turn into support, right? So let's say price comes back, gives a small
+[00:03:34] direction, pushes up, and then you can take this volume imbalance as a support level,
+[00:03:40] then you can look for longs, just like support and resistance. Okay? But these are very
+[00:03:44] stronger than support and resistance, normal support and resistance. And sometimes I even
+[00:03:50] find them more powerful than we were able to get. So let me give you guys some
+[00:03:55] examples. So right here you can see I'm looking at E-mini S&P on a daily time
+[00:04:03] frame and one thing I also use volume imbalance to identify my daily bias, okay?
+[00:04:10] Not all the time but if it is at a you know a clear volume imbalance area
+[00:04:16] then I can take my decision. However, let's talk about this. So you can see right
+[00:04:22] here, let me remove this, the candle closes here and the next candle opens right
+[00:04:28] here. Okay, so there is this gap or volume, no, this is not gap, this is volume
+[00:04:35] imbalance. Okay, and you can see price came into this volume imbalance. First of
+[00:04:44] for it just smash through this level.
+[00:04:47] So this didn't work as a support level.
+[00:04:50] Okay, very cool.
+[00:04:52] But then when it gets broken,
+[00:04:54] it can react as a resistance level.
+[00:04:56] So price went back to this volume imbalance
+[00:05:00] and you can see price shot down.
+[00:05:03] Now over here, you can see we have another volume imbalance.
+[00:05:07] So the candle closed here, right?
+[00:05:11] And the next candle open here instead of opening from here.
+[00:05:15] Okay?
+[00:05:16] And what you're gonna see here is this right here,
+[00:05:25] a volume imbalance just right here.
+[00:05:28] And what happens?
+[00:05:30] Price matches through it, right?
+[00:05:34] It didn't work as a support level.
+[00:05:36] But then in the future, it became a resistance level.
+[00:05:41] and price couldn't go above this level.
+[00:05:43] So when price came into this level,
+[00:05:45] you could be bearish as hell for the next one, two, three, four,
+[00:05:48] five days, guys, until this, this liquid level was taken up.
+[00:05:53] Okay.
+[00:05:55] Over here, you can see, just like that,
+[00:05:59] we have volume imbalance.
+[00:06:02] Price came back into this level.
+[00:06:05] We had a short reaction.
+[00:06:07] Over here, we have volume imbalance as well.
+[00:06:10] price came down, boom.
+[00:06:13] Over here, we have volume imbalance.
+[00:06:16] Price came down, boom.
+[00:06:20] And over here, you can see, it didn't exactly
+[00:06:25] tapped into the volume imbalance, I believe.
+[00:06:28] OK, it did actually.
+[00:06:30] So it came back again, tapped perfectly
+[00:06:32] into this volume imbalance.
+[00:06:35] Also considered in the fact that we had order block here.
+[00:06:38] So that is another confluence.
+[00:06:40] And you can see we have this old volume imbalance,
+[00:06:44] price pushed up, came back into this volume imbalance.
+[00:06:48] So you see how this works as support and resistance levels.
+[00:06:52] Pushes back up again.
+[00:06:54] Then we have this volume imbalance.
+[00:06:56] And let me do this.
+[00:06:58] Yep, you can see it reacted off this level here.
+[00:07:01] Price went back here, smashed through this level.
+[00:07:04] Then we have old imbalance here, volume imbalance.
+[00:07:08] Price came back into this level.
+[00:07:10] We have a push up, then we have this imbalance,
+[00:07:13] volume imbalance, price came back,
+[00:07:16] a little bit of liquidation here,
+[00:07:18] and then pushed back up, right?
+[00:07:20] This old volume balance, price came back here.
+[00:07:23] So you see how accurate these levels are.
+[00:07:27] And you can see this old volume imbalance right here,
+[00:07:30] if I drag this along,
+[00:07:32] you can see that the price is now reacting of this level.
+[00:07:34] So this is the beauty of volume imbalance.
+[00:07:38] you mostly find volume imbalances on futures indices.
+[00:07:43] You can find them on Forex as well,
+[00:07:45] but I would suggest that you use this with indices, okay?
+[00:07:51] I'm not saying that you cannot use with Forex,
+[00:07:52] but of course, yeah.
+[00:07:55] So normally I would not use volume imbalances
+[00:08:01] when training my strategies for entries, okay?
+[00:08:04] But for daily bias, and yeah,
+[00:08:07] You can look for entries you're using volume of balance too.
+[00:08:11] It's just like frame of gap.
+[00:08:12] Actually stronger than frame of gap.
+[00:08:14] But sometimes it's hard to spot these levels.
+[00:08:17] But let's assume that if I have a volume of balance here,
+[00:08:23] at this old level, let's do this.
+[00:08:26] So we have volume of balance.
+[00:08:28] And we also have some frame of gap here.
+[00:08:31] Now that is a double confidence.
+[00:08:32] So then I can look to take my entry here.
+[00:08:36] But you can just enter a volume of balance by itself.
+[00:08:39] Okay.
+[00:08:41] So you guys, I hope this video was clear.
+[00:08:43] And I hope you guys know what a volume of balance is.
+[00:08:47] It looks something like this where you have a,
+[00:08:51] you know, a close,
+[00:08:55] and then the open is actually from here.
+[00:08:59] You can see candle close here.
+[00:09:01] Open is right here.
+[00:09:02] So, I'll see you guys in the next video.

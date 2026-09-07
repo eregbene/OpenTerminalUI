@@ -1,0 +1,368 @@
+{
+  "source": "F:\\new faiz\\6. Liquidity Example.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 296.309875,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright, so this is the example. This is a Bitcoin chart, but it can just work on any peer to be very honest. Any volatile peer like EuroUSD, GBPUSD, GBPJ, PY, and NAS, 100 NAS, 30 and all that good stuff. Alright, so as I mentioned, you can see that I have labeled this as a support level because we have 1, 2, 3, 4."
+    },
+    {
+      "start": 30.0,
+      "end": 32.24,
+      "text": " and almost five touches, right?"
+    },
+    {
+      "start": 32.24,
+      "end": 36.48,
+      "text": " And if we mark it out with a rectangle box,"
+    },
+    {
+      "start": 36.48,
+      "end": 39.16,
+      "text": " you can see that it's a clear support level, all right?"
+    },
+    {
+      "start": 39.16,
+      "end": 42.48,
+      "text": " So a clear support level is what we are talking about."
+    },
+    {
+      "start": 42.48,
+      "end": 46.68,
+      "text": " And as you can see, I have marked this as a resistance level."
+    },
+    {
+      "start": 46.68,
+      "end": 49.96,
+      "text": " So if I put this rectangle right around here,"
+    },
+    {
+      "start": 49.96,
+      "end": 52.76,
+      "text": " you can see that it's a clear resistance level."
+    },
+    {
+      "start": 52.76,
+      "end": 55.84,
+      "text": " And also it could be considered as a key level"
+    },
+    {
+      "start": 55.84,
+      "end": 58.08,
+      "text": " because you can see we had a touch here, touch here,"
+    },
+    {
+      "start": 58.08,
+      "end": 59.28,
+      "text": " and all that good stuff."
+    },
+    {
+      "start": 59.28,
+      "end": 66.48,
+      "text": " All right, so as I said before, now people are expecting to buy at this support level, right?"
+    },
+    {
+      "start": 66.48,
+      "end": 70.48,
+      "text": " And they're going to have to stop loss somewhere around this level, right?"
+    },
+    {
+      "start": 70.48,
+      "end": 73.98,
+      "text": " And they're going to aim for the resistance. Very cool."
+    },
+    {
+      "start": 73.98,
+      "end": 78.8,
+      "text": " But let's see what happens."
+    },
+    {
+      "start": 78.8,
+      "end": 80.9,
+      "text": " It stops you out, all right?"
+    },
+    {
+      "start": 80.9,
+      "end": 83.4,
+      "text": " Now, when it stops you out, you're going to be like,"
+    },
+    {
+      "start": 83.4,
+      "end": 84.9,
+      "text": " okay, it's breaking out."
+    },
+    {
+      "start": 84.9,
+      "end": 86.8,
+      "text": " I think I should sell it, all right?"
+    },
+    {
+      "start": 86.8,
+      "end": 89.6,
+      "text": " So you've sell this right here."
+    },
+    {
+      "start": 89.6,
+      "end": 94.8,
+      "text": " And then you put your stop loss right above this level, right above the support level."
+    },
+    {
+      "start": 94.8,
+      "end": 98.08,
+      "text": " And then you target somewhere around here, all right?"
+    },
+    {
+      "start": 98.08,
+      "end": 101.36,
+      "text": " Or maybe this key level right around this level, okay?"
+    },
+    {
+      "start": 101.36,
+      "end": 103.6,
+      "text": " So you target maybe this level."
+    },
+    {
+      "start": 103.6,
+      "end": 107.95,
+      "text": " But then guess what happens?"
+    },
+    {
+      "start": 107.95,
+      "end": 110.79,
+      "text": " It goes into some profit, but then see what happens."
+    },
+    {
+      "start": 110.79,
+      "end": 113.47,
+      "text": " It stops you out."
+    },
+    {
+      "start": 113.47,
+      "end": 118.11,
+      "text": " So this is basically a liquidity purge, all right?"
+    },
+    {
+      "start": 118.11,
+      "end": 125.23,
+      "text": " or a fake out, whatever you want to call it, but the concept that I thought you is real."
+    },
+    {
+      "start": 125.23,
+      "end": 136.27,
+      "text": " And it is not my own concept. It's actually an ICT concept. He is the one who invented the"
+    },
+    {
+      "start": 136.27,
+      "end": 142.51,
+      "text": " liquidity setups and all that auto blogs and all that good stuff. So credit where it's due."
+    },
+    {
+      "start": 142.51,
+      "end": 148.71,
+      "text": " Okay, so as you can see price just goes back up with heavy momentum, all right?"
+    },
+    {
+      "start": 148.71,
+      "end": 154.63,
+      "text": " So this is what I thought you price goes back up it triggers by orders and then it just goes back up"
+    },
+    {
+      "start": 155.83,
+      "end": 161.61,
+      "text": " As you can see it comes back to fill some imbalance around this area and"
+    },
+    {
+      "start": 162.55,
+      "end": 170.22,
+      "text": " yeah, so it takes out the"
+    },
+    {
+      "start": 170.22,
+      "end": 175.22,
+      "text": " this level resistance level liquidity as well."
+    },
+    {
+      "start": 176.02,
+      "end": 179.42,
+      "text": " So if fake out and it just goes back up"
+    },
+    {
+      "start": 179.42,
+      "end": 180.58,
+      "text": " and takes out the liquidity."
+    },
+    {
+      "start": 180.58,
+      "end": 184.42,
+      "text": " So I hope this explains very well"
+    },
+    {
+      "start": 184.42,
+      "end": 187.94,
+      "text": " that what is liquidity and I hope that it's clear"
+    },
+    {
+      "start": 187.94,
+      "end": 192.94,
+      "text": " by now that liquidity comes in all shapes and forms."
+    },
+    {
+      "start": 194.62,
+      "end": 197.78,
+      "text": " So I'll give you a few more examples."
+    },
+    {
+      "start": 197.78,
+      "end": 202.06,
+      "text": " So let me see if we got a few more examples around here."
+    },
+    {
+      "start": 202.06,
+      "end": 205.66,
+      "text": " So you can see that we got a,"
+    },
+    {
+      "start": 207.38,
+      "end": 212.38,
+      "text": " what I would say, a lower low, lower high, lower low, right?"
+    },
+    {
+      "start": 213.78,
+      "end": 218.06,
+      "text": " So now what happens here is that,"
+    },
+    {
+      "start": 218.06,
+      "end": 219.78,
+      "text": " so let me go back into the replay mode."
+    },
+    {
+      "start": 219.78,
+      "end": 221.26,
+      "text": " So it's more clear, okay?"
+    },
+    {
+      "start": 221.26,
+      "end": 224.88,
+      "text": " So let me go back here."
+    },
+    {
+      "start": 224.88,
+      "end": 228.08,
+      "text": " So we created a lower low, lower high, lower low."
+    },
+    {
+      "start": 228.08,
+      "end": 230.8,
+      "text": " And then we are expecting as a retail trader,"
+    },
+    {
+      "start": 230.8,
+      "end": 234.56,
+      "text": " we are going to sell off this level, right?"
+    },
+    {
+      "start": 234.56,
+      "end": 237.8,
+      "text": " We're gonna sell here, and I put our stopwatch"
+    },
+    {
+      "start": 237.8,
+      "end": 239.52,
+      "text": " right above that previous."
+    },
+    {
+      "start": 240.48,
+      "end": 241.32,
+      "text": " Hi."
+    },
+    {
+      "start": 242.56,
+      "end": 246.4,
+      "text": " And then we're gonna target this level maybe, all right?"
+    },
+    {
+      "start": 246.4,
+      "end": 248.08,
+      "text": " And then let's see what happens."
+    },
+    {
+      "start": 248.08,
+      "end": 250.76,
+      "text": " It instantly stops you out, all right?"
+    },
+    {
+      "start": 250.76,
+      "end": 254.44,
+      "text": " And now you might buy here, right?"
+    },
+    {
+      "start": 254.44,
+      "end": 257.92,
+      "text": " On this key level, which is this, right?"
+    },
+    {
+      "start": 257.92,
+      "end": 262.48,
+      "text": " And let's see what happens."
+    },
+    {
+      "start": 262.48,
+      "end": 264.8,
+      "text": " It stops you out again, all right?"
+    },
+    {
+      "start": 264.8,
+      "end": 267.84,
+      "text": " So it keeps on happening, all right?"
+    },
+    {
+      "start": 267.84,
+      "end": 269.68,
+      "text": " It's gonna keep on purging the liquid"
+    },
+    {
+      "start": 269.68,
+      "end": 274.3,
+      "text": " and then what happens here?"
+    },
+    {
+      "start": 274.3,
+      "end": 276.1,
+      "text": " It took out all the liquidity"
+    },
+    {
+      "start": 276.1,
+      "end": 278.82,
+      "text": " and then it went down to its original destination."
+    },
+    {
+      "start": 278.82,
+      "end": 283.14,
+      "text": " So this is what liquidity is, guys."
+    },
+    {
+      "start": 283.14,
+      "end": 288.14,
+      "text": " And now I'm sure that you might be 100% clear about liquidity."
+    },
+    {
+      "start": 288.14,
+      "end": 292.02,
+      "text": " So if you are not, make sure to re-watch this video"
+    },
+    {
+      "start": 292.02,
+      "end": 295.18,
+      "text": " and let's move on to the next video."
+    }
+  ]
+}

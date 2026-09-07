@@ -1,0 +1,93 @@
+{
+  "source": "F:\\new faiz\\25. Silver Bullet With Bias Example 1.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 125.1555625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.18,
+      "end": 32.93,
+      "text": " Alright, so here is an example for the Silver Bullet, Interday Bias Sculpting, whatever you want to call it, right? So first of all, we want to determine the... Since we're going to take our entry on the one minute, we want to determine our 15 minute bias or narrative. So right here, we have this external taken out at 330, right? So from here onwards, what you want to look for is a fair value gap here, right?"
+    },
+    {
+      "start": 32.93,
+      "end": 37.93,
+      "text": " So we have this fairly gap now going to the one minute timeframe"
+    },
+    {
+      "start": 38.45,
+      "end": 47.68,
+      "text": " This is gonna be our draw liquidity right so we have to look for a shift in the market structure and that happens right there"
+    },
+    {
+      "start": 48.18,
+      "end": 50.88,
+      "text": " And we have this fairly gap"
+    },
+    {
+      "start": 51.42,
+      "end": 57.41,
+      "text": " So we're gonna get our entry before four o'clock, right? So"
+    },
+    {
+      "start": 58.25,
+      "end": 62.05,
+      "text": " We get our entry to the 354 so we should be good. This is gonna be our draw"
+    },
+    {
+      "start": 62.45,
+      "end": 64.49,
+      "text": " Right and if I play this through"
+    },
+    {
+      "start": 64.49,
+      "end": 75.15,
+      "text": " you will see that we have hit our take profit level and if I please do you will see that after price takes up the objective"
+    },
+    {
+      "start": 75.15,
+      "end": 82.27,
+      "text": " It will just go up. So that is the beauty of using this external internal with your"
+    },
+    {
+      "start": 83.31,
+      "end": 90.71,
+      "text": " Every single strategy that I have right it could either be Asian session could be the ninth area and eight 30 open"
+    },
+    {
+      "start": 91.43,
+      "end": 94.39,
+      "text": " You have this beautiful tool that you can use right now, okay?"
+    },
+    {
+      "start": 94.39,
+      "end": 99.95,
+      "text": " And yeah, that's pretty much about it. Let me give you guys one more example simply look for a shift in the market"
+    },
+    {
+      "start": 99.95,
+      "end": 109.71,
+      "text": " So as I said before the timings is that your entry only must be after enduring the kill during the silver bullet hours, okay?"
+    },
+    {
+      "start": 110.99,
+      "end": 115.03,
+      "text": " The shift in the market structure can happen anytime as long as that"
+    },
+    {
+      "start": 115.39,
+      "end": 121.99,
+      "text": " Liquidy level is still intact the drawn liquidity you can take your entry in that direction after 10 or after three"
+    },
+    {
+      "start": 121.99,
+      "end": 123.99,
+      "text": " So let's move on to the next example."
+    }
+  ]
+}

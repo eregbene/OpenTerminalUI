@@ -1,0 +1,375 @@
+1
+00:00:00,300 --> 00:00:30,300
+Alright guys, so now that we have learned the market maker model, now that we know how to find our daily bias, the monthly bias and the weekly bias, now we are going to use a complete, I'm gonna teach you the complete model that has the best win rate out of everything that I've thought before. This is like, you know,
+
+2
+00:00:30,300 --> 00:00:34,140
+I would just simply say the best strategy out of all.
+
+3
+00:00:34,140 --> 00:00:38,100
+Okay, and I'm not even over exaggerating right at the moment.
+
+4
+00:00:38,100 --> 00:00:45,780
+If you can apply this strategy correctly, you're going to pass challenges.
+
+5
+00:00:45,780 --> 00:00:50,780
+You're going to become a consistently profitable trader and you will not rely on other people
+
+6
+00:00:50,780 --> 00:00:53,420
+or other people's signals.
+
+7
+00:00:53,420 --> 00:00:54,420
+Okay.
+
+8
+00:00:54,420 --> 00:00:58,980
+So here is the complete model.
+
+9
+00:00:58,980 --> 00:01:06,180
+one we have to look for external and internal liquid we have to determine our bias okay.
+
+10
+00:01:06,180 --> 00:01:10,660
+So we are going to use three time frames for this strategy okay.
+
+11
+00:01:10,660 --> 00:01:15,860
+Previously we used two right but remember in the beginning of the update I said that we are
+
+12
+00:01:15,860 --> 00:01:20,740
+going to use the third time frame as well later on in the course right.
+
+13
+00:01:20,740 --> 00:01:26,620
+So let's assume that this is the daily time frame this is the one hour time frame and
+
+14
+00:01:26,620 --> 00:01:32,340
+This is the five minute timeframe because remember for the daily we're going from daily to hourly to five minute.
+
+15
+00:01:33,460 --> 00:01:33,900
+Okay.
+
+16
+00:01:34,600 --> 00:01:40,180
+So let's say that you have a purge on the external liquidity on the daily timeframe.
+
+17
+00:01:40,440 --> 00:01:40,900
+Okay.
+
+18
+00:01:41,400 --> 00:01:44,320
+And you have the free value gap in the discount over here.
+
+19
+00:01:44,320 --> 00:01:45,760
+That should be your draw on liquidity.
+
+20
+00:01:45,760 --> 00:01:50,860
+So now once you have the purge, you simply drop down.
+
+21
+00:01:53,290 --> 00:01:54,490
+Let me mark this out like that.
+
+22
+00:01:54,910 --> 00:01:56,990
+You drop down to one hour timeframe.
+
+23
+00:01:56,990 --> 00:02:02,930
+So now price has taken out this daily high with this external look now you're waiting for that
+
+24
+00:02:03,310 --> 00:02:07,570
+Time frame to align with your narrative or your bias for the daily
+
+25
+00:02:07,570 --> 00:02:10,330
+So you want to wait for a market structure shift
+
+26
+00:02:11,170 --> 00:02:16,130
+Once you have a market structure shift on the one hour time frame after price takes out the daily high
+
+27
+00:02:16,610 --> 00:02:22,090
+Right and you have the target here, which is a fair value gap now notice here very carefully
+
+28
+00:02:22,090 --> 00:02:26,890
+When price did a market structure shift, there was a fair value gap, right?
+
+29
+00:02:26,890 --> 00:02:28,010
+There was a PD error.
+
+30
+00:02:28,010 --> 00:02:29,290
+It could be an auto block here.
+
+31
+00:02:29,290 --> 00:02:31,410
+It could be a fair value gap.
+
+32
+00:02:31,410 --> 00:02:34,090
+Price comes into that fair value gap.
+
+33
+00:02:34,090 --> 00:02:36,890
+So now, right?
+
+34
+00:02:36,890 --> 00:02:41,010
+I have from here to here, this movement.
+
+35
+00:02:41,010 --> 00:02:41,610
+Okay.
+
+36
+00:02:41,610 --> 00:02:43,810
+So from here, this is the fair value gap.
+
+37
+00:02:43,810 --> 00:02:44,610
+This right here.
+
+38
+00:02:44,610 --> 00:02:45,610
+I zoomed in a bit.
+
+39
+00:02:45,610 --> 00:02:46,450
+Okay.
+
+40
+00:02:46,450 --> 00:02:51,650
+So now once the price goes into the one hour fair value gap, we want to drop down to
+
+41
+00:02:51,650 --> 00:02:59,050
+the five minute timeframe. Okay. So from daily, we go to the hourly timeframe. We look
+
+42
+00:02:59,050 --> 00:03:03,010
+for a market structure shift. We wait for the price to come back into the one hour
+
+43
+00:03:03,010 --> 00:03:07,490
+free value gap. And one price is in the one hour free value gap or auto block. We drop
+
+44
+00:03:07,490 --> 00:03:15,690
+down to the five minute timeframe. So now this move from here to that PD array, we have
+
+45
+00:03:15,690 --> 00:03:22,970
+to look for a market maker model inside this move. So when price goes into the furbly gap,
+
+46
+00:03:22,970 --> 00:03:31,210
+the move starting from here must have a consolidation. First consolidation. So now this right
+
+47
+00:03:31,210 --> 00:03:37,530
+here is here. Look at this. This price action, I have zoomed in and this is what it looks like.
+
+48
+00:03:37,530 --> 00:03:44,570
+So what do we have here? We have consolidation. So that is going to be our target.
+
+49
+00:03:44,570 --> 00:03:46,130
+What do we have?
+
+50
+00:03:46,130 --> 00:03:50,270
+Your accumulation phase one, which is consolidation number two, right?
+
+51
+00:03:50,270 --> 00:03:51,270
+What do we have then?
+
+52
+00:03:51,270 --> 00:03:55,010
+We have a market structure shift when price came into the fair value gap.
+
+53
+00:03:55,010 --> 00:04:00,190
+And then you can simply look to take your entry from the fair value gap or auto block.
+
+54
+00:04:00,190 --> 00:04:04,530
+From here onwards, when you get a market structure shift on the five minute, every single
+
+55
+00:04:04,530 --> 00:04:06,850
+PD area is going to be respected.
+
+56
+00:04:06,850 --> 00:04:08,170
+All right?
+
+57
+00:04:08,170 --> 00:04:11,410
+Every single fair value gap, every single auto block.
+
+58
+00:04:11,410 --> 00:04:13,490
+get an entry here on the fair value gap, right?
+
+59
+00:04:13,490 --> 00:04:15,290
+You have a break of structure, you take your entry
+
+60
+00:04:15,290 --> 00:04:17,390
+on the fair value gap, you keep on doing that
+
+61
+00:04:17,390 --> 00:04:19,930
+until this level is taken out.
+
+62
+00:04:21,010 --> 00:04:24,170
+Make sure this level has consolidation, guys.
+
+63
+00:04:25,490 --> 00:04:26,490
+Okay?
+
+64
+00:04:26,490 --> 00:04:29,210
+So we don't even look at the fair value gap.
+
+65
+00:04:29,210 --> 00:04:32,330
+We just know that our draw on liquidity is here.
+
+66
+00:04:32,330 --> 00:04:35,050
+The higher time frame draw on liquidity is here, right?
+
+67
+00:04:35,050 --> 00:04:38,090
+But then we wanna use the five minute timeframe
+
+68
+00:04:38,090 --> 00:04:41,010
+to increase our chances to win the trade, right?
+
+69
+00:04:41,010 --> 00:04:44,050
+We want to increase our probabilities here.
+
+70
+00:04:44,050 --> 00:04:48,610
+So we look for a market maker model inside this move
+
+71
+00:04:48,610 --> 00:04:51,530
+from this bottom low to this high
+
+72
+00:04:51,530 --> 00:04:54,250
+into the frame value gap.
+
+73
+00:04:55,250 --> 00:04:57,370
+And once price comes into one hour frame value gap,
+
+74
+00:04:57,370 --> 00:05:01,730
+you look for and scout out the market maker consolidation
+
+75
+00:05:01,730 --> 00:05:07,650
+in this leg, in this leg around here, starting from here.
+
+76
+00:05:07,650 --> 00:05:10,450
+Originally on the one hour, this would have been our target,
+
+77
+00:05:10,450 --> 00:05:13,090
+this fairly gap on the daily time from this over here,
+
+78
+00:05:13,090 --> 00:05:15,810
+draw a liquidity, but on the five minute,
+
+79
+00:05:15,810 --> 00:05:18,770
+when we drop down, this is where we will not identify
+
+80
+00:05:18,770 --> 00:05:20,770
+and scout out the market maker model.
+
+81
+00:05:20,770 --> 00:05:22,770
+So now when price comes into the fairly gap,
+
+82
+00:05:22,770 --> 00:05:24,490
+look for a market structure shift,
+
+83
+00:05:24,490 --> 00:05:26,930
+take your entry, break of structure, entry,
+
+84
+00:05:26,930 --> 00:05:30,370
+break of structure, entry, and remember,
+
+85
+00:05:30,370 --> 00:05:32,410
+mitigation blocks, right?
+
+86
+00:05:32,410 --> 00:05:35,610
+So if a mitigation that we can utilize
+
+87
+00:05:35,610 --> 00:05:39,090
+every single mitigation block inside this move.
+
+88
+00:05:39,090 --> 00:05:41,810
+So, I'm gonna have a bottle block here.
+
+89
+00:05:41,810 --> 00:05:43,530
+Pries touch like that.
+
+90
+00:05:43,530 --> 00:05:45,450
+Let me just draw it out like that.
+
+91
+00:05:45,450 --> 00:05:52,220
+Wait, boom, boom, boom, boom.
+
+92
+00:05:52,220 --> 00:05:53,820
+Once this target is taken out,
+
+93
+00:05:53,820 --> 00:05:55,540
+you are out of the trade guys.
+
+94
+00:05:56,820 --> 00:05:58,820
+Very, very simple.

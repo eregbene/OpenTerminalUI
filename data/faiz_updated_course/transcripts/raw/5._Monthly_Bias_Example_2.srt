@@ -1,0 +1,119 @@
+1
+00:00:00,300 --> 00:00:30,300
+Alright guys, so here is example number two for the monthly bias. I'm looking at AUD-USD on the monthly timeframe of course. So now how do you manually identify highs and lows? So I high and low is a pattern of three candles. The first candle is like this. The second candle is the highest and the third candle is lower than the second candle. So the second candle has to be the highest.
+
+2
+00:00:30,300 --> 00:00:34,940
+here, wake here and wake here. The second candle has the highest
+
+3
+00:00:34,940 --> 00:00:39,900
+wick. Okay, once we have that pattern, right, when the candle closes, that is your
+
+4
+00:00:39,900 --> 00:00:45,020
+high. Or you can simply just use the fractals indicator. But sometimes
+
+5
+00:00:45,020 --> 00:00:52,380
+fractals might miss these small highs and lows. So you must know what is
+
+6
+00:00:52,380 --> 00:00:57,500
+high and low. So over here, what we have is a purge on the external
+
+7
+00:00:57,500 --> 00:01:04,380
+liquidity and where is the drawn liquidity? It's going to be this fair value gap. So now let's drop
+
+8
+00:01:04,380 --> 00:01:11,660
+down to the daily timeframe once we have taken out the monthly extended liquidity. So now what we
+
+9
+00:01:11,660 --> 00:01:17,980
+want to wait for is a market structure shift and right there you can see we have a shift in the
+
+10
+00:01:17,980 --> 00:01:24,940
+market structure. Beautiful. So then you can see price fills in the fair value gap. So that is
+
+11
+00:01:24,940 --> 00:01:32,140
+going to be our entry. If the fair value gap is big, you can simply just use the 0.5 level of the
+
+12
+00:01:32,140 --> 00:01:39,900
+fib, which is going to be this. So let's say your entry is here. Let me remove the fib. Your stop
+
+13
+00:01:39,900 --> 00:01:48,700
+goes above the high and you're simply targeting the monthly drawn liquidity, which is the fair
+
+14
+00:01:48,700 --> 00:01:54,300
+value gap. These two lines is a fair value gap. Remember, I drew two lines. So you have your
+
+15
+00:01:54,300 --> 00:02:01,020
+entry so let's see what would have happened and there you go take profit hit you can see we have
+
+16
+00:02:01,020 --> 00:02:10,780
+been bearish throughout the these many days now if you were on the one hour time frame now let
+
+17
+00:02:10,780 --> 00:02:17,900
+me give you some you know hints you could have taken your entry somewhere around here maybe here
+
+18
+00:02:18,700 --> 00:02:23,660
+if it took out some high low but we're going to talk about that later just just you know don't
+
+19
+00:02:23,660 --> 00:02:25,000
+I don't want to confuse you guys.
+
+20
+00:02:25,000 --> 00:02:29,580
+You can use this as a bread and butter model, just two time frames, right?
+
+21
+00:02:29,580 --> 00:02:38,940
+Remember time frame alignment, we are for monthly bias we use monthly daily and hourly.
+
+22
+00:02:38,940 --> 00:02:46,580
+For weekly we use the weekly for our time frame and 15 minutes time frame.
+
+23
+00:02:46,580 --> 00:02:51,580
+For daily, we use daily one hour and five minutes.
+
+24
+00:02:51,980 --> 00:02:55,900
+And for our timeframe, right?
+
+25
+00:02:55,900 --> 00:03:00,300
+For intro day bias, we use the four hour, 15 minutes
+
+26
+00:03:00,300 --> 00:03:02,900
+and two minute, we're not gonna use one minute
+
+27
+00:03:02,900 --> 00:03:06,350
+because it is not reliable.
+
+28
+00:03:06,350 --> 00:03:10,230
+So price gives us a Mark Shutter shift for everybody gap,
+
+29
+00:03:10,230 --> 00:03:12,350
+boom, right there.
+
+30
+00:03:12,350 --> 00:03:16,310
+Let me give you guys an example for the weekly bias now.

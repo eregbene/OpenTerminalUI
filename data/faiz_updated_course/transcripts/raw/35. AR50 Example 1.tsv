@@ -1,0 +1,34 @@
+start	end	text
+0	6920	All right, everybody, so here is example number one on how I would combine the daily bias technique with the air 50 strategies
+6920	12760	So over here you can see that this was the daily candle and we closed above this candle here
+13040	15040	so now our draw on
+15800	21040	Liquid is gonna be this daily high so now if I drop down to let's say the five minute
+21040	26560	That's when we want to trade the air 50 strategy. So this is the daily high
+27200	31680	This is initially going to be going to be our draw on liquidity
+32120	36840	Right, you can clearly see it was not breached. So as long as it's not breached
+37800	41200	Right, we have the draw on liquidity intact. So now
+42480	47440	What are the rules of the air 50 training strategy if you are new watcher of the strategy I?
+49000	51000	Use this indicator
+51200	52840	FXN Asian
+52840	54840	session range by Rob Minty
+55200	61520	The Asian session starts from 20 New York time till 2m New York time. I
+62920	68240	Once the Asian session is over at 2 I mark out the Asian session high and
+68960	70960	the Asian session low
+71360	72360	now
+72360	79520	When our bias is bullish in this scenario, it is I want the offer to him
+79520	83680	I want the price to break above the Asian session high and
+84120	92600	Close above it once it closes above it. What I'm doing is I'm using my Fibonacci from the Asian low to Asian high
+94200	96200	Cool
+96640	97920	Asian low
+97920	99920	to Asian high
+100120	107880	Now my entry is going to be from the 0.5 level or the 50% of the Asian range hence the AR 50 Asian range 50
+108720	112640	Now our bias is bullish. So I'm going to with confidence
+112640	116240	I'm going to take a long position here put much drop right above this low and
+116800	121640	I'm going to go for the draw on liquidity, which is the issue the daily high
+122880	129560	So if I play this through we get a beautiful entry and since our bias is bullish
+131320	135840	You will see that the take profit level was hit
+137880	139160	and
+139160	143440	To make it up like that. You should have gotten one to two restore what I
+144280	148280	Think this is basically the best model that you can use
+150040	155360	It's really really good guys. All right. I think it's I think it's my favorite model at the moment
+156440	159320	But yeah guys, let's move on to another example

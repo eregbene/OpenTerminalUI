@@ -1,0 +1,35 @@
+all right so welcome back this is course update 0.4 I believe so I think this
+will be the last course update for now because I do not want to like put out
+all the information then confuse with confuse you with all the stuff that's
+out there just want to put out the useful stuff I believe because and this
+update is really really good like I think it's one of my best updates so far
+and you will learn a lot of stuff from here so in this video we will learn
+about the highs and lows that are formed inside a fair value gap and you can use
+this technique to find your daily bus and you can also use it as a model if you
+like so over here let's assume that there was a fair value gap price came
+into this fair value gap it created a low and then it pushed back up and it went
+into this fair value gap right here so this high over here so let's assume
+there's if all the fair value gap here right pros went through this fair value
+gap and created this high over here inside the fair value gap now let's
+assume that we are looking at this on 15 minute time frame so once price takes
+out the low that was formed inside this fair value gap we can drop down to one
+minute time frame and look for a market structure shift once we get a market
+structure shift our next target would be the high that was formed inside the
+fair value gap so price is mostly doing this to deliver you know price if that
+makes sense so you get a market structure shift then you can look to take your
+entry and you can look to target the high over here and that could be your last
+take profit level don't forget about the fair value gaps in this leg you can
+look to take partials but this should be your draw on liquidity because price
+what it does it takes out the low that was formed inside the fair value gap
+and goes to the high that was formed inside the fair value gap or it goes to
+the high that was formed inside the fair value gap to the low that was formed
+inside the fair value just gonna take out the high then it will take out the
+low so this is what you can use to find your daily bias monthly bias weekly
+bias you can use it as a model itself so you can see we use 15 minutes and one
+minute combination then you can use the daily and one hour you can use the four
+hour and 15 minutes combination and you can use the weekly and four hour
+combination and for monthly you can use the one month and daily time frame
+combination sorry for that so yeah that's literally about it for this let me see
+if I can find some examples I mean I will find sample I was trying to find
+examples in this video so I'll just pause the video and find the examples in
+hindsight and then I'll let you know

@@ -1,0 +1,79 @@
+1
+00:00:00,000 --> 00:00:30,000
+OK, so as you can see, price was creating, lower low, lower high, lower low, lower high, lower low, lower high, lower low, and then price broke the market structure. Right around here, you can see, price broke this level. I will mark it as market structure shift, very simple, alright? And then you want to draw out your Fibonacci from the
+
+2
+00:00:30,000 --> 00:00:36,460
+very bottom to the top of that move. Where is your discounted zone below the
+
+3
+00:00:36,460 --> 00:00:43,820
+50% level? Okay. Now you can see there's no imbalance here. So we will not
+
+4
+00:00:43,820 --> 00:00:56,300
+consider this. But then there is imbalance around this area. So you can see, okay?
+
+5
+00:00:56,300 --> 00:01:03,590
+Perfect. But then in this case scenario you can see price respected this
+
+6
+00:01:03,590 --> 00:01:09,270
+auto block right around here. So let me go and remove this. You could have
+
+7
+00:01:09,270 --> 00:01:14,630
+entered from this auto block. Put your long position here. You stop the
+
+8
+00:01:14,630 --> 00:01:19,630
+right block, the auto block, and you would have captured a very nice move. Okay.
+
+9
+00:01:19,630 --> 00:01:30,380
+So this is an example for a by position. And before taking the by position, of course
+
+10
+00:01:30,380 --> 00:01:32,820
+you want to identify liquidity.
+
+11
+00:01:32,820 --> 00:01:44,240
+Okay, so you can see we got liquidity right around here.
+
+12
+00:01:44,240 --> 00:01:45,520
+There you go, perfect.
+
+13
+00:01:46,800 --> 00:01:51,240
+Okay, so now it could either be this,
+
+14
+00:01:51,240 --> 00:01:53,040
+you can see, right?
+
+15
+00:01:53,040 --> 00:01:56,440
+So there was like a lot of liquidity here, so yeah.
+
+16
+00:01:56,440 --> 00:02:00,040
+You took that into consideration, consideration,
+
+17
+00:02:00,040 --> 00:02:02,040
+and then you entered right off that autoblock,
+
+18
+00:02:02,040 --> 00:02:04,480
+and you can see that huge, huge move.
+
+19
+00:02:04,480 --> 00:02:06,960
+Okay, very simple guys.
+
+20
+00:02:07,480 --> 00:02:14,480
+So now I will give you examples for market structure break the continuation of the trend.

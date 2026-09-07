@@ -1,0 +1,328 @@
+{
+  "source": "F:\\new faiz\\9. THE MMXM 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 216.688625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Before we're giving you the example, I want to show you the market maker buy model as well, a depiction of it. Similarly, what you will have is you will have your POI right there. You can see there's a POI. You want to drop down to the one-hour timeframe. Once you have a POI comes into your POI, you want to start identifying or sniping."
+    },
+    {
+      "start": 30.0,
+      "end": 32.56,
+      "text": " or scouting the original consolidation."
+    },
+    {
+      "start": 32.56,
+      "end": 37.8,
+      "text": " So when was the first consolidation before price started moving to"
+    },
+    {
+      "start": 37.8,
+      "end": 39.08,
+      "text": " what's your POI?"
+    },
+    {
+      "start": 39.08,
+      "end": 39.76,
+      "text": " Right?"
+    },
+    {
+      "start": 39.76,
+      "end": 43.44,
+      "text": " So if this was the consolidation, right, I will show you how to"
+    },
+    {
+      "start": 43.44,
+      "end": 43.96,
+      "text": " identify them."
+    },
+    {
+      "start": 43.96,
+      "end": 44.44,
+      "text": " Don't worry."
+    },
+    {
+      "start": 44.44,
+      "end": 45.4,
+      "text": " I'll show you the examples."
+    },
+    {
+      "start": 45.4,
+      "end": 46.28,
+      "text": " Tons of examples."
+    },
+    {
+      "start": 46.28,
+      "end": 49.0,
+      "text": " So then that would be absolutely clear."
+    },
+    {
+      "start": 49.0,
+      "end": 52.12,
+      "text": " But you simply look for a consolidation phase one."
+    },
+    {
+      "start": 52.12,
+      "end": 54.16,
+      "text": " And then a consolidation phase two."
+    },
+    {
+      "start": 54.16,
+      "end": 57.0,
+      "text": " This one is not necessary, but it is going to, as I said,"
+    },
+    {
+      "start": 57.0,
+      "end": 59.96,
+      "text": " before it's going to make your win rate even higher."
+    },
+    {
+      "start": 59.96,
+      "end": 67.8,
+      "text": " price comes into your pure not remember the time from alignment from daily to one hour to five minutes"
+    },
+    {
+      "start": 67.8,
+      "end": 71.04,
+      "text": " So once you get a market structure shift your"
+    },
+    {
+      "start": 71.76,
+      "end": 76.18,
+      "text": " Bias or like your setup is gonna be like officially active"
+    },
+    {
+      "start": 76.18,
+      "end": 81.1,
+      "text": " Okay, cuz you have a market structure shift if you don't have a market structure shift you are not doing anything"
+    },
+    {
+      "start": 81.1,
+      "end": 84.96,
+      "text": " But you are just identifying the consolidation right you're identifying the market maker by model"
+    },
+    {
+      "start": 84.96,
+      "end": 88.96,
+      "text": " But once you get a marker, search your ship, one simple thing."
+    },
+    {
+      "start": 88.96,
+      "end": 91.84,
+      "text": " You enter from here, right?"
+    },
+    {
+      "start": 91.84,
+      "end": 93.96,
+      "text": " And target, try to target these levels."
+    },
+    {
+      "start": 93.96,
+      "end": 97.48,
+      "text": " However, you don't have to hold till here."
+    },
+    {
+      "start": 97.48,
+      "end": 100.32,
+      "text": " Because we don't know what's price gonna do, right?"
+    },
+    {
+      "start": 100.32,
+      "end": 102.72,
+      "text": " We are just only putting the probabilities in play."
+    },
+    {
+      "start": 102.72,
+      "end": 104.68,
+      "text": " Like we have high probability, of course."
+    },
+    {
+      "start": 104.68,
+      "end": 106.88,
+      "text": " But price can simply take out, you know,"
+    },
+    {
+      "start": 106.88,
+      "end": 108.64,
+      "text": " like let's say this high over here,"
+    },
+    {
+      "start": 108.64,
+      "end": 110.68,
+      "text": " this consolidation and then reverse."
+    },
+    {
+      "start": 110.68,
+      "end": 113.72,
+      "text": " So you have to take partials along the way."
+    },
+    {
+      "start": 113.72,
+      "end": 117.44,
+      "text": " You have to trade your stop loss or you have to go break even at some point."
+    },
+    {
+      "start": 117.64,
+      "end": 119.6,
+      "text": " It all depends on your trading style."
+    },
+    {
+      "start": 120.76,
+      "end": 123.12,
+      "text": " So remember the mitigation blocks, right?"
+    },
+    {
+      "start": 123.68,
+      "end": 126.72,
+      "text": " Price if price gives you an entry, right?"
+    },
+    {
+      "start": 126.92,
+      "end": 129.0,
+      "text": " You are, you can take longs."
+    },
+    {
+      "start": 129.12,
+      "end": 132.92,
+      "text": " So if there's a fair value gap on auto block inside this mitigation block,"
+    },
+    {
+      "start": 133.12,
+      "end": 137.16,
+      "text": " which is an old auto block, bearish auto block, you take your entry from there."
+    },
+    {
+      "start": 137.36,
+      "end": 140.36,
+      "text": " Let's say price breaks through this level, this mitigation block,"
+    },
+    {
+      "start": 140.36,
+      "end": 143.16,
+      "text": " this friendly gap on auto block inside there."
+    },
+    {
+      "start": 143.16,
+      "end": 146.08,
+      "text": " You take entry from there and you go there."
+    },
+    {
+      "start": 146.08,
+      "end": 147.4,
+      "text": " Simple as that."
+    },
+    {
+      "start": 147.4,
+      "end": 151.04,
+      "text": " But once you get a market shut to shift, right,"
+    },
+    {
+      "start": 151.04,
+      "end": 156.04,
+      "text": " you wanna mark out your range low and this range high."
+    },
+    {
+      "start": 157.2,
+      "end": 160.84,
+      "text": " So now once price comes into your one hour POI,"
+    },
+    {
+      "start": 160.84,
+      "end": 163.12,
+      "text": " you drop down to five minute timeframe"
+    },
+    {
+      "start": 163.12,
+      "end": 166.0,
+      "text": " and then you start looking for consolidation"
+    },
+    {
+      "start": 166.0,
+      "end": 168.24,
+      "text": " on the five minute timeframe around here,"
+    },
+    {
+      "start": 168.24,
+      "end": 169.76,
+      "text": " the original consolidation, right?"
+    },
+    {
+      "start": 169.76,
+      "end": 174.06,
+      "text": " And then let's say you have another consolidation"
+    },
+    {
+      "start": 174.06,
+      "end": 178.24,
+      "text": " and price came into your POI, right?"
+    },
+    {
+      "start": 178.24,
+      "end": 180.68,
+      "text": " You then look for a market structure shift"
+    },
+    {
+      "start": 180.68,
+      "end": 182.8,
+      "text": " on the five minute timeframe once again."
+    },
+    {
+      "start": 182.8,
+      "end": 187.28,
+      "text": " So that's, let's say price comes into your one hour autoblock"
+    },
+    {
+      "start": 187.28,
+      "end": 188.96,
+      "text": " or any POI."
+    },
+    {
+      "start": 188.96,
+      "end": 191.36,
+      "text": " Oh my God, let me disable this arrow."
+    },
+    {
+      "start": 192.32,
+      "end": 193.92,
+      "text": " Just making the chart so messy."
+    },
+    {
+      "start": 193.92,
+      "end": 196.28,
+      "text": " So on the five minute, let's say price comes into"
+    },
+    {
+      "start": 196.28,
+      "end": 198.24,
+      "text": " the one hour autoblock or POI."
+    },
+    {
+      "start": 198.24,
+      "end": 202.88,
+      "text": " You get a market structure shift and you have the original consolidation with a second consolidation."
+    },
+    {
+      "start": 202.88,
+      "end": 206.16,
+      "text": " You take your entry and I bet you it's going to hit the take profit."
+    },
+    {
+      "start": 208.0,
+      "end": 209.28,
+      "text": " It's really that simple."
+    },
+    {
+      "start": 210.04,
+      "end": 215.6,
+      "text": " I mean, it's a little complicated, but I'm going to show you the examples and then it will become very simple for you."
+    }
+  ]
+}

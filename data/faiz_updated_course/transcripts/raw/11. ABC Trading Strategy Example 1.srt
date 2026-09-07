@@ -1,0 +1,136 @@
+1
+00:00:00,000 --> 00:00:04,260
+All right guys, so this is an example for a short position.
+
+2
+00:00:04,260 --> 00:00:08,100
+So as you can see, we got the A leg, right?
+
+3
+00:00:08,100 --> 00:00:11,060
+So let me mark this out very easily.
+
+4
+00:00:11,060 --> 00:00:11,900
+There you go.
+
+5
+00:00:11,900 --> 00:00:14,300
+We got the A leg, we got the B leg,
+
+6
+00:00:14,300 --> 00:00:16,380
+and then we got the C leg.
+
+7
+00:00:16,380 --> 00:00:17,340
+Perfect.
+
+8
+00:00:17,340 --> 00:00:19,300
+So now let me mark these out.
+
+9
+00:00:19,300 --> 00:00:21,860
+So we got the A leg right around here,
+
+10
+00:00:21,860 --> 00:00:24,500
+which is from here, okay?
+
+11
+00:00:25,680 --> 00:00:29,700
+And then we got the B leg, okay?
+
+12
+00:00:29,700 --> 00:00:34,700
+Which is the B leg, this downward move.
+
+13
+00:00:35,420 --> 00:00:38,620
+So we wanna mark out the very low of the B leg,
+
+14
+00:00:38,620 --> 00:00:40,040
+which is this, okay?
+
+15
+00:00:41,920 --> 00:00:45,200
+And we wanna mark out the high of the A leg,
+
+16
+00:00:46,860 --> 00:00:48,740
+which is this, perfect.
+
+17
+00:00:50,260 --> 00:00:55,260
+Now the C leg, which is this,
+
+18
+00:00:55,260 --> 00:01:00,260
+it takes out the high of the A leg, okay?
+
+19
+00:01:03,100 --> 00:01:05,600
+So the high of the A leg is here,
+
+20
+00:01:06,640 --> 00:01:09,220
+A leg high, right?
+
+21
+00:01:12,200 --> 00:01:16,480
+Let me do this, it looks better, there you go.
+
+22
+00:01:17,600 --> 00:01:21,840
+So the C leg takes out the high of the A leg
+
+23
+00:01:22,680 --> 00:01:27,680
+while leaving some structure here, right?
+
+24
+00:01:28,560 --> 00:01:33,280
+So before price took out this high,
+
+25
+00:01:33,280 --> 00:01:35,860
+it created some structure, okay?
+
+26
+00:01:37,000 --> 00:01:42,000
+Then when price took out the high,
+
+27
+00:01:42,240 --> 00:01:45,440
+it made a market structure shift.
+
+28
+00:01:45,440 --> 00:01:50,440
+So it broke this structure, right?
+
+29
+00:01:52,560 --> 00:01:57,560
+Then price left the imbalance and auto block.
+
+30
+00:01:59,160 --> 00:02:01,720
+So this is an auto block, right?
+
+31
+00:02:02,920 --> 00:02:05,320
+We would enter straight from the auto block,
+
+32
+00:02:10,040 --> 00:02:12,520
+put our stop-loss right above there
+
+33
+00:02:12,520 --> 00:02:16,200
+and target the low, which is here.
+
+34
+00:02:16,200 --> 00:02:18,160
+So that's 5.62, guys.
+

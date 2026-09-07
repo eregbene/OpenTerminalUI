@@ -1,0 +1,47 @@
+Alright guys, so here is example number two for the monthly bias, I'm looking at AUDUSD
+on the monthly timeframe of course.
+So now how do you manually identify highs and lows?
+So a high and a low is a pattern of three candles, okay?
+The first candle is like this.
+The second candle is the highest and the third candle is lower than the second candle.
+So the second candle has to be the highest.
+You can see we have a wick here, wick here and wick here.
+The second candle has the highest wick, okay?
+Once we have that pattern, right, when the candle closes, that is your high, or you can
+simply just use the fractals indicator.
+But sometimes fractals might miss these small highs and lows, so you must know what is
+high and a low.
+So over here, what we have is a purge on the external liquidity and where is the drawn
+liquidity?
+It's going to be this fair valley gap.
+So now let's drop down to the daily timeframe once we have taken out the monthly extended
+liquidity.
+So now what we want to wait for is a market structure shift and right there you can see
+we have a shift in the market structure, beautiful.
+So then you can see price fills in the fair valley gap.
+So that is going to be our entry, right?
+If the fair valley gap is big, you can simply just use the 0.5 level of the fib, which is
+going to be this.
+So let's say your entry is here.
+Let me remove the fib.
+Your stop goes above the high and you're simply targeting the monthly drawn liquidity,
+which is the fair valley gap.
+These two lines is a fair valley gap.
+Remember I drew two lines.
+So you have your entry.
+So let's see what would have happened.
+And there you go.
+Take profit hit.
+You can see we have been bearished throughout these many days.
+Now if you were on the one hour timeframe, now let me give you some hints.
+You could have taken your entry somewhere around here, maybe here.
+If it took out some high or low, but we're going to talk about that later.
+Just don't want to confuse you guys.
+You can use this as a bread and butter model, just two time frames, right?
+Remember time frame alignment, we are for monthly bias, we use monthly, daily and hourly.
+For weekly, we use the weekly for our time frame and 15 minutes time frame.
+For daily, we use daily one hour and five minutes and for four hour time frame, right?
+For intraday bias, we use the four hour, 15 minutes and two minutes.
+We're not going to use one minute because it is not reliable.
+So price gives us a market structure shift for everybody gap, boom, right there.
+Let me give you guys an example for the weekly bias now.

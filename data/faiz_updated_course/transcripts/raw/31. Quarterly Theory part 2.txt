@@ -1,0 +1,82 @@
+All right, guys, so this is how I personally use quarterly theory as a as a standalone model, or I can use it with other things as well. So, when do we want to look for manipulations and when we want to look for expansion.
+So, when you are on the intraday chart, so this is going to be 15 minutes, you will have, of course, you know, accumulation, then you're going to have manipulation, then you will have distribution, and then you will have continuation.
+Right. Now, you want to focus on the manipulation part here. Okay. So, as I said before, you will have then quadrants. So there will be, you know, accumulation inside here, then manipulation and vice versa. Right.
+Now, in the manipulation quarter, which is this, right, let's remove this so you don't get confused. So remember, in each quarter, there are going to be four quadrants.
+So in accumulation quarter, you're going to have four quadrants that will be accumulation, manipulation, distribution and continuation. All right.
+Now, we want to focus on the big, the quarter, right? We do not want to focus on the quadrants at the moment. Now, inside the manipulation quarter, we have to focus on the manipulation quadrant.
+Okay. So, this is, you have to understand this carefully, guys, because this is the only possible way to explain this.
+So, inside the manipulation quarter, you're going to have, you know, accumulation, manipulation, distribution, continuation, you want to focus on the manipulation part.
+So, inside a manipulation quarter, you have to focus on a manipulation quadrant. Now, that is clear. Now, let's go here.
+So, let's say that the order flow is bearish. Okay.
+Now, when the order flow is bearish, of course, we want to take short positions.
+Now, during the manipulation phase of the manipulation quarter, you have to look for a liquidy sweep.
+So, inside a manipulation red box, or you could say a manipulation quarter, you have to look for a liquidy sweep during a manipulation quadrant, if that makes sense.
+So, this is going to be right here, right? Once you have a liquidy sweep, you then have to look for a market structure shift.
+Okay. Now, this could be either on a lower time frame. So, for example, if you're looking at this on the 15 minute time frame, you can then drop down to two minutes time frame or one minute time frame to look for a market structure shift.
+However, I highly suggest you stick to the same time frame. So, that's going to be 15 minutes time frame, then you look for a shift in market structure, and then you can look to take your entry.
+Similarly, if you have a PD array, so there's could be a, you know, an auto blog here.
+So, we swept this liquidity before, but then we have a fair value gap, price can manipulate into that fair value gap, because remember, fair value gap on a lower time frame is also a liquidity level.
+Refer back to internal and external liquidity videos, and then you will understand.
+So, price can also go into the PD array without sweeping liquidity, but in this case, it swept liquidity and went into the fair value gap.
+So, that is also acceptable. Okay.
+But I prefer you look for liquidity sweeps, because that you will be like satisfied that, okay, you will not be in fear that, okay, if I take my entry from this fair value gap, price can maybe go ahead and take out that high.
+So, I suggest look for liquidity sweeps. So, right here, we have liquidity sweep, and price also went into the fair value gap.
+You look for a market structure shift, and then you can take your entry.
+Now, the price will distribute lower during the distribution phase, right?
+And then it can reverse during the reversal quarter, okay?
+So, this is very, very simple guys.
+If you understood what I said in this video, I'll repeat this again.
+So, remember, we have four quarters, right?
+We have accumulation, manipulation, distribution, and continuation.
+Now, inside each quarter, we're going to have four coordinates.
+So, in a accumulation quarter, we're going to have accumulation, manipulation, manipulation, distribution, and continuation.
+In the manipulation quarter, we're going to have four coordinates as well.
+That's going to be accumulation, manipulation, distribution, and continuation, it goes on with these two as well.
+Now we wanna look for a manipulation inside a manipulation quarter
+during manipulation quadrant, if that makes sense, okay?
+So the manipulation quarter is gonna have four phases.
+We're gonna have to focus on the second phase,
+which is the manipulation phase of the quadrant.
+During that phase,
+we wanna look for a liquidy sweep
+or a push to the PDA red,
+that could be fairly gap,
+breaker block, autoblock.
+Now please note that we have to trade this
+with the high time frame trend
+or high time frame autoflow.
+Without that, you are just basically taking
+random liquidy sweeps, and this might not work for you.
+So understand that identifying the autoflow
+is very important.
+To identify autoflow,
+all you have to do is come onto the chart,
+look at the high time frame,
+and if you see that the price is going down,
+you will instantly know the autoflow.
+You will know that, okay, price is going in that direction,
+but if you're confused and you can't identify the autoflow,
+you're confused if it's bullish or bearish,
+then it's best to avoid that pair or asset.
+So that's pretty much it guys for this.
+You don't have to focus on anything else.
+Although there's another strategy that I use with this,
+so let's remove this.
+You can use this model as well.
+So inside the accumulation phase,
+you will mostly see consolidation.
+So you will have a high of the accumulation phase
+and the low of the accumulation phase, right?
+Now during the manipulation phase,
+what you can do is look for a purge of either the high
+or the low of the accumulation phase.
+So this is the high of the accumulation phase, right?
+This around here.
+Now during the manipulation quarter,
+look for a sweep of either the high or the low,
+and then you can look for a shift in the market structure,
+take your entry and you can target the low
+of the accumulation phase.
+So let me give you guys some examples about
+how I use this in the real life market
+and then we'll move on to the next chapter.

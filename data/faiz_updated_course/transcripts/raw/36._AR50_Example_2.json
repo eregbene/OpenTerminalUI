@@ -1,0 +1,93 @@
+{
+  "source": "F:\\new faiz\\36. AR50 Example 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 132.168,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 34.16,
+      "text": " Alright guys, so here is example two. We can clearly see that we had a bearish candle on the daily. And we just slightly closed below it, as you can see by here. So now our red draw on liquidity is going to be this daily low around here. So now if I go to the fight minute timeframe, right? This is currently the low that I have marked out. So now we're going to wait for the Asian session to start over. Remember this is our draw on liquidity, right? So now we're going to be taking shot position with the air firm."
+    },
+    {
+      "start": 34.16,
+      "end": 43.53,
+      "text": " 50 model. So just around here, which you can see at two, we have the Asian session low and"
+    },
+    {
+      "start": 43.53,
+      "end": 48.77,
+      "text": " the Asian session high over here. And we closed the below it. So now we're going to take"
+    },
+    {
+      "start": 48.77,
+      "end": 55.13,
+      "text": " our Fibonacci tool. You're going to use from the high to the low of the Asian range. And"
+    },
+    {
+      "start": 55.13,
+      "end": 59.73,
+      "text": " that's going to be this level. Right. So 0.5 level, that is from where we're going to take"
+    },
+    {
+      "start": 59.73,
+      "end": 67.57,
+      "text": " a wendry, put our shop right above the ishi ahi and a redrawn on liquidy is going to be this"
+    },
+    {
+      "start": 67.57,
+      "end": 80.35,
+      "text": " low here. So let's move this and let's see how this plays out. So we get a red entry. Remember"
+    },
+    {
+      "start": 80.35,
+      "end": 85.07,
+      "text": " this is our drawn liquidy and look at that beautiful moody downside giving us 4.75"
+    },
+    {
+      "start": 85.07,
+      "end": 94.11,
+      "text": " for sure what ratio. So this is basically how I trade the the AR 50 with bias. Of course,"
+    },
+    {
+      "start": 94.11,
+      "end": 100.27,
+      "text": " I use the external and internal liquidity method as well, but this method I think you should"
+    },
+    {
+      "start": 100.27,
+      "end": 105.87,
+      "text": " be using this because it is easy and it should not complicate things. This is going to be it."
+    },
+    {
+      "start": 105.87,
+      "end": 111.87,
+      "text": " Thank you so much guys for watching the entire course. This is going to be it for the course updates"
+    },
+    {
+      "start": 111.87,
+      "end": 116.07,
+      "text": " in the future I'm gonna release something else but for now this is gonna be it"
+    },
+    {
+      "start": 116.07,
+      "end": 120.75,
+      "text": " and I'm not gonna upload anything else in this course specifically because I do"
+    },
+    {
+      "start": 120.75,
+      "end": 125.67,
+      "text": " not want to give you guys so much information that you just lose yourself in a"
+    },
+    {
+      "start": 125.67,
+      "end": 132.23,
+      "text": " loophole once again thank you and good luck"
+    }
+  ]
+}

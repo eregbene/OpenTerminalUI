@@ -1,0 +1,268 @@
+{
+  "source": "F:\\new faiz\\31. ICT Silver Bullet Example 1.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 228.78625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 31.31,
+      "text": " Alright guys, so here is the example number one for the ICT Silver Bullet. You can see that over here we do not have a clear liquidity sweep anywhere and the time is 955, right? So we're gonna wait for this for the price due to either take out the buy side or the sell side. So you can see price took out the sell side here. So now here's the thing. Price can take out liquidity even when even after 10 AM, okay?"
+    },
+    {
+      "start": 31.31,
+      "end": 35.79,
+      "text": " There is no like rule that the liquidity sweep must happen before 10."
+    },
+    {
+      "start": 35.79,
+      "end": 39.19,
+      "text": " The thing is your entry must only be after 10."
+    },
+    {
+      "start": 39.19,
+      "end": 42.23,
+      "text": " So let's take it out the sell site."
+    },
+    {
+      "start": 42.23,
+      "end": 48.67,
+      "text": " Let's go back to one minute and look for a clear market structure shift."
+    },
+    {
+      "start": 48.67,
+      "end": 54.51,
+      "text": " And as you can see right here, what we do have is a lower low, lower high, lower low."
+    },
+    {
+      "start": 54.51,
+      "end": 57.83,
+      "text": " And then over here we have a shift in market structure."
+    },
+    {
+      "start": 57.83,
+      "end": 64.83,
+      "text": " Now this I consider internal market structure and this right here would be my external market"
+    },
+    {
+      "start": 64.83,
+      "end": 65.99,
+      "text": " structure."
+    },
+    {
+      "start": 65.99,
+      "end": 70.95,
+      "text": " So let's say if price takes out this significant high over here, then the chances of that"
+    },
+    {
+      "start": 70.95,
+      "end": 73.19,
+      "text": " trade playing out is going to be decreased."
+    },
+    {
+      "start": 73.19,
+      "end": 75.71,
+      "text": " I want these tiny structures to break."
+    },
+    {
+      "start": 75.71,
+      "end": 80.19,
+      "text": " I do not want this like significant structure to break because of that breaks."
+    },
+    {
+      "start": 80.19,
+      "end": 84.99,
+      "text": " In my eyes that is a liquidy tree, especially when we're looking at one way to turn from."
+    },
+    {
+      "start": 84.99,
+      "end": 90.55,
+      "text": " So now what we do have is a fairly gap right here."
+    },
+    {
+      "start": 90.55,
+      "end": 92.43,
+      "text": " And my entry would go here."
+    },
+    {
+      "start": 92.43,
+      "end": 99.03,
+      "text": " So let's say we put our stop at five handles right here and we go for five handles take"
+    },
+    {
+      "start": 99.03,
+      "end": 100.03,
+      "text": " profit."
+    },
+    {
+      "start": 100.03,
+      "end": 101.03,
+      "text": " Right?"
+    },
+    {
+      "start": 101.03,
+      "end": 102.83,
+      "text": " And the time is 1036."
+    },
+    {
+      "start": 102.83,
+      "end": 107.55,
+      "text": " And your entry must not be later than 1050 AM."
+    },
+    {
+      "start": 107.55,
+      "end": 108.55,
+      "text": " OK?"
+    },
+    {
+      "start": 108.55,
+      "end": 112.91,
+      "text": " So your window, the trading period is 10 AM."
+    },
+    {
+      "start": 112.91,
+      "end": 113.91,
+      "text": " Oops."
+    },
+    {
+      "start": 113.91,
+      "end": 116.91,
+      "text": " 10, 8, oh my god."
+    },
+    {
+      "start": 116.91,
+      "end": 120.91,
+      "text": " 10, 50 am."
+    },
+    {
+      "start": 120.91,
+      "end": 121.91,
+      "text": " Alright?"
+    },
+    {
+      "start": 121.91,
+      "end": 125.91,
+      "text": " So your entry must happen during this time window, okay?"
+    },
+    {
+      "start": 125.91,
+      "end": 127.91,
+      "text": " And you must close your trade before 11."
+    },
+    {
+      "start": 127.91,
+      "end": 130.91,
+      "text": " Okay, so we have our entry and let's see how this plays out."
+    },
+    {
+      "start": 130.91,
+      "end": 134.91,
+      "text": " We go back in a little draw down here and then look at that."
+    },
+    {
+      "start": 134.91,
+      "end": 136.91,
+      "text": " We push back up right away."
+    },
+    {
+      "start": 136.91,
+      "end": 138.91,
+      "text": " So that take profit was it however."
+    },
+    {
+      "start": 138.91,
+      "end": 141.91,
+      "text": " If you held your trade till this level,"
+    },
+    {
+      "start": 141.91,
+      "end": 149.9,
+      "text": " this level, you can see we would have got an one to two wrist or wall trade. So it needs some sort"
+    },
+    {
+      "start": 149.9,
+      "end": 156.86,
+      "text": " of practicing and then you can master this strategy. Remember, this is very important part here."
+    },
+    {
+      "start": 157.58,
+      "end": 162.78,
+      "text": " When a significant structure, something like that, if it breaks and then it comes back to your"
+    },
+    {
+      "start": 162.78,
+      "end": 168.62,
+      "text": " entry, that is a low probability setup. I want, so let's say you have a liquid industry, right? This"
+    },
+    {
+      "start": 168.62,
+      "end": 173.5,
+      "text": " this is a legacy. I want this tiny structure, something like that. Okay? Not"
+    },
+    {
+      "start": 173.5,
+      "end": 177.34,
+      "text": " something like this where you have like three, four, or let me give you another"
+    },
+    {
+      "start": 177.34,
+      "end": 182.38,
+      "text": " example. That's right here. If that breaks, right, that is invalid. I want to"
+    },
+    {
+      "start": 182.38,
+      "end": 188.9,
+      "text": " see a break of structure, something like, you know, this over here or maybe you"
+    },
+    {
+      "start": 188.9,
+      "end": 193.46,
+      "text": " see, lower, lower, high, lower, something like that. That is prime market"
+    },
+    {
+      "start": 193.46,
+      "end": 199.24,
+      "text": " this is the best example right here okay you see this tiny structure here"
+    },
+    {
+      "start": 199.24,
+      "end": 203.12,
+      "text": " lower lower high lower low I do not want to see this structure break and then I"
+    },
+    {
+      "start": 203.12,
+      "end": 206.74,
+      "text": " wait for my entry that is invalid you can see that we broke the structure"
+    },
+    {
+      "start": 206.74,
+      "end": 211.5,
+      "text": " and we filled in this very value gap and then we went down because this is"
+    },
+    {
+      "start": 211.5,
+      "end": 215.72,
+      "text": " liquidity guys a lot of people what they do is they consider this as the low"
+    },
+    {
+      "start": 215.72,
+      "end": 220.34,
+      "text": " and they consider this as you know market structure shift no that is the"
+    },
+    {
+      "start": 220.34,
+      "end": 226.58,
+      "text": " liquid is sweet. Okay? Just open your eyes, bro. So right here we hit 1 to 2. Let me give you"
+    },
+    {
+      "start": 226.58,
+      "end": 227.58,
+      "text": " guys another example."
+    }
+  ]
+}

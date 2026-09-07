@@ -1,0 +1,938 @@
+{
+  "source": "F:\\new faiz\\38. The Weaver Model.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 881.8706875,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.53,
+      "end": 30.53,
+      "text": " Alright, so this is the chapter 2 of this brand new course and in this chapter I'm going to teach you another model that you can use. Now this model works on all pairs and assets. So you can basically trade every single day if this setup presents itself and you will get a setup every day, a most of the time. And multiple setups per day if that makes sense. So the very first thing that you have to do is you have to mark it."
+    },
+    {
+      "start": 30.53,
+      "end": 41.09,
+      "text": " the previous day low and previous day high. So let's assume that this daily candle"
+    },
+    {
+      "start": 41.09,
+      "end": 49.45,
+      "text": " is off Tuesday. So this is a Tuesday daily candle. Now on the next day, right? So"
+    },
+    {
+      "start": 49.45,
+      "end": 53.99,
+      "text": " let's suppose that the next candle opens here. So this is the opening price."
+    },
+    {
+      "start": 53.99,
+      "end": 63.42,
+      "text": " right this is the opening price now what I want to see is price take down take"
+    },
+    {
+      "start": 63.42,
+      "end": 68.64,
+      "text": " out the daily low previous daily low or previous daily high so let's assume that"
+    },
+    {
+      "start": 68.64,
+      "end": 79.12,
+      "text": " the daily low is taken out now once the daily low is taken out so this right here"
+    },
+    {
+      "start": 79.12,
+      "end": 86.24,
+      "text": " is the daily low, previous daily low, right? I want you to drop down to one"
+    },
+    {
+      "start": 86.24,
+      "end": 97.72,
+      "text": " hour time from so one hour time from, okay? And afterwards what you have to do is find"
+    },
+    {
+      "start": 97.72,
+      "end": 105.4,
+      "text": " a fairly gap in this leg on the one hour time from so, so this is how it's"
+    },
+    {
+      "start": 105.4,
+      "end": 108.08,
+      "text": " going to look like when you drop down to one hour"
+    },
+    {
+      "start": 108.08,
+      "end": 112.36,
+      "text": " time from right. So let's just basically say that"
+    },
+    {
+      "start": 112.4,
+      "end": 116.28,
+      "text": " this is the opening price right and price took out the"
+    },
+    {
+      "start": 116.68,
+      "end": 122.08,
+      "text": " previous day. So this is how it's going to look like. Okay."
+    },
+    {
+      "start": 122.76,
+      "end": 124.72,
+      "text": " And that's how it's going to look like on the one hour"
+    },
+    {
+      "start": 124.72,
+      "end": 128.0,
+      "text": " time from. So let's assume that the daily low was taken"
+    },
+    {
+      "start": 128.0,
+      "end": 131.8,
+      "text": " out. Previously low was taken out. And then all you have to"
+    },
+    {
+      "start": 131.8,
+      "end": 135.68,
+      "text": " do is drop down to one hour time from now inside this leg."
+    },
+    {
+      "start": 135.68,
+      "end": 139.68,
+      "text": " Notice how we had a lower low, lower high and then a lower low."
+    },
+    {
+      "start": 139.68,
+      "end": 146.68,
+      "text": " Now, I want to see a fairly gap inside this leg, not here,"
+    },
+    {
+      "start": 146.68,
+      "end": 154.68,
+      "text": " because the new dealing range is from this low, sorry, this high to this low over here."
+    },
+    {
+      "start": 154.68,
+      "end": 161.68,
+      "text": " So inside this leg, we need to identify a fairly gap."
+    },
+    {
+      "start": 161.68,
+      "end": 167.84,
+      "text": " Now if there are multiple fair value gaps, we will be noticing the fair value gap in the premium."
+    },
+    {
+      "start": 167.84,
+      "end": 172.32,
+      "text": " So using your flip from the high to low, you will get premium and discount levels."
+    },
+    {
+      "start": 173.12,
+      "end": 176.48,
+      "text": " You want to prioritize the fair value gap that's in the premium."
+    },
+    {
+      "start": 177.44,
+      "end": 185.92,
+      "text": " Now, once you have marked out the one overtime frame, fair value gap, after the previous daily low"
+    },
+    {
+      "start": 185.92,
+      "end": 193.12,
+      "text": " was taken out and you have your fairly get marked out on the one over time from. You want to drop"
+    },
+    {
+      "start": 193.12,
+      "end": 201.52,
+      "text": " down to five or 15 minute time from. So for this specific strategy, we're going to drop down to 15"
+    },
+    {
+      "start": 201.52,
+      "end": 209.2,
+      "text": " minute time from now. After that, what we're looking for is a 15 minute market structure shift."
+    },
+    {
+      "start": 209.2,
+      "end": 215.92,
+      "text": " Okay? Now if you want to be, you know, a bit, uh, take a risk, you can go to five minute"
+    },
+    {
+      "start": 215.92,
+      "end": 220.52,
+      "text": " time frame and look for market structure shift. But 15 minute time from market structure"
+    },
+    {
+      "start": 220.52,
+      "end": 227.8,
+      "text": " shifts are the best in my opinion. Okay? So once you get a market structure shift on the"
+    },
+    {
+      "start": 227.8,
+      "end": 233.88,
+      "text": " 15 minute time frame, right, you can simply take your entry from the breaker block,"
+    },
+    {
+      "start": 233.88,
+      "end": 235.96,
+      "text": " for a value gap or an auto block."
+    },
+    {
+      "start": 235.96,
+      "end": 236.8,
+      "text": " Okay."
+    },
+    {
+      "start": 236.8,
+      "end": 239.16,
+      "text": " Now whichever PDA array you use,"
+    },
+    {
+      "start": 239.16,
+      "end": 240.68,
+      "text": " you're gonna sometimes miss a trade."
+    },
+    {
+      "start": 240.68,
+      "end": 243.56,
+      "text": " There's absolutely no way to identify"
+    },
+    {
+      "start": 243.56,
+      "end": 246.4,
+      "text": " which PDA array is going to be respected."
+    },
+    {
+      "start": 246.4,
+      "end": 247.24,
+      "text": " Okay."
+    },
+    {
+      "start": 247.24,
+      "end": 249.68,
+      "text": " So this breaker block could be violated,"
+    },
+    {
+      "start": 249.68,
+      "end": 251.52,
+      "text": " but then there would be a fairly gap"
+    },
+    {
+      "start": 251.52,
+      "end": 253.12,
+      "text": " that could be respected here."
+    },
+    {
+      "start": 253.12,
+      "end": 254.08,
+      "text": " Okay."
+    },
+    {
+      "start": 254.08,
+      "end": 258.68,
+      "text": " So it all depends on how much your stop loss is going to be,"
+    },
+    {
+      "start": 258.68,
+      "end": 260.08,
+      "text": " how much you are comfortable with."
+    },
+    {
+      "start": 260.08,
+      "end": 260.92,
+      "text": " Right."
+    },
+    {
+      "start": 260.92,
+      "end": 263.04,
+      "text": " So let's assume I take my entry from the fairly gap."
+    },
+    {
+      "start": 263.04,
+      "end": 266.56,
+      "text": " I will be targeting this one hour for everybody gap."
+    },
+    {
+      "start": 266.56,
+      "end": 268.72,
+      "text": " So this is one hour for everybody gap."
+    },
+    {
+      "start": 268.72,
+      "end": 270.16,
+      "text": " So I'm gonna summarize this again"
+    },
+    {
+      "start": 270.16,
+      "end": 271.48,
+      "text": " so you don't get confused."
+    },
+    {
+      "start": 271.48,
+      "end": 273.64,
+      "text": " The very first step is that you have to mark out"
+    },
+    {
+      "start": 273.64,
+      "end": 277.28,
+      "text": " the previous day high, right?"
+    },
+    {
+      "start": 277.28,
+      "end": 278.52,
+      "text": " And the previous day low."
+    },
+    {
+      "start": 278.52,
+      "end": 280.68,
+      "text": " Now on the next day, what you're waiting for"
+    },
+    {
+      "start": 280.68,
+      "end": 284.08,
+      "text": " is price to either take out the previous day high"
+    },
+    {
+      "start": 284.08,
+      "end": 286.2,
+      "text": " or the previous day low."
+    },
+    {
+      "start": 286.2,
+      "end": 291.2,
+      "text": " Now let's assume that the previous day low was taken out."
+    },
+    {
+      "start": 291.2,
+      "end": 298.08,
+      "text": " Now as soon as it's taken out, you want to drop down to one over time frame to find a"
+    },
+    {
+      "start": 298.08,
+      "end": 304.44,
+      "text": " fairly gap inside the recent dealing range on the one over time frame."
+    },
+    {
+      "start": 304.44,
+      "end": 311.52,
+      "text": " So hi to low, that is your dealing range."
+    },
+    {
+      "start": 311.52,
+      "end": 320.47,
+      "text": " Now if you can clearly see that when price keeps going down, you can look for markets"
+    },
+    {
+      "start": 320.47,
+      "end": 324.43,
+      "text": " such a shift anywhere. Okay, as long as your one over"
+    },
+    {
+      "start": 324.43,
+      "end": 332.65,
+      "text": " fairly gap is still there. Cool. Now, that is pretty much"
+    },
+    {
+      "start": 332.65,
+      "end": 336.13,
+      "text": " it. You take your entry and you target this fairly gap."
+    },
+    {
+      "start": 337.21,
+      "end": 341.29,
+      "text": " Now, key thing to note is that if you use SMT divergence with"
+    },
+    {
+      "start": 341.29,
+      "end": 344.73,
+      "text": " this strategy, your win rate is going to skyrocket. Okay."
+    },
+    {
+      "start": 345.85,
+      "end": 349.09,
+      "text": " Now, I like to keep much strategies as mechanical as"
+    },
+    {
+      "start": 349.09,
+      "end": 355.61,
+      "text": " possible, but sometimes SMT divergence, you know, it's going to really, really help you."
+    },
+    {
+      "start": 355.61,
+      "end": 359.81,
+      "text": " So let's assume that we were looking at your USD, right?"
+    },
+    {
+      "start": 359.81,
+      "end": 362.85,
+      "text": " We want to find a divergence with GPP USD."
+    },
+    {
+      "start": 362.85,
+      "end": 369.29,
+      "text": " So if there is a SMT divergence with GU, you could be confident that, okay, I can take"
+    },
+    {
+      "start": 369.29,
+      "end": 370.85,
+      "text": " a long here."
+    },
+    {
+      "start": 370.85,
+      "end": 375.49,
+      "text": " Similarly, if you were looking at GU, you would look for SMT with EU and then you would"
+    },
+    {
+      "start": 375.49,
+      "end": 376.85,
+      "text": " take your trade."
+    },
+    {
+      "start": 376.85,
+      "end": 382.95,
+      "text": " There is a S&T divergence chapter in the old course you must watch it in order to understand"
+    },
+    {
+      "start": 382.95,
+      "end": 384.43,
+      "text": " what exactly is S&T."
+    },
+    {
+      "start": 384.43,
+      "end": 389.27,
+      "text": " I'm not going to explain in this chapter because it's not what it's about."
+    },
+    {
+      "start": 389.27,
+      "end": 393.11,
+      "text": " So similarly if I flip the chart if the daily high is taken out right you would drop down"
+    },
+    {
+      "start": 393.11,
+      "end": 399.27,
+      "text": " to one hour time from identify if variable you gap in the recent dealing range and then"
+    },
+    {
+      "start": 399.27,
+      "end": 403.63,
+      "text": " you mark it out that is going to be your drawn liquidity then you drop down to 15 minute"
+    },
+    {
+      "start": 403.63,
+      "end": 408.51,
+      "text": " down from look where Marcus structures shift take your entry with SMT divergence if you"
+    },
+    {
+      "start": 408.51,
+      "end": 413.11,
+      "text": " really want to like increase your wind rate and then you target this level. So that's pretty"
+    },
+    {
+      "start": 413.11,
+      "end": 415.63,
+      "text": " much it for this strategy. I'm going to give you guys some examples and then we will"
+    },
+    {
+      "start": 415.63,
+      "end": 422.31,
+      "text": " move on to the next chapter. Okay guys so this is example one looking at gold and we're"
+    },
+    {
+      "start": 422.31,
+      "end": 427.75,
+      "text": " going to study these two candles. So this is the previous daily candle. So I'm going"
+    },
+    {
+      "start": 427.75,
+      "end": 434.87,
+      "text": " mark out the high and the low. Okay. Now what I'm not doing is I'm going to drop down to"
+    },
+    {
+      "start": 434.87,
+      "end": 441.99,
+      "text": " one over time from and see what happened. So you can see that I have marked out the daily high and"
+    },
+    {
+      "start": 441.99,
+      "end": 449.27,
+      "text": " the daily high was taken out first. Now on the one over time from by using this dealing range,"
+    },
+    {
+      "start": 449.27,
+      "end": 456.31,
+      "text": " right? We want to mark out this fair value gap. Okay? The one over fair value gap. This is going to"
+    },
+    {
+      "start": 456.31,
+      "end": 462.95,
+      "text": " be our draw on liquidity. Now once it was taken now, right, and we had marked out our daily,"
+    },
+    {
+      "start": 462.95,
+      "end": 468.15,
+      "text": " oh sorry, one our free body gap, which is here, I'm going to drop down to 15 minute time frame"
+    },
+    {
+      "start": 469.59,
+      "end": 477.03,
+      "text": " and we're looking for a market structure shift. Okay, very simple. And we have it just around here."
+    },
+    {
+      "start": 477.03,
+      "end": 483.35,
+      "text": " Now we also have this free body gap. And since the free body gap is big, I'm going to use the 50"
+    },
+    {
+      "start": 483.35,
+      "end": 489.71,
+      "text": " percent of it and of course this is hindsight and then I would go for at least one"
+    },
+    {
+      "start": 489.71,
+      "end": 495.71,
+      "text": " two one point five R R if my draw on liquidity was somewhere around here then I"
+    },
+    {
+      "start": 495.71,
+      "end": 501.63,
+      "text": " would happily go for one to two but sometimes you have to just target you know"
+    },
+    {
+      "start": 501.63,
+      "end": 506.03,
+      "text": " the safest number because our draw on liquidity is here and once once the price"
+    },
+    {
+      "start": 506.03,
+      "end": 509.51,
+      "text": " comes into this level there is no guarantee that price gonna keep going down"
+    },
+    {
+      "start": 509.51,
+      "end": 515.69,
+      "text": " So pretty simple guys, daily high was taken out, then we simply marked out the one"
+    },
+    {
+      "start": 515.69,
+      "end": 520.55,
+      "text": " over Fair Valley Gap in the dealing range and then afterwards we had a shift in"
+    },
+    {
+      "start": 520.55,
+      "end": 525.59,
+      "text": " the market structure entry and that was it. Let's move on to another example."
+    },
+    {
+      "start": 525.59,
+      "end": 532.35,
+      "text": " Alright guys so here is example two, looking at GVP JPOI this time and ignore"
+    },
+    {
+      "start": 532.35,
+      "end": 536.83,
+      "text": " the background noise if you hear some because I'm actually not at my home but"
+    },
+    {
+      "start": 536.83,
+      "end": 540.35,
+      "text": " you can see that we want to study these two candles."
+    },
+    {
+      "start": 540.35,
+      "end": 543.47,
+      "text": " So actually this candle only because this is the next day."
+    },
+    {
+      "start": 543.47,
+      "end": 545.63,
+      "text": " So this is the previous day, right?"
+    },
+    {
+      "start": 545.63,
+      "end": 548.43,
+      "text": " So simply want to mark out the previous day high"
+    },
+    {
+      "start": 548.43,
+      "end": 549.71,
+      "text": " and the previous day low."
+    },
+    {
+      "start": 549.71,
+      "end": 554.59,
+      "text": " Now on the next day we are simply anticipating the high or low to be taken out."
+    },
+    {
+      "start": 554.59,
+      "end": 556.51,
+      "text": " And as you can see the high was taken out first."
+    },
+    {
+      "start": 556.51,
+      "end": 560.51,
+      "text": " So I'm going to drop down to one hour time from, right?"
+    },
+    {
+      "start": 560.51,
+      "end": 565.63,
+      "text": " And if you study this, you can see that the daily high was taken out"
+    },
+    {
+      "start": 565.63,
+      "end": 570.99,
+      "text": " and we are on the one hour dive frame. So now we're going to use our Fibonacci tool and we are"
+    },
+    {
+      "start": 570.99,
+      "end": 579.23,
+      "text": " basically going to measure the, you know, the premium and discount level. So what exactly is a"
+    },
+    {
+      "start": 579.23,
+      "end": 584.11,
+      "text": " dealing range? I've thought this before, but you can see that we swept liquidity and then we pushed"
+    },
+    {
+      "start": 584.11,
+      "end": 590.03,
+      "text": " up, right? So this is going to be a dealing range low because why it swept liquidity and then"
+    },
+    {
+      "start": 590.03,
+      "end": 595.31,
+      "text": " pushed up. This is not the dealing range low. Why? Because it didn't sweep any"
+    },
+    {
+      "start": 595.31,
+      "end": 600.83,
+      "text": " liquidity if that makes sense. Okay. So I'm going to use my fib from the"
+    },
+    {
+      "start": 600.83,
+      "end": 607.79,
+      "text": " dealing range, uh, dealing range low to dealing range. Hi. Now you can see we"
+    },
+    {
+      "start": 607.79,
+      "end": 612.83,
+      "text": " swept liquidity. So this became dealing range, um, high. But we then swept"
+    },
+    {
+      "start": 612.83,
+      "end": 617.71,
+      "text": " another liquidity. So now this becomes the dealing range high. Now you can see"
+    },
+    {
+      "start": 617.71,
+      "end": 624.91,
+      "text": " that we maybe have a tiny friendly gap here. Let's see. Yeah, so you can see that we have a tiny"
+    },
+    {
+      "start": 624.91,
+      "end": 631.63,
+      "text": " friendly gap here. And that is below the 0.5 level. So that is going to be our draw on liquidity,"
+    },
+    {
+      "start": 631.63,
+      "end": 637.23,
+      "text": " right? So let me just remove this. So let's drop down to 15 minute time from now."
+    },
+    {
+      "start": 639.15,
+      "end": 647.63,
+      "text": " And you can see that this is the one hour friendly gap. We had a high, high, high, low,"
+    },
+    {
+      "start": 647.63,
+      "end": 652.83,
+      "text": " than a higher high, right? Then we have a shift in the market structure here,"
+    },
+    {
+      "start": 654.03,
+      "end": 661.63,
+      "text": " cool? And then you have your auto block and since the auto block is too huge, you can simply"
+    },
+    {
+      "start": 661.63,
+      "end": 669.23,
+      "text": " just use your fib, right? And you can take your entry from the 50% of this level, okay? Of course"
+    },
+    {
+      "start": 669.23,
+      "end": 673.71,
+      "text": " this is hindsight, but you have to learn these tactics if you really want to like increase your"
+    },
+    {
+      "start": 673.71,
+      "end": 682.11,
+      "text": " ratio ratios. So now you can see that we comfortably get above two RR. So that's 2.5"
+    },
+    {
+      "start": 682.11,
+      "end": 691.07,
+      "text": " RR trade. And you know when you know the draw or liquidity trading becomes so easy. Now it's not"
+    },
+    {
+      "start": 691.07,
+      "end": 696.35,
+      "text": " that you only can take one trade and let it go towards your draw or liquidity. If you're comfortable"
+    },
+    {
+      "start": 696.35,
+      "end": 702.27,
+      "text": " and if you know how to scale in you can see that we had this fairly gap that was formed. So you"
+    },
+    {
+      "start": 702.27,
+      "end": 708.23,
+      "text": " you could have taken another entry here, put your stop somewhere around here, or maybe"
+    },
+    {
+      "start": 708.23,
+      "end": 711.63,
+      "text": " manage the trade accordingly and then you would have made more profits."
+    },
+    {
+      "start": 711.63,
+      "end": 716.71,
+      "text": " But according to me, and as my personal approach is that I only take one trade until my"
+    },
+    {
+      "start": 716.71,
+      "end": 719.03,
+      "text": " draw on liquidity is hit."
+    },
+    {
+      "start": 719.03,
+      "end": 721.51,
+      "text": " Let me give you guys another example."
+    },
+    {
+      "start": 721.51,
+      "end": 724.51,
+      "text": " Alright guys, so here is the last example."
+    },
+    {
+      "start": 724.51,
+      "end": 729.15,
+      "text": " Look at GPP JPI once again, and I'm going to mark out the daily low and the daily high."
+    },
+    {
+      "start": 729.15,
+      "end": 735.25,
+      "text": " So on the next day, I will be anticipating for price to either take out the daily high or"
+    },
+    {
+      "start": 735.25,
+      "end": 736.25,
+      "text": " the daily low."
+    },
+    {
+      "start": 736.25,
+      "end": 737.65,
+      "text": " So this is the daily high, daily low."
+    },
+    {
+      "start": 737.65,
+      "end": 740.21,
+      "text": " And on the next day, let's see what happens."
+    },
+    {
+      "start": 740.21,
+      "end": 743.41,
+      "text": " We have taken out the daily high over here."
+    },
+    {
+      "start": 743.41,
+      "end": 749.65,
+      "text": " And if I use my fifth tool from the dealing range low to dealing range high, you can see"
+    },
+    {
+      "start": 749.65,
+      "end": 753.85,
+      "text": " that the fairly gap resides in this level around here."
+    },
+    {
+      "start": 753.85,
+      "end": 756.33,
+      "text": " So this is going to be our draw on liquidity."
+    },
+    {
+      "start": 756.33,
+      "end": 758.83,
+      "text": " Right?"
+    },
+    {
+      "start": 758.83,
+      "end": 763.83,
+      "text": " Now technically I could be using this as my dean range, right?"
+    },
+    {
+      "start": 764.91,
+      "end": 766.23,
+      "text": " But because why?"
+    },
+    {
+      "start": 766.23,
+      "end": 771.03,
+      "text": " Because we swept this liquidity and we pushed up, right?"
+    },
+    {
+      "start": 771.03,
+      "end": 775.43,
+      "text": " So, but since there is no fair value gap in the,"
+    },
+    {
+      "start": 775.43,
+      "end": 778.51,
+      "text": " so if let's suppose that I use the flip tool here,"
+    },
+    {
+      "start": 778.51,
+      "end": 780.79,
+      "text": " there's no fair value gap below the zero point five level."
+    },
+    {
+      "start": 780.79,
+      "end": 784.63,
+      "text": " So we're gonna just use the one that is available to us."
+    },
+    {
+      "start": 784.63,
+      "end": 789.58,
+      "text": " So I'm gonna to drop down to 15 minute time from now."
+    },
+    {
+      "start": 789.58,
+      "end": 793.66,
+      "text": " And you can clearly see that we got a market structure ship"
+    },
+    {
+      "start": 793.66,
+      "end": 795.26,
+      "text": " right here, Harheye, Harleye, Harleye,"
+    },
+    {
+      "start": 795.26,
+      "end": 796.62,
+      "text": " and then Harheye."
+    },
+    {
+      "start": 796.62,
+      "end": 798.94,
+      "text": " Now, let's see if we have something"
+    },
+    {
+      "start": 798.94,
+      "end": 800.74,
+      "text": " clean on the five minute down front."
+    },
+    {
+      "start": 800.74,
+      "end": 803.02,
+      "text": " We could either have a fairly gap"
+    },
+    {
+      "start": 803.02,
+      "end": 806.78,
+      "text": " or something that we can take our entry from."
+    },
+    {
+      "start": 806.78,
+      "end": 810.14,
+      "text": " And just around here, you can see we have this"
+    },
+    {
+      "start": 810.14,
+      "end": 811.82,
+      "text": " fairly gap."
+    },
+    {
+      "start": 811.82,
+      "end": 814.18,
+      "text": " So you can basically do this as well"
+    },
+    {
+      "start": 814.18,
+      "end": 815.66,
+      "text": " to refine your entries."
+    },
+    {
+      "start": 815.66,
+      "end": 816.78,
+      "text": " Don't overdo it,"
+    },
+    {
+      "start": 816.78,
+      "end": 820.22,
+      "text": " because that's going to just back for at you."
+    },
+    {
+      "start": 820.22,
+      "end": 824.7,
+      "text": " So we are getting somewhere 1.81R so we can slightly"
+    },
+    {
+      "start": 824.7,
+      "end": 828.06,
+      "text": " decrease our stop loss to get one to two risk to the wall."
+    },
+    {
+      "start": 828.06,
+      "end": 832.41,
+      "text": " So now let's see how this plays out."
+    },
+    {
+      "start": 832.41,
+      "end": 836.45,
+      "text": " And since we are trading GPP-JAPY,"
+    },
+    {
+      "start": 836.45,
+      "end": 838.77,
+      "text": " since we are trading the Japanese pair,"
+    },
+    {
+      "start": 838.77,
+      "end": 841.69,
+      "text": " we can actually trade the Asian session."
+    },
+    {
+      "start": 841.69,
+      "end": 845.06,
+      "text": " So that's totally all right."
+    },
+    {
+      "start": 845.06,
+      "end": 848.38,
+      "text": " Now you can clearly see that the take profit level"
+    },
+    {
+      "start": 848.38,
+      "end": 856.62,
+      "text": " was beautifully hit. Just go for one to two wristure ward at max. If you really want to be like,"
+    },
+    {
+      "start": 857.74,
+      "end": 863.58,
+      "text": " if you don't want to deal with psychological issues. But go ahead and try it out and please try to"
+    },
+    {
+      "start": 863.58,
+      "end": 872.54,
+      "text": " pair up SMT divergence with this. So for example, if you got SMT with like your JPI here,"
+    },
+    {
+      "start": 872.54,
+      "end": 878.14,
+      "text": " then that would give you extra confirmation. So that is it for this chapter guys,"
+    },
+    {
+      "start": 878.14,
+      "end": 882.38,
+      "text": " I'll see you guys next weekend."
+    }
+  ]
+}

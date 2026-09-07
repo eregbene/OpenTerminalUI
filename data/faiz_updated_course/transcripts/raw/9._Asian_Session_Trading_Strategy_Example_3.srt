@@ -1,0 +1,47 @@
+1
+00:00:00,000 --> 00:00:18,280
+All right guys, so this is going to be the final example for the strategy, so as you can see, we made hi, high, low, low, sorry, higher.
+
+2
+00:00:18,280 --> 00:00:23,080
+then we're going to lower high, lower low, lower low, lower low,
+
+3
+00:00:23,080 --> 00:00:26,760
+then we're going to higher high, higher low, higher high.
+
+4
+00:00:27,480 --> 00:00:32,520
+And then after we swept the high of the Asian range, which is this,
+
+5
+00:00:33,640 --> 00:00:37,320
+during the lunch break, we swept the high.
+
+6
+00:00:37,320 --> 00:00:43,800
+And then we had a market structure shift, as you can see right around here, right?
+
+7
+00:00:44,600 --> 00:00:49,320
+And then if I mark out the autoblog, this is the autoblog that we have,
+
+8
+00:00:49,720 --> 00:00:56,840
+Alright, so you would have entered here. You stop should have gone here. If it went there, you would have gotten stopped out
+
+9
+00:00:57,480 --> 00:01:03,280
+But if you had your stop here, you would have targeted the Asian session range and this would have given you a 3.26
+
+10
+00:01:03,280 --> 00:01:04,520
+Resto Ward break
+
+11
+00:01:04,520 --> 00:01:07,800
+So we will be moving on to our next tragedy after this video and
+
+12
+00:01:08,520 --> 00:01:10,820
+other you guys in the next trading strategy video

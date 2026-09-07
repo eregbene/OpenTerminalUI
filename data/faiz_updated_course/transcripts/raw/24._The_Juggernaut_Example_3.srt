@@ -1,0 +1,179 @@
+1
+00:00:00,210 --> 00:00:31,580
+Alright guys, so here is the final example and over here we can see is we clearly take out these relative equal highs here and we also form a Fravale gap. Right? And there's from this range low to this range high. There's only one Fravale gap and that's on the 10 minute. Okay? So now I'm gonna draw this out. I'm gonna wait for price to close below it. And just now, as you can see, we closed below it. So now this is going to be my take
+
+2
+00:00:31,580 --> 00:00:35,740
+profit level as indicated by the fractals indicator by Rachel T.
+
+3
+00:00:36,740 --> 00:00:38,900
+And I'm going to take my entry on the retest.
+
+4
+00:00:39,140 --> 00:00:43,100
+So if I put my shot position here, first off,
+
+5
+00:00:43,100 --> 00:00:46,220
+I'm going to adjust my take profit level and that is giving me one,
+
+6
+00:00:46,220 --> 00:00:51,220
+two, one, point four. Now, as long as my stop is above the wake,
+
+7
+00:00:52,220 --> 00:00:54,460
+I can get unlimited risk reward, right?
+
+8
+00:00:54,700 --> 00:01:01,370
+So it's giving me 1.85. So that is perfect. Now look at the timing.
+
+9
+00:01:01,370 --> 00:01:07,770
+We are in the kill zone, right? It is the so that we can also trade the strategy during the lunch breaks.
+
+10
+00:01:08,090 --> 00:01:15,130
+So usually there's a lunch break from five to six or from, you know, also, but it doesn't really matter for the strategy.
+
+11
+00:01:15,610 --> 00:01:17,210
+You can literally just trade it. So.
+
+12
+00:01:19,050 --> 00:01:23,770
+This is when we get the retest. Look at this beautiful delivery that this is when you would be in the trade.
+
+13
+00:01:25,370 --> 00:01:29,930
+And if I play this through, you're going to see that the take profit level was hit.
+
+14
+00:01:29,930 --> 00:01:40,210
+And probably you could have targeted this low because that was a significant liquidity level.
+
+15
+00:01:40,210 --> 00:01:45,170
+This could have given you 2.45 registered reward ratio.
+
+16
+00:01:45,170 --> 00:01:48,290
+So a very simple model.
+
+17
+00:01:48,290 --> 00:01:52,490
+You have to rewatch the video again and again until you understand this.
+
+18
+00:01:52,490 --> 00:01:56,810
+And here are some key notes that you should know.
+
+19
+00:01:56,810 --> 00:02:02,450
+So this is very important, listen very closely, to increase the wind rate of the strategy.
+
+20
+00:02:02,450 --> 00:02:07,530
+What you can do is you can identify one hour highs and lows.
+
+21
+00:02:07,530 --> 00:02:12,570
+So this is one hour time from now you look for any type of you know, a strip of the
+
+22
+00:02:12,570 --> 00:02:14,370
+bicep or sell side.
+
+23
+00:02:14,370 --> 00:02:19,290
+So let's say you want our price takes out bicep, you drop down to five minute time from
+
+24
+00:02:19,290 --> 00:02:22,610
+and then you look for bearish inverse fairly gaps.
+
+25
+00:02:22,610 --> 00:02:30,370
+So you might see this on the 5 minute and you can see that we have another bicep sweep
+
+26
+00:02:30,370 --> 00:02:33,410
+and we're gonna have one for value gap here.
+
+27
+00:02:33,410 --> 00:02:37,850
+We must have one for value gap inside there.
+
+28
+00:02:37,850 --> 00:02:42,770
+You can mark at the fair value gap once the price closes below it.
+
+29
+00:02:42,770 --> 00:02:46,130
+You go short on the retest, target this level.
+
+30
+00:02:46,130 --> 00:02:52,250
+Now this is gonna increase the window to some degree but I haven't noticed like a much
+
+31
+00:02:52,250 --> 00:03:00,010
+significant difference. All right. So you should be fine. Also, if you watch my SMT video,
+
+32
+00:03:00,570 --> 00:03:09,930
+and if you can use SMT with this, so let's say on the DXY price failed to create another higher
+
+33
+00:03:09,930 --> 00:03:18,970
+high, but on GPPUSD, we do create a higher high. Now then the inverse roger gap is going to act
+
+34
+00:03:18,970 --> 00:03:24,650
+even more strong. And there's a high chance. There will be even higher chance that price will
+
+35
+00:03:24,650 --> 00:03:33,210
+take out this low over here. And make sure you stick to two to three pairs only because if you
+
+36
+00:03:33,210 --> 00:03:37,930
+trade every single pair you're going to over trade and that is not good. Make sure you only take
+
+37
+00:03:37,930 --> 00:03:44,170
+two to three trades max per day with the strategy. You do not have to over trade because some days
+
+38
+00:03:44,170 --> 00:04:06,170
+you know for what reason God knows what reason you know every single trading strategy can have a losing day so this can have it to start to minimize the losses keep your maximum trades to two or three and only choose two to three pairs or two assets this could be smp 500 and naz 100.
+
+39
+00:04:06,170 --> 00:04:10,730
+This should be it for this model.
+
+40
+00:04:10,730 --> 00:04:13,930
+I hope you guys make good profits with it.
+
+41
+00:04:13,930 --> 00:04:18,610
+Of course, on a demo, I'm not a financial advisor, but make sure you practice this first
+
+42
+00:04:18,610 --> 00:04:26,170
+and try to trade above two minute time from, but it works on all time frames.
+
+43
+00:04:26,170 --> 00:04:32,370
+As I said before, keep your trades two or three per day, not more than that.
+
+44
+00:04:32,370 --> 00:04:34,570
+Otherwise, the strategy will not work.
+
+45
+00:04:34,570 --> 00:04:37,570
+Alright, let's move on to the next chapter now.

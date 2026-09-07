@@ -1,0 +1,159 @@
+1
+00:00:00,020 --> 00:00:30,020
+Alright guys, so here is an example number two for the market maker, second distribution entry model. So over here you can see that we took out external liquidity right here and our drawing liquidity is going to be this fair value gap right there. So let's study what happened here. So remember from 15 minutes we go to one minute time frame. Now going over here, we can see we took out the external liquidity which was here.
+
+2
+00:00:30,020 --> 00:00:34,520
+what we're waiting for is a shift in the market structure.
+
+3
+00:00:34,520 --> 00:00:36,420
+Once you get the shift in market structure,
+
+4
+00:00:36,420 --> 00:00:40,020
+that is when you have to look for a double break of structure.
+
+5
+00:00:40,020 --> 00:00:42,960
+You cannot look that before.
+
+6
+00:00:42,960 --> 00:00:45,300
+However, if you have a higher high,
+
+7
+00:00:45,300 --> 00:00:48,600
+higher low and a higher high, right?
+
+8
+00:00:48,600 --> 00:00:51,440
+And that second higher high gives you the market structure
+
+9
+00:00:51,440 --> 00:00:53,040
+shift, that is valid.
+
+10
+00:00:53,040 --> 00:00:55,720
+However, if you get a higher high,
+
+11
+00:00:55,720 --> 00:00:59,380
+higher high, with doubt market structure shift,
+
+12
+00:00:59,380 --> 00:01:00,260
+That is not valid.
+
+13
+00:01:00,260 --> 00:01:02,420
+So you have to wait for market structure shift,
+
+14
+00:01:02,420 --> 00:01:06,100
+and then you have to wait for that setup.
+
+15
+00:01:06,100 --> 00:01:09,700
+However, if you get like a higher high, high low,
+
+16
+00:01:09,700 --> 00:01:12,660
+and then a higher high, and the second higher high,
+
+17
+00:01:12,660 --> 00:01:14,740
+that is formed, it gives you market structure shift,
+
+18
+00:01:14,740 --> 00:01:18,740
+then that is a double break of structure pattern as well.
+
+19
+00:01:18,740 --> 00:01:21,020
+Listen to what I say, if you don't understand this.
+
+20
+00:01:21,020 --> 00:01:23,940
+So we have a refreshed market structure shift,
+
+21
+00:01:23,940 --> 00:01:28,980
+and now we're waiting for a break of structure.
+
+22
+00:01:28,980 --> 00:01:30,980
+So that happens just right here.
+
+23
+00:01:30,980 --> 00:01:35,980
+Now what we are waiting for is a purge on a high low, right?
+
+24
+00:01:37,460 --> 00:01:42,460
+So we get a purge here, sorry, here, here and here.
+
+25
+00:01:42,860 --> 00:01:44,100
+Now once you get the purge,
+
+26
+00:01:44,100 --> 00:01:48,460
+you have to patiently wait for a double break of structure once again.
+
+27
+00:01:48,460 --> 00:01:49,900
+So over here, what do you see?
+
+28
+00:01:49,900 --> 00:01:53,900
+We have a higher high, higher low, and then a higher high.
+
+29
+00:01:53,900 --> 00:01:58,900
+So this tiny break of structure right here is a valid one.
+
+30
+00:01:58,980 --> 00:02:04,180
+It doesn't matter the size doesn't matter that's what she said no, she never really said that
+
+31
+00:02:05,540 --> 00:02:09,640
+Oh my god, bro. All right, so you get the break-off structure here
+
+32
+00:02:11,100 --> 00:02:14,960
+Hi, hi. Hello. Hi. Hi. That is your silver
+
+33
+00:02:16,140 --> 00:02:21,820
+Like it's it's not even silver. It's like a platinum bullet here at this point because it goes way fast, okay?
+
+34
+00:02:23,300 --> 00:02:25,300
+So right here. This is your second
+
+35
+00:02:25,300 --> 00:02:31,980
+distribution entry on this variable remember to use the extreme friendly gap in this case in this leg right
+
+36
+00:02:33,580 --> 00:02:38,920
+So you have to use the extreme fairly gap in these two legs so high high high high high high high
+
+37
+00:02:38,920 --> 00:02:46,900
+Right in these two legs you have to use the extreme friendly gap that is not touched before and as you can see we could have gone
+
+38
+00:02:46,900 --> 00:02:50,060
+long just here that was our drawn liquidity and a
+
+39
+00:02:50,300 --> 00:02:52,300
+beautiful trade to the upside
+
+40
+00:02:52,300 --> 00:02:57,090
+So, let me give you guys one more example.

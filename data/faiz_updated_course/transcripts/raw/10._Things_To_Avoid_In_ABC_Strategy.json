@@ -1,0 +1,348 @@
+{
+  "source": "F:\\new faiz\\10. Things To Avoid In ABC Strategy.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 338.8488125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Right, so in this video, I'm going to give you a couple of tips about ABC strategy, or I could say, you know, the things that you should avoid, and ABC strategy. So the very first thing that I've seen people do is making this big mistake, right? So let's assume that you have an ALEC, you have the BLEG, and then you have the CLEG. So a lot of people consider this as a CLEG. For me, this is not a CLEG,"
+    },
+    {
+      "start": 30.0,
+      "end": 32.16,
+      "text": " because look at this, right?"
+    },
+    {
+      "start": 32.16,
+      "end": 34.56,
+      "text": " Price has went way far above."
+    },
+    {
+      "start": 34.56,
+      "end": 38.32,
+      "text": " So this for me is a breakout, right?"
+    },
+    {
+      "start": 38.32,
+      "end": 40.28,
+      "text": " It has to go to a certain degree."
+    },
+    {
+      "start": 40.28,
+      "end": 41.8,
+      "text": " It should not just keep on going up"
+    },
+    {
+      "start": 41.8,
+      "end": 43.84,
+      "text": " and then you expect the price to come back below"
+    },
+    {
+      "start": 43.84,
+      "end": 44.56,
+      "text": " and break this."
+    },
+    {
+      "start": 44.56,
+      "end": 47.08,
+      "text": " This makes no sense, right?"
+    },
+    {
+      "start": 47.08,
+      "end": 50.28,
+      "text": " You usually wanna look for price to go fake out"
+    },
+    {
+      "start": 50.28,
+      "end": 53.16,
+      "text": " above the high, right, which is here."
+    },
+    {
+      "start": 54.16,
+      "end": 57.12,
+      "text": " And it should not go like this with volume."
+    },
+    {
+      "start": 57.12,
+      "end": 59.2,
+      "text": " It should just not keep on going up."
+    },
+    {
+      "start": 59.2,
+      "end": 63.16,
+      "text": " No, you have to train your eyes to see valid ABCs."
+    },
+    {
+      "start": 63.16,
+      "end": 66.16,
+      "text": " So this could be a valid ABC at this distance, right?"
+    },
+    {
+      "start": 69.48,
+      "end": 73.28,
+      "text": " Let's see, let me see."
+    },
+    {
+      "start": 73.28,
+      "end": 78.28,
+      "text": " So around 30 pips on GPU SD is a valid fake app, right?"
+    },
+    {
+      "start": 79.44,
+      "end": 82.96,
+      "text": " Or even 35, okay?"
+    },
+    {
+      "start": 83.84,
+      "end": 87.32,
+      "text": " But more than that, it becomes risky, okay?"
+    },
+    {
+      "start": 87.32,
+      "end": 94.2,
+      "text": " So make sure you avoid that because I have seen a lot of people making this mistake in the discord server"
+    },
+    {
+      "start": 94.2,
+      "end": 98.9,
+      "text": " They just keep on looking for that same level when prize goes up like that"
+    },
+    {
+      "start": 98.9,
+      "end": 105.12,
+      "text": " You want to wait for prize to give you another ABC look for another ABC rather than waiting for this level to be you know"
+    },
+    {
+      "start": 105.12,
+      "end": 108.92,
+      "text": " Hit because let's assume that prize comes back and"
+    },
+    {
+      "start": 109.56,
+      "end": 112.08,
+      "text": " Break some structure right around here"
+    },
+    {
+      "start": 113.0,
+      "end": 115.0,
+      "text": " So you have your entry here now"
+    },
+    {
+      "start": 115.0,
+      "end": 126.04,
+      "text": " Now, if we look at the auto flow trading strategy, what reason the price has to just not"
+    },
+    {
+      "start": 126.04,
+      "end": 132.2,
+      "text": " mitigate an auto block over here and just create another higher high."
+    },
+    {
+      "start": 132.2,
+      "end": 133.84,
+      "text": " So this makes sense."
+    },
+    {
+      "start": 133.84,
+      "end": 139.04,
+      "text": " It can just come into this OB and it can just bears through your level because this is"
+    },
+    {
+      "start": 139.04,
+      "end": 141.72,
+      "text": " not, this right here is not a fake out."
+    },
+    {
+      "start": 141.72,
+      "end": 144.12,
+      "text": " It's simply a breakout."
+    },
+    {
+      "start": 144.12,
+      "end": 148.52,
+      "text": " So yeah, you want to keep that thing in mind."
+    },
+    {
+      "start": 148.52,
+      "end": 151.12,
+      "text": " Secondly, if you want to improve your ABC setups,"
+    },
+    {
+      "start": 151.12,
+      "end": 156.04,
+      "text": " there's this thing called, so actually, ABC is range trading."
+    },
+    {
+      "start": 156.04,
+      "end": 160.96,
+      "text": " And what I mean by range trading is that it's not that you"
+    },
+    {
+      "start": 160.96,
+      "end": 163.92,
+      "text": " have to only trade ABC is in the range in market."
+    },
+    {
+      "start": 163.92,
+      "end": 168.96,
+      "text": " But the whole setup, this ABC setup is a range."
+    },
+    {
+      "start": 168.96,
+      "end": 172.68,
+      "text": " So you have a range high, and then you have a range low."
+    },
+    {
+      "start": 172.68,
+      "end": 177.48,
+      "text": " So price has to take at BOS side to take out the sell side and rights versa."
+    },
+    {
+      "start": 177.48,
+      "end": 181.68,
+      "text": " So to actually increase the wind rate of this,"
+    },
+    {
+      "start": 181.68,
+      "end": 186.88,
+      "text": " what you can look for is when you have an ALAG and then you have the B-leg, right?"
+    },
+    {
+      "start": 186.88,
+      "end": 192.48,
+      "text": " You want to see some rejections around the ALAG high."
+    },
+    {
+      "start": 192.48,
+      "end": 196.28,
+      "text": " You know, it's going to build up some liquidity, right?"
+    },
+    {
+      "start": 196.28,
+      "end": 202.38,
+      "text": " And then you look for a C-leg and then you wait for a change of collector or market shift and you take your entry and target."
+    },
+    {
+      "start": 202.38,
+      "end": 212.9,
+      "text": " this level. Oops my bad. Oh my God dude. Um, I messed up. So let me draw this out again."
+    },
+    {
+      "start": 212.9,
+      "end": 217.38,
+      "text": " You have, you know, the B leg and then you have some liquidity buildup around the A level"
+    },
+    {
+      "start": 217.38,
+      "end": 224.16,
+      "text": " high. And then you have the C leg. You take your entry boom, boom. So what happened here"
+    },
+    {
+      "start": 224.16,
+      "end": 229.26,
+      "text": " is that when you have an A leg here, right, this is the high of the A leg. And we have"
+    },
+    {
+      "start": 229.26,
+      "end": 234.54,
+      "text": " this B leg. So before price creates a C leg, you know, price, this"
+    },
+    {
+      "start": 234.54,
+      "end": 240.46,
+      "text": " consolidated, uh, near this a leg high. So it can give a small push. It could be a"
+    },
+    {
+      "start": 240.46,
+      "end": 244.5,
+      "text": " small push like this, right? It doesn't have to be big. It could be just be some"
+    },
+    {
+      "start": 244.5,
+      "end": 249.18,
+      "text": " sort of consolidation happening around here. Uh, because usually when you, when"
+    },
+    {
+      "start": 249.18,
+      "end": 255.1,
+      "text": " you're only trading like ABCs like this, you know, this, this, this, you know,"
+    },
+    {
+      "start": 255.1,
+      "end": 259.7,
+      "text": " shows me there's volume to the upside because price is just gonna pierce"
+    },
+    {
+      "start": 259.7,
+      "end": 264.58,
+      "text": " through above this level and not come back and take out this level. So you have"
+    },
+    {
+      "start": 264.58,
+      "end": 270.86,
+      "text": " there is a less chance there's you know there's a 40-person chance that it's"
+    },
+    {
+      "start": 270.86,
+      "end": 274.9,
+      "text": " gonna play out but there's a 60-person chance that it won't play out. Why?"
+    },
+    {
+      "start": 274.9,
+      "end": 280.22,
+      "text": " Because you know you have no consolidation after the B-lect formation near the"
+    },
+    {
+      "start": 280.22,
+      "end": 292.22,
+      "text": " So a prime setup for me would be, you know, I want to see some sort of consolidation around this level before price takes out the available high."
+    },
+    {
+      "start": 292.22,
+      "end": 301.22,
+      "text": " You know, and it can just take out the like, like, high come back to a market structure shift, take your entry and boot."
+    },
+    {
+      "start": 301.22,
+      "end": 308.9,
+      "text": " So I hope this video gives you some sort of information and make sure you"
+    },
+    {
+      "start": 310.62,
+      "end": 313.26,
+      "text": " Back test this, you know and just"
+    },
+    {
+      "start": 314.06,
+      "end": 316.06,
+      "text": " Just get used to this"
+    },
+    {
+      "start": 316.82,
+      "end": 318.82,
+      "text": " Padden right"
+    },
+    {
+      "start": 318.82,
+      "end": 323.98,
+      "text": " I want to see some sort of consolidation around the leg high or if you are looking for a long position"
+    },
+    {
+      "start": 323.98,
+      "end": 332.51,
+      "text": " You want to see some sort of consolidation around you know this level which would be this and"
+    },
+    {
+      "start": 333.11,
+      "end": 337.67,
+      "text": " boom. This would be it. So let's move on to the next video."
+    }
+  ]
+}

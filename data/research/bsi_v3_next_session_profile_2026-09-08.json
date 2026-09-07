@@ -1,0 +1,1245 @@
+{
+  "profile_id": "BSI_V3_NEXT_SESSION_PROFILE_2026-09-08",
+  "methodology": "BSI_BASELINE_V3_UPDATED_FAIZ_ROLLING_INTELLIGENCE",
+  "as_of_utc_date": "2026-09-07",
+  "next_trading_day_utc_date": "2026-09-08",
+  "symbols": [
+    "EURUSD",
+    "GBPUSD",
+    "USDJPY",
+    "AUDUSD",
+    "USDCAD",
+    "USDCHF",
+    "NZDUSD",
+    "EURJPY",
+    "GBPJPY",
+    "XAUUSD"
+  ],
+  "windows": {
+    "year_to_date": {
+      "start": "2026-01-01T00:00:00+00:00",
+      "end": "2026-09-08T00:00:00+00:00",
+      "allowed_bucket_count": 101,
+      "adaptive_filtered": {
+        "trades": 21031,
+        "wins": 13796,
+        "losses": 7235,
+        "win_rate": 65.6,
+        "net_r": 5966.1158,
+        "expectancy": 0.2837,
+        "profit_factor": 1.861,
+        "average_winner_r": 0.9347,
+        "average_loser_r": -0.9578,
+        "median_r": 0.5,
+        "max_winning_streak": 27,
+        "max_losing_streak": 8,
+        "max_drawdown_r": 27.4124
+      }
+    },
+    "month_to_date": {
+      "start": "2026-09-01T00:00:00+00:00",
+      "end": "2026-09-08T00:00:00+00:00",
+      "allowed_bucket_count": 20,
+      "adaptive_filtered": {
+        "trades": 264,
+        "wins": 182,
+        "losses": 82,
+        "win_rate": 68.94,
+        "net_r": 109.4102,
+        "expectancy": 0.4144,
+        "profit_factor": 2.5497,
+        "average_winner_r": 0.9891,
+        "average_loser_r": -0.861,
+        "median_r": 0.5,
+        "max_winning_streak": 11,
+        "max_losing_streak": 3,
+        "max_drawdown_r": 2.5
+      }
+    },
+    "week_to_date": {
+      "start": "2026-09-07T00:00:00+00:00",
+      "end": "2026-09-08T00:00:00+00:00",
+      "allowed_bucket_count": 0,
+      "adaptive_filtered": {
+        "trades": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_rate": null,
+        "net_r": 0.0,
+        "expectancy": null,
+        "profit_factor": null,
+        "average_winner_r": null,
+        "average_loser_r": null,
+        "median_r": null,
+        "max_winning_streak": 0,
+        "max_losing_streak": 0,
+        "max_drawdown_r": 0.0
+      }
+    },
+    "previous_trading_day": {
+      "start": "2026-09-04T00:00:00+00:00",
+      "end": "2026-09-05T00:00:00+00:00",
+      "allowed_bucket_count": 0,
+      "adaptive_filtered": {
+        "trades": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_rate": null,
+        "net_r": 0.0,
+        "expectancy": null,
+        "profit_factor": null,
+        "average_winner_r": null,
+        "average_loser_r": null,
+        "median_r": null,
+        "max_winning_streak": 0,
+        "max_losing_streak": 0,
+        "max_drawdown_r": 0.0
+      }
+    }
+  },
+  "allowed_buckets": [
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "AUDUSD",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "EURJPY",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "EURUSD",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "GBPJPY",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "GBPUSD",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "NZDUSD",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "USDCAD",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "USDCHF",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "USDJPY",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "XAUUSD",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "AUDUSD",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "EURJPY",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "EURUSD",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "GBPJPY",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "GBPUSD",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "NZDUSD",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "USDCAD",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "USDCHF",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "USDJPY",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "XAUUSD",
+      "score": 3.0,
+      "windows": [
+        "year_to_date",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    }
+  ],
+  "watchlist_buckets": [
+    {
+      "strategy_id": "bsi_v3_4h_order_block",
+      "symbol": "EURUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_4h_order_block",
+      "symbol": "GBPJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_4h_order_block",
+      "symbol": "GBPUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_4h_order_block",
+      "symbol": "USDCHF",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_4h_order_block",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "AUDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "EURJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "GBPJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "GBPUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "NZDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "USDCAD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "USDCHF",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abcd",
+      "symbol": "EURUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abcd",
+      "symbol": "GBPJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abcd",
+      "symbol": "GBPUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abcd",
+      "symbol": "USDCHF",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abcd",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "AUDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "EURJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "EURUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "GBPJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "GBPUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "NZDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "USDCAD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "USDCHF",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "USDJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "EURJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "GBPJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "GBPUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "NZDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "USDCHF",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "USDJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "AUDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "EURJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "EURUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "GBPJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "GBPUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "NZDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "USDCAD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "USDCHF",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "USDJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "symbol": "NZDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "symbol": "USDJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_monday_range",
+      "symbol": "EURUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_monday_range",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "AUDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "EURJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "EURUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "GBPJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "GBPUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "NZDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "USDCAD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "USDCHF",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "USDJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "AUDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "EURJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "EURUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "GBPJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "GBPUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "NZDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "USDCAD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "USDCHF",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "USDJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "AUDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "EURJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "EURUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "GBPJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "GBPUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "NZDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "USDCAD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "USDCHF",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "USDJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_yin_yang",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    }
+  ],
+  "blocked_recent_only_buckets": [],
+  "risk_mode": "NORMAL",
+  "risk_rules": {
+    "pause_new_entries_if_current_month_net_r_lte": -25.0,
+    "reduce_or_pause_if_current_month_drawdown_r_gte": 25.0,
+    "use_broker_safe_sl_and_partial_volume_helpers": true,
+    "route_only_strategy_specific_detectors": true,
+    "generic_detector_routing_count": 0
+  },
+  "routing_note": "This prepares next-session V3 demo routing decisions. It does not place trades by itself."
+}

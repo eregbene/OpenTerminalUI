@@ -1,0 +1,45 @@
+start	end	text
+0	6080	All right guys, so now we are going to learn the Asian session liquidity trading strategy.
+6080	13200	So let me type that in Asian liquidity, Asian session liquidity trading
+14960	23200	strategy. Let me put this like this. All right, perfect. So what is Asian session liquidity trading
+23280	31120	strategy? Well, during the Asian session price, most of the time consolidates. Okay. So it's
+31120	39280	going to be like this and blah, blah, blah. Right. So let's suppose that this is an Asian session.
+40640	45520	All right. This is the start of the Asian session. And this is the end of the Asian session.
+46320	50960	All right. There you go. Perfect. This is the end. So
+52640	58960	if once the Asian session is over, we get a one to two hours time period of
+60160	68720	lunch. Okay. So let me draw this out like this. Once the Asian session is over, we get this one
+68800	75920	our break or to our break before London session starts. Okay. Now, during that break,
+76480	84320	I want the price to pull back and create another high, high or lower low, depending on where the
+84320	92400	price is going. All right. And once it does that, what you want the price to do is to break
+93040	101760	or do do a market structure shift, okay, or change of character, whatever you want to call it.
+104160	114560	Now the price can also break the structure after the London session starts. Okay. The only thing
+114560	122000	that you should be focusing on that the fake out like this happens during the lunch time period.
+122080	131280	Okay. Now it doesn't matter when price does a market structure shift or change of character
+132400	138480	within that lunch period or during the London session. All right. Once that market structure
+138480	148400	shift has happened, you want to identify auto block plus fair value gap. You want to go short,
+148400	154800	put your stop plus right above there. And you want to target the low of the Asian session. Okay.
+156160	163040	So what's price going to do is going to go back up. And then it's going to take out the
+164960	172880	low of the Asian session. All right. Similarly, let me draw this. Let me remove this.
+173120	183040	Do, if you're looking for buys during the lunch period, I want to see price
+185040	190800	fake out. And then a clear, a very clear market structure shift.
+192880	198080	We take our entry from the imbalance and fair value gap and we target the high of the Asian
+198080	205680	session. Very simple guys. Okay. You do not need you do not need any daily buys for it.
+205680	211200	It's an algorithmic trading strategy. So we see a market structure shift right around here.
+212080	218800	Okay. And we got the fair value gap right around here or auto block. Okay. We take our entry here
+218800	225520	and we target the Asian session liquidity high. So let me remove this. And let me show you an
+225520	234000	example. Okay. So you can see we created the lower low, lower high, lower low, higher high.
+234800	241600	But then we created another low low. And then we did not create anything. These were just wicks.
+241600	250640	Okay. We did create this level and we brought, we created another level. So after that, you can see
+250640	260800	that price faked out during the lunch period. And now what you want to do before we even start,
+261600	267840	you want to, how do we identify a Asian session, a London session, and the lunch breaks and all.
+267840	274400	You want to go to the indicator tab. You want to type in FX and Asian session range. Once you do
+274400	279040	that, you want to go to the settings tab here. You want to go to the style settings and you want
+279040	286560	to disable labels and lines. That is it. So the blue one is an Asian session. The green one is the
+286560	293440	London session. And the gray one is the New York session. All right, clear. All right. So let's move
+293440	299360	on. Now what do we have here? We got this market structure shift. And we broke a lot of structures,
+299360	307600	right? So this shows us that price want to go up and take out the high of the Asian session. All
+307600	314320	right. So what we do here is that we want to mark out the fair value gap and the autoblock. So as
+314320	321360	you can see, this is an autoblock with fair value gap. You want to enter from here. You want to put
+321360	328080	your stopwatch right below that autoblock and you want to target the high. Okay. Now you must
+328080	334480	always take all of your profits when the high is taken out because price can reverse heavily.
+334480	337600	Okay. So let me give you a few or more examples.

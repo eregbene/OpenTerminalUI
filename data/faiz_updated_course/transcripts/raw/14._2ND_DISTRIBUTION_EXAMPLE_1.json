@@ -1,0 +1,163 @@
+{
+  "source": "F:\\new faiz\\14. 2ND DISTRIBUTION EXAMPLE 1.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 197.4625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.05,
+      "end": 30.05,
+      "text": " Alright guys, so here is an example number one of the market maker, second distribution entry model. So right here, but do we have taken out the external liquidity, right? This fair value gap is going to be our drawn liquidity. So let's see what happened here. Going to the one-hour time firm. This is when we took out the external liquidity, right? We have the consolidation right here, and we have this drawn liquidity right here. We have this pullback, which is the accumulation phase one, right? We only want to see a small pullback or consolidation."
+    },
+    {
+      "start": 30.05,
+      "end": 36.45,
+      "text": " that's pretty much it. So now let's look at it here. After price took out the liquid, what do we have?"
+    },
+    {
+      "start": 36.45,
+      "end": 41.81,
+      "text": " We have a lower low, lower high, lower low. Now that's when we get a market structure ship"
+    },
+    {
+      "start": 41.81,
+      "end": 47.73,
+      "text": " and we also have the first stage of the market maker second distribution model complete,"
+    },
+    {
+      "start": 47.73,
+      "end": 52.13,
+      "text": " which is double break of structure, right? Once you have a double break of structure,"
+    },
+    {
+      "start": 52.13,
+      "end": 58.45,
+      "text": " you want to wait for a purge of any lower high. Now what is a lower high? We have lower low,"
+    },
+    {
+      "start": 58.45,
+      "end": 64.77,
+      "text": " lower high. This is a lower high, right? But do we have here? Lower low, lower high, lower low, right?"
+    },
+    {
+      "start": 64.93,
+      "end": 69.33,
+      "text": " Now this is that lower high that you want to put your focus on. We took out this"
+    },
+    {
+      "start": 70.45,
+      "end": 76.45,
+      "text": " lower high here. Now we want to wait for a double break off structure once again, right?"
+    },
+    {
+      "start": 76.45,
+      "end": 80.69,
+      "text": " So we have this level taken out. We also took out this level, but this is not necessary."
+    },
+    {
+      "start": 80.69,
+      "end": 85.41,
+      "text": " We took out this lower high. Now we simply wait for a double break off structure. So what do we have?"
+    },
+    {
+      "start": 85.41,
+      "end": 92.61,
+      "text": " we have a lower low, right? Zooming in here, we have a lower low, lower high and a lower low."
+    },
+    {
+      "start": 94.29,
+      "end": 101.09,
+      "text": " Once you have that, look at where is the unmitigated freer value gap? This right here is the"
+    },
+    {
+      "start": 101.09,
+      "end": 107.81,
+      "text": " freer value gap that we're talking about. Now this is your second distribution entry model and"
+    },
+    {
+      "start": 107.81,
+      "end": 116.53,
+      "text": " guys once you get this setup there's like no going back okay so this is like a"
+    },
+    {
+      "start": 116.53,
+      "end": 120.17,
+      "text": " live trade I think we can't play it forward so like this is happening right now"
+    },
+    {
+      "start": 120.17,
+      "end": 128.05,
+      "text": " it happened on Monday you can see at three we got the entry and this is the"
+    },
+    {
+      "start": 128.05,
+      "end": 132.09,
+      "text": " beauty of this model once you get this type of setup you have to train your"
+    },
+    {
+      "start": 132.09,
+      "end": 137.61,
+      "text": " mind to see this type of setup guys it's not it's not I like my other strategies"
+    },
+    {
+      "start": 137.61,
+      "end": 144.89,
+      "text": " is not easy. It's not like it's like a piece of cake. No, it is not that. You have to"
+    },
+    {
+      "start": 144.89,
+      "end": 149.61,
+      "text": " identify these structures. And one more thing to help you with this is wicks'"
+    },
+    {
+      "start": 149.61,
+      "end": 154.85,
+      "text": " marker, okay, in this strategy. So you don't have to wait for body closure. If"
+    },
+    {
+      "start": 154.85,
+      "end": 158.73,
+      "text": " you get a wig, that is your shift in marker structure. If you get like a wig"
+    },
+    {
+      "start": 158.73,
+      "end": 162.97,
+      "text": " here and then a wig here, that is your break of structure. So let's say if the"
+    },
+    {
+      "start": 162.97,
+      "end": 172.33,
+      "text": " body didn't close here, but it was just a wick that was a clean setup. Okay, you don't you can also wait for wicks in this type of strategy. So"
+    },
+    {
+      "start": 174.09,
+      "end": 176.97,
+      "text": " this second distribution is complete and we hit this"
+    },
+    {
+      "start": 177.53,
+      "end": 182.81,
+      "text": " almost trying to hit this level. We'll take out this look and this would have been a 14.98."
+    },
+    {
+      "start": 183.13,
+      "end": 187.61,
+      "text": " Let's say you put your stop here. Maybe here. Let's say even here three you would get one to three,"
+    },
+    {
+      "start": 187.61,
+      "end": 192.81,
+      "text": " but usually I would put my stop here. That was 13.46. It happened recently that was"
+    },
+    {
+      "start": 192.81,
+      "end": 196.81,
+      "text": " your challenge pass in one trade. Let's move on to the next example."
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+start	end	text
+0	5160	All right guys, so in this lecture, I'm gonna show you how you can identify daily bias easily
+5360	12440	So this method was actually taught by ICT himself in one of his videos. I believe it was from sniper series or
+12800	14800	Market maker. I'm not quite sure
+14960	17300	But yeah, he taught that himself
+17300	23780	He said that if you as a beginner if you have if you are having problem with finding daily bias manually
+24000	28960	You can use this method. Okay, it's not gonna be as perfect as finding the daily bias manually
+28960	35100	But it's gonna work. Okay, and it's better than nothing. So go to the indicators tab here type in moving
+36560	38080	average
+38080	40080	right and you
+40800	44960	Open two moving averages. So the one length is nine
+44960	50280	So the length of the first one is nine and the length of the second one is going to be 18
+51880	53600	Once you have that
+53640	60640	So whenever the moving averages are to the upside right after the cross your bias is bullish
+60800	65920	Okay, and whenever the moving averages are to the downside your bias is
+66520	70680	bearish simple as that guys non-natural or complicated I
+71680	77680	Repeat when the moving averages give across and the price is above the moving averages
+77680	82440	Or the moving averages are up to the to the upside like here your bias is gonna be
+82800	85800	bullish regardless of what price is doing, okay?
+86640	88640	so
+88800	93080	This is one way to set foundation, okay, so what I have
+93680	98680	Found but back testing if one you once you have a cross right the next two to three days
+99160	102000	You can have a bullish bias
+102200	108280	But after that you want to look for some sort of liquidy sweep before being bullish again
+108320	111440	Okay, so right here you can see we had three consecutive bullish days
+111440	115460	So you have to expect some sort of retracement and that retracement
+115840	117960	Could be from this very well you gap that was here
+117960	124600	So when price comes back to very well you gap you could either be bullish again here or you what you do is you wait for some
+124600	132560	Sort of liquidy sweep. So this right here is a liquidy sweep and price candle closes here and your bias is bullish
+133000	136680	very very simple guys, okay, um
+137160	140360	And right here you can see we have a cross I
+141360	148840	Believe right here. So the next day was bearish. Okay, but then what happened was we took out this
+150640	155960	High here and you can see the next day was bearish after that
+156120	162240	What happened was we took out this high over here and after taking out the high
+162240	165120	You can see the next couple of days were bearish
+165560	170600	So over here we have a cross again actually cross here, right?
+170600	173560	so the next day was bullish as hell and
+174360	179600	Remember the volume imbalance video that I thought you guys there is volume imbalance right here and
+181160	185120	Also, what happened here was price took out this liquidy
+185120	190000	So then the next candle after the close of the next candle your bias is bullish. So see that move
+190680	193000	Yep, that's what I'm talking about crossover here
+193000	195000	You
+195000	201040	Can see kind of close here. Well, the next day I would say it was bullish. Okay, so there's nothing that you can do about it
+201040	205560	But then the couple of so the next two days were bearish right here after that
+206240	211440	You would have looked for liquidy sweep surprise swept the liquidy here price consolidated for a couple of days
+211440	214480	But then you had this, you know up and down up and down
+214720	218000	But then you had the next couple of days bearish couple of days
+218040	223080	Okay, and after that price swept liquidy boom very simple guys
+225520	231980	So let me show you guys here as well. We have a cross boom cross over here boom move move to the upside cross here
+232440	238800	bearish cross here bullish, okay, you can see price up liquidy here as well move to the upside
+239400	244680	Price swept liquidy here as well. Well, this was you could have been bearish for some days
+244680	250080	But then there was this, you know, this autoblock right here price came back here push up
+250240	253580	But all you need are moving averages to identify a deli bias guys
+254600	258320	It's not gonna be as accurate as finding it manually if you want to learn how to
+259120	261960	You know identify a deli bias manually
+262680	270040	With a higher accuracy level you can watch my video on YouTube. It's absolutely free or you can learn by ICT himself
+271040	274800	So there's another trick that you can use and
+276160	283160	That trick is by me actually so you look for ABC patterns, okay?
+284120	286120	So this right here you see ABC
+287520	293640	When you have a sweep you wait for price to close back and then you when the price comes back to retest as
+294080	297480	soon as it retests this line your
+298080	303280	Bias could be bearish, but as you can see the moving averages here were bullish
+303280	305280	So you got to play
+306000	313720	Accordingly if the moving averages are bullish you look for bearish ABCs. Oh, sorry bullish ABCs, okay?
+315240	319680	But I'm just showing you if you don't want to use moving averages you can use this technique as well
+320880	322880	So let me show you how
+323880	328760	Let me go back right here remove the drawings. Let's disable the moving averages
+331760	335400	So right here you see we have a BC, right?
+337440	339440	So a BC
+339600	344720	Then we the price goes above the line and went as soon as you have a retest
+345440	350560	Your bias becomes bullish, okay? There was really gap here as well
+351400	353400	And you can see how this works
+354240	360160	So your bias for the couple of days I was bullish from just for by identifying a daily bias
+362200	364200	Okay
+364240	366240	You can see right here
+366240	368240	We have a
+368360	373320	B and then see price comes down retest here and boom
+375040	377040	Price
+377040	379040	over here ABC
+381040	382880	You can see that
+382880	389520	Price yes, it did go up here to fill a fill in some imbalance or for every gap on the lower time frame
+389680	392160	But then the next couple of days as you can see we're bearish
+392800	394800	So this is it for
+395520	400240	Identifying daily bias. It's not gonna be as accurate as finding the daily bias manually
+400240	404360	But it's better than nothing and it is going to increase or win rate definitely
+404920	406920	See you guys in the next video

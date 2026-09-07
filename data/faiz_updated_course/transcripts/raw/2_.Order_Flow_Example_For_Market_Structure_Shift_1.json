@@ -1,0 +1,178 @@
+{
+  "source": "F:\\new faiz\\2 .Order Flow Example For Market Structure Shift (1).mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 170.109375,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 32.69,
+      "text": " Here's another example, how you can trade market structure shifts using the autofold training strategy. You can see that we were making higher high, higher low, higher high, higher high, higher high, higher high. And then we made this move, which broke this level. There you go, it broke this level. This low."
+    },
+    {
+      "start": 32.69,
+      "end": 38.73,
+      "text": " high high and then price broke this higher low. So that is considered to be has"
+    },
+    {
+      "start": 38.73,
+      "end": 50.38,
+      "text": " market structure shift. And then what you want to do remember you want to draw"
+    },
+    {
+      "start": 50.38,
+      "end": 55.26,
+      "text": " your Fibonacci tool not necessarily but if you just want to see where are that"
+    },
+    {
+      "start": 55.26,
+      "end": 61.34,
+      "text": " zones right you want to draw out the Fibonacci from the top to the bottom and"
+    },
+    {
+      "start": 61.34,
+      "end": 64.34,
+      "text": " and then you want to choose the extreme zone."
+    },
+    {
+      "start": 64.34,
+      "end": 65.34,
+      "text": " Okay."
+    },
+    {
+      "start": 65.34,
+      "end": 68.34,
+      "text": " So as you can see,"
+    },
+    {
+      "start": 68.34,
+      "end": 71.34,
+      "text": " we got an autoblock"
+    },
+    {
+      "start": 71.34,
+      "end": 74.34,
+      "text": " right around here."
+    },
+    {
+      "start": 74.34,
+      "end": 76.34,
+      "text": " What are autoblocks?"
+    },
+    {
+      "start": 76.34,
+      "end": 78.34,
+      "text": " The first candle that create imbalance."
+    },
+    {
+      "start": 78.34,
+      "end": 80.34,
+      "text": " You can see first, second, third."
+    },
+    {
+      "start": 80.34,
+      "end": 82.34,
+      "text": " There's some gap here as well."
+    },
+    {
+      "start": 82.34,
+      "end": 85.34,
+      "text": " And basically, you do not."
+    },
+    {
+      "start": 85.34,
+      "end": 86.34,
+      "text": " Okay."
+    },
+    {
+      "start": 86.34,
+      "end": 87.34,
+      "text": " So, yeah."
+    },
+    {
+      "start": 87.34,
+      "end": 90.34,
+      "text": " So basically you can see you would have entered"
+    },
+    {
+      "start": 90.34,
+      "end": 97.78,
+      "text": " right around here put your stop loss right above that level and kaboom very easy guys"
+    },
+    {
+      "start": 99.46,
+      "end": 106.26,
+      "text": " and you would have taken your take profit at this level which is another liquidity pool and before"
+    },
+    {
+      "start": 106.74,
+      "end": 112.5,
+      "text": " price went up you can see price created these relative equal highs"
+    },
+    {
+      "start": 113.86,
+      "end": 119.78,
+      "text": " okay this is liquidity this is basically a resistance level if that makes sense okay"
+    },
+    {
+      "start": 120.34,
+      "end": 122.34,
+      "text": " So make sure you identify"
+    },
+    {
+      "start": 122.78,
+      "end": 126.18,
+      "text": " Liquidity before taking these entries if there's no liquidity"
+    },
+    {
+      "start": 126.62,
+      "end": 129.46,
+      "text": " You're going to lose. Okay, if there's no liquidity what's probably gonna do?"
+    },
+    {
+      "start": 129.82,
+      "end": 136.5,
+      "text": " It's just gonna go up it will not respect your level because there's no reason for it to respect it. Okay"
+    },
+    {
+      "start": 138.1,
+      "end": 140.1,
+      "text": " So you can see price"
+    },
+    {
+      "start": 140.5,
+      "end": 142.26,
+      "text": " Broke structure"
+    },
+    {
+      "start": 142.26,
+      "end": 145.1,
+      "text": " There was a market structure shift then price"
+    },
+    {
+      "start": 145.1,
+      "end": 151.06,
+      "text": " engineer liquidity and then it went all the way up to the extreme zone of that"
+    },
+    {
+      "start": 151.06,
+      "end": 157.02,
+      "text": " move that broke the market structure. If that makes sense. So this was another"
+    },
+    {
+      "start": 157.02,
+      "end": 162.9,
+      "text": " example how you can use each and everything together to trade. So I'll give"
+    },
+    {
+      "start": 162.9,
+      "end": 169.34,
+      "text": " you now examples for the long positions."
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "source": "F:\\new faiz\\37. 4 Hour OB Trading Strategy Example 3.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 120.3258125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so here is the last example for this strategy and I'm looking at USTCHF. I also want to, like, I'm showing you guys that it works with every single pair. So, auto flow is clearly bearish. You have to train your eyes to see this. So now, we have this auto block here. It comes back into our auto block. Let's go back to 15 minutes and you can see that we have higher"
+    },
+    {
+      "start": 30.0,
+      "end": 33.84,
+      "text": " Hi, hello, and hi, hi."
+    },
+    {
+      "start": 33.84,
+      "end": 37.12,
+      "text": " Now this here, right here, candle, right?"
+    },
+    {
+      "start": 37.12,
+      "end": 40.4,
+      "text": " It took out this liquidy here,"
+    },
+    {
+      "start": 40.4,
+      "end": 43.96,
+      "text": " and then we have a market structure shift here."
+    },
+    {
+      "start": 43.96,
+      "end": 46.16,
+      "text": " Very tiny market structure shift,"
+    },
+    {
+      "start": 46.16,
+      "end": 49.04,
+      "text": " but it is a market structure shift."
+    },
+    {
+      "start": 49.04,
+      "end": 52.36,
+      "text": " Let's go back to, let's say five minutes."
+    },
+    {
+      "start": 52.36,
+      "end": 56.2,
+      "text": " You can see that this is a clear, clean market structure shift,"
+    },
+    {
+      "start": 56.2,
+      "end": 57.36,
+      "text": " right?"
+    },
+    {
+      "start": 57.36,
+      "end": 59.48,
+      "text": " Now let's go back to 15 minute."
+    },
+    {
+      "start": 60.6,
+      "end": 64.0,
+      "text": " And now it doesn't have to be consecutive candles."
+    },
+    {
+      "start": 64.0,
+      "end": 66.92,
+      "text": " I know some of you might think that it has you consecutive."
+    },
+    {
+      "start": 66.92,
+      "end": 68.3,
+      "text": " No."
+    },
+    {
+      "start": 68.3,
+      "end": 70.0,
+      "text": " If it takes out liquidity and then you have,"
+    },
+    {
+      "start": 70.0,
+      "end": 72.56,
+      "text": " if it takes out liquidity, it goes to your P.O.I."
+    },
+    {
+      "start": 72.56,
+      "end": 74.44,
+      "text": " and then you have a market shortage shift,"
+    },
+    {
+      "start": 74.44,
+      "end": 76.0,
+      "text": " then that is your auto block."
+    },
+    {
+      "start": 76.0,
+      "end": 77.88,
+      "text": " Okay, you don't have to be consecutive candles."
+    },
+    {
+      "start": 77.88,
+      "end": 80.96,
+      "text": " You take your entry here, put your stop right above this high"
+    },
+    {
+      "start": 80.96,
+      "end": 83.72,
+      "text": " over here, go for one, two,"
+    },
+    {
+      "start": 83.72,
+      "end": 88.52,
+      "text": " And look at this."
+    },
+    {
+      "start": 88.52,
+      "end": 91.88,
+      "text": " Play this out beautifully."
+    },
+    {
+      "start": 91.88,
+      "end": 95.86,
+      "text": " And it hits your take profit."
+    },
+    {
+      "start": 95.86,
+      "end": 100.7,
+      "text": " Honestly this is one of my favorite trading strategies at the moment."
+    },
+    {
+      "start": 100.7,
+      "end": 106.06,
+      "text": " It's basically auto flow, but it only uses two time frames and you only have to see the"
+    },
+    {
+      "start": 106.06,
+      "end": 110.5,
+      "text": " market share shift during kill zone hours and your energy must also be doing kills on"
+    },
+    {
+      "start": 110.5,
+      "end": 114.14,
+      "text": " hours and you go for one to two."
+    },
+    {
+      "start": 114.14,
+      "end": 116.7,
+      "text": " So that was it for this strategy."
+    },
+    {
+      "start": 116.7,
+      "end": 118.7,
+      "text": " I'll see you guys in the next one."
+    }
+  ]
+}

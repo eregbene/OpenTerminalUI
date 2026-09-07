@@ -1,0 +1,176 @@
+1
+00:00:00,000 --> 00:00:03,600
+Okay, guys, so I want to give you an example of confirmation entries
+
+2
+00:00:04,000 --> 00:00:10,960
+So on the one hour time from you have this change of protector and we also have this break of structure here. So
+
+3
+00:00:12,480 --> 00:00:18,880
+Oops, my bad. What's happening man? Okay, so we have change of picture and also we have break of structure, right and
+
+4
+00:00:19,560 --> 00:00:21,720
+There we have our autoblock
+
+5
+00:00:21,720 --> 00:00:31,400
+With fair value gap. So this is our POI. Now when price comes back into your POI, you want to drop down to the five minute time for him
+
+6
+00:00:32,720 --> 00:00:40,160
+And you look for market structure shifts. So did we have a market structure shift here? No, we did not break above this level
+
+7
+00:00:40,160 --> 00:00:44,760
+So I want to wait for a body closure. Okay, not the week. So
+
+8
+00:00:46,400 --> 00:00:49,320
+Over here we see price
+
+9
+00:00:49,760 --> 00:00:54,760
+Okay, so we have another liquidity sweep. So let's assume
+
+10
+00:00:56,960 --> 00:01:02,240
+Okay, so I believe we have market structure shift. So this is our market structure shift, right and
+
+11
+00:01:02,840 --> 00:01:04,840
+We have this fair value gap
+
+12
+00:01:05,320 --> 00:01:06,600
+with OBI
+
+13
+00:01:06,600 --> 00:01:12,920
+You can see and if I take my entry from this level put my stop right below this level and
+
+14
+00:01:13,760 --> 00:01:15,760
+We look to target
+
+15
+00:01:16,640 --> 00:01:18,640
+Um
+
+16
+00:01:18,640 --> 00:01:23,240
+Maybe this high here these equal highs, right? So
+
+17
+00:01:24,640 --> 00:01:26,640
+See what happens
+
+18
+00:01:28,000 --> 00:01:30,000
+So I'm gonna put this at three
+
+19
+00:01:32,640 --> 00:01:34,640
+And I'm gonna buy right here
+
+20
+00:01:38,840 --> 00:01:42,440
+Let's just speed this up. Okay, nevermind and I'm gonna sell it here
+
+21
+00:01:46,160 --> 00:01:48,160
+At around this level
+
+22
+00:01:50,200 --> 00:01:52,200
+So let me just speed this up actually
+
+23
+00:01:54,800 --> 00:01:57,680
+And price just keeps on going up
+
+24
+00:02:02,400 --> 00:02:07,000
+And eventually yep, we hit our take profit so
+
+25
+00:02:10,000 --> 00:02:13,120
+I'm not sure what happened here. How do I close this out?
+
+26
+00:02:14,120 --> 00:02:16,440
+All right, I'm just gonna close this here
+
+27
+00:02:17,000 --> 00:02:22,000
+So you can see that we if we use confirmation entries
+
+28
+00:02:22,680 --> 00:02:29,760
+It's gonna be really really beneficial, right? So this trade right here was not during the
+
+29
+00:02:30,560 --> 00:02:36,040
+Killzone, but this was just to show you as an example that how well it can work, okay?
+
+30
+00:02:37,160 --> 00:02:38,560
+so
+
+31
+00:02:38,600 --> 00:02:43,800
+Make sure that your entries are always during close-on-ars. It's gonna increase your win rate
+
+32
+00:02:44,320 --> 00:02:46,320
+I'm not saying that you can
+
+33
+00:02:46,800 --> 00:02:49,240
+You know not take a trade ever
+
+34
+00:02:50,120 --> 00:02:55,240
+Like without being in a close-on, but if you take killing kills on into consideration
+
+35
+00:02:56,320 --> 00:02:58,320
+the chances are higher and
+
+36
+00:02:59,400 --> 00:03:03,600
+The algorithms are active at that time, but this right here. This was an exception and
+
+37
+00:03:04,240 --> 00:03:10,600
+This was also just for for an example. I just looked at the chart and I found it. It worked out pretty well
+
+38
+00:03:11,760 --> 00:03:15,080
+And this is a hindsight as well, but it does actually work
+
+39
+00:03:15,080 --> 00:03:15,840
+so
+
+40
+00:03:15,840 --> 00:03:18,840
+You can see that we came into our POI
+
+41
+00:03:19,040 --> 00:03:21,280
+we had a market structure shift here and
+
+42
+00:03:21,800 --> 00:03:27,400
+We took our entry from the Fereboli gap and it took its time and took out these level
+
+43
+00:03:27,400 --> 00:03:32,480
+this was our take profit level that would have been nine nine point three risk to reward and
+
+44
+00:03:33,600 --> 00:03:35,600
+This was beautiful
+

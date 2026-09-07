@@ -1,0 +1,30 @@
+[00:00:00] Alright guys, so here is example number two for the monthly bias. I'm looking at AUD-USD on the monthly timeframe of course. So now how do you manually identify highs and lows? So I high and low is a pattern of three candles. The first candle is like this. The second candle is the highest and the third candle is lower than the second candle. So the second candle has to be the highest.
+[00:00:30] here, wake here and wake here. The second candle has the highest
+[00:00:34] wick. Okay, once we have that pattern, right, when the candle closes, that is your
+[00:00:39] high. Or you can simply just use the fractals indicator. But sometimes
+[00:00:45] fractals might miss these small highs and lows. So you must know what is
+[00:00:52] high and low. So over here, what we have is a purge on the external
+[00:00:57] liquidity and where is the drawn liquidity? It's going to be this fair value gap. So now let's drop
+[00:01:04] down to the daily timeframe once we have taken out the monthly extended liquidity. So now what we
+[00:01:11] want to wait for is a market structure shift and right there you can see we have a shift in the
+[00:01:17] market structure. Beautiful. So then you can see price fills in the fair value gap. So that is
+[00:01:24] going to be our entry. If the fair value gap is big, you can simply just use the 0.5 level of the
+[00:01:32] fib, which is going to be this. So let's say your entry is here. Let me remove the fib. Your stop
+[00:01:39] goes above the high and you're simply targeting the monthly drawn liquidity, which is the fair
+[00:01:48] value gap. These two lines is a fair value gap. Remember, I drew two lines. So you have your
+[00:01:54] entry so let's see what would have happened and there you go take profit hit you can see we have
+[00:02:01] been bearish throughout the these many days now if you were on the one hour time frame now let
+[00:02:10] me give you some you know hints you could have taken your entry somewhere around here maybe here
+[00:02:18] if it took out some high low but we're going to talk about that later just just you know don't
+[00:02:23] I don't want to confuse you guys.
+[00:02:25] You can use this as a bread and butter model, just two time frames, right?
+[00:02:29] Remember time frame alignment, we are for monthly bias we use monthly daily and hourly.
+[00:02:38] For weekly we use the weekly for our time frame and 15 minutes time frame.
+[00:02:46] For daily, we use daily one hour and five minutes.
+[00:02:51] And for our timeframe, right?
+[00:02:55] For intro day bias, we use the four hour, 15 minutes
+[00:03:00] and two minute, we're not gonna use one minute
+[00:03:02] because it is not reliable.
+[00:03:06] So price gives us a Mark Shutter shift for everybody gap,
+[00:03:10] boom, right there.
+[00:03:12] Let me give you guys an example for the weekly bias now.

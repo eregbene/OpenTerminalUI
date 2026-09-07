@@ -1,0 +1,163 @@
+{
+  "methodology": "BSI_V3_FORWARD_ADAPTIVE_JULY_TRAIN_AUGUST_TEST",
+  "symbols": [
+    "EURUSD",
+    "GBPUSD",
+    "USDJPY",
+    "AUDUSD",
+    "USDCAD",
+    "USDCHF",
+    "NZDUSD",
+    "EURJPY",
+    "GBPJPY",
+    "XAUUSD"
+  ],
+  "train_window": {
+    "start": "2026-07-01T00:00:00+00:00",
+    "end": "2026-08-01T00:00:00+00:00"
+  },
+  "test_window": {
+    "start": "2026-08-01T00:00:00+00:00",
+    "end": "2026-09-01T00:00:00+00:00"
+  },
+  "train_allowed_bucket_count": 17,
+  "test_raw_baseline": {
+    "trades": 3392,
+    "wins": 810,
+    "losses": 2582,
+    "win_rate": 23.88,
+    "net_r": 140.2113,
+    "expectancy": 0.0413,
+    "profit_factor": 1.1053,
+    "average_winner_r": 1.8165,
+    "average_loser_r": -0.5155,
+    "median_r": 0.0,
+    "max_winning_streak": 5,
+    "max_losing_streak": 51,
+    "max_drawdown_r": 197.905
+  },
+  "test_raw_mentor_management": {
+    "trades": 3392,
+    "wins": 1985,
+    "losses": 1407,
+    "win_rate": 58.52,
+    "net_r": 376.2113,
+    "expectancy": 0.1109,
+    "profit_factor": 1.2826,
+    "average_winner_r": 0.8601,
+    "average_loser_r": -0.9461,
+    "median_r": 0.5,
+    "max_winning_streak": 16,
+    "max_losing_streak": 9,
+    "max_drawdown_r": 139.905
+  },
+  "test_forward_adaptive": {
+    "trades": 502,
+    "wins": 291,
+    "losses": 211,
+    "win_rate": 57.97,
+    "net_r": 67.0677,
+    "expectancy": 0.1336,
+    "profit_factor": 1.3324,
+    "max_losing_streak": 7,
+    "max_drawdown_r": 18.0
+  },
+  "test_skipped": {
+    "trades": 2890,
+    "wins": 1694,
+    "losses": 1196,
+    "win_rate": 58.62,
+    "net_r": 309.1436,
+    "expectancy": 0.107,
+    "profit_factor": 1.2737,
+    "max_losing_streak": 9,
+    "max_drawdown_r": 123.992
+  },
+  "kept_trades": 502,
+  "skipped_trades": 2890,
+  "allowed_buckets": [
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "GBPUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "USDCHF"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "USDJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "XAUUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "symbol": "USDJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "EURUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "GBPUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "XAUUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "EURUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "EURUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "NZDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "XAUUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "EURUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "GBPUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "NZDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "USDCAD"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "XAUUSD"
+    }
+  ],
+  "account_estimates": {
+    "0.10%_risk": {
+      "profit": 1341.35,
+      "ending_balance": 21341.35
+    },
+    "0.25%_risk": {
+      "profit": 3353.39,
+      "ending_balance": 23353.39
+    },
+    "0.50%_risk": {
+      "profit": 6706.77,
+      "ending_balance": 26706.77
+    }
+  },
+  "warning": "Forward split only: July trained the bucket gate, August tested it. Still not a live-routing guarantee."
+}

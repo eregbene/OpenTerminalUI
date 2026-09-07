@@ -1,0 +1,35 @@
+Alright guys, so I have an example for the daily bias, as you can see on the daily timeframe
+and I'm looking at USD CAD, it happened recently actually, like a couple of days ago.
+So you can see we have this external liquidity marked out here, and where do you see the
+draw on liquidity, which is our internal liquidity, this fairly gap right here.
+So that is our draw on liquidity right here.
+We took out this low, which is an external liquidity, so let's drop down to the one hour
+timeframe.
+Remember on for the daily bias, we go from daily to one hour.
+So let's drop down to the one hour timeframe.
+Now we're simply looking for a market structure shift that supports our high timeframe narrative
+and right there, what you can see is we have a shift in the market structure.
+Now this right here is an auto block consecutive bearish candles right as I explained in the
+auto block 2.0 video.
+So right here, what you can see, this would have been our entry point.
+We go long here, right for every simple and we look to target this level here.
+And now that is your bread and butter model going for 5.55 RR.
+You see we get our entry here and it is currently a weekend that I'm recording, so I'm pretty
+much sure that's going to take out this level.
+But as you can see how beautifully it distributed to the app site, we also had a fairly gap
+here.
+So if price filled the fairly gap, also they were going to auto block and you could say
+a breaker block.
+So you can see you can easily identify your targets, which is the beauty of this concept.
+Although if you were using the 5 minute timeframe, you could have taken multiple entries here
+and I want to talk about those later in the video when we get to the more advanced concepts.
+So let me give you guys an example for the monthly bias once again and then I will do
+one more for the weekly and one more for the daily and then we will move on to the next
+chapter.
+I want you guys to understand these concepts very clearly and I'm like, yeah, I'm very
+confident you guys are going to absolutely kill the markets once this course is out and
+you master this.
+Of course you will have your back test first, give it a month or two, back test these concepts
+or I don't know if you are a quick learner, you could just give it a one week of back
+testing and then get into the markets right away.
+So let me give you guys an example for the monthly bias once again.

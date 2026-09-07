@@ -1,0 +1,54 @@
+[00:00:00] Alright guys, so here it is example number two for breaker block entries. So you can see we have higher high, high low and higher high. And then we have a market structure shift right here. So normally what you would do is you would take your entry from this fair value gap or this fair value gap. But if you are using the breaker block entry model, your breaker block is right here.
+[00:00:30] which is the last candle before the move to the upside.
+[00:00:32] And after that, you have a shift in market structure.
+[00:00:36] So you see this move, right?
+[00:00:39] There was no bearish candle around here, okay?
+[00:00:43] If there was a bearish, let's assume that this candle
+[00:00:47] was bearish, right?
+[00:00:49] And then you had a, so I would consider
+[00:00:51] then this as market structure shift
+[00:00:53] and then I would consider that candle as my breaker
+[00:00:57] because, apparently, that was the last bearish candle,
+[00:01:02] or last candle, or you could say,
+[00:01:05] hi, hi, hello,
+[00:01:06] a large, high, low,
+[00:01:08] and then we had high, high, and then marks our shift.
+[00:01:11] So I hope you get what I'm trying to explain.
+[00:01:14] So, but in this case, this was the last candle, right?
+[00:01:18] Or sometimes what I would do is it's sometimes a good practice
+[00:01:23] to mark out the bearish candle,
+[00:01:26] instead of the bullish candle and vice versa.
+[00:01:29] So if you are looking for a long position,
+[00:01:32] you should mark out the bullish candle
+[00:01:34] instead of the bearish candle.
+[00:01:36] But it's not gonna affect that much.
+[00:01:39] You can take your entry from the last candle, okay?
+[00:01:42] Or the, yeah.
+[00:01:44] So you can see if I dragged this along,
+[00:01:47] we had markers such as shift
+[00:01:49] and what was really nice about this rig of block
+[00:01:52] is that we had free air value gap here as well.
+[00:01:56] Now that is when breaker blocks become very, very, I would say powerful. Okay.
+[00:02:02] So keep that in mind that yeah, you can use breakers as their own without
+[00:02:08] friendly gap. But if there's free value gap, then that entry is going to be
+[00:02:12] perfect. So I'm going to explain and that to take a lot of people say that
+[00:02:17] they missed their entries whenever they tried to enter from the extreme
+[00:02:21] free value gap. If you don't want to miss the trades, what you can do is right when you
+[00:02:28] have a market structure shift, you can take your entry from the very recent free value gap.
+[00:02:35] Instead of taking your entry from the extreme, you can take your entry from the very first.
+[00:02:39] But there's a catch. You need to secure your stop loss. So let's say if price goes back to the
+[00:02:47] extreme fear of the gap, you do not lose. Okay, you do not want to give your money to the markets,
+[00:02:52] even though your analysis are right. So this is the only way guys, if you want me to tell
+[00:03:00] you guys to put your stop here, yeah, of course you can, but you're gonna lose. Okay. And
+[00:03:07] even though your analysis are going to be perfect, a price can stop you up because it needs
+[00:03:11] to fill and balance the prices up there. So keep your stop maybe here or maybe
+[00:03:17] here and Kaboom. Perfect. So yeah guys I really hope that the you know I really
+[00:03:31] hope that you guys have a clear knowledge of a breaker blocks now. It's simply
+[00:03:35] the last candle. So you have so see I'll try to explain it once again if just in
+[00:03:42] case if anyone didn't understand. So you have higher high, high, low, higher high. Right.
+[00:03:50] So the last candle of the high low is going to be your breaker block. And you must get
+[00:04:00] a market structure shift after this new high is created. Right. And when you have market
+[00:04:08] such a shift, then that breaker block becomes valid. However, if you had, let's say,
+[00:04:14] higher high, higher low, higher high, it's small, high low. And then higher high. And then
+[00:04:21] a marker, such a shift, then that last candle would be your breaker. So yeah, let's move on to
+[00:04:27] the next videos.

@@ -1,0 +1,575 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright everybody, so here is the last chapter of the Faiz SMC, VIP course. And in this chapter, I'm going to teach you how to trade the AR50 or the Asian range 50% trading strategy that I taught on Twitter before. But I didn't teach you how to trade it with daily buys and what techniques I used to increase the win.
+
+2
+00:00:30,000 --> 00:00:36,880
+This is going to be a complete guide. So watch very carefully. This is not going to be uploaded on YouTube or anywhere else
+
+3
+00:00:36,880 --> 00:00:40,240
+And this is going to be exclusive for the members only and
+
+4
+00:00:40,800 --> 00:00:44,720
+The other strategy that I thought you in this update are also going to be exclusive
+
+5
+00:00:45,800 --> 00:00:54,120
+So I'm gonna I want to give a shout out to T trades and the market maker trader the mmm x some trader
+
+6
+00:00:55,800 --> 00:00:57,800
+They teach this
+
+7
+00:00:57,800 --> 00:01:05,080
+really good on how to find your you know the bias. Now this is not exactly the bias but the direction
+
+8
+00:01:05,720 --> 00:01:13,240
+and by using this technique you'll be able to trade the air 50 the right way with very high probability
+
+9
+00:01:13,240 --> 00:01:21,880
+with very high wind rate. So look at this green candle and I'm on the daily time frame.
+
+10
+00:01:21,880 --> 00:01:31,800
+Now, initially, I would want, if I want to be bullish, if I want to be bullish, I would want
+
+11
+00:01:31,800 --> 00:01:39,160
+the next daily candle to close above it, to close above this high.
+
+12
+00:01:39,160 --> 00:01:45,000
+Now if it closes, we can then be bullish, but what happened here?
+
+13
+00:01:45,000 --> 00:01:46,960
+We get a rejection.
+
+14
+00:01:46,960 --> 00:01:47,960
+Okay?
+
+15
+00:01:47,960 --> 00:01:54,960
+Now for me to be bearish, once I get the rejection, right, the body didn't close.
+
+16
+00:01:54,960 --> 00:02:02,440
+Now, there's a chance that we could be bearish so to confirm that I want the next daily candle
+
+17
+00:02:02,440 --> 00:02:04,320
+to close below the slope.
+
+18
+00:02:04,320 --> 00:02:06,240
+And what happens?
+
+19
+00:02:06,240 --> 00:02:08,800
+It didn't close.
+
+20
+00:02:08,800 --> 00:02:11,920
+And we got a rejection straight off it.
+
+21
+00:02:11,920 --> 00:02:14,880
+So now our bias is not clear.
+
+22
+00:02:14,880 --> 00:02:17,840
+Now, this is a bullish candle.
+
+23
+00:02:17,840 --> 00:02:24,580
+So I want the other the next candle to close above it, right?
+
+24
+00:02:24,580 --> 00:02:26,320
+And over here, we have a close.
+
+25
+00:02:26,320 --> 00:02:29,960
+So now here's what you have to do from here.
+
+26
+00:02:29,960 --> 00:02:38,360
+Once the candle closes above the green candle, this high is going to be your draw on liquidity.
+
+27
+00:02:38,360 --> 00:02:40,400
+Price is going to take out this high.
+
+28
+00:02:40,400 --> 00:02:42,080
+82, 90% of the time.
+
+29
+00:02:42,080 --> 00:02:46,320
+Oh, that's actually a lot, but 80% of the time.
+
+30
+00:02:46,320 --> 00:02:51,320
+So now once you have the closure here, you can be bullish with AR 50 trading strategy
+
+31
+00:02:51,320 --> 00:02:53,840
+and notice what happens.
+
+32
+00:02:53,840 --> 00:02:58,520
+Price takes out that high and once again, we close above this.
+
+33
+00:02:58,520 --> 00:03:00,400
+So now what's going to happen?
+
+34
+00:03:00,400 --> 00:03:05,760
+We have another high and this is going to be a drawn liquidity and notice what happens.
+
+35
+00:03:05,760 --> 00:03:10,080
+Price first fall gives us a power of three or in other words, this is going to be a
+
+36
+00:03:10,080 --> 00:03:14,440
+the Asian range pullback to 50% of the level.
+
+37
+00:03:14,440 --> 00:03:16,880
+And we close once again.
+
+38
+00:03:16,880 --> 00:03:19,040
+So now we're gonna be bullish.
+
+39
+00:03:19,040 --> 00:03:22,000
+And this is going to be our take profit draw
+
+40
+00:03:22,000 --> 00:03:23,560
+on liquidity the daily previous day.
+
+41
+00:03:23,560 --> 00:03:25,040
+Hi.
+
+42
+00:03:25,040 --> 00:03:28,040
+And once again we take out the high over here
+
+43
+00:03:28,040 --> 00:03:29,880
+and we close above it.
+
+44
+00:03:29,880 --> 00:03:34,360
+So now this high is going to be over draw on liquidity.
+
+45
+00:03:34,360 --> 00:03:35,720
+This is gonna be our target.
+
+46
+00:03:35,720 --> 00:03:39,090
+So we're gonna stay bullish.
+
+47
+00:03:39,090 --> 00:03:42,210
+And right here, once we took out the high,
+
+48
+00:03:42,210 --> 00:03:44,590
+once the drone occurred, it was hit,
+
+49
+00:03:44,590 --> 00:03:45,530
+we had a rejection.
+
+50
+00:03:45,530 --> 00:03:48,370
+So now, since the body didn't close above it,
+
+51
+00:03:48,370 --> 00:03:52,330
+we are now in a phase one.
+
+52
+00:03:52,330 --> 00:03:55,690
+We have to wait for price to either break this
+
+53
+00:03:55,690 --> 00:03:58,370
+or break this, that would confirm the bias.
+
+54
+00:03:58,370 --> 00:04:03,050
+So, nothing happens, we get a rejection once again.
+
+55
+00:04:04,090 --> 00:04:05,810
+But then, what do we have?
+
+56
+00:04:05,810 --> 00:04:08,290
+We have a body closure once again, right?
+
+57
+00:04:08,290 --> 00:04:11,930
+So now this is gonna be a rare target level.
+
+58
+00:04:11,930 --> 00:04:13,050
+This is gonna be a draw on a gonna be.
+
+59
+00:04:13,050 --> 00:04:16,890
+So now we can trade the air 50 to be bullish.
+
+60
+00:04:16,890 --> 00:04:19,410
+We're gonna trade, we're gonna only take the long position.
+
+61
+00:04:20,690 --> 00:04:22,490
+And notice what happens.
+
+62
+00:04:22,490 --> 00:04:25,490
+Price pulls back, gives us a power of three, and then goes up.
+
+63
+00:04:26,850 --> 00:04:28,370
+Now once again, we close the above it.
+
+64
+00:04:28,370 --> 00:04:30,050
+So now what's gonna happen?
+
+65
+00:04:31,290 --> 00:04:34,690
+The daily high is gonna be ever take profit level.
+
+66
+00:04:34,690 --> 00:04:37,770
+And right here, once you can see the take profit level,
+
+67
+00:04:37,770 --> 00:04:46,970
+that draw liquidity was hit, we now closed below this candle. So now this is going to be a redraw
+
+68
+00:04:46,970 --> 00:04:57,640
+on liquidity. But then you can see that price consolidated and nothing happened. And right at once again,
+
+69
+00:04:59,400 --> 00:05:03,960
+we have since, so once this you might have experienced a losing trade here,
+
+70
+00:05:05,320 --> 00:05:11,080
+because the body closed below this, but we might have got on one loss and that's going to happen.
+
+71
+00:05:11,080 --> 00:05:13,400
+It's not going to be like 100% win rate.
+
+72
+00:05:13,400 --> 00:05:17,160
+So now, over here, we failed to close above it.
+
+73
+00:05:17,160 --> 00:05:20,080
+So we are still not doing anything.
+
+74
+00:05:20,080 --> 00:05:22,120
+And right here, which you can see,
+
+75
+00:05:22,120 --> 00:05:25,160
+we closed above the daily candle.
+
+76
+00:05:25,160 --> 00:05:28,960
+So now this is going to be our take profit level.
+
+77
+00:05:28,960 --> 00:05:30,400
+And right here, it was hit.
+
+78
+00:05:30,400 --> 00:05:32,760
+And once again, we closed above it.
+
+79
+00:05:32,760 --> 00:05:35,040
+We had up over a three, look at this wick, right?
+
+80
+00:05:35,040 --> 00:05:37,160
+This is going to be your Asian range entry.
+
+81
+00:05:37,160 --> 00:05:40,040
+And that's when the target was hit.
+
+82
+00:05:40,040 --> 00:05:42,600
+So now this daily high is going to be our take profit level.
+
+83
+00:05:42,680 --> 00:05:43,760
+Sorry, draw on liquid.
+
+84
+00:05:43,760 --> 00:05:46,200
+It keeps saying take profit level, but price going to go.
+
+85
+00:05:46,200 --> 00:05:50,840
+So now after price takes out the high, now we what we have, we have a
+
+86
+00:05:50,840 --> 00:05:51,520
+rejection.
+
+87
+00:05:52,320 --> 00:05:56,960
+So for me to be bearish, I want to see this level broken.
+
+88
+00:05:57,880 --> 00:06:01,240
+And right here, you can see that the body closed below this.
+
+89
+00:06:01,240 --> 00:06:02,600
+So now we are bearish.
+
+90
+00:06:03,040 --> 00:06:05,600
+And now our target level is going to be this low.
+
+91
+00:06:06,760 --> 00:06:10,000
+And right here, you can see that the low was taken out, right?
+
+92
+00:06:10,040 --> 00:06:16,240
+And we also closed below this low. So now we're gonna stay bearish and this is gonna be our draw on liquidity
+
+93
+00:06:16,940 --> 00:06:23,800
+And right again once again we close blow it so now this daily low is gonna be our draw on liquidity
+
+94
+00:06:24,640 --> 00:06:30,540
+Once again beautiful now here. We also have a low. So this is gonna be our draw on liquidity and
+
+95
+00:06:31,600 --> 00:06:37,360
+Boom once again, but now the body didn't close so now we are in a guessing game. We are not doing anything
+
+96
+00:06:37,360 --> 00:06:40,520
+So right here, but do we have?
+
+97
+00:06:40,520 --> 00:06:43,200
+We closed above the bullish candle.
+
+98
+00:06:43,200 --> 00:06:47,280
+So this is gonna be our draw on liquidity right here.
+
+99
+00:06:47,280 --> 00:06:49,400
+Boom right there, okay?
+
+100
+00:06:49,400 --> 00:06:52,600
+Now once you have this, we closed once again above it.
+
+101
+00:06:52,600 --> 00:06:56,800
+So now this is going to be our draw on liquidity.
+
+102
+00:06:57,880 --> 00:06:59,960
+And boom, hit once again.
+
+103
+00:06:59,960 --> 00:07:02,080
+Then we have this high, we closed above this high.
+
+104
+00:07:02,080 --> 00:07:05,840
+So now our draw on liquidity is gonna be this daily high.
+
+105
+00:07:05,840 --> 00:07:09,480
+And boom, once again, we take out this high over here,
+
+106
+00:07:09,480 --> 00:07:12,160
+but we failed to close above it.
+
+107
+00:07:12,160 --> 00:07:13,360
+So now we are in a guessing game,
+
+108
+00:07:13,360 --> 00:07:15,200
+we're not doing anything.
+
+109
+00:07:15,200 --> 00:07:17,520
+Still in a guessing game, nothing happened here.
+
+110
+00:07:18,960 --> 00:07:26,460
+Again in a guessing game, nothing happened.
+
+111
+00:07:26,460 --> 00:07:29,120
+Still nothing, so we are consolidating in this range.
+
+112
+00:07:29,120 --> 00:07:32,320
+We're not closing below any wake.
+
+113
+00:07:32,320 --> 00:07:33,680
+So we're not doing anything.
+
+114
+00:07:33,680 --> 00:07:37,440
+But then we broke this
+
+115
+00:07:37,440 --> 00:07:42,440
+And now our bias is going to be this high.
+
+116
+00:07:42,440 --> 00:07:44,440
+Draw and click is going to be this high.
+
+117
+00:07:44,440 --> 00:07:46,440
+And boom, just like that.
+
+118
+00:07:46,440 --> 00:07:48,440
+And we broke this again.
+
+119
+00:07:48,440 --> 00:07:52,440
+The high of the day is going to be of draw and look at it once again.
+
+120
+00:07:52,440 --> 00:07:53,440
+Hit.
+
+121
+00:07:53,440 --> 00:07:54,440
+But now we didn't close.
+
+122
+00:07:54,440 --> 00:07:57,440
+So we are still in the guess same game.
+
+123
+00:07:57,440 --> 00:08:00,440
+We didn't close again.
+
+124
+00:08:00,440 --> 00:08:02,440
+But then once again, what happens?
+
+125
+00:08:02,440 --> 00:08:04,440
+We closed above it.
+
+126
+00:08:04,440 --> 00:08:06,440
+And this is going to be our draw and look at it once again.
+
+127
+00:08:06,440 --> 00:08:08,840
+on liquidity once again.
+
+128
+00:08:08,840 --> 00:08:12,400
+Nothing happens here.
+
+129
+00:08:12,400 --> 00:08:15,240
+And we might have experienced another losing trade.
+
+130
+00:08:15,240 --> 00:08:17,360
+But now it is today, 26th.
+
+131
+00:08:17,360 --> 00:08:20,440
+Actually, it was on Friday and it's currently weekend.
+
+132
+00:08:20,440 --> 00:08:22,000
+And we closed here.
+
+133
+00:08:22,000 --> 00:08:27,520
+So now my actually for the NAS 100, my draw and liquidity
+
+134
+00:08:27,520 --> 00:08:30,120
+is going to be this low.
+
+135
+00:08:30,120 --> 00:08:33,680
+So I have given you billions of examples right now.
+
+136
+00:08:33,680 --> 00:08:37,080
+And by now it should be clear to you what I was teaching you.
+
+137
+00:08:37,080 --> 00:08:40,680
+If you didn't understand, we watched the video again and again.
+
+138
+00:08:41,280 --> 00:08:45,240
+And remember one thing, it's not going to happen like 100% of the time,
+
+139
+00:08:45,480 --> 00:08:49,320
+but this is going to give you like the bias 80% of the time, 80 to 90% of the time.
+
+140
+00:08:49,600 --> 00:08:50,480
+Trust me on this.
+
+141
+00:08:51,240 --> 00:08:51,680
+All right.
+
+142
+00:08:52,000 --> 00:08:58,480
+So now that I've teach you, I thought you how to actually find your bias for air 50.
+
+143
+00:08:58,680 --> 00:09:04,120
+Now let me show you a complete way on how I would trade by having a draw on liquidity
+
+144
+00:09:04,120 --> 00:09:05,720
+and also trading the Asian range.

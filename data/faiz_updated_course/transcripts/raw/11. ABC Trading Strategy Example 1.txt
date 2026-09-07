@@ -1,0 +1,34 @@
+All right guys, so this is an example for a short position.
+So as you can see, we got the A leg, right?
+So let me mark this out very easily.
+There you go.
+We got the A leg, we got the B leg,
+and then we got the C leg.
+Perfect.
+So now let me mark these out.
+So we got the A leg right around here,
+which is from here, okay?
+And then we got the B leg, okay?
+Which is the B leg, this downward move.
+So we wanna mark out the very low of the B leg,
+which is this, okay?
+And we wanna mark out the high of the A leg,
+which is this, perfect.
+Now the C leg, which is this,
+it takes out the high of the A leg, okay?
+So the high of the A leg is here,
+A leg high, right?
+Let me do this, it looks better, there you go.
+So the C leg takes out the high of the A leg
+while leaving some structure here, right?
+So before price took out this high,
+it created some structure, okay?
+Then when price took out the high,
+it made a market structure shift.
+So it broke this structure, right?
+Then price left the imbalance and auto block.
+So this is an auto block, right?
+We would enter straight from the auto block,
+put our stop-loss right above there
+and target the low, which is here.
+So that's 5.62, guys.

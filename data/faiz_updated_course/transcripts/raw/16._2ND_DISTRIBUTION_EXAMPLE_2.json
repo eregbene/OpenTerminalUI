@@ -1,0 +1,53 @@
+{
+  "source": "F:\\new faiz\\16. 2ND DISTRIBUTION EXAMPLE 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 73.932375,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.18,
+      "end": 30.18,
+      "text": " Alright guys, so here is example number three for the second distribution entry model. Right here, the bias was bullish, so we had a purchase here, then we had a market structure shift here. So now we wait for another break of structure, right? So we have a market structure shift, and now we wait for a break of structure. So that is a break of structure, right? So now we want to wait for that for the price to take out any low. So it could be this low here."
+    },
+    {
+      "start": 30.18,
+      "end": 35.94,
+      "text": " be this. So price takes out that low. So now we once again wait for double break of structure."
+    },
+    {
+      "start": 35.94,
+      "end": 41.18,
+      "text": " So we have higher high, higher low, and then a higher high. Once you have the you mark out"
+    },
+    {
+      "start": 41.18,
+      "end": 49.7,
+      "text": " the extreme family gap inside these two legs. Okay, over here. So this is the family gap."
+    },
+    {
+      "start": 49.7,
+      "end": 57.5,
+      "text": " Price comes into the family gap at 815 and we simply go for 1 to 3 like that or whatever"
+    },
+    {
+      "start": 57.5,
+      "end": 63.82,
+      "text": " the target is. So yeah that's pretty much it about this guys. I want you guys to"
+    },
+    {
+      "start": 63.82,
+      "end": 68.78,
+      "text": " watch this lecture again and again, watch the examples again and again and back"
+    },
+    {
+      "start": 68.78,
+      "end": 74.94,
+      "text": " test again and again. Let's move on to the next lecture."
+    }
+  ]
+}

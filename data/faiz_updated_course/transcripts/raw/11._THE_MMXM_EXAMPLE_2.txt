@@ -1,0 +1,20 @@
+[00:00:00] Alright guys, so here is an example number two. So I'm looking at NCDUSD, the daily timeframe. As you can see, we took out this external liquidity, which is this high over here. And our draw on liquidity would be this fair value gap. But let's go to the one over time frame and see what happened. So price took out the liquidity here, right? Now price is in our POI. So now essentially what we are waiting for is we have to identify original consolidation. So where's our original consolidation? In my eyes, it's right here. You can see we have a lot of money.
+[00:00:30] up and down from here, but then we have a small consolidation here giving us two
+[00:00:35] consolidations, right? And when price came back into our POI took out liquidity, we
+[00:00:42] had a shift in the market structure. And right away what we have is an auto
+[00:00:46] block, which is consecutive bullish candles. We have this variable you get. Now
+[00:00:51] price goes down, goes down, goes down, goes down. You can see there is a, there's an
+[00:00:58] Auto block here, right? Remember mitigation blocks. So this bearish candle price broke through that. What do we have inside it?
+[00:01:05] A bearish auto block price taps into that bearish auto block. Then we have what another mitigation block?
+[00:01:12] Price breaks through this. What do we have? Fairly gap. Of course price ran a little higher from here
+[00:01:17] because this is not a clean high. So our stop would be here because that is a high. Remember,
+[00:01:22] Highs are the highest candle is the mid one and the left and the right candle is the lowest like from this week
+[00:01:31] And
+[00:01:32] As you can see the price is currently on its way down to take out this low here
+[00:01:38] And it went really well because this is the original consolidation as you can see when price like starting moving up
+[00:01:46] right and
+[00:01:48] Or you could just simply say like this is one big console they should face right there. Yeah
+[00:01:53] So maybe we can just take out this level here as well
+[00:01:58] We have a tiny console lesion here as well and
+[00:02:01] Pretty much it sums up everything that I've taught right now
+[00:02:06] So let's move on to the next example

@@ -1,0 +1,511 @@
+1
+00:00:00,300 --> 00:00:30,300
+Alright guys, so this is a brand new course and every week there will be a new chapter that's gonna be released in the Discord server. And in this very first chapter I'm gonna teach you guys about the Monday range. It is a very good model with high wind rate. It works on gold, NAS100, EuroUSD,
+
+2
+00:00:30,300 --> 00:00:43,640
+So essentially what we are doing is we are marking out high of the Monday and low of the
+
+3
+00:00:43,640 --> 00:00:44,640
+Monday.
+
+4
+00:00:44,640 --> 00:00:54,060
+So let's assume that this candle on the daily time from is the Monday candle and it closes.
+
+5
+00:00:54,060 --> 00:01:03,340
+So we mark out the Monday high and the Monday range low.
+
+6
+00:01:03,340 --> 00:01:13,340
+Now on Tuesday we want to see price take out either the swing or the Monday high or the
+
+7
+00:01:13,340 --> 00:01:16,060
+Monday low.
+
+8
+00:01:16,060 --> 00:01:22,300
+So let's assume that on Tuesday the low is taken out.
+
+9
+00:01:22,300 --> 00:01:24,180
+the low of the Monday is taken out.
+
+10
+00:01:24,180 --> 00:01:28,700
+What we want to do is we want to simply drop down to 15 minute
+
+11
+00:01:28,700 --> 00:01:32,620
+timeframe. So we will drop down to 15 minute timeframe.
+
+12
+00:01:32,620 --> 00:01:35,780
+And then we're going to look for a market structure shift.
+
+13
+00:01:35,780 --> 00:01:39,660
+Right. And we're going to take our entry and we can target the Monday
+
+14
+00:01:39,660 --> 00:01:48,260
+high or we can take our profit at the 50% of this Monday range. Right.
+
+15
+00:01:48,260 --> 00:01:51,340
+So we can take our profit somewhere around here or we can simply go for one
+
+16
+00:01:51,340 --> 00:02:00,580
+Now, key thing to note is that you should get your market structure shift during London session
+
+17
+00:02:00,580 --> 00:02:06,940
+because let's assume that you get your market structure shift during Asian session.
+
+18
+00:02:06,940 --> 00:02:11,220
+Now, this will then become the Asian session low.
+
+19
+00:02:11,220 --> 00:02:16,180
+So there's a chance that price will take out the Asian low first and then give you another
+
+20
+00:02:16,180 --> 00:02:18,780
+market structure shift and move towards the Monday.
+
+21
+00:02:18,780 --> 00:02:19,780
+Hi.
+
+22
+00:02:19,780 --> 00:02:28,020
+So remember this one thing, we are looking for market structure shift during London or
+
+23
+00:02:28,020 --> 00:02:30,060
+New York session.
+
+24
+00:02:30,060 --> 00:02:36,580
+If the market structure shift occurs during the Asian session, right, then we have to keep
+
+25
+00:02:36,580 --> 00:02:41,380
+the Asian range strategy in the first course in our mind.
+
+26
+00:02:41,380 --> 00:02:43,740
+And we have to think about it logically, right?
+
+27
+00:02:43,740 --> 00:02:47,660
+Because if we get the market structure shift during the Asian session, we can expect the
+
+28
+00:02:47,660 --> 00:02:51,860
+price to take out the issue low first and then move towards the Monday high.
+
+29
+00:02:52,340 --> 00:02:58,060
+So similarly, if the Monday candle high is taken out first,
+
+30
+00:02:58,060 --> 00:03:02,260
+we're going to drop down to the 15 minute timeframe. Right.
+
+31
+00:03:02,540 --> 00:03:04,820
+And then we're going to look for a market structure shift.
+
+32
+00:03:04,860 --> 00:03:08,740
+And then we're going to look to take our entry from the fair value gap or an
+
+33
+00:03:08,740 --> 00:03:09,220
+auto block.
+
+34
+00:03:09,220 --> 00:03:13,860
+And we're going to target the Monday low, very simple.
+
+35
+00:03:13,860 --> 00:03:23,040
+Okay, so to increase the probabilities we can do is look for S&T divergence. It is not necessary, but what's gonna do is gonna
+
+36
+00:03:23,740 --> 00:03:25,220
+confirm
+
+37
+00:03:25,220 --> 00:03:26,580
+You know the
+
+38
+00:03:26,580 --> 00:03:35,000
+Momentum, but it's not necessary and it requires this model requires no device and this is like a one trade per week setup and
+
+39
+00:03:35,980 --> 00:03:37,700
+It has a very high event rate
+
+40
+00:03:37,700 --> 00:03:43,580
+So if you are someone who has you know a 95 job or you just busy with your family or what not
+
+41
+00:03:43,860 --> 00:03:46,740
+You can just take one set of per day and make a living.
+
+42
+00:03:46,740 --> 00:03:52,820
+So I'm gonna give you guys some examples and then I'll be back next week with a new chapter.
+
+43
+00:03:54,730 --> 00:03:59,770
+Okay guys, so here is example number one and you can see this is the Monday candle and that close.
+
+44
+00:03:59,770 --> 00:04:05,450
+So all you have to do is mark out the Monday candle high and the Monday candle low.
+
+45
+00:04:05,450 --> 00:04:10,330
+So you can see that on Tuesday the low of the Monday candle was taken out.
+
+46
+00:04:10,330 --> 00:04:14,250
+So if I drop down to 15 minute time from right.
+
+47
+00:04:15,210 --> 00:04:23,850
+This is the Monday low, and it was taken out first.
+
+48
+00:04:23,850 --> 00:04:28,130
+And we have our Monday high over here.
+
+49
+00:04:28,130 --> 00:04:31,490
+So you can simply see that what happened.
+
+50
+00:04:31,490 --> 00:04:37,570
+We got a market structure shift, right, during the kilos and ours.
+
+51
+00:04:37,570 --> 00:04:41,370
+And then you can see that we had this breaker block.
+
+52
+00:04:41,370 --> 00:04:47,650
+afterwards price tapped into this and it just flew away. Now of course this is
+
+53
+00:04:47,650 --> 00:04:54,390
+hindsight. Primarily you want to be trying to take your entry from the auto
+
+54
+00:04:54,390 --> 00:05:02,010
+block right but since the range was so big you want to get into the trade as
+
+55
+00:05:02,010 --> 00:05:06,330
+soon as possible. So for example even if I took my trade here right I put my
+
+56
+00:05:06,330 --> 00:05:13,450
+stop somewhere around here. This would have easily given me around 3.51. Okay? The general rule
+
+57
+00:05:13,450 --> 00:05:18,330
+of thumb, a very good rule of thumb is that you always go for one to two wrist or a ward, right?
+
+58
+00:05:18,330 --> 00:05:27,210
+And all of us go break even after one to one is hit. So that was a very clean example. Let's move
+
+59
+00:05:27,210 --> 00:05:33,450
+on to another example now. Okay guys, so in this example you can see that I've marked out the
+
+60
+00:05:33,450 --> 00:05:37,610
+Monday candle high and the Monday candle low.
+
+61
+00:05:37,610 --> 00:05:40,690
+So you can clearly see how well this paid out.
+
+62
+00:05:40,690 --> 00:05:45,260
+So I'm gonna drop down to 15 minute time from here.
+
+63
+00:05:45,260 --> 00:05:48,100
+And if I zoom out a bit, you can see that
+
+64
+00:05:48,100 --> 00:05:52,220
+the Monday low was here and it was taken out on Tuesday.
+
+65
+00:05:52,220 --> 00:05:54,220
+Then simply what we would do is we would look
+
+66
+00:05:54,220 --> 00:05:58,300
+for a market structure shift and that happened
+
+67
+00:05:58,300 --> 00:06:00,260
+just around here.
+
+68
+00:06:00,260 --> 00:06:04,820
+Now, if you see this, that we were outside decales on ours.
+
+69
+00:06:04,820 --> 00:06:09,580
+Now you could have taken your entry from this break of vlog here, right?
+
+70
+00:06:09,580 --> 00:06:15,940
+But eventually what I would do is I would wait for the next day and the next London session to start.
+
+71
+00:06:15,940 --> 00:06:17,940
+And then I would look for a liquidity perch.
+
+72
+00:06:17,940 --> 00:06:23,260
+So continuation perch in the first course, right?
+
+73
+00:06:23,260 --> 00:06:26,020
+Afterwards we have a break in the structure.
+
+74
+00:06:26,020 --> 00:06:29,500
+Then we have the auto vlog here.
+
+75
+00:06:29,500 --> 00:06:36,740
+And you can see the beautiful delivery to the upside, taking out the Monday candle.
+
+76
+00:06:36,740 --> 00:06:37,180
+Hi.
+
+77
+00:06:37,820 --> 00:06:39,740
+Let's be one to another example.
+
+78
+00:06:41,340 --> 00:06:41,820
+All right, guys.
+
+79
+00:06:41,820 --> 00:06:43,060
+So here is another example.
+
+80
+00:06:43,060 --> 00:06:46,500
+This is going to be a different example because I'm going to show you a loser.
+
+81
+00:06:46,900 --> 00:06:52,620
+And I'm going to also show you that as long as you have, you know, your idea, right,
+
+82
+00:06:52,740 --> 00:06:55,220
+you can still get reenter into the trade.
+
+83
+00:06:55,820 --> 00:06:58,420
+So over here, you can see we have the Monday high.
+
+84
+00:06:58,420 --> 00:07:08,730
+and the Monday low. Right? So if I go to the 15 minute timeframe, you can see that the Monday
+
+85
+00:07:08,730 --> 00:07:13,730
+high was taken out first. So what we were doing is looking for a market structure shift.
+
+86
+00:07:13,730 --> 00:07:22,730
+So over here, what we had, we had the Asian session high taken out. And somewhere around here,
+
+87
+00:07:22,730 --> 00:07:28,730
+we had a market structure shift. And now we did push up, we did mitigate this auto block,
+
+88
+00:07:28,730 --> 00:07:35,770
+auto block and then we did go below it. But price had another push up right and then afterwards
+
+89
+00:07:35,770 --> 00:07:42,370
+we had a shift in the market structure over here right and over here. So then we had this auto
+
+90
+00:07:42,370 --> 00:07:49,730
+block here and you can see the beautiful tap and you can see how price delivered by taking
+
+91
+00:07:49,730 --> 00:07:56,530
+out the Monday low. Alright guys so here is another example. This time looking at gold so
+
+92
+00:07:56,530 --> 00:08:02,250
+So you can see on Monday, we have a Monday high and the Monday low.
+
+93
+00:08:02,250 --> 00:08:06,770
+So now you can see that price first took out the Monday low and then went up ahead and took
+
+94
+00:08:06,770 --> 00:08:07,810
+out the Monday high.
+
+95
+00:08:07,810 --> 00:08:14,250
+So if I go to the 15 minute time from here, you're going to see that on Tuesday, we had
+
+96
+00:08:14,250 --> 00:08:17,410
+a purge on the Monday low.
+
+97
+00:08:17,410 --> 00:08:19,890
+And that's what we want to see afterwards.
+
+98
+00:08:19,890 --> 00:08:24,530
+What do we have is if you see, look closely, this is a high.
+
+99
+00:08:24,530 --> 00:08:25,530
+Right?
+
+100
+00:08:25,530 --> 00:08:30,170
+this was broken and then what we were simply doing is taking our entry from the
+
+101
+00:08:30,170 --> 00:08:34,890
+brick-a-block or a fair value gap. So you can see that we have this fair value gap
+
+102
+00:08:34,890 --> 00:08:42,570
+and the entry was perfect right here and you can see that the draw on liquidity
+
+103
+00:08:42,570 --> 00:08:49,370
+was taken out. So you can see that we had a push up you could have gone break even
+
+104
+00:08:49,370 --> 00:08:55,450
+at somewhere around here right after these hives were taken out or at one to one and
+
+105
+00:08:55,450 --> 00:08:58,210
+And this would have a breakdown perfectly.
+
+106
+00:08:58,210 --> 00:09:00,290
+So let me realize one more example.
+
+107
+00:09:01,690 --> 00:09:03,530
+All right, guys, so here is the last example.
+
+108
+00:09:03,530 --> 00:09:05,630
+You can see that we have a Monday candle,
+
+109
+00:09:05,630 --> 00:09:07,610
+Monday high, and the Monday low.
+
+110
+00:09:07,610 --> 00:09:10,770
+So you can see the Monday high was taken out first.
+
+111
+00:09:10,770 --> 00:09:12,970
+So if we go to the 15 minute time from here,
+
+112
+00:09:13,930 --> 00:09:18,090
+you can see that I have marked out the Monday high over here.
+
+113
+00:09:19,130 --> 00:09:22,050
+And on Tuesday, the Monday high was taken out.
+
+114
+00:09:22,050 --> 00:09:25,330
+So now we're looking for a market structure shift,
+
+115
+00:09:25,330 --> 00:09:29,210
+the market structure shift happened just around here.
+
+116
+00:09:29,210 --> 00:09:31,530
+And then what we have is a consecutive bullish
+
+117
+00:09:31,530 --> 00:09:33,090
+channels to the upside.
+
+118
+00:09:33,090 --> 00:09:35,170
+This could be your entry level.
+
+119
+00:09:36,570 --> 00:09:37,410
+Right?
+
+120
+00:09:38,050 --> 00:09:41,950
+So a shot position just right here.
+
+121
+00:09:41,950 --> 00:09:44,130
+Stop right above here.
+
+122
+00:09:44,130 --> 00:09:49,130
+And you can see that the take profit was easily hit.
+
+123
+00:09:51,290 --> 00:09:53,930
+So that is it for this chapter guys.
+
+124
+00:09:53,930 --> 00:09:56,890
+I really hope that this works out for you.
+
+125
+00:09:56,890 --> 00:10:03,170
+There are a lot of more models coming out. I can't wait to show you guys, but I'm gonna keep it slow
+
+126
+00:10:03,570 --> 00:10:08,250
+One model per week because I want you to get familiar with every single model
+
+127
+00:10:08,250 --> 00:10:13,370
+And I want you to practice every model because at the end of this brand new course
+
+128
+00:10:13,770 --> 00:10:19,530
+You're gonna tank me, okay? So just keep watching keep back practicing and keep back testing

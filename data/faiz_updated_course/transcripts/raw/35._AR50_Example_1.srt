@@ -1,0 +1,131 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright, everybody, so here is example number one on how I would combine the daily buy technique with the air 50 strategies. So over here, you can see that this was the daily candle and we closed above this candle here. So now our draw on liquidity is going to be this daily high. So now if I drop down to, let's say, the five minute, that's when we want to trade the air 50 strategy. So this is the daily high. This is initially going to be going to be over
+
+2
+00:00:30,000 --> 00:00:36,880
+draw on liquidity, right? You can clearly see it was not breached. So as long as it's not breached,
+
+3
+00:00:37,840 --> 00:00:41,200
+right? We have the draw on liquidity intact. So now
+
+4
+00:00:42,480 --> 00:00:47,240
+What are the rules of the air 50 to financial strategy if you have a new watcher of the strategy?
+
+5
+00:00:48,240 --> 00:00:50,240
+I used this indicator
+
+6
+00:00:50,880 --> 00:00:54,320
+FX and Asian session range by Rob Minty
+
+7
+00:00:54,320 --> 00:01:01,320
+The Asian session starts from 20 New York Times, until 2 am New York Times.
+
+8
+00:01:01,320 --> 00:01:05,320
+I want the Asian session to start at 2 am.
+
+9
+00:01:05,320 --> 00:01:08,320
+I want the Asian session to start at 2 am.
+
+10
+00:01:08,320 --> 00:01:13,320
+I want the Asian session to start at 2 am.
+
+11
+00:01:13,320 --> 00:01:17,320
+Now, when our bias is bullish in this scenario, it is.
+
+12
+00:01:17,320 --> 00:01:19,320
+I want the offer to him.
+
+13
+00:01:19,320 --> 00:01:25,800
+to the price to break above the Asian session high and close above it.
+
+14
+00:01:25,800 --> 00:01:31,960
+Once it closes above it, what I'm doing is I'm using my Fibonacci from the Asian low to
+
+15
+00:01:31,960 --> 00:01:34,600
+Asian high.
+
+16
+00:01:34,600 --> 00:01:36,760
+Cool.
+
+17
+00:01:36,760 --> 00:01:40,560
+Asian low to Asian high.
+
+18
+00:01:40,560 --> 00:01:45,680
+Now my entry is going to be from the 0.5 level or the 50% of the Asian range, hence the
+
+19
+00:01:45,680 --> 00:01:49,160
+AR 50 Asian range 50.
+
+20
+00:01:49,160 --> 00:01:51,040
+Now our bias is bullish.
+
+21
+00:01:51,040 --> 00:01:52,760
+So I'm gonna, with confidence,
+
+22
+00:01:52,760 --> 00:01:54,400
+I'm gonna take a long position here,
+
+23
+00:01:54,400 --> 00:01:56,880
+put my stop right above this low.
+
+24
+00:01:56,880 --> 00:01:59,680
+And I'm gonna go for the draw on liquidity,
+
+25
+00:01:59,680 --> 00:02:02,040
+which is the daily high.
+
+26
+00:02:03,200 --> 00:02:05,280
+So if I play this through,
+
+27
+00:02:05,280 --> 00:02:07,520
+we get a beautiful entry.
+
+28
+00:02:07,520 --> 00:02:10,040
+And since our bias is bullish,
+
+29
+00:02:11,720 --> 00:02:18,000
+you will see that the take profit level was hit.
+
+30
+00:02:18,000 --> 00:02:23,500
+And to make it up like that, you should have gotten one to two restorer what.
+
+31
+00:02:24,400 --> 00:02:31,850
+I think this is basically the best model that you can use is really good guys.
+
+32
+00:02:32,150 --> 00:02:35,550
+Alright, I think it's my favorite model at the moment.
+
+33
+00:02:36,550 --> 00:02:39,550
+But yeah guys, let's move on to another example.

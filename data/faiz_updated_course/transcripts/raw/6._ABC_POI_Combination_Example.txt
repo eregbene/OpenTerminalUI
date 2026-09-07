@@ -1,0 +1,35 @@
+[00:00:00] So here is an example of using combining POI with ABC. So we have A, B, and the C leg goes into this order block. You can say this right here. Price goes straight into this order block here. And it also takes out liquidity or the high of the A leg.
+[00:00:30] B and C. Now what you have here is a marker structure shift here and you also have
+[00:00:38] Mark's or the shift here and you also have a marker structure shift here
+[00:00:43] cool
+[00:00:45] After that you have your autoblock here, right? You see this very well together. So
+[00:00:52] your autoblock could beat this right here considering this high as well and
+[00:00:56] And you shot it right here, right?
+[00:01:02] And you put your stop there, just like that,
+[00:01:05] and you target the low here, which is a six-risk
+[00:01:11] to reward trade.
+[00:01:12] So notice how we took this auto block
+[00:01:15] or supply zone into consideration.
+[00:01:19] The C-leg goes into this level.
+[00:01:21] We had a market structure shift, right?
+[00:01:24] And we took our entry from this extreme friendly gap plus OB.
+[00:01:29] Right?
+[00:01:30] You could put your stop here as well.
+[00:01:33] But I usually like to put them here,
+[00:01:36] but it's also safe to put it here.
+[00:01:39] I'm not saying that you should put it here.
+[00:01:41] You should put it here just like if you want to, right?
+[00:01:45] But for me, I do not care about losing a trade.
+[00:01:48] My psychology is good.
+[00:01:49] So even if I lose this price goes back here in reverses,
+[00:01:52] I'm gonna be fine because, you know, unlike some people,
+[00:01:56] if they put this top loss here and it gets stopped,
+[00:02:00] and it just reverses from this area,
+[00:02:02] you would be mad, right?
+[00:02:04] So just keep it there.
+[00:02:07] Do you don't wanna mess around with the,
+[00:02:11] oh, never mind.
+[00:02:12] So we got the 3.25 you could say,
+[00:02:15] or six through a screw rod,
+[00:02:17] and this was a perfect example
+[00:02:19] on how you can use ABC with POI.

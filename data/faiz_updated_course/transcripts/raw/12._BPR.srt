@@ -1,0 +1,295 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, so in this video, we're going to talk about balanced price range. Basically, it is another entry pattern that we use with fair value gap. And what it does is it makes the fair value gap even stronger. So let's assume that you have a fair value gap here. And if we have BPR here as well, there are much more chances that that fair value gap is going to hold the trade and it's going to go into your direction. Now, it's not necessary to always look
+
+2
+00:00:30,000 --> 00:00:37,320
+for BPR, but you know it could be a nice confidence and it is also a nice entry pattern
+
+3
+00:00:37,320 --> 00:00:38,880
+that you can use.
+
+4
+00:00:38,880 --> 00:00:40,760
+So what is a BPR?
+
+5
+00:00:40,760 --> 00:00:46,960
+So let's assume that you have a push, a move to the down, right?
+
+6
+00:00:46,960 --> 00:00:47,960
+Boom.
+
+7
+00:00:47,960 --> 00:00:51,040
+So let's assume there was some liquid industry right here.
+
+8
+00:00:51,040 --> 00:00:55,320
+And after that you have a market structure shift right here.
+
+9
+00:00:55,320 --> 00:00:59,480
+Now you look at the extreme family gap, which is right here, right?
+
+10
+00:00:59,480 --> 00:01:06,680
+look at the left. So there is a variable you get up here as well. Right? So you are
+
+11
+00:01:06,680 --> 00:01:10,640
+looking at this variable you get up. But if you look at the left, the move that took
+
+12
+00:01:10,640 --> 00:01:15,280
+out liquidity, not necessarily don't have to be the move that takes out liquidity. I'm
+
+13
+00:01:15,280 --> 00:01:19,520
+just showing it as an example. But when you have a move and then you have a market structure
+
+14
+00:01:19,520 --> 00:01:25,520
+shift, look at the last move before market structure shift. And look at here, if there
+
+15
+00:01:25,520 --> 00:01:33,100
+is fabley gap here and there is fabley gap in the new move that broke the
+
+16
+00:01:33,100 --> 00:01:38,320
+market structure and the old fabley gap and the new fabley gap is overlapping
+
+17
+00:01:38,320 --> 00:01:46,800
+with each other if that is happening then that area becomes BPR okay and
+
+18
+00:01:46,800 --> 00:01:51,280
+when price comes back into this area it's gonna push up so let me explain this
+
+19
+00:01:51,280 --> 00:01:59,150
+again. Do you see this move right here? Let me remove this to clear confusion, right? You have a move
+
+20
+00:01:59,150 --> 00:02:06,910
+up. So let's assume you have lower low, lower high, sorry, lower low, lower high, lower low. And
+
+21
+00:02:06,910 --> 00:02:13,230
+this low low gets broken with Marcus structures shift. And this is extreme frode gap. Normally, you
+
+22
+00:02:13,230 --> 00:02:19,470
+would enter from this extreme frode gap right here. But look to the left of this extreme
+
+23
+00:02:19,470 --> 00:02:31,100
+probably gap. This right here. If there is fair value gap here as well, you know, and price
+
+24
+00:02:31,100 --> 00:02:36,860
+does not respect the old fair value gap and it pushes through this level, breaking market structure
+
+25
+00:02:36,860 --> 00:02:43,740
+or shifting the market structure and also leaving the fair value gap that overlaps with the
+
+26
+00:02:43,740 --> 00:02:51,540
+previous fear of a lega, then that level becomes balanced price range. I hope I
+
+27
+00:02:51,540 --> 00:02:55,620
+explained it well and what I'm going to show you examples is going to be clear.
+
+28
+00:02:55,620 --> 00:03:03,620
+So let me show you example number one. So you see you have lower low, lower high,
+
+29
+00:03:03,620 --> 00:03:15,980
+lower low, and then you have a market structure shift. Look at here. Do you see
+
+30
+00:03:15,980 --> 00:03:22,980
+this fair value gap right here, from here to here, what happened is price did not
+
+31
+00:03:22,980 --> 00:03:28,980
+respect this old fair value gap and what happened is price went back up and did
+
+32
+00:03:28,980 --> 00:03:37,220
+market structure shift. Now, look at this, this fair value gap is way too big, okay? It's
+
+33
+00:03:37,220 --> 00:03:41,940
+just way too big. So if you take your entry from the here, your stop loss is going to
+
+34
+00:03:41,940 --> 00:03:51,660
+be huge. But if you look at here, you have BPR. And the new free value gap is overlapping
+
+35
+00:03:51,660 --> 00:03:58,260
+with the old free value gap. So in this case, what you can do is you can take your entry
+
+36
+00:03:58,260 --> 00:04:07,300
+from the BPR or old free value gap. Okay. So essentially, what is happening here is that
+
+37
+00:04:07,300 --> 00:04:15,300
+the old free value gap, instead of acting as a resistance level, when it is broken, it is
+
+38
+00:04:15,300 --> 00:04:19,540
+not reacting as a support level, the old free value gap.
+
+39
+00:04:19,540 --> 00:04:25,900
+And also if there is new free value gap that is overlapping with the old free value gap, then
+
+40
+00:04:25,900 --> 00:04:28,140
+that level becomes BPR.
+
+41
+00:04:28,140 --> 00:04:37,940
+And trust me that move is going to be big if your whole model was perfect.
+
+42
+00:04:37,940 --> 00:04:40,860
+So you can see a BPR right here.
+
+43
+00:04:40,860 --> 00:04:47,660
+It overlaps and what I mean by overlap is it must have some part of fairly gap between
+
+44
+00:04:47,660 --> 00:04:48,660
+this box.
+
+45
+00:04:48,660 --> 00:04:50,140
+So you see this box that I've drawn.
+
+46
+00:04:50,140 --> 00:04:54,940
+You draw the box from the BPR right, the old fairly gap, you drag it along.
+
+47
+00:04:54,940 --> 00:05:01,940
+And if any part of the fair value gap, even a tiny bit is in that level in this box, then
+
+48
+00:05:01,940 --> 00:05:03,860
+you can take your entry from BPR.
+
+49
+00:05:03,860 --> 00:05:09,680
+Let me show you another example.
+
+50
+00:05:09,680 --> 00:05:17,180
+Right here.
+
+51
+00:05:17,180 --> 00:05:18,180
+Okay.
+
+52
+00:05:18,180 --> 00:05:23,370
+So you can see right here.
+
+53
+00:05:23,370 --> 00:05:26,170
+So you have a market structure shift, right big.
+
+54
+00:05:26,170 --> 00:05:30,290
+And before market structure shift, we had this BPR right here.
+
+55
+00:05:30,290 --> 00:05:35,170
+You see this old fair value gap, boom, boom, boom, boom, right?
+
+56
+00:05:35,170 --> 00:05:43,250
+price did not respect this level. It just went down, data market structure shift. Now the old
+
+57
+00:05:43,250 --> 00:05:51,090
+free value gap, right? And this new free value gap. So this is the new free value gap. Whoa,
+
+58
+00:05:51,650 --> 00:06:00,770
+whoa, right? And this right here, whoa. And whoa. So you drag the box along. It is overlapping with
+
+59
+00:06:00,770 --> 00:06:02,210
+with the old familiar gap.
+
+60
+00:06:02,210 --> 00:06:04,810
+This is the old familiar gap, boom, boom.
+
+61
+00:06:04,810 --> 00:06:06,770
+This is the new familiar gap, boom, boom.
+
+62
+00:06:06,770 --> 00:06:10,170
+You draw the box from the old familiar gap, boom, boom.
+
+63
+00:06:10,170 --> 00:06:11,490
+Drag it along.
+
+64
+00:06:11,490 --> 00:06:13,170
+If the new familiar gap is overlapping,
+
+65
+00:06:13,170 --> 00:06:16,370
+it has some sort of part in the old familiar gap box
+
+66
+00:06:16,370 --> 00:06:17,450
+that I've drawn.
+
+67
+00:06:17,450 --> 00:06:19,450
+Then you can take your entry from that box.
+
+68
+00:06:19,450 --> 00:06:22,730
+So you can see you have your familiar gap right here.
+
+69
+00:06:22,730 --> 00:06:25,890
+If you took your entry from this familiar gap,
+
+70
+00:06:25,890 --> 00:06:29,690
+price went down and you move your stop loss to break even.
+
+71
+00:06:29,690 --> 00:06:35,450
+what happened is then price came back filled the BPR level and then pushed down to its original
+
+72
+00:06:35,450 --> 00:06:42,170
+destination. So I hope that this video was clear guys. If you did not understand this, make sure
+
+73
+00:06:42,170 --> 00:06:47,930
+you've watched it again and again I tried my best to explain this. I hope you guys understood it.
+
+74
+00:06:47,930 --> 00:06:53,930
+Well, let's move on to the next video.

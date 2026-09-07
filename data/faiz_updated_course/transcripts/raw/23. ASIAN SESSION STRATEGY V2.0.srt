@@ -1,0 +1,188 @@
+1
+00:00:00,000 --> 00:00:04,800
+All right guys, so this is going to be the last lecture of this course update
+
+2
+00:00:05,440 --> 00:00:09,020
+There will be plenty of course updates in the future
+
+3
+00:00:09,020 --> 00:00:15,680
+Um, I will also be teaching you guys the ICT 2323 mentorship when it's out
+
+4
+00:00:15,680 --> 00:00:19,280
+I'm gonna watch all of that content and I'm gonna upload it here
+
+5
+00:00:21,400 --> 00:00:28,680
+Like the important and like the things that actually matter and I'll it will skip all the talking and you don't have to be watching like
+
+6
+00:00:28,680 --> 00:00:31,520
+The long videos that I see these are gonna put out
+
+7
+00:00:32,040 --> 00:00:37,680
+but in this last final lecture, we're going to learn about Asian
+
+8
+00:00:39,360 --> 00:00:44,160
+Session strategy version 2.0
+
+9
+00:00:45,280 --> 00:00:46,480
+so
+
+10
+00:00:46,480 --> 00:00:48,320
+You want to use
+
+11
+00:00:48,320 --> 00:00:53,520
+FX and Asian session rage just as the old one, right?
+
+12
+00:00:54,240 --> 00:00:55,640
+so
+
+13
+00:00:55,640 --> 00:00:57,640
+what you want to look for is
+
+14
+00:00:57,640 --> 00:01:04,200
+Asian session, right? So simply you will you're gonna have Asian session like this and
+
+15
+00:01:09,560 --> 00:01:17,080
+Bill look for P.O.I.s below the Asian low and above the Asian high
+
+16
+00:01:18,160 --> 00:01:22,840
+So this does not require daily bias or market structure or whatever
+
+17
+00:01:23,520 --> 00:01:25,760
+so let's assume that
+
+18
+00:01:28,640 --> 00:01:36,360
+Whoops, that was terrible
+
+19
+00:01:38,160 --> 00:01:44,120
+Okay, so let's assume you have a POI right here, which could be an autoblock
+
+20
+00:01:44,800 --> 00:01:46,800
+okay, and
+
+21
+00:01:48,320 --> 00:01:53,280
+Once the Asian session is over which is going to be I believe
+
+22
+00:01:54,120 --> 00:01:56,120
+to
+
+23
+00:01:57,200 --> 00:01:59,200
+Am New York time
+
+24
+00:02:02,160 --> 00:02:07,840
+Right and the indicator is going to show you when the session is over so after that
+
+25
+00:02:09,680 --> 00:02:14,000
+When the session is over you want to see price go to that POI
+
+26
+00:02:14,800 --> 00:02:22,160
+So essentially you're looking at 15 minute first 15 minute, right? You mark at the PI or POI on 15 minute
+
+27
+00:02:22,160 --> 00:02:28,520
+And when the price reaches your POI you drop down to one minute time frame look for market structure shift
+
+28
+00:02:28,600 --> 00:02:34,480
+Take your entry from family gap break a block BPR family gap whatever we want to use and
+
+29
+00:02:35,480 --> 00:02:37,480
+Kaboom
+
+30
+00:02:38,680 --> 00:02:41,280
+It's that simple guys and similarly
+
+31
+00:02:42,920 --> 00:02:47,080
+Let me remove this and this if you have
+
+32
+00:02:47,080 --> 00:02:51,880
+Wow, terrible again
+
+33
+00:02:57,520 --> 00:02:59,520
+Okay, so
+
+34
+00:03:01,520 --> 00:03:08,920
+Wait a minute you have an autoblock here right on the 15 minute time frame make sure it's the first candle of the
+
+35
+00:03:08,920 --> 00:03:12,800
+Fair Valley gap we're gonna use that type of autoblock in this strategy, okay
+
+36
+00:03:13,760 --> 00:03:17,280
+And not like the ones like the way we use an autoflow
+
+37
+00:03:17,800 --> 00:03:23,600
+so simply once the Asian is over you wait for price to just drop down into your POI and
+
+38
+00:03:24,280 --> 00:03:30,600
+Drop down then you want to drop down to one minute look for market structure shift take your entry and boom
+
+39
+00:03:32,280 --> 00:03:34,280
+Very simple, okay
+
+40
+00:03:34,960 --> 00:03:37,360
+And unlike the Asian session
+
+41
+00:03:38,240 --> 00:03:41,800
+version 1.0 you can look for entry
+
+42
+00:03:42,800 --> 00:03:48,240
+Or you know price and come into your POI during the London session as well
+
+43
+00:03:49,040 --> 00:03:56,320
+Okay, so in the old strategy we had to look for shift in market structure during the lunch hour, okay?
+
+44
+00:03:56,760 --> 00:03:58,760
+but this
+
+45
+00:03:59,120 --> 00:04:03,440
+Version 2 can work in the London session as well the starting hours of London session
+
+46
+00:04:03,440 --> 00:04:10,560
+Okay, the starting hours of London session price comes into your POI you get marks to shift with displacement entry and boom
+
+47
+00:04:10,560 --> 00:04:13,280
+So I'm gonna give you guys a couple of examples
+

@@ -1,0 +1,163 @@
+{
+  "source": "F:\\new faiz\\5. Monthly Bias Example 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 197.369625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.3,
+      "end": 30.3,
+      "text": " Alright guys, so here is example number two for the monthly bias. I'm looking at AUD-USD on the monthly timeframe of course. So now how do you manually identify highs and lows? So I high and low is a pattern of three candles. The first candle is like this. The second candle is the highest and the third candle is lower than the second candle. So the second candle has to be the highest."
+    },
+    {
+      "start": 30.3,
+      "end": 34.94,
+      "text": " here, wake here and wake here. The second candle has the highest"
+    },
+    {
+      "start": 34.94,
+      "end": 39.9,
+      "text": " wick. Okay, once we have that pattern, right, when the candle closes, that is your"
+    },
+    {
+      "start": 39.9,
+      "end": 45.02,
+      "text": " high. Or you can simply just use the fractals indicator. But sometimes"
+    },
+    {
+      "start": 45.02,
+      "end": 52.38,
+      "text": " fractals might miss these small highs and lows. So you must know what is"
+    },
+    {
+      "start": 52.38,
+      "end": 57.5,
+      "text": " high and low. So over here, what we have is a purge on the external"
+    },
+    {
+      "start": 57.5,
+      "end": 64.38,
+      "text": " liquidity and where is the drawn liquidity? It's going to be this fair value gap. So now let's drop"
+    },
+    {
+      "start": 64.38,
+      "end": 71.66,
+      "text": " down to the daily timeframe once we have taken out the monthly extended liquidity. So now what we"
+    },
+    {
+      "start": 71.66,
+      "end": 77.98,
+      "text": " want to wait for is a market structure shift and right there you can see we have a shift in the"
+    },
+    {
+      "start": 77.98,
+      "end": 84.94,
+      "text": " market structure. Beautiful. So then you can see price fills in the fair value gap. So that is"
+    },
+    {
+      "start": 84.94,
+      "end": 92.14,
+      "text": " going to be our entry. If the fair value gap is big, you can simply just use the 0.5 level of the"
+    },
+    {
+      "start": 92.14,
+      "end": 99.9,
+      "text": " fib, which is going to be this. So let's say your entry is here. Let me remove the fib. Your stop"
+    },
+    {
+      "start": 99.9,
+      "end": 108.7,
+      "text": " goes above the high and you're simply targeting the monthly drawn liquidity, which is the fair"
+    },
+    {
+      "start": 108.7,
+      "end": 114.3,
+      "text": " value gap. These two lines is a fair value gap. Remember, I drew two lines. So you have your"
+    },
+    {
+      "start": 114.3,
+      "end": 121.02,
+      "text": " entry so let's see what would have happened and there you go take profit hit you can see we have"
+    },
+    {
+      "start": 121.02,
+      "end": 130.78,
+      "text": " been bearish throughout the these many days now if you were on the one hour time frame now let"
+    },
+    {
+      "start": 130.78,
+      "end": 137.9,
+      "text": " me give you some you know hints you could have taken your entry somewhere around here maybe here"
+    },
+    {
+      "start": 138.7,
+      "end": 143.66,
+      "text": " if it took out some high low but we're going to talk about that later just just you know don't"
+    },
+    {
+      "start": 143.66,
+      "end": 145.0,
+      "text": " I don't want to confuse you guys."
+    },
+    {
+      "start": 145.0,
+      "end": 149.58,
+      "text": " You can use this as a bread and butter model, just two time frames, right?"
+    },
+    {
+      "start": 149.58,
+      "end": 158.94,
+      "text": " Remember time frame alignment, we are for monthly bias we use monthly daily and hourly."
+    },
+    {
+      "start": 158.94,
+      "end": 166.58,
+      "text": " For weekly we use the weekly for our time frame and 15 minutes time frame."
+    },
+    {
+      "start": 166.58,
+      "end": 171.58,
+      "text": " For daily, we use daily one hour and five minutes."
+    },
+    {
+      "start": 171.98,
+      "end": 175.9,
+      "text": " And for our timeframe, right?"
+    },
+    {
+      "start": 175.9,
+      "end": 180.3,
+      "text": " For intro day bias, we use the four hour, 15 minutes"
+    },
+    {
+      "start": 180.3,
+      "end": 182.9,
+      "text": " and two minute, we're not gonna use one minute"
+    },
+    {
+      "start": 182.9,
+      "end": 186.35,
+      "text": " because it is not reliable."
+    },
+    {
+      "start": 186.35,
+      "end": 190.23,
+      "text": " So price gives us a Mark Shutter shift for everybody gap,"
+    },
+    {
+      "start": 190.23,
+      "end": 192.35,
+      "text": " boom, right there."
+    },
+    {
+      "start": 192.35,
+      "end": 196.31,
+      "text": " Let me give you guys an example for the weekly bias now."
+    }
+  ]
+}

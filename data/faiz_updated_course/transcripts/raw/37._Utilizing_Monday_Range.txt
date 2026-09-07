@@ -1,0 +1,128 @@
+[00:00:00] Alright guys, so this is a brand new course and every week there will be a new chapter that's gonna be released in the Discord server. And in this very first chapter I'm gonna teach you guys about the Monday range. It is a very good model with high wind rate. It works on gold, NAS100, EuroUSD,
+[00:00:30] So essentially what we are doing is we are marking out high of the Monday and low of the
+[00:00:43] Monday.
+[00:00:44] So let's assume that this candle on the daily time from is the Monday candle and it closes.
+[00:00:54] So we mark out the Monday high and the Monday range low.
+[00:01:03] Now on Tuesday we want to see price take out either the swing or the Monday high or the
+[00:01:13] Monday low.
+[00:01:16] So let's assume that on Tuesday the low is taken out.
+[00:01:22] the low of the Monday is taken out.
+[00:01:24] What we want to do is we want to simply drop down to 15 minute
+[00:01:28] timeframe. So we will drop down to 15 minute timeframe.
+[00:01:32] And then we're going to look for a market structure shift.
+[00:01:35] Right. And we're going to take our entry and we can target the Monday
+[00:01:39] high or we can take our profit at the 50% of this Monday range. Right.
+[00:01:48] So we can take our profit somewhere around here or we can simply go for one
+[00:01:51] Now, key thing to note is that you should get your market structure shift during London session
+[00:02:00] because let's assume that you get your market structure shift during Asian session.
+[00:02:06] Now, this will then become the Asian session low.
+[00:02:11] So there's a chance that price will take out the Asian low first and then give you another
+[00:02:16] market structure shift and move towards the Monday.
+[00:02:18] Hi.
+[00:02:19] So remember this one thing, we are looking for market structure shift during London or
+[00:02:28] New York session.
+[00:02:30] If the market structure shift occurs during the Asian session, right, then we have to keep
+[00:02:36] the Asian range strategy in the first course in our mind.
+[00:02:41] And we have to think about it logically, right?
+[00:02:43] Because if we get the market structure shift during the Asian session, we can expect the
+[00:02:47] price to take out the issue low first and then move towards the Monday high.
+[00:02:52] So similarly, if the Monday candle high is taken out first,
+[00:02:58] we're going to drop down to the 15 minute timeframe. Right.
+[00:03:02] And then we're going to look for a market structure shift.
+[00:03:04] And then we're going to look to take our entry from the fair value gap or an
+[00:03:08] auto block.
+[00:03:09] And we're going to target the Monday low, very simple.
+[00:03:13] Okay, so to increase the probabilities we can do is look for S&T divergence. It is not necessary, but what's gonna do is gonna
+[00:03:23] confirm
+[00:03:25] You know the
+[00:03:26] Momentum, but it's not necessary and it requires this model requires no device and this is like a one trade per week setup and
+[00:03:35] It has a very high event rate
+[00:03:37] So if you are someone who has you know a 95 job or you just busy with your family or what not
+[00:03:43] You can just take one set of per day and make a living.
+[00:03:46] So I'm gonna give you guys some examples and then I'll be back next week with a new chapter.
+[00:03:54] Okay guys, so here is example number one and you can see this is the Monday candle and that close.
+[00:03:59] So all you have to do is mark out the Monday candle high and the Monday candle low.
+[00:04:05] So you can see that on Tuesday the low of the Monday candle was taken out.
+[00:04:10] So if I drop down to 15 minute time from right.
+[00:04:15] This is the Monday low, and it was taken out first.
+[00:04:23] And we have our Monday high over here.
+[00:04:28] So you can simply see that what happened.
+[00:04:31] We got a market structure shift, right, during the kilos and ours.
+[00:04:37] And then you can see that we had this breaker block.
+[00:04:41] afterwards price tapped into this and it just flew away. Now of course this is
+[00:04:47] hindsight. Primarily you want to be trying to take your entry from the auto
+[00:04:54] block right but since the range was so big you want to get into the trade as
+[00:05:02] soon as possible. So for example even if I took my trade here right I put my
+[00:05:06] stop somewhere around here. This would have easily given me around 3.51. Okay? The general rule
+[00:05:13] of thumb, a very good rule of thumb is that you always go for one to two wrist or a ward, right?
+[00:05:18] And all of us go break even after one to one is hit. So that was a very clean example. Let's move
+[00:05:27] on to another example now. Okay guys, so in this example you can see that I've marked out the
+[00:05:33] Monday candle high and the Monday candle low.
+[00:05:37] So you can clearly see how well this paid out.
+[00:05:40] So I'm gonna drop down to 15 minute time from here.
+[00:05:45] And if I zoom out a bit, you can see that
+[00:05:48] the Monday low was here and it was taken out on Tuesday.
+[00:05:52] Then simply what we would do is we would look
+[00:05:54] for a market structure shift and that happened
+[00:05:58] just around here.
+[00:06:00] Now, if you see this, that we were outside decales on ours.
+[00:06:04] Now you could have taken your entry from this break of vlog here, right?
+[00:06:09] But eventually what I would do is I would wait for the next day and the next London session to start.
+[00:06:15] And then I would look for a liquidity perch.
+[00:06:17] So continuation perch in the first course, right?
+[00:06:23] Afterwards we have a break in the structure.
+[00:06:26] Then we have the auto vlog here.
+[00:06:29] And you can see the beautiful delivery to the upside, taking out the Monday candle.
+[00:06:36] Hi.
+[00:06:37] Let's be one to another example.
+[00:06:41] All right, guys.
+[00:06:41] So here is another example.
+[00:06:43] This is going to be a different example because I'm going to show you a loser.
+[00:06:46] And I'm going to also show you that as long as you have, you know, your idea, right,
+[00:06:52] you can still get reenter into the trade.
+[00:06:55] So over here, you can see we have the Monday high.
+[00:06:58] and the Monday low. Right? So if I go to the 15 minute timeframe, you can see that the Monday
+[00:07:08] high was taken out first. So what we were doing is looking for a market structure shift.
+[00:07:13] So over here, what we had, we had the Asian session high taken out. And somewhere around here,
+[00:07:22] we had a market structure shift. And now we did push up, we did mitigate this auto block,
+[00:07:28] auto block and then we did go below it. But price had another push up right and then afterwards
+[00:07:35] we had a shift in the market structure over here right and over here. So then we had this auto
+[00:07:42] block here and you can see the beautiful tap and you can see how price delivered by taking
+[00:07:49] out the Monday low. Alright guys so here is another example. This time looking at gold so
+[00:07:56] So you can see on Monday, we have a Monday high and the Monday low.
+[00:08:02] So now you can see that price first took out the Monday low and then went up ahead and took
+[00:08:06] out the Monday high.
+[00:08:07] So if I go to the 15 minute time from here, you're going to see that on Tuesday, we had
+[00:08:14] a purge on the Monday low.
+[00:08:17] And that's what we want to see afterwards.
+[00:08:19] What do we have is if you see, look closely, this is a high.
+[00:08:24] Right?
+[00:08:25] this was broken and then what we were simply doing is taking our entry from the
+[00:08:30] brick-a-block or a fair value gap. So you can see that we have this fair value gap
+[00:08:34] and the entry was perfect right here and you can see that the draw on liquidity
+[00:08:42] was taken out. So you can see that we had a push up you could have gone break even
+[00:08:49] at somewhere around here right after these hives were taken out or at one to one and
+[00:08:55] And this would have a breakdown perfectly.
+[00:08:58] So let me realize one more example.
+[00:09:01] All right, guys, so here is the last example.
+[00:09:03] You can see that we have a Monday candle,
+[00:09:05] Monday high, and the Monday low.
+[00:09:07] So you can see the Monday high was taken out first.
+[00:09:10] So if we go to the 15 minute time from here,
+[00:09:13] you can see that I have marked out the Monday high over here.
+[00:09:19] And on Tuesday, the Monday high was taken out.
+[00:09:22] So now we're looking for a market structure shift,
+[00:09:25] the market structure shift happened just around here.
+[00:09:29] And then what we have is a consecutive bullish
+[00:09:31] channels to the upside.
+[00:09:33] This could be your entry level.
+[00:09:36] Right?
+[00:09:38] So a shot position just right here.
+[00:09:41] Stop right above here.
+[00:09:44] And you can see that the take profit was easily hit.
+[00:09:51] So that is it for this chapter guys.
+[00:09:53] I really hope that this works out for you.
+[00:09:56] There are a lot of more models coming out. I can't wait to show you guys, but I'm gonna keep it slow
+[00:10:03] One model per week because I want you to get familiar with every single model
+[00:10:08] And I want you to practice every model because at the end of this brand new course
+[00:10:13] You're gonna tank me, okay? So just keep watching keep back practicing and keep back testing

@@ -1,0 +1,333 @@
+{
+  "source": "F:\\new faiz\\12. ABC Trading Strategy Example 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 382.479125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 41.3,
+      "text": " Alright guys, so here's another example for the ABCD trading strategy. So we got the ALAG right around here. Right? So we want to mark out the value of the ALAG right? Something like that. And then we got the BLAG which is the significant pullback or a small down trend, small sorry small trend in an opposite direction which is this."
+    },
+    {
+      "start": 41.3,
+      "end": 50.26,
+      "text": " So this is the B leg and then we got the C leg right around here, which is this"
+    },
+    {
+      "start": 50.9,
+      "end": 52.9,
+      "text": " Okay, and we got the"
+    },
+    {
+      "start": 53.94,
+      "end": 62.5,
+      "text": " Low of the B leg. Sorry. How about"
+    },
+    {
+      "start": 63.22,
+      "end": 65.74,
+      "text": " We got the high of the B leg right here"
+    },
+    {
+      "start": 66.54,
+      "end": 68.54,
+      "text": " right"
+    },
+    {
+      "start": 68.82,
+      "end": 73.58,
+      "text": " B leg high which is our take profit area and we got the a leg"
+    },
+    {
+      "start": 74.38,
+      "end": 76.38,
+      "text": " low here so"
+    },
+    {
+      "start": 76.38,
+      "end": 80.4,
+      "text": " Let me delete that."
+    },
+    {
+      "start": 80.4,
+      "end": 82.56,
+      "text": " We wait for price to fake out."
+    },
+    {
+      "start": 82.56,
+      "end": 91.29,
+      "text": " Before price, it created structure."
+    },
+    {
+      "start": 91.29,
+      "end": 99.41,
+      "text": " You can see lower low, lower high, lower low, lower high, and then price broke down."
+    },
+    {
+      "start": 99.41,
+      "end": 105.05,
+      "text": " Price faked out and before faking out, before crossing this line, price created some"
+    },
+    {
+      "start": 105.05,
+      "end": 106.77,
+      "text": " structure."
+    },
+    {
+      "start": 106.77,
+      "end": 116.34,
+      "text": " And there we have market structure shift and we got imbalance just here."
+    },
+    {
+      "start": 116.34,
+      "end": 122.84,
+      "text": " So if I remove the line, you can see we got the imbalance between this level."
+    },
+    {
+      "start": 122.84,
+      "end": 131.94,
+      "text": " So this whole candle is our auto block, right?"
+    },
+    {
+      "start": 131.94,
+      "end": 143.53,
+      "text": " And we target the B leg high, which is this."
+    },
+    {
+      "start": 143.53,
+      "end": 145.53,
+      "text": " So that was 4.74."
+    },
+    {
+      "start": 145.53,
+      "end": 147.69,
+      "text": " Easy, guys."
+    },
+    {
+      "start": 147.69,
+      "end": 154.93,
+      "text": " You see the accuracy, it took out the B leg high and then it reversed."
+    },
+    {
+      "start": 154.93,
+      "end": 159.09,
+      "text": " So let me repeat this again."
+    },
+    {
+      "start": 159.09,
+      "end": 160.97,
+      "text": " So let's see what happened."
+    },
+    {
+      "start": 160.97,
+      "end": 166.93,
+      "text": " We got the A leg, okay, we got the A leg and then we got the B leg, right?"
+    },
+    {
+      "start": 166.93,
+      "end": 169.25,
+      "text": " And then we got the C leg."
+    },
+    {
+      "start": 169.25,
+      "end": 176.37,
+      "text": " The C leg created structure before taking out the low of the A leg, which is this."
+    },
+    {
+      "start": 176.37,
+      "end": 184.77,
+      "text": " then we get so went once that low was taken out before taking out the low price credit"
+    },
+    {
+      "start": 184.77,
+      "end": 189.85,
+      "text": " some structure okay it created structure here it created structure here and these structures"
+    },
+    {
+      "start": 189.85,
+      "end": 195.65,
+      "text": " were taken out so this is market structure shift and when price took out the level it created"
+    },
+    {
+      "start": 195.65,
+      "end": 202.29,
+      "text": " some imbalance and auto block so this was our entry right around here and a beautiful"
+    },
+    {
+      "start": 202.29,
+      "end": 211.81,
+      "text": " trade guys. Very, very simple guys. So I hope by now it's gonna be clear. I tried my best"
+    },
+    {
+      "start": 211.81,
+      "end": 219.09,
+      "text": " to explain the strategy literally my throat is hurting right now. I don't know why. So I would"
+    },
+    {
+      "start": 219.09,
+      "end": 224.53,
+      "text": " repeat it once again. And the ABC structure and the ABC definition is one identified the"
+    },
+    {
+      "start": 224.53,
+      "end": 229.05,
+      "text": " the L-E leg, the B leg and the C leg."
+    },
+    {
+      "start": 229.05,
+      "end": 233.81,
+      "text": " The C leg must take out this level, okay,"
+    },
+    {
+      "start": 233.81,
+      "end": 236.41,
+      "text": " which is the start of the B leg."
+    },
+    {
+      "start": 236.41,
+      "end": 240.65,
+      "text": " And before taking out the start of the B leg,"
+    },
+    {
+      "start": 240.65,
+      "end": 243.85,
+      "text": " it must create some structure, all right?"
+    },
+    {
+      "start": 243.85,
+      "end": 245.57,
+      "text": " And that structure gets broken here."
+    },
+    {
+      "start": 246.49,
+      "end": 251.25,
+      "text": " To add the A, B, C, and then we got this beautiful entry"
+    },
+    {
+      "start": 251.25,
+      "end": 255.09,
+      "text": " here, wait for price to come back into the,"
+    },
+    {
+      "start": 255.97,
+      "end": 260.73,
+      "text": " Auto block and very well you get and as you can see it just went crazily down"
+    },
+    {
+      "start": 261.25,
+      "end": 264.73,
+      "text": " Then you can see that we can continue this. Okay, so we got the"
+    },
+    {
+      "start": 265.51,
+      "end": 268.29,
+      "text": " Let's let me show you one amazing thing about the strategy"
+    },
+    {
+      "start": 268.29,
+      "end": 275.37,
+      "text": " So we got the now this whole thing is an a leg this whole thing is a b leg and this thing is a c leg"
+    },
+    {
+      "start": 276.17,
+      "end": 278.67,
+      "text": " Okay, so it just can't continue forever"
+    },
+    {
+      "start": 280.65,
+      "end": 284.11,
+      "text": " So let me go ahead and draw out this level"
+    },
+    {
+      "start": 284.11,
+      "end": 294.11,
+      "text": " Okay, so before price took out this level, price created some structure here and it left some imbalance."
+    },
+    {
+      "start": 294.11,
+      "end": 306.11,
+      "text": " Now unfortunately it did not hit our auto block which were right here but it did fill in the imbalance around here and as you can see if you"
+    },
+    {
+      "start": 306.11,
+      "end": 312.51,
+      "text": " If you would have taken the entry from this level, put your stop right below this level."
+    },
+    {
+      "start": 312.51,
+      "end": 320.65,
+      "text": " You could have made another 4.21% return on the straight guys."
+    },
+    {
+      "start": 320.65,
+      "end": 323.45,
+      "text": " Absolutely brilliant trading strategy."
+    },
+    {
+      "start": 323.45,
+      "end": 330.05,
+      "text": " So yeah guys, I hope that things are clear enough now."
+    },
+    {
+      "start": 330.05,
+      "end": 334.01,
+      "text": " This works on any timeframe."
+    },
+    {
+      "start": 334.01,
+      "end": 339.01,
+      "text": " If you want to sculpt, you can work on the 5-minute timeframe."
+    },
+    {
+      "start": 339.01,
+      "end": 343.77,
+      "text": " Also, it works really, really good with the 1R timeframe."
+    },
+    {
+      "start": 343.77,
+      "end": 347.69,
+      "text": " So what are the best pairs for this tragedy?"
+    },
+    {
+      "start": 347.69,
+      "end": 357.99,
+      "text": " Well honestly, every pair, according to my backtesting data, anything works with it."
+    },
+    {
+      "start": 357.99,
+      "end": 363.19,
+      "text": " Crypto, Forex, stocks, indices, everything."
+    },
+    {
+      "start": 363.19,
+      "end": 367.91,
+      "text": " So yeah guys this was my favorite trading strategy and this is what I'm currently using"
+    },
+    {
+      "start": 367.91,
+      "end": 371.19,
+      "text": " nowadays and it is highly profitable."
+    },
+    {
+      "start": 371.19,
+      "end": 374.19,
+      "text": " You can see these big moves right?"
+    },
+    {
+      "start": 374.19,
+      "end": 380.15,
+      "text": " And yeah, so I'll see you guys in the next trading strategy."
+    },
+    {
+      "start": 380.15,
+      "end": 380.47,
+      "text": " Goodbye."
+    }
+  ]
+}

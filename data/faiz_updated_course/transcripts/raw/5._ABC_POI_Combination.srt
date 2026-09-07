@@ -1,0 +1,111 @@
+1
+00:00:00,000 --> 00:00:30,000
+In this video, I'm going to give you some tips or a tip on how you can improve your wind rate with ABC trading strategy. Let's assume that you have a POI, it could be an auto block or a fair value gap on a higher timeframe. You can also take this into consideration that you had a lower low, lower high, and then you had a market structure break or break of structure. Usually, when you are trading smart money or auto floor trading strategy, you would take your entry.
+
+2
+00:00:30,000 --> 00:00:33,840
+from this level. However, if you want to increase your ABC
+
+3
+00:00:33,840 --> 00:00:38,400
+strategy win rate, what you can do is look for an ABC pattern,
+
+4
+00:00:38,400 --> 00:00:42,400
+near your POI, and the C leg goes into your POI.
+
+5
+00:00:42,400 --> 00:00:47,120
+Like this. So we have an ABC and the C leg
+
+6
+00:00:47,120 --> 00:00:52,320
+goes into your POI. Now that is going to increase your win rate
+
+7
+00:00:52,320 --> 00:00:55,840
+tremendously. Okay? Not tremendously, but it's going to give
+
+8
+00:00:55,840 --> 00:00:59,520
+like a five percent or 10 percent increase to your win rate.
+
+9
+00:00:59,520 --> 00:01:03,000
+So you are going to then follow the rules again, right?
+
+10
+00:01:03,000 --> 00:01:05,040
+As I have taught the APC strategy,
+
+11
+00:01:05,040 --> 00:01:07,840
+you then wait for a market structure shift
+
+12
+00:01:07,840 --> 00:01:09,760
+with displacement, with volume,
+
+13
+00:01:09,760 --> 00:01:12,080
+and then you take your entry from the extreme fairly gap
+
+14
+00:01:12,080 --> 00:01:12,920
+and caboom.
+
+15
+00:01:14,000 --> 00:01:17,960
+So this is something that you can take into consideration.
+
+16
+00:01:17,960 --> 00:01:18,800
+All right?
+
+17
+00:01:18,800 --> 00:01:21,520
+What you wanna do is you wanna identify a POI,
+
+18
+00:01:21,520 --> 00:01:24,680
+it could be an auto block, it could be a fairly gap,
+
+19
+00:01:24,680 --> 00:01:26,320
+a high time frame, right?
+
+20
+00:01:26,320 --> 00:01:31,160
+And then you wait for price to give you an ABC pattern near your P.O.I.
+
+21
+00:01:31,160 --> 00:01:35,160
+And the C leg goes into the P.O.I. right?
+
+22
+00:01:35,160 --> 00:01:38,560
+And when it does, then you can look for a market structure shift
+
+23
+00:01:38,560 --> 00:01:41,280
+within the range, which is here, right?
+
+24
+00:01:41,280 --> 00:01:45,280
+So if the price breaks the structure somewhere around here,
+
+25
+00:01:45,280 --> 00:01:47,360
+you look for your entry and boom.
+
+26
+00:01:47,360 --> 00:01:52,800
+Trust me, it's going to increase your win rate by 10 to even 15%.
+
+27
+00:01:52,800 --> 00:01:55,520
+So yeah, I hope you like the tip.
+
+28
+00:01:55,520 --> 00:01:57,520
+and let's move on to the next video.

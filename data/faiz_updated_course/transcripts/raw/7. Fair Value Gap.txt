@@ -1,0 +1,105 @@
+Okay guys, so in this video, we are going to learn about fair value gaps and imbalances.
+They are the same thing, but different names.
+You could either call it fair value gap or imbalance, it's really up to you, but a shout
+out to this guy over here, great presentation or diagram, you could say.
+Okay, so a gap of liquidity left during the movedown and trials due to new brain pressure
+overlapping that part of the move in the previous or next scandal.
+So basically, what is fair value gap?
+Is the space between the three candles, all right, so this is the one candle, second candle
+and third candle.
+So as you can see from the left side, from this low and the third candle to the right,
+this high, there's this gap, all right, there's nothing around this level, all right.
+So this is considered to be imbalance.
+I will repeat, you can see that price went up and then we had three candles, okay, so
+this is like a three candle, um, pattern, you could say.
+So you can see one, two, three, three candles.
+And in between those three candles, there should be a gap, okay, so how do we determine
+a gap?
+We look, if we are looking at a short position, we're going to look from the, we're going
+to look, start looking from the first candle.
+So this is the first candle and we look at the low of the first candle, which is this.
+And then we look at the high of the third candle.
+And if there is gap between the low of the first candle and the high of the third candle,
+then that area could be considered as fair value gap or imbalance.
+Now why does this happen is when big institutional buyers or sellers are in the market.
+When there is unfair, or you could say huge amounts of selling or buying going on, market
+leaves unfair price, okay, and that price should always be filled.
+It should be filled to keep the value of the market fair, if that makes sense.
+So that is why we call it a fair value gap, because when price comes into this level,
+it, it makes a price fair, if that makes sense, all right.
+So if we look at the by example here, we look for the high of the first candle and the low
+of the third candle.
+So this is again, a three candle formation, remember that one, two, three, all right.
+So the first candle, we're looking at a by example, okay.
+So the first candle, the high of the first candle and the low of the third candle, we
+have to look for these two things, all right, the high of the first candle and the low of
+the third candle.
+If there's any space between the first candle and the third candle, then that space should
+be considered as fair value gap, all right.
+So let me give you some examples.
+So as you can see, we got, let me zoom in a bit.
+You can see one, two, three candles, right.
+So we're looking at three candles, okay.
+So we got one candle right here, the second candle right here and the third candle right
+around here, all right.
+And in between these three candles, we got fair value gap, all right.
+So let me put that like this and let me go to the repo mode.
+So it's clear for you guys, all right, okay.
+So as you can see, what we discussed, when we're looking for a short position, we are
+going to look for the low of the first candle, which is this, as you can see, there is a
+week, right.
+So this is the low of the first candle.
+And then we look at the high of the third candle.
+And there you can see there's gap around this level, right.
+And what we should be expecting is that price is going to fill this level, this imbalance
+and go down, all right.
+So let's see what happens.
+Price fills the imbalance and then it drops down.
+Very simple guys, okay.
+And as you can see, price goes up a bit, fills all the imbalance here.
+And there should be some imbalance on a smaller timeframe, all right.
+So we are looking at this imbalance on a five minute timeframe.
+But I'm pretty sure there's going to be imbalance on a short timeframe.
+So let's go to the one minute timeframe.
+And as you can see, as you can see, if we zoom in, you can see there's gap, all right,
+from here to here.
+So a one, two, three candles, very nice.
+And then you can see we got this gap, all right, and price must fill this level.
+So if we draw this out, you can see how perfectly price filled the imbalance here, make the
+price fair, and then it went down all the way down, all right.
+So let me play this out for you.
+Yep.
+So it went all the way down.
+Let me give you an example for by position.
+All right.
+So we are looking at this, all right.
+So we got, let me label it so it's easier for you.
+Okay.
+So we got the one candle around here, whoops, all right.
+So this is our first candle.
+Okay, I should just, so this is first candle, right?
+This second, and this is third.
+When we're looking for buys, we are going to look at the high, the very high of the
+first candle and the low of the third candle.
+And then we wait for the price to fill this level.
+And as you can see, if we draw this out, price filled this level, fill this imbalance or
+fill the value gap, and it went all the way up, all right.
+And I'm pretty sure that there was some imbalance around this level here as well, all right,
+on a 30 second timeframe or, I don't know, 15 second timeframe.
+Remember guys, price is fractal, all right.
+So whatever is happening on the one made, it could be happening on a smaller timeframe.
+So it doesn't really matter what timeframe you're looking at as long as you are following
+your rules.
+Okay, so as you can see, price fills the imbalance and the fair value gap, and it just
+goes all the way up.
+Now we should not use the fair value gap or imbalance, whatever you want to call it, as
+an independent strategy, all right.
+This is something that we're going to use with a lot of other confluences like liquidity,
+market structure break, okay, market structure shift and all.
+So keep watching.
+And I'm pretty sure that you should be pretty clear about imbalances and what they are.
+I tried my best, my very best to explain it to you.
+I really do hope that you understood it.
+If you did not, I would highly recommend that you watch this video again because this is
+one of the most important things of this course.
+So yeah, I'll see you guys in the next video.

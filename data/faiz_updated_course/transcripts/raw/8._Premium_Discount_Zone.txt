@@ -1,0 +1,84 @@
+[00:00:00] Alright guys, so in this video we are going to learn about premium and discount zones. What is a premium and a discount zone? So I am going to give you an example. Let's say that you want to buy a house, right? And the prices are very high, okay? But you know that the prices are going to be lower in the future.
+[00:00:30] So are you going to buy the house at a very high price or you're going to wait for price to lower down and then you buy.
+[00:00:40] Of course, you're going to wait for price to lower so that you can buy it at a discount.
+[00:00:47] That makes sense.
+[00:00:48] Similarly, whenever we want to go long, we should always be buying at a discounted zone.
+[00:00:59] Now, how do we find a discounted or a premium zone?
+[00:01:05] Now, let me give you an example for premium zone, right?
+[00:01:10] So let's say that you bought a house at a very low price.
+[00:01:18] Now, you want to sell it.
+[00:01:20] Of course, you are going to sell it for a higher price.
+[00:01:24] Okay, you don't want to sell it at a lower price because that's gonna, you know, if one profitable for you.
+[00:01:30] So that's why when you are going to sell your house, you're going to sell it at a higher price.
+[00:01:37] Similarly, when you're about to short, when you're about to take a short position,
+[00:01:42] you should be waiting for the price to come up at a premium level so that you can sell it if that makes sense.
+[00:01:49] All right, you want the price to be higher
+[00:01:51] in order for you to be selling it.
+[00:01:54] So first of all, let me give you an example
+[00:01:57] for a discounted zone.
+[00:01:59] So as you can see, price went up right up to this level.
+[00:02:04] So you can see, price made a very huge move
+[00:02:10] from this point to this point.
+[00:02:13] From this to this.
+[00:02:15] Now, are you going to buy here?
+[00:02:20] Absolutely not.
+[00:02:21] If you are a trader, you should know that you should never be buying at around this level.
+[00:02:28] You should always be buying at a pullback.
+[00:02:30] So how do we determine a discounted zone?
+[00:02:37] Well, what you want to do is you want to pull out your Fibonacci tool.
+[00:02:41] You go to the settings here, choose fib retracement.
+[00:02:45] You want to start from the very low of that push to the very top of that push.
+[00:02:55] And then you want to, first of all, you want to copy these settings.
+[00:03:02] You can pause the video right here and you want to copy these settings.
+[00:03:09] Now when the price is below the 50% level, then the price is considered to be in a discounted
+[00:03:18] area.
+[00:03:19] I will repeat when the price, as you can see, when the price is below the 50% Fibonacci
+[00:03:28] area, then the price is considered to be in a discounted zone.
+[00:03:34] That is where you should be buying.
+[00:03:37] Now, I will not tell you how to exactly enter in this video, but this is what I am telling
+[00:03:45] you, just for the sake of this video that you should always be buying when the price falls
+[00:03:52] into the discounted zone.
+[00:03:54] So, as you can see, price pushed up from this point to this point, you should not be buying
+[00:04:01] here or here or here.
+[00:04:03] You should be waiting for price to fall down into the discounted zone which is below the
+[00:04:08] 50% as you can see.
+[00:04:10] And then this is the best area to be buying.
+[00:04:14] Okay.
+[00:04:16] Let's talk about premium zones.
+[00:04:20] So as you can see, we made a move from this level to this level.
+[00:04:27] All right.
+[00:04:28] We dropped down heavily from this point to this point.
+[00:04:33] So similarly, we are going to draw our Fibonacci retracement tool from the very high of that
+[00:04:40] move, from the start of that move, sorry, to the end of that move, which ends here.
+[00:04:47] Okay?
+[00:04:48] Now you don't want to sell here, you don't want to sell here, you don't want to sell
+[00:04:52] here.
+[00:04:54] You should be waiting for price to come back into the premium zone.
+[00:04:57] Now what is premium zone?
+[00:04:59] Whenever price falls or goes, sorry, not falls, but whenever price goes into the premium
+[00:05:07] zone, which is above 50%.
+[00:05:10] So whenever price goes above the 50% then that price is considered to be in a premium zone.
+[00:05:18] Now what does that mean?
+[00:05:20] It means that this is a great area for you to be selling.
+[00:05:25] Okay, now you don't want to just blindly sell off
+[00:05:29] when price fell falls into the, you know,
+[00:05:32] falls above the 50% on below the 50%
+[00:05:35] there are certain criteria that we should be discussing
+[00:05:39] in the upcoming videos.
+[00:05:40] But for now, all you want to know is
+[00:05:42] what are discounted and premium zones.
+[00:05:44] All right.
+[00:05:45] So for price to be considered in a premium area,
+[00:05:51] you should be waiting for the price to go above
+[00:05:54] the 50% level of the Fibonacci.
+[00:05:58] All right, so now this area is the best HB selling.
+[00:06:02] So if you sold here,
+[00:06:06] all right, you could have made a great profit.
+[00:06:09] Like this could be one to two, restore what,
+[00:06:11] but of course, it's a hindsight,
+[00:06:14] but this is what I'm telling you, right?
+[00:06:16] You should always be selling at a premium zone
+[00:06:19] and you should always be buying at a discounted zone.
+[00:06:23] So I really hope that this video is clear and I really hope that you know what is premium and discounted zones.
+[00:06:33] So we are slowly moving towards our main strategies but there are one or two more videos before we move to those beautiful life changing videos guys.
+[00:06:45] So I'll see you guys in the next video.

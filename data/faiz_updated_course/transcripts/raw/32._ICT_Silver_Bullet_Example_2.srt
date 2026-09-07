@@ -1,0 +1,139 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, so here is the example number two. So as you can see, I'm at here at 955 and we do not have a clear liquidity sweep here. So what we can do now? So if you didn't know this before, you know, these PD areas are drawn on liquidity as well. So it could be a fair value gap, right? And essentially, when you are marking with a fair value gap, the last candle, off the frame,
+
+2
+00:00:30,000 --> 00:00:35,880
+everybody gap is basically a liquidy on a smaller time from. So if I go back to like one
+
+3
+00:00:35,880 --> 00:00:40,600
+minute, you can see that this is a low right here. So we're going to wait for price
+
+4
+00:00:40,600 --> 00:00:45,880
+to take out this low and this is our sell site liquidy taken out, right? And then we wait
+
+5
+00:00:45,880 --> 00:00:52,400
+for a clear market structure shift inside like, you know, the internal market structure.
+
+6
+00:00:52,400 --> 00:00:57,640
+So you can see that we have this high over here.
+
+7
+00:00:57,640 --> 00:00:59,720
+And if it breaks, that is perfect.
+
+8
+00:00:59,720 --> 00:01:02,000
+And as you can see, it broke, right?
+
+9
+00:01:02,000 --> 00:01:04,000
+Now here's the thing.
+
+10
+00:01:04,000 --> 00:01:07,680
+If this structure broke here, right, then I will consider this.
+
+11
+00:01:07,680 --> 00:01:13,160
+The more structure it breaks, the less the chances of that setup playing out.
+
+12
+00:01:13,160 --> 00:01:14,800
+Okay, remember that.
+
+13
+00:01:14,800 --> 00:01:18,200
+So we have a beautiful structure break here.
+
+14
+00:01:18,200 --> 00:01:21,480
+I could consider this as a structure break as well.
+
+15
+00:01:21,480 --> 00:01:24,080
+And now we have our fair value gap.
+
+16
+00:01:24,080 --> 00:01:27,880
+We take our entry here, put our stop right blue.
+
+17
+00:01:27,880 --> 00:01:31,280
+Actually let's go for five handles right here.
+
+18
+00:01:31,280 --> 00:01:33,720
+And our take profit, five handles as well.
+
+19
+00:01:33,720 --> 00:01:35,560
+And let's see how this plays out.
+
+20
+00:01:35,560 --> 00:01:38,360
+And you can see we hit our take profit level.
+
+21
+00:01:38,360 --> 00:01:47,600
+And if we held the trade, you can see it kept going up potentially up to 1.75.
+
+22
+00:01:47,600 --> 00:01:51,760
+And then we reversed back and stopping us out.
+
+23
+00:01:51,760 --> 00:01:54,640
+So this is how you can trade.
+
+24
+00:01:54,640 --> 00:01:59,000
+Essentially you would have gone for one to one as ICT says, okay?
+
+25
+00:01:59,000 --> 00:02:00,440
+But I usually go for one to two.
+
+26
+00:02:00,440 --> 00:02:04,200
+I would have gone like break even once that what,
+
+27
+00:02:04,200 --> 00:02:05,800
+Richter what was hit.
+
+28
+00:02:05,800 --> 00:02:08,760
+So this trade would have been a break even for me.
+
+29
+00:02:08,760 --> 00:02:12,800
+But you can see if you put your stop at five handles or maybe let's go.
+
+30
+00:02:12,800 --> 00:02:17,120
+If we actually put, if we let's ignore the five handle thing, right?
+
+31
+00:02:17,120 --> 00:02:21,800
+If I put my stock right below the slope and if we went up, we would have easily got a
+
+32
+00:02:21,800 --> 00:02:24,680
+two-wrestaur water trade.
+
+33
+00:02:24,680 --> 00:02:29,200
+But as I've said before, we would have gotten stopped at break even.
+
+34
+00:02:29,200 --> 00:02:33,360
+So yeah, that was it for this example.
+
+35
+00:02:33,360 --> 00:02:35,240
+Let me give you guys one last example.

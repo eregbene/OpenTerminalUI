@@ -1,0 +1,30 @@
+Alright guys, so here is the last example for this strategy and
+I'm looking at USTCHF. I
+Also want to like I'm showing you guys that it works with every single pair. Okay, so
+Autoflow is clearly bearish. You have to train your eyes to see this
+so now
+We have this autoblock here
+Prize comes back into our autoblock. Let's go back to 15 minute and you can see that
+We have higher high high low and higher high
+Now this here right here candle, right? It took out
+This liquidity here and then we have a
+Market structure shift here very tiny market structure shift, but it is a
+Market structure shift. Let's go back to like let's say five minutes
+You can see that this is a clear clean market structure shift, right?
+now, let's go back to 15 minute and
+Now it doesn't have to be consecutive candles. I know some of you might think that it has to be consecutive
+No
+If it takes out liquidity and then you have if it takes out liquidity
+It goes to your POI and then you have a market structure shift
+Then that is your autoblock. Okay, it doesn't have to be consecutive candles
+You take your entry here put your stop right above this high over here
+go for one two and
+and
+Look at this
+plays out beautifully and
+It hits your take profit
+Honestly, this is one of my favorite trading strategies at the moment
+It's basically autoflow
+But it only uses two time frames and you only have to see the market structure shift during kills on ours
+And your entry must also be doing kills on ours and you go for one to two
+So that was it for this strategy. I'll see you guys in the next one

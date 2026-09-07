@@ -1,0 +1,518 @@
+{
+  "source": "F:\\new faiz\\8. THE MMXM.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 440.598625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.05,
+      "end": 30.05,
+      "text": " Alright guys, so this is the chapter number two of the course of day. In this video, in this topic, we are going to learn about the market maker buy model and market maker sell model. Now this is advanced market structure and if you can identify this structure, your win rate is gonna be like insanely crazy, like 75 to 80% I'm not even getting. Now the reason why I don't create this,"
+    },
+    {
+      "start": 30.05,
+      "end": 35.45,
+      "text": " is because I'm a type of trader who want to be on the chart for like five to ten minutes max and"
+    },
+    {
+      "start": 35.81,
+      "end": 37.49,
+      "text": " Just disappear right?"
+    },
+    {
+      "start": 37.49,
+      "end": 42.17,
+      "text": " So that's why I use the auto flow trading strategy. It's very easy. You just look for market shortages"
+    },
+    {
+      "start": 42.53,
+      "end": 45.57,
+      "text": " But I can use these setups and make more money"
+    },
+    {
+      "start": 45.57,
+      "end": 49.89,
+      "text": " But I don't I'm okay with two to three percent per month because I have funded accounts, right?"
+    },
+    {
+      "start": 49.97,
+      "end": 54.57,
+      "text": " So I have three funded accounts. So if I'm making like two to three percent that's enough for me"
+    },
+    {
+      "start": 55.13,
+      "end": 58.77,
+      "text": " That's why I don't I don't use these methods. However"
+    },
+    {
+      "start": 58.77,
+      "end": 63.97,
+      "text": " If you want to make more money, or let's say you want to pause to challenge the slides instantly,"
+    },
+    {
+      "start": 63.97,
+      "end": 68.97,
+      "text": " the next few topics are going to change your life and you have my word."
+    },
+    {
+      "start": 68.97,
+      "end": 75.57,
+      "text": " So let's talk about market structure, sorry, the market maker model, the market maker sell model and the market maker buy model."
+    },
+    {
+      "start": 75.57,
+      "end": 81.77,
+      "text": " So let's assume that this right here is a key level, right? I have drawn this key level."
+    },
+    {
+      "start": 81.77,
+      "end": 88.49,
+      "text": " So, once price comes into a key level, before you do anything, you have to look for this"
+    },
+    {
+      "start": 88.49,
+      "end": 89.49,
+      "text": " structure."
+    },
+    {
+      "start": 89.49,
+      "end": 92.61,
+      "text": " So, what is basically a market maker model?"
+    },
+    {
+      "start": 92.61,
+      "end": 98.61,
+      "text": " So you have to identify a consolidation phase before price comes into a pure right?"
+    },
+    {
+      "start": 98.61,
+      "end": 103.43,
+      "text": " So there will be a consolidation, a clean consolidation, the very first consolidation before"
+    },
+    {
+      "start": 103.43,
+      "end": 106.41,
+      "text": " price comes into your pure right?"
+    },
+    {
+      "start": 106.41,
+      "end": 108.69,
+      "text": " You want to have a consolidation phase?"
+    },
+    {
+      "start": 108.69,
+      "end": 112.29,
+      "text": " then you can have another consolidation phase and another."
+    },
+    {
+      "start": 113.41,
+      "end": 116.81,
+      "text": " Now, these two consolidation phases are not necessary to see,"
+    },
+    {
+      "start": 116.81,
+      "end": 120.45,
+      "text": " but you have to identify the main consolidation, right?"
+    },
+    {
+      "start": 120.45,
+      "end": 126.83,
+      "text": " So let's say price is something like that, right?"
+    },
+    {
+      "start": 126.83,
+      "end": 129.47,
+      "text": " And then price consolidation consult dates a bit"
+    },
+    {
+      "start": 129.47,
+      "end": 134.27,
+      "text": " and you have like your high time frame level right there."
+    },
+    {
+      "start": 134.27,
+      "end": 138.35,
+      "text": " Now, you have to identify a clean consolidation."
+    },
+    {
+      "start": 138.35,
+      "end": 144.59,
+      "text": " price goes up. Now these, if you want to add these, that's going to make like a very beautiful"
+    },
+    {
+      "start": 144.59,
+      "end": 149.87,
+      "text": " market market maker sell model. So even if you find like the second consolidation, you don't have to"
+    },
+    {
+      "start": 149.87,
+      "end": 154.75,
+      "text": " look for tight consolidation. However, I recommend you find at least two consolidation phases before"
+    },
+    {
+      "start": 154.75,
+      "end": 161.63,
+      "text": " price comes into your POI. So first consolidation and then a second consolidation, right? And"
+    },
+    {
+      "start": 161.63,
+      "end": 167.47,
+      "text": " third one is not necessary. But if you see this, then that's even better. When price comes back"
+    },
+    {
+      "start": 167.47,
+      "end": 174.07,
+      "text": " into your POI you simply look for a market shift. So let's say price comes back"
+    },
+    {
+      "start": 174.07,
+      "end": 179.73,
+      "text": " here right into your POI you drop down to let's say you were looking at the"
+    },
+    {
+      "start": 179.73,
+      "end": 185.63,
+      "text": " daily timeframe POI. So price comes into your daily POI you drop down to one"
+    },
+    {
+      "start": 185.63,
+      "end": 190.71,
+      "text": " hour timeframe and then on one hour timeframe you look for this market maker"
+    },
+    {
+      "start": 190.71,
+      "end": 200.79,
+      "text": " cell model. Okay, wait, let me do this first. Like that. So I'm gonna repeat this"
+    },
+    {
+      "start": 200.79,
+      "end": 206.07,
+      "text": " again. You have your daily POI, right? Price comes into your daily POI. You drop"
+    },
+    {
+      "start": 206.07,
+      "end": 211.11,
+      "text": " down to the one-hour timeframe. Once you drop down to the one-hour timeframe, you"
+    },
+    {
+      "start": 211.11,
+      "end": 216.19,
+      "text": " want to identify a market maker model, which is basically a consolidation,"
+    },
+    {
+      "start": 216.19,
+      "end": 219.91,
+      "text": " original consolidation from where price consolidated and then starting moving up"
+    },
+    {
+      "start": 219.91,
+      "end": 226.31,
+      "text": " towards your POI. And if you see a pullback or a some sort of consolidation along the way,"
+    },
+    {
+      "start": 226.31,
+      "end": 232.27,
+      "text": " that is even better. Now once price comes into your POI, you will look for a market structure"
+    },
+    {
+      "start": 232.27,
+      "end": 239.09,
+      "text": " shift on one hour timeframe. Now once you have a market structure shift on a one hour"
+    },
+    {
+      "start": 239.09,
+      "end": 248.73,
+      "text": " timeframe, you can simply look to take your entry from the fairly gap, right? Or what is"
+    },
+    {
+      "start": 248.73,
+      "end": 252.89,
+      "text": " a medication blog. Let's talk about mitigations blog. Now that is the most important part of this thing."
+    },
+    {
+      "start": 253.69,
+      "end": 259.85,
+      "text": " So we have a buy curve here. So price was going up. That's why we call it a buy curve."
+    },
+    {
+      "start": 259.85,
+      "end": 266.33,
+      "text": " Okay, a buy side curve. So it's like it's price is going up. Right. Now you have to mark out"
+    },
+    {
+      "start": 266.33,
+      "end": 274.89,
+      "text": " every single bullish auto block right here. So let's say there was a bullish auto block here."
+    },
+    {
+      "start": 274.89,
+      "end": 281.17,
+      "text": " right and there is a bullish auto block here we are going to utilize these"
+    },
+    {
+      "start": 281.17,
+      "end": 285.69,
+      "text": " auto blocks in our sell side curve okay so since we have a market such a shift"
+    },
+    {
+      "start": 285.69,
+      "end": 290.09,
+      "text": " we had the biker right now we're going to have the sell side curve so we are"
+    },
+    {
+      "start": 290.09,
+      "end": 298.25,
+      "text": " going to use these auto blocks as our POS how oh my god so let's say price"
+    },
+    {
+      "start": 298.25,
+      "end": 303.09,
+      "text": " breaks through this auto block right and it creates a free value gap or an"
+    },
+    {
+      "start": 303.09,
+      "end": 307.25,
+      "text": " an auto block inside this old bullish auto block."
+    },
+    {
+      "start": 307.25,
+      "end": 309.17,
+      "text": " Now that when that happens,"
+    },
+    {
+      "start": 309.17,
+      "end": 312.53,
+      "text": " this become mitigated mitigation block."
+    },
+    {
+      "start": 312.53,
+      "end": 315.45,
+      "text": " This becomes mitigation block when price breaks through it."
+    },
+    {
+      "start": 315.45,
+      "end": 316.73,
+      "text": " If it has to be able to gap,"
+    },
+    {
+      "start": 316.73,
+      "end": 318.49,
+      "text": " you simply take your entry."
+    },
+    {
+      "start": 320.09,
+      "end": 322.13,
+      "text": " Or if there's an auto block inside here,"
+    },
+    {
+      "start": 322.13,
+      "end": 323.69,
+      "text": " you take your entry from the auto block."
+    },
+    {
+      "start": 323.69,
+      "end": 326.57,
+      "text": " Let's say price breaks this mitigation block again."
+    },
+    {
+      "start": 326.57,
+      "end": 329.41,
+      "text": " You have a mitigation block right over here."
+    },
+    {
+      "start": 329.41,
+      "end": 332.41,
+      "text": " And let's say there's a friendly gap formed inside the box"
+    },
+    {
+      "start": 332.41,
+      "end": 334.73,
+      "text": " or in auto block, you take your entry from there"
+    },
+    {
+      "start": 334.73,
+      "end": 338.25,
+      "text": " and you keep shawting until this liquidity level"
+    },
+    {
+      "start": 338.25,
+      "end": 339.17,
+      "text": " is taken out."
+    },
+    {
+      "start": 339.17,
+      "end": 340.65,
+      "text": " Oops, my bad."
+    },
+    {
+      "start": 340.65,
+      "end": 343.97,
+      "text": " Until this level, which is the original consolidation,"
+    },
+    {
+      "start": 343.97,
+      "end": 346.49,
+      "text": " below of the original consolidation is taken out."
+    },
+    {
+      "start": 347.93,
+      "end": 350.85,
+      "text": " Now, remember about the time from alignment, right?"
+    },
+    {
+      "start": 350.85,
+      "end": 353.97,
+      "text": " So for the daily bias and daily trading,"
+    },
+    {
+      "start": 353.97,
+      "end": 357.65,
+      "text": " we go from day one to one hour and to five minute."
+    },
+    {
+      "start": 357.65,
+      "end": 360.17,
+      "text": " For weekly, we go from weekly to four hour"
+    },
+    {
+      "start": 360.17,
+      "end": 362.21,
+      "text": " and then to 15 minutes, right?"
+    },
+    {
+      "start": 362.21,
+      "end": 365.33,
+      "text": " For monthly, we go from monthly to daily,"
+    },
+    {
+      "start": 365.33,
+      "end": 367.45,
+      "text": " and then from daily to one hour."
+    },
+    {
+      "start": 367.45,
+      "end": 368.29,
+      "text": " Remember that?"
+    },
+    {
+      "start": 369.17,
+      "end": 373.13,
+      "text": " Okay, so let's remove,"
+    },
+    {
+      "start": 373.13,
+      "end": 376.13,
+      "text": " let me remove this right here."
+    },
+    {
+      "start": 376.93,
+      "end": 377.77,
+      "text": " Oops."
+    },
+    {
+      "start": 379.01,
+      "end": 381.41,
+      "text": " Okay, so let me zoom in a bit."
+    },
+    {
+      "start": 381.41,
+      "end": 385.25,
+      "text": " Once you get the market structure shift, right,"
+    },
+    {
+      "start": 385.25,
+      "end": 387.49,
+      "text": " on the one hour timeframe,"
+    },
+    {
+      "start": 387.49,
+      "end": 390.49,
+      "text": " now what you can do here is to increase,"
+    },
+    {
+      "start": 390.49,
+      "end": 395.49,
+      "text": " you know, like your probabilities is inside this range, right?"
+    },
+    {
+      "start": 396.05,
+      "end": 401.05,
+      "text": " Inside this range here from this low to this high,"
+    },
+    {
+      "start": 402.25,
+      "end": 406.01,
+      "text": " you look for another market maker cell model."
+    },
+    {
+      "start": 406.01,
+      "end": 409.69,
+      "text": " Okay? So for example, when you drop down to the five minute"
+    },
+    {
+      "start": 409.69,
+      "end": 412.77,
+      "text": " timeframe, you will have to identify original consolidation"
+    },
+    {
+      "start": 412.77,
+      "end": 414.21,
+      "text": " around here, right?"
+    },
+    {
+      "start": 414.21,
+      "end": 416.65,
+      "text": " And then price goes back into your POI,"
+    },
+    {
+      "start": 416.65,
+      "end": 419.05,
+      "text": " which would have been your entry on the one-hour timeframe."
+    },
+    {
+      "start": 419.05,
+      "end": 423.29,
+      "text": " And then you simply target this low here on the five minute."
+    },
+    {
+      "start": 423.29,
+      "end": 425.13,
+      "text": " You look for the exact same setup."
+    },
+    {
+      "start": 425.13,
+      "end": 425.93,
+      "text": " What is that?"
+    },
+    {
+      "start": 425.93,
+      "end": 428.73,
+      "text": " Consolidation, another consolidation."
+    },
+    {
+      "start": 428.73,
+      "end": 433.41,
+      "text": " Not necessary, but a plus point consolidation."
+    },
+    {
+      "start": 433.41,
+      "end": 437.09,
+      "text": " And you take your entry and you target this."
+    },
+    {
+      "start": 437.09,
+      "end": 438.77,
+      "text": " So I will give you guys a couple of examples"
+    },
+    {
+      "start": 438.77,
+      "end": 440.21,
+      "text": " then I'll end the video."
+    }
+  ]
+}

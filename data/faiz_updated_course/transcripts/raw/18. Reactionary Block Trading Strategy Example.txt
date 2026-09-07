@@ -1,0 +1,21 @@
+All right guys, so here's the example for the reactionary block trading strategy. So
+you can see we had this sweep, right? And then then we had a change of corrector or
+market structure shift, whatever you want to call it. And then you had this
+auto block right around here and some imbalance around here, right? So usually in this case,
+I would just mark out this candle as well. And as you can see, when price reacted from this level,
+it created an impulsive move and left imbalance and auto block just as I explained. So you want
+to take your entry from here. There you go. I want to put your stop right up there.
+And that was a beautiful trade. There you go, your 10 wrist reward trade right here. Very simple guys.
+So this is basically it guys. You just want to, if you want a confirmation entry. Now,
+in most of the time, you might miss out the trade, okay, just because you didn't confirm it.
+But the thing is that with confirmation entries, your win rate is going to increase dramatically.
+All right. So I would say just go with this. I mean, there are so many strategies that I have
+uploaded. You only need to master one of those. Okay, you don't want to master each and every
+trading strategy. Just find one didn't strategy, just choose one trading strategy and stick to it.
+Just keep on backtesting it. Okay, just build that confidence. And that's pretty much it for
+this trading strategy. As you can see, I want to show you more examples, but I really want to move
+to the ABCD strategy because it is a great one as well. And this one is relatively, I hope you're
+clear by now. I don't think you want more examples. It's just that you just want to see a reaction
+from that auto block or fair value gap that creates the simple smooth, creates fair value gap.
+And then you take your entry from here. That's pretty much it. So I do hope that you
+like this strategy as well. It's a very good one. So yeah, guys, see you.

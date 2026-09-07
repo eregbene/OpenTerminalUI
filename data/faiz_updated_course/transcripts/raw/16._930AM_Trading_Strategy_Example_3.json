@@ -1,0 +1,353 @@
+{
+  "source": "F:\\new faiz\\16. 930AM Trading Strategy Example 3.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 239.97825,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " So here's the example number three. Now this is a very informative example. It's going to help you a lot. So as you can see, I'm looking at the price section after at 9.15 AM, right? And I will mark out the low of the day and the high of the day and the midnight open just for, you know, for my own information. So the open is 1.1334. So this is the open right. You don't have to mark out these"
+    },
+    {
+      "start": 30.0,
+      "end": 35.44,
+      "text": " midnight opens, it just tells you from where you should start looking for the high and the low."
+    },
+    {
+      "start": 35.44,
+      "end": 39.12,
+      "text": " You should only start looking for high and low after 12 am."
+    },
+    {
+      "start": 39.12,
+      "end": 44.08,
+      "text": " Okay? And so as you can see right now we have a,"
+    },
+    {
+      "start": 46.16,
+      "end": 49.68,
+      "text": " this liquidity level and then we have the high, which is a liquidity level."
+    },
+    {
+      "start": 50.4,
+      "end": 58.96,
+      "text": " And if you, if you think, if you can see these two equal relatively equal lows, right?"
+    },
+    {
+      "start": 58.96,
+      "end": 60.24,
+      "text": " Hi, sorry."
+    },
+    {
+      "start": 60.24,
+      "end": 62.28,
+      "text": " These are relatively equal highs."
+    },
+    {
+      "start": 62.28,
+      "end": 67.04,
+      "text": " So you can actually drop down to the 500 time frame."
+    },
+    {
+      "start": 67.04,
+      "end": 67.96,
+      "text": " OK?"
+    },
+    {
+      "start": 67.96,
+      "end": 70.12,
+      "text": " And if it's not clear, you can also drop down"
+    },
+    {
+      "start": 70.12,
+      "end": 71.6,
+      "text": " to the 1 minute time frame."
+    },
+    {
+      "start": 71.6,
+      "end": 78.24,
+      "text": " And now you can see that we have a clear, equal highs zone."
+    },
+    {
+      "start": 78.24,
+      "end": 81.12,
+      "text": " You can see we have a tap, and then we have a tap."
+    },
+    {
+      "start": 81.12,
+      "end": 82.6,
+      "text": " And we are going down."
+    },
+    {
+      "start": 82.6,
+      "end": 85.76,
+      "text": " And the time is 9.19 am."
+    },
+    {
+      "start": 85.76,
+      "end": 87.52,
+      "text": " Now this is a clear."
+    },
+    {
+      "start": 87.52,
+      "end": 90.0,
+      "text": " And I mean clear liquid zone, okay?"
+    },
+    {
+      "start": 90.0,
+      "end": 91.36,
+      "text": " As I have taught above,"
+    },
+    {
+      "start": 91.36,
+      "end": 95.12,
+      "text": " you can see these are clear relative equal lows,"
+    },
+    {
+      "start": 95.12,
+      "end": 98.24,
+      "text": " equal highs, my bad, and they are not the best,"
+    },
+    {
+      "start": 98.24,
+      "end": 99.72,
+      "text": " but they are, okay?"
+    },
+    {
+      "start": 99.72,
+      "end": 103.24,
+      "text": " So you gotta wait for price to sweep that level."
+    },
+    {
+      "start": 103.24,
+      "end": 107.92,
+      "text": " And as you can see, price swept this level."
+    },
+    {
+      "start": 107.92,
+      "end": 110.48,
+      "text": " And it also swept the low of the day."
+    },
+    {
+      "start": 110.48,
+      "end": 113.32,
+      "text": " So what you should be looking for here is a"
+    },
+    {
+      "start": 114.44,
+      "end": 117.2,
+      "text": " market structure shift, but it doesn't happen."
+    },
+    {
+      "start": 117.2,
+      "end": 121.12,
+      "text": " Now, what you can do since the imbalance was so big,"
+    },
+    {
+      "start": 121.12,
+      "end": 124.36,
+      "text": " you can take your entry from the autoblock level."
+    },
+    {
+      "start": 126.81,
+      "end": 128.45,
+      "text": " There was no market relationship and went straight"
+    },
+    {
+      "start": 128.45,
+      "end": 129.29,
+      "text": " into the autoblock."
+    },
+    {
+      "start": 129.29,
+      "end": 132.53,
+      "text": " So as you can see, our daily bias,"
+    },
+    {
+      "start": 132.53,
+      "end": 135.37,
+      "text": " the market structure, the overall market structure was bearish,"
+    },
+    {
+      "start": 135.37,
+      "end": 137.45,
+      "text": " and we are only taking short positions."
+    },
+    {
+      "start": 137.45,
+      "end": 138.93,
+      "text": " We would not take long."
+    },
+    {
+      "start": 138.93,
+      "end": 140.69,
+      "text": " The previous example that I showed,"
+    },
+    {
+      "start": 140.69,
+      "end": 142.05,
+      "text": " we should have not taken the long,"
+    },
+    {
+      "start": 142.05,
+      "end": 144.05,
+      "text": " because the market structure was bearish,"
+    },
+    {
+      "start": 144.05,
+      "end": 145.57,
+      "text": " but it still works."
+    },
+    {
+      "start": 145.57,
+      "end": 149.73,
+      "text": " But I'm saying that if you take the trades in the overall"
+    },
+    {
+      "start": 149.73,
+      "end": 152.13,
+      "text": " market direction, the win rate is going to be higher."
+    },
+    {
+      "start": 152.13,
+      "end": 153.49,
+      "text": " And I mean much higher."
+    },
+    {
+      "start": 153.49,
+      "end": 157.33,
+      "text": " So the reason why I did not take entry from this very,"
+    },
+    {
+      "start": 157.33,
+      "end": 160.29,
+      "text": " very gap is because the imbalance is way too big."
+    },
+    {
+      "start": 160.29,
+      "end": 163.29,
+      "text": " And if I have my entry around here, my stop loss would be very"
+    },
+    {
+      "start": 163.29,
+      "end": 164.13,
+      "text": " huge."
+    },
+    {
+      "start": 164.13,
+      "end": 167.41,
+      "text": " So I would rather mist the trade, then take this trade and"
+    },
+    {
+      "start": 167.41,
+      "end": 172.69,
+      "text": " risk 1% with a huge stop loss and a very low reward level"
+    },
+    {
+      "start": 172.69,
+      "end": 173.61,
+      "text": " and reward."
+    },
+    {
+      "start": 173.61,
+      "end": 176.85,
+      "text": " So you're gonna take in your entry from this autoblock."
+    },
+    {
+      "start": 176.85,
+      "end": 178.77,
+      "text": " Okay, you could have put your stop here."
+    },
+    {
+      "start": 178.77,
+      "end": 180.93,
+      "text": " You could have targeted this level."
+    },
+    {
+      "start": 180.93,
+      "end": 183.73,
+      "text": " You would take some partial tier and then you take your whole"
+    },
+    {
+      "start": 183.73,
+      "end": 186.97,
+      "text": " trade, you take all the profits here."
+    },
+    {
+      "start": 186.97,
+      "end": 188.65,
+      "text": " So let's see how this plays out."
+    },
+    {
+      "start": 188.65,
+      "end": 191.25,
+      "text": " I'm actually not sure how this plays out because I just,"
+    },
+    {
+      "start": 192.21,
+      "end": 193.49,
+      "text": " okay, it took some partial tier."
+    },
+    {
+      "start": 193.49,
+      "end": 195.27,
+      "text": " You are break even now and,"
+    },
+    {
+      "start": 196.93,
+      "end": 199.33,
+      "text": " and boom, this hit the take profit level."
+    },
+    {
+      "start": 199.33,
+      "end": 202.57,
+      "text": " So what are the key things that we noted?"
+    },
+    {
+      "start": 202.57,
+      "end": 208.01,
+      "text": " So if the price before 9.15, if you see a liquidity level like this,"
+    },
+    {
+      "start": 208.01,
+      "end": 213.33,
+      "text": " equal highs or a significant high or, you know,"
+    },
+    {
+      "start": 213.37,
+      "end": 216.13,
+      "text": " any type of liquidity guys, it doesn't matter."
+    },
+    {
+      "start": 216.81,
+      "end": 220.53,
+      "text": " And then you see this huge displacement after liquidity sweep,"
+    },
+    {
+      "start": 220.57,
+      "end": 221.61,
+      "text": " you take your entry."
+    },
+    {
+      "start": 223.93,
+      "end": 227.65,
+      "text": " Yeah, guys, it was a very, very excellent strategy."
+    },
+    {
+      "start": 227.65,
+      "end": 231.05,
+      "text": " And I use this on daily basis with indices, of course."
+    },
+    {
+      "start": 231.05,
+      "end": 238.21,
+      "text": " So I hope this you guys liked this lecture and I'll see you guys in the next video"
+    }
+  ]
+}

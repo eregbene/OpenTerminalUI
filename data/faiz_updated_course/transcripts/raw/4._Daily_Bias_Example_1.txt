@@ -1,0 +1,26 @@
+[00:00:00] Alright guys, so have an example for the daily bias. As you can see I'm the daily timeframe and I'm looking at USD CAD. It happened recently actually, like a couple of days ago. So you can see we have this external liquidity marked out here. And where do you see the draw on liquidity which is our internal liquidity, this fair value gap right here. So that is our draw on liquidity right here. We took out this low which is an external liquidity. So let's drop down to the one hour timeframe.
+[00:00:30] for the daily bias we go from daily to one hour. So let's drop down to the one hour timeframe.
+[00:00:37] Now we're simply looking for a market structure shift that supports our high time frame narrative.
+[00:00:43] And right there what you can see is we have a shift in the market structure. Now this right
+[00:00:49] here is an auto block consecutive bearish candles right as I explained in the auto block 2.0 video.
+[00:00:56] So right here, but you can see this would have been a reentry point. We go long here
+[00:01:02] right
+[00:01:03] For every simple and we look to target
+[00:01:07] this level here and now that is your bread and butter model going for five point five five
+[00:01:14] Rr you see we get our entry here and
+[00:01:18] It is currently weekend that I'm recording so I'm pretty much sure that's gonna take out this level
+[00:01:25] But as you can see how beautifully it distributed to the app site.
+[00:01:29] We also had for everybody gap here.
+[00:01:31] So if price fill the for everybody gap, also there was on autoblog and you could say
+[00:01:35] a breaker block.
+[00:01:36] So you can see you can easily identify your targets, which is the beauty of this concept.
+[00:01:44] Although if you were using the five minute timeframe, you could have taken multiple entries
+[00:01:50] here. And I want to talk about those later in the video when we get to the more advanced concepts.
+[00:01:57] So let me give you guys an example for the monthly bias once again. And then I will do one more for
+[00:02:04] the weekly and one more for the daily. And then we will move on to the next chapter. I want you
+[00:02:09] guys to understand these concepts very clearly. And I'm like, yeah, I'm very confident you guys are
+[00:02:14] going to absolutely kill the markets once this course is out and you master this. Of
+[00:02:20] course, you will have to back test first. Give it a month or two back test these
+[00:02:24] concepts or I don't know if you are a quick learner. You could just give it a
+[00:02:28] one week or back testing and then get into the markets right away. So let me give
+[00:02:33] you guys an example for the monthly buy us once again.

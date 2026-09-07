@@ -1,0 +1,149 @@
+[00:00:00] Alright guys, so in this chapter I'm going to be teaching you the one RCRD. Alright, so previously I talked about four RCRDs, right? So you would mark out the high and low of the four R candle. But this one is on one hour time from and not every single one R candle is going to present you a CRD trade. Only at a very specific time you will get a one RCRD candle. And that is 8 AM. Okay?
+[00:00:30] you wait for the 8M candle to close on the 1 hour timeframe,
+[00:00:33] and then you are simply marking out the high
+[00:00:36] and the low of that candle.
+[00:00:39] So afterwards, what you're doing is you're dropping down
+[00:00:42] to one minute timeframe.
+[00:00:43] We are not dropping down to 15 minute or five minute,
+[00:00:46] we are straight up going into one minute timeframe.
+[00:00:49] And then we're waiting for price to either take out
+[00:00:51] the 1 hour low or 1 hour high.
+[00:00:55] Once we have taken that out,
+[00:00:56] we are waiting for some form of confirmation.
+[00:00:59] So whether it's changing the state of delivery, which happens right here, or a market
+[00:01:07] such a shift.
+[00:01:08] So right here, we got a market such a shift, right?
+[00:01:11] And we also have this fairly gap around here.
+[00:01:17] So the next step would be to simply take our entry from this zone.
+[00:01:23] Now make sure that you keep an eye on the 930AM news, high and
+[00:01:28] back news.
+[00:01:29] So if there's a high and back news at 930, you have to avoid
+[00:01:33] trading because you always want to be trading afterwards.
+[00:01:36] After 15 minutes at least, right?
+[00:01:39] So you could probably take your trade at 945 if the news is over
+[00:01:44] at 930, right?
+[00:01:45] So the news will happen at 930.
+[00:01:47] You wait for price to settle down.
+[00:01:48] Give it like 15 minutes and then you can take it right.
+[00:01:51] If the targets are hit, then you will not take that trade because the trade becomes invalid.
+[00:01:55] If the high is taken out, if both the high and the low are taken out, if that makes sense.
+[00:02:01] So this would be your entry.
+[00:02:04] And if I play this through, you can see that the take profit was hit.
+[00:02:08] Now, the key rule here is to use a firm from the CRT low to CRT high.
+[00:02:14] And at the 50% of the range, you are basically taking one partial and then you are going break even.
+[00:02:22] Or simply you could just go break even at one to one or risk to the water ratio.
+[00:02:27] But the best approach is going break even at 0.5 level and taking one partial here, going break even and then letting the trade run until the CRD has taken out.
+[00:02:37] Let me give you guys more examples.
+[00:02:39] Alright guys, so here is another example.
+[00:02:45] You can see we have the 8M candle, so I'm going to simply mark out the high and the low
+[00:02:51] of this candle.
+[00:02:52] Ok, very simple.
+[00:02:54] Then what I'm doing is I'm dropping down to one minute.
+[00:02:57] Before I do that, if the 9M candle, so this is the 8M candle, if the 9M candle opens
+[00:03:03] and then it goes up ahead and sweeps the 8M high and also sweeps some form of liquidity,
+[00:03:08] And that makes it a high probability CRD one hour CRD.
+[00:03:12] All right, so I'm going to explain what I mean
+[00:03:14] in a minute.
+[00:03:14] So let's go to the one minute.
+[00:03:16] We have the high and the low.
+[00:03:19] And you can see we take out the CRD high.
+[00:03:22] So now we are waiting for a market structure shift
+[00:03:26] with displacement and that what happens here.
+[00:03:28] We broke the structure and we also broke the structure.
+[00:03:32] Then we have this fair value gap.
+[00:03:35] this would be your entry, stop right about the high, and our Tp would be somewhere around
+[00:03:43] here. So we got a tap and the take profit was hit. Extremely beautiful trade. So what
+[00:03:54] I mean by that, if I go to the one one hour time from, you can see that the, let me just
+[00:03:59] remove this. So this is the ATM high, ADM low. The 9M candle, when it's swept liquidity
+[00:04:08] it swept this high over here.
+[00:04:10] Right?
+[00:04:11] Offering it swept this high,
+[00:04:13] we got a one-minute market shift,
+[00:04:14] and that made it a high probability.
+[00:04:16] So you can see how the price displaced, right?
+[00:04:20] And one key thing to note,
+[00:04:22] if there's some form of like equal lows or equal highs,
+[00:04:28] as a target, then that also makes it high probability.
+[00:04:32] Remember guys, everything is based on liquidity and drawn liquidity, right?
+[00:04:37] sweep of liquidity and then draw liquidity if that makes sense.
+[00:04:42] Let's move on to the next example.
+[00:04:46] Alright guys, so here is another example.
+[00:04:48] The ATM candle just mark out the high and the low of that candle.
+[00:04:53] Notice to the left we have this PDF right.
+[00:04:56] This is an auto block.
+[00:04:57] So price is currently in this auto block.
+[00:04:59] That makes it a high probability CRT, right?
+[00:05:02] Remember that.
+[00:05:03] So now I'm just gonna go to the one minute chart
+[00:05:05] and you can also go to the two minute chart
+[00:05:07] if you really want to look for very,
+[00:05:11] very high probability market such as this.
+[00:05:13] But I like to stick on the one minute for this model.
+[00:05:18] So we took out the high, but we failed to close below this low.
+[00:05:25] And for this strategy, it is crucial
+[00:05:28] that the body closes below it.
+[00:05:30] Okay?
+[00:05:31] But then price went up ahead, tapped into,
+[00:05:34] I believe, the 50% of that autoblog
+[00:05:36] that I showed you previously.
+[00:05:38] And then we got a market structure shift.
+[00:05:41] So now if you look at it here,
+[00:05:42] we have this tiny bit of fair value gap resting
+[00:05:46] around this level.
+[00:05:49] So what happens next?
+[00:05:52] It's very clear.
+[00:05:54] You can see we got tapped into this fair value gap.
+[00:05:58] The bodies were respected.
+[00:06:00] And then you can see,
+[00:06:02] price went up ahead and also swept
+[00:06:05] the liquidity that was formed inside the firm, so if you are,
+[00:06:10] if you have been watching my YouTube videos,
+[00:06:13] you must have an idea about what I'm talking about here.
+[00:06:17] What this liquidity was swept.
+[00:06:20] There is a course video as well from our previous,
+[00:06:22] but if you don't know about this,
+[00:06:24] you need to really watch my videos in detail,
+[00:06:27] because the liquidity that firms inside firm
+[00:06:30] are the gaps are very high probability liquidity,
+[00:06:32] and they are going to be swept in some time.
+[00:06:35] And that happened right there.
+[00:06:36] So anyways, price went into this fairly app
+[00:06:39] and then we had a beautiful push delivery to the downside.
+[00:06:42] Very beautiful.
+[00:06:43] So let's move on to the next example.
+[00:06:47] Oops.
+[00:06:48] All right, guys.
+[00:06:49] So here is the final example.
+[00:06:51] And this is the ATM candle.
+[00:06:54] And look at where the price is at around here, right?
+[00:07:00] And look at what happened at the 9M candle.
+[00:07:02] We tapped into the 0.5 level of this autoblock.
+[00:07:07] we also set the 8M candle high. So let's go back. Right. When I mark out the 8M candle high
+[00:07:15] and 8M candle low, then I'm simply dropping down to one minute shot. Now waiting for price to
+[00:07:21] take out that high. We got the high taken out. This is my Marcus Shuxer shift level. We got it
+[00:07:30] successfully right here. The body closed. We have this auto block. Price tapped into the auto block,
+[00:07:39] filled this fairly gap, also tapped into this BPR right here.
+[00:07:51] And you can see that the take profit was hit.
+[00:07:56] So I'd like to keep things mechanical guys.
+[00:08:01] I really don't want you to be over analyzing stuff.
+[00:08:03] OK?
+[00:08:07] You can literally make a living with this simple model
+[00:08:11] by AEM Candle.
+[00:08:13] Who would know that this is trading is very simple?
+[00:08:15] Who would know that trading was this simple, right?
+[00:08:18] Well, anyways, this should be it
+[00:08:21] for the first part of the course.
+[00:08:24] There will be more videos in the future.
+[00:08:29] I will be teaching you volume trading as well
+[00:08:33] in this course and upcoming chapters
+[00:08:35] that will be coming in the future.
+[00:08:38] But I do not want to over-dose you
+[00:08:41] with so many concepts and educational content.
+[00:08:47] So that would be it.
+[00:08:48] Thank you so much for purchasing the course
+[00:08:51] and watching it.
+[00:08:53] I really do hope that you get funded
+[00:08:58] with the models that are provided with provided to you
+[00:09:01] and with practice, I promise you,
+[00:09:03] you're gonna achieve that.
+[00:09:05] Anyways, goodbye for now.

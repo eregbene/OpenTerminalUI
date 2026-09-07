@@ -1,0 +1,280 @@
+1
+00:00:00,000 --> 00:00:06,840
+Alright guys, so in this video, I will teach you the ICT silver bullet trading strategy.
+
+2
+00:00:06,840 --> 00:00:12,520
+On my YouTube, I have already uploaded a video on this topic, but it is not like in detail.
+
+3
+00:00:12,520 --> 00:00:16,100
+But in this video, I'm going to explain each and everything in detail and how you can trade
+
+4
+00:00:16,100 --> 00:00:19,600
+it to make profits, if that makes sense.
+
+5
+00:00:19,600 --> 00:00:25,080
+Okay, so what ICT exactly says, listen to this very carefully.
+
+6
+00:00:25,080 --> 00:00:36,000
+He says that before 10am, New York time, look for a liquidity that has been swept, okay?
+
+7
+00:00:36,000 --> 00:00:49,920
+So before 10am, look for liquidity that has been already swept, right?
+
+8
+00:00:49,920 --> 00:00:55,040
+Before 10am, look for liquidity that has been already swept, okay?
+
+9
+00:00:55,040 --> 00:01:02,040
+Now once you identify the liquidity that has been swept, you want to identify liquidity,
+
+10
+00:01:02,040 --> 00:01:04,560
+right?
+
+11
+00:01:04,560 --> 00:01:09,160
+That has not been swept yet, okay?
+
+12
+00:01:09,160 --> 00:01:17,600
+So let's say that, okay, one minute, you have buy site here and you have sell site here,
+
+13
+00:01:17,600 --> 00:01:18,600
+right?
+
+14
+00:01:18,600 --> 00:01:24,880
+So this is buy site liquidity and this is sell site liquidity, okay?
+
+15
+00:01:24,880 --> 00:01:30,720
+So let's say before 10am, you see that price has taken out these equal highs over here,
+
+16
+00:01:30,720 --> 00:01:31,720
+okay?
+
+17
+00:01:31,720 --> 00:01:36,360
+So now price could be going up, you know, could be consolidating, what not.
+
+18
+00:01:36,360 --> 00:01:51,480
+But after 10am, right, after 10am, look for market structure shift with displacement
+
+19
+00:01:51,480 --> 00:01:55,160
+on one minute time frame, okay?
+
+20
+00:01:55,160 --> 00:02:06,280
+So let's say the clock hits, let me go here, the clock hits 10am right here, so 10am, yeah?
+
+21
+00:02:06,280 --> 00:02:11,000
+Now you want to start looking for market structure shifts, okay?
+
+22
+00:02:11,000 --> 00:02:16,280
+So let's say you get a beautiful displacement, okay?
+
+23
+00:02:16,280 --> 00:02:19,000
+Like that.
+
+24
+00:02:19,000 --> 00:02:25,400
+Now ICT says you mark out the frame of the gap, you take your entry, you put your stop to
+
+25
+00:02:25,400 --> 00:02:27,960
+five handles, okay?
+
+26
+00:02:27,960 --> 00:02:33,280
+Five handles on Emani S&P, it's going to be somewhere around it, I'm going to teach you
+
+27
+00:02:33,280 --> 00:02:34,440
+what it means, okay?
+
+28
+00:02:34,440 --> 00:02:38,320
+But for now, he says your stop loss goes to five handles and you take profit goes to
+
+29
+00:02:38,320 --> 00:02:39,320
+five handles.
+
+30
+00:02:39,320 --> 00:02:43,680
+So basically, he tells us to aim for one to one.
+
+31
+00:02:43,680 --> 00:02:47,160
+Now that in my eyes is very low, okay?
+
+32
+00:02:47,160 --> 00:02:51,880
+But it has, he says that it has a probability of around above 80%, okay?
+
+33
+00:02:51,880 --> 00:02:54,080
+So you're going to win most of the time.
+
+34
+00:02:54,080 --> 00:03:02,280
+However, what I've noticed with my back testing is, is when you can simply go for one to
+
+35
+00:03:02,280 --> 00:03:07,520
+two, that is the perfect risk to reward ratio for the strategy that I've found back
+
+36
+00:03:07,520 --> 00:03:09,320
+testing, okay?
+
+37
+00:03:09,320 --> 00:03:13,820
+And when price goes to like one to one, you go break even.
+
+38
+00:03:13,820 --> 00:03:17,580
+So when price comes back to one to one, you go break even.
+
+39
+00:03:17,580 --> 00:03:20,320
+So here are some key things that you must note.
+
+40
+00:03:20,320 --> 00:03:25,680
+So let's say there's like a significant low here or maybe here, you know, a significant
+
+41
+00:03:25,680 --> 00:03:27,040
+one, okay?
+
+42
+00:03:27,040 --> 00:03:31,360
+And price takes out that low before coming back to your entry.
+
+43
+00:03:31,360 --> 00:03:33,360
+Then you have to be cautious, okay?
+
+44
+00:03:33,360 --> 00:03:38,160
+Because price has already taken out sale site, it could just go back up again.
+
+45
+00:03:38,160 --> 00:03:40,520
+You want to identify.
+
+46
+00:03:40,520 --> 00:03:43,280
+So let me give you this little example here.
+
+47
+00:03:43,280 --> 00:03:47,920
+So this is external market structure, right?
+
+48
+00:03:47,920 --> 00:03:56,120
+And inside this, you're going to have like this low, low, low, high, low, low, low, low,
+
+49
+00:03:56,120 --> 00:03:58,160
+low, low, low, low, low, low, okay?
+
+50
+00:03:58,160 --> 00:04:02,240
+So you want to look for market structure shift of internal market structure, okay?
+
+51
+00:04:02,240 --> 00:04:04,120
+You do not want to look for this.
+
+52
+00:04:04,120 --> 00:04:08,880
+If price comes back and takes out this low here and then comes back to your entry, do
+
+53
+00:04:08,880 --> 00:04:09,880
+not take that.
+
+54
+00:04:09,880 --> 00:04:10,880
+Okay?
+
+55
+00:04:10,880 --> 00:04:13,520
+It's not going to work out.
+
+56
+00:04:13,520 --> 00:04:18,360
+You must identify the internal market structure, which is this, this right here on the one
+
+57
+00:04:18,360 --> 00:04:19,360
+minute timeframe.
+
+58
+00:04:19,360 --> 00:04:23,960
+You look for a market structure shift happens right here with displacement, take your entry,
+
+59
+00:04:23,960 --> 00:04:29,560
+go for five handles and or just put your stop at the high over here and go for one
+
+60
+00:04:29,560 --> 00:04:31,560
+to two.
+
+61
+00:04:31,560 --> 00:04:37,240
+So let me, let me show you what I mean by handles, right?
+
+62
+00:04:37,240 --> 00:04:39,560
+Let me go to futures right here.
+
+63
+00:04:39,560 --> 00:04:40,560
+Okay.
+
+64
+00:04:40,560 --> 00:04:48,400
+So let's say that your, for example, okay, let's say your entry is at the close of this
+
+65
+00:04:48,400 --> 00:04:49,400
+body.
+
+66
+00:04:49,400 --> 00:04:50,400
+You put your entry here.
+
+67
+00:04:50,400 --> 00:04:54,840
+Now notice this number right here stops 3.50, right?
+
+68
+00:04:54,840 --> 00:05:02,160
+It shows 3.50, you move it to five and that is your five handles stop loss.
+
+69
+00:05:02,160 --> 00:05:07,640
+You go for one to one, that is your five handles, take profit.
+
+70
+00:05:07,640 --> 00:05:18,400
+So let me give you guys a couple of examples and then we will move on to the next topic.
+

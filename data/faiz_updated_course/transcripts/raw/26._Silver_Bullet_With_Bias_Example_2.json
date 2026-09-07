@@ -1,0 +1,133 @@
+{
+  "source": "F:\\new faiz\\26. Silver Bullet With Bias Example 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 111.0610625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.14,
+      "end": 33.76,
+      "text": " Alright guys, so here is an example number two for using the Silver Bullet with PIS. So in the 15 minutes, as you can see, we have taken out this external, right? And we took this out at 845, but we have our drawn liquidity still intact. So let's go to the 1 minute time from here and let's wait for that 10 o'clock time to hit. So we're gonna wait for that. Okay, so over here, this is when the clock hits 10, right? We have the 10 here."
+    },
+    {
+      "start": 33.76,
+      "end": 38.76,
+      "text": " We have the shift in the marker structure as well."
+    },
+    {
+      "start": 38.76,
+      "end": 40.76,
+      "text": " We have it here as well."
+    },
+    {
+      "start": 40.76,
+      "end": 42.76,
+      "text": " We filled it in this fair value gap."
+    },
+    {
+      "start": 42.76,
+      "end": 44.76,
+      "text": " So now we only have this fair value gap left."
+    },
+    {
+      "start": 44.76,
+      "end": 46.76,
+      "text": " This is our drawn liquidity."
+    },
+    {
+      "start": 46.76,
+      "end": 50.76,
+      "text": " So our entry is going to be off this fair value gap."
+    },
+    {
+      "start": 50.76,
+      "end": 53.76,
+      "text": " Or the 0.5 level of this fair value gap."
+    },
+    {
+      "start": 53.76,
+      "end": 54.76,
+      "text": " Right."
+    },
+    {
+      "start": 54.76,
+      "end": 57.76,
+      "text": " And if I play this through,"
+    },
+    {
+      "start": 57.76,
+      "end": 60.76,
+      "text": " you can see that the take profit was hit."
+    },
+    {
+      "start": 60.76,
+      "end": 64.8,
+      "text": " And from there onwards, I don't know what price does."
+    },
+    {
+      "start": 64.8,
+      "end": 66.88,
+      "text": " I don't have to think about it."
+    },
+    {
+      "start": 67.0,
+      "end": 68.08,
+      "text": " My target is hit."
+    },
+    {
+      "start": 68.28,
+      "end": 70.92,
+      "text": " I sculpt out the silver bullet, right?"
+    },
+    {
+      "start": 71.28,
+      "end": 76.12,
+      "text": " One to one or one to one point five or one to two is what I see suggest."
+    },
+    {
+      "start": 76.36,
+      "end": 79.64,
+      "text": " So you could have easily gone on that by going long here,"
+    },
+    {
+      "start": 79.64,
+      "end": 82.0,
+      "text": " putting your stop here and then targeting this."
+    },
+    {
+      "start": 82.56,
+      "end": 86.08,
+      "text": " So just go and experiment with this."
+    },
+    {
+      "start": 86.12,
+      "end": 87.44,
+      "text": " It's very, very powerful."
+    },
+    {
+      "start": 87.44,
+      "end": 93.12,
+      "text": " and maybe that can become your model. I don't know, but it's really up to you."
+    },
+    {
+      "start": 93.92,
+      "end": 99.12,
+      "text": " And I'm showing the things that work. So good luck. We're using that. So let's"
+    },
+    {
+      "start": 99.12,
+      "end": 105.12,
+      "text": " we want the last lecture guys. I'm going to teach you how you can use proper risk management"
+    },
+    {
+      "start": 105.12,
+      "end": 111.84,
+      "text": " to pass your prop from challenges. So see you guys in the next one."
+    }
+  ]
+}

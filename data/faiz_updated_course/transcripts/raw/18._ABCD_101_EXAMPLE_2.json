@@ -1,0 +1,303 @@
+{
+  "source": "F:\\new faiz\\18. ABCD 101 EXAMPLE 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 257.9969375,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Your guys so here is another example on Euro 8 AUD and you can see for the past 20 days or so, we have been bearish. After the formation of ABC right here, ABC, we have this level which gets taken out, so we have the D-leg now. So let's drop down to 15 minute time from and look for a shift in market structure. Our shift in market structure would be this."
+    },
+    {
+      "start": 30.0,
+      "end": 37.0,
+      "text": " So let's see and as you can see price broke the structure."
+    },
+    {
+      "start": 37.0,
+      "end": 40.6,
+      "text": " So this right here is our auto block."
+    },
+    {
+      "start": 40.6,
+      "end": 43.88,
+      "text": " You can see this very well you got."
+    },
+    {
+      "start": 43.88,
+      "end": 50.96,
+      "text": " And I would go along here, put my stop just right here above the high right here and I would"
+    },
+    {
+      "start": 50.96,
+      "end": 57.92,
+      "text": " target probably this level right here for 2.56 or I could target this level."
+    },
+    {
+      "start": 57.92,
+      "end": 59.92,
+      "text": " So let's see how this plays out."
+    },
+    {
+      "start": 59.92,
+      "end": 65.76,
+      "text": " first part of the partial would be here or my full target would be here because I only take two or one to two"
+    },
+    {
+      "start": 66.04,
+      "end": 72.92,
+      "text": " So you can see price can went back into our py at 10 peri which is during the kills and ours and I'll probably this through"
+    },
+    {
+      "start": 73.4,
+      "end": 81.43,
+      "text": " You can see we would have a reactionary block re entry at this level once again"
+    },
+    {
+      "start": 82.03,
+      "end": 83.23,
+      "text": " so"
+    },
+    {
+      "start": 83.23,
+      "end": 91.34,
+      "text": " gonna see price just slide down hits our take profit level for 2.56 and"
+    },
+    {
+      "start": 91.34,
+      "end": 95.94,
+      "text": " And even takes out this load right here."
+    },
+    {
+      "start": 95.94,
+      "end": 99.54,
+      "text": " So we were, if we were in two trades,"
+    },
+    {
+      "start": 99.54,
+      "end": 110.38,
+      "text": " that would be around seven RR combined."
+    },
+    {
+      "start": 110.38,
+      "end": 112.78,
+      "text": " But I do not take trades like that."
+    },
+    {
+      "start": 112.78,
+      "end": 114.38,
+      "text": " I will only take one entry."
+    },
+    {
+      "start": 114.38,
+      "end": 115.98,
+      "text": " But it really depends on your style."
+    },
+    {
+      "start": 115.98,
+      "end": 117.68,
+      "text": " If you see a reactionary block,"
+    },
+    {
+      "start": 117.68,
+      "end": 119.68,
+      "text": " you can take another entry,"
+    },
+    {
+      "start": 119.68,
+      "end": 122.68,
+      "text": " but because you're, because sometimes price can reverse,"
+    },
+    {
+      "start": 122.68,
+      "end": 130.2,
+      "text": " going to get two losses for absolutely no reason. So yeah guys that is the power of ABCD."
+    },
+    {
+      "start": 131.64,
+      "end": 137.4,
+      "text": " Of course you're just not going to go on the charts and just try this out on live markets."
+    },
+    {
+      "start": 137.4,
+      "end": 145.88,
+      "text": " You have to backtest and you have to train your eyes to see this. I can teach you all the methods"
+    },
+    {
+      "start": 145.88,
+      "end": 149.16,
+      "text": " but you have to train your eyes, okay?"
+    },
+    {
+      "start": 149.16,
+      "end": 152.64,
+      "text": " To see these patterns and all."
+    },
+    {
+      "start": 152.64,
+      "end": 156.08,
+      "text": " Now, you see this placement, right?"
+    },
+    {
+      "start": 157.52,
+      "end": 160.87,
+      "text": " This is a must."
+    },
+    {
+      "start": 160.87,
+      "end": 162.71,
+      "text": " It broke structure with a fair body gap."
+    },
+    {
+      "start": 163.71,
+      "end": 168.65,
+      "text": " Boom, this simple as that."
+    },
+    {
+      "start": 168.65,
+      "end": 170.57,
+      "text": " So now let me clear some questions."
+    },
+    {
+      "start": 170.57,
+      "end": 171.73,
+      "text": " You might have in your mind."
+    },
+    {
+      "start": 172.73,
+      "end": 174.73,
+      "text": " The very first thing is,"
+    },
+    {
+      "start": 174.73,
+      "end": 177.17,
+      "text": " you have to look for big structures, okay?"
+    },
+    {
+      "start": 177.17,
+      "end": 180.93,
+      "text": " The structure can't be something like that."
+    },
+    {
+      "start": 180.93,
+      "end": 183.41,
+      "text": " It should not be small pullback."
+    },
+    {
+      "start": 184.53,
+      "end": 187.33,
+      "text": " Okay, because sometimes price gonna do that."
+    },
+    {
+      "start": 187.33,
+      "end": 188.89,
+      "text": " What you wanna see is,"
+    },
+    {
+      "start": 189.89,
+      "end": 191.77,
+      "text": " price give you a bigger pullback."
+    },
+    {
+      "start": 191.77,
+      "end": 194.93,
+      "text": " Something at around 0.5 level of 5,"
+    },
+    {
+      "start": 194.93,
+      "end": 196.93,
+      "text": " so you draw your fit from bottom to top,"
+    },
+    {
+      "start": 196.93,
+      "end": 200.69,
+      "text": " and if price comes near 0.5, right?"
+    },
+    {
+      "start": 202.17,
+      "end": 204.61,
+      "text": " Or slightly above it, you know,"
+    },
+    {
+      "start": 204.61,
+      "end": 208.61,
+      "text": " You will see when the pullback is great."
+    },
+    {
+      "start": 208.61,
+      "end": 211.11,
+      "text": " So you look for bigger structures."
+    },
+    {
+      "start": 211.11,
+      "end": 216.61,
+      "text": " You look for a bigger, a bigger B leg and bigger C leg and then the D leg."
+    },
+    {
+      "start": 216.61,
+      "end": 219.61,
+      "text": " So something like that would do prime."
+    },
+    {
+      "start": 219.61,
+      "end": 224.61,
+      "text": " And yeah, just follow the rules."
+    },
+    {
+      "start": 224.61,
+      "end": 228.61,
+      "text": " So another question that comes to my mind."
+    },
+    {
+      "start": 228.61,
+      "end": 233.41,
+      "text": " Yeah, it's really bad guys."
+    },
+    {
+      "start": 233.41,
+      "end": 235.49,
+      "text": " You don't want to look for small structures."
+    },
+    {
+      "start": 235.49,
+      "end": 240.37,
+      "text": " So if you have a small structure like that, you have to wait for a bigger pullback."
+    },
+    {
+      "start": 240.37,
+      "end": 241.85,
+      "text": " It's going to look something like this."
+    },
+    {
+      "start": 241.85,
+      "end": 245.97,
+      "text": " So boom, boom, boom, boom, boom, boom, boom, boom, boom, boom, boom, boom, boom, boom, then"
+    },
+    {
+      "start": 245.97,
+      "end": 250.19,
+      "text": " you have push up."
+    },
+    {
+      "start": 250.19,
+      "end": 253.67,
+      "text": " Takes out liquidity and then you look for market structure shift."
+    },
+    {
+      "start": 253.67,
+      "end": 255.63,
+      "text": " So I hope you guys enjoyed this video."
+    },
+    {
+      "start": 255.63,
+      "end": 257.03,
+      "text": " Unless we want to the next videos."
+    }
+  ]
+}

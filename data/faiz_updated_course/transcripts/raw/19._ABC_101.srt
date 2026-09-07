@@ -1,0 +1,651 @@
+1
+00:00:00,000 --> 00:00:30,000
+In this lecture, I'm going to teach you how I personally use ABC strategy. See, the method that I've taught you already, it works like a charm. But if you apply the things I'm going to teach you right now, your win rate is going to drastically increase. But it requires a lot of patience. And what I'm going to teach you are A plus ABC setups.
+
+2
+00:00:30,000 --> 00:00:35,120
+B.C. strategy. So first of all, I would look at the high time frame. So it could be a four hour
+
+3
+00:00:35,920 --> 00:00:41,520
+market structure, right? Or daily market structure. So if the four hour or high time frame market
+
+4
+00:00:41,520 --> 00:00:49,680
+structure is bullish, I am going to only look for long positions. Okay? And if the market structure,
+
+5
+00:00:49,680 --> 00:00:53,200
+let's say is making lower, lower, lower, lower, lower, lower, lower, lower, lower, lower, lower,
+
+6
+00:00:53,200 --> 00:00:55,200
+No, then I'm only going to look for
+
+7
+00:00:57,520 --> 00:01:02,560
+Short positions. How I want to see a pullback then another pullback
+
+8
+00:01:03,520 --> 00:01:05,520
+So an ABC
+
+9
+00:01:06,360 --> 00:01:10,140
+Oh my god bro, so
+
+10
+00:01:11,940 --> 00:01:13,940
+ABC within
+
+11
+00:01:15,060 --> 00:01:17,520
+this leg right here, okay and
+
+12
+00:01:19,540 --> 00:01:21,540
+This leg
+
+13
+00:01:21,540 --> 00:01:30,340
+Let me do this. You want to draw out your fib from this move to this move and you want to look for
+
+14
+00:01:30,340 --> 00:01:40,940
+ABC setup formations above the 0.5 level. Okay? Or I would say this is the like this right here.
+
+15
+00:01:42,220 --> 00:01:52,060
+So the mid part. So this is 0.5 right. So the mid part above the 0.5 level and this
+
+16
+00:01:52,060 --> 00:01:59,060
+is like the golden area where you can look for ABC setups.
+
+17
+00:01:59,060 --> 00:02:03,060
+But generally you can look for ABC setups above the 0.5 level.
+
+18
+00:02:03,060 --> 00:02:07,060
+So when price comes back above the 0.5 level,
+
+19
+00:02:07,060 --> 00:02:10,060
+you can drop down so let's assume that you are looking at the
+
+20
+00:02:10,060 --> 00:02:13,060
+market structure on four hour time for him.
+
+21
+00:02:13,060 --> 00:02:17,060
+What you can do is you can drop down to 15 minute time for him.
+
+22
+00:02:17,060 --> 00:02:21,060
+And then you can look for an ABC setup right on a 15 minute
+
+23
+00:02:21,060 --> 00:02:28,060
+above the 0.5 level and the C leg goes into some sort of a supply zone or an auto block,
+
+24
+00:02:28,060 --> 00:02:34,040
+okay? Or it could be a fair value gap. So the C leg goes into the fair value gap right
+
+25
+00:02:34,040 --> 00:02:42,420
+here and then you look for the ABC setup formation, okay? And you take your entry during
+
+26
+00:02:42,420 --> 00:02:53,780
+kills on ours. So the kills on ours would be from three to six. That is for London session.
+
+27
+00:02:53,780 --> 00:03:03,620
+And for New York, it's going to be eight. 30, they'll 11, 15. That is New York time. So this right
+
+28
+00:03:03,620 --> 00:03:13,510
+here is London session. And this is New York session. So your entry must be between these ours.
+
+29
+00:03:13,510 --> 00:03:17,510
+Okay, that is a must so let me repeat this again. You have
+
+30
+00:03:18,510 --> 00:03:24,090
+Lore-lor high-lor low or low or low. So you draw out your PD area, which is you know
+
+31
+00:03:24,190 --> 00:03:26,230
+discount and premium zones
+
+32
+00:03:26,230 --> 00:03:29,590
+So you want to wait for price to come back into premium zone
+
+33
+00:03:29,830 --> 00:03:34,470
+Right, which is above the 0.5 level and then you look for ABC formation
+
+34
+00:03:34,550 --> 00:03:39,330
+The C leg goes into some sort of a POI it could be an auto block
+
+35
+00:03:39,330 --> 00:03:48,010
+it could be fair value gap and it could be yeah so to refine it even further what
+
+36
+00:03:48,010 --> 00:03:54,210
+I do is when I have a POI here let's say on the 15 minute right what I would
+
+37
+00:03:54,210 --> 00:03:59,970
+do is I would drop down to five minute and refine that POI even more to make it
+
+38
+00:03:59,970 --> 00:04:05,210
+smaller okay so sometimes what can happen if you have a 15 minute POI price
+
+39
+00:04:05,210 --> 00:04:15,000
+can sometimes do this and then hit the you know the refined OB on five minute
+
+40
+00:04:15,000 --> 00:04:21,560
+and then give you an ABC setup. So that is sometimes I do something that I do
+
+41
+00:04:21,560 --> 00:04:28,480
+sometimes. So this is how I personally approach ABC guys. I first of all look at
+
+42
+00:04:28,480 --> 00:04:33,000
+the market structure and how do you look so what you want to do is you want to
+
+43
+00:04:33,000 --> 00:04:41,240
+look back 25 days. Okay. So in the last 25 days, if the market structure is making lower, lower,
+
+44
+00:04:41,240 --> 00:04:46,360
+lower, high, lower, lower, high. So in real market conditions, limited, delete this, the market
+
+45
+00:04:46,360 --> 00:04:51,560
+structure is going to look something like this. Okay, it's not going to be a clear down trend. It's
+
+46
+00:04:51,560 --> 00:05:00,680
+going to have movements like this. Okay, it's not going to be clean. So as long as the price is
+
+47
+00:05:00,680 --> 00:05:08,400
+Going down as long as it keeps going down. You just look for shot positions and that is why this method requires a lot of patience guys
+
+48
+00:05:08,400 --> 00:05:13,480
+It requires higher time frame like for our timeframe. Yeah, it could you could use one hour
+
+49
+00:05:13,480 --> 00:05:18,560
+But I do not recommend that. I mean you can use ABC on any time frame except one minute
+
+50
+00:05:19,280 --> 00:05:24,400
+We can use it on one minute as well, but I do not recommend that time frame trust me. It's just not okay
+
+51
+00:05:25,080 --> 00:05:26,120
+but
+
+52
+00:05:26,120 --> 00:05:31,470
+See the high time frame is gonna make you profitable
+
+53
+00:05:31,470 --> 00:05:38,810
+This is it. I'm telling you guys just build this patience to trade high time for him guys
+
+54
+00:05:38,810 --> 00:05:45,710
+I know I know you want to see you want to get that dopamine hit when you are trading on like one minute and five minute
+
+55
+00:05:45,710 --> 00:05:49,250
+And you see your trades going to profits and you're like wow I'm making money
+
+56
+00:05:49,950 --> 00:05:55,390
+But that is a bad habit and you're gonna get addicted to trading and when you get addicted to trading you're gonna take
+
+57
+00:05:56,150 --> 00:05:59,350
+Five to ten trades per day, which is really really bad guys and you're gonna
+
+58
+00:05:59,350 --> 00:06:01,430
+and prevent straight and get a blow your account.
+
+59
+00:06:01,430 --> 00:06:03,270
+So just stay away from that.
+
+60
+00:06:03,270 --> 00:06:06,790
+And similarly, if you're looking at a market structure
+
+61
+00:06:06,790 --> 00:06:09,870
+that is bullish and the price
+
+62
+00:06:09,870 --> 00:06:12,790
+in making high, high, high, high, high, high, high, low,
+
+63
+00:06:12,790 --> 00:06:16,830
+then you only have to look for long setups.
+
+64
+00:06:16,830 --> 00:06:19,270
+So a long setup looks something like this.
+
+65
+00:06:20,230 --> 00:06:25,230
+You would have A, B, C going into,
+
+66
+00:06:25,230 --> 00:06:29,230
+to see like going into some sort of auto block, right?
+
+67
+00:06:29,230 --> 00:06:35,600
+And you look for shift in market structure on a smaller
+
+68
+00:06:35,600 --> 00:06:37,480
+timeframe like that.
+
+69
+00:06:37,480 --> 00:06:41,480
+And you literally just take your entry.
+
+70
+00:06:41,480 --> 00:06:43,480
+Right?
+
+71
+00:06:43,480 --> 00:06:47,480
+So I'll give you guys a couple of examples and then it's going to be clear.
+
+72
+00:06:47,480 --> 00:06:49,480
+Guys, so here is example number one.
+
+73
+00:06:49,480 --> 00:06:53,480
+As you can see for the past month we have been bullish, right?
+
+74
+00:06:53,480 --> 00:06:55,480
+So we created this higher high.
+
+75
+00:06:55,480 --> 00:07:02,520
+So we can expect higher prices. So now this right here is our P o and you can see
+
+76
+00:07:02,520 --> 00:07:09,480
+price came here tap to do this level and forcing the early buyers to like go
+
+77
+00:07:09,480 --> 00:07:18,680
+long but watch what happens. We have an a b c pattern inside the p y which is a nice
+
+78
+00:07:18,680 --> 00:07:24,000
+thing like it doesn't necessarily have to form inside the p y. The only need
+
+79
+00:07:24,000 --> 00:07:29,000
+see the sealer going to here, but if this occurs, that is absolutely fine as well.
+
+80
+00:07:29,000 --> 00:07:33,000
+So let's go to the 15 minute timeframe to look for marker structure shift.
+
+81
+00:07:33,000 --> 00:07:37,000
+So as you can see, there is no clear structure here.
+
+82
+00:07:37,000 --> 00:07:42,000
+So in this scenario, what you can do is you can drop down to five minutes.
+
+83
+00:07:42,000 --> 00:07:46,000
+Okay? And when you drop down to five minutes, you can see that we have the structure.
+
+84
+00:07:46,000 --> 00:07:50,000
+So I want to see a body close above this level.
+
+85
+00:07:50,000 --> 00:07:58,810
+So let's see what happens and I believe we do have a body close right here
+
+86
+00:07:58,810 --> 00:08:03,370
+So we look for extreme water block which is right here as you can see
+
+87
+00:08:04,610 --> 00:08:07,250
+This right here, so I'm gonna mark this out
+
+88
+00:08:07,810 --> 00:08:12,240
+okay, perfect
+
+89
+00:08:12,240 --> 00:08:13,200
+and
+
+90
+00:08:13,200 --> 00:08:20,280
+I'm gonna take my entry from this level probably put my stuff just below this low right here and
+
+91
+00:08:21,240 --> 00:08:22,320
+I
+
+92
+00:08:22,320 --> 00:08:25,560
+I would target one to two, but let's see how this goes.
+
+93
+00:08:25,560 --> 00:08:35,110
+So price comes back, taps in, right?
+
+94
+00:08:35,110 --> 00:08:38,670
+And just watch that move.
+
+95
+00:08:38,670 --> 00:08:40,110
+It's crazy.
+
+96
+00:08:40,110 --> 00:08:46,250
+So price went ahead and took out this high right here.
+
+97
+00:08:46,250 --> 00:08:54,140
+So remember, we knew that we were bullish for the past month, right?
+
+98
+00:08:54,140 --> 00:09:02,260
+And as you know, we took the straight right here and we targeted this low.
+
+99
+00:09:02,260 --> 00:09:06,900
+So that is like prime ABC.
+
+100
+00:09:06,900 --> 00:09:08,700
+Your take profit level was hit.
+
+101
+00:09:08,700 --> 00:09:13,100
+And right off of that, you have a reversal.
+
+102
+00:09:13,100 --> 00:09:16,700
+So I'll give you guys another example.
+
+103
+00:09:16,700 --> 00:09:18,980
+All right guys, so here is example number two.
+
+104
+00:09:18,980 --> 00:09:20,420
+You can see we are bullish.
+
+105
+00:09:20,420 --> 00:09:25,620
+We had a breakout structure identifying
+
+106
+00:09:25,620 --> 00:09:28,940
+and showing us that the trend is to the upside.
+
+107
+00:09:28,940 --> 00:09:30,660
+The market structure is bullish.
+
+108
+00:09:30,660 --> 00:09:35,420
+Okay, that's all you need to identify market structure guys and trends.
+
+109
+00:09:35,420 --> 00:09:38,620
+So look at the last 20 or 30 days.
+
+110
+00:09:38,620 --> 00:09:41,060
+And if the market is making hard highs,
+
+111
+00:09:41,060 --> 00:09:44,140
+higher lows, higher highs, then that is plus point.
+
+112
+00:09:44,140 --> 00:09:48,340
+Okay, so right here you can see we have this auto blog
+
+113
+00:09:48,340 --> 00:09:55,930
+and we also have this volume and balance right here.
+
+114
+00:09:57,290 --> 00:10:00,530
+So you can see that, let's remove this from now.
+
+115
+00:10:00,530 --> 00:10:04,010
+Let's consider it auto blog as our PUI.
+
+116
+00:10:04,010 --> 00:10:06,610
+just for the sake of this example.
+
+117
+00:10:06,610 --> 00:10:10,610
+So right here you can see we have A, B and C.
+
+118
+00:10:10,610 --> 00:10:12,850
+The C leg goes into our PUI.
+
+119
+00:10:12,850 --> 00:10:15,290
+So let's drop down to 15 minute time from.
+
+120
+00:10:16,210 --> 00:10:22,080
+And let me show you how this goes.
+
+121
+00:10:22,080 --> 00:10:24,480
+I wanna look for a shift in my, okay,
+
+122
+00:10:24,480 --> 00:10:27,560
+so we have a market structure shift now.
+
+123
+00:10:27,560 --> 00:10:32,560
+So if I look at here, this is the first kind
+
+124
+00:10:32,560 --> 00:10:34,520
+of the fair value gap, right?
+
+125
+00:10:34,520 --> 00:10:36,000
+So this is our autoblock.
+
+126
+00:10:36,000 --> 00:10:39,720
+I would take my long position just right here.
+
+127
+00:10:39,720 --> 00:10:44,480
+I would put my stop below this low or this low.
+
+128
+00:10:44,480 --> 00:10:49,320
+So I would target the high of the b leg,
+
+129
+00:10:49,320 --> 00:10:52,000
+which is this.
+
+130
+00:10:52,000 --> 00:10:56,850
+So let's see how this plays out.
+
+131
+00:10:56,850 --> 00:10:59,970
+So we get a tap, right?
+
+132
+00:10:59,970 --> 00:11:04,320
+So let me do this.
+
+133
+00:11:04,320 --> 00:11:07,040
+Boom, look at the power guys.
+
+134
+00:11:07,040 --> 00:11:13,520
+1 to 10 secured within a couple of RS guys.
+
+135
+00:11:13,520 --> 00:11:18,560
+That is how powerful it becomes when you are following the trend.
+
+136
+00:11:18,560 --> 00:11:21,360
+You are taking trades in the direction of the trend.
+
+137
+00:11:21,360 --> 00:11:27,000
+And also, you are using POIs with ABCs.
+
+138
+00:11:27,000 --> 00:11:29,720
+So and you are also using higher time frame.
+
+139
+00:11:29,720 --> 00:11:32,000
+Higher time frame is the king guys.
+
+140
+00:11:32,000 --> 00:11:33,760
+Just stay away from low time frames.
+
+141
+00:11:33,760 --> 00:11:36,120
+If you want to take trades like these,
+
+142
+00:11:36,120 --> 00:11:38,080
+because when you're using higher time frames,
+
+143
+00:11:38,080 --> 00:11:41,040
+You're gonna see moves like this.
+
+144
+00:11:41,040 --> 00:11:41,880
+All right.
+
+145
+00:11:41,880 --> 00:11:44,920
+So it's simple guys.
+
+146
+00:11:44,920 --> 00:11:46,920
+Remember the rules we look at
+
+147
+00:11:46,920 --> 00:11:51,280
+high time frame market structure, right?
+
+148
+00:11:52,480 --> 00:11:53,840
+Trend.
+
+149
+00:11:53,840 --> 00:11:58,520
+After that we mark out the premium
+
+150
+00:11:59,840 --> 00:12:02,380
+slash discount zones.
+
+151
+00:12:02,380 --> 00:12:17,050
+Wait for price to come below slash above 0.5 level of fib.
+
+152
+00:12:17,050 --> 00:12:34,120
+Wait for ABC for formation below slash above 0.5 level and the C leg goes into that
+
+153
+00:12:34,120 --> 00:12:35,600
+POI.
+
+154
+00:12:35,600 --> 00:12:43,600
+Now, when I say that C-leg must go into that POI, what can happen is the whole ABC setup
+
+155
+00:12:43,600 --> 00:12:45,760
+can form in that POI.
+
+156
+00:12:45,760 --> 00:12:49,120
+So it doesn't necessarily have to be the C-leg.
+
+157
+00:12:49,120 --> 00:12:54,920
+But if the ABC pattern occurs in that auto block, when you have, like let's suppose you
+
+158
+00:12:54,920 --> 00:12:59,960
+have a POI marked out.
+
+159
+00:12:59,960 --> 00:13:01,360
+And what can happen sometime?
+
+160
+00:13:01,360 --> 00:13:09,920
+price gonna touch this auto block push up and then create another an ABC pattern inside the
+
+161
+00:13:09,920 --> 00:13:17,680
+auto block right so it's gonna look something like this boom boom boom boom simple as that so I
+
+162
+00:13:17,680 --> 00:13:24,240
+hope you guys enjoyed this video and this lecture if you have any more questions you can ask them
+
+163
+00:13:24,240 --> 00:13:26,720
+in the discord and I'll see you guys in the next video.

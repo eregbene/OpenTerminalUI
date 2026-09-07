@@ -1,0 +1,223 @@
+1
+00:00:00,020 --> 00:00:32,290
+Alright guys, so in the final trading strategy video, we are going to learn ABCD trading strategy. This one is just like ABCD, but it's a reversal. So I'm going to explain what it looks like, but let me explain it. So this is the ABCD trading strategy. Right? Now, what is the D here? No, what is ABCD, but what is the D here?
+
+2
+00:00:32,290 --> 00:00:40,730
+So we got the A wave, we got the B wave, then we got the C wave, right?
+
+3
+00:00:40,730 --> 00:00:43,410
+This is pretty much it.
+
+4
+00:00:43,410 --> 00:00:48,930
+But then we got the D wave, right?
+
+5
+00:00:48,930 --> 00:00:52,730
+That takes out this high, sorry, this low, right?
+
+6
+00:00:52,730 --> 00:00:54,370
+This is your take profit.
+
+7
+00:00:54,370 --> 00:00:59,770
+When you, so let me just draw it in a more clear way.
+
+8
+00:00:59,770 --> 00:01:04,650
+So you will get your entry at the retest, right?
+
+9
+00:01:04,650 --> 00:01:08,420
+Or some auto block over here.
+
+10
+00:01:08,420 --> 00:01:13,420
+And then you see price take out this low.
+
+11
+00:01:15,260 --> 00:01:17,300
+And then what you want to do is you want to wait
+
+12
+00:01:17,300 --> 00:01:19,100
+for price to go back up again.
+
+13
+00:01:19,100 --> 00:01:22,140
+And then you want to take entry again from this level.
+
+14
+00:01:22,140 --> 00:01:24,060
+And it will go up there.
+
+15
+00:01:24,060 --> 00:01:27,180
+So this is APCD fitting strategy.
+
+16
+00:01:28,660 --> 00:01:30,460
+Let me explain once again.
+
+17
+00:01:30,460 --> 00:01:37,460
+So what we have is a A, B, C, right?
+
+18
+00:01:37,900 --> 00:01:41,180
+Pretty much it.
+
+19
+00:01:41,180 --> 00:01:46,180
+Then we wait for the D move that breaks the,
+
+20
+00:01:48,020 --> 00:01:53,020
+the low of the B move, right?
+
+21
+00:01:56,850 --> 00:02:02,370
+And then price goes up, root has this level,
+
+22
+00:02:02,370 --> 00:02:04,490
+or some fair value gap down there.
+
+23
+00:02:04,490 --> 00:02:07,490
+And it goes all the way up.
+
+24
+00:02:07,490 --> 00:02:12,280
+Very simple trading strategy guys.
+
+25
+00:02:12,280 --> 00:02:14,280
+So let me show you an example.
+
+26
+00:02:14,280 --> 00:02:18,940
+So what do we have here?
+
+27
+00:02:18,940 --> 00:02:21,940
+We got the A with.
+
+28
+00:02:21,940 --> 00:02:23,940
+We got the B with.
+
+29
+00:02:23,940 --> 00:02:25,940
+And we got the C with, right?
+
+30
+00:02:25,940 --> 00:02:29,610
+Let me put this like this.
+
+31
+00:02:29,610 --> 00:02:31,610
+Put it like this.
+
+32
+00:02:31,610 --> 00:02:33,610
+And bam.
+
+33
+00:02:33,610 --> 00:02:34,610
+We broke this level.
+
+34
+00:02:34,610 --> 00:02:35,610
+Very nice.
+
+35
+00:02:35,610 --> 00:02:45,170
+nice. So as you can see, let me remove that. We got this level. We broke this level. We reclaimed
+
+36
+00:02:45,170 --> 00:02:51,690
+this level. Didn't quite break the structure over here, but this is a new accession trading
+
+37
+00:02:51,690 --> 00:02:57,870
+strategy. And sometimes it couldn't work in the land session as well. Only sometimes, okay?
+
+38
+00:02:57,870 --> 00:02:59,270
+So keep that in mind.
+
+39
+00:02:59,270 --> 00:03:10,440
+So as you can see, when price breaks this level, which is, sorry, my bad, this level.
+
+40
+00:03:10,440 --> 00:03:14,720
+So you can see we got the A, we got the B, we got the C, and then we got the D.
+
+41
+00:03:14,720 --> 00:03:18,920
+The D takes out the low of the B move, the B leg, right?
+
+42
+00:03:18,920 --> 00:03:21,520
+And then it reclaims that level.
+
+43
+00:03:21,520 --> 00:03:26,520
+You can enter on the retest here, put your stop-loss below this low, and go for one
+
+44
+00:03:26,520 --> 00:03:27,520
+to two.
+
+45
+00:03:27,520 --> 00:03:30,370
+That is pretty much it.
+
+46
+00:03:30,370 --> 00:03:33,250
+This is a very simple setting strategy guys.
+
+47
+00:03:33,250 --> 00:03:39,610
+They are going to be endless opportunities for you to enter the market.
+
+48
+00:03:39,610 --> 00:03:43,610
+As you can see, for more confluence, it also broke some structure here.
+
+49
+00:03:43,610 --> 00:03:48,360
+So let me point this out.
+
+50
+00:03:48,360 --> 00:03:52,760
+Then we had a very tiny imbalance around this level.
+
+51
+00:03:52,760 --> 00:03:54,640
+So let me put this in this.
+
+52
+00:03:54,640 --> 00:03:57,080
+There's very tiny balance that I can see.
+
+53
+00:03:57,080 --> 00:03:58,120
+Let me zoom it in.
+
+54
+00:03:58,120 --> 00:03:59,120
+Yep.
+
+55
+00:03:59,120 --> 00:04:03,800
+price just ripped it off this auto block and it went all the way up.
+
+56
+00:04:03,800 --> 00:04:07,400
+So let me give you one more example.

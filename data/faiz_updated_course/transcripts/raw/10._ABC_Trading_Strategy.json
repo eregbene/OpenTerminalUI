@@ -1,0 +1,383 @@
+{
+  "source": "F:\\new faiz\\10. ABC Trading Strategy.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 535.7308125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.08,
+      "end": 30.08,
+      "text": " Alright guys, so now we are going to learn the ABC trading strategy. It's kind of similar to the New York session trading strategy, but more advanced and more profitable. It's going to have huge, richer, water crates. So it's quite simple. You want to identify a A-Viv, which is this. So let me put this out. This is an A-Viv."
+    },
+    {
+      "start": 30.08,
+      "end": 38.0,
+      "text": " which is a small trend in the opposite direction or a pullback, right? And then a fakeout."
+    },
+    {
+      "start": 39.76,
+      "end": 49.92,
+      "text": " Now what you want to identify is when the a leg is complete, okay? When the a leg is complete"
+    },
+    {
+      "start": 49.92,
+      "end": 64.8,
+      "text": " And the B leg is complete. The C leg must create some sort of structure which is this."
+    },
+    {
+      "start": 64.8,
+      "end": 74.64,
+      "text": " It went up lower low, lower high and then it went lower low. I want the price to create some sort of"
+    },
+    {
+      "start": 74.64,
+      "end": 84.4,
+      "text": " low or high before the C leg takes out the A. Okay, so we got the A, we got the B,"
+    },
+    {
+      "start": 84.4,
+      "end": 100.98,
+      "text": " we got the C. So what are the rules? Identify A leg, okay. Wait for B leg to"
+    },
+    {
+      "start": 100.98,
+      "end": 115.74,
+      "text": " form which is a significant pull back or small trend in opposite direction."
+    },
+    {
+      "start": 115.74,
+      "end": 131.33,
+      "text": " Let me put this like this. Okay, once we have the B leg, then wait for the C leg"
+    },
+    {
+      "start": 131.33,
+      "end": 142.13,
+      "text": " to take out the low of the a leg, the low slash high if you're looking for a"
+    },
+    {
+      "start": 142.13,
+      "end": 149.97,
+      "text": " cell position, right, of the a leg, then wait for the c leg to take out the low or"
+    },
+    {
+      "start": 149.97,
+      "end": 155.29,
+      "text": " high of the a leg depending on what position you're trying to want to trade in."
+    },
+    {
+      "start": 155.29,
+      "end": 180.7,
+      "text": " the C-leg must create some structure before taking out the A-legs low high. Then wait for"
+    },
+    {
+      "start": 180.7,
+      "end": 193.7,
+      "text": " price to reclaim the A level. Okay, wait for price to reclaim the A level and break that"
+    },
+    {
+      "start": 193.7,
+      "end": 211.14,
+      "text": " structure created in the C-Leg. Then identify an order block slash fair rather gap and"
+    },
+    {
+      "start": 211.14,
+      "end": 226.37,
+      "text": " take your entry from there, target the high slash look of the b leg. So this is a bit"
+    },
+    {
+      "start": 226.37,
+      "end": 231.09,
+      "text": " this looks like a bit complicated but it's very easy guys okay when I'm going to explain it to you."
+    },
+    {
+      "start": 231.97,
+      "end": 240.77,
+      "text": " So what you want to do is identify a leg which is a main trend so this big push to the downside"
+    },
+    {
+      "start": 240.77,
+      "end": 253.98,
+      "text": " is the a leg right now we have a small term trend in the opposite direction"
+    },
+    {
+      "start": 253.98,
+      "end": 263.06,
+      "text": " okay so this is the b leg okay and then this line right here so let me"
+    },
+    {
+      "start": 263.06,
+      "end": 270.06,
+      "text": " disable this just to make it a bit clear okay so this is the high of the b leg"
+    },
+    {
+      "start": 270.06,
+      "end": 275.38,
+      "text": " right let me put this like this I have the b leg which is going to be our"
+    },
+    {
+      "start": 275.38,
+      "end": 285.7,
+      "text": " potential take profit area. We got the a leg, sorry guys, I made it"
+    },
+    {
+      "start": 285.7,
+      "end": 292.5,
+      "text": " steak. So this is the a leg, this is the b leg. Okay, so we got the a, we got the"
+    },
+    {
+      "start": 292.5,
+      "end": 297.18,
+      "text": " b leg here, this is the high of the b leg and then we got the c. All right, so we"
+    },
+    {
+      "start": 297.18,
+      "end": 307.52,
+      "text": " got the C leg. Okay. So this is like the C leg. Okay. So within that C leg, right, we want to"
+    },
+    {
+      "start": 307.52,
+      "end": 314.52,
+      "text": " create some sort of structure. So as you can see, this C leg created this structure, right,"
+    },
+    {
+      "start": 314.52,
+      "end": 323.36,
+      "text": " before taking out the low of the B leg, right. Once that happens, you want to identify"
+    },
+    {
+      "start": 323.36,
+      "end": 327.88,
+      "text": " a market structure shift, not below the B leg,"
+    },
+    {
+      "start": 327.88,
+      "end": 329.8,
+      "text": " but you wanna wait for price to break this level"
+    },
+    {
+      "start": 329.8,
+      "end": 333.52,
+      "text": " because it is above the B leg."
+    },
+    {
+      "start": 333.52,
+      "end": 335.0,
+      "text": " If the market structure happens,"
+    },
+    {
+      "start": 335.0,
+      "end": 338.6,
+      "text": " structure shift happens here, then it doesn't count."
+    },
+    {
+      "start": 339.68,
+      "end": 340.88,
+      "text": " All right, very simple."
+    },
+    {
+      "start": 342.16,
+      "end": 344.92,
+      "text": " When that happens, as you can see,"
+    },
+    {
+      "start": 344.92,
+      "end": 348.64,
+      "text": " this was a structure within the B leg and the C leg,"
+    },
+    {
+      "start": 348.64,
+      "end": 357.64,
+      "text": " And the price did not take out our take profit area. So this trade is now this setup is now valid."
+    },
+    {
+      "start": 357.64,
+      "end": 368.64,
+      "text": " Okay, so we have market structure shift right here. Let me make it bigger. Let's make it 24. Okay. So now what do we have here?"
+    },
+    {
+      "start": 368.64,
+      "end": 374.64,
+      "text": " We got the imbalance and the auto block. So we are going to enter by or off this level."
+    },
+    {
+      "start": 374.64,
+      "end": 379.38,
+      "text": " We put our stop loss right below this level and we target the high"
+    },
+    {
+      "start": 380.4,
+      "end": 381.4,
+      "text": " of"
+    },
+    {
+      "start": 381.4,
+      "end": 385.44,
+      "text": " The B leg this would have been a three ratio walk trade"
+    },
+    {
+      "start": 385.88,
+      "end": 392.36,
+      "text": " This is one of my favorite credit strategies actually my favorite strategy out of all that I'm teaching"
+    },
+    {
+      "start": 393.2,
+      "end": 395.2,
+      "text": " But really depends on you so"
+    },
+    {
+      "start": 396.08,
+      "end": 399.34,
+      "text": " Let me remove everything here and let's"
+    },
+    {
+      "start": 399.34,
+      "end": 407.52,
+      "text": " revise what I've taught here. So we got the a leg, this is the leg, the main"
+    },
+    {
+      "start": 407.52,
+      "end": 413.0,
+      "text": " trend leg, okay? So we are in a downtrend, we see a push down and then we see a"
+    },
+    {
+      "start": 413.0,
+      "end": 421.86,
+      "text": " pullback, very simple, right? This pullback, this move is called b leg, okay? So it"
+    },
+    {
+      "start": 421.86,
+      "end": 429.06,
+      "text": " went boom, it's a b leg and we want to identify the high of that b leg, which is"
+    },
+    {
+      "start": 429.06,
+      "end": 436.82,
+      "text": " this right the high of the B leg must not exceed and I repeat must not exceed the"
+    },
+    {
+      "start": 436.82,
+      "end": 443.46,
+      "text": " A leg okay it just must not break the A leg level which is this okay so this is"
+    },
+    {
+      "start": 443.46,
+      "end": 447.86,
+      "text": " where the big push started if the B leg cross this level then the trace set"
+    },
+    {
+      "start": 447.86,
+      "end": 456.14,
+      "text": " of becomes invalid so we got the B leg and now we want to identify the low of"
+    },
+    {
+      "start": 456.14,
+      "end": 463.86,
+      "text": " of the B leg which is this. Perfect. Now we wait for price to break. Break through"
+    },
+    {
+      "start": 463.86,
+      "end": 476.22,
+      "text": " that B leg. Okay and the move that breaks the B leg is called C leg. So A, B, C"
+    },
+    {
+      "start": 476.22,
+      "end": 484.02,
+      "text": " actually. Now when the price is about to break the B leg level it must and I"
+    },
+    {
+      "start": 484.02,
+      "end": 486.46,
+      "text": " I mean must create some structure."
+    },
+    {
+      "start": 487.38,
+      "end": 489.54,
+      "text": " All right, so we got, as you can see,"
+    },
+    {
+      "start": 489.54,
+      "end": 492.26,
+      "text": " lower, lower, lower, high, lower, lower, high,"
+    },
+    {
+      "start": 492.26,
+      "end": 494.66,
+      "text": " and then we broke, okay?"
+    },
+    {
+      "start": 494.66,
+      "end": 498.82,
+      "text": " Now below the B leg, we also created some structure,"
+    },
+    {
+      "start": 498.82,
+      "end": 501.94,
+      "text": " and I also break this level, but this doesn't count, okay?"
+    },
+    {
+      "start": 501.94,
+      "end": 504.14,
+      "text": " We are only going to look for structure,"
+    },
+    {
+      "start": 504.14,
+      "end": 508.46,
+      "text": " which is inside the B leg and the C leg, okay?"
+    },
+    {
+      "start": 508.46,
+      "end": 509.86,
+      "text": " The lines that I've drawn,"
+    },
+    {
+      "start": 509.86,
+      "end": 512.54,
+      "text": " the low of the B leg and the high of the C leg,"
+    },
+    {
+      "start": 512.54,
+      "end": 513.7,
+      "text": " there must be some structure."
+    },
+    {
+      "start": 513.7,
+      "end": 516.02,
+      "text": " before price takes out the B leg."
+    },
+    {
+      "start": 516.02,
+      "end": 518.74,
+      "text": " Then we identify a market structure shift"
+    },
+    {
+      "start": 518.74,
+      "end": 522.22,
+      "text": " that happens, then we identify an autoblock,"
+    },
+    {
+      "start": 522.22,
+      "end": 525.86,
+      "text": " which is right here, and we take our entry."
+    },
+    {
+      "start": 525.86,
+      "end": 530.86,
+      "text": " So this is three wrist-to-wall trade, very easy guys."
+    },
+    {
+      "start": 531.14,
+      "end": 533.98,
+      "text": " So now in the next video, I'll give you some examples."
+    },
+    {
+      "start": 533.98,
+      "end": 534.82,
+      "text": " So you guys."
+    }
+  ]
+}

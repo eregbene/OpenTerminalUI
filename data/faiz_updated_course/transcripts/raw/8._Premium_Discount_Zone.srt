@@ -1,0 +1,335 @@
+1
+00:00:00,140 --> 00:00:30,140
+Alright guys, so in this video we are going to learn about premium and discount zones. What is a premium and a discount zone? So I am going to give you an example. Let's say that you want to buy a house, right? And the prices are very high, okay? But you know that the prices are going to be lower in the future.
+
+2
+00:00:30,140 --> 00:00:40,140
+So are you going to buy the house at a very high price or you're going to wait for price to lower down and then you buy.
+
+3
+00:00:40,140 --> 00:00:47,140
+Of course, you're going to wait for price to lower so that you can buy it at a discount.
+
+4
+00:00:47,140 --> 00:00:48,140
+That makes sense.
+
+5
+00:00:48,140 --> 00:00:59,140
+Similarly, whenever we want to go long, we should always be buying at a discounted zone.
+
+6
+00:00:59,140 --> 00:01:05,140
+Now, how do we find a discounted or a premium zone?
+
+7
+00:01:05,140 --> 00:01:10,140
+Now, let me give you an example for premium zone, right?
+
+8
+00:01:10,140 --> 00:01:18,140
+So let's say that you bought a house at a very low price.
+
+9
+00:01:18,140 --> 00:01:20,140
+Now, you want to sell it.
+
+10
+00:01:20,140 --> 00:01:24,140
+Of course, you are going to sell it for a higher price.
+
+11
+00:01:24,140 --> 00:01:30,940
+Okay, you don't want to sell it at a lower price because that's gonna, you know, if one profitable for you.
+
+12
+00:01:30,940 --> 00:01:36,620
+So that's why when you are going to sell your house, you're going to sell it at a higher price.
+
+13
+00:01:37,180 --> 00:01:42,380
+Similarly, when you're about to short, when you're about to take a short position,
+
+14
+00:01:42,380 --> 00:01:49,420
+you should be waiting for the price to come up at a premium level so that you can sell it if that makes sense.
+
+15
+00:01:49,420 --> 00:01:51,900
+All right, you want the price to be higher
+
+16
+00:01:51,900 --> 00:01:54,860
+in order for you to be selling it.
+
+17
+00:01:54,860 --> 00:01:57,740
+So first of all, let me give you an example
+
+18
+00:01:57,740 --> 00:01:59,860
+for a discounted zone.
+
+19
+00:01:59,860 --> 00:02:04,100
+So as you can see, price went up right up to this level.
+
+20
+00:02:04,100 --> 00:02:10,670
+So you can see, price made a very huge move
+
+21
+00:02:10,670 --> 00:02:13,150
+from this point to this point.
+
+22
+00:02:13,150 --> 00:02:14,710
+From this to this.
+
+23
+00:02:15,790 --> 00:02:19,210
+Now, are you going to buy here?
+
+24
+00:02:20,350 --> 00:02:21,190
+Absolutely not.
+
+25
+00:02:21,190 --> 00:02:28,030
+If you are a trader, you should know that you should never be buying at around this level.
+
+26
+00:02:28,030 --> 00:02:30,670
+You should always be buying at a pullback.
+
+27
+00:02:30,670 --> 00:02:37,270
+So how do we determine a discounted zone?
+
+28
+00:02:37,270 --> 00:02:41,790
+Well, what you want to do is you want to pull out your Fibonacci tool.
+
+29
+00:02:41,790 --> 00:02:45,510
+You go to the settings here, choose fib retracement.
+
+30
+00:02:45,510 --> 00:02:55,150
+You want to start from the very low of that push to the very top of that push.
+
+31
+00:02:55,150 --> 00:03:02,580
+And then you want to, first of all, you want to copy these settings.
+
+32
+00:03:02,580 --> 00:03:09,580
+You can pause the video right here and you want to copy these settings.
+
+33
+00:03:09,580 --> 00:03:18,140
+Now when the price is below the 50% level, then the price is considered to be in a discounted
+
+34
+00:03:18,140 --> 00:03:19,480
+area.
+
+35
+00:03:19,480 --> 00:03:28,180
+I will repeat when the price, as you can see, when the price is below the 50% Fibonacci
+
+36
+00:03:28,180 --> 00:03:34,780
+area, then the price is considered to be in a discounted zone.
+
+37
+00:03:34,780 --> 00:03:37,580
+That is where you should be buying.
+
+38
+00:03:37,580 --> 00:03:45,560
+Now, I will not tell you how to exactly enter in this video, but this is what I am telling
+
+39
+00:03:45,560 --> 00:03:52,020
+you, just for the sake of this video that you should always be buying when the price falls
+
+40
+00:03:52,020 --> 00:03:54,460
+into the discounted zone.
+
+41
+00:03:54,460 --> 00:04:01,340
+So, as you can see, price pushed up from this point to this point, you should not be buying
+
+42
+00:04:01,340 --> 00:04:03,820
+here or here or here.
+
+43
+00:04:03,820 --> 00:04:08,360
+You should be waiting for price to fall down into the discounted zone which is below the
+
+44
+00:04:08,360 --> 00:04:10,940
+50% as you can see.
+
+45
+00:04:10,940 --> 00:04:14,140
+And then this is the best area to be buying.
+
+46
+00:04:14,140 --> 00:04:16,640
+Okay.
+
+47
+00:04:16,640 --> 00:04:20,780
+Let's talk about premium zones.
+
+48
+00:04:20,780 --> 00:04:27,100
+So as you can see, we made a move from this level to this level.
+
+49
+00:04:27,100 --> 00:04:28,100
+All right.
+
+50
+00:04:28,100 --> 00:04:33,460
+We dropped down heavily from this point to this point.
+
+51
+00:04:33,460 --> 00:04:40,000
+So similarly, we are going to draw our Fibonacci retracement tool from the very high of that
+
+52
+00:04:40,000 --> 00:04:47,700
+move, from the start of that move, sorry, to the end of that move, which ends here.
+
+53
+00:04:47,700 --> 00:04:48,700
+Okay?
+
+54
+00:04:48,700 --> 00:04:52,700
+Now you don't want to sell here, you don't want to sell here, you don't want to sell
+
+55
+00:04:52,700 --> 00:04:54,180
+here.
+
+56
+00:04:54,180 --> 00:04:57,860
+You should be waiting for price to come back into the premium zone.
+
+57
+00:04:57,860 --> 00:04:59,540
+Now what is premium zone?
+
+58
+00:04:59,540 --> 00:05:07,500
+Whenever price falls or goes, sorry, not falls, but whenever price goes into the premium
+
+59
+00:05:07,500 --> 00:05:10,980
+zone, which is above 50%.
+
+60
+00:05:10,980 --> 00:05:18,420
+So whenever price goes above the 50% then that price is considered to be in a premium zone.
+
+61
+00:05:18,420 --> 00:05:20,620
+Now what does that mean?
+
+62
+00:05:20,620 --> 00:05:25,740
+It means that this is a great area for you to be selling.
+
+63
+00:05:25,740 --> 00:05:29,100
+Okay, now you don't want to just blindly sell off
+
+64
+00:05:29,100 --> 00:05:32,780
+when price fell falls into the, you know,
+
+65
+00:05:32,780 --> 00:05:35,580
+falls above the 50% on below the 50%
+
+66
+00:05:35,580 --> 00:05:39,780
+there are certain criteria that we should be discussing
+
+67
+00:05:39,780 --> 00:05:40,660
+in the upcoming videos.
+
+68
+00:05:40,660 --> 00:05:42,740
+But for now, all you want to know is
+
+69
+00:05:42,740 --> 00:05:44,700
+what are discounted and premium zones.
+
+70
+00:05:44,700 --> 00:05:45,580
+All right.
+
+71
+00:05:45,580 --> 00:05:50,580
+So for price to be considered in a premium area,
+
+72
+00:05:51,820 --> 00:05:54,260
+you should be waiting for the price to go above
+
+73
+00:05:54,260 --> 00:05:58,820
+the 50% level of the Fibonacci.
+
+74
+00:05:58,820 --> 00:06:02,940
+All right, so now this area is the best HB selling.
+
+75
+00:06:02,940 --> 00:06:05,100
+So if you sold here,
+
+76
+00:06:06,260 --> 00:06:08,420
+all right, you could have made a great profit.
+
+77
+00:06:09,380 --> 00:06:11,660
+Like this could be one to two, restore what,
+
+78
+00:06:11,660 --> 00:06:14,260
+but of course, it's a hindsight,
+
+79
+00:06:14,260 --> 00:06:16,220
+but this is what I'm telling you, right?
+
+80
+00:06:16,220 --> 00:06:19,860
+You should always be selling at a premium zone
+
+81
+00:06:19,860 --> 00:06:23,860
+and you should always be buying at a discounted zone.
+
+82
+00:06:23,860 --> 00:06:32,580
+So I really hope that this video is clear and I really hope that you know what is premium and discounted zones.
+
+83
+00:06:33,060 --> 00:06:45,620
+So we are slowly moving towards our main strategies but there are one or two more videos before we move to those beautiful life changing videos guys.
+
+84
+00:06:45,620 --> 00:06:48,180
+So I'll see you guys in the next video.

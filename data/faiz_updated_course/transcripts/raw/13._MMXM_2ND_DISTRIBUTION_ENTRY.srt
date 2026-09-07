@@ -1,0 +1,235 @@
+1
+00:00:00,850 --> 00:00:30,850
+Alright guys, so in this lecture, I'm going to talk about the market maker model, second distribution entry model. This model has to be, has to have the best wind rate possible. This is like a plus entry setup, a plus model that you can use and become a dependent trader. After watching this model and understanding this model, you will not need anything else. Okay? I guarantee you.
+
+2
+00:00:30,850 --> 00:00:35,530
+very carefully. Now, as you know, the market maker model is that we have first
+
+3
+00:00:35,530 --> 00:00:39,370
+consolidation, then we have the second and the third, the second, the
+
+4
+00:00:39,370 --> 00:00:44,410
+third consolidation is not necessary. Okay. So now these two consolidations are
+
+5
+00:00:44,410 --> 00:00:50,170
+also called accumulation zones. Okay. So we have a simulation here and we
+
+6
+00:00:50,170 --> 00:00:54,370
+have a simulation here. We have consolidation here. So now let's suppose that
+
+7
+00:00:54,370 --> 00:00:59,890
+this key level is a daily external liquidity, right? Once price takes out
+
+8
+00:00:59,890 --> 00:01:04,170
+the external liquidity. Right. We had let's say this is the free value gap. This low
+
+9
+00:01:04,170 --> 00:01:08,130
+here of the consolidation is our free value gap, our drawn liquidity internal liquidity.
+
+10
+00:01:08,130 --> 00:01:14,570
+Right. Once we get a market structure shift, right. Once we have this shift in the market
+
+11
+00:01:14,570 --> 00:01:19,410
+structure, normally we would take our entry from this free value gap or an auto block
+
+12
+00:01:19,410 --> 00:01:24,650
+here and target this level. But in this second distribution model, listen what we have to do.
+
+13
+00:01:24,650 --> 00:01:33,290
+So we must have a high high high high high high high right into the key level price takes
+
+14
+00:01:33,290 --> 00:01:34,430
+out liquidity.
+
+15
+00:01:34,430 --> 00:01:41,690
+Then we have a market structure shift lower lower lower high after market structure
+
+16
+00:01:41,690 --> 00:01:42,690
+shift.
+
+17
+00:01:42,690 --> 00:01:46,930
+Then we have lower low lower high lower low right.
+
+18
+00:01:46,930 --> 00:01:50,410
+So once we have like a lower low lower high lower low.
+
+19
+00:01:50,410 --> 00:01:51,970
+And we also have a market structure shift.
+
+20
+00:01:51,970 --> 00:01:56,610
+So mark your structure shift, pull back another low low.
+
+21
+00:01:56,610 --> 00:02:01,250
+Once we have this, now we are waiting for a continuation purge.
+
+22
+00:02:01,250 --> 00:02:02,330
+Now what is that?
+
+23
+00:02:02,330 --> 00:02:07,410
+We have to wait for price to take out some form of lower high.
+
+24
+00:02:07,410 --> 00:02:10,370
+So let's say there's a lower high here.
+
+25
+00:02:10,370 --> 00:02:11,690
+What's going to happen?
+
+26
+00:02:11,690 --> 00:02:17,730
+Price takes out this lower high and then you wait for a shift in market structure or a
+
+27
+00:02:17,730 --> 00:02:20,730
+break of structure right like that.
+
+28
+00:02:20,730 --> 00:02:26,130
+Once you have another break of structure, you wait for another pullback, you wait for another
+
+29
+00:02:26,130 --> 00:02:28,610
+break of structure, right?
+
+30
+00:02:28,610 --> 00:02:30,410
+If fractal break of structure.
+
+31
+00:02:30,410 --> 00:02:33,850
+And then if there's a fair enough gap here, perfect.
+
+32
+00:02:33,850 --> 00:02:36,490
+If there's no fair enough gap here, you look at this leg here.
+
+33
+00:02:36,490 --> 00:02:43,050
+If there's a fair enough gap, that is going to be your second distribution entry model.
+
+34
+00:02:43,050 --> 00:02:47,610
+And that is going to just push the price aggressively towards your take profit level.
+
+35
+00:02:47,610 --> 00:02:53,610
+should get this type of setup, trust me guys, there's like, I guarantee you, you're going
+
+36
+00:02:53,610 --> 00:03:00,730
+to win that trade. Most of the time. Okay. So let's talk about this again. Right. So it's
+
+37
+00:03:00,730 --> 00:03:07,170
+going to take some time maybe for you to understand. We have a higher high, a higher low,
+
+38
+00:03:07,170 --> 00:03:14,810
+a higher high. We have the external liquid taken out. Right. Once that is taken out. Okay.
+
+39
+00:03:14,810 --> 00:03:16,890
+So here's the thing.
+
+40
+00:03:16,890 --> 00:03:19,770
+You don't have to look for these highs on the daily time frame.
+
+41
+00:03:19,770 --> 00:03:23,670
+Once you have the key level taken out on the daily, you then drop to one hour and then
+
+42
+00:03:23,670 --> 00:03:25,850
+identify this setup.
+
+43
+00:03:25,850 --> 00:03:29,090
+Surprise takes out the external liquidity.
+
+44
+00:03:29,090 --> 00:03:32,770
+We then wait for the market structure shift.
+
+45
+00:03:32,770 --> 00:03:34,890
+And then we wait for the pullback.
+
+46
+00:03:34,890 --> 00:03:37,570
+That's create lower low, lower high, lower low.
+
+47
+00:03:37,570 --> 00:03:39,970
+We then have another break of structure.
+
+48
+00:03:39,970 --> 00:03:44,090
+Once we have the break of structure, we wait for any lower high.
+
+49
+00:03:44,090 --> 00:03:49,930
+lower height to be purged. Once you have a purge on that, you wait again for that double
+
+50
+00:03:49,930 --> 00:03:54,730
+break off structure pattern. So you're going to have lower low breaks the structure somewhere
+
+51
+00:03:54,730 --> 00:04:00,810
+here somewhere here or this whole level. And then you have a pullback and then the structure
+
+52
+00:04:00,810 --> 00:04:08,650
+breaks again. Once you have that, look for a fairly gap or an auto block. You put your entry here
+
+53
+00:04:08,650 --> 00:04:14,770
+And guys, the next thing you know your trade is boom right into this level.
+
+54
+00:04:16,210 --> 00:04:19,250
+I need you to watch this again and again.
+
+55
+00:04:19,290 --> 00:04:25,210
+I will show you the examples as well, but I need you to watch it again and again.
+
+56
+00:04:25,970 --> 00:04:30,690
+This is like the best I see concepts that I'm teaching you right now.
+
+57
+00:04:30,690 --> 00:04:35,210
+And if you can understand this, oh my God, bro, I don't even know.
+
+58
+00:04:35,210 --> 00:04:40,210
+You will become like an independent trader. That's pretty much it. You don't need anything else.
+
+59
+00:04:40,610 --> 00:04:46,850
+Okay, so I'm gonna show you some examples and then I'll end the video like the whole lecture

@@ -1,0 +1,115 @@
+1
+00:00:00,000 --> 00:00:14,940
+Okay guys, I want to give you an example of confirmation entries. So on the one hour timeframe, you have this change of collector and we also have this break of structure here. So, oops, my bad. What's happening, man? Okay, so we have change of collector and also we have break of structure, right? And there we have our order block with F
+
+2
+00:00:14,940 --> 00:00:19,860
+man. Okay, so we have change of lecture and also we have break of structure, right? And
+
+3
+00:00:19,860 --> 00:00:28,310
+there we have our autoblock with fair value gap. So this is our POI. Now when price comes
+
+4
+00:00:28,310 --> 00:00:33,510
+back into your POI, you want to drop down to the five minute timeframe. And you look
+
+5
+00:00:33,510 --> 00:00:38,630
+for market structure shift. So did we have a market structure shift here? No, we did not
+
+6
+00:00:38,630 --> 00:00:44,710
+break above this level. So I want to wait for a body closure. Okay, not the week. So
+
+7
+00:00:46,550 --> 00:00:54,790
+over here, we see price. Okay, so we have another liquidity sweep. So let's assume
+
+8
+00:00:57,160 --> 00:01:01,960
+okay, so I believe we have market structure shift. So this is our market structure shift, right?
+
+9
+00:01:02,760 --> 00:01:09,960
+And we have this fair value gap with OB. You can see. And if I take my entry from this
+
+10
+00:01:09,960 --> 00:01:20,220
+this level, put my stop right below this level. And we look to target maybe this high here,
+
+11
+00:01:20,220 --> 00:01:33,330
+these equal highs. Right? So see what happens. So I'm going to put this at three. And I'm
+
+12
+00:01:33,330 --> 00:01:41,960
+going to buy right here. Let's just beat this up. Okay, never mind. And I'm going to sell
+
+13
+00:01:41,960 --> 00:01:57,180
+it here, hat around this level. So let me just beat this up actually. And price just keeps
+
+14
+00:01:57,180 --> 00:02:11,560
+on going up. And eventually, yep, we hit our take profit. So I'm not sure what happened
+
+15
+00:02:11,560 --> 00:02:18,720
+here. How do I close this out? Alright, I'm just going to close this here. So you can
+
+16
+00:02:18,720 --> 00:02:25,160
+see that we, if we use confirmation entries, it's going to be really, really beneficial.
+
+17
+00:02:25,160 --> 00:02:33,040
+Right, so this trade right here was not doing the kill zone, but this was just to show
+
+18
+00:02:33,040 --> 00:02:37,640
+you as an example that how well it can work.
+
+19
+00:02:37,640 --> 00:02:42,720
+So make sure that your entries are always during kills and hours.
+
+20
+00:02:42,720 --> 00:02:44,760
+It's going to increase your win rate.
+
+21
+00:02:44,760 --> 00:02:52,200
+I'm not saying that you can not take a trade ever, like without being in a kill zone,
+
+22
+00:02:52,200 --> 00:02:55,220
+If you take kill zone into consideration
+
+23
+00:02:56,320 --> 00:02:58,320
+the chances are higher and
+
+24
+00:02:59,440 --> 00:03:03,500
+The algorithms are active at that time, but this right here. This was an exception and
+
+25
+00:03:04,280 --> 00:03:10,600
+This was also just for for an example. I just looked at the chart and I found it worked out pretty well
+
+26
+00:03:11,600 --> 00:03:18,800
+And this is a hindsight as well, but it does actually work so you can see that we came into our py
+
+27
+00:03:18,800 --> 00:03:23,440
+We had a market structure shift here and we took our entry from the freeable
+
+28
+00:03:23,440 --> 00:03:28,720
+to gap and it took its time and took out these level. This was our take profit level.
+
+29
+00:03:28,720 --> 00:03:34,480
+That would have been 9.3 risk to reward and this was beautiful.

@@ -1,0 +1,1403 @@
+{
+  "source": "F:\\new faiz\\40. Turtle Soups & Ranges Mastery.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 1050.30825,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.3,
+      "end": 30.3,
+      "text": " Alright guys, welcome to the new chapter. In this chapter, I'm gonna teach you guys our range trading and how it is one of the best ways to trade. This works on the one minute time from in most scenarios and this works. It doesn't work really well with Forex, but it works really well with indices and crypto. It works really well with crypto, right? So the reason why I'm giving you so many miles is that you can choose your"
+    },
+    {
+      "start": 30.3,
+      "end": 36.48,
+      "text": " own style. All of them are extremely profitable. Now of course you're gonna have"
+    },
+    {
+      "start": 36.48,
+      "end": 40.4,
+      "text": " losing days, losing weeks and even losing month right? That's totally normal."
+    },
+    {
+      "start": 40.4,
+      "end": 44.2,
+      "text": " Trading is not trading without losses. You need to understand this and you have to"
+    },
+    {
+      "start": 44.2,
+      "end": 47.56,
+      "text": " keep this in mind. The number one reason why you are still not profitable is"
+    },
+    {
+      "start": 47.56,
+      "end": 51.36,
+      "text": " because whenever you take two or three losses in a row you move on to the next"
+    },
+    {
+      "start": 51.36,
+      "end": 55.56,
+      "text": " strategy in hopes of finding something that works 24-7 every single time right?"
+    },
+    {
+      "start": 55.56,
+      "end": 59.88,
+      "text": " It doesn't work like that guys. You just need to have a small edge and you have"
+    },
+    {
+      "start": 59.88,
+      "end": 65.32,
+      "text": " just make like three, four, five percent per month, right? Sometimes you will lose,"
+    },
+    {
+      "start": 65.32,
+      "end": 72.2,
+      "text": " all right? You will be stopping at break even for a month. But this is where you are,"
+    },
+    {
+      "start": 72.2,
+      "end": 77.8,
+      "text": " you know, keeping yourself behind. The best traders out there, they know that losing is"
+    },
+    {
+      "start": 77.8,
+      "end": 82.52,
+      "text": " part of the game. But this model that I'm about to teach you is very important. So first of all,"
+    },
+    {
+      "start": 82.52,
+      "end": 88.28,
+      "text": " we need to identify a range, right? There are, there's a consolidation, but there's a range,"
+    },
+    {
+      "start": 88.28,
+      "end": 91.08,
+      "text": " and I'm gonna explain what it is."
+    },
+    {
+      "start": 91.08,
+      "end": 94.52,
+      "text": " So let's assume that price pushes up, right?"
+    },
+    {
+      "start": 95.56,
+      "end": 99.56,
+      "text": " And then it goes up once again,"
+    },
+    {
+      "start": 99.56,
+      "end": 102.68,
+      "text": " and then we have a significant pullback,"
+    },
+    {
+      "start": 102.68,
+      "end": 106.04,
+      "text": " just like ABC strategy, right?"
+    },
+    {
+      "start": 106.04,
+      "end": 108.0,
+      "text": " You have this big push up."
+    },
+    {
+      "start": 108.0,
+      "end": 112.96,
+      "text": " Now, mark out these significant high, all right?"
+    },
+    {
+      "start": 112.96,
+      "end": 115.08,
+      "text": " So you see why this is a significant high"
+    },
+    {
+      "start": 115.08,
+      "end": 117.2,
+      "text": " because after this high was printed,"
+    },
+    {
+      "start": 117.2,
+      "end": 121.36,
+      "text": " We had a bigger pullback, a bigger pullback than average pullback."
+    },
+    {
+      "start": 121.36,
+      "end": 124.44,
+      "text": " So this pullback is very small."
+    },
+    {
+      "start": 124.44,
+      "end": 127.36,
+      "text": " This pullback is very small, but this one is huge."
+    },
+    {
+      "start": 127.36,
+      "end": 131.28,
+      "text": " So this right here becomes a range high."
+    },
+    {
+      "start": 131.28,
+      "end": 134.6,
+      "text": " Now, how do you identify a range low?"
+    },
+    {
+      "start": 134.6,
+      "end": 136.48,
+      "text": " So you're gonna have small pullbacks,"
+    },
+    {
+      "start": 136.48,
+      "end": 138.52,
+      "text": " but then you're gonna have a bit push"
+    },
+    {
+      "start": 138.52,
+      "end": 140.44,
+      "text": " towards the upside, right?"
+    },
+    {
+      "start": 140.44,
+      "end": 145.44,
+      "text": " And that is gonna determine the range low over here."
+    },
+    {
+      "start": 145.44,
+      "end": 154.48,
+      "text": " Now to find a plus range, what I want to see is a buildup of liquidity"
+    },
+    {
+      "start": 155.32,
+      "end": 161.52,
+      "text": " near the swing high, the significant high and also near the range low."
+    },
+    {
+      "start": 161.9,
+      "end": 162.96,
+      "text": " So we have range I hear."
+    },
+    {
+      "start": 163.16,
+      "end": 166.28,
+      "text": " I want to see these highs build up around this area."
+    },
+    {
+      "start": 166.6,
+      "end": 169.3,
+      "text": " And also similarly, I want to see, you know,"
+    },
+    {
+      "start": 169.3,
+      "end": 171.12,
+      "text": " lows build up around this area."
+    },
+    {
+      "start": 171.84,
+      "end": 174.08,
+      "text": " Now this is a plus range."
+    },
+    {
+      "start": 174.08,
+      "end": 176.88,
+      "text": " Okay, you have Byside here, Celside here."
+    },
+    {
+      "start": 176.88,
+      "end": 180.28,
+      "text": " And this is on the one minute timeframe, NAS 100."
+    },
+    {
+      "start": 180.28,
+      "end": 182.44,
+      "text": " And this is during London and New York session,"
+    },
+    {
+      "start": 182.44,
+      "end": 184.12,
+      "text": " we are not going to trade Asian session"
+    },
+    {
+      "start": 184.12,
+      "end": 187.04,
+      "text": " because there will be low volume, right?"
+    },
+    {
+      "start": 187.04,
+      "end": 192.04,
+      "text": " So with a very easy strategy, guys,"
+    },
+    {
+      "start": 192.28,
+      "end": 197.28,
+      "text": " all you're looking for is a sweep of the range low."
+    },
+    {
+      "start": 198.28,
+      "end": 200.16,
+      "text": " Now let's assume that you are bullish,"
+    },
+    {
+      "start": 200.16,
+      "end": 202.96,
+      "text": " the trend overall trend is bullish."
+    },
+    {
+      "start": 202.96,
+      "end": 207.52,
+      "text": " You want to see primarily, you want to see the range low taken out first."
+    },
+    {
+      "start": 208.64,
+      "end": 210.64,
+      "text": " All right, this is very important."
+    },
+    {
+      "start": 210.64,
+      "end": 213.84,
+      "text": " And pair it up with one minute fair value gap."
+    },
+    {
+      "start": 213.84,
+      "end": 217.56,
+      "text": " That is, that may be present inside this level over here."
+    },
+    {
+      "start": 218.32,
+      "end": 222.72,
+      "text": " This is not necessary, but this is significantly going to improve the win rate."
+    },
+    {
+      "start": 223.2,
+      "end": 228.72,
+      "text": " Okay. Now, you can also look for SMT divergence when a sweep happens."
+    },
+    {
+      "start": 228.72,
+      "end": 234.88,
+      "text": " So on, let's suppose that S&P 500 price failed to strip liquidity and it just went here."
+    },
+    {
+      "start": 234.88,
+      "end": 237.04,
+      "text": " But on NAS100 we swap liquidity."
+    },
+    {
+      "start": 237.84,
+      "end": 242.56,
+      "text": " You know, I want to keep the things mechanical as possible, but there are some things that"
+    },
+    {
+      "start": 242.56,
+      "end": 248.0,
+      "text": " are going to improve your winner. For example, pairing it up with PDA Ray or using S&T S&T is one"
+    },
+    {
+      "start": 248.0,
+      "end": 252.8,
+      "text": " of my favorite confirmation tools. I always use this with my trades and you should too."
+    },
+    {
+      "start": 252.8,
+      "end": 259.96,
+      "text": " Now, once you get the SMT after price took out the range low, you are simply looking for"
+    },
+    {
+      "start": 259.96,
+      "end": 266.08,
+      "text": " a market structure shift and you want the price to come back into the range."
+    },
+    {
+      "start": 266.08,
+      "end": 267.84,
+      "text": " So what I mean by this?"
+    },
+    {
+      "start": 267.84,
+      "end": 271.08,
+      "text": " So let's assume price took out the range low, right?"
+    },
+    {
+      "start": 271.08,
+      "end": 274.24,
+      "text": " And let's suppose that it pushes down, pushes down, and then you have a shift in the market"
+    },
+    {
+      "start": 274.24,
+      "end": 275.24,
+      "text": " structure."
+    },
+    {
+      "start": 275.24,
+      "end": 280.36,
+      "text": " I will not take my entry unless and until price comes back into the range."
+    },
+    {
+      "start": 280.36,
+      "end": 286.56,
+      "text": " Once it happens, I can basically take my entry from anywhere that looks good."
+    },
+    {
+      "start": 286.56,
+      "end": 289.92,
+      "text": " And I will be targeting the range high."
+    },
+    {
+      "start": 289.92,
+      "end": 298.84,
+      "text": " So this is a very common strategy in ICT community, but no one really knows how to trade"
+    },
+    {
+      "start": 298.84,
+      "end": 299.84,
+      "text": " it."
+    },
+    {
+      "start": 299.84,
+      "end": 300.68,
+      "text": " And no one really talks about it."
+    },
+    {
+      "start": 300.68,
+      "end": 305.8,
+      "text": " It is one of the best models that you can trade with NAS100 and crypto."
+    },
+    {
+      "start": 305.8,
+      "end": 308.76,
+      "text": " On crypto, it works on every single time for him."
+    },
+    {
+      "start": 308.76,
+      "end": 314.44,
+      "text": " On the higher time frame, most of the time price is just going up or going down."
+    },
+    {
+      "start": 314.44,
+      "end": 318.32,
+      "text": " But on one minute down from you're going to see this structure where ranges are built."
+    },
+    {
+      "start": 318.32,
+      "end": 319.92,
+      "text": " So keep this in mind."
+    },
+    {
+      "start": 319.92,
+      "end": 323.24,
+      "text": " Now you have a shift in the market such a price came back into the range."
+    },
+    {
+      "start": 323.24,
+      "end": 327.4,
+      "text": " It is very similar to the ABC strategy but what we're doing here is we're waiting for"
+    },
+    {
+      "start": 327.4,
+      "end": 329.56,
+      "text": " liquidity build ups on both sides."
+    },
+    {
+      "start": 329.56,
+      "end": 334.44,
+      "text": " So we have range high, liquidity build up here, range low, liquidity build up here."
+    },
+    {
+      "start": 334.44,
+      "end": 341.32,
+      "text": " two three touches, a near the range loop and one to near the swimming high, the range high."
+    },
+    {
+      "start": 341.32,
+      "end": 343.6,
+      "text": " You got a shift in the market structure."
+    },
+    {
+      "start": 343.6,
+      "end": 347.56,
+      "text": " This right here could literally be your entry zone."
+    },
+    {
+      "start": 347.56,
+      "end": 351.24,
+      "text": " Your free value gap, or you could take your entry from the breaker block, is really up"
+    },
+    {
+      "start": 351.24,
+      "end": 352.24,
+      "text": " to you."
+    },
+    {
+      "start": 352.24,
+      "end": 353.84,
+      "text": " Now, this is very important."
+    },
+    {
+      "start": 353.84,
+      "end": 361.32,
+      "text": " When you take, when you are triggered, you are going to take around 30 to 40% at 50%"
+    },
+    {
+      "start": 361.32,
+      "end": 362.32,
+      "text": " of the range."
+    },
+    {
+      "start": 362.32,
+      "end": 368.78,
+      "text": " use your fib from the range high to range low and at 0.5% you are going to take off some"
+    },
+    {
+      "start": 368.78,
+      "end": 372.68,
+      "text": " of your profits and you're going to go break even. Now most of the time price is going"
+    },
+    {
+      "start": 372.68,
+      "end": 378.2,
+      "text": " towards the range high and it's going to sweep all the liquidity. Period it up with"
+    },
+    {
+      "start": 378.2,
+      "end": 383.28,
+      "text": " SMT divergence and you are in for the best trading model. I'm not even getting best"
+    },
+    {
+      "start": 383.28,
+      "end": 388.56,
+      "text": " scalloping model that works on the one minute time frame. Then also you can pair it up"
+    },
+    {
+      "start": 388.56,
+      "end": 393.04,
+      "text": " with standard deviation tool to look for your profit."
+    },
+    {
+      "start": 393.04,
+      "end": 395.72,
+      "text": " So negative four could be your profit as well."
+    },
+    {
+      "start": 395.72,
+      "end": 400.72,
+      "text": " If you haven't watched the standard deviation course video,"
+    },
+    {
+      "start": 401.84,
+      "end": 403.48,
+      "text": " I highly suggest that you do."
+    },
+    {
+      "start": 403.48,
+      "end": 406.28,
+      "text": " So negative four, this could be your take profit level."
+    },
+    {
+      "start": 407.4,
+      "end": 409.8,
+      "text": " Now similarly, if I flip the chart over"
+    },
+    {
+      "start": 409.8,
+      "end": 411.72,
+      "text": " to identify the range lower range high."
+    },
+    {
+      "start": 411.72,
+      "end": 414.2,
+      "text": " So let's suppose that we are in the bearish market"
+    },
+    {
+      "start": 414.2,
+      "end": 416.88,
+      "text": " and price printed this low."
+    },
+    {
+      "start": 416.88,
+      "end": 419.16,
+      "text": " And then we had a pullback, significant pullback."
+    },
+    {
+      "start": 419.16,
+      "end": 421.92,
+      "text": " Now, this low becomes a significant low."
+    },
+    {
+      "start": 421.92,
+      "end": 425.0,
+      "text": " Why? Because we had a relatively big pullback,"
+    },
+    {
+      "start": 425.0,
+      "end": 425.84,
+      "text": " then these pullbacks."
+    },
+    {
+      "start": 425.84,
+      "end": 426.68,
+      "text": " So look at this."
+    },
+    {
+      "start": 426.68,
+      "end": 428.72,
+      "text": " We have small pullback, small pullback."
+    },
+    {
+      "start": 428.72,
+      "end": 430.6,
+      "text": " And then you want to look for a significant pullback"
+    },
+    {
+      "start": 430.6,
+      "end": 431.52,
+      "text": " to the upside."
+    },
+    {
+      "start": 431.52,
+      "end": 434.4,
+      "text": " Now, we have inside this pullback leg,"
+    },
+    {
+      "start": 434.4,
+      "end": 435.68,
+      "text": " we are also going to have pullback."
+    },
+    {
+      "start": 435.68,
+      "end": 437.36,
+      "text": " So look, pullback, pullback."
+    },
+    {
+      "start": 437.36,
+      "end": 439.48,
+      "text": " But then this one is a significant pullback."
+    },
+    {
+      "start": 439.48,
+      "end": 441.64,
+      "text": " And price engineers liquidity,"
+    },
+    {
+      "start": 441.64,
+      "end": 444.32,
+      "text": " near this range low."
+    },
+    {
+      "start": 444.32,
+      "end": 446.64,
+      "text": " And similarly, around the range high,"
+    },
+    {
+      "start": 446.64,
+      "end": 448.52,
+      "text": " we also engineer liquidity."
+    },
+    {
+      "start": 448.52,
+      "end": 452.16,
+      "text": " Now, one price breaks and takes out deep range high."
+    },
+    {
+      "start": 452.16,
+      "end": 454.56,
+      "text": " You're looking for SMT, this is optional,"
+    },
+    {
+      "start": 454.56,
+      "end": 456.68,
+      "text": " but it is very crucial if you want to increase"
+    },
+    {
+      "start": 456.68,
+      "end": 459.32,
+      "text": " or wind up to 65, 70% all right."
+    },
+    {
+      "start": 459.32,
+      "end": 461.16,
+      "text": " Then we get a shift in the market structure price"
+    },
+    {
+      "start": 461.16,
+      "end": 463.0,
+      "text": " closes back into the range."
+    },
+    {
+      "start": 463.0,
+      "end": 464.76,
+      "text": " You take your entry from the breaker block"
+    },
+    {
+      "start": 464.76,
+      "end": 468.16,
+      "text": " or for everybody gap and you take your 30 to 40%"
+    },
+    {
+      "start": 468.16,
+      "end": 472.4,
+      "text": " or even 50% at the 50% of the range."
+    },
+    {
+      "start": 472.4,
+      "end": 475.08,
+      "text": " I highly suggest that you go break even at one to one"
+    },
+    {
+      "start": 475.08,
+      "end": 481.4,
+      "text": " And then you take your profits at half profits at the 50% of the range and then you target the range low."
+    },
+    {
+      "start": 481.68,
+      "end": 484.72,
+      "text": " This is very simple guys, very, very mechanical."
+    },
+    {
+      "start": 484.76,
+      "end": 487.32,
+      "text": " I'm going to give you guys some examples and that's going to clear everything."
+    },
+    {
+      "start": 489.74,
+      "end": 490.26,
+      "text": " All right, guys."
+    },
+    {
+      "start": 490.26,
+      "end": 492.46,
+      "text": " So here is example number one."
+    },
+    {
+      "start": 492.5,
+      "end": 497.5,
+      "text": " So you can clearly see that we have been bullish overall on the one, I'm looking at the one minute timeframe."
+    },
+    {
+      "start": 497.5,
+      "end": 500.34,
+      "text": " You do not want to go to the high time firms that are not necessary."
+    },
+    {
+      "start": 500.74,
+      "end": 505.18,
+      "text": " So during the Asian session, you can see that we had a significant high printed."
+    },
+    {
+      "start": 505.18,
+      "end": 510.06,
+      "text": " Why? Because then afterwards we had a significant pullback. So look at this pullback. This is a small pullback"
+    },
+    {
+      "start": 510.06,
+      "end": 516.82,
+      "text": " small pullback, but then we had a significant pullback that was bigger than the average price action, right?"
+    },
+    {
+      "start": 516.82,
+      "end": 523.74,
+      "text": " And then afterwards you can see inside this pullback like we had a pullback pullback, but then we had a significant pullback"
+    },
+    {
+      "start": 523.74,
+      "end": 529.46,
+      "text": " that broke these structures, right? So this becomes a significant level. Now price"
+    },
+    {
+      "start": 529.46,
+      "end": 535.42,
+      "text": " engineered liquidity just near this range low so you can see we have a bunch of"
+    },
+    {
+      "start": 535.42,
+      "end": 539.9,
+      "text": " liquidity build up here also near the range high we have this hard this hard"
+    },
+    {
+      "start": 539.9,
+      "end": 544.9,
+      "text": " this high all of this liquidity that is going to be swept right this high"
+    },
+    {
+      "start": 544.9,
+      "end": 551.08,
+      "text": " becomes more significant when there is a bunch of liquidity just below it so"
+    },
+    {
+      "start": 551.08,
+      "end": 556.74,
+      "text": " right after you know the during the London session at 250 you can see we had a"
+    },
+    {
+      "start": 556.74,
+      "end": 559.34,
+      "text": " to the upside that swept the range high."
+    },
+    {
+      "start": 559.34,
+      "end": 562.82,
+      "text": " And then we had a beautiful displacement to the downside."
+    },
+    {
+      "start": 562.82,
+      "end": 566.54,
+      "text": " Now, if your target is reached before entry,"
+    },
+    {
+      "start": 566.54,
+      "end": 568.1,
+      "text": " so let's suppose that a range load is taken"
+    },
+    {
+      "start": 568.1,
+      "end": 570.98,
+      "text": " before your entry, your setup becomes invalid."
+    },
+    {
+      "start": 570.98,
+      "end": 572.54,
+      "text": " Okay, so just around here,"
+    },
+    {
+      "start": 572.54,
+      "end": 574.94,
+      "text": " you can see that we have a fair value gap."
+    },
+    {
+      "start": 575.78,
+      "end": 578.22,
+      "text": " This is of course with benefit of hindsight,"
+    },
+    {
+      "start": 578.22,
+      "end": 580.06,
+      "text": " but I'm teaching you how you can take your entry."
+    },
+    {
+      "start": 580.06,
+      "end": 582.3,
+      "text": " So this right here is your fair value gap."
+    },
+    {
+      "start": 582.3,
+      "end": 583.34,
+      "text": " You can basically take your entry"
+    },
+    {
+      "start": 583.34,
+      "end": 585.02,
+      "text": " from the 50% of this level."
+    },
+    {
+      "start": 585.02,
+      "end": 587.14,
+      "text": " And then there's my apologies."
+    },
+    {
+      "start": 587.14,
+      "end": 588.38,
+      "text": " There's this fairly gap as well."
+    },
+    {
+      "start": 588.38,
+      "end": 589.54,
+      "text": " So to account for that,"
+    },
+    {
+      "start": 589.54,
+      "end": 591.82,
+      "text": " you just wanna put your stop slightly above it"
+    },
+    {
+      "start": 591.82,
+      "end": 593.1,
+      "text": " so you don't miss the trade."
+    },
+    {
+      "start": 594.34,
+      "end": 596.66,
+      "text": " And you would go literally break even"
+    },
+    {
+      "start": 596.66,
+      "end": 599.34,
+      "text": " once this range low is taken out."
+    },
+    {
+      "start": 599.34,
+      "end": 601.1,
+      "text": " And since we always go for one to two"
+    },
+    {
+      "start": 601.1,
+      "end": 603.06,
+      "text": " and since this range wasn't big,"
+    },
+    {
+      "start": 603.06,
+      "end": 605.38,
+      "text": " it didn't give you one to two at the range low."
+    },
+    {
+      "start": 605.38,
+      "end": 608.02,
+      "text": " So we wanna keep things mechanical"
+    },
+    {
+      "start": 608.02,
+      "end": 611.14,
+      "text": " and we go for one to two regardless of the range low."
+    },
+    {
+      "start": 611.14,
+      "end": 613.3,
+      "text": " Regardless of whether the range low is taken or not, right?"
+    },
+    {
+      "start": 613.3,
+      "end": 617.3,
+      "text": " So if you get an entry and the range low is taken and you're not getting one to two,"
+    },
+    {
+      "start": 617.3,
+      "end": 622.34,
+      "text": " just go break even, take some partial around this level and then keep the trade running."
+    },
+    {
+      "start": 622.34,
+      "end": 627.62,
+      "text": " You can also see that we took out asian low here, so that could have been a decent draw on liquidity as well."
+    },
+    {
+      "start": 627.62,
+      "end": 629.78,
+      "text": " Now, let me give you guys some other examples."
+    },
+    {
+      "start": 632.13,
+      "end": 635.97,
+      "text": " All right guys, here is another example. So you can see that we were bullish overall."
+    },
+    {
+      "start": 635.97,
+      "end": 642.93,
+      "text": " So our very small time from bias would be that we primarily want to see the range low taken out first."
+    },
+    {
+      "start": 642.93,
+      "end": 648.13,
+      "text": " So you can see we have printed the significant high over here and after what we had a significant pull back to the downside."
+    },
+    {
+      "start": 648.13,
+      "end": 654.43,
+      "text": " Now, over around here you can see that this leg over here was a significant one, alright?"
+    },
+    {
+      "start": 654.43,
+      "end": 657.23,
+      "text": " It broke this structure, it broke this structure, right?"
+    },
+    {
+      "start": 657.23,
+      "end": 662.13,
+      "text": " And this overall looks very, very, um, uh, you know, significant."
+    },
+    {
+      "start": 662.13,
+      "end": 667.83,
+      "text": " After that we printed this low near this level, then we printed this low over here."
+    },
+    {
+      "start": 667.83,
+      "end": 672.73,
+      "text": " And around this significant high we had this liquidity, all of this liquidity over here."
+    },
+    {
+      "start": 672.73,
+      "end": 676.89,
+      "text": " is what's making this high a significant level."
+    },
+    {
+      "start": 676.89,
+      "end": 680.73,
+      "text": " So you can see we had a shift in the market structure over here"
+    },
+    {
+      "start": 680.73,
+      "end": 684.13,
+      "text": " right with displacement and we came back into the range."
+    },
+    {
+      "start": 684.13,
+      "end": 686.73,
+      "text": " This was your entry."
+    },
+    {
+      "start": 686.73,
+      "end": 690.73,
+      "text": " So let's suppose that you went along just around here."
+    },
+    {
+      "start": 690.73,
+      "end": 693.13,
+      "text": " You stop what I've been here somewhere around here."
+    },
+    {
+      "start": 693.13,
+      "end": 697.73,
+      "text": " You could have gone for one to two and this would have given you a decent trade."
+    },
+    {
+      "start": 697.73,
+      "end": 706.83,
+      "text": " Now, once the range low was taken out, you can see that it swept the liquidity and it pushed"
+    },
+    {
+      "start": 706.83,
+      "end": 707.83,
+      "text": " back down."
+    },
+    {
+      "start": 707.83,
+      "end": 711.47,
+      "text": " Our target or objective was already complete, so we wouldn't look for any more trades."
+    },
+    {
+      "start": 711.47,
+      "end": 717.57,
+      "text": " But you can see how price on NAS 101, when the timeframe creates ranges, then streams ranges"
+    },
+    {
+      "start": 717.57,
+      "end": 719.57,
+      "text": " and then move to as the original direction."
+    },
+    {
+      "start": 719.57,
+      "end": 721.57,
+      "text": " Let me give you guys some more examples."
+    },
+    {
+      "start": 721.57,
+      "end": 725.85,
+      "text": " All right, so on the same day, I want you to identify the range first."
+    },
+    {
+      "start": 725.85,
+      "end": 729.85,
+      "text": " Alright, I'm gonna give you some seconds. There are two ranges that worked out perfectly."
+    },
+    {
+      "start": 730.49,
+      "end": 736.09,
+      "text": " One, two, three, four, five. Alright, so the very first range that was created is somewhere around here."
+    },
+    {
+      "start": 736.09,
+      "end": 740.49,
+      "text": " You can see we have a low printed and then we had a significant pullback."
+    },
+    {
+      "start": 740.49,
+      "end": 746.09,
+      "text": " So that created a range low and then we have a significant range high Y because look at this move"
+    },
+    {
+      "start": 746.09,
+      "end": 749.69,
+      "text": " right here, right? It is significant and it swept the liquidity right away."
+    },
+    {
+      "start": 749.69,
+      "end": 755.49,
+      "text": " Now this is not an A plus setup why? Because there wasn't enough liquidity build up"
+    },
+    {
+      "start": 755.49,
+      "end": 760.77,
+      "text": " around this swing the significant high the range high. However near the range low"
+    },
+    {
+      "start": 760.77,
+      "end": 765.49,
+      "text": " we had some form of liquidity are built up so this low this low over here and"
+    },
+    {
+      "start": 765.49,
+      "end": 771.65,
+      "text": " also this low over here that you can see. So the idea was that there's a bunch of"
+    },
+    {
+      "start": 771.65,
+      "end": 776.17,
+      "text": " liquidity around this low the range low here so we will primarily want to see"
+    },
+    {
+      "start": 776.17,
+      "end": 778.41,
+      "text": " the range low taken out first."
+    },
+    {
+      "start": 778.41,
+      "end": 780.31,
+      "text": " And then afterwards you can see we have"
+    },
+    {
+      "start": 780.31,
+      "end": 783.53,
+      "text": " shifting the marker structure with this placement."
+    },
+    {
+      "start": 783.53,
+      "end": 787.09,
+      "text": " And we swept this low hair, making this an auto block"
+    },
+    {
+      "start": 787.09,
+      "end": 788.69,
+      "text": " and with the benefit of hindsight,"
+    },
+    {
+      "start": 788.69,
+      "end": 790.65,
+      "text": " you can see that it worked out perfectly."
+    },
+    {
+      "start": 790.65,
+      "end": 793.89,
+      "text": " Now, once this range was over,"
+    },
+    {
+      "start": 793.89,
+      "end": 795.13,
+      "text": " we created another range."
+    },
+    {
+      "start": 795.13,
+      "end": 798.05,
+      "text": " So look at this significant low, right?"
+    },
+    {
+      "start": 798.05,
+      "end": 799.93,
+      "text": " And then we pushed our push up"
+    },
+    {
+      "start": 799.93,
+      "end": 801.81,
+      "text": " and then we created this significant high."
+    },
+    {
+      "start": 801.81,
+      "end": 802.93,
+      "text": " So significant low significant,"
+    },
+    {
+      "start": 802.93,
+      "end": 804.49,
+      "text": " and why this is significant high?"
+    },
+    {
+      "start": 804.49,
+      "end": 809.25,
+      "text": " Because once this was created, we had a significant pullback."
+    },
+    {
+      "start": 809.25,
+      "end": 812.25,
+      "text": " So inside a pullback, we had another pullback."
+    },
+    {
+      "start": 812.25,
+      "end": 815.13,
+      "text": " And then you can see that this becomes significant high,"
+    },
+    {
+      "start": 815.13,
+      "end": 816.05,
+      "text": " significant low."
+    },
+    {
+      "start": 816.05,
+      "end": 820.01,
+      "text": " So in other words, range low and range high."
+    },
+    {
+      "start": 820.01,
+      "end": 823.07,
+      "text": " The more significant the range high are,"
+    },
+    {
+      "start": 823.07,
+      "end": 825.33,
+      "text": " the more well it's going to play out."
+    },
+    {
+      "start": 825.33,
+      "end": 827.63,
+      "text": " All right, I'm trying to explain it to my own, you know,"
+    },
+    {
+      "start": 827.63,
+      "end": 828.47,
+      "text": " words."
+    },
+    {
+      "start": 828.47,
+      "end": 830.73,
+      "text": " I'm not like 100% perfect for that."
+    },
+    {
+      "start": 830.73,
+      "end": 832.25,
+      "text": " English, but I try my best."
+    },
+    {
+      "start": 832.25,
+      "end": 833.73,
+      "text": " All right, so everyone can understand."
+    },
+    {
+      "start": 834.49,
+      "end": 837.37,
+      "text": " So in this example, you can see near the range low,"
+    },
+    {
+      "start": 837.37,
+      "end": 839.05,
+      "text": " we had a bunch of liquidity build up."
+    },
+    {
+      "start": 839.05,
+      "end": 841.53,
+      "text": " So this low, this low, this low over here."
+    },
+    {
+      "start": 841.53,
+      "end": 843.09,
+      "text": " Now what does that tell us?"
+    },
+    {
+      "start": 843.09,
+      "end": 845.37,
+      "text": " It tells us that the range low"
+    },
+    {
+      "start": 845.37,
+      "end": 847.57,
+      "text": " is could be taken out first."
+    },
+    {
+      "start": 847.57,
+      "end": 848.41,
+      "text": " Why?"
+    },
+    {
+      "start": 848.41,
+      "end": 851.53,
+      "text": " Because this range low has more liquidity than range high."
+    },
+    {
+      "start": 851.53,
+      "end": 852.77,
+      "text": " And whenever you see that,"
+    },
+    {
+      "start": 852.77,
+      "end": 854.01,
+      "text": " let's suppose that if range low"
+    },
+    {
+      "start": 854.01,
+      "end": 855.61,
+      "text": " has more liquidity around it,"
+    },
+    {
+      "start": 855.61,
+      "end": 857.73,
+      "text": " it's gonna be swept first."
+    },
+    {
+      "start": 857.73,
+      "end": 859.65,
+      "text": " So right around here,"
+    },
+    {
+      "start": 859.65,
+      "end": 861.57,
+      "text": " we have our shift in the structure, right?"
+    },
+    {
+      "start": 861.57,
+      "end": 862.53,
+      "text": " We have a further gap,"
+    },
+    {
+      "start": 862.53,
+      "end": 867.09,
+      "text": " we have a tiny bit of volume imbalance. If you don't know what it is, just go to the old course"
+    },
+    {
+      "start": 867.09,
+      "end": 872.29,
+      "text": " and watch it. Okay. Now of course, as if it's the benefit of hindsight, you know, everything is perfect"
+    },
+    {
+      "start": 872.29,
+      "end": 877.25,
+      "text": " when I'm showing you the benefit of hindsight. But you know, you got to be careful when you are"
+    },
+    {
+      "start": 877.25,
+      "end": 881.97,
+      "text": " trading it in real markets. My goal is to just show you how well it works. So this could have"
+    },
+    {
+      "start": 881.97,
+      "end": 886.69,
+      "text": " been your entry right beautiful entry. You could have targeted this high and you could have also"
+    },
+    {
+      "start": 886.69,
+      "end": 893.09,
+      "text": " target the New York hide. It could have been your third profit or whatnot. So let me give you guys"
+    },
+    {
+      "start": 893.09,
+      "end": 898.21,
+      "text": " one more example and then I want you to backtest and practice this okay. It works really well."
+    },
+    {
+      "start": 899.81,
+      "end": 906.05,
+      "text": " As you can see it happens every single day over and over again. You do not need bias. Well of course"
+    },
+    {
+      "start": 906.05,
+      "end": 912.69,
+      "text": " if you pair it up with 15 minutes or one hour bias it's gonna help you but literally this is what"
+    },
+    {
+      "start": 912.69,
+      "end": 917.65,
+      "text": " you need. So you can see that overall we have been bearish in the Asian session. We have"
+    },
+    {
+      "start": 917.65,
+      "end": 923.25,
+      "text": " also been bearish around here. So afterwards what we did, we printed the range load wide"
+    },
+    {
+      "start": 923.25,
+      "end": 927.57,
+      "text": " because after this load was created, we had a significant pullback to the upside."
+    },
+    {
+      "start": 928.93,
+      "end": 934.69,
+      "text": " Right? Look at this pullback. It is small. This is small. This is small. But then this is big. So this"
+    },
+    {
+      "start": 935.41,
+      "end": 940.69,
+      "text": " makes it the range load. Now afterwards, this becomes range high. Why? Because once this pullback"
+    },
+    {
+      "start": 940.69,
+      "end": 947.49,
+      "text": " was complete we had a push to the downside that was significant then the average price over here."
+    },
+    {
+      "start": 947.49,
+      "end": 953.33,
+      "text": " So this makes it the range high. Now around the range high area we have build up of liquidity we"
+    },
+    {
+      "start": 953.33,
+      "end": 959.17,
+      "text": " have this high right we have all of this liquidity we have this high all of this liquidity this high"
+    },
+    {
+      "start": 959.17,
+      "end": 964.37,
+      "text": " this high over here. Near the range low we have this liquidity this liquidity this liquidity this"
+    },
+    {
+      "start": 964.37,
+      "end": 970.05,
+      "text": " look at it. Right this and this and this and this and this is like the perfect range setup that"
+    },
+    {
+      "start": 970.05,
+      "end": 975.01,
+      "text": " you can trade. All right. I don't know what the hell just happened here. I'm just going to go back."
+    },
+    {
+      "start": 976.21,
+      "end": 985.57,
+      "text": " Okay, perfect. So you can see that the range high was swept first. Right? It was swept first."
+    },
+    {
+      "start": 986.13,
+      "end": 990.85,
+      "text": " We swept the liquidity and then we had a shift in the market structure. Now our first entry could"
+    },
+    {
+      "start": 990.85,
+      "end": 997.49,
+      "text": " that being from this breaker block, you can see price tab into it. But primarily, I want to see"
+    },
+    {
+      "start": 999.49,
+      "end": 1005.33,
+      "text": " a buildup of liquidity, right? Sorry, a buildup of free value gap, not liquidity. So you can see"
+    },
+    {
+      "start": 1005.33,
+      "end": 1010.69,
+      "text": " that we have this free value gap that was built and your first entry could have been here. So let's"
+    },
+    {
+      "start": 1010.69,
+      "end": 1016.77,
+      "text": " suppose that you took your entry here. You start with a bin going here. Wow, this would have"
+    },
+    {
+      "start": 1016.77,
+      "end": 1021.49,
+      "text": " I've been a very nice trade given you almost one to 12, but then if you took your entry from the"
+    },
+    {
+      "start": 1021.49,
+      "end": 1026.37,
+      "text": " Fair Valley gap, put your stop right about this high, this would have given you around 3.43,"
+    },
+    {
+      "start": 1026.37,
+      "end": 1033.49,
+      "text": " of course, with adding the appartials and whatnot. So if you have any questions about this"
+    },
+    {
+      "start": 1033.49,
+      "end": 1037.73,
+      "text": " strategy, I will be coming live on Saturday and I will be answering your questions. This is"
+    },
+    {
+      "start": 1037.73,
+      "end": 1042.37,
+      "text": " literally all you need. I'm going to end the chapter right here. And the next chapter is going to"
+    },
+    {
+      "start": 1042.37,
+      "end": 1046.69,
+      "text": " be about psychology and then we're going to move on to the advanced strategies that I've"
+    },
+    {
+      "start": 1046.69,
+      "end": 1051.09,
+      "text": " been cooking for you guys. See you guys around."
+    }
+  ]
+}

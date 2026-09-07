@@ -1,0 +1,83 @@
+{
+  "source": "F:\\new faiz\\24. ASIAN SESSION STRATEGY V2.0 EXAMPLE 1.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 128.476,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 29.2,
+      "text": " Right, so here is example number one. As you can see, the Asian session starts here and it ends here. So you mark out POIs. So I do not see any POI here. You don't want to go way far back and then look for POI. Just look for POIs near this price action. So right here, what I can see,"
+    },
+    {
+      "start": 30.0,
+      "end": 37.84,
+      "text": " is this autoblock. This candle, okay, you can see it's a clear autoblock with three"
+    },
+    {
+      "start": 37.84,
+      "end": 44.72,
+      "text": " value gap. Okay, I could use this as well. This candle here. So let's use that and consider this"
+    },
+    {
+      "start": 44.72,
+      "end": 49.6,
+      "text": " week as well. So now what we're gonna do is we're gonna wait for price to tap into our autoblock"
+    },
+    {
+      "start": 49.6,
+      "end": 58.26,
+      "text": " which happens right here. Okay, let's go to the one minute time frame again and let's look for"
+    },
+    {
+      "start": 58.26,
+      "end": 65.06,
+      "text": " market structure shift, it happens right here. So now the fair quality gap is way way too big."
+    },
+    {
+      "start": 65.7,
+      "end": 71.14,
+      "text": " So in this scenario, I would have used a breaker block, which is right here. Lurlo, Lurlo,"
+    },
+    {
+      "start": 71.14,
+      "end": 79.7,
+      "text": " Lurlo, this is the last bullish candle before the multi-d downside. Remember, so I would take my entry"
+    },
+    {
+      "start": 79.7,
+      "end": 86.58,
+      "text": " from here, put my stop right below somewhere around here to cover the fair quality gap, BPR and the"
+    },
+    {
+      "start": 86.58,
+      "end": 94.38,
+      "text": " the body of the auto block here. 6.7 stop loss and we target something like like"
+    },
+    {
+      "start": 94.38,
+      "end": 98.34,
+      "text": " this very well you gap right here. So you're going to see price taps into our"
+    },
+    {
+      "start": 98.34,
+      "end": 118.74,
+      "text": " breaker block and we have a push to the upside. So yeah that was a clean 3R or"
+    },
+    {
+      "start": 118.74,
+      "end": 124.18,
+      "text": " 2R we targeted this very well you gap right here and yeah it worked out perfectly."
+    },
+    {
+      "start": 124.18,
+      "end": 127.18,
+      "text": " So let me give you guys another example."
+    }
+  ]
+}

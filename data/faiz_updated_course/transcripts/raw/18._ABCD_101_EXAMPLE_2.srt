@@ -1,0 +1,231 @@
+1
+00:00:00,000 --> 00:00:30,000
+Your guys so here is another example on Euro 8 AUD and you can see for the past 20 days or so, we have been bearish. After the formation of ABC right here, ABC, we have this level which gets taken out, so we have the D-leg now. So let's drop down to 15 minute time from and look for a shift in market structure. Our shift in market structure would be this.
+
+2
+00:00:30,000 --> 00:00:37,000
+So let's see and as you can see price broke the structure.
+
+3
+00:00:37,000 --> 00:00:40,600
+So this right here is our auto block.
+
+4
+00:00:40,600 --> 00:00:43,880
+You can see this very well you got.
+
+5
+00:00:43,880 --> 00:00:50,960
+And I would go along here, put my stop just right here above the high right here and I would
+
+6
+00:00:50,960 --> 00:00:57,920
+target probably this level right here for 2.56 or I could target this level.
+
+7
+00:00:57,920 --> 00:00:59,920
+So let's see how this plays out.
+
+8
+00:00:59,920 --> 00:01:05,760
+first part of the partial would be here or my full target would be here because I only take two or one to two
+
+9
+00:01:06,040 --> 00:01:12,920
+So you can see price can went back into our py at 10 peri which is during the kills and ours and I'll probably this through
+
+10
+00:01:13,400 --> 00:01:21,430
+You can see we would have a reactionary block re entry at this level once again
+
+11
+00:01:22,030 --> 00:01:23,230
+so
+
+12
+00:01:23,230 --> 00:01:31,340
+gonna see price just slide down hits our take profit level for 2.56 and
+
+13
+00:01:31,340 --> 00:01:35,940
+And even takes out this load right here.
+
+14
+00:01:35,940 --> 00:01:39,540
+So we were, if we were in two trades,
+
+15
+00:01:39,540 --> 00:01:50,380
+that would be around seven RR combined.
+
+16
+00:01:50,380 --> 00:01:52,780
+But I do not take trades like that.
+
+17
+00:01:52,780 --> 00:01:54,380
+I will only take one entry.
+
+18
+00:01:54,380 --> 00:01:55,980
+But it really depends on your style.
+
+19
+00:01:55,980 --> 00:01:57,680
+If you see a reactionary block,
+
+20
+00:01:57,680 --> 00:01:59,680
+you can take another entry,
+
+21
+00:01:59,680 --> 00:02:02,680
+but because you're, because sometimes price can reverse,
+
+22
+00:02:02,680 --> 00:02:10,200
+going to get two losses for absolutely no reason. So yeah guys that is the power of ABCD.
+
+23
+00:02:11,640 --> 00:02:17,400
+Of course you're just not going to go on the charts and just try this out on live markets.
+
+24
+00:02:17,400 --> 00:02:25,880
+You have to backtest and you have to train your eyes to see this. I can teach you all the methods
+
+25
+00:02:25,880 --> 00:02:29,160
+but you have to train your eyes, okay?
+
+26
+00:02:29,160 --> 00:02:32,640
+To see these patterns and all.
+
+27
+00:02:32,640 --> 00:02:36,080
+Now, you see this placement, right?
+
+28
+00:02:37,520 --> 00:02:40,870
+This is a must.
+
+29
+00:02:40,870 --> 00:02:42,710
+It broke structure with a fair body gap.
+
+30
+00:02:43,710 --> 00:02:48,650
+Boom, this simple as that.
+
+31
+00:02:48,650 --> 00:02:50,570
+So now let me clear some questions.
+
+32
+00:02:50,570 --> 00:02:51,730
+You might have in your mind.
+
+33
+00:02:52,730 --> 00:02:54,730
+The very first thing is,
+
+34
+00:02:54,730 --> 00:02:57,170
+you have to look for big structures, okay?
+
+35
+00:02:57,170 --> 00:03:00,930
+The structure can't be something like that.
+
+36
+00:03:00,930 --> 00:03:03,410
+It should not be small pullback.
+
+37
+00:03:04,530 --> 00:03:07,330
+Okay, because sometimes price gonna do that.
+
+38
+00:03:07,330 --> 00:03:08,890
+What you wanna see is,
+
+39
+00:03:09,890 --> 00:03:11,770
+price give you a bigger pullback.
+
+40
+00:03:11,770 --> 00:03:14,930
+Something at around 0.5 level of 5,
+
+41
+00:03:14,930 --> 00:03:16,930
+so you draw your fit from bottom to top,
+
+42
+00:03:16,930 --> 00:03:20,690
+and if price comes near 0.5, right?
+
+43
+00:03:22,170 --> 00:03:24,610
+Or slightly above it, you know,
+
+44
+00:03:24,610 --> 00:03:28,610
+You will see when the pullback is great.
+
+45
+00:03:28,610 --> 00:03:31,110
+So you look for bigger structures.
+
+46
+00:03:31,110 --> 00:03:36,610
+You look for a bigger, a bigger B leg and bigger C leg and then the D leg.
+
+47
+00:03:36,610 --> 00:03:39,610
+So something like that would do prime.
+
+48
+00:03:39,610 --> 00:03:44,610
+And yeah, just follow the rules.
+
+49
+00:03:44,610 --> 00:03:48,610
+So another question that comes to my mind.
+
+50
+00:03:48,610 --> 00:03:53,410
+Yeah, it's really bad guys.
+
+51
+00:03:53,410 --> 00:03:55,490
+You don't want to look for small structures.
+
+52
+00:03:55,490 --> 00:04:00,370
+So if you have a small structure like that, you have to wait for a bigger pullback.
+
+53
+00:04:00,370 --> 00:04:01,850
+It's going to look something like this.
+
+54
+00:04:01,850 --> 00:04:05,970
+So boom, boom, boom, boom, boom, boom, boom, boom, boom, boom, boom, boom, boom, boom, then
+
+55
+00:04:05,970 --> 00:04:10,190
+you have push up.
+
+56
+00:04:10,190 --> 00:04:13,670
+Takes out liquidity and then you look for market structure shift.
+
+57
+00:04:13,670 --> 00:04:15,630
+So I hope you guys enjoyed this video.
+
+58
+00:04:15,630 --> 00:04:17,030
+Unless we want to the next videos.

@@ -1,0 +1,355 @@
+1
+00:00:00,050 --> 00:00:30,050
+Alright guys, so this is going to be the last example for the Holy Grail strategy, and this is going to be a unique strategy, sorry, example, alright? Instead of going from external liquidity to internal, we're going to go from internal to external, and I thought that it would be best to show you one example as well, although I don't use this method, but it can work for you as well. I mean, it does work but I don't like it for some reason, I don't know what's the reason, but yeah. So, for this method, for this thing to be like rate accurate, you have to look at the autoflow.
+
+2
+00:00:30,050 --> 00:00:35,690
+we bearish so you want to look at the bearish fairly gaps right so over here
+
+3
+00:00:35,690 --> 00:00:39,850
+but we have on the for our timeframe so on for this example we're gonna go
+
+4
+00:00:39,850 --> 00:00:44,090
+from four hour to five or fifteen minutes to one minute okay so this is the
+
+5
+00:00:44,090 --> 00:00:50,610
+fairly gap right and this is practically our take profit level right it could
+
+6
+00:00:50,610 --> 00:00:55,570
+also be this here because that is the external activity here so now let's go to
+
+7
+00:00:55,570 --> 00:01:04,130
+the 15 minute timeframe and look for a shift in the market structure and that
+
+8
+00:01:04,130 --> 00:01:09,370
+happens right there with this structure break right so now what we're looking
+
+9
+00:01:09,370 --> 00:01:15,680
+for so you could have simply taken your entry from this fair value gap but as
+
+10
+00:01:15,680 --> 00:01:21,360
+you can see that price came here there was not enough range for us to be going
+
+11
+00:01:21,360 --> 00:01:25,280
+to the one minute timeframe and look for consolidation here right so what we can
+
+12
+00:01:25,280 --> 00:01:31,560
+you. As firstly, you could have used the strategy by itself. You know, taking the entry
+
+13
+00:01:31,560 --> 00:01:38,840
+using two time frames. But now that we have gone way below, we can look for continuation
+
+14
+00:01:38,840 --> 00:01:47,800
+purges, right? So over here, but you can see as we had this purge here. So let's go
+
+15
+00:01:47,800 --> 00:01:52,920
+and study what happened here. Because I want to be clear, clear with you guys. There
+
+16
+00:01:52,920 --> 00:01:58,040
+is no consolidation here do you see the consolidation I do not look at this this is the starting
+
+17
+00:01:58,040 --> 00:02:03,720
+point right we're going up lower lower high lower high lower high sorry high high high high high
+
+18
+00:02:03,720 --> 00:02:10,040
+high high high high this is like no consolidation here so we do not take the trade here let's go to
+
+19
+00:02:10,040 --> 00:02:15,320
+the 15 minute time from once again I'm showing you the different variations of each so as you
+
+20
+00:02:15,320 --> 00:02:20,520
+because it's not gonna be like you know like a birter like it's you will not get the same
+
+21
+00:02:20,520 --> 00:02:26,660
+price section like before okay it's gonna be different every time but you have to scout out these setups so
+
+22
+00:02:26,660 --> 00:02:34,760
+over here we also have a continuation perch but look at this move guys this is not a perch this is a breakout
+
+23
+00:02:34,760 --> 00:02:42,600
+okay and even if we like let's say have this level right because this is the move but there's no
+
+24
+00:02:42,600 --> 00:02:48,000
+consolidation here let's go here once again there's no consolidation here so we are still not
+
+25
+00:02:48,000 --> 00:02:57,860
+interested in taking that trade. So let's go to the 15 minutes once again and now at 1045 right we
+
+26
+00:02:57,860 --> 00:03:04,900
+have a purge. Now this is the move that took out this so now we have to scout out for consolidation
+
+27
+00:03:05,700 --> 00:03:10,420
+here and right away what do you see we have this beautiful consolidation right there.
+
+28
+00:03:11,700 --> 00:03:15,380
+Dear this is what I'm trying to teach here. You have to look for these things okay
+
+29
+00:03:15,380 --> 00:03:19,650
+Okay, consolidation phase here,
+
+30
+00:03:19,650 --> 00:03:22,010
+accumulation phase one, accumulation phase two,
+
+31
+00:03:22,010 --> 00:03:24,250
+three and even four here.
+
+32
+00:03:24,250 --> 00:03:26,730
+So now we take out this liquidity, right?
+
+33
+00:03:26,730 --> 00:03:29,970
+We have a shift in the market structure.
+
+34
+00:03:29,970 --> 00:03:32,090
+We're gonna take our entry from the breaker block
+
+35
+00:03:33,810 --> 00:03:35,890
+because our stop's gonna be going,
+
+36
+00:03:35,890 --> 00:03:38,750
+they're like anyways, right?
+
+37
+00:03:39,730 --> 00:03:43,370
+That's gonna be our entry, stop right above the highs,
+
+38
+00:03:43,370 --> 00:03:49,370
+Right there and looking to target these levels.
+
+39
+00:03:49,370 --> 00:03:50,370
+Also look at this thing.
+
+40
+00:03:50,370 --> 00:03:52,870
+We have a fake bullish auto flow.
+
+41
+00:03:52,870 --> 00:03:56,070
+So when you have this, every single fairytale gap is respected.
+
+42
+00:03:56,070 --> 00:03:57,070
+Fairytale gap respected.
+
+43
+00:03:57,070 --> 00:03:58,070
+Fairytale gap respected.
+
+44
+00:03:58,070 --> 00:03:59,070
+Fairytale gap respected.
+
+45
+00:03:59,070 --> 00:04:00,070
+Fairytale gap respected.
+
+46
+00:04:00,070 --> 00:04:01,570
+Fairytale gap as well.
+
+47
+00:04:01,570 --> 00:04:02,570
+That is respected.
+
+48
+00:04:02,570 --> 00:04:04,670
+And this one is respected as well.
+
+49
+00:04:04,670 --> 00:04:07,670
+But then this is all build up of liquidity, right?
+
+50
+00:04:07,670 --> 00:04:11,720
+So now let's see how this plays out.
+
+51
+00:04:11,720 --> 00:04:12,720
+Beautiful.
+
+52
+00:04:12,720 --> 00:04:13,720
+Right?
+
+53
+00:04:13,720 --> 00:04:21,480
+Beautiful delivery right now if you waited for let's say okay here's why did I take my entry from this breaker block
+
+54
+00:04:22,520 --> 00:04:26,600
+Right because we have a fairly gap inside this breaker block
+
+55
+00:04:26,600 --> 00:04:33,160
+We have this for really gap inside this breaker block right we have an auto block inside this breaker block right
+
+56
+00:04:33,280 --> 00:04:35,280
+So wouldn't it be wise
+
+57
+00:04:35,600 --> 00:04:41,120
+To take a trade from the breaker breaker instead of waiting for price to come here because on the one minute
+
+58
+00:04:41,120 --> 00:04:47,780
+especially price is very very like intense okay it's very strong so it may not
+
+59
+00:04:47,780 --> 00:04:52,880
+hit your friendly gap on one minute so utilize the breaker look at the
+
+60
+00:04:52,880 --> 00:04:58,280
+look at these things okay if you take your entry from a breaker it just stop
+
+61
+00:04:58,280 --> 00:05:01,760
+gonna be the same almost the same if you took your entry from this friendly gap
+
+62
+00:05:01,760 --> 00:05:06,800
+or this autoblock if yes go for it if you don't want to miss your trade go for
+
+63
+00:05:06,800 --> 00:05:11,520
+the closest for a valley gap, right? This could be this, but all this put your
+
+64
+00:05:11,520 --> 00:05:19,540
+stop here. And I think guys, that is it for this lecture. I want you guys to
+
+65
+00:05:19,540 --> 00:05:24,140
+back test. I try my best to show you the different variations, right? In each
+
+66
+00:05:24,140 --> 00:05:30,260
+example, so you can better understand this whole system. Okay, we had this, we
+
+67
+00:05:30,260 --> 00:05:34,180
+didn't have consolidation here, but then look at this. We'll see the difference
+
+68
+00:05:34,180 --> 00:05:36,100
+between here and here.
+
+69
+00:05:36,100 --> 00:05:38,220
+Boom, boom, boom, boom, boom, boom, boom, boom.
+
+70
+00:05:38,220 --> 00:05:39,460
+But here, but do we have?
+
+71
+00:05:39,460 --> 00:05:41,140
+We have nothing price.
+
+72
+00:05:41,140 --> 00:05:43,980
+And consecutive green candles, pull back, green candles,
+
+73
+00:05:43,980 --> 00:05:45,580
+pull back, green candles, pull back.
+
+74
+00:05:46,620 --> 00:05:50,060
+So yeah, I think guys, that is it.
+
+75
+00:05:50,060 --> 00:05:53,540
+I'm gonna do one or two more lectures about,
+
+76
+00:05:53,540 --> 00:05:55,580
+let's say how to pause your profile
+
+77
+00:05:55,580 --> 00:05:58,100
+and a one bonus video, all right?
+
+78
+00:05:58,100 --> 00:06:00,940
+And then the course update will end.
+
+79
+00:06:00,940 --> 00:06:03,620
+If we have understood everything that I've taught
+
+80
+00:06:03,620 --> 00:06:08,620
+Right now, congratulations, you are about to become an independent trader.
+
+81
+00:06:08,620 --> 00:06:09,620
+Okay?
+
+82
+00:06:10,620 --> 00:06:15,620
+When you have like the bias, you can use my every single strategy,
+
+83
+00:06:15,620 --> 00:06:17,620
+even the basics ones, right?
+
+84
+00:06:17,620 --> 00:06:22,620
+By using like external and internal.
+
+85
+00:06:22,620 --> 00:06:25,620
+For the example, I showed you internal and external,
+
+86
+00:06:25,620 --> 00:06:28,620
+that can work as well, but you need to know the auto flow.
+
+87
+00:06:28,620 --> 00:06:33,420
+If you have the correct auto flow, that is absolutely beautiful.
+
+88
+00:06:33,420 --> 00:06:35,460
+Alright, I'm gonna end the video here.
+
+89
+00:06:35,460 --> 00:06:36,940
+See you guys in the next one.

@@ -1,0 +1,84 @@
+1
+00:00:00,000 --> 00:00:07,000
+Alright guys, so here is an example for the silver bullet inter-day bias
+
+2
+00:00:08,480 --> 00:00:13,560
+Sculpting whatever you want to call it right so first of all we want to determine the
+
+3
+00:00:14,280 --> 00:00:18,840
+Since we're gonna take our entry on the one minute. We want to determine our 15 minute bias or narrative
+
+4
+00:00:18,840 --> 00:00:23,160
+So right here we have this external taken out at 330 right
+
+5
+00:00:23,160 --> 00:00:32,960
+So from here onwards what you want to look for is a free value gap here, right?
+
+6
+00:00:32,960 --> 00:00:37,880
+So we have this free value gap now going to the one minute time frame
+
+7
+00:00:38,440 --> 00:00:42,840
+This is gonna be a drawn liquidity, right? So we have to look for a shift in the market structure
+
+8
+00:00:45,080 --> 00:00:50,880
+And that happens right there and we have this free value gap
+
+9
+00:00:53,560 --> 00:00:57,440
+So we're gonna get our entry before 4 o'clock, right? So
+
+10
+00:00:58,240 --> 00:01:04,520
+We get our entry at 354 so we should be good. This is gonna be our draw, right? And if I play this through
+
+11
+00:01:07,000 --> 00:01:11,160
+You will see that we have hit our take profit level and
+
+12
+00:01:11,960 --> 00:01:17,000
+If I play through you will see that after price takes up the objective it will just go up
+
+13
+00:01:17,120 --> 00:01:22,240
+So that is the beauty of using this external internal with your
+
+14
+00:01:23,280 --> 00:01:30,760
+Every single strategy that I have right it could even either be Asian session could be the 9th area and 8th area open
+
+15
+00:01:31,360 --> 00:01:36,680
+You have this beautiful tool that you can use right now, okay, and yeah, that's pretty much about it
+
+16
+00:01:36,680 --> 00:01:40,280
+Let me give you guys one more example. Simply look for a shift in the market structure
+
+17
+00:01:40,840 --> 00:01:43,320
+as I said before the timings
+
+18
+00:01:43,760 --> 00:01:49,720
+Is that your entry only must be after in during the kill during the silver bullet hours, okay?
+
+19
+00:01:51,000 --> 00:01:55,040
+The shift in the market structure can happen anytime as long as that
+
+20
+00:01:55,320 --> 00:02:02,000
+Liquidity level is still intact the drawn liquidity you can take your entry in that direction after 10 or after 3
+
+21
+00:02:02,120 --> 00:02:04,120
+So let's move on to the next example
+

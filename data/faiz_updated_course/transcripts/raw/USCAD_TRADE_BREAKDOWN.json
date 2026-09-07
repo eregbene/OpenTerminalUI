@@ -1,0 +1,133 @@
+{
+  "source": "F:\\new faiz\\USCAD TRADE BREAKDOWN.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 143.9146875,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 31.31,
+      "text": " Guys, I will quickly break down the trade that was sent out in the discord, so let's go to the weekly timeframe first. And on the weekly, what I saw was that we took out external liquidity here. And I also saw the internal liquidity down there. Now, once price took out the external, I just dropped down to the 4 hours timeframe. And from here ombuds, what I was looking for was,"
+    },
+    {
+      "start": 31.31,
+      "end": 40.11,
+      "text": " a market structure shift. And just around here we got the shift in the market structure."
+    },
+    {
+      "start": 40.11,
+      "end": 51.44,
+      "text": " Now from here onwards, which you can see is that we had this auto block here, like that."
+    },
+    {
+      "start": 51.44,
+      "end": 58.32,
+      "text": " Price came back into our auto block. We did get our entry here, right? But as you can see,"
+    },
+    {
+      "start": 58.32,
+      "end": 60.76,
+      "text": " see we have this consolidation phase here."
+    },
+    {
+      "start": 60.76,
+      "end": 65.76,
+      "text": " So I looked at the market maker model here"
+    },
+    {
+      "start": 65.76,
+      "end": 69.6,
+      "text": " and also the internal look at it was still there."
+    },
+    {
+      "start": 69.6,
+      "end": 73.68,
+      "text": " And this was the only PD array that I had in my mind"
+    },
+    {
+      "start": 73.68,
+      "end": 75.92,
+      "text": " because this is a clean auto block."
+    },
+    {
+      "start": 75.92,
+      "end": 80.08,
+      "text": " So and we also had these equal highs around this level."
+    },
+    {
+      "start": 80.08,
+      "end": 82.64,
+      "text": " So this was a very hyperability setup."
+    },
+    {
+      "start": 82.64,
+      "end": 84.96,
+      "text": " Now once price came back into where auto block,"
+    },
+    {
+      "start": 84.96,
+      "end": 91.96,
+      "text": " simply drop down to 15 minutes time from now price came into our auto block so now"
+    },
+    {
+      "start": 91.96,
+      "end": 100.02,
+      "text": " I looked at the economic calendar and today was the news at 830 so I would be"
+    },
+    {
+      "start": 100.02,
+      "end": 106.36,
+      "text": " taking my trades after 830 so over here we had a market structure shift but"
+    },
+    {
+      "start": 106.36,
+      "end": 110.64,
+      "text": " considering the fact that considering the Asian session trading strategy you"
+    },
+    {
+      "start": 110.64,
+      "end": 114.24,
+      "text": " can see that the Asian high was still there so this is basically a"
+    },
+    {
+      "start": 114.24,
+      "end": 121.24,
+      "text": " So you cannot take a shot position because price will take out the high or low."
+    },
+    {
+      "start": 121.24,
+      "end": 124.24,
+      "text": " So what happened? Price took out the high."
+    },
+    {
+      "start": 124.24,
+      "end": 128.24,
+      "text": " Then we had a shift in the market structure around here."
+    },
+    {
+      "start": 128.24,
+      "end": 131.24,
+      "text": " And we had this clean autoblog."
+    },
+    {
+      "start": 131.24,
+      "end": 134.24,
+      "text": " Now this is when the news even occurred at 8.30."
+    },
+    {
+      "start": 134.24,
+      "end": 138.24,
+      "text": " We took our entry at around 8.45 and boom, look at that."
+    },
+    {
+      "start": 138.24,
+      "end": 143.24,
+      "text": " The price just went down like that."
+    }
+  ]
+}

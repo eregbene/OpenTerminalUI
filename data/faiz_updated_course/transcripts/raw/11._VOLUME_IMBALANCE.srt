@@ -1,0 +1,531 @@
+1
+00:00:00,180 --> 00:00:30,180
+Hey guys, what is up? Faiz here. So this is the very first video of the course update. Actually I had all the videos ready, but unfortunately my windows got corrupted for some reason. Like I put it up my computer. I went to the login screen. I typed in my password and it just won't let me log in. So I had to reinstall the windows and all the data was like gone, poof. So this is me remaking these videos once again. Alright, so
+
+2
+00:00:30,180 --> 00:00:35,180
+We use volume imbalance for our entries.
+
+3
+00:00:35,180 --> 00:00:37,180
+Okay, most of the time.
+
+4
+00:00:37,180 --> 00:00:41,980
+And we can also use them as support and resistance levels.
+
+5
+00:00:41,980 --> 00:00:44,940
+Institutional support and resistance levels.
+
+6
+00:00:44,940 --> 00:00:47,300
+Now what is a volume imbalance?
+
+7
+00:00:48,460 --> 00:00:53,460
+It is a difference between a close and the open.
+
+8
+00:00:54,180 --> 00:00:58,580
+It is a gap between the close and the open of the candle.
+
+9
+00:00:58,580 --> 00:01:05,300
+So in this example, you can see this candle right here, it closed right here.
+
+10
+00:01:05,700 --> 00:01:14,380
+And the next candle, instead of opening at the closing price, it opens below the
+
+11
+00:01:14,380 --> 00:01:19,020
+closing price, leaving this imbalance or volume imbalance around here.
+
+12
+00:01:20,140 --> 00:01:24,940
+Now this is a two pattern, two candle pattern.
+
+13
+00:01:24,940 --> 00:01:39,140
+Okay, so so this volume imbalance occurs between two candles. Okay, so you can see right here the candle closed here
+
+14
+00:01:39,860 --> 00:01:46,900
+and the next candle instead of opening at the closing price of the previous candle it opens just below it
+
+15
+00:01:47,540 --> 00:01:54,540
+Right, so there was so much volume that the candle just you know opened here. So the gap
+
+16
+00:01:56,220 --> 00:01:59,220
+Right from the close to the open
+
+17
+00:02:00,340 --> 00:02:02,340
+is what you call a volume imbalance.
+
+18
+00:02:02,340 --> 00:02:06,900
+Okay, sorry for that.
+
+19
+00:02:06,900 --> 00:02:10,900
+And the over here for the long example,
+
+20
+00:02:10,900 --> 00:02:14,900
+the difference or the gap between the close
+
+21
+00:02:14,900 --> 00:02:18,900
+and the open of the next candle is called volume imbalance.
+
+22
+00:02:18,900 --> 00:02:21,900
+I'm going to repeat this again.
+
+23
+00:02:21,900 --> 00:02:25,900
+You can see this down candle closed here
+
+24
+00:02:25,900 --> 00:02:29,900
+and normally what would happen is the next candle
+
+25
+00:02:29,900 --> 00:02:34,900
+the standard would open from the closing price of the previous candle.
+
+26
+00:02:34,900 --> 00:02:43,900
+But when this happens, the next candle opens below the closing price of the previous candle,
+
+27
+00:02:43,900 --> 00:02:49,900
+or above the closing price of the previous candle,
+
+28
+00:02:49,900 --> 00:02:57,900
+the gap between the opening and close is what you call volume imbalance.
+
+29
+00:02:57,900 --> 00:03:03,900
+So in the future, if price comes back into this level, you can look for long positions.
+
+30
+00:03:03,900 --> 00:03:05,900
+Okay?
+
+31
+00:03:05,900 --> 00:03:07,900
+And similarly for this.
+
+32
+00:03:07,900 --> 00:03:10,900
+Sorry, this is a short position.
+
+33
+00:03:10,900 --> 00:03:12,900
+So you can look too short.
+
+34
+00:03:12,900 --> 00:03:15,820
+Okay?
+
+35
+00:03:15,820 --> 00:03:22,820
+And yeah, you can long from here as well because this X as a resistance and support level.
+
+36
+00:03:22,820 --> 00:03:30,180
+level. So if the volume imbalance is broken, that if the support resistance level is broken,
+
+37
+00:03:30,180 --> 00:03:34,200
+it's going to turn into support, right? So let's say price comes back, gives a small
+
+38
+00:03:34,200 --> 00:03:40,140
+direction, pushes up, and then you can take this volume imbalance as a support level,
+
+39
+00:03:40,140 --> 00:03:44,940
+then you can look for longs, just like support and resistance. Okay? But these are very
+
+40
+00:03:44,940 --> 00:03:50,860
+stronger than support and resistance, normal support and resistance. And sometimes I even
+
+41
+00:03:50,860 --> 00:03:55,300
+find them more powerful than we were able to get. So let me give you guys some
+
+42
+00:03:55,300 --> 00:04:03,320
+examples. So right here you can see I'm looking at E-mini S&P on a daily time
+
+43
+00:04:03,320 --> 00:04:10,720
+frame and one thing I also use volume imbalance to identify my daily bias, okay?
+
+44
+00:04:10,720 --> 00:04:16,880
+Not all the time but if it is at a you know a clear volume imbalance area
+
+45
+00:04:16,880 --> 00:04:22,960
+then I can take my decision. However, let's talk about this. So you can see right
+
+46
+00:04:22,960 --> 00:04:28,960
+here, let me remove this, the candle closes here and the next candle opens right
+
+47
+00:04:28,960 --> 00:04:35,960
+here. Okay, so there is this gap or volume, no, this is not gap, this is volume
+
+48
+00:04:35,960 --> 00:04:44,060
+imbalance. Okay, and you can see price came into this volume imbalance. First of
+
+49
+00:04:44,060 --> 00:04:47,580
+for it just smash through this level.
+
+50
+00:04:47,580 --> 00:04:50,700
+So this didn't work as a support level.
+
+51
+00:04:50,700 --> 00:04:52,180
+Okay, very cool.
+
+52
+00:04:52,180 --> 00:04:54,500
+But then when it gets broken,
+
+53
+00:04:54,500 --> 00:04:56,780
+it can react as a resistance level.
+
+54
+00:04:56,780 --> 00:05:00,060
+So price went back to this volume imbalance
+
+55
+00:05:00,060 --> 00:05:02,620
+and you can see price shot down.
+
+56
+00:05:03,500 --> 00:05:06,820
+Now over here, you can see we have another volume imbalance.
+
+57
+00:05:07,780 --> 00:05:11,860
+So the candle closed here, right?
+
+58
+00:05:11,860 --> 00:05:15,260
+And the next candle open here instead of opening from here.
+
+59
+00:05:15,260 --> 00:05:15,940
+Okay?
+
+60
+00:05:16,960 --> 00:05:21,960
+And what you're gonna see here is this right here,
+
+61
+00:05:25,500 --> 00:05:27,520
+a volume imbalance just right here.
+
+62
+00:05:28,480 --> 00:05:29,620
+And what happens?
+
+63
+00:05:30,740 --> 00:05:34,020
+Price matches through it, right?
+
+64
+00:05:34,020 --> 00:05:35,820
+It didn't work as a support level.
+
+65
+00:05:36,740 --> 00:05:41,140
+But then in the future, it became a resistance level.
+
+66
+00:05:41,140 --> 00:05:43,580
+and price couldn't go above this level.
+
+67
+00:05:43,580 --> 00:05:45,540
+So when price came into this level,
+
+68
+00:05:45,540 --> 00:05:48,860
+you could be bearish as hell for the next one, two, three, four,
+
+69
+00:05:48,860 --> 00:05:53,220
+five days, guys, until this, this liquid level was taken up.
+
+70
+00:05:53,220 --> 00:05:54,060
+Okay.
+
+71
+00:05:55,300 --> 00:05:59,060
+Over here, you can see, just like that,
+
+72
+00:05:59,060 --> 00:06:02,620
+we have volume imbalance.
+
+73
+00:06:02,620 --> 00:06:05,900
+Price came back into this level.
+
+74
+00:06:05,900 --> 00:06:07,900
+We had a short reaction.
+
+75
+00:06:07,900 --> 00:06:10,260
+Over here, we have volume imbalance as well.
+
+76
+00:06:10,260 --> 00:06:13,540
+price came down, boom.
+
+77
+00:06:13,540 --> 00:06:16,180
+Over here, we have volume imbalance.
+
+78
+00:06:16,180 --> 00:06:20,660
+Price came down, boom.
+
+79
+00:06:20,660 --> 00:06:25,060
+And over here, you can see, it didn't exactly
+
+80
+00:06:25,060 --> 00:06:28,580
+tapped into the volume imbalance, I believe.
+
+81
+00:06:28,580 --> 00:06:30,740
+OK, it did actually.
+
+82
+00:06:30,740 --> 00:06:32,780
+So it came back again, tapped perfectly
+
+83
+00:06:32,780 --> 00:06:35,460
+into this volume imbalance.
+
+84
+00:06:35,460 --> 00:06:38,420
+Also considered in the fact that we had order block here.
+
+85
+00:06:38,420 --> 00:06:40,940
+So that is another confluence.
+
+86
+00:06:40,940 --> 00:06:44,540
+And you can see we have this old volume imbalance,
+
+87
+00:06:44,540 --> 00:06:48,020
+price pushed up, came back into this volume imbalance.
+
+88
+00:06:48,020 --> 00:06:51,820
+So you see how this works as support and resistance levels.
+
+89
+00:06:52,620 --> 00:06:54,380
+Pushes back up again.
+
+90
+00:06:54,380 --> 00:06:56,220
+Then we have this volume imbalance.
+
+91
+00:06:56,220 --> 00:06:58,740
+And let me do this.
+
+92
+00:06:58,740 --> 00:07:01,420
+Yep, you can see it reacted off this level here.
+
+93
+00:07:01,420 --> 00:07:04,780
+Price went back here, smashed through this level.
+
+94
+00:07:04,780 --> 00:07:08,100
+Then we have old imbalance here, volume imbalance.
+
+95
+00:07:08,100 --> 00:07:10,220
+Price came back into this level.
+
+96
+00:07:10,220 --> 00:07:13,400
+We have a push up, then we have this imbalance,
+
+97
+00:07:13,400 --> 00:07:16,160
+volume imbalance, price came back,
+
+98
+00:07:16,160 --> 00:07:18,060
+a little bit of liquidation here,
+
+99
+00:07:18,060 --> 00:07:20,720
+and then pushed back up, right?
+
+100
+00:07:20,720 --> 00:07:23,940
+This old volume balance, price came back here.
+
+101
+00:07:23,940 --> 00:07:27,060
+So you see how accurate these levels are.
+
+102
+00:07:27,060 --> 00:07:30,740
+And you can see this old volume imbalance right here,
+
+103
+00:07:30,740 --> 00:07:32,180
+if I drag this along,
+
+104
+00:07:32,180 --> 00:07:34,940
+you can see that the price is now reacting of this level.
+
+105
+00:07:34,940 --> 00:07:38,260
+So this is the beauty of volume imbalance.
+
+106
+00:07:38,260 --> 00:07:43,260
+you mostly find volume imbalances on futures indices.
+
+107
+00:07:43,420 --> 00:07:45,060
+You can find them on Forex as well,
+
+108
+00:07:45,060 --> 00:07:50,060
+but I would suggest that you use this with indices, okay?
+
+109
+00:07:51,060 --> 00:07:52,940
+I'm not saying that you cannot use with Forex,
+
+110
+00:07:52,940 --> 00:07:55,540
+but of course, yeah.
+
+111
+00:07:55,540 --> 00:08:00,540
+So normally I would not use volume imbalances
+
+112
+00:08:01,100 --> 00:08:04,900
+when training my strategies for entries, okay?
+
+113
+00:08:04,900 --> 00:08:07,100
+But for daily bias, and yeah,
+
+114
+00:08:07,100 --> 00:08:11,340
+You can look for entries you're using volume of balance too.
+
+115
+00:08:11,340 --> 00:08:12,460
+It's just like frame of gap.
+
+116
+00:08:12,460 --> 00:08:14,060
+Actually stronger than frame of gap.
+
+117
+00:08:14,060 --> 00:08:17,300
+But sometimes it's hard to spot these levels.
+
+118
+00:08:17,300 --> 00:08:23,300
+But let's assume that if I have a volume of balance here,
+
+119
+00:08:23,300 --> 00:08:26,380
+at this old level, let's do this.
+
+120
+00:08:26,380 --> 00:08:28,540
+So we have volume of balance.
+
+121
+00:08:28,540 --> 00:08:31,020
+And we also have some frame of gap here.
+
+122
+00:08:31,020 --> 00:08:32,300
+Now that is a double confidence.
+
+123
+00:08:32,300 --> 00:08:36,100
+So then I can look to take my entry here.
+
+124
+00:08:36,100 --> 00:08:39,340
+But you can just enter a volume of balance by itself.
+
+125
+00:08:39,340 --> 00:08:40,180
+Okay.
+
+126
+00:08:41,020 --> 00:08:43,500
+So you guys, I hope this video was clear.
+
+127
+00:08:43,500 --> 00:08:47,540
+And I hope you guys know what a volume of balance is.
+
+128
+00:08:47,540 --> 00:08:51,100
+It looks something like this where you have a,
+
+129
+00:08:51,100 --> 00:08:52,380
+you know, a close,
+
+130
+00:08:55,180 --> 00:08:59,820
+and then the open is actually from here.
+
+131
+00:08:59,820 --> 00:09:01,580
+You can see candle close here.
+
+132
+00:09:01,580 --> 00:09:02,620
+Open is right here.
+
+133
+00:09:02,620 --> 00:09:06,340
+So, I'll see you guys in the next video.

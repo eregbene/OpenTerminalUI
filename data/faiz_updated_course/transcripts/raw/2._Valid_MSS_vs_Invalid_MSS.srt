@@ -1,0 +1,67 @@
+1
+00:00:00,000 --> 00:00:32,980
+So in this video we are going to talk about market structure shift and invalid market structure shift. So let's assume that you have a lower lower high and then you have a market structure shift but there is no displacement, there is no wall in, right? So let me just draw this out first. Okay. So would you consider this a market structure shift? Yes, you might but for me, this is not a valid market structure shift.
+
+2
+00:00:32,980 --> 00:00:38,980
+Why? Because there was no displacement and what is displacement?
+
+3
+00:00:38,980 --> 00:00:42,980
+It's a move in one direction with momentum or volume.
+
+4
+00:00:42,980 --> 00:00:47,980
+But this move right here, it didn't break the structure with volume or momentum.
+
+5
+00:00:47,980 --> 00:00:51,980
+So you can see price went before price broke the structure.
+
+6
+00:00:51,980 --> 00:00:55,980
+It creates higher high, higher low, higher high, higher low, higher low.
+
+7
+00:00:55,980 --> 00:01:00,980
+And for me, that is not a valid market structure shift.
+
+8
+00:01:00,980 --> 00:01:06,220
+However, if you look at it here, we got lower, lower, lower, lower, lower, lower, lower,
+
+9
+00:01:06,220 --> 00:01:11,500
+and then we have this move right here with volume, right?
+
+10
+00:01:11,500 --> 00:01:13,140
+And we break the structure.
+
+11
+00:01:13,140 --> 00:01:15,220
+So now you can see there's volume.
+
+12
+00:01:15,220 --> 00:01:21,660
+Now when that happens, that for me is a valid market structure shift or yeah, or you
+
+13
+00:01:21,660 --> 00:01:24,180
+can say change of character.
+
+14
+00:01:24,180 --> 00:01:28,340
+So over here, you can see that we have no volume, right?
+
+15
+00:01:28,340 --> 00:01:34,880
+we have this messed up price action, but over here you have a very clean move to the
+
+16
+00:01:34,880 --> 00:01:37,280
+upside that breaks the structure.
+
+17
+00:01:37,280 --> 00:01:39,880
+So let me give you guys a couple of examples.

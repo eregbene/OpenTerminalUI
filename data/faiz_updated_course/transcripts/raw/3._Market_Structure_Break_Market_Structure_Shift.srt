@@ -1,0 +1,215 @@
+1
+00:00:00,000 --> 00:00:30,000
+Hello guys, welcome to the video number three of this course in this video. We are going to learn about market structure break and market structure shift. Now what is market structure break? Let's suppose that we are in an uptrend, right? So let me pull out this path too. So let's say we are in an uptrend, right? Now you can see that the price is making higher high.
+
+2
+00:00:30,000 --> 00:00:33,160
+high, high, high, high, low.
+
+3
+00:00:33,160 --> 00:00:36,640
+When price makes another higher, high,
+
+4
+00:00:38,200 --> 00:00:41,880
+then it is considered to be a market structure break.
+
+5
+00:00:41,880 --> 00:00:42,800
+Okay?
+
+6
+00:00:42,800 --> 00:00:47,800
+The continuation of a trend is called market structure break.
+
+7
+00:00:49,840 --> 00:00:52,840
+Now how do we know that the trend is going to continue?
+
+8
+00:00:53,760 --> 00:00:56,400
+We look for market structure break,
+
+9
+00:00:56,400 --> 00:01:01,160
+which is when price creates a new higher high.
+
+10
+00:01:01,160 --> 00:01:04,200
+And then price creates a new high low
+
+11
+00:01:04,200 --> 00:01:07,080
+creates another higher high,
+
+12
+00:01:07,080 --> 00:01:09,280
+breaking the previous structure.
+
+13
+00:01:09,280 --> 00:01:12,800
+So you can see that we are creating higher high,
+
+14
+00:01:12,800 --> 00:01:15,680
+higher low, higher high, higher low, higher high,
+
+15
+00:01:15,680 --> 00:01:18,520
+higher low, and then higher high.
+
+16
+00:01:18,520 --> 00:01:22,600
+This higher high broke the previous high.
+
+17
+00:01:22,600 --> 00:01:28,280
+So it means that it should be considered as market structure break.
+
+18
+00:01:30,950 --> 00:01:38,230
+Let's learn that in a bearish market condition. So it's clear. So let me remove that.
+
+19
+00:01:40,840 --> 00:01:48,920
+Similarly, one price is creating lower low, lower high, lower low, lower high. You want to look for
+
+20
+00:01:49,480 --> 00:01:54,680
+market structure break. And how do we identify a market structure break? It's when price creates
+
+21
+00:01:54,680 --> 00:02:07,660
+another lower low like that. Now this is considered to be a market structure break. Okay,
+
+22
+00:02:08,460 --> 00:02:16,860
+as you can see, price broke this leg broke the previous lower low and created another lower low.
+
+23
+00:02:17,660 --> 00:02:27,900
+Now this is considered to be a market structure break. Very simple guys. So now let's learn about
+
+24
+00:02:27,900 --> 00:02:37,660
+market structure shift. What is market structure shift? Let's suppose that we are in a bullish
+
+25
+00:02:37,660 --> 00:02:46,060
+trend. So we are creating high, high, high, high, high, high, high, high, high, high, high, high,
+
+26
+00:02:46,060 --> 00:02:57,900
+high, high, high. But then if you want to identify a market structure shift, you would wait for
+
+27
+00:02:57,900 --> 00:03:08,780
+price to break the previous low. Okay, so we got the higher high, high low, high high, high
+
+28
+00:03:08,780 --> 00:03:17,060
+high, high high high high, high high, then we got the lower high. If that makes sense, because
+
+29
+00:03:17,060 --> 00:03:25,700
+it broke this structure, which means that the market structure has shifted from a bullish
+
+30
+00:03:25,700 --> 00:03:33,620
+trend to a bearish trend. Okay, so very simple guys. When price breaks the
+
+31
+00:03:33,620 --> 00:03:39,620
+previous low, then that price action is considered to be a market structure
+
+32
+00:03:39,620 --> 00:03:46,340
+shift. Let's repeat, I will repeat that again. So you can see that we are
+
+33
+00:03:46,340 --> 00:03:52,060
+continuously making higher highs, high lows, higher high, high, low, higher high.
+
+34
+00:03:52,060 --> 00:03:58,060
+Once the new higher high is made, we can then look for market structure shift.
+
+35
+00:03:58,060 --> 00:04:09,060
+After the new high is made, we would then look for a market structure shift, which would be when price breaks the previous low.
+
+36
+00:04:09,060 --> 00:04:17,060
+The low debt was created, the low debt was created after a new high.
+
+37
+00:04:17,060 --> 00:04:19,060
+I hope that is clear.
+
+38
+00:04:19,060 --> 00:04:25,520
+Let me give you an example for a bearish to bullish market.
+
+39
+00:04:25,520 --> 00:04:29,680
+So let's suppose that we are in a, oops, my bat.
+
+40
+00:04:29,680 --> 00:04:35,640
+Let's suppose that we are in a bearish market.
+
+41
+00:04:35,640 --> 00:04:36,320
+Okay?
+
+42
+00:04:36,320 --> 00:04:40,300
+So we continuously making lower, lower, lower, high, lower, lower, lower, lower, lower,
+
+43
+00:04:40,300 --> 00:04:41,600
+lower, lower, lower.
+
+44
+00:04:41,600 --> 00:04:48,500
+When the new lower low is made, and if you want to, and if you're looking for market structure
+
+45
+00:04:48,500 --> 00:04:51,540
+shift, then we would wait for price to break.
+
+46
+00:04:51,540 --> 00:05:00,460
+the previous lower high. So we made lower low, lower high, lower low, lower high, lower
+
+47
+00:05:00,460 --> 00:05:11,940
+low. And then what we would wait for is for price to break the previous high. So as you
+
+48
+00:05:11,940 --> 00:05:20,100
+can see after the new lower low was made, we then wait for price to break the previous low,
+
+49
+00:05:20,100 --> 00:05:27,540
+which would be this. Now this is considered to be a market structure shift for a bearish
+
+50
+00:05:27,540 --> 00:05:35,060
+example. So I really hope that by now it should be clear that what is market structure
+
+51
+00:05:35,060 --> 00:05:44,480
+break and what is market structure shift. Very simple, when market shifts basically it means
+
+52
+00:05:44,480 --> 00:05:50,120
+that their trend has shifted and by market structure break it means that their trend
+
+53
+00:05:50,120 --> 00:05:51,920
+is going to continue.
+
+54
+00:05:51,920 --> 00:05:57,200
+So keep these concepts in your mind and I'll see you guys in the next video.

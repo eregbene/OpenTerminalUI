@@ -1,0 +1,283 @@
+{
+  "source": "F:\\new faiz\\15. BREAKER BLOCK EXAMPLE 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 268.8870625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so here it is example number two for breaker block entries. So you can see we have higher high, high low and higher high. And then we have a market structure shift right here. So normally what you would do is you would take your entry from this fair value gap or this fair value gap. But if you are using the breaker block entry model, your breaker block is right here."
+    },
+    {
+      "start": 30.0,
+      "end": 32.84,
+      "text": " which is the last candle before the move to the upside."
+    },
+    {
+      "start": 32.84,
+      "end": 36.88,
+      "text": " And after that, you have a shift in market structure."
+    },
+    {
+      "start": 36.88,
+      "end": 39.4,
+      "text": " So you see this move, right?"
+    },
+    {
+      "start": 39.4,
+      "end": 43.68,
+      "text": " There was no bearish candle around here, okay?"
+    },
+    {
+      "start": 43.68,
+      "end": 47.24,
+      "text": " If there was a bearish, let's assume that this candle"
+    },
+    {
+      "start": 47.24,
+      "end": 49.04,
+      "text": " was bearish, right?"
+    },
+    {
+      "start": 49.04,
+      "end": 51.48,
+      "text": " And then you had a, so I would consider"
+    },
+    {
+      "start": 51.48,
+      "end": 53.88,
+      "text": " then this as market structure shift"
+    },
+    {
+      "start": 53.88,
+      "end": 57.24,
+      "text": " and then I would consider that candle as my breaker"
+    },
+    {
+      "start": 57.24,
+      "end": 61.6,
+      "text": " because, apparently, that was the last bearish candle,"
+    },
+    {
+      "start": 62.72,
+      "end": 65.32,
+      "text": " or last candle, or you could say,"
+    },
+    {
+      "start": 65.32,
+      "end": 66.52,
+      "text": " hi, hi, hello,"
+    },
+    {
+      "start": 66.52,
+      "end": 68.2,
+      "text": " a large, high, low,"
+    },
+    {
+      "start": 68.2,
+      "end": 71.0,
+      "text": " and then we had high, high, and then marks our shift."
+    },
+    {
+      "start": 71.0,
+      "end": 74.36,
+      "text": " So I hope you get what I'm trying to explain."
+    },
+    {
+      "start": 74.36,
+      "end": 78.52,
+      "text": " So, but in this case, this was the last candle, right?"
+    },
+    {
+      "start": 78.52,
+      "end": 83.08,
+      "text": " Or sometimes what I would do is it's sometimes a good practice"
+    },
+    {
+      "start": 83.08,
+      "end": 86.12,
+      "text": " to mark out the bearish candle,"
+    },
+    {
+      "start": 86.12,
+      "end": 89.6,
+      "text": " instead of the bullish candle and vice versa."
+    },
+    {
+      "start": 89.6,
+      "end": 92.4,
+      "text": " So if you are looking for a long position,"
+    },
+    {
+      "start": 92.4,
+      "end": 94.48,
+      "text": " you should mark out the bullish candle"
+    },
+    {
+      "start": 94.48,
+      "end": 96.72,
+      "text": " instead of the bearish candle."
+    },
+    {
+      "start": 96.72,
+      "end": 99.16,
+      "text": " But it's not gonna affect that much."
+    },
+    {
+      "start": 99.16,
+      "end": 102.84,
+      "text": " You can take your entry from the last candle, okay?"
+    },
+    {
+      "start": 102.84,
+      "end": 104.0,
+      "text": " Or the, yeah."
+    },
+    {
+      "start": 104.0,
+      "end": 107.72,
+      "text": " So you can see if I dragged this along,"
+    },
+    {
+      "start": 107.72,
+      "end": 109.4,
+      "text": " we had markers such as shift"
+    },
+    {
+      "start": 109.4,
+      "end": 112.8,
+      "text": " and what was really nice about this rig of block"
+    },
+    {
+      "start": 112.8,
+      "end": 115.32,
+      "text": " is that we had free air value gap here as well."
+    },
+    {
+      "start": 116.12,
+      "end": 122.46,
+      "text": " Now that is when breaker blocks become very, very, I would say powerful. Okay."
+    },
+    {
+      "start": 122.48,
+      "end": 128.9,
+      "text": " So keep that in mind that yeah, you can use breakers as their own without"
+    },
+    {
+      "start": 128.9,
+      "end": 132.62,
+      "text": " friendly gap. But if there's free value gap, then that entry is going to be"
+    },
+    {
+      "start": 132.62,
+      "end": 137.98,
+      "text": " perfect. So I'm going to explain and that to take a lot of people say that"
+    },
+    {
+      "start": 137.98,
+      "end": 141.06,
+      "text": " they missed their entries whenever they tried to enter from the extreme"
+    },
+    {
+      "start": 141.06,
+      "end": 148.66,
+      "text": " free value gap. If you don't want to miss the trades, what you can do is right when you"
+    },
+    {
+      "start": 148.66,
+      "end": 154.18,
+      "text": " have a market structure shift, you can take your entry from the very recent free value gap."
+    },
+    {
+      "start": 155.14,
+      "end": 159.46,
+      "text": " Instead of taking your entry from the extreme, you can take your entry from the very first."
+    },
+    {
+      "start": 159.46,
+      "end": 167.3,
+      "text": " But there's a catch. You need to secure your stop loss. So let's say if price goes back to the"
+    },
+    {
+      "start": 167.3,
+      "end": 172.22,
+      "text": " extreme fear of the gap, you do not lose. Okay, you do not want to give your money to the markets,"
+    },
+    {
+      "start": 172.22,
+      "end": 180.1,
+      "text": " even though your analysis are right. So this is the only way guys, if you want me to tell"
+    },
+    {
+      "start": 180.1,
+      "end": 187.1,
+      "text": " you guys to put your stop here, yeah, of course you can, but you're gonna lose. Okay. And"
+    },
+    {
+      "start": 187.1,
+      "end": 191.98,
+      "text": " even though your analysis are going to be perfect, a price can stop you up because it needs"
+    },
+    {
+      "start": 191.98,
+      "end": 197.86,
+      "text": " to fill and balance the prices up there. So keep your stop maybe here or maybe"
+    },
+    {
+      "start": 197.86,
+      "end": 211.51,
+      "text": " here and Kaboom. Perfect. So yeah guys I really hope that the you know I really"
+    },
+    {
+      "start": 211.51,
+      "end": 215.59,
+      "text": " hope that you guys have a clear knowledge of a breaker blocks now. It's simply"
+    },
+    {
+      "start": 215.59,
+      "end": 222.67,
+      "text": " the last candle. So you have so see I'll try to explain it once again if just in"
+    },
+    {
+      "start": 222.67,
+      "end": 230.61,
+      "text": " case if anyone didn't understand. So you have higher high, high, low, higher high. Right."
+    },
+    {
+      "start": 230.61,
+      "end": 240.58,
+      "text": " So the last candle of the high low is going to be your breaker block. And you must get"
+    },
+    {
+      "start": 240.58,
+      "end": 248.08,
+      "text": " a market structure shift after this new high is created. Right. And when you have market"
+    },
+    {
+      "start": 248.08,
+      "end": 254.32,
+      "text": " such a shift, then that breaker block becomes valid. However, if you had, let's say,"
+    },
+    {
+      "start": 254.32,
+      "end": 261.12,
+      "text": " higher high, higher low, higher high, it's small, high low. And then higher high. And then"
+    },
+    {
+      "start": 261.12,
+      "end": 267.0,
+      "text": " a marker, such a shift, then that last candle would be your breaker. So yeah, let's move on to"
+    },
+    {
+      "start": 267.0,
+      "end": 267.8,
+      "text": " the next videos."
+    }
+  ]
+}

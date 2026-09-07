@@ -1,0 +1,48 @@
+1
+00:00:00,000 --> 00:00:03,760
+Alright guys, so here's another example. You can see that we were creating
+
+2
+00:00:05,680 --> 00:00:10,480
+Lorelo, LoreHi, Lorelo, LoreHi, and then we created this last Lorelo.
+
+3
+00:00:11,360 --> 00:00:18,960
+During the launch break, as you can see, the London session was over. Sorry, the Asian session
+
+4
+00:00:19,600 --> 00:00:25,040
+was over at this candle, right? So this next candle, it just swept the low
+
+5
+00:00:25,920 --> 00:00:35,280
+of the Asian session, and then we had a market structure shift, which is right here,
+
+6
+00:00:35,280 --> 00:00:39,840
+or change of character, whatever you want to call it. And then we were left with this
+
+7
+00:00:39,840 --> 00:00:45,840
+imbalance and autoblock, so let me mark this out. As you can see, we marked this autoblock out,
+
+8
+00:00:45,840 --> 00:00:52,240
+and this was a perfect, and I mean perfect entry. Our store plus would probably go here,
+
+9
+00:00:52,240 --> 00:01:00,640
+below this low, or around here, and as usual, we will target the high of the Asian
+
+10
+00:01:02,560 --> 00:01:09,840
+range, and as you can see, this was a 6.22 restore wall trade, and as you can see, how perfectly
+
+11
+00:01:09,840 --> 00:01:16,720
+price reverses then. So this is the best place to take your profits, and let me give you a few more
+
+12
+00:01:16,720 --> 00:01:20,480
+examples before we move on to the next strategy.
+

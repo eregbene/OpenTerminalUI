@@ -1,0 +1,518 @@
+{
+  "source": "F:\\new faiz\\19. The Holy Grail Example 1.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 403.8414375,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so here is an example number one for the Holy Grail model. Notice that I didn't show you the examples from the high time frames, but I'm going to use the high time frame combination here. So from monthly, we're going to go to the daily time frame and from daily, we're going to go to one hour time frame to look for our entries. Similarly, you can go from daily to one hour to five minutes and from weekly, you can go from weekly to four hour to 15 minutes and for daily, as I said before, from daily to hourly to five hours."
+    },
+    {
+      "start": 30.0,
+      "end": 34.0,
+      "text": " five minute and from four hour to 15 minute to one minute."
+    },
+    {
+      "start": 34.0,
+      "end": 36.24,
+      "text": " I wouldn't say one minute just go with two minutes."
+    },
+    {
+      "start": 36.24,
+      "end": 39.0,
+      "text": " That is actually reliable than one minute."
+    },
+    {
+      "start": 39.0,
+      "end": 40.4,
+      "text": " So what do we have?"
+    },
+    {
+      "start": 40.4,
+      "end": 42.32,
+      "text": " We have taken out external liquidity, right?"
+    },
+    {
+      "start": 42.32,
+      "end": 44.36,
+      "text": " On the monthly on GPPUSD."
+    },
+    {
+      "start": 44.36,
+      "end": 47.96,
+      "text": " We have this fairly gap in the discount, right?"
+    },
+    {
+      "start": 47.96,
+      "end": 49.72,
+      "text": " Sorry, in the premium here."
+    },
+    {
+      "start": 49.72,
+      "end": 51.48,
+      "text": " So that is gonna be our drawn liquidity."
+    },
+    {
+      "start": 51.48,
+      "end": 54.08,
+      "text": " So price takes out this."
+    },
+    {
+      "start": 54.08,
+      "end": 57.36,
+      "text": " Let's go to the daily timeframe and see what happens."
+    },
+    {
+      "start": 57.36,
+      "end": 59.68,
+      "text": " So price takes out the liquidity here."
+    },
+    {
+      "start": 59.68,
+      "end": 64.8,
+      "text": " Now we want to look for a market structure shift on the daily time frame and we have the market"
+    },
+    {
+      "start": 64.8,
+      "end": 66.56,
+      "text": " structure shift on the daily time from here."
+    },
+    {
+      "start": 66.56,
+      "end": 68.28,
+      "text": " Look at this fractal high here."
+    },
+    {
+      "start": 68.28,
+      "end": 72.52,
+      "text": " We have a candle to the left, right, which is shorter than the disk candle and then we have"
+    },
+    {
+      "start": 72.52,
+      "end": 77.16,
+      "text": " the candle to the right, which is also shorter than this high."
+    },
+    {
+      "start": 77.16,
+      "end": 82.08,
+      "text": " So that is our fractal high price breaks that structure, right, giving us a market structure"
+    },
+    {
+      "start": 82.08,
+      "end": 83.08,
+      "text": " shift."
+    },
+    {
+      "start": 83.08,
+      "end": 88.32,
+      "text": " Now looking back here, where is the PD area in that discount?"
+    },
+    {
+      "start": 88.32,
+      "end": 92.52,
+      "text": " this fair value gap right here right there's no clean auto block nothing just this fair"
+    },
+    {
+      "start": 92.52,
+      "end": 98.32,
+      "text": " value gap so we mark out the fair value gap and remember when you are on the higher time"
+    },
+    {
+      "start": 98.32,
+      "end": 103.6,
+      "text": " frames like four hour daily weekly and monthly you want to use the zero point five level"
+    },
+    {
+      "start": 103.6,
+      "end": 109.56,
+      "text": " of the Fibonacci sorry of this gap of this fair value gap right you don't want to be looking"
+    },
+    {
+      "start": 109.56,
+      "end": 114.28,
+      "text": " for confirmation and trees run price taps into it straight away just wait for price to"
+    },
+    {
+      "start": 114.28,
+      "end": 128.15,
+      "text": " come into 0.5 level. So, drawing the fib on the FPG, you can see we have this is the 0.5"
+    },
+    {
+      "start": 128.15,
+      "end": 136.71,
+      "text": " level, then we delete the fib. Oops, my bad. Damn, right there. So, let's go here. So now once"
+    },
+    {
+      "start": 136.71,
+      "end": 142.47,
+      "text": " price is into our PDA, we want to mark out the range high, which is this, right? So, we're"
+    },
+    {
+      "start": 142.47,
+      "end": 147.03,
+      "text": " We're gonna mark out this here and this is from where we're gonna scout out the one-hour"
+    },
+    {
+      "start": 147.03,
+      "end": 148.83,
+      "text": " market maker model."
+    },
+    {
+      "start": 148.83,
+      "end": 153.27,
+      "text": " We wanna look for a market maker model starting from this move down."
+    },
+    {
+      "start": 153.27,
+      "end": 159.27,
+      "text": " This is the last move when before price went to this PDA."
+    },
+    {
+      "start": 159.27,
+      "end": 164.99,
+      "text": " So we wanna look for a one-hour market maker model."
+    },
+    {
+      "start": 164.99,
+      "end": 169.03,
+      "text": " So price is into the 0.5 level here at the moment."
+    },
+    {
+      "start": 169.03,
+      "end": 172.59,
+      "text": " But before that, we want to identify the consolidation phase."
+    },
+    {
+      "start": 172.59,
+      "end": 173.99,
+      "text": " So right away, where you can see,"
+    },
+    {
+      "start": 173.99,
+      "end": 177.87,
+      "text": " is we have this consolidation phase right there."
+    },
+    {
+      "start": 177.87,
+      "end": 179.83,
+      "text": " Then we have the accumulation phase two."
+    },
+    {
+      "start": 179.83,
+      "end": 182.11,
+      "text": " So basically, the first consolidation"
+    },
+    {
+      "start": 182.11,
+      "end": 183.79,
+      "text": " is called consolidation."
+    },
+    {
+      "start": 183.79,
+      "end": 187.35,
+      "text": " The second consolidation is called accumulation one"
+    },
+    {
+      "start": 187.35,
+      "end": 192.95,
+      "text": " and the third consolidation is called accumulation number two."
+    },
+    {
+      "start": 192.95,
+      "end": 196.11,
+      "text": " Accumulation could just be a pullback."
+    },
+    {
+      "start": 196.11,
+      "end": 199.23,
+      "text": " And it would be considered a consolidation."
+    },
+    {
+      "start": 199.23,
+      "end": 201.11,
+      "text": " But for the first consolidation,"
+    },
+    {
+      "start": 201.11,
+      "end": 203.03,
+      "text": " you have to look for a decent size"
+    },
+    {
+      "start": 203.03,
+      "end": 206.47,
+      "text": " or decent consolidation, something like that, right?"
+    },
+    {
+      "start": 206.47,
+      "end": 208.55,
+      "text": " It doesn't have to be like a big consolidation."
+    },
+    {
+      "start": 208.55,
+      "end": 212.07,
+      "text": " Just train your eyes to just identify consolidation."
+    },
+    {
+      "start": 212.07,
+      "end": 213.23,
+      "text": " This is a clean consolidation."
+    },
+    {
+      "start": 213.23,
+      "end": 215.67,
+      "text": " You can see we have these highs here."
+    },
+    {
+      "start": 215.67,
+      "end": 218.35,
+      "text": " Then we have this lows here right here, right?"
+    },
+    {
+      "start": 218.35,
+      "end": 220.07,
+      "text": " So price is like going nowhere."
+    },
+    {
+      "start": 220.07,
+      "end": 222.31,
+      "text": " We went up, down, up, that's it."
+    },
+    {
+      "start": 222.31,
+      "end": 225.71,
+      "text": " And then we have push up, push down, right?"
+    },
+    {
+      "start": 225.71,
+      "end": 229.91,
+      "text": " We have accumulation down into our"
+    },
+    {
+      "start": 229.91,
+      "end": 232.11,
+      "text": " repeatedly array right so now what we want to do is"
+    },
+    {
+      "start": 232.11,
+      "end": 234.59,
+      "text": " want to look for a shift in the market structure on the"
+    },
+    {
+      "start": 234.59,
+      "end": 237.79,
+      "text": " one hour time frame. Remember we're going from"
+    },
+    {
+      "start": 237.79,
+      "end": 241.39,
+      "text": " monthly to daily to one hour. So right here what do we have"
+    },
+    {
+      "start": 241.39,
+      "end": 244.27,
+      "text": " we have a shift in market structure and we have this clean"
+    },
+    {
+      "start": 244.27,
+      "end": 247.15,
+      "text": " auto block remember bearish candles, continuous bearish"
+    },
+    {
+      "start": 247.15,
+      "end": 251.23,
+      "text": " candles. So now from here we're going to go long right"
+    },
+    {
+      "start": 251.23,
+      "end": 254.43,
+      "text": " there. I'm going to put our stop right below the slow"
+    },
+    {
+      "start": 254.43,
+      "end": 258.59,
+      "text": " and we are going to target the consolidation high,"
+    },
+    {
+      "start": 258.59,
+      "end": 263.66,
+      "text": " which is right here, giving us 10.7,"
+    },
+    {
+      "start": 263.66,
+      "end": 265.58,
+      "text": " something rich to reward."
+    },
+    {
+      "start": 265.58,
+      "end": 270.58,
+      "text": " So most importantly, our entry is during London, three,"
+    },
+    {
+      "start": 270.66,
+      "end": 286.8,
+      "text": " at three, so let's see how this plays out."
+    },
+    {
+      "start": 286.8,
+      "end": 291.29,
+      "text": " So it's consolidates for a bit."
+    },
+    {
+      "start": 291.29,
+      "end": 294.37,
+      "text": " We have a continuation perage here, right?"
+    },
+    {
+      "start": 294.37,
+      "end": 296.89,
+      "text": " But our target is fixed, and right there,"
+    },
+    {
+      "start": 296.89,
+      "end": 299.97,
+      "text": " we have our take profit hit for 110."
+    },
+    {
+      "start": 299.97,
+      "end": 301.73,
+      "text": " So let me teach you something else."
+    },
+    {
+      "start": 302.77,
+      "end": 307.77,
+      "text": " Use your Fibonacci from this range high to this range low."
+    },
+    {
+      "start": 308.41,
+      "end": 312.05,
+      "text": " So every single PD array after market structure shift"
+    },
+    {
+      "start": 312.05,
+      "end": 313.05,
+      "text": " is gonna be respected."
+    },
+    {
+      "start": 313.05,
+      "end": 315.97,
+      "text": " Every single out of log below the 0.5 level."
+    },
+    {
+      "start": 315.97,
+      "end": 318.21,
+      "text": " Once price is above the 0.5 level,"
+    },
+    {
+      "start": 318.21,
+      "end": 319.73,
+      "text": " the chance has decreased, right?"
+    },
+    {
+      "start": 319.73,
+      "end": 324.41,
+      "text": " So you wanna get in before price goes above 0.5 level."
+    },
+    {
+      "start": 324.41,
+      "end": 326.89,
+      "text": " And I mean, I'm not saying that price goes above"
+    },
+    {
+      "start": 326.89,
+      "end": 328.49,
+      "text": " the 0.5 level that comes back"
+    },
+    {
+      "start": 328.49,
+      "end": 329.53,
+      "text": " and you cannot take the trade."
+    },
+    {
+      "start": 329.53,
+      "end": 333.77,
+      "text": " Yes, it is possible when price goes about 0.5 level and then comes back into discount."
+    },
+    {
+      "start": 333.77,
+      "end": 338.41,
+      "text": " You can look for entries, but you cannot buy above the 0.5 level."
+    },
+    {
+      "start": 338.41,
+      "end": 340.01,
+      "text": " That's what I'm saying."
+    },
+    {
+      "start": 340.01,
+      "end": 344.57,
+      "text": " So over here, you can see we have hit the take profit."
+    },
+    {
+      "start": 344.57,
+      "end": 351.13,
+      "text": " We had this breaker block here and price respected this breaker block here."
+    },
+    {
+      "start": 351.13,
+      "end": 356.97,
+      "text": " Then came back here and filled in this tiny little fair value gap here."
+    },
+    {
+      "start": 356.97,
+      "end": 360.17,
+      "text": " if you can see it. And we also took out this. So that was"
+    },
+    {
+      "start": 360.17,
+      "end": 363.85,
+      "text": " continuation at around eight. So remember I said, mostly the"
+    },
+    {
+      "start": 363.85,
+      "end": 369.45,
+      "text": " continations purges happen doing from eight to 1030. Right?"
+    },
+    {
+      "start": 369.69,
+      "end": 374.33,
+      "text": " So we have a continuation purge right here. And the ABCD,"
+    },
+    {
+      "start": 374.33,
+      "end": 377.85,
+      "text": " remember, I mean, it's not necessary to get the ABCD. You just"
+    },
+    {
+      "start": 377.85,
+      "end": 384.37,
+      "text": " want to see a purge on the liquidity. Right? And that's actually"
+    },
+    {
+      "start": 384.37,
+      "end": 388.49,
+      "text": " pretty much it. You can see we came into the breaker block and then we had our"
+    },
+    {
+      "start": 388.49,
+      "end": 393.25,
+      "text": " take proper level hit. So, very simple guys you just have to identify the"
+    },
+    {
+      "start": 393.25,
+      "end": 398.85,
+      "text": " consolidation phases and you will be good. You can easily pass your charge"
+    },
+    {
+      "start": 398.85,
+      "end": 404.65,
+      "text": " with one trade if you get a proper setup. So let's move on to the next example."
+    }
+  ]
+}

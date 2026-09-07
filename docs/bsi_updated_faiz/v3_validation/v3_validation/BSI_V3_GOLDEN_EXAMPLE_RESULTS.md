@@ -1,0 +1,29 @@
+# BSI V3 Golden Example Results
+
+| Strategy                        | Status                       | Reason                                                                                                                                              |
+| ------------------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| bsi_v3_order_flow               | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_abc                      | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_abcd                     | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_asian_v2                 | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_0930                     | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_reactionary_block        | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_ict_silver_bullet        | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_silver_bullet_with_bias  | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_4h_order_block           | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_mmxm                     | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_mmxm_second_distribution | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_holy_grail               | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_juggernaut               | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_spectre                  | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_monday_range             | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_weaver                   | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_standard_deviation_po3   | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_ar50                     | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_ifvg_po3                 | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_turtle_soups_ranges      | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_yin_yang                 | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_4h_candle_ranges         | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_smt_session_hl           | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_1h_candle_ranges         | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |
+| bsi_v3_enigma_range             | IMPLEMENTATION_NOT_VALIDATED | source videos/contact sheets/transcripts exist, but no point-in-time OHLCV mentor-example bar reconstruction is available; no fixture shortcut used |

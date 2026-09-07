@@ -1,0 +1,308 @@
+{
+  "source": "F:\\new faiz\\14. 930AM Trading Strategy Example.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 315.977125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 31.54,
+      "text": " Okay, so as you can see that the candle closed at 930, so now you will be looking for some sort of liquidity, okay? So actually you should be looking for liquidity before 930, right? And if it sweeps the liquidity and comes back and the market structure shift happens, your entry must be after 930 AM, okay? For example, I, let me show you."
+    },
+    {
+      "start": 31.54,
+      "end": 38.3,
+      "text": " right and price trips up the liquidity at let's say 920 AM and then we have a market structure"
+    },
+    {
+      "start": 38.3,
+      "end": 49.42,
+      "text": " shift at 925 right and you have your entry where is it okay you have your entry at here"
+    },
+    {
+      "start": 49.42,
+      "end": 57.34,
+      "text": " right if the price goes into your entry zone before 930 you will not be taking that trade"
+    },
+    {
+      "start": 57.34,
+      "end": 61.38,
+      "text": " okay you just got to follow these rules okay I know what I'm saying you should avoid"
+    },
+    {
+      "start": 61.38,
+      "end": 67.86,
+      "text": " that traded at all costs. But if the time is 930, right, past 930 AM and it goes to your"
+    },
+    {
+      "start": 67.86,
+      "end": 75.22,
+      "text": " POI, then you take that trade. Boom. So for this example, we have our kind of close at"
+    },
+    {
+      "start": 75.22,
+      "end": 82.3,
+      "text": " 930. So where's the liquidity guys? I can see this huge swing high, right? This is a clear"
+    },
+    {
+      "start": 82.3,
+      "end": 87.98,
+      "text": " significant swing high that I can see. So and one more thing guys, you want to look"
+    },
+    {
+      "start": 87.98,
+      "end": 92.46,
+      "text": " for the market structure, the overall direction of the market and you want to take the trade"
+    },
+    {
+      "start": 92.46,
+      "end": 98.42,
+      "text": " in that direction. So as you can see price is bearish at the moment. And if I go zoom out"
+    },
+    {
+      "start": 98.42,
+      "end": 103.18,
+      "text": " a little bit more, you can see that we are bearish and considering the, you know, the"
+    },
+    {
+      "start": 103.18,
+      "end": 106.78,
+      "text": " situation of the world right now, there's so much wars going on. I would recommend that"
+    },
+    {
+      "start": 106.78,
+      "end": 111.58,
+      "text": " you only take shots for now because the trend. So you got to just follow the market structure."
+    },
+    {
+      "start": 111.58,
+      "end": 116.82,
+      "text": " Right. If the, if the market structure is bearish, you only have to take a shot position"
+    },
+    {
+      "start": 116.82,
+      "end": 121.06,
+      "text": " And you only want to be looking for a liquidity sweep to the upside."
+    },
+    {
+      "start": 121.06,
+      "end": 123.42,
+      "text": " And then you wait for Microsoft shift and take your entry."
+    },
+    {
+      "start": 123.42,
+      "end": 126.46,
+      "text": " So as you can see at the 930 AM, we have this candle."
+    },
+    {
+      "start": 126.46,
+      "end": 129.65,
+      "text": " And if I play this through."
+    },
+    {
+      "start": 129.65,
+      "end": 134.53,
+      "text": " Okay, so once the price is in there, my zone, the liquidity zone, I will drop down to the"
+    },
+    {
+      "start": 134.53,
+      "end": 140.24,
+      "text": " one minute timeframe and I will wait for a liquidity sweep."
+    },
+    {
+      "start": 140.24,
+      "end": 141.84,
+      "text": " So as you can see price swept the liquidity."
+    },
+    {
+      "start": 141.84,
+      "end": 146.13,
+      "text": " Now I want to wait for a market structure shift."
+    },
+    {
+      "start": 146.13,
+      "end": 148.73,
+      "text": " So let's see what happens."
+    },
+    {
+      "start": 148.73,
+      "end": 149.73,
+      "text": " And there you go."
+    },
+    {
+      "start": 149.73,
+      "end": 150.93,
+      "text": " We have a market structure shift."
+    },
+    {
+      "start": 150.93,
+      "end": 157.05,
+      "text": " more than to note guys is when market structure shift happens it should happen with displacement"
+    },
+    {
+      "start": 157.05,
+      "end": 163.17,
+      "text": " and what I mean with displacement is let's say you have this right and if price breaks"
+    },
+    {
+      "start": 163.17,
+      "end": 170.77,
+      "text": " the structure like this so let me show you yep if oh my god this is a terrible trying"
+    },
+    {
+      "start": 170.77,
+      "end": 175.37,
+      "text": " but I hope you get the idea so if the price breaks the structure with you know a very"
+    },
+    {
+      "start": 175.37,
+      "end": 187.61,
+      "text": " clumsy market structure, there's no momentum in that move that breaks the structure, then you will not be taking the trade because when price came down it generated this liquidity, right?"
+    },
+    {
+      "start": 187.61,
+      "end": 193.37,
+      "text": " And I would recommend that you don't take this trade because there was no momentum. There was no volume"
+    },
+    {
+      "start": 194.37,
+      "end": 198.69,
+      "text": " when the structure broke. But if price breaks the structure for example"
+    },
+    {
+      "start": 198.69,
+      "end": 205.05,
+      "text": " Let me show you if we have this structure right and price breaks the structure with momentum"
+    },
+    {
+      "start": 205.05,
+      "end": 208.01,
+      "text": " like for example this."
+    },
+    {
+      "start": 208.01,
+      "end": 210.37,
+      "text": " If you see this you got to take your entry."
+    },
+    {
+      "start": 210.37,
+      "end": 215.57,
+      "text": " So as you can see we have this huge candle and then we have some sort of wicks here"
+    },
+    {
+      "start": 215.57,
+      "end": 217.97,
+      "text": " above below the fair value gap and the water block."
+    },
+    {
+      "start": 217.97,
+      "end": 220.73,
+      "text": " And as you can see we should broke the market structure."
+    },
+    {
+      "start": 220.73,
+      "end": 226.41,
+      "text": " Now as you can see there's some fair value gap around here so I would take my entry"
+    },
+    {
+      "start": 226.41,
+      "end": 229.53,
+      "text": " from the fair value gap."
+    },
+    {
+      "start": 229.53,
+      "end": 232.57,
+      "text": " You can take your entry from the auto block, but sometimes you're going to miss the trade"
+    },
+    {
+      "start": 232.57,
+      "end": 236.37,
+      "text": " so I would recommend that you only take your entries from the fair value gap."
+    },
+    {
+      "start": 236.37,
+      "end": 241.33,
+      "text": " You can see it was filled around here, so we can take our entry from the remaining part"
+    },
+    {
+      "start": 241.33,
+      "end": 243.97,
+      "text": " or we can just take the entry from the original part."
+    },
+    {
+      "start": 243.97,
+      "end": 246.05,
+      "text": " So it's just going to be fine."
+    },
+    {
+      "start": 246.05,
+      "end": 250.01,
+      "text": " We put our stop loss right above the body of the candle or we can either put it to the"
+    },
+    {
+      "start": 250.01,
+      "end": 252.77,
+      "text": " high of the candle."
+    },
+    {
+      "start": 252.77,
+      "end": 258.81,
+      "text": " For the take profit level, we could go for this level right around here because this"
+    },
+    {
+      "start": 258.81,
+      "end": 263.37,
+      "text": " is a significant liquidity level. As you can see, this is a significant low, right?"
+    },
+    {
+      "start": 263.37,
+      "end": 269.45,
+      "text": " And between this move, there are some very very gaps. So you can see we have this very"
+    },
+    {
+      "start": 269.45,
+      "end": 276.61,
+      "text": " good gap and we have this very good gap. So you must be taking some partial profit. So"
+    },
+    {
+      "start": 276.61,
+      "end": 282.05,
+      "text": " go on the trade is in the play. You should not be holding your trade. And once some sort"
+    },
+    {
+      "start": 282.05,
+      "end": 285.33,
+      "text": " of structure is broken, for example, this structure gets broken, you're gonna go break"
+    },
+    {
+      "start": 285.33,
+      "end": 290.17,
+      "text": " even. So this is very simple. Once this structure breaks, you will go break even. So let's"
+    },
+    {
+      "start": 290.17,
+      "end": 295.57,
+      "text": " see how the straight plays out. So if I play this through, we got our entry right here."
+    },
+    {
+      "start": 295.57,
+      "end": 303.71,
+      "text": " And if I play this through, you can see that the price is going down. And we hit our"
+    },
+    {
+      "start": 303.71,
+      "end": 310.99,
+      "text": " take profit level. So that was an 8.42 risk to the world trade. Very, very excellent example."
+    },
+    {
+      "start": 310.99,
+      "end": 314.65,
+      "text": " I'm gonna give you guys a few more examples. So yeah."
+    }
+  ]
+}

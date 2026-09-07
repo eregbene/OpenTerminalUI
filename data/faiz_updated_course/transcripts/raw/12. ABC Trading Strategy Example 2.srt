@@ -1,0 +1,184 @@
+1
+00:00:00,000 --> 00:00:05,680
+Alright guys, so here's another example for the abc-to-fitting strategy, so we got the
+
+2
+00:00:06,880 --> 00:00:09,920
+A leg right around here, right?
+
+3
+00:00:12,320 --> 00:00:21,600
+So we want to mark out the very low of the A leg, right?
+
+4
+00:00:21,600 --> 00:00:35,440
+Something like that, and then we got the B leg, which is the significant pullback or a
+
+5
+00:00:36,000 --> 00:00:40,320
+small down trend, sorry small trend in an opposite direction, which is this,
+
+6
+00:00:41,600 --> 00:00:45,760
+so this is the B leg, and then we got the C leg right around here,
+
+7
+00:00:46,080 --> 00:01:04,800
+which is this, okay, and we got the low of the B leg, sorry, how about we got the high of the
+
+8
+00:01:04,800 --> 00:01:15,440
+B leg right here, right? B leg high, which is our take profit area, and we got the A leg low here,
+
+9
+00:01:15,520 --> 00:01:23,360
+so let me delete that, we'll wait for price to fake out, before price
+
+10
+00:01:25,440 --> 00:01:36,720
+faked out, it created structure, so you can see lower low, lower high, lower low, lower high,
+
+11
+00:01:36,720 --> 00:01:43,920
+and then price broke down, price faked out, and before freaking out, before crossing this line,
+
+12
+00:01:43,920 --> 00:01:53,280
+price created some structure, and there we have market structure shift, and we got imbalance
+
+13
+00:01:55,520 --> 00:01:59,520
+just here, so if I remove the line, you can see we got the imbalance between this level,
+
+14
+00:01:59,600 --> 00:02:12,960
+so this whole candle is our autoblock, right, and we target
+
+15
+00:02:18,640 --> 00:02:29,120
+the B leg high, which is this, so that was 4.74, easy guys, you see the accuracy,
+
+16
+00:02:29,120 --> 00:02:39,200
+it took out the B leg high, and then it reversed, all right, so let me repeat this again, so let's
+
+17
+00:02:39,200 --> 00:02:46,800
+see what happened, we got the A leg, okay, we got the A leg, and then we got the B leg, right, and
+
+18
+00:02:46,800 --> 00:02:55,200
+then we got the C leg, the C leg created structure before taking out the low of the A leg, which is
+
+19
+00:02:56,080 --> 00:03:04,000
+this, and then we get, so once that low was taken out, before taking out the low price
+
+20
+00:03:04,000 --> 00:03:08,000
+created some structure, okay, it created structure here, it created structure here,
+
+21
+00:03:09,040 --> 00:03:14,000
+and these structures were taken out, so this is market structure shift, and when price took out
+
+22
+00:03:14,000 --> 00:03:19,840
+the level, it created some imbalance and autoblock, so this was our entry right around here,
+
+23
+00:03:20,480 --> 00:03:29,680
+and a beautiful trade guys, very, very simple guys, so I hope by now it's gonna be clear,
+
+24
+00:03:30,400 --> 00:03:36,240
+I tried my best to explain the strategy, literally my throat is hurting right now,
+
+25
+00:03:36,240 --> 00:03:43,040
+I don't know why, so I will repeat it once again, in the ABC structure, in the ABC
+
+26
+00:03:43,360 --> 00:03:51,120
+strategy, we want to identify the A leg, the B leg, and the C leg, the C leg must take out
+
+27
+00:03:51,840 --> 00:03:59,040
+this level, okay, which is the start of the B leg, and before, before taking out the
+
+28
+00:03:59,040 --> 00:04:05,200
+start of the B leg, it must create some structure, all right, and that structure gets broken here,
+
+29
+00:04:06,160 --> 00:04:11,360
+we got the ABC, and then we got this beautiful entry here,
+
+30
+00:04:12,960 --> 00:04:19,520
+wait for price to come back into the autoblock and very well you gap, and as you can see, it just
+
+31
+00:04:19,520 --> 00:04:24,720
+went crazily down, then you can see that we can continue this, okay, so we got the,
+
+32
+00:04:25,680 --> 00:04:30,480
+let's, let me show you one amazing thing about the strategy, so we got the, now this whole thing
+
+33
+00:04:30,560 --> 00:04:37,760
+is an A leg, this whole thing is a B leg, and this thing is a C leg, okay, so it just can't
+
+34
+00:04:37,760 --> 00:04:48,960
+continue forever, so let me go ahead and draw out this level, okay, so before price took out
+
+35
+00:04:48,960 --> 00:04:56,640
+this level, price created some structure here, and it left some imbalance, now unfortunately,
+
+36
+00:04:57,520 --> 00:05:05,040
+it did not hit our autoblock, which were right here, but it did fill in the imbalance around here,
+
+37
+00:05:05,040 --> 00:05:10,080
+and as you can see, if you would have taken the entry from this level, put your stop right
+
+38
+00:05:10,080 --> 00:05:21,040
+below this level, okay, you could have made another 4.21% return on the straight guys, absolutely
+
+39
+00:05:21,120 --> 00:05:29,040
+brilliant trading strategy, so yeah guys, I hope that things are clear enough now,
+
+40
+00:05:29,760 --> 00:05:37,200
+this works on any time frame, okay, if you want to sculpt, you can work on the 5 minute time frame,
+
+41
+00:05:39,760 --> 00:05:45,760
+also it works really really good with the one hour time frame, so what are the best pairs for
+
+42
+00:05:45,760 --> 00:05:54,160
+this strategy? Well honestly, every pair, according to my back testing data,
+
+43
+00:05:55,760 --> 00:06:05,200
+anything works with it, crypto forensics, stocks, indices, everything, so yeah guys, this was my
+
+44
+00:06:05,200 --> 00:06:11,040
+favorite trading strategy, and this is what I'm currently using nowadays, and it is highly profitable,
+
+45
+00:06:11,040 --> 00:06:19,920
+you can see these big moves, right, and yeah, so I'll see you guys in the next trading strategy,
+
+46
+00:06:19,920 --> 00:06:27,840
+goodbye.
+

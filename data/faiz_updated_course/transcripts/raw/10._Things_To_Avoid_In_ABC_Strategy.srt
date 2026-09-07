@@ -1,0 +1,267 @@
+1
+00:00:00,000 --> 00:00:30,000
+Right, so in this video, I'm going to give you a couple of tips about ABC strategy, or I could say, you know, the things that you should avoid, and ABC strategy. So the very first thing that I've seen people do is making this big mistake, right? So let's assume that you have an ALEC, you have the BLEG, and then you have the CLEG. So a lot of people consider this as a CLEG. For me, this is not a CLEG,
+
+2
+00:00:30,000 --> 00:00:32,160
+because look at this, right?
+
+3
+00:00:32,160 --> 00:00:34,560
+Price has went way far above.
+
+4
+00:00:34,560 --> 00:00:38,320
+So this for me is a breakout, right?
+
+5
+00:00:38,320 --> 00:00:40,280
+It has to go to a certain degree.
+
+6
+00:00:40,280 --> 00:00:41,800
+It should not just keep on going up
+
+7
+00:00:41,800 --> 00:00:43,840
+and then you expect the price to come back below
+
+8
+00:00:43,840 --> 00:00:44,560
+and break this.
+
+9
+00:00:44,560 --> 00:00:47,080
+This makes no sense, right?
+
+10
+00:00:47,080 --> 00:00:50,280
+You usually wanna look for price to go fake out
+
+11
+00:00:50,280 --> 00:00:53,160
+above the high, right, which is here.
+
+12
+00:00:54,160 --> 00:00:57,120
+And it should not go like this with volume.
+
+13
+00:00:57,120 --> 00:00:59,200
+It should just not keep on going up.
+
+14
+00:00:59,200 --> 00:01:03,160
+No, you have to train your eyes to see valid ABCs.
+
+15
+00:01:03,160 --> 00:01:06,160
+So this could be a valid ABC at this distance, right?
+
+16
+00:01:09,480 --> 00:01:13,280
+Let's see, let me see.
+
+17
+00:01:13,280 --> 00:01:18,280
+So around 30 pips on GPU SD is a valid fake app, right?
+
+18
+00:01:19,440 --> 00:01:22,960
+Or even 35, okay?
+
+19
+00:01:23,840 --> 00:01:27,320
+But more than that, it becomes risky, okay?
+
+20
+00:01:27,320 --> 00:01:34,200
+So make sure you avoid that because I have seen a lot of people making this mistake in the discord server
+
+21
+00:01:34,200 --> 00:01:38,900
+They just keep on looking for that same level when prize goes up like that
+
+22
+00:01:38,900 --> 00:01:45,120
+You want to wait for prize to give you another ABC look for another ABC rather than waiting for this level to be you know
+
+23
+00:01:45,120 --> 00:01:48,920
+Hit because let's assume that prize comes back and
+
+24
+00:01:49,560 --> 00:01:52,080
+Break some structure right around here
+
+25
+00:01:53,000 --> 00:01:55,000
+So you have your entry here now
+
+26
+00:01:55,000 --> 00:02:06,040
+Now, if we look at the auto flow trading strategy, what reason the price has to just not
+
+27
+00:02:06,040 --> 00:02:12,200
+mitigate an auto block over here and just create another higher high.
+
+28
+00:02:12,200 --> 00:02:13,840
+So this makes sense.
+
+29
+00:02:13,840 --> 00:02:19,040
+It can just come into this OB and it can just bears through your level because this is
+
+30
+00:02:19,040 --> 00:02:21,720
+not, this right here is not a fake out.
+
+31
+00:02:21,720 --> 00:02:24,120
+It's simply a breakout.
+
+32
+00:02:24,120 --> 00:02:28,520
+So yeah, you want to keep that thing in mind.
+
+33
+00:02:28,520 --> 00:02:31,120
+Secondly, if you want to improve your ABC setups,
+
+34
+00:02:31,120 --> 00:02:36,040
+there's this thing called, so actually, ABC is range trading.
+
+35
+00:02:36,040 --> 00:02:40,960
+And what I mean by range trading is that it's not that you
+
+36
+00:02:40,960 --> 00:02:43,920
+have to only trade ABC is in the range in market.
+
+37
+00:02:43,920 --> 00:02:48,960
+But the whole setup, this ABC setup is a range.
+
+38
+00:02:48,960 --> 00:02:52,680
+So you have a range high, and then you have a range low.
+
+39
+00:02:52,680 --> 00:02:57,480
+So price has to take at BOS side to take out the sell side and rights versa.
+
+40
+00:02:57,480 --> 00:03:01,680
+So to actually increase the wind rate of this,
+
+41
+00:03:01,680 --> 00:03:06,880
+what you can look for is when you have an ALAG and then you have the B-leg, right?
+
+42
+00:03:06,880 --> 00:03:12,480
+You want to see some rejections around the ALAG high.
+
+43
+00:03:12,480 --> 00:03:16,280
+You know, it's going to build up some liquidity, right?
+
+44
+00:03:16,280 --> 00:03:22,380
+And then you look for a C-leg and then you wait for a change of collector or market shift and you take your entry and target.
+
+45
+00:03:22,380 --> 00:03:32,900
+this level. Oops my bad. Oh my God dude. Um, I messed up. So let me draw this out again.
+
+46
+00:03:32,900 --> 00:03:37,380
+You have, you know, the B leg and then you have some liquidity buildup around the A level
+
+47
+00:03:37,380 --> 00:03:44,160
+high. And then you have the C leg. You take your entry boom, boom. So what happened here
+
+48
+00:03:44,160 --> 00:03:49,260
+is that when you have an A leg here, right, this is the high of the A leg. And we have
+
+49
+00:03:49,260 --> 00:03:54,540
+this B leg. So before price creates a C leg, you know, price, this
+
+50
+00:03:54,540 --> 00:04:00,460
+consolidated, uh, near this a leg high. So it can give a small push. It could be a
+
+51
+00:04:00,460 --> 00:04:04,500
+small push like this, right? It doesn't have to be big. It could be just be some
+
+52
+00:04:04,500 --> 00:04:09,180
+sort of consolidation happening around here. Uh, because usually when you, when
+
+53
+00:04:09,180 --> 00:04:15,100
+you're only trading like ABCs like this, you know, this, this, this, you know,
+
+54
+00:04:15,100 --> 00:04:19,700
+shows me there's volume to the upside because price is just gonna pierce
+
+55
+00:04:19,700 --> 00:04:24,580
+through above this level and not come back and take out this level. So you have
+
+56
+00:04:24,580 --> 00:04:30,860
+there is a less chance there's you know there's a 40-person chance that it's
+
+57
+00:04:30,860 --> 00:04:34,900
+gonna play out but there's a 60-person chance that it won't play out. Why?
+
+58
+00:04:34,900 --> 00:04:40,220
+Because you know you have no consolidation after the B-lect formation near the
+
+59
+00:04:40,220 --> 00:04:52,220
+So a prime setup for me would be, you know, I want to see some sort of consolidation around this level before price takes out the available high.
+
+60
+00:04:52,220 --> 00:05:01,220
+You know, and it can just take out the like, like, high come back to a market structure shift, take your entry and boot.
+
+61
+00:05:01,220 --> 00:05:08,900
+So I hope this video gives you some sort of information and make sure you
+
+62
+00:05:10,620 --> 00:05:13,260
+Back test this, you know and just
+
+63
+00:05:14,060 --> 00:05:16,060
+Just get used to this
+
+64
+00:05:16,820 --> 00:05:18,820
+Padden right
+
+65
+00:05:18,820 --> 00:05:23,980
+I want to see some sort of consolidation around the leg high or if you are looking for a long position
+
+66
+00:05:23,980 --> 00:05:32,510
+You want to see some sort of consolidation around you know this level which would be this and
+
+67
+00:05:33,110 --> 00:05:37,670
+boom. This would be it. So let's move on to the next video.

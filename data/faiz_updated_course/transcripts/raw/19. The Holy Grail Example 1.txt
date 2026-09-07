@@ -1,0 +1,86 @@
+Alright guys, so here is an example number one for the holy grail model
+Notice that I didn't show you the examples from the high time frames, but I'm going to use the high time frame combination here
+So from monthly we're going to go to the daily time frame and from daily
+We're going to go to one hour time frame to look for our entries
+like similarly you can go from daily to one hour to
+Five minute and from weekly you can go from from weekly to four hour to 15 minutes
+And for daily as I said before from daily to hourly to five minute and from four hour to 15 minute to one minute
+I wouldn't say one minute. Just go with two minutes. That is
+Actually reliable than one minute. So what do we have? We have taken out the external liquidity right on the monthly on gbpsd
+We have this fairly gap in the discount, right? Sorry in the premium here. So that is going to be our drawn liquidity
+So price takes out this let's go to the daily time frame and see what happens
+So price takes out the liquidity here now
+We want to look for a market structure shift on the daily time frame
+And we have the market structure shift on the daily time from here. Look at this fractal high here
+We have a candle to the left, right?
+Which is shorter than this this candle and then we have the candle to the right which is also shorter than this high
+So that is our fractal high price breaks that structure right giving us a market structure shift now looking back here
+where is the
+PD area in the discount
+This fair valley gap right here, right? There's no clean auto block nothing just this fair valley gap
+So we mark out the fair valley gap and remember when you are on the higher time frames like four hour daily weekly and monthly
+You want to use the 0.5 level off the fib energy
+Sorry off this gap of this fairly gap, right?
+You don't want to be looking for confirmation entries when price taps into it straight away
+Just wait for price to come into 0.5 level. Okay, so
+drawing the fib for on the fbg you can see we have
+This is the 0.5 level. Let me delete the fib
+Damn right there. So
+Let's go here. So now once price is into our PD area. We want to mark out the range high, which is this, right?
+So we're going to mark out this here and this is from where we're going to scout out the one hour market maker model
+Right. We want to look for a market maker model starting from this move down
+Right because this is the last move
+When before price went to this PD area, right? So we want to look for a
+one hour market maker model, right?
+So price is into the 0.5 level here at the moment
+Before that we want to identify the consolidation phases. So right away where you can see is you have this consolidation phase right there
+Then we have the accumulation phase two
+So basically the first consolidation is called consolidation
+The second consolidation is called accumulation one and the third
+consolidation is called
+Accumulation number two right accumulation could just be a pullback right and
+It would be considered a consolidation
+But for the first consolidation you have to look for a decent size or decent consolidation something like that, right?
+It doesn't have to be like a big consolidation just
+Train your eyes to just identify consolidation. This is a clean consolidation
+You can see we have these highs here then we have this lows here right here, right?
+So price is like going nowhere. We went up down up. That's it. And then we have push up
+Push down, right? We have accumulation down accumulation down
+Into our PD area, right?
+So now what we want to do is we want to look for a shift in the market structure on the one hour time frame
+Remember we're going from monthly to daily to one hour. So right here
+What do we have? We have a shift in market structure and we have this clean auto block
+Remember bearish candles continuous bearish candles. So now from here, we're going to go long right there
+We're going to put our stop right below the slope and we are going to target
+The consolidation high which is right here
+Giving us 10.7 something rich to reward
+So most importantly our entry is during London three right at three. So let's see how this plays out
+So it consolidates for a bit
+We
+Have a continuation purge here
+Right, but our target is fixed and right there we have our take profit hit for 110. So let me teach you something else
+Use your Fibonacci from this range high
+to this range low
+So every single PD array after market structure shift is going to be respected every single auto block below the 0.5 level
+Once price is above the 0.5 level the chances decrease, right?
+So you want to get in before price goes above 0.5 level and
+I mean i'm not saying that price goes above the 0.5 level then comes back and you cannot take the trade
+Yes, it is possible when price goes above 0.5 level and then comes back into discount. You can look for entries
+But you cannot buy above the 0.5 level. That's what i'm saying
+so
+Over here
+You can see we have hit the take profit. We had this breaker block here
+and
+Price respected this breaker block here then came back here and filled in
+This tiny little fairly gap here, right if you can see it
+And we also took out this so that was continuation at around eight. So remember I said mostly the continations
+Purges happened during from eight to ten thirty, right?
+So we have a continuation purge right here and the abcd remember
+I mean, it's not necessary to get the abcd. You just want to see a purge on the liquidity, right?
+and
+That's actually pretty much it. You can see we came into the breaker block and then we had our take profit level hit
+so
+um
+Very simple guys. You just have to identify the consolidation phases and you will be good
+Okay, and you will you can easily pass your charge with one trade if you get a proper setup
+So let's move on to the next example

@@ -1,0 +1,31 @@
+[00:00:00] Art guys, so here's the example for the original block trading strategy. So we had this sweep, right, and then we had a change of character or market structure shift, whatever you want to call it. And then you had this, a lot of block right around here, and some imbalance around here. Right. So usually in this case, I would just mark out of the
+[00:00:30] this candle as well. And as you can see when price reacted from this level, it
+[00:00:37] created an impulsive move and left imbalance and auto block just as I explained.
+[00:00:46] So you want to take your entry from here. There you go. I want to put your stop
+[00:00:55] up there and that was a beautiful trade. There you go, you're 10 risk reward trade right here.
+[00:01:05] Very simple guys. So this is basically it guys. You just want to, if you want a confirmation entry.
+[00:01:14] Now most of the time you might miss out the trade, okay? Just because you didn't confirm it.
+[00:01:21] But the thing is that with confirmation entries, your win rate is gonna increase dramatically.
+[00:01:29] All right?
+[00:01:30] So I would say just go with this.
+[00:01:34] I mean, there are so many strategies that I have uploaded.
+[00:01:38] You only need to master one of those.
+[00:01:41] Okay?
+[00:01:42] You don't want to master each and every trading strategy.
+[00:01:45] Just find one, just choose one trading strategy and stick to it.
+[00:01:49] just keep on backtesting it, okay?
+[00:01:51] Just build that confidence.
+[00:01:55] That's pretty much it for this training strategy.
+[00:01:58] As you can see, I want to show you more examples,
+[00:02:02] but I really wanna move to the ABCD strategy
+[00:02:05] because it is a great one as well.
+[00:02:07] And this one is relatively, I hope you're clear by now.
+[00:02:11] I don't think you want more examples.
+[00:02:13] It's just that you just wanna see a reaction
+[00:02:16] from that auto block or fair value gap,
+[00:02:20] that creates the simple same move,
+[00:02:23] creates fair value gap, and then you take your entry
+[00:02:25] from here, that's pretty much it.
+[00:02:30] So I do hope that you liked this strategy as well,
+[00:02:36] it's a very good one.
+[00:02:38] So yeah guys, see ya.

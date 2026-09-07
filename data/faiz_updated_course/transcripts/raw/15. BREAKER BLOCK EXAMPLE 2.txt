@@ -1,0 +1,88 @@
+All right guys, so here is example number two
+for breaker block entries.
+So you can see we have higher high, higher low
+and higher high.
+And then we have a
+a market structure shift right here.
+So normally what you would do is you would take your entry
+from this favorite gap or this favorite gap.
+But if you are using the breaker block entry model,
+your breaker block is right here,
+which is the last candle before the move to the upside.
+And after that you have a shift in market structure.
+So you see this move, right?
+There was no bearish candle around here, okay?
+If there was a bearish,
+let's assume that this candle was bearish, right?
+And then you had a,
+so I would consider then this as market structure shift.
+And then I would consider that candle as my breaker
+because apparently that was the last bearish candle
+or last candle or you could say high, high, high low,
+last high low and then we had higher high
+and then market shift.
+So I hope you get what I'm trying to explain.
+So, but in this case, this was the last candle, right?
+Or sometimes what I would do is it's sometimes
+a good practice to mark out the bearish candle
+instead of the bullish candle and vice versa.
+So if you are looking for a long position,
+you should mark out the bullish candle
+instead of the bearish candle.
+But it's not gonna affect that much.
+You can take your entry from the last candle, okay?
+Or the, yeah.
+So you can see if I drag this along,
+we had market structure shift
+and what was really nice about this breaker block
+is that we had fair value gap here as well.
+Now that is when breaker blocks become very, very,
+I would say powerful, okay?
+So keep that in mind that yeah,
+you can use breakers as their own without fair value gap,
+but if there's fair value gap,
+then that entry is gonna be perfect.
+So I'm gonna explain another thing.
+A lot of people say that they missed their entries
+whenever they tried to enter from the extreme fair value gap.
+If you are, if you don't wanna miss, you know,
+the trades, what you can do is right
+when you have a market structure shift,
+you can take your entry from the very recent fair value gap,
+okay?
+Instead of taking your entry from the extreme,
+you can take your entry from the very first,
+but there's a catch, okay?
+You need to secure your stop loss.
+So let's say if fries goes back to the extreme fair value gap,
+you do not lose, okay?
+You do not wanna give your money to the markets,
+even though your analysis are right.
+So this is the only way, guys.
+If you want me to tell you guys to put your stop here,
+yeah, of course you can, but you're gonna lose, okay?
+And even though your analysis are going to be perfect,
+a price can stop you up because it needs to fill
+and balance the prices up there.
+So keep your stop maybe here or maybe here,
+and kaboom, okay?
+Perfect.
+So yeah, guys, I really hope that the,
+you know, I really hope that you guys
+have a clear knowledge about breaker blocks now.
+It's simply the last candle.
+So you have, so see, I'll try to explain it once again.
+If Justin cares if anyone did understand.
+So you have higher high, higher low, higher high.
+Right?
+So the last candle of the higher low
+is gonna be your breaker block.
+And you must get a market structure shift
+after this new high is created, right?
+And when you have market structure shift,
+then that breaker block becomes valid.
+However, if you had, let's say, higher high, higher low,
+higher high, it's small, higher low,
+and then higher high, and then market structure shift,
+then that last candle would be your breaker.
+So yeah, let's move on to the next videos.

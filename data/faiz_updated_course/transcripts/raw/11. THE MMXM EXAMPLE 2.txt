@@ -1,0 +1,37 @@
+Alright guys, so here is an example number two.
+So I'm looking at NCDUSD on the daily timeframe.
+As you can see, we took out this external liquidity which is this high over here and our draw
+on liquidity would be this fair value gap.
+But let's go to the one over time frame and see what happened.
+So price took out the liquidity here, right?
+Now price is in our POI.
+So now essentially what we are waiting for is we have to identify original consolidation.
+So where's the original consolidation?
+In my eyes, it's right here.
+You can see we went up and down from here, but then we have a small consolidation here
+giving us two consolidations, right?
+And when price came back into our POI, took out liquidity, we had a shift in the market
+structure and right away what we have is an auto block for these consecutive bullish
+candles.
+We have this fair value gap.
+Now price goes down, goes down, goes down.
+You can see there is an auto block here, right?
+Remember the mitigation blocks.
+So this bearish candle, price broke through that.
+What do we have inside it?
+A bearish auto block, price taps into that bearish auto block.
+Then we have what?
+Another mitigation block, price breaks through this, but do we have fair value gap?
+Of course price went a little higher from here because this is not a clean high.
+So our stop would be here because that is a high.
+Higher highs are the highest candle is the mid one and the left and the right candle
+is the lowest like from this week.
+And as you can see, the price is currently on its way down to take out this low here.
+And it eventually will because this is the original consolidation.
+As you can see, when price like started moving up, right, or you could just simply say like
+this is one big consolidation phase right there.
+Yeah.
+So maybe we can just take out this level here as well.
+We have a tiny consolidation here as well and pretty much it sums up everything that
+I've thought right now.
+So let's move on to the next example.

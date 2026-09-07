@@ -1,0 +1,119 @@
+1
+00:00:00,050 --> 00:00:30,050
+Alright guys, so here is an example number one of the market maker, second distribution entry model. So right here, but do we have taken out the external liquidity, right? This fair value gap is going to be our drawn liquidity. So let's see what happened here. Going to the one-hour time firm. This is when we took out the external liquidity, right? We have the consolidation right here, and we have this drawn liquidity right here. We have this pullback, which is the accumulation phase one, right? We only want to see a small pullback or consolidation.
+
+2
+00:00:30,050 --> 00:00:36,450
+that's pretty much it. So now let's look at it here. After price took out the liquid, what do we have?
+
+3
+00:00:36,450 --> 00:00:41,810
+We have a lower low, lower high, lower low. Now that's when we get a market structure ship
+
+4
+00:00:41,810 --> 00:00:47,730
+and we also have the first stage of the market maker second distribution model complete,
+
+5
+00:00:47,730 --> 00:00:52,130
+which is double break of structure, right? Once you have a double break of structure,
+
+6
+00:00:52,130 --> 00:00:58,450
+you want to wait for a purge of any lower high. Now what is a lower high? We have lower low,
+
+7
+00:00:58,450 --> 00:01:04,770
+lower high. This is a lower high, right? But do we have here? Lower low, lower high, lower low, right?
+
+8
+00:01:04,930 --> 00:01:09,330
+Now this is that lower high that you want to put your focus on. We took out this
+
+9
+00:01:10,450 --> 00:01:16,450
+lower high here. Now we want to wait for a double break off structure once again, right?
+
+10
+00:01:16,450 --> 00:01:20,690
+So we have this level taken out. We also took out this level, but this is not necessary.
+
+11
+00:01:20,690 --> 00:01:25,410
+We took out this lower high. Now we simply wait for a double break off structure. So what do we have?
+
+12
+00:01:25,410 --> 00:01:32,610
+we have a lower low, right? Zooming in here, we have a lower low, lower high and a lower low.
+
+13
+00:01:34,290 --> 00:01:41,090
+Once you have that, look at where is the unmitigated freer value gap? This right here is the
+
+14
+00:01:41,090 --> 00:01:47,810
+freer value gap that we're talking about. Now this is your second distribution entry model and
+
+15
+00:01:47,810 --> 00:01:56,530
+guys once you get this setup there's like no going back okay so this is like a
+
+16
+00:01:56,530 --> 00:02:00,170
+live trade I think we can't play it forward so like this is happening right now
+
+17
+00:02:00,170 --> 00:02:08,050
+it happened on Monday you can see at three we got the entry and this is the
+
+18
+00:02:08,050 --> 00:02:12,090
+beauty of this model once you get this type of setup you have to train your
+
+19
+00:02:12,090 --> 00:02:17,610
+mind to see this type of setup guys it's not it's not I like my other strategies
+
+20
+00:02:17,610 --> 00:02:24,890
+is not easy. It's not like it's like a piece of cake. No, it is not that. You have to
+
+21
+00:02:24,890 --> 00:02:29,610
+identify these structures. And one more thing to help you with this is wicks'
+
+22
+00:02:29,610 --> 00:02:34,850
+marker, okay, in this strategy. So you don't have to wait for body closure. If
+
+23
+00:02:34,850 --> 00:02:38,730
+you get a wig, that is your shift in marker structure. If you get like a wig
+
+24
+00:02:38,730 --> 00:02:42,970
+here and then a wig here, that is your break of structure. So let's say if the
+
+25
+00:02:42,970 --> 00:02:52,330
+body didn't close here, but it was just a wick that was a clean setup. Okay, you don't you can also wait for wicks in this type of strategy. So
+
+26
+00:02:54,090 --> 00:02:56,970
+this second distribution is complete and we hit this
+
+27
+00:02:57,530 --> 00:03:02,810
+almost trying to hit this level. We'll take out this look and this would have been a 14.98.
+
+28
+00:03:03,130 --> 00:03:07,610
+Let's say you put your stop here. Maybe here. Let's say even here three you would get one to three,
+
+29
+00:03:07,610 --> 00:03:12,810
+but usually I would put my stop here. That was 13.46. It happened recently that was
+
+30
+00:03:12,810 --> 00:03:16,810
+your challenge pass in one trade. Let's move on to the next example.

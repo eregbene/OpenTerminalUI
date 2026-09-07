@@ -1,0 +1,184 @@
+1
+00:00:00,000 --> 00:00:04,480
+Alright guys, so here is the example number one for the ICT silver bullet
+
+2
+00:00:05,400 --> 00:00:07,400
+you can see that
+
+3
+00:00:07,880 --> 00:00:14,160
+Over here we do not have a clear liquidy sweep anywhere and the time is 955 right
+
+4
+00:00:14,240 --> 00:00:19,360
+So we're gonna wait for this for the price to either take out the buy side or the sell side
+
+5
+00:00:21,520 --> 00:00:24,680
+So you can see price took out the sell side here
+
+6
+00:00:24,680 --> 00:00:29,740
+So now here's the thing price can take out liquidy even when even after 10 a.m
+
+7
+00:00:29,840 --> 00:00:34,820
+Okay, there is no like rule that the liquidity sweep must happen before 10
+
+8
+00:00:34,960 --> 00:00:38,240
+Okay, the thing is your entry must only be after 10
+
+9
+00:00:38,720 --> 00:00:43,400
+So it has taken out the you know the sell side. Let's go back to one minute and
+
+10
+00:00:44,200 --> 00:00:46,200
+Look for a clear
+
+11
+00:00:46,400 --> 00:00:48,400
+market structure shift and
+
+12
+00:00:48,400 --> 00:00:53,440
+As you can see right here what we do have is a lower low lower high lower low
+
+13
+00:00:53,480 --> 00:00:57,880
+Right and then over here we have a shift in market structure now
+
+14
+00:00:58,480 --> 00:01:00,480
+This I consider
+
+15
+00:01:00,480 --> 00:01:05,240
+Internal market structure and this right here would be my external market structure
+
+16
+00:01:05,240 --> 00:01:08,960
+Okay, so let's say a price takes out this significant high over here
+
+17
+00:01:09,280 --> 00:01:15,360
+Then the chances of that trade playing out is gonna be decreased. I want these tiny structures to break
+
+18
+00:01:15,360 --> 00:01:20,640
+Okay, I do not want want this like a significant structure to break because if that breaks in my eyes
+
+19
+00:01:20,680 --> 00:01:28,320
+That is a liquidity sweep especially when we're looking at one minute time from so now what we do have is a favorably gap right here
+
+20
+00:01:29,400 --> 00:01:31,640
+Okay, and my entry would go here
+
+21
+00:01:31,960 --> 00:01:37,160
+so let's say that we put our stop at five handles right here and we go for
+
+22
+00:01:37,560 --> 00:01:42,000
+five handles take profit, right and the time is 10 36 and
+
+23
+00:01:43,520 --> 00:01:50,120
+Your entry must not be later than 10 50 10 50 a.m. Okay, so your window the trading period is
+
+24
+00:01:50,800 --> 00:01:52,800
+10 a.m
+
+25
+00:01:53,040 --> 00:01:56,360
+Oops 10. Oh my god
+
+26
+00:01:57,480 --> 00:01:59,480
+10
+
+27
+00:01:59,480 --> 00:02:00,840
+50 a.m
+
+28
+00:02:00,840 --> 00:02:05,280
+All right, so your entry must happen during this time window, okay?
+
+29
+00:02:05,680 --> 00:02:11,120
+And you must close your trade before 11. Okay, so we have our entry and let's see how this plays out
+
+30
+00:02:11,160 --> 00:02:17,280
+We go back in a little draw down here and then look at that we push back up right away
+
+31
+00:02:17,320 --> 00:02:20,600
+So that take profit was it however if you held your trade
+
+32
+00:02:21,240 --> 00:02:25,760
+Till this level you can see we would have gotten one to two risk to war trade
+
+33
+00:02:27,600 --> 00:02:33,440
+So it needs some sort of practicing and then you can master this strategy
+
+34
+00:02:33,840 --> 00:02:36,920
+Remember this is very important part here
+
+35
+00:02:37,360 --> 00:02:44,840
+When a significant structure something like that if it breaks and then it comes back to your entry that is a low probability setup
+
+36
+00:02:44,840 --> 00:02:52,040
+I want so let's say you have a liquidity sweep, right? This is a little receive. I want this tiny structure something like that, okay?
+
+37
+00:02:52,880 --> 00:02:57,800
+Not something like this where you have like three four or let me give you another example
+
+38
+00:02:58,000 --> 00:03:05,080
+That's right here if that breaks right that is invalid. I want to see a break of structure something like you know
+
+39
+00:03:05,920 --> 00:03:07,920
+this over here or
+
+40
+00:03:08,240 --> 00:03:15,760
+Maybe you see lower low lower high lower low something like that. That is prime market structure or this is the best example
+
+41
+00:03:16,280 --> 00:03:20,360
+Right here, okay. You see this tiny structure here lower low lower high lower low
+
+42
+00:03:20,360 --> 00:03:24,840
+I do not want to see this structure break and then I wait for my entry that is invalid
+
+43
+00:03:24,840 --> 00:03:29,680
+You can see that we broke the structure and we filled in this very valley gap and then we went down
+
+44
+00:03:30,680 --> 00:03:37,000
+Because this is liquidity guys a lot of people what they do is they consider this as the low and they consider this as
+
+45
+00:03:37,400 --> 00:03:43,320
+You know market structure shift. No, that is a liquidity sweep. Okay, just open your eyes, bro
+
+46
+00:03:43,920 --> 00:03:47,560
+So right here we hit one to two. Let me give you guys another example
+

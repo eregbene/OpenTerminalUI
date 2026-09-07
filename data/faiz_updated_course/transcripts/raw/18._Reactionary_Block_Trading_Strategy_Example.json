@@ -1,0 +1,168 @@
+{
+  "source": "F:\\new faiz\\18. Reactionary Block Trading Strategy Example.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 161.4948125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Art guys, so here's the example for the original block trading strategy. So we had this sweep, right, and then we had a change of character or market structure shift, whatever you want to call it. And then you had this, a lot of block right around here, and some imbalance around here. Right. So usually in this case, I would just mark out of the"
+    },
+    {
+      "start": 30.0,
+      "end": 37.24,
+      "text": " this candle as well. And as you can see when price reacted from this level, it"
+    },
+    {
+      "start": 37.24,
+      "end": 46.48,
+      "text": " created an impulsive move and left imbalance and auto block just as I explained."
+    },
+    {
+      "start": 46.48,
+      "end": 55.89,
+      "text": " So you want to take your entry from here. There you go. I want to put your stop"
+    },
+    {
+      "start": 55.89,
+      "end": 64.53,
+      "text": " up there and that was a beautiful trade. There you go, you're 10 risk reward trade right here."
+    },
+    {
+      "start": 65.25,
+      "end": 74.85,
+      "text": " Very simple guys. So this is basically it guys. You just want to, if you want a confirmation entry."
+    },
+    {
+      "start": 74.85,
+      "end": 81.25,
+      "text": " Now most of the time you might miss out the trade, okay? Just because you didn't confirm it."
+    },
+    {
+      "start": 81.25,
+      "end": 89.89,
+      "text": " But the thing is that with confirmation entries, your win rate is gonna increase dramatically."
+    },
+    {
+      "start": 89.89,
+      "end": 90.89,
+      "text": " All right?"
+    },
+    {
+      "start": 90.89,
+      "end": 94.65,
+      "text": " So I would say just go with this."
+    },
+    {
+      "start": 94.65,
+      "end": 98.69,
+      "text": " I mean, there are so many strategies that I have uploaded."
+    },
+    {
+      "start": 98.69,
+      "end": 101.53,
+      "text": " You only need to master one of those."
+    },
+    {
+      "start": 101.53,
+      "end": 102.53,
+      "text": " Okay?"
+    },
+    {
+      "start": 102.53,
+      "end": 105.25,
+      "text": " You don't want to master each and every trading strategy."
+    },
+    {
+      "start": 105.25,
+      "end": 109.69,
+      "text": " Just find one, just choose one trading strategy and stick to it."
+    },
+    {
+      "start": 109.69,
+      "end": 111.69,
+      "text": " just keep on backtesting it, okay?"
+    },
+    {
+      "start": 111.69,
+      "end": 114.09,
+      "text": " Just build that confidence."
+    },
+    {
+      "start": 115.61,
+      "end": 118.45,
+      "text": " That's pretty much it for this training strategy."
+    },
+    {
+      "start": 118.45,
+      "end": 122.61,
+      "text": " As you can see, I want to show you more examples,"
+    },
+    {
+      "start": 122.61,
+      "end": 125.41,
+      "text": " but I really wanna move to the ABCD strategy"
+    },
+    {
+      "start": 125.41,
+      "end": 127.81,
+      "text": " because it is a great one as well."
+    },
+    {
+      "start": 127.81,
+      "end": 131.53,
+      "text": " And this one is relatively, I hope you're clear by now."
+    },
+    {
+      "start": 131.53,
+      "end": 133.29,
+      "text": " I don't think you want more examples."
+    },
+    {
+      "start": 133.29,
+      "end": 136.45,
+      "text": " It's just that you just wanna see a reaction"
+    },
+    {
+      "start": 136.45,
+      "end": 140.69,
+      "text": " from that auto block or fair value gap,"
+    },
+    {
+      "start": 140.69,
+      "end": 143.07,
+      "text": " that creates the simple same move,"
+    },
+    {
+      "start": 143.07,
+      "end": 145.73,
+      "text": " creates fair value gap, and then you take your entry"
+    },
+    {
+      "start": 145.73,
+      "end": 148.21,
+      "text": " from here, that's pretty much it."
+    },
+    {
+      "start": 150.21,
+      "end": 155.21,
+      "text": " So I do hope that you liked this strategy as well,"
+    },
+    {
+      "start": 156.97,
+      "end": 158.65,
+      "text": " it's a very good one."
+    },
+    {
+      "start": 158.65,
+      "end": 160.41,
+      "text": " So yeah guys, see ya."
+    }
+  ]
+}

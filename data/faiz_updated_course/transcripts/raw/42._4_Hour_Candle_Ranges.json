@@ -1,0 +1,1303 @@
+{
+  "source": "F:\\new faiz\\42. 4 Hour Candle Ranges.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 1076.57,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.34,
+      "end": 30.34,
+      "text": " Hey guys, hope you're doing good. In the chapter I'm going to teach you my personal approach to CRD or Gandal range theory. Now I explain this concept over one and a half years ago on my YouTube, but it wasn't really in that much detail. I just told you guys that candles are ranges and basically you can take a turtle soup whenever the candle highs taken out or the candle low is taken out. Now a lot of people on Twitter,"
+    },
+    {
+      "start": 30.34,
+      "end": 36.46,
+      "text": " Consider this as their own concept. It is not my concept. It is not their concept. This is all ICT"
+    },
+    {
+      "start": 36.7,
+      "end": 38.7,
+      "text": " right there's nothing"
+    },
+    {
+      "start": 39.58,
+      "end": 44.46,
+      "text": " There's nothing that someone invented right someone else invented. This is all ICT"
+    },
+    {
+      "start": 44.66,
+      "end": 53.5,
+      "text": " So what exactly is CRD so serious candle range theory right every candle is a range and that is absolutely obvious right that"
+    },
+    {
+      "start": 53.5,
+      "end": 57.72,
+      "text": " There's nothing new to it, but then there are some timings that if we"
+    },
+    {
+      "start": 57.72,
+      "end": 65.76,
+      "text": " focus on, you know, you can trade with very high probability. So although every"
+    },
+    {
+      "start": 65.76,
+      "end": 70.8,
+      "text": " single candle is a range, it doesn't mean that every single candle's range is"
+    },
+    {
+      "start": 70.8,
+      "end": 77.24,
+      "text": " high probability. We have specific times that make those candle ranges high"
+    },
+    {
+      "start": 77.24,
+      "end": 83.28,
+      "text": " probability. So the number one is 1M for our candle. So this is a 4 hour candle"
+    },
+    {
+      "start": 83.28,
+      "end": 89.9,
+      "text": " And this is also a four hour candle. Okay, so we're gonna have two high probability turtle soups in a day"
+    },
+    {
+      "start": 90.34,
+      "end": 93.24,
+      "text": " Now one can work and one cannot work or both"
+    },
+    {
+      "start": 93.84,
+      "end": 97.04,
+      "text": " Total soups can work in a day so basically you will win two trades in a day"
+    },
+    {
+      "start": 98.16,
+      "end": 101.56,
+      "text": " Now don't get confused. I'm gonna explain each and everything all right"
+    },
+    {
+      "start": 101.56,
+      "end": 105.64,
+      "text": " So this may sound a bit complicated, but it is not just listen to me"
+    },
+    {
+      "start": 106.48,
+      "end": 111.32,
+      "text": " So this is the first four hour candle and that's gonna open at 1am"
+    },
+    {
+      "start": 111.32,
+      "end": 115.16,
+      "text": " And then this is the second four hour candle and that's gonna open at 5M"
+    },
+    {
+      "start": 116.08,
+      "end": 118.64,
+      "text": " So practically we want to wait"
+    },
+    {
+      "start": 119.32,
+      "end": 124.96,
+      "text": " For the candle closure so the 1M4 hour candle needs to close so once it closes"
+    },
+    {
+      "start": 125.84,
+      "end": 131.92,
+      "text": " We are simply marking out the 1M4 hour candle high and low"
+    },
+    {
+      "start": 135.14,
+      "end": 137.78,
+      "text": " Now there are two ways to trade this"
+    },
+    {
+      "start": 137.78,
+      "end": 143.58,
+      "text": " Okay, the very first step is we need to see when the candle closes, right?"
+    },
+    {
+      "start": 143.58,
+      "end": 145.78,
+      "text": " The 1M4 our candle."
+    },
+    {
+      "start": 145.78,
+      "end": 155.38,
+      "text": " We have to drop down to 5 minute time from and let's suppose that the high is taken out."
+    },
+    {
+      "start": 155.38,
+      "end": 165.61,
+      "text": " Now, I want to see a market structure shift also acceptance back into the range, the candle"
+    },
+    {
+      "start": 165.61,
+      "end": 166.61,
+      "text": " range."
+    },
+    {
+      "start": 166.61,
+      "end": 174.29,
+      "text": " range high, this is a candle range low. Once the candle closes, we are waiting for a rate either"
+    },
+    {
+      "start": 174.29,
+      "end": 180.77,
+      "text": " to the candle high or the candle low. So in this example, you can see that the next candle opened"
+    },
+    {
+      "start": 180.77,
+      "end": 187.89,
+      "text": " here and on the five minute dump room, we took out the four hour candle high. And then we also have"
+    },
+    {
+      "start": 187.89,
+      "end": 193.25,
+      "text": " a marker structure shift and we also have acceptance back into the range. I want to see price come"
+    },
+    {
+      "start": 193.25,
+      "end": 199.57,
+      "text": " back into the range. Right? And that's going to increase the probability. Now, I am simply"
+    },
+    {
+      "start": 199.57,
+      "end": 208.69,
+      "text": " just taking my entry from the Fair Valley Gap or a breaker block or an autoblock. And here is the risk"
+    },
+    {
+      "start": 208.69,
+      "end": 215.01,
+      "text": " management for this strategy. You take your entry, put your short bit of the high, and you close"
+    },
+    {
+      "start": 215.01,
+      "end": 222.29,
+      "text": " 50% off your position at one to one risk to the water ratio. So once you reach one to one, you are"
+    },
+    {
+      "start": 222.29,
+      "end": 230.69,
+      "text": " basically taking 50% off your position and then you're also going break even. Now you are leaving the trade"
+    },
+    {
+      "start": 231.41,
+      "end": 240.13,
+      "text": " till the candle low is taken out. So this is going to maximize the profits. Now the second way"
+    },
+    {
+      "start": 240.13,
+      "end": 246.05,
+      "text": " your trade is you have a period rate on the four hour time from this is a four hour candle"
+    },
+    {
+      "start": 246.05,
+      "end": 247.57,
+      "text": " on the forward timer."
+    },
+    {
+      "start": 247.57,
+      "end": 249.67,
+      "text": " Let's suppose that you have a fair value gap."
+    },
+    {
+      "start": 249.67,
+      "end": 254.67,
+      "text": " Now, once price takes out the four hour candle high"
+    },
+    {
+      "start": 254.87,
+      "end": 257.57,
+      "text": " and it also taps into a period, right?"
+    },
+    {
+      "start": 257.57,
+      "end": 259.07,
+      "text": " And then gives you a marker structure shift"
+    },
+    {
+      "start": 259.07,
+      "end": 262.61,
+      "text": " on the five minute diagram that makes it high probability."
+    },
+    {
+      "start": 262.61,
+      "end": 263.45,
+      "text": " Okay?"
+    },
+    {
+      "start": 263.45,
+      "end": 266.31,
+      "text": " There are always some ways to increase the probabilities"
+    },
+    {
+      "start": 266.31,
+      "end": 267.77,
+      "text": " of the strategy, all right?"
+    },
+    {
+      "start": 267.77,
+      "end": 269.93,
+      "text": " And that's what I'm teaching my goal is to teach you ways"
+    },
+    {
+      "start": 269.93,
+      "end": 271.53,
+      "text": " that you can approach the strategy."
+    },
+    {
+      "start": 271.53,
+      "end": 272.41,
+      "text": " And there are two ways."
+    },
+    {
+      "start": 272.41,
+      "end": 275.61,
+      "text": " One is of course gonna have low probability"
+    },
+    {
+      "start": 275.61,
+      "end": 280.49,
+      "text": " is not a huge difference. If you're in account for PD arrays, your win was going to just go"
+    },
+    {
+      "start": 281.05,
+      "end": 287.61,
+      "text": " 5 to 10% higher. That's it. But it's not very significant when you're going to win these"
+    },
+    {
+      "start": 287.61,
+      "end": 293.13,
+      "text": " massive trades. So you take 50% off at 1 to 1 and then you basically hold till this level."
+    },
+    {
+      "start": 293.13,
+      "end": 296.89,
+      "text": " Now of course I'm going to give you examples and your confusion will be gone."
+    },
+    {
+      "start": 298.65,
+      "end": 304.17,
+      "text": " So it's very simple. Just five minute mark is actually shift. Now here is one scenario that"
+    },
+    {
+      "start": 304.17,
+      "end": 306.09,
+      "text": " second I can write."
+    },
+    {
+      "start": 306.09,
+      "end": 309.69,
+      "text": " So let's assume, just let me just remove this."
+    },
+    {
+      "start": 310.93,
+      "end": 315.93,
+      "text": " The new candle opens, you have price keeps going up, right?"
+    },
+    {
+      "start": 315.93,
+      "end": 318.21,
+      "text": " And then you get a market structure shift."
+    },
+    {
+      "start": 318.21,
+      "end": 320.05,
+      "text": " Now I will not take my entry, why?"
+    },
+    {
+      "start": 320.05,
+      "end": 323.21,
+      "text": " Because price didn't come back into the range."
+    },
+    {
+      "start": 323.21,
+      "end": 326.33,
+      "text": " So even though price can come, go here,"
+    },
+    {
+      "start": 326.33,
+      "end": 329.45,
+      "text": " and I wanna see price close below the range."
+    },
+    {
+      "start": 329.45,
+      "end": 333.45,
+      "text": " So now once it does that, let me just remove this."
+    },
+    {
+      "start": 333.45,
+      "end": 336.37,
+      "text": " Once it does that, then I can look to take my entry"
+    },
+    {
+      "start": 336.37,
+      "end": 339.17,
+      "text": " from any pediatric that is present, right?"
+    },
+    {
+      "start": 339.17,
+      "end": 341.13,
+      "text": " So I can basically just consider this"
+    },
+    {
+      "start": 341.13,
+      "end": 343.69,
+      "text": " as a autoblog and then take my entry."
+    },
+    {
+      "start": 343.69,
+      "end": 348.34,
+      "text": " I just wanna see price come back into the range."
+    },
+    {
+      "start": 348.34,
+      "end": 350.54,
+      "text": " So, very simple that."
+    },
+    {
+      "start": 350.54,
+      "end": 354.7,
+      "text": " Now, here's another thing that you need to know."
+    },
+    {
+      "start": 354.7,
+      "end": 357.26,
+      "text": " Okay, this is very important."
+    },
+    {
+      "start": 357.26,
+      "end": 362.26,
+      "text": " So if you do not get an entry before the five AM candle closes,"
+    },
+    {
+      "start": 362.26,
+      "end": 372.3,
+      "text": " right? So let's suppose that the 1M4 are kind of closed but you know the rate the"
+    },
+    {
+      "start": 372.3,
+      "end": 380.94,
+      "text": " price doesn't take out the 1M candle high or the low before the 5M kind of"
+    },
+    {
+      "start": 380.94,
+      "end": 387.38,
+      "text": " closes. That's gonna be around 8 right? I'm gonna explain everything when I go"
+    },
+    {
+      "start": 387.38,
+      "end": 391.98,
+      "text": " to the live charts but try to understand what I'm saying. If the rate doesn't"
+    },
+    {
+      "start": 391.98,
+      "end": 396.7,
+      "text": " happen. So let's suppose price keeps on, you know,"
+    },
+    {
+      "start": 396.74,
+      "end": 401.74,
+      "text": " console letting, console letting, normal, right? But then the new candle opens"
+    },
+    {
+      "start": 401.82,
+      "end": 407.74,
+      "text": " the five, if candle opens and, you know, it basically, oh, my bad, my bad,"
+    },
+    {
+      "start": 407.74,
+      "end": 411.74,
+      "text": " my bad, let me explain it because this is very confusing, right? So the five"
+    },
+    {
+      "start": 411.74,
+      "end": 419.06,
+      "text": " in candle open is when you're going to see the rate, right? So this open is the"
+    },
+    {
+      "start": 419.06,
+      "end": 423.42,
+      "text": " open of this candle. I hope that makes sense. The open of this candle is the open of this"
+    },
+    {
+      "start": 423.42,
+      "end": 429.98,
+      "text": " candle. This is just for like, it's a picture to explain things, right? So if you don't"
+    },
+    {
+      "start": 429.98,
+      "end": 437.18,
+      "text": " get a raid before the five him can encloses, then you have to wait for the raid of the"
+    },
+    {
+      "start": 437.18,
+      "end": 443.38,
+      "text": " five him candle. I know it's confusing, right? Don't worry, I'm gonna go to the live"
+    },
+    {
+      "start": 443.38,
+      "end": 446.5,
+      "text": " type charts and it's going to clear each and everything."
+    },
+    {
+      "start": 446.5,
+      "end": 452.62,
+      "text": " But if the rate doesn't happen of this candle,"
+    },
+    {
+      "start": 452.62,
+      "end": 456.18,
+      "text": " then we have to wait for this candle to close."
+    },
+    {
+      "start": 456.18,
+      "end": 458.26,
+      "text": " Then we have to look for the rate of this candle."
+    },
+    {
+      "start": 458.26,
+      "end": 461.14,
+      "text": " This one becomes useless."
+    },
+    {
+      "start": 461.14,
+      "end": 463.5,
+      "text": " This candle becomes useless."
+    },
+    {
+      "start": 463.5,
+      "end": 465.1,
+      "text": " Now I'm just going to go to the live charts."
+    },
+    {
+      "start": 465.1,
+      "end": 466.26,
+      "text": " And I'm going to explain everything."
+    },
+    {
+      "start": 466.26,
+      "end": 470.79,
+      "text": " So all of your confusion is going to be over."
+    },
+    {
+      "start": 470.79,
+      "end": 471.23,
+      "text": " All right."
+    },
+    {
+      "start": 471.23,
+      "end": 474.51,
+      "text": " So here is example one."
+    },
+    {
+      "start": 474.51,
+      "end": 479.51,
+      "text": " This is the one AM candle and this is the five AM candle."
+    },
+    {
+      "start": 479.71,
+      "end": 483.07,
+      "text": " Now, look at this one AM candle."
+    },
+    {
+      "start": 483.07,
+      "end": 487.03,
+      "text": " All you need to do is mark out the high"
+    },
+    {
+      "start": 487.03,
+      "end": 489.13,
+      "text": " and the low of that candle."
+    },
+    {
+      "start": 490.03,
+      "end": 492.31,
+      "text": " Very simple, all right?"
+    },
+    {
+      "start": 492.31,
+      "end": 495.43,
+      "text": " Now, if I drop down to five minute time from,"
+    },
+    {
+      "start": 496.99,
+      "end": 501.48,
+      "text": " you can see that this was the candle high"
+    },
+    {
+      "start": 501.48,
+      "end": 504.48,
+      "text": " and it got swept right here."
+    },
+    {
+      "start": 504.48,
+      "end": 507.8,
+      "text": " Now we simply look for a shift in the market structure, right?"
+    },
+    {
+      "start": 509.72,
+      "end": 512.28,
+      "text": " And around here, we have that."
+    },
+    {
+      "start": 513.84,
+      "end": 518.68,
+      "text": " Now I was going to send this setup today in the discord,"
+    },
+    {
+      "start": 519.28,
+      "end": 523.8,
+      "text": " but I send the other one, which was this and it turned out to be a loser."
+    },
+    {
+      "start": 524.68,
+      "end": 527.96,
+      "text": " So very unfortunate, whoever took that trade."
+    },
+    {
+      "start": 529.44,
+      "end": 531.32,
+      "text": " This would have been an awesome winner."
+    },
+    {
+      "start": 531.32,
+      "end": 535.04,
+      "text": " You can see that we had this auto block here."
+    },
+    {
+      "start": 536.12,
+      "end": 539.16,
+      "text": " Right? This fair value gap as well."
+    },
+    {
+      "start": 539.16,
+      "end": 541.52,
+      "text": " This could have been basically your entry"
+    },
+    {
+      "start": 541.52,
+      "end": 542.76,
+      "text": " somewhere around here."
+    },
+    {
+      "start": 543.84,
+      "end": 547.16,
+      "text": " And you would go shot right here."
+    },
+    {
+      "start": 547.16,
+      "end": 548.72,
+      "text": " Stop right above the high."
+    },
+    {
+      "start": 549.96,
+      "end": 554.96,
+      "text": " At one to one, you would take like 50% or 40% of your trade."
+    },
+    {
+      "start": 556.32,
+      "end": 559.56,
+      "text": " Go break even and then hold till here."
+    },
+    {
+      "start": 559.56,
+      "end": 571.56,
+      "text": " Now, what I sometimes like to do is use my fib from the last high that was formed to the last low that was formed before market structure shift and I used the standard deviation projections to take my profits."
+    },
+    {
+      "start": 571.56,
+      "end": 587.56,
+      "text": " Right? So, if the real draw on liquidity, which is the kind of low is near the negative 2 or negative 2.5 or negative 4, then it increases the probability of the setup."
+    },
+    {
+      "start": 587.56,
+      "end": 591.84,
+      "text": " So this happened today and it happens every single day."
+    },
+    {
+      "start": 591.84,
+      "end": 597.24,
+      "text": " Now I want to give you guys the pairs and assets that this works with."
+    },
+    {
+      "start": 597.24,
+      "end": 606.52,
+      "text": " So first off it works with gold that it works with your USD and that works with NAS100,"
+    },
+    {
+      "start": 606.52,
+      "end": 609.24,
+      "text": " US30 and S&P 500."
+    },
+    {
+      "start": 609.24,
+      "end": 610.24,
+      "text": " Alright?"
+    },
+    {
+      "start": 610.24,
+      "end": 612.88,
+      "text": " You don't have to trade anything else."
+    },
+    {
+      "start": 612.88,
+      "end": 618.52,
+      "text": " single day you choose one pair or asset and then you trade that asset or pair."
+    },
+    {
+      "start": 618.52,
+      "end": 624.26,
+      "text": " You don't have to take two different rates. So for example if you are short on"
+    },
+    {
+      "start": 624.26,
+      "end": 631.32,
+      "text": " gold you do not want to buy your USD. You just have to trade one pair which"
+    },
+    {
+      "start": 631.32,
+      "end": 638.12,
+      "text": " ever presents the setup. Don't trade multiple pairs at the same time. So let's"
+    },
+    {
+      "start": 638.12,
+      "end": 641.36,
+      "text": " So, first I want to the next example now."
+    },
+    {
+      "start": 641.36,
+      "end": 643.36,
+      "text": " Alright guys, so here is example two."
+    },
+    {
+      "start": 643.36,
+      "end": 646.08,
+      "text": " So over here you can see that we have a PDA rate,"
+    },
+    {
+      "start": 646.08,
+      "end": 648.52,
+      "text": " that is a four hour free body gap,"
+    },
+    {
+      "start": 648.52,
+      "end": 651.24,
+      "text": " then we have the five AM four hour candle."
+    },
+    {
+      "start": 651.24,
+      "end": 652.08,
+      "text": " Alright?"
+    },
+    {
+      "start": 652.08,
+      "end": 656.08,
+      "text": " So this is the opening price, the candle closes here."
+    },
+    {
+      "start": 657.36,
+      "end": 660.0,
+      "text": " So we simply mark out the high,"
+    },
+    {
+      "start": 660.0,
+      "end": 661.04,
+      "text": " and the low of that candle."
+    },
+    {
+      "start": 661.04,
+      "end": 662.36,
+      "text": " So this is a method two,"
+    },
+    {
+      "start": 662.36,
+      "end": 664.68,
+      "text": " where price goes into the PDA rate."
+    },
+    {
+      "start": 664.68,
+      "end": 668.18,
+      "text": " So you can see that the high of the five"
+    },
+    {
+      "start": 668.18,
+      "end": 673.16,
+      "text": " candle was taken out and price also was in a PDA ray."
+    },
+    {
+      "start": 673.16,
+      "end": 674.92,
+      "text": " And this is the candle low."
+    },
+    {
+      "start": 674.92,
+      "end": 677.0,
+      "text": " So this would be a redraw on liquidity."
+    },
+    {
+      "start": 677.0,
+      "end": 681.28,
+      "text": " So if I go to the five minute time from now,"
+    },
+    {
+      "start": 681.28,
+      "end": 685.52,
+      "text": " zoom out a bit, you can see that this was the high."
+    },
+    {
+      "start": 685.52,
+      "end": 689.32,
+      "text": " So this tiny bit, let me just mark this up like that."
+    },
+    {
+      "start": 689.32,
+      "end": 693.44,
+      "text": " So at nine, actually, the five AM candle closes."
+    },
+    {
+      "start": 693.44,
+      "end": 695.64,
+      "text": " at 9M, the 5M candle closes."
+    },
+    {
+      "start": 695.64,
+      "end": 696.48,
+      "text": " Remember that."
+    },
+    {
+      "start": 697.36,
+      "end": 701.16,
+      "text": " So we get a clean shift in the market structure."
+    },
+    {
+      "start": 701.16,
+      "end": 703.24,
+      "text": " We have this big auto block,"
+    },
+    {
+      "start": 703.24,
+      "end": 707.44,
+      "text": " so a good entry point would be this"
+    },
+    {
+      "start": 707.44,
+      "end": 710.64,
+      "text": " because that is a BPR."
+    },
+    {
+      "start": 710.64,
+      "end": 712.28,
+      "text": " And you can see that this would have been"
+    },
+    {
+      "start": 712.28,
+      "end": 714.52,
+      "text": " a shot position just right here."
+    },
+    {
+      "start": 714.52,
+      "end": 716.44,
+      "text": " You can also take your, you know,"
+    },
+    {
+      "start": 716.44,
+      "end": 720.0,
+      "text": " usually I would wait for the extreme level to be taken,"
+    },
+    {
+      "start": 720.0,
+      "end": 723.4,
+      "text": " but since price is already giving me one to two,"
+    },
+    {
+      "start": 723.4,
+      "end": 728.04,
+      "text": " right? There is no need to take your entry from here because price is giving us decent"
+    },
+    {
+      "start": 728.04,
+      "end": 737.12,
+      "text": " restorer wall. Now, you can see that your entry would have been here at one to one. You would"
+    },
+    {
+      "start": 737.12,
+      "end": 743.6,
+      "text": " take around 40 to 50% of your position, go break even, right? And then you can see that"
+    },
+    {
+      "start": 743.6,
+      "end": 751.2,
+      "text": " the take profit was hit. Your entry, remember must be before 12. Always, okay, 12. So our"
+    },
+    {
+      "start": 751.2,
+      "end": 757.68,
+      "text": " entry was at 11 something. So this was a beautiful trade we tapped into PDA Ray, you know,"
+    },
+    {
+      "start": 757.68,
+      "end": 763.76,
+      "text": " and this is meant to do. Let's move on to the next example. All right, guys, so here is"
+    },
+    {
+      "start": 763.76,
+      "end": 769.52,
+      "text": " another example. And you can see that we have the one M candle here. Price did take it out,"
+    },
+    {
+      "start": 770.16,
+      "end": 776.88,
+      "text": " but it went up and you may have got stopped at break even with one partial. Now, however,"
+    },
+    {
+      "start": 776.88,
+      "end": 780.8,
+      "text": " If we look at the 5M4 hour candle, right,"
+    },
+    {
+      "start": 780.8,
+      "end": 785.44,
+      "text": " we simply mark out the low and the high of that candle."
+    },
+    {
+      "start": 785.44,
+      "end": 789.2,
+      "text": " Okay, so we get, we have the 1M and the 5M candle."
+    },
+    {
+      "start": 789.2,
+      "end": 794.0,
+      "text": " These are important. Now if I go to the 5 minute chart here,"
+    },
+    {
+      "start": 794.0,
+      "end": 798.48,
+      "text": " you can see that after taking this, we had a shift in the market structure,"
+    },
+    {
+      "start": 798.48,
+      "end": 802.88,
+      "text": " so you can account for weeks as well for this strategy."
+    },
+    {
+      "start": 802.88,
+      "end": 810.16,
+      "text": " And most importantly, we closed back above the range, above this low."
+    },
+    {
+      "start": 810.16,
+      "end": 814.08,
+      "text": " Then we have the autoblock, right?"
+    },
+    {
+      "start": 814.08,
+      "end": 817.4,
+      "text": " A very clean trade."
+    },
+    {
+      "start": 817.4,
+      "end": 820.92,
+      "text": " And if we use our standard deviation tool,"
+    },
+    {
+      "start": 820.92,
+      "end": 824.2,
+      "text": " although the draw on liquidity is here,"
+    },
+    {
+      "start": 824.2,
+      "end": 827.96,
+      "text": " there's a higher draw on liquidity that might be here."
+    },
+    {
+      "start": 827.96,
+      "end": 832.28,
+      "text": " So this around here, because it is above the negative two."
+    },
+    {
+      "start": 832.28,
+      "end": 837.28,
+      "text": " So this could be your final take profit level."
+    },
+    {
+      "start": 837.6,
+      "end": 840.08,
+      "text": " Let me just close this real quick."
+    },
+    {
+      "start": 840.08,
+      "end": 843.76,
+      "text": " So this could be your final take profit level."
+    },
+    {
+      "start": 843.76,
+      "end": 847.2,
+      "text": " So a very beautiful entry from this auto block here"
+    },
+    {
+      "start": 847.2,
+      "end": 849.28,
+      "text": " and it played out perfectly."
+    },
+    {
+      "start": 849.28,
+      "end": 851.48,
+      "text": " And this strategy works really well"
+    },
+    {
+      "start": 851.48,
+      "end": 853.72,
+      "text": " for some reason with the US study."
+    },
+    {
+      "start": 853.72,
+      "end": 856.28,
+      "text": " If you want like insane consistency,"
+    },
+    {
+      "start": 856.28,
+      "end": 858.24,
+      "text": " then I suggest you trade this,"
+    },
+    {
+      "start": 858.24,
+      "end": 863.24,
+      "text": " because it has like a very, very high win rate for this like S."
+    },
+    {
+      "start": 865.28,
+      "end": 867.12,
+      "text": " Let me give you guys one more example"
+    },
+    {
+      "start": 867.12,
+      "end": 869.24,
+      "text": " and then I will end this chapter."
+    },
+    {
+      "start": 870.84,
+      "end": 873.12,
+      "text": " All right guys, so here is the final example"
+    },
+    {
+      "start": 873.12,
+      "end": 875.76,
+      "text": " and I'm looking at the one M candle,"
+    },
+    {
+      "start": 875.76,
+      "end": 877.32,
+      "text": " so I'm gonna mark out the low."
+    },
+    {
+      "start": 878.36,
+      "end": 880.24,
+      "text": " And I'm gonna mark out the high."
+    },
+    {
+      "start": 882.08,
+      "end": 885.48,
+      "text": " Now, do note that we are inside this PRA."
+    },
+    {
+      "start": 885.48,
+      "end": 888.8,
+      "text": " This is a autoblock, right?"
+    },
+    {
+      "start": 890.28,
+      "end": 891.64,
+      "text": " A bullish autoblock."
+    },
+    {
+      "start": 891.64,
+      "end": 894.4,
+      "text": " So that increases the probabilities."
+    },
+    {
+      "start": 894.4,
+      "end": 898.24,
+      "text": " Always remember that."
+    },
+    {
+      "start": 898.24,
+      "end": 899.92,
+      "text": " And one key thing to note,"
+    },
+    {
+      "start": 899.92,
+      "end": 901.92,
+      "text": " we are in the discount."
+    },
+    {
+      "start": 901.92,
+      "end": 903.84,
+      "text": " So that is also a plus point."
+    },
+    {
+      "start": 903.84,
+      "end": 906.76,
+      "text": " These small things, if you try to implement them"
+    },
+    {
+      "start": 906.76,
+      "end": 909.36,
+      "text": " in every strategy that I've taught you,"
+    },
+    {
+      "start": 909.36,
+      "end": 912.16,
+      "text": " your win rate is gonna improve, all right?"
+    },
+    {
+      "start": 912.16,
+      "end": 915.04,
+      "text": " So the one M candle low was taken off."
+    },
+    {
+      "start": 915.04,
+      "end": 918.93,
+      "text": " So let's study what happened."
+    },
+    {
+      "start": 918.93,
+      "end": 929.18,
+      "text": " So if I go here, right, the low was taken out first,"
+    },
+    {
+      "start": 929.18,
+      "end": 930.42,
+      "text": " and notice what happened."
+    },
+    {
+      "start": 930.42,
+      "end": 933.26,
+      "text": " This has to be the cleanest example."
+    },
+    {
+      "start": 933.26,
+      "end": 937.46,
+      "text": " We swept this low, we broke the structure, market structure."
+    },
+    {
+      "start": 937.46,
+      "end": 939.9,
+      "text": " We also broke the structure."
+    },
+    {
+      "start": 939.9,
+      "end": 941.98,
+      "text": " Very nice."
+    },
+    {
+      "start": 941.98,
+      "end": 944.38,
+      "text": " Then we have this fair value gap."
+    },
+    {
+      "start": 944.38,
+      "end": 946.3,
+      "text": " Look at the precision here."
+    },
+    {
+      "start": 946.3,
+      "end": 949.66,
+      "text": " The bodies were beautifully respected."
+    },
+    {
+      "start": 949.66,
+      "end": 952.12,
+      "text": " So this could have been a long position."
+    },
+    {
+      "start": 952.12,
+      "end": 959.02,
+      "text": " Your stop would go right below this low and at one to one,"
+    },
+    {
+      "start": 960.26,
+      "end": 962.38,
+      "text": " somewhere around here, right?"
+    },
+    {
+      "start": 963.58,
+      "end": 964.82,
+      "text": " One to one."
+    },
+    {
+      "start": 967.18,
+      "end": 968.82,
+      "text": " This is the entry."
+    },
+    {
+      "start": 968.82,
+      "end": 970.02,
+      "text": " Probably goes up here."
+    },
+    {
+      "start": 970.02,
+      "end": 971.58,
+      "text": " So let me just do that."
+    },
+    {
+      "start": 971.58,
+      "end": 973.7,
+      "text": " You would go break even somewhere around here."
+    },
+    {
+      "start": 974.9,
+      "end": 980.06,
+      "text": " And then you can see that if you held till here,"
+    },
+    {
+      "start": 980.06,
+      "end": 985.34,
+      "text": " this would have given you a beautiful wrist or what ratio."
+    },
+    {
+      "start": 985.34,
+      "end": 989.62,
+      "text": " So this is pretty much it, right?"
+    },
+    {
+      "start": 989.62,
+      "end": 994.6,
+      "text": " So let me just show you one thing."
+    },
+    {
+      "start": 994.6,
+      "end": 995.44,
+      "text": " This is very important."
+    },
+    {
+      "start": 995.44,
+      "end": 996.88,
+      "text": " So notice this, okay?"
+    },
+    {
+      "start": 998.0,
+      "end": 1001.68,
+      "text": " This is, so let's assume that this is the 1M candle"
+    },
+    {
+      "start": 1001.68,
+      "end": 1004.76,
+      "text": " and this is the 5M candle, all right?"
+    },
+    {
+      "start": 1004.76,
+      "end": 1008.36,
+      "text": " Now, let's say that you mark out the low and the high"
+    },
+    {
+      "start": 1008.36,
+      "end": 1010.08,
+      "text": " of the 1M candle."
+    },
+    {
+      "start": 1010.08,
+      "end": 1015.08,
+      "text": " But you see that the high and low were not taken out"
+    },
+    {
+      "start": 1015.64,
+      "end": 1018.44,
+      "text": " in the next candle, which is the 5M candle."
+    },
+    {
+      "start": 1018.44,
+      "end": 1021.44,
+      "text": " So now we wanna stop looking at this candle"
+    },
+    {
+      "start": 1021.44,
+      "end": 1022.84,
+      "text": " and we're gonna mark out the high"
+    },
+    {
+      "start": 1022.84,
+      "end": 1024.92,
+      "text": " and low of the 5M candle."
+    },
+    {
+      "start": 1024.92,
+      "end": 1025.76,
+      "text": " Why?"
+    },
+    {
+      "start": 1025.76,
+      "end": 1028.0,
+      "text": " Because the 5M candle could not,"
+    },
+    {
+      "start": 1028.0,
+      "end": 1031.68,
+      "text": " couldn't take out the high and low of the 1M candle."
+    },
+    {
+      "start": 1031.68,
+      "end": 1036.68,
+      "text": " I repeat, if the high or the low of the 1M candle"
+    },
+    {
+      "start": 1036.68,
+      "end": 1043.4,
+      "text": " 1m candle is not taken out between the 5m candle,"
+    },
+    {
+      "start": 1043.4,
+      "end": 1047.68,
+      "text": " then we wait for the 5m candle to close."
+    },
+    {
+      "start": 1047.68,
+      "end": 1052.76,
+      "text": " And then we mark out the 5m candle high and low."
+    },
+    {
+      "start": 1052.76,
+      "end": 1055.12,
+      "text": " And that's where our focus is going to go."
+    },
+    {
+      "start": 1055.12,
+      "end": 1057.44,
+      "text": " We forget about the 1m candle."
+    },
+    {
+      "start": 1057.44,
+      "end": 1060.76,
+      "text": " And then we look for the price of the 5m low"
+    },
+    {
+      "start": 1060.76,
+      "end": 1062.88,
+      "text": " and we target the high."
+    },
+    {
+      "start": 1062.88,
+      "end": 1064.56,
+      "text": " So thank you so much for watching."
+    },
+    {
+      "start": 1064.56,
+      "end": 1066.56,
+      "text": " Please practice, all right?"
+    },
+    {
+      "start": 1066.56,
+      "end": 1071.06,
+      "text": " Just by watching this and trading this on the live market, it's not going to help you."
+    },
+    {
+      "start": 1071.06,
+      "end": 1075.06,
+      "text": " Go and back test and see the results by yourself."
+    }
+  ]
+}

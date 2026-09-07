@@ -1,0 +1,215 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, so this is example number two. So the thing is, there is not a fixed way to use cartilage theory. It works with every strategy. You can say it is a tool to confirm your entries. Typically, and you know, the prime entry that you would get is during the manipulation phase. Because that is when price is going into some form of PDRA.
+
+2
+00:00:30,000 --> 00:00:35,740
+to either sweep cell side liquidity, buy side liquidity, or it will go into a
+
+3
+00:00:36,480 --> 00:00:42,000
+period. So I want to give you an example here. So if I go to the for our time
+
+4
+00:00:42,000 --> 00:00:47,520
+from here, now this is going to be how I use this with the auto flow trading
+
+5
+00:00:47,520 --> 00:00:57,380
+strategy. So over here, you can see we are clearly sorry for that. Okay, so you
+
+6
+00:00:57,380 --> 00:01:01,140
+You can clearly see that we are bullish here.
+
+7
+00:01:01,140 --> 00:01:08,180
+Now you can see we have this auto block here, this auto block right here.
+
+8
+00:01:08,180 --> 00:01:10,180
+Focus on that.
+
+9
+00:01:10,180 --> 00:01:11,700
+I will mark this on like that.
+
+10
+00:01:11,700 --> 00:01:17,600
+Now let's go to 15 minute timeframe.
+
+11
+00:01:17,600 --> 00:01:23,280
+Now if I go to 15 minutes timeframe, you can see over here we came into the auto block.
+
+12
+00:01:23,280 --> 00:01:27,200
+So if I disable this just to be, just to make the chart clean.
+
+13
+00:01:27,200 --> 00:01:32,960
+was the four hour autoblock price tapped into it and we had a shift in market structure.
+
+14
+00:01:32,960 --> 00:01:42,840
+Now notice when the price come into the PDA and when the price take out this low here.
+
+15
+00:01:42,840 --> 00:01:48,160
+First off, the big quarter was the manipulation quarter.
+
+16
+00:01:48,160 --> 00:01:55,000
+During this phase, the manipulation quadrant of the manipulation quarter, you can see
+
+17
+00:01:55,000 --> 00:01:59,160
+We also took out this liquidity and this liquidity.
+
+18
+00:01:59,160 --> 00:02:02,440
+But you can see during the manipulation quarter,
+
+19
+00:02:02,440 --> 00:02:05,120
+we tapped into the autoblock.
+
+20
+00:02:05,120 --> 00:02:07,480
+Now, afterwards, what do we have?
+
+21
+00:02:07,480 --> 00:02:11,120
+We have a shift in the market structure right here.
+
+22
+00:02:11,120 --> 00:02:14,880
+Now, the green box is the expansion quarter.
+
+23
+00:02:14,880 --> 00:02:20,040
+And over here, you can see we have a beautiful autoblock here.
+
+24
+00:02:20,040 --> 00:02:23,320
+And once price came into our autoblock,
+
+25
+00:02:23,320 --> 00:02:27,980
+And you can see that during the manipulation phase
+
+26
+00:02:27,980 --> 00:02:31,440
+of the distribution quarter.
+
+27
+00:02:31,440 --> 00:02:36,120
+So this green box is the expansion quarter.
+
+28
+00:02:36,120 --> 00:02:41,520
+But look at the manipulation quadrant, the red box here.
+
+29
+00:02:41,520 --> 00:02:46,000
+This box went into this border block.
+
+30
+00:02:46,000 --> 00:02:49,400
+So do you understand what I'm trying to teach here?
+
+31
+00:02:49,400 --> 00:02:52,560
+If you can understand this, this will significantly
+
+32
+00:02:52,560 --> 00:02:58,080
+improve the way you trade. Alright, look at this carefully. We marked out the
+
+33
+00:02:58,080 --> 00:03:03,080
+four hour auto block during the manipulation phase during the manipulation
+
+34
+00:03:03,080 --> 00:03:11,480
+quarter. We went into the high time frame period rate. Now afterwards we have a
+
+35
+00:03:11,480 --> 00:03:17,920
+shift in the market structure. Now we had a lower time from auto block and
+
+36
+00:03:17,920 --> 00:03:22,680
+During the expansion quarter, we had a manipulative
+
+37
+00:03:22,680 --> 00:03:27,480
+quadrant and that pushed the price into this autoblog
+
+38
+00:03:27,480 --> 00:03:30,760
+for expansion.
+
+39
+00:03:30,760 --> 00:03:36,760
+So we also had this break-up block,
+
+40
+00:03:36,760 --> 00:03:41,520
+you can say price taps into here and it pushed back up.
+
+41
+00:03:41,520 --> 00:03:44,720
+So by now you must get the idea what I'm trying to teach you.
+
+42
+00:03:44,720 --> 00:03:49,400
+We use the quarterly theory to improve our win rate.
+
+43
+00:03:49,400 --> 00:03:51,320
+And when we are using this with other strategies,
+
+44
+00:03:51,320 --> 00:03:54,120
+we want to make sure that we are taking our entries
+
+45
+00:03:54,120 --> 00:03:56,920
+at the right time.
+
+46
+00:03:56,920 --> 00:03:57,420
+All right.
+
+47
+00:03:57,420 --> 00:04:00,120
+Are we taking our entry during the manipulation phase?
+
+48
+00:04:00,120 --> 00:04:03,400
+Or are we taking our entry during the expansion phase?
+
+49
+00:04:03,400 --> 00:04:07,760
+We primarily want to take our entry on the lower time
+
+50
+00:04:07,760 --> 00:04:10,320
+from during the expansion phase.
+
+51
+00:04:10,320 --> 00:04:13,600
+And we want to see price go into our high time
+
+52
+00:04:13,600 --> 00:04:16,960
+for impedia rate during the manipulation phase.
+
+53
+00:04:18,040 --> 00:04:19,680
+I hope that clears it.
+
+54
+00:04:19,680 --> 00:04:21,680
+I'll just move on to another example.

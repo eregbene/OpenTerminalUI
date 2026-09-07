@@ -1,0 +1,179 @@
+1
+00:00:00,560 --> 00:00:30,560
+All right guys, so here is the example number two for this strategy, so I'm looking at Euro GDP on 4 hour of course, and you can see we are making lor-lor high, lor-lor, no, lor-lor high, and then another lor-lor low. And the internal market structure been creating lor-lor high for quite some time now. So it is clear that the autoflow is bearish, I'm not going back here.
+
+2
+00:00:30,560 --> 00:00:33,280
+I'm just looking at the price here, okay?
+
+3
+00:00:33,280 --> 00:00:36,280
+And as you can see, we are making low lows.
+
+4
+00:00:36,280 --> 00:00:38,800
+Low lows, low highs, low lows, low highs.
+
+5
+00:00:38,800 --> 00:00:43,800
+Cool, so now what we do have is this autoblog, okay?
+
+6
+00:00:44,120 --> 00:00:48,480
+Of course, this is hindsight, but you're gonna notice these, okay?
+
+7
+00:00:48,480 --> 00:00:53,480
+So, this is the candle and prize goes back into our pure,
+
+8
+00:00:54,960 --> 00:00:59,800
+so let's drop down to 15 minute time from.
+
+9
+00:00:59,800 --> 00:01:04,800
+And you can see that just over here,
+
+10
+00:01:04,800 --> 00:01:06,900
+we have a shift in market structure,
+
+11
+00:01:06,900 --> 00:01:09,200
+but notice what happened.
+
+12
+00:01:09,200 --> 00:01:12,000
+The market structure shift did not happen
+
+13
+00:01:12,000 --> 00:01:14,040
+during kills on ours.
+
+14
+00:01:14,040 --> 00:01:21,190
+Okay, so the kills on ours are basically two till,
+
+15
+00:01:24,270 --> 00:01:26,650
+my god, seven,
+
+16
+00:01:26,650 --> 00:01:42,380
+right and then 730 for this specific strategy only okay to him till 7 that is your
+
+17
+00:01:42,380 --> 00:01:47,780
+London and then from 730 till 1130 is your New York session make sure you set
+
+18
+00:01:47,780 --> 00:01:55,420
+your time zone to New York so now we're gonna wait okay we are going to wait till
+
+19
+00:01:55,420 --> 00:02:01,220
+this high is taken out again because this is liquidy now. When you have a market
+
+20
+00:02:01,220 --> 00:02:07,180
+structure shift outside the kills on ours and the kills on ours start which
+
+21
+00:02:07,180 --> 00:02:12,300
+happens right here. You don't want to look for market structure shift here. You
+
+22
+00:02:12,300 --> 00:02:16,420
+want to wait for first price to take out this high over here and then you want to
+
+23
+00:02:16,420 --> 00:02:20,860
+look for a clean market structure shift and that happens right here and let me
+
+24
+00:02:20,860 --> 00:02:27,500
+show you how. We also took out this high here. Okay, so that is a clear shift.
+
+25
+00:02:27,500 --> 00:02:33,740
+Low low higher high high low higher high. And then we have a market structure shift
+
+26
+00:02:33,740 --> 00:02:38,540
+during kills on ours. Perfect. Now this right here are our consecutive
+
+27
+00:02:38,540 --> 00:02:44,620
+bearish candles. And also look at this breaker block. It is in alignment with the
+
+28
+00:02:44,620 --> 00:02:50,460
+auto block. And this consecutive bullish candles becomes your auto block. Right? So you're
+
+29
+00:02:50,460 --> 00:02:57,660
+going to take your entry here put your stop right above this high over here and you go for
+
+30
+00:02:57,660 --> 00:03:08,120
+one to two simple as that let's go and see how this plays out as you can see we got our entry
+
+31
+00:03:08,120 --> 00:03:17,850
+right here at 645 and you can see we hit our take profit if we held that would have been a
+
+32
+00:03:17,850 --> 00:03:23,370
+beautiful trade but we only go for one to two. So I hope you learned something from
+
+33
+00:03:23,370 --> 00:03:32,880
+this example. Remember if let's say that this candle did not take out the high
+
+34
+00:03:32,880 --> 00:03:39,020
+here and then you had a shift over here. That is a low probability
+
+35
+00:03:39,020 --> 00:03:43,740
+low probability market structure shift. I want this clean liquidity sweep and
+
+36
+00:03:43,740 --> 00:03:47,740
+And then displacement that gives us market structure shift.
+
+37
+00:03:47,740 --> 00:03:51,740
+Something like boom, boom, boom, okay?
+
+38
+00:03:51,740 --> 00:03:53,740
+This is prime.
+
+39
+00:03:53,740 --> 00:03:57,740
+You have a liquidity sweep, right?
+
+40
+00:03:57,740 --> 00:03:58,740
+And then you mark your structure shift.
+
+41
+00:03:58,740 --> 00:04:03,740
+And this leg has consecutive candles of the same color.
+
+42
+00:04:03,740 --> 00:04:08,740
+So if I was looking at here, I would love to see bullish candles.
+
+43
+00:04:08,740 --> 00:04:15,740
+Take out this liquidity and then a market structure shift and I take my entry from here, couple.
+
+44
+00:04:15,740 --> 00:04:24,210
+So I really really do hope that you learned something from the strategy and from this example.
+
+45
+00:04:24,210 --> 00:04:26,210
+I'll give you guys one more example.

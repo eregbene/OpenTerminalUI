@@ -1,0 +1,33 @@
+[00:00:00] Alright, everybody, so here is example number one on how I would combine the daily buy technique with the air 50 strategies. So over here, you can see that this was the daily candle and we closed above this candle here. So now our draw on liquidity is going to be this daily high. So now if I drop down to, let's say, the five minute, that's when we want to trade the air 50 strategy. So this is the daily high. This is initially going to be going to be over
+[00:00:30] draw on liquidity, right? You can clearly see it was not breached. So as long as it's not breached,
+[00:00:37] right? We have the draw on liquidity intact. So now
+[00:00:42] What are the rules of the air 50 to financial strategy if you have a new watcher of the strategy?
+[00:00:48] I used this indicator
+[00:00:50] FX and Asian session range by Rob Minty
+[00:00:54] The Asian session starts from 20 New York Times, until 2 am New York Times.
+[00:01:01] I want the Asian session to start at 2 am.
+[00:01:05] I want the Asian session to start at 2 am.
+[00:01:08] I want the Asian session to start at 2 am.
+[00:01:13] Now, when our bias is bullish in this scenario, it is.
+[00:01:17] I want the offer to him.
+[00:01:19] to the price to break above the Asian session high and close above it.
+[00:01:25] Once it closes above it, what I'm doing is I'm using my Fibonacci from the Asian low to
+[00:01:31] Asian high.
+[00:01:34] Cool.
+[00:01:36] Asian low to Asian high.
+[00:01:40] Now my entry is going to be from the 0.5 level or the 50% of the Asian range, hence the
+[00:01:45] AR 50 Asian range 50.
+[00:01:49] Now our bias is bullish.
+[00:01:51] So I'm gonna, with confidence,
+[00:01:52] I'm gonna take a long position here,
+[00:01:54] put my stop right above this low.
+[00:01:56] And I'm gonna go for the draw on liquidity,
+[00:01:59] which is the daily high.
+[00:02:03] So if I play this through,
+[00:02:05] we get a beautiful entry.
+[00:02:07] And since our bias is bullish,
+[00:02:11] you will see that the take profit level was hit.
+[00:02:18] And to make it up like that, you should have gotten one to two restorer what.
+[00:02:24] I think this is basically the best model that you can use is really good guys.
+[00:02:32] Alright, I think it's my favorite model at the moment.
+[00:02:36] But yeah guys, let's move on to another example.

@@ -1,0 +1,54 @@
+[00:00:00] Okay guys, so here's another example and I'm going to teach you a few more things in this video. So first of all, you want to mark out when you're looking for these type of setups, you want to mark out the New York midnight open. So the midnight open is at around 12 AM, New York time. So if I look at the open of this is a 1.0941. So this is the open right this candle. So I'm going to mark this out as a midnight open.
+[00:00:30] Okay, I'm gonna put it at the top perfect
+[00:00:33] I'm gonna decrease the size of it midnight open right and you want to mark out the
+[00:00:39] After midnight open you want to start
+[00:00:42] Identifying the high of the day and the low of the day
+[00:00:45] so
+[00:00:46] The high of the day as as you can see this is the highest point after 12 am right
+[00:00:50] So this is the high of the day. This is the highest point. So I'm gonna mark this high
+[00:00:56] edge high okay and
+[00:00:58] And you want to look for, you can only look for the highs and lows before 930.
+[00:01:05] Once the 930P starts, you don't want to look for, you can only look for highs and lows before 930.
+[00:01:12] Okay. So as you can see, we have a candle close at 930.
+[00:01:18] So this is the actually the low of the day. Okay. So this here is the low of the day.
+[00:01:25] So if I mark this out, this is the low L. Now, this is considered as liquidity as well
+[00:01:32] because this is actually the low of the day before the new accession, before the 930 period starts.
+[00:01:37] Okay? So you wait for price to, once you have identified the low of the day, which is actually
+[00:01:44] this candle surprisingly. So we go to the one at the time frame and we will look for a
+[00:01:48] liquidity sweep. And if I play this through, we have the liquidity sweep. Now we wait for
+[00:01:52] market structure shift and if we play this through we got this beautiful move oh
+[00:01:59] sorry it was nothing so if I play this through I think we got the market
+[00:02:05] structure shift right around here boom boom boom right this is a break-off
+[00:02:11] structure as well but there's no fair what you got so when there's no fair
+[00:02:14] you can go down to the you go up to the two minute time frame and you can look
+[00:02:19] for your entry as well.
+[00:02:21] There's some variable you got here.
+[00:02:24] So let's see if we got our entry from here.
+[00:02:26] And we do not.
+[00:02:28] So when you do not get your entry,
+[00:02:29] you look for another market structure shift,
+[00:02:31] which happens right around here.
+[00:02:33] And you take your entry from this variable you got.
+[00:02:38] Very simple.
+[00:02:39] You take your entry.
+[00:02:41] And as you can see, now I'm taking my entry
+[00:02:44] from the very first variable you got that was treated
+[00:02:46] as I explained before.
+[00:02:47] So there's also some variable you got around here.
+[00:02:49] So I want to put my stop loss right above, right below this level.
+[00:02:52] Just to be on the safe side.
+[00:02:53] Because prices come down to this really gap and it can go up from there.
+[00:02:58] So make sure you are cautious about that.
+[00:03:00] So now where would you want to be taking your profit levels?
+[00:03:03] Now there's some, there's a high over around here.
+[00:03:06] So I will take some partial here and then I will take some partial here and I
+[00:03:10] would, there's some free really gap around this level.
+[00:03:14] So this would be my trade and let's see how this plays out.
+[00:03:22] and caboom. Sorry for that. That was a car outside my home. But anyways, as you can see,
+[00:03:30] it hit the take profit level. You might have gone, stop that break even here, but it just
+[00:03:37] really depends on you how you trade what's your risk management plan. But anyways, as you can see,
+[00:03:42] there was a sharp movement. And as you can also see, as we before, we broke the structure with
+[00:03:50] momentum you can see these 1, 2, 3 g Andle they have huge volume so this is what you
+[00:03:55] should be looking for okay. Then we had this beautiful fair about your gap we
+[00:04:00] filled this fair about your gap and then we went up. Very simple guys. I'm
+[00:04:04] gonna give you guys one more example and I'll end this lecture.

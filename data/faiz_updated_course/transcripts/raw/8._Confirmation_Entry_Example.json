@@ -1,0 +1,158 @@
+{
+  "source": "F:\\new faiz\\8. Confirmation Entry Example.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 216.7350625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 14.94,
+      "text": " Okay guys, I want to give you an example of confirmation entries. So on the one hour timeframe, you have this change of collector and we also have this break of structure here. So, oops, my bad. What's happening, man? Okay, so we have change of collector and also we have break of structure, right? And there we have our order block with F"
+    },
+    {
+      "start": 14.94,
+      "end": 19.86,
+      "text": " man. Okay, so we have change of lecture and also we have break of structure, right? And"
+    },
+    {
+      "start": 19.86,
+      "end": 28.31,
+      "text": " there we have our autoblock with fair value gap. So this is our POI. Now when price comes"
+    },
+    {
+      "start": 28.31,
+      "end": 33.51,
+      "text": " back into your POI, you want to drop down to the five minute timeframe. And you look"
+    },
+    {
+      "start": 33.51,
+      "end": 38.63,
+      "text": " for market structure shift. So did we have a market structure shift here? No, we did not"
+    },
+    {
+      "start": 38.63,
+      "end": 44.71,
+      "text": " break above this level. So I want to wait for a body closure. Okay, not the week. So"
+    },
+    {
+      "start": 46.55,
+      "end": 54.79,
+      "text": " over here, we see price. Okay, so we have another liquidity sweep. So let's assume"
+    },
+    {
+      "start": 57.16,
+      "end": 61.96,
+      "text": " okay, so I believe we have market structure shift. So this is our market structure shift, right?"
+    },
+    {
+      "start": 62.76,
+      "end": 69.96,
+      "text": " And we have this fair value gap with OB. You can see. And if I take my entry from this"
+    },
+    {
+      "start": 69.96,
+      "end": 80.22,
+      "text": " this level, put my stop right below this level. And we look to target maybe this high here,"
+    },
+    {
+      "start": 80.22,
+      "end": 93.33,
+      "text": " these equal highs. Right? So see what happens. So I'm going to put this at three. And I'm"
+    },
+    {
+      "start": 93.33,
+      "end": 101.96,
+      "text": " going to buy right here. Let's just beat this up. Okay, never mind. And I'm going to sell"
+    },
+    {
+      "start": 101.96,
+      "end": 117.18,
+      "text": " it here, hat around this level. So let me just beat this up actually. And price just keeps"
+    },
+    {
+      "start": 117.18,
+      "end": 131.56,
+      "text": " on going up. And eventually, yep, we hit our take profit. So I'm not sure what happened"
+    },
+    {
+      "start": 131.56,
+      "end": 138.72,
+      "text": " here. How do I close this out? Alright, I'm just going to close this here. So you can"
+    },
+    {
+      "start": 138.72,
+      "end": 145.16,
+      "text": " see that we, if we use confirmation entries, it's going to be really, really beneficial."
+    },
+    {
+      "start": 145.16,
+      "end": 153.04,
+      "text": " Right, so this trade right here was not doing the kill zone, but this was just to show"
+    },
+    {
+      "start": 153.04,
+      "end": 157.64,
+      "text": " you as an example that how well it can work."
+    },
+    {
+      "start": 157.64,
+      "end": 162.72,
+      "text": " So make sure that your entries are always during kills and hours."
+    },
+    {
+      "start": 162.72,
+      "end": 164.76,
+      "text": " It's going to increase your win rate."
+    },
+    {
+      "start": 164.76,
+      "end": 172.2,
+      "text": " I'm not saying that you can not take a trade ever, like without being in a kill zone,"
+    },
+    {
+      "start": 172.2,
+      "end": 175.22,
+      "text": " If you take kill zone into consideration"
+    },
+    {
+      "start": 176.32,
+      "end": 178.32,
+      "text": " the chances are higher and"
+    },
+    {
+      "start": 179.44,
+      "end": 183.5,
+      "text": " The algorithms are active at that time, but this right here. This was an exception and"
+    },
+    {
+      "start": 184.28,
+      "end": 190.6,
+      "text": " This was also just for for an example. I just looked at the chart and I found it worked out pretty well"
+    },
+    {
+      "start": 191.6,
+      "end": 198.8,
+      "text": " And this is a hindsight as well, but it does actually work so you can see that we came into our py"
+    },
+    {
+      "start": 198.8,
+      "end": 203.44,
+      "text": " We had a market structure shift here and we took our entry from the freeable"
+    },
+    {
+      "start": 203.44,
+      "end": 208.72,
+      "text": " to gap and it took its time and took out these level. This was our take profit level."
+    },
+    {
+      "start": 208.72,
+      "end": 214.48,
+      "text": " That would have been 9.3 risk to reward and this was beautiful."
+    }
+  ]
+}

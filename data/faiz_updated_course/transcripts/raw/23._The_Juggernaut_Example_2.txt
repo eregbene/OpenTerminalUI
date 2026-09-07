@@ -1,0 +1,19 @@
+[00:00:00] Alright, everybody, so here is example number two. Looking at GPPU is the 10 minute time from now. And the reason why I'm looking at 10 minute is because if I go to the 6 minute time from, you can see that even though we have one probability gap and there's another probability gap here, right? But the range is too small and the take profit would have been already hit if I was on 6 minute. So to avoid looking at this, I would go to 10 minute and we have this one big probability gap.
+[00:00:30] big but yeah. And you can clearly see we took out some form of liquidity right? Or you
+[00:00:37] could say break of structure and over here we have a fair value gap. Now once the candle
+[00:00:46] closes below it it becomes inverse fair value gap. So this fair value gap becomes inverse.
+[00:00:52] All right. Now my entry would be on the retest and this is the closest low that is going
+[00:00:59] be a my take profit level. Now it's giving me 1.31 so I can move my stop up a bit like that.
+[00:01:08] I'm just gonna give you 1 to 1. Now if this level is hit before the entry,
+[00:01:14] then my setup would become invalid. All right, so this is my take profit level. If I play this
+[00:01:21] through, you will see that we go down, but we do not take out the take profit level. And from there
+[00:01:27] on what you can see that the take profit level was hit. Now you can see that it could have probably
+[00:01:38] took some partial shares and then maybe you could have got got closed at break even.
+[00:01:43] But the higher target would have been these these equal lows here or the Asian low here
+[00:01:50] and you can see that the Asian low was taken. But most probably if you didn't take your entire
+[00:01:56] profits here, which I mostly do because that's when I get above 70% wind rate when I take
+[00:02:02] one to once and target the closest lows or highs. But if you took some partial here and then
+[00:02:08] you let the trade running and your main target was this, you could have gotten around.
+[00:02:14] One to two, two point eight or one to three you could say. So a very simple trading model that
+[00:02:23] works brilliantly. It requires no daily bass and it is very very powerful. Trust me.
+[00:02:31] Alright, let me give you guys one more example.

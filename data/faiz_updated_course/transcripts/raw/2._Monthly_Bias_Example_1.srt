@@ -1,0 +1,115 @@
+1
+00:00:00,430 --> 00:00:30,430
+Alright guys, so in this very first example we're going to talk about monthly bias and if you see these arrows here, that is basically frecktels. It tells you the correct highs and lows so you don't, you know, like take a wrong low for a market structure shift or a long higher low for external liquidity. So you can just go to indicators here, type in frecktels, right? And you want to use the frecktels by Rachel T. So these are my colors.
+
+2
+00:00:30,430 --> 00:00:37,550
+black and this green over here it makes it clean okay so now on the monthly
+
+3
+00:00:37,550 --> 00:00:42,250
+time frame what I can see here is price has taken out a dicks external liquidity
+
+4
+00:00:42,250 --> 00:00:47,790
+right remember every single high or low is an external liquidity and what
+
+5
+00:00:47,790 --> 00:00:54,870
+do we have below this over here you're right we have the internal liquidity
+
+6
+00:00:54,870 --> 00:00:59,770
+which is the fair value gap cool so once we have taken out the external
+
+7
+00:00:59,770 --> 00:01:04,090
+the lady here. What we want to do remember for monthly vibias we want to drop
+
+8
+00:01:04,090 --> 00:01:08,730
+from monthly to daily time from. Now once we drop down to the daily time
+
+9
+00:01:08,730 --> 00:01:15,330
+from you can see right here this if you didn't have the
+
+10
+00:01:15,330 --> 00:01:18,970
+freckles on you would have considered this as your shift in the structure
+
+11
+00:01:18,970 --> 00:01:24,930
+which is you know. So anyways this is our low hair we want to see a breach of
+
+12
+00:01:24,930 --> 00:01:35,800
+this low and right here you can see we have a market structure shift right so now what do
+
+13
+00:01:35,800 --> 00:01:43,620
+you see here we have taken out external so this is the fair value gap that we should
+
+14
+00:01:43,620 --> 00:01:50,080
+look to target okay I mean when you are on the daily time from of course but we're talking
+
+15
+00:01:50,080 --> 00:01:54,760
+about monthly so now what we have the market structure shift here we can simply take
+
+16
+00:01:54,760 --> 00:02:02,840
+or entry from this fair value gap or this fair value gap but remember our target is this level.
+
+17
+00:02:02,840 --> 00:02:09,240
+So you can simply just go short right here put your stop right above this high and go for
+
+18
+00:02:09,240 --> 00:02:17,160
+just target this level. So now once you get the market on your monthly bias is here.
+
+19
+00:02:17,160 --> 00:02:24,200
+So you're gonna be confident you can be taking trades until this level is hit but of course
+
+20
+00:02:24,200 --> 00:02:30,440
+on the daily and the one-hour timeframe. But for now, let's see how this plays out. The simple
+
+21
+00:02:30,440 --> 00:02:36,520
+bread and butter model we have our entry here. And that is basically for swing traders. Okay.
+
+22
+00:02:38,600 --> 00:02:44,360
+So right here you can see that beautiful price delivery. We took out the monthly extended liquidity
+
+23
+00:02:44,360 --> 00:02:53,400
+here, right? And we went up and we then had a market structure shift right here. And this is the
+
+24
+00:02:53,400 --> 00:03:02,160
+the free value gap in the premium. We take a trade here and we just drop down below. Very
+
+25
+00:03:02,160 --> 00:03:11,480
+simple. But you could have taken trades with a high risk reward ratio on the one hour
+
+26
+00:03:11,480 --> 00:03:16,440
+timeframe, but I will get to that later. Okay. Just remember that once you get a market
+
+27
+00:03:16,440 --> 00:03:21,960
+structure to share if your bias is set. Okay, when body closes that, that's like
+
+28
+00:03:21,960 --> 00:03:28,000
+you're okay. We are bearish till this level is taken out. So let me give you
+
+29
+00:03:28,000 --> 00:03:31,200
+You guys an example for the weekly bias now.

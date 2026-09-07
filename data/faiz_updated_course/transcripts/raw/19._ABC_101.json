@@ -1,0 +1,828 @@
+{
+  "source": "F:\\new faiz\\19. ABC 101.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 806.847,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " In this lecture, I'm going to teach you how I personally use ABC strategy. See, the method that I've taught you already, it works like a charm. But if you apply the things I'm going to teach you right now, your win rate is going to drastically increase. But it requires a lot of patience. And what I'm going to teach you are A plus ABC setups."
+    },
+    {
+      "start": 30.0,
+      "end": 35.12,
+      "text": " B.C. strategy. So first of all, I would look at the high time frame. So it could be a four hour"
+    },
+    {
+      "start": 35.92,
+      "end": 41.52,
+      "text": " market structure, right? Or daily market structure. So if the four hour or high time frame market"
+    },
+    {
+      "start": 41.52,
+      "end": 49.68,
+      "text": " structure is bullish, I am going to only look for long positions. Okay? And if the market structure,"
+    },
+    {
+      "start": 49.68,
+      "end": 53.2,
+      "text": " let's say is making lower, lower, lower, lower, lower, lower, lower, lower, lower, lower, lower,"
+    },
+    {
+      "start": 53.2,
+      "end": 55.2,
+      "text": " No, then I'm only going to look for"
+    },
+    {
+      "start": 57.52,
+      "end": 62.56,
+      "text": " Short positions. How I want to see a pullback then another pullback"
+    },
+    {
+      "start": 63.52,
+      "end": 65.52,
+      "text": " So an ABC"
+    },
+    {
+      "start": 66.36,
+      "end": 70.14,
+      "text": " Oh my god bro, so"
+    },
+    {
+      "start": 71.94,
+      "end": 73.94,
+      "text": " ABC within"
+    },
+    {
+      "start": 75.06,
+      "end": 77.52,
+      "text": " this leg right here, okay and"
+    },
+    {
+      "start": 79.54,
+      "end": 81.54,
+      "text": " This leg"
+    },
+    {
+      "start": 81.54,
+      "end": 90.34,
+      "text": " Let me do this. You want to draw out your fib from this move to this move and you want to look for"
+    },
+    {
+      "start": 90.34,
+      "end": 100.94,
+      "text": " ABC setup formations above the 0.5 level. Okay? Or I would say this is the like this right here."
+    },
+    {
+      "start": 102.22,
+      "end": 112.06,
+      "text": " So the mid part. So this is 0.5 right. So the mid part above the 0.5 level and this"
+    },
+    {
+      "start": 112.06,
+      "end": 119.06,
+      "text": " is like the golden area where you can look for ABC setups."
+    },
+    {
+      "start": 119.06,
+      "end": 123.06,
+      "text": " But generally you can look for ABC setups above the 0.5 level."
+    },
+    {
+      "start": 123.06,
+      "end": 127.06,
+      "text": " So when price comes back above the 0.5 level,"
+    },
+    {
+      "start": 127.06,
+      "end": 130.06,
+      "text": " you can drop down so let's assume that you are looking at the"
+    },
+    {
+      "start": 130.06,
+      "end": 133.06,
+      "text": " market structure on four hour time for him."
+    },
+    {
+      "start": 133.06,
+      "end": 137.06,
+      "text": " What you can do is you can drop down to 15 minute time for him."
+    },
+    {
+      "start": 137.06,
+      "end": 141.06,
+      "text": " And then you can look for an ABC setup right on a 15 minute"
+    },
+    {
+      "start": 141.06,
+      "end": 148.06,
+      "text": " above the 0.5 level and the C leg goes into some sort of a supply zone or an auto block,"
+    },
+    {
+      "start": 148.06,
+      "end": 154.04,
+      "text": " okay? Or it could be a fair value gap. So the C leg goes into the fair value gap right"
+    },
+    {
+      "start": 154.04,
+      "end": 162.42,
+      "text": " here and then you look for the ABC setup formation, okay? And you take your entry during"
+    },
+    {
+      "start": 162.42,
+      "end": 173.78,
+      "text": " kills on ours. So the kills on ours would be from three to six. That is for London session."
+    },
+    {
+      "start": 173.78,
+      "end": 183.62,
+      "text": " And for New York, it's going to be eight. 30, they'll 11, 15. That is New York time. So this right"
+    },
+    {
+      "start": 183.62,
+      "end": 193.51,
+      "text": " here is London session. And this is New York session. So your entry must be between these ours."
+    },
+    {
+      "start": 193.51,
+      "end": 197.51,
+      "text": " Okay, that is a must so let me repeat this again. You have"
+    },
+    {
+      "start": 198.51,
+      "end": 204.09,
+      "text": " Lore-lor high-lor low or low or low. So you draw out your PD area, which is you know"
+    },
+    {
+      "start": 204.19,
+      "end": 206.23,
+      "text": " discount and premium zones"
+    },
+    {
+      "start": 206.23,
+      "end": 209.59,
+      "text": " So you want to wait for price to come back into premium zone"
+    },
+    {
+      "start": 209.83,
+      "end": 214.47,
+      "text": " Right, which is above the 0.5 level and then you look for ABC formation"
+    },
+    {
+      "start": 214.55,
+      "end": 219.33,
+      "text": " The C leg goes into some sort of a POI it could be an auto block"
+    },
+    {
+      "start": 219.33,
+      "end": 228.01,
+      "text": " it could be fair value gap and it could be yeah so to refine it even further what"
+    },
+    {
+      "start": 228.01,
+      "end": 234.21,
+      "text": " I do is when I have a POI here let's say on the 15 minute right what I would"
+    },
+    {
+      "start": 234.21,
+      "end": 239.97,
+      "text": " do is I would drop down to five minute and refine that POI even more to make it"
+    },
+    {
+      "start": 239.97,
+      "end": 245.21,
+      "text": " smaller okay so sometimes what can happen if you have a 15 minute POI price"
+    },
+    {
+      "start": 245.21,
+      "end": 255.0,
+      "text": " can sometimes do this and then hit the you know the refined OB on five minute"
+    },
+    {
+      "start": 255.0,
+      "end": 261.56,
+      "text": " and then give you an ABC setup. So that is sometimes I do something that I do"
+    },
+    {
+      "start": 261.56,
+      "end": 268.48,
+      "text": " sometimes. So this is how I personally approach ABC guys. I first of all look at"
+    },
+    {
+      "start": 268.48,
+      "end": 273.0,
+      "text": " the market structure and how do you look so what you want to do is you want to"
+    },
+    {
+      "start": 273.0,
+      "end": 281.24,
+      "text": " look back 25 days. Okay. So in the last 25 days, if the market structure is making lower, lower,"
+    },
+    {
+      "start": 281.24,
+      "end": 286.36,
+      "text": " lower, high, lower, lower, high. So in real market conditions, limited, delete this, the market"
+    },
+    {
+      "start": 286.36,
+      "end": 291.56,
+      "text": " structure is going to look something like this. Okay, it's not going to be a clear down trend. It's"
+    },
+    {
+      "start": 291.56,
+      "end": 300.68,
+      "text": " going to have movements like this. Okay, it's not going to be clean. So as long as the price is"
+    },
+    {
+      "start": 300.68,
+      "end": 308.4,
+      "text": " Going down as long as it keeps going down. You just look for shot positions and that is why this method requires a lot of patience guys"
+    },
+    {
+      "start": 308.4,
+      "end": 313.48,
+      "text": " It requires higher time frame like for our timeframe. Yeah, it could you could use one hour"
+    },
+    {
+      "start": 313.48,
+      "end": 318.56,
+      "text": " But I do not recommend that. I mean you can use ABC on any time frame except one minute"
+    },
+    {
+      "start": 319.28,
+      "end": 324.4,
+      "text": " We can use it on one minute as well, but I do not recommend that time frame trust me. It's just not okay"
+    },
+    {
+      "start": 325.08,
+      "end": 326.12,
+      "text": " but"
+    },
+    {
+      "start": 326.12,
+      "end": 331.47,
+      "text": " See the high time frame is gonna make you profitable"
+    },
+    {
+      "start": 331.47,
+      "end": 338.81,
+      "text": " This is it. I'm telling you guys just build this patience to trade high time for him guys"
+    },
+    {
+      "start": 338.81,
+      "end": 345.71,
+      "text": " I know I know you want to see you want to get that dopamine hit when you are trading on like one minute and five minute"
+    },
+    {
+      "start": 345.71,
+      "end": 349.25,
+      "text": " And you see your trades going to profits and you're like wow I'm making money"
+    },
+    {
+      "start": 349.95,
+      "end": 355.39,
+      "text": " But that is a bad habit and you're gonna get addicted to trading and when you get addicted to trading you're gonna take"
+    },
+    {
+      "start": 356.15,
+      "end": 359.35,
+      "text": " Five to ten trades per day, which is really really bad guys and you're gonna"
+    },
+    {
+      "start": 359.35,
+      "end": 361.43,
+      "text": " and prevent straight and get a blow your account."
+    },
+    {
+      "start": 361.43,
+      "end": 363.27,
+      "text": " So just stay away from that."
+    },
+    {
+      "start": 363.27,
+      "end": 366.79,
+      "text": " And similarly, if you're looking at a market structure"
+    },
+    {
+      "start": 366.79,
+      "end": 369.87,
+      "text": " that is bullish and the price"
+    },
+    {
+      "start": 369.87,
+      "end": 372.79,
+      "text": " in making high, high, high, high, high, high, high, low,"
+    },
+    {
+      "start": 372.79,
+      "end": 376.83,
+      "text": " then you only have to look for long setups."
+    },
+    {
+      "start": 376.83,
+      "end": 379.27,
+      "text": " So a long setup looks something like this."
+    },
+    {
+      "start": 380.23,
+      "end": 385.23,
+      "text": " You would have A, B, C going into,"
+    },
+    {
+      "start": 385.23,
+      "end": 389.23,
+      "text": " to see like going into some sort of auto block, right?"
+    },
+    {
+      "start": 389.23,
+      "end": 395.6,
+      "text": " And you look for shift in market structure on a smaller"
+    },
+    {
+      "start": 395.6,
+      "end": 397.48,
+      "text": " timeframe like that."
+    },
+    {
+      "start": 397.48,
+      "end": 401.48,
+      "text": " And you literally just take your entry."
+    },
+    {
+      "start": 401.48,
+      "end": 403.48,
+      "text": " Right?"
+    },
+    {
+      "start": 403.48,
+      "end": 407.48,
+      "text": " So I'll give you guys a couple of examples and then it's going to be clear."
+    },
+    {
+      "start": 407.48,
+      "end": 409.48,
+      "text": " Guys, so here is example number one."
+    },
+    {
+      "start": 409.48,
+      "end": 413.48,
+      "text": " As you can see for the past month we have been bullish, right?"
+    },
+    {
+      "start": 413.48,
+      "end": 415.48,
+      "text": " So we created this higher high."
+    },
+    {
+      "start": 415.48,
+      "end": 422.52,
+      "text": " So we can expect higher prices. So now this right here is our P o and you can see"
+    },
+    {
+      "start": 422.52,
+      "end": 429.48,
+      "text": " price came here tap to do this level and forcing the early buyers to like go"
+    },
+    {
+      "start": 429.48,
+      "end": 438.68,
+      "text": " long but watch what happens. We have an a b c pattern inside the p y which is a nice"
+    },
+    {
+      "start": 438.68,
+      "end": 444.0,
+      "text": " thing like it doesn't necessarily have to form inside the p y. The only need"
+    },
+    {
+      "start": 444.0,
+      "end": 449.0,
+      "text": " see the sealer going to here, but if this occurs, that is absolutely fine as well."
+    },
+    {
+      "start": 449.0,
+      "end": 453.0,
+      "text": " So let's go to the 15 minute timeframe to look for marker structure shift."
+    },
+    {
+      "start": 453.0,
+      "end": 457.0,
+      "text": " So as you can see, there is no clear structure here."
+    },
+    {
+      "start": 457.0,
+      "end": 462.0,
+      "text": " So in this scenario, what you can do is you can drop down to five minutes."
+    },
+    {
+      "start": 462.0,
+      "end": 466.0,
+      "text": " Okay? And when you drop down to five minutes, you can see that we have the structure."
+    },
+    {
+      "start": 466.0,
+      "end": 470.0,
+      "text": " So I want to see a body close above this level."
+    },
+    {
+      "start": 470.0,
+      "end": 478.81,
+      "text": " So let's see what happens and I believe we do have a body close right here"
+    },
+    {
+      "start": 478.81,
+      "end": 483.37,
+      "text": " So we look for extreme water block which is right here as you can see"
+    },
+    {
+      "start": 484.61,
+      "end": 487.25,
+      "text": " This right here, so I'm gonna mark this out"
+    },
+    {
+      "start": 487.81,
+      "end": 492.24,
+      "text": " okay, perfect"
+    },
+    {
+      "start": 492.24,
+      "end": 493.2,
+      "text": " and"
+    },
+    {
+      "start": 493.2,
+      "end": 500.28,
+      "text": " I'm gonna take my entry from this level probably put my stuff just below this low right here and"
+    },
+    {
+      "start": 501.24,
+      "end": 502.32,
+      "text": " I"
+    },
+    {
+      "start": 502.32,
+      "end": 505.56,
+      "text": " I would target one to two, but let's see how this goes."
+    },
+    {
+      "start": 505.56,
+      "end": 515.11,
+      "text": " So price comes back, taps in, right?"
+    },
+    {
+      "start": 515.11,
+      "end": 518.67,
+      "text": " And just watch that move."
+    },
+    {
+      "start": 518.67,
+      "end": 520.11,
+      "text": " It's crazy."
+    },
+    {
+      "start": 520.11,
+      "end": 526.25,
+      "text": " So price went ahead and took out this high right here."
+    },
+    {
+      "start": 526.25,
+      "end": 534.14,
+      "text": " So remember, we knew that we were bullish for the past month, right?"
+    },
+    {
+      "start": 534.14,
+      "end": 542.26,
+      "text": " And as you know, we took the straight right here and we targeted this low."
+    },
+    {
+      "start": 542.26,
+      "end": 546.9,
+      "text": " So that is like prime ABC."
+    },
+    {
+      "start": 546.9,
+      "end": 548.7,
+      "text": " Your take profit level was hit."
+    },
+    {
+      "start": 548.7,
+      "end": 553.1,
+      "text": " And right off of that, you have a reversal."
+    },
+    {
+      "start": 553.1,
+      "end": 556.7,
+      "text": " So I'll give you guys another example."
+    },
+    {
+      "start": 556.7,
+      "end": 558.98,
+      "text": " All right guys, so here is example number two."
+    },
+    {
+      "start": 558.98,
+      "end": 560.42,
+      "text": " You can see we are bullish."
+    },
+    {
+      "start": 560.42,
+      "end": 565.62,
+      "text": " We had a breakout structure identifying"
+    },
+    {
+      "start": 565.62,
+      "end": 568.94,
+      "text": " and showing us that the trend is to the upside."
+    },
+    {
+      "start": 568.94,
+      "end": 570.66,
+      "text": " The market structure is bullish."
+    },
+    {
+      "start": 570.66,
+      "end": 575.42,
+      "text": " Okay, that's all you need to identify market structure guys and trends."
+    },
+    {
+      "start": 575.42,
+      "end": 578.62,
+      "text": " So look at the last 20 or 30 days."
+    },
+    {
+      "start": 578.62,
+      "end": 581.06,
+      "text": " And if the market is making hard highs,"
+    },
+    {
+      "start": 581.06,
+      "end": 584.14,
+      "text": " higher lows, higher highs, then that is plus point."
+    },
+    {
+      "start": 584.14,
+      "end": 588.34,
+      "text": " Okay, so right here you can see we have this auto blog"
+    },
+    {
+      "start": 588.34,
+      "end": 595.93,
+      "text": " and we also have this volume and balance right here."
+    },
+    {
+      "start": 597.29,
+      "end": 600.53,
+      "text": " So you can see that, let's remove this from now."
+    },
+    {
+      "start": 600.53,
+      "end": 604.01,
+      "text": " Let's consider it auto blog as our PUI."
+    },
+    {
+      "start": 604.01,
+      "end": 606.61,
+      "text": " just for the sake of this example."
+    },
+    {
+      "start": 606.61,
+      "end": 610.61,
+      "text": " So right here you can see we have A, B and C."
+    },
+    {
+      "start": 610.61,
+      "end": 612.85,
+      "text": " The C leg goes into our PUI."
+    },
+    {
+      "start": 612.85,
+      "end": 615.29,
+      "text": " So let's drop down to 15 minute time from."
+    },
+    {
+      "start": 616.21,
+      "end": 622.08,
+      "text": " And let me show you how this goes."
+    },
+    {
+      "start": 622.08,
+      "end": 624.48,
+      "text": " I wanna look for a shift in my, okay,"
+    },
+    {
+      "start": 624.48,
+      "end": 627.56,
+      "text": " so we have a market structure shift now."
+    },
+    {
+      "start": 627.56,
+      "end": 632.56,
+      "text": " So if I look at here, this is the first kind"
+    },
+    {
+      "start": 632.56,
+      "end": 634.52,
+      "text": " of the fair value gap, right?"
+    },
+    {
+      "start": 634.52,
+      "end": 636.0,
+      "text": " So this is our autoblock."
+    },
+    {
+      "start": 636.0,
+      "end": 639.72,
+      "text": " I would take my long position just right here."
+    },
+    {
+      "start": 639.72,
+      "end": 644.48,
+      "text": " I would put my stop below this low or this low."
+    },
+    {
+      "start": 644.48,
+      "end": 649.32,
+      "text": " So I would target the high of the b leg,"
+    },
+    {
+      "start": 649.32,
+      "end": 652.0,
+      "text": " which is this."
+    },
+    {
+      "start": 652.0,
+      "end": 656.85,
+      "text": " So let's see how this plays out."
+    },
+    {
+      "start": 656.85,
+      "end": 659.97,
+      "text": " So we get a tap, right?"
+    },
+    {
+      "start": 659.97,
+      "end": 664.32,
+      "text": " So let me do this."
+    },
+    {
+      "start": 664.32,
+      "end": 667.04,
+      "text": " Boom, look at the power guys."
+    },
+    {
+      "start": 667.04,
+      "end": 673.52,
+      "text": " 1 to 10 secured within a couple of RS guys."
+    },
+    {
+      "start": 673.52,
+      "end": 678.56,
+      "text": " That is how powerful it becomes when you are following the trend."
+    },
+    {
+      "start": 678.56,
+      "end": 681.36,
+      "text": " You are taking trades in the direction of the trend."
+    },
+    {
+      "start": 681.36,
+      "end": 687.0,
+      "text": " And also, you are using POIs with ABCs."
+    },
+    {
+      "start": 687.0,
+      "end": 689.72,
+      "text": " So and you are also using higher time frame."
+    },
+    {
+      "start": 689.72,
+      "end": 692.0,
+      "text": " Higher time frame is the king guys."
+    },
+    {
+      "start": 692.0,
+      "end": 693.76,
+      "text": " Just stay away from low time frames."
+    },
+    {
+      "start": 693.76,
+      "end": 696.12,
+      "text": " If you want to take trades like these,"
+    },
+    {
+      "start": 696.12,
+      "end": 698.08,
+      "text": " because when you're using higher time frames,"
+    },
+    {
+      "start": 698.08,
+      "end": 701.04,
+      "text": " You're gonna see moves like this."
+    },
+    {
+      "start": 701.04,
+      "end": 701.88,
+      "text": " All right."
+    },
+    {
+      "start": 701.88,
+      "end": 704.92,
+      "text": " So it's simple guys."
+    },
+    {
+      "start": 704.92,
+      "end": 706.92,
+      "text": " Remember the rules we look at"
+    },
+    {
+      "start": 706.92,
+      "end": 711.28,
+      "text": " high time frame market structure, right?"
+    },
+    {
+      "start": 712.48,
+      "end": 713.84,
+      "text": " Trend."
+    },
+    {
+      "start": 713.84,
+      "end": 718.52,
+      "text": " After that we mark out the premium"
+    },
+    {
+      "start": 719.84,
+      "end": 722.38,
+      "text": " slash discount zones."
+    },
+    {
+      "start": 722.38,
+      "end": 737.05,
+      "text": " Wait for price to come below slash above 0.5 level of fib."
+    },
+    {
+      "start": 737.05,
+      "end": 754.12,
+      "text": " Wait for ABC for formation below slash above 0.5 level and the C leg goes into that"
+    },
+    {
+      "start": 754.12,
+      "end": 755.6,
+      "text": " POI."
+    },
+    {
+      "start": 755.6,
+      "end": 763.6,
+      "text": " Now, when I say that C-leg must go into that POI, what can happen is the whole ABC setup"
+    },
+    {
+      "start": 763.6,
+      "end": 765.76,
+      "text": " can form in that POI."
+    },
+    {
+      "start": 765.76,
+      "end": 769.12,
+      "text": " So it doesn't necessarily have to be the C-leg."
+    },
+    {
+      "start": 769.12,
+      "end": 774.92,
+      "text": " But if the ABC pattern occurs in that auto block, when you have, like let's suppose you"
+    },
+    {
+      "start": 774.92,
+      "end": 779.96,
+      "text": " have a POI marked out."
+    },
+    {
+      "start": 779.96,
+      "end": 781.36,
+      "text": " And what can happen sometime?"
+    },
+    {
+      "start": 781.36,
+      "end": 789.92,
+      "text": " price gonna touch this auto block push up and then create another an ABC pattern inside the"
+    },
+    {
+      "start": 789.92,
+      "end": 797.68,
+      "text": " auto block right so it's gonna look something like this boom boom boom boom simple as that so I"
+    },
+    {
+      "start": 797.68,
+      "end": 804.24,
+      "text": " hope you guys enjoyed this video and this lecture if you have any more questions you can ask them"
+    },
+    {
+      "start": 804.24,
+      "end": 806.72,
+      "text": " in the discord and I'll see you guys in the next video."
+    }
+  ]
+}

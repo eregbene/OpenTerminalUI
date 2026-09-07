@@ -1,0 +1,133 @@
+{
+  "source": "F:\\new faiz\\13. BREAKER BLOCK.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 185.3185,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so in this video we are going to talk about breaker blocks. It is another entry pattern that you can use. It is very powerful. So what essentially is breaker block? When you have a lower low, lower high, lower low, and a market structure shift. So when you had lower low, lower high, lower low,"
+    },
+    {
+      "start": 30.0,
+      "end": 45.26,
+      "text": " the last lower low and the last candle of that lower low right here is your brick"
+    },
+    {
+      "start": 45.26,
+      "end": 51.82,
+      "text": " block. So you have lower low, lower high, lower low and mark a structure shift. If you"
+    },
+    {
+      "start": 51.82,
+      "end": 56.62,
+      "text": " have another small lower low here, like lower low, lower high, small lower high,"
+    },
+    {
+      "start": 56.62,
+      "end": 64.22,
+      "text": " lower low and then mark a shift, then that would be your brick block. So the first"
+    },
+    {
+      "start": 64.22,
+      "end": 74.03,
+      "text": " candle right here, first candle before this move, or you could say the last candle, before"
+    },
+    {
+      "start": 74.03,
+      "end": 83.39,
+      "text": " this last lower low is your breaker block. And if there is some fear volume gap here, then"
+    },
+    {
+      "start": 83.39,
+      "end": 89.63,
+      "text": " that breaker block becomes very strong. However, if there is no fear volume gap, you can still"
+    },
+    {
+      "start": 89.63,
+      "end": 96.75,
+      "text": " take entry from this level. Okay? But if there's fibrilligap, then that becomes even better."
+    },
+    {
+      "start": 96.75,
+      "end": 104.03,
+      "text": " Price comes back here and boom. Similarly, you have higher high, high low, higher high,"
+    },
+    {
+      "start": 104.03,
+      "end": 113.55,
+      "text": " market structure shift. This last candle before the move to the upside and then market structure"
+    },
+    {
+      "start": 113.55,
+      "end": 120.35,
+      "text": " shift so you have higher high high low. The last candle of the high low is your"
+    },
+    {
+      "start": 120.35,
+      "end": 125.55,
+      "text": " breaker block. Okay? Price comes back here. If there is freeable you gap right"
+    },
+    {
+      "start": 125.55,
+      "end": 130.43,
+      "text": " here, you can literally take your entry from here. Instead of looking for entry"
+    },
+    {
+      "start": 130.43,
+      "end": 134.55,
+      "text": " from the extreme freeable you gap, what you can do as an entry model, you can"
+    },
+    {
+      "start": 134.55,
+      "end": 139.87,
+      "text": " look for entry here. So a lot of people ask me, we miss, sometimes we miss the"
+    },
+    {
+      "start": 139.87,
+      "end": 147.91,
+      "text": " trade. And this is how you can minimize the risk of missing their trade. Yes,"
+    },
+    {
+      "start": 147.91,
+      "end": 151.59,
+      "text": " your stop loss is going to be big, or you can just put your stop above the"
+    },
+    {
+      "start": 151.59,
+      "end": 155.87,
+      "text": " breaker block, but trust me, you're going to lose. So just put it above the"
+    },
+    {
+      "start": 155.87,
+      "end": 162.19,
+      "text": " extreme fear of what you get. So this right here is your breaker block. Let me"
+    },
+    {
+      "start": 162.19,
+      "end": 173.67,
+      "text": " show you an example. If I can find it, I drew it somewhere here. Where is it? Where's"
+    },
+    {
+      "start": 173.67,
+      "end": 177.68,
+      "text": " Where is it?"
+    },
+    {
+      "start": 177.68,
+      "end": 178.68,
+      "text": " Mm-hmm."
+    },
+    {
+      "start": 178.68,
+      "end": 184.68,
+      "text": " Okay, I think I deleted it, so I'm gonna pause the video, find it, and then come back."
+    }
+  ]
+}

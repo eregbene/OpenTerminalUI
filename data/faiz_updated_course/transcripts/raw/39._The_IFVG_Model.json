@@ -1,0 +1,1738 @@
+{
+  "source": "F:\\new faiz\\39. The IFVG Model.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 1543.3375,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.46,
+      "end": 30.46,
+      "text": " Alright guys, this is a new chapter and this chapter I'm gonna teach you guys the power of 3 and inverse for a regular gap model. This model is extremely powerful and basically if you use this model then you would not need anything else. So essentially first we need to understand what is power of 3 and then I'm gonna teach you the model. So, power of 3 is basically an accumulation phase where price consult dates, right, creates"
+    },
+    {
+      "start": 30.46,
+      "end": 34.86,
+      "text": " liquidity, then price manipulates, right?"
+    },
+    {
+      "start": 34.86,
+      "end": 38.78,
+      "text": " And then it moves and distributes towards the original"
+    },
+    {
+      "start": 38.78,
+      "end": 40.06,
+      "text": " direction."
+    },
+    {
+      "start": 40.06,
+      "end": 43.86,
+      "text": " Now we have accumulation, manipulation, and then distribution."
+    },
+    {
+      "start": 43.86,
+      "end": 45.94,
+      "text": " This is power of three."
+    },
+    {
+      "start": 45.94,
+      "end": 48.3,
+      "text": " Acculation, manipulation, distribution, a,"
+    },
+    {
+      "start": 48.3,
+      "end": 49.58,
+      "text": " am, d."
+    },
+    {
+      "start": 49.58,
+      "end": 51.34,
+      "text": " Very simple, right?"
+    },
+    {
+      "start": 51.34,
+      "end": 56.34,
+      "text": " And similarly, you have something like, oops,"
+    },
+    {
+      "start": 56.34,
+      "end": 65.37,
+      "text": " Oops, never mind. Accumulation, manipulation, and then distribution, right?"
+    },
+    {
+      "start": 65.37,
+      "end": 71.29,
+      "text": " So, what is the model that I use? So, what exactly is in verse?"
+    },
+    {
+      "start": 71.29,
+      "end": 76.49,
+      "text": " Foreverly gap, I've taught this before, but I'm gonna teach it again in this video."
+    },
+    {
+      "start": 76.49,
+      "end": 83.49,
+      "text": " So, essentially, when you get a Foreverly gap, so over here you can see that we got a"
+    },
+    {
+      "start": 83.49,
+      "end": 87.07,
+      "text": " market structure break or break in break of structure and"
+    },
+    {
+      "start": 88.25,
+      "end": 93.29,
+      "text": " Let's suppose that price creates a fairly gap a bullish fairly gap now"
+    },
+    {
+      "start": 95.01,
+      "end": 103.33,
+      "text": " This fairly gap will become inverse if price doesn't respect it and it closes below this bullish fairly gap"
+    },
+    {
+      "start": 104.13,
+      "end": 106.13,
+      "text": " right, so let me just make it"
+    },
+    {
+      "start": 107.37,
+      "end": 109.97,
+      "text": " Green because it is a bullish for a body gap"
+    },
+    {
+      "start": 109.97,
+      "end": 117.25,
+      "text": " But notice how price came back into the Ferrari gap, but it was not respected and you can see that"
+    },
+    {
+      "start": 117.49,
+      "end": 122.29,
+      "text": " The candle the body closed below the Ferrari gap. So it was not respected"
+    },
+    {
+      "start": 122.93,
+      "end": 127.93,
+      "text": " Now once the body closes this Ferrari gap becomes inverse Ferrari gap"
+    },
+    {
+      "start": 128.37,
+      "end": 129.37,
+      "text": " Okay"
+    },
+    {
+      "start": 129.37,
+      "end": 137.89,
+      "text": " So essentially what you can do is just simply take your entry on the retest or on the close of the candle below this level"
+    },
+    {
+      "start": 137.89,
+      "end": 146.58,
+      "text": " So the model that I use is basically, so now that I know that you guys know what exactly"
+    },
+    {
+      "start": 146.58,
+      "end": 153.26,
+      "text": " is a inverse from any gap, there are chapters on this on my old course on also on my"
+    },
+    {
+      "start": 153.26,
+      "end": 154.26,
+      "text": " YouTube."
+    },
+    {
+      "start": 154.26,
+      "end": 156.54,
+      "text": " So I'm not going to explain it in detail."
+    },
+    {
+      "start": 156.54,
+      "end": 157.62,
+      "text": " But here is the model."
+    },
+    {
+      "start": 157.62,
+      "end": 162.62,
+      "text": " So what I look for on the one minute time from, and then there is another approach to"
+    },
+    {
+      "start": 162.62,
+      "end": 167.02,
+      "text": " it, but this is like one minute trading strategy."
+    },
+    {
+      "start": 167.02,
+      "end": 173.08,
+      "text": " And you can basically trade it on NAS 100, gold, and also your USD."
+    },
+    {
+      "start": 173.08,
+      "end": 179.92,
+      "text": " So I primarily trade NAS 100 with this, because it has the highest win rate."
+    },
+    {
+      "start": 179.92,
+      "end": 187.46,
+      "text": " So on the one minute timeframe, I would try to identify a accumulation phase, and then"
+    },
+    {
+      "start": 187.46,
+      "end": 191.68,
+      "text": " a manipulation phase, right?"
+    },
+    {
+      "start": 191.68,
+      "end": 197.6,
+      "text": " And then afterwards what I'm looking for, so watch this carefully."
+    },
+    {
+      "start": 197.6,
+      "end": 200.8,
+      "text": " This is the most important part of this model."
+    },
+    {
+      "start": 200.8,
+      "end": 205.4,
+      "text": " So we have accumulation and then we have manipulation."
+    },
+    {
+      "start": 205.4,
+      "end": 215.52,
+      "text": " Inside this manipulation leg, they should be only one fair value gap, only one fair value"
+    },
+    {
+      "start": 215.52,
+      "end": 218.16,
+      "text": " gap on the one minute time frame."
+    },
+    {
+      "start": 218.16,
+      "end": 226.4,
+      "text": " So we have accumulation, then we have manipulation inside the manipulation leg, right?"
+    },
+    {
+      "start": 226.4,
+      "end": 233.16,
+      "text": " From this high to this low, we must have one fair value gap."
+    },
+    {
+      "start": 233.16,
+      "end": 239.92,
+      "text": " Now let's suppose that this leg has, okay, let me just guys, just give me a minute."
+    },
+    {
+      "start": 239.92,
+      "end": 243.28,
+      "text": " I'm just gonna disable this."
+    },
+    {
+      "start": 243.28,
+      "end": 247.48,
+      "text": " So it's connected to, you know, the LAN network."
+    },
+    {
+      "start": 247.48,
+      "end": 253.8,
+      "text": " Anyways, it should have one for a while, but if it has multiple for about the gaps inside"
+    },
+    {
+      "start": 253.8,
+      "end": 259.72,
+      "text": " this leg, what you want to do is you have to go a bit higher on the time frame."
+    },
+    {
+      "start": 259.72,
+      "end": 263.32,
+      "text": " So you would go on the two minute time frame and then you would go on three minute"
+    },
+    {
+      "start": 263.32,
+      "end": 265.88,
+      "text": " time frame and then four and then five."
+    },
+    {
+      "start": 265.88,
+      "end": 270.0,
+      "text": " The five minute is the highest that you can go."
+    },
+    {
+      "start": 270.0,
+      "end": 276.64,
+      "text": " But on the five minute, you must also have a clear power of three."
+    },
+    {
+      "start": 276.64,
+      "end": 283.36,
+      "text": " must have consolidation on the 5 minute time from as well. Now if there's like no power of 3"
+    },
+    {
+      "start": 283.36,
+      "end": 289.74,
+      "text": " then there's no setup. But let's say that you want to stick on the 1 minute time from"
+    },
+    {
+      "start": 289.74,
+      "end": 294.28,
+      "text": " and I suggest that you just stick to 1 minute time from because it's not cool to go to higher"
+    },
+    {
+      "start": 294.28,
+      "end": 300.64,
+      "text": " time from to identify single-ferreli gaps. So let's assume that while price was coming down"
+    },
+    {
+      "start": 300.64,
+      "end": 309.88,
+      "text": " and manipulating price credit one single fair value gap and this is a bearish"
+    },
+    {
+      "start": 309.88,
+      "end": 316.52,
+      "text": " fair value gap. Now usually people would expect price to come into this fair value"
+    },
+    {
+      "start": 316.52,
+      "end": 323.9,
+      "text": " gap and then go below but the model here is that once price inverses this"
+    },
+    {
+      "start": 323.9,
+      "end": 331.98,
+      "text": " this bearish variable you get, the single variable you get that was present inside this"
+    },
+    {
+      "start": 331.98,
+      "end": 340.78,
+      "text": " manipulation lag. When price closes above that, you want to enter right away. This is going"
+    },
+    {
+      "start": 340.78,
+      "end": 346.94,
+      "text": " to be your entry right away when the candle closes above the variable you get and in"
+    },
+    {
+      "start": 346.94,
+      "end": 355.58,
+      "text": " versus it. Your stop will go below here and this is the most important part. You must target"
+    },
+    {
+      "start": 355.58,
+      "end": 366.14,
+      "text": " the most recent, the most, the closest liquidity, right? So this high is the closest level."
+    },
+    {
+      "start": 367.18,
+      "end": 375.02,
+      "text": " Now let's suppose that your entry is triggered. Now here's the risk management for this strategy."
+    },
+    {
+      "start": 375.02,
+      "end": 387.19,
+      "text": " So, when the price reaches the closest liquidity level, you are going break even."
+    },
+    {
+      "start": 387.19,
+      "end": 391.03,
+      "text": " Straight away, you are going break even."
+    },
+    {
+      "start": 391.03,
+      "end": 400.67,
+      "text": " Now, when price hits 1 to 1 risk reward ratio, you are taking 50% off your profit."
+    },
+    {
+      "start": 400.67,
+      "end": 404.03,
+      "text": " And of course, you are also break even."
+    },
+    {
+      "start": 404.03,
+      "end": 410.91,
+      "text": " And then you are letting the runners run for however you want."
+    },
+    {
+      "start": 410.91,
+      "end": 415.39,
+      "text": " So for example, I usually go for 1 to 2.5,"
+    },
+    {
+      "start": 415.39,
+      "end": 417.39,
+      "text": " or 1 to 3 with the strat."
+    },
+    {
+      "start": 417.39,
+      "end": 419.99,
+      "text": " And I target the higher time frame,"
+    },
+    {
+      "start": 419.99,
+      "end": 423.27,
+      "text": " target and draw on liquidity."
+    },
+    {
+      "start": 423.27,
+      "end": 425.59,
+      "text": " Now you can also use the standard deviation tool"
+    },
+    {
+      "start": 425.59,
+      "end": 427.27,
+      "text": " that I've taught in my previous lectures."
+    },
+    {
+      "start": 427.27,
+      "end": 429.27,
+      "text": " And you can target this level."
+    },
+    {
+      "start": 429.27,
+      "end": 431.23,
+      "text": " But the main premise, the main idea,"
+    },
+    {
+      "start": 431.23,
+      "end": 436.23,
+      "text": " is that you go break even once the closest liquidity level"
+    },
+    {
+      "start": 436.59,
+      "end": 437.91,
+      "text": " is taken."
+    },
+    {
+      "start": 437.91,
+      "end": 439.99,
+      "text": " Okay, now here's the deal."
+    },
+    {
+      "start": 441.35,
+      "end": 444.39,
+      "text": " Okay, now what price we'll do is sometimes,"
+    },
+    {
+      "start": 444.39,
+      "end": 447.55,
+      "text": " just let me do this, this, this, this, this, this,"
+    },
+    {
+      "start": 447.55,
+      "end": 452.55,
+      "text": " okay, what price we'll do is instead of closing above"
+    },
+    {
+      "start": 452.63,
+      "end": 456.75,
+      "text": " the fair value gap, price we'll go up ahead"
+    },
+    {
+      "start": 456.75,
+      "end": 462.39,
+      "text": " and take out the liquidity before giving you entry."
+    },
+    {
+      "start": 462.39,
+      "end": 467.03,
+      "text": " So the candle won't close, but it will go way higher."
+    },
+    {
+      "start": 467.03,
+      "end": 470.87,
+      "text": " And then it will just take out the most recent liquidity."
+    },
+    {
+      "start": 470.87,
+      "end": 474.91,
+      "text": " Now, if that is the case, then the setup becomes invalid."
+    },
+    {
+      "start": 474.91,
+      "end": 477.91,
+      "text": " Completely invalid."
+    },
+    {
+      "start": 477.91,
+      "end": 481.95,
+      "text": " My eyes are always on the most recent liquidity level."
+    },
+    {
+      "start": 481.95,
+      "end": 484.19,
+      "text": " That is the most recent high."
+    },
+    {
+      "start": 484.19,
+      "end": 487.43,
+      "text": " So this is the closest type, my apologies."
+    },
+    {
+      "start": 489.39,
+      "end": 491.15,
+      "text": " Now, the candle closes."
+    },
+    {
+      "start": 491.15,
+      "end": 494.31,
+      "text": " Price can even be here, okay?"
+    },
+    {
+      "start": 494.31,
+      "end": 495.35,
+      "text": " Somewhere around here."
+    },
+    {
+      "start": 495.35,
+      "end": 499.07,
+      "text": " Now you can enter right away, right?"
+    },
+    {
+      "start": 499.07,
+      "end": 502.15,
+      "text": " And sometimes what can happen is price will go way far"
+    },
+    {
+      "start": 502.15,
+      "end": 503.11,
+      "text": " up ahead."
+    },
+    {
+      "start": 503.11,
+      "end": 506.03,
+      "text": " So instead of entering here, you should be patient"
+    },
+    {
+      "start": 506.03,
+      "end": 509.15,
+      "text": " and then you should be waiting for a retest entry."
+    },
+    {
+      "start": 509.15,
+      "end": 512.35,
+      "text": " Now this is only applicable when the price has gone way"
+    },
+    {
+      "start": 512.35,
+      "end": 516.03,
+      "text": " far above the inverse probability gap."
+    },
+    {
+      "start": 516.03,
+      "end": 517.99,
+      "text": " And let's suppose that if you take your entry here,"
+    },
+    {
+      "start": 517.99,
+      "end": 521.19,
+      "text": " your stop loss would be massive, right?"
+    },
+    {
+      "start": 521.19,
+      "end": 525.27,
+      "text": " And it doesn't matter if you take your entry here or here."
+    },
+    {
+      "start": 525.27,
+      "end": 529.23,
+      "text": " You must go break even when the closest liquidity level"
+    },
+    {
+      "start": 529.23,
+      "end": 530.23,
+      "text": " is taken out."
+    },
+    {
+      "start": 531.67,
+      "end": 534.83,
+      "text": " And that is basically the model."
+    },
+    {
+      "start": 534.83,
+      "end": 536.55,
+      "text": " Now there are some few key things"
+    },
+    {
+      "start": 536.55,
+      "end": 538.39,
+      "text": " that you must keep in mind."
+    },
+    {
+      "start": 538.39,
+      "end": 540.31,
+      "text": " Let me just take a sip of my tea,"
+    },
+    {
+      "start": 540.31,
+      "end": 543.8,
+      "text": " and then I'll continue."
+    },
+    {
+      "start": 543.8,
+      "end": 547.17,
+      "text": " Thank you very much."
+    },
+    {
+      "start": 547.17,
+      "end": 548.33,
+      "text": " All right."
+    },
+    {
+      "start": 548.33,
+      "end": 551.45,
+      "text": " Now, what I'd like to do most of the time"
+    },
+    {
+      "start": 551.45,
+      "end": 555.49,
+      "text": " is basically pair it up with hard time from key levels"
+    },
+    {
+      "start": 555.49,
+      "end": 557.97,
+      "text": " and SMT divergences."
+    },
+    {
+      "start": 557.97,
+      "end": 559.81,
+      "text": " Now, this is something that if you want to,"
+    },
+    {
+      "start": 559.81,
+      "end": 562.61,
+      "text": " like if you can implement this, then of course,"
+    },
+    {
+      "start": 562.61,
+      "end": 564.61,
+      "text": " it's going to increase the win rate."
+    },
+    {
+      "start": 564.61,
+      "end": 567.53,
+      "text": " My goal is to teach you the most mechanical strategies"
+    },
+    {
+      "start": 567.53,
+      "end": 570.37,
+      "text": " that you can use because I understand the situation"
+    },
+    {
+      "start": 570.37,
+      "end": 571.05,
+      "text": " you guys are in."
+    },
+    {
+      "start": 571.05,
+      "end": 573.77,
+      "text": " You guys may have jobs, and you don't have time,"
+    },
+    {
+      "start": 573.77,
+      "end": 576.65,
+      "text": " enough time to analyze the markets every single day, right?"
+    },
+    {
+      "start": 576.65,
+      "end": 579.37,
+      "text": " You know, using discretion and all that stuff."
+    },
+    {
+      "start": 579.37,
+      "end": 582.61,
+      "text": " So I want to keep them as mechanical as possible."
+    },
+    {
+      "start": 582.61,
+      "end": 585.69,
+      "text": " If you really want to like take this model to next level,"
+    },
+    {
+      "start": 585.69,
+      "end": 588.21,
+      "text": " then use this technique."
+    },
+    {
+      "start": 588.21,
+      "end": 590.85,
+      "text": " So since you are training on the one minute done from,"
+    },
+    {
+      "start": 590.85,
+      "end": 595.93,
+      "text": " we will be marking out 15 minute key levels, right?"
+    },
+    {
+      "start": 595.93,
+      "end": 599.73,
+      "text": " So let's assume there was a significant low somewhere around here"
+    },
+    {
+      "start": 599.73,
+      "end": 601.01,
+      "text": " that was taken out."
+    },
+    {
+      "start": 601.01,
+      "end": 605.81,
+      "text": " And afterwards, price gave us this AMD model."
+    },
+    {
+      "start": 605.81,
+      "end": 607.21,
+      "text": " OK?"
+    },
+    {
+      "start": 607.21,
+      "end": 612.29,
+      "text": " Now, there could be a fairly good 50% of the fairly good"
+    },
+    {
+      "start": 612.29,
+      "end": 615.25,
+      "text": " or an auto block, right?"
+    },
+    {
+      "start": 615.25,
+      "end": 619.81,
+      "text": " It is always best to pair it this move with PDRS."
+    },
+    {
+      "start": 619.81,
+      "end": 623.05,
+      "text": " Now, SMT divergent is basically, let's"
+    },
+    {
+      "start": 623.05,
+      "end": 628.73,
+      "text": " suppose that on NAS100, we created the lower low,"
+    },
+    {
+      "start": 628.73,
+      "end": 633.15,
+      "text": " lower high and then a lower low. Essentially it is power of 3 but you can see we have"
+    },
+    {
+      "start": 633.15,
+      "end": 641.51,
+      "text": " lower low consolidation and then another lower low. Now instead of on NAS100 let's suppose"
+    },
+    {
+      "start": 641.51,
+      "end": 651.65,
+      "text": " that we get lower lower high lower low but on S&P 500 we fail to create the lower low."
+    },
+    {
+      "start": 651.65,
+      "end": 662.09,
+      "text": " Oh my god, this is messed. Yeah, so we failed to create that now you want to be trading the asset or the pair that swept liquidity"
+    },
+    {
+      "start": 662.09,
+      "end": 664.95,
+      "text": " So you can see that we swept this liquidity, right?"
+    },
+    {
+      "start": 665.81,
+      "end": 673.21,
+      "text": " On S&P we failed to sweep the liquidity or create another low low, but on NAS 100 we created low low or high low"
+    },
+    {
+      "start": 673.77,
+      "end": 676.87,
+      "text": " So this right here is your SMT with"
+    },
+    {
+      "start": 676.87,
+      "end": 683.91,
+      "text": " it's a PDF array in mind and I promise you this is literally all you need."
+    },
+    {
+      "start": 683.91,
+      "end": 690.83,
+      "text": " Basically all you need. Now here's another technique that you should implement if you can,"
+    },
+    {
+      "start": 690.83,
+      "end": 697.67,
+      "text": " that's gonna also increase your win rate. So on the one minute timeframe, right? We have"
+    },
+    {
+      "start": 697.67,
+      "end": 701.51,
+      "text": " single fair value gap. We do not want to have multiple fair value gaps. Only one in this"
+    },
+    {
+      "start": 701.51,
+      "end": 708.31,
+      "text": " Now, okay, let's say the price breaches inverses this fairly gap."
+    },
+    {
+      "start": 708.31,
+      "end": 710.43,
+      "text": " Now I will not enter right away."
+    },
+    {
+      "start": 710.43,
+      "end": 714.63,
+      "text": " What I would do is I would go to the three minute time frame, sorry, two minute time"
+    },
+    {
+      "start": 714.63,
+      "end": 720.47,
+      "text": " frame and see if there's any other fairly gap that price has not yet inversed."
+    },
+    {
+      "start": 720.47,
+      "end": 724.51,
+      "text": " So on the one minute time frame, your fairly gap could look like this, but on the two"
+    },
+    {
+      "start": 724.51,
+      "end": 727.91,
+      "text": " minute time frame, your fairly gap could be a bit bigger."
+    },
+    {
+      "start": 727.91,
+      "end": 730.71,
+      "text": " And on three minutes time frame, it could be even bigger."
+    },
+    {
+      "start": 730.71,
+      "end": 735.67,
+      "text": " Now three minute is the highest that I would go to implement this trick."
+    },
+    {
+      "start": 735.67,
+      "end": 742.07,
+      "text": " So I would wait for my highest fairly gap to be inverse instead of the one minute."
+    },
+    {
+      "start": 742.07,
+      "end": 747.75,
+      "text": " Now this is what it does, it extra confirms that the price will go towards my direction."
+    },
+    {
+      "start": 747.75,
+      "end": 749.31,
+      "text": " This is very important."
+    },
+    {
+      "start": 749.31,
+      "end": 753.91,
+      "text": " So not actually important but if you implement this, it's going to basically help you"
+    },
+    {
+      "start": 753.91,
+      "end": 758.23,
+      "text": " with your strike rate."
+    },
+    {
+      "start": 758.23,
+      "end": 764.47,
+      "text": " So SMT PD arrays and this technique when combined together is just impossible to basically"
+    },
+    {
+      "start": 764.47,
+      "end": 768.23,
+      "text": " have low-run red then 75% or 5% alright."
+    },
+    {
+      "start": 768.23,
+      "end": 771.83,
+      "text": " You're gonna have above SAMDut to 75% when we're doing this model."
+    },
+    {
+      "start": 771.83,
+      "end": 774.59,
+      "text": " Just stick to the pairs that I suggested and assets that I suggested."
+    },
+    {
+      "start": 774.59,
+      "end": 776.03,
+      "text": " Don't trade anything else with this."
+    },
+    {
+      "start": 776.03,
+      "end": 778.11,
+      "text": " Please don't do it for the sake of love."
+    },
+    {
+      "start": 778.11,
+      "end": 780.87,
+      "text": " Okay, don't do it."
+    },
+    {
+      "start": 780.87,
+      "end": 787.55,
+      "text": " And similarly everything would apply when you are looking for shots."
+    },
+    {
+      "start": 787.55,
+      "end": 792.31,
+      "text": " basically just do this and entry on the retest."
+    },
+    {
+      "start": 792.31,
+      "end": 796.31,
+      "text": " We have SMT into the PDRA and you can see that"
+    },
+    {
+      "start": 796.31,
+      "end": 798.19,
+      "text": " we have accumulation, manipulation,"
+    },
+    {
+      "start": 798.19,
+      "end": 800.59,
+      "text": " and then we get the distribution phase."
+    },
+    {
+      "start": 800.59,
+      "end": 805.39,
+      "text": " And notice that also we have the closest liquidity level."
+    },
+    {
+      "start": 805.39,
+      "end": 807.35,
+      "text": " This is the main point of the strategy"
+    },
+    {
+      "start": 807.35,
+      "end": 810.47,
+      "text": " is if it gets breached without entry."
+    },
+    {
+      "start": 810.47,
+      "end": 813.03,
+      "text": " So the candle just keeps going down and down and down"
+    },
+    {
+      "start": 813.03,
+      "end": 816.19,
+      "text": " before closing below the probability gap,"
+    },
+    {
+      "start": 816.19,
+      "end": 818.09,
+      "text": " and the setup becomes invalid."
+    },
+    {
+      "start": 818.09,
+      "end": 820.59,
+      "text": " However, if you have somewhere around here,"
+    },
+    {
+      "start": 820.59,
+      "end": 824.19,
+      "text": " you can still enter, but you would go break even right away."
+    },
+    {
+      "start": 824.19,
+      "end": 826.79,
+      "text": " After this level is taken, there's no comp,"
+    },
+    {
+      "start": 826.79,
+      "end": 830.31,
+      "text": " you know, you should not be just doing things on your own."
+    },
+    {
+      "start": 830.31,
+      "end": 831.71,
+      "text": " Just do what I say."
+    },
+    {
+      "start": 831.71,
+      "end": 832.75,
+      "text": " Take your entry on the read test."
+    },
+    {
+      "start": 832.75,
+      "end": 834.91,
+      "text": " The price has gone way far below"
+    },
+    {
+      "start": 834.91,
+      "end": 838.39,
+      "text": " or enter right away when price is somewhere around here."
+    },
+    {
+      "start": 838.39,
+      "end": 839.87,
+      "text": " Now, let's move on to the examples"
+    },
+    {
+      "start": 839.87,
+      "end": 842.11,
+      "text": " and then we'll move on to the next chapter."
+    },
+    {
+      "start": 843.55,
+      "end": 845.75,
+      "text": " Now, one thing that I forgot to tell you about"
+    },
+    {
+      "start": 845.75,
+      "end": 847.31,
+      "text": " is the time factor."
+    },
+    {
+      "start": 847.31,
+      "end": 849.23,
+      "text": " So when you should be trading this model,"
+    },
+    {
+      "start": 849.23,
+      "end": 851.99,
+      "text": " now the best results are gonna come from"
+    },
+    {
+      "start": 853.35,
+      "end": 860.0,
+      "text": " nine 30, sorry, till 11 30, right?"
+    },
+    {
+      "start": 860.0,
+      "end": 863.56,
+      "text": " So if you can find however many setups"
+    },
+    {
+      "start": 863.56,
+      "end": 865.44,
+      "text": " in this window period,"
+    },
+    {
+      "start": 865.44,
+      "end": 867.88,
+      "text": " your win rate is gonna be higher, okay?"
+    },
+    {
+      "start": 867.88,
+      "end": 869.56,
+      "text": " You're gonna have volatility,"
+    },
+    {
+      "start": 869.56,
+      "end": 873.0,
+      "text": " but let's suppose that if there's news at nine 30, right?"
+    },
+    {
+      "start": 873.0,
+      "end": 875.12,
+      "text": " You should wait for news to pass over"
+    },
+    {
+      "start": 875.12,
+      "end": 877.48,
+      "text": " and trade after five to 10 minutes."
+    },
+    {
+      "start": 877.48,
+      "end": 882.6,
+      "text": " actually 10 minutes because it's going to just settle down the markets and then trade this model."
+    },
+    {
+      "start": 882.6,
+      "end": 888.36,
+      "text": " Let's suppose that there is a news at 10, then you can do is wait till 10 and then trade after 10"
+    },
+    {
+      "start": 888.92,
+      "end": 894.04,
+      "text": " 10 a.m. that makes sense after 10 minutes. So let me give you guys some examples."
+    },
+    {
+      "start": 895.96,
+      "end": 901.0,
+      "text": " All right guys so here is example number one. So we have accumulation right here"
+    },
+    {
+      "start": 901.0,
+      "end": 906.0,
+      "text": " And then we have manipulation, right?"
+    },
+    {
+      "start": 906.0,
+      "end": 907.96,
+      "text": " So let me just do this."
+    },
+    {
+      "start": 907.96,
+      "end": 917.15,
+      "text": " Circumulation, manipulation, and then we have the distribution to the upside."
+    },
+    {
+      "start": 917.15,
+      "end": 921.15,
+      "text": " Now, here's how you would have approached it, right?"
+    },
+    {
+      "start": 921.15,
+      "end": 923.15,
+      "text": " So we get manipulation, right?"
+    },
+    {
+      "start": 923.15,
+      "end": 928.15,
+      "text": " Now notice, a lower low, lower high, and then a lower low."
+    },
+    {
+      "start": 928.15,
+      "end": 933.15,
+      "text": " So, our reference point is from this lower high to this lower low."
+    },
+    {
+      "start": 933.15,
+      "end": 936.15,
+      "text": " Now, notice what happens."
+    },
+    {
+      "start": 936.15,
+      "end": 940.15,
+      "text": " We have this variable eGAP."
+    },
+    {
+      "start": 940.15,
+      "end": 941.15,
+      "text": " Right?"
+    },
+    {
+      "start": 941.15,
+      "end": 946.15,
+      "text": " And we also have this closest liquidity level."
+    },
+    {
+      "start": 946.15,
+      "end": 950.15,
+      "text": " So, if this level was taken out before our entry,"
+    },
+    {
+      "start": 950.15,
+      "end": 952.15,
+      "text": " then the setup would become invalid."
+    },
+    {
+      "start": 952.15,
+      "end": 957.15,
+      "text": " Now, notice how price closed right above the inverse variable eGAP."
+    },
+    {
+      "start": 957.15,
+      "end": 967.29,
+      "text": " over here. So this would have been your entry. Okay? And we would go break even with 50%"
+    },
+    {
+      "start": 967.29,
+      "end": 973.55,
+      "text": " profit at one to one, rest your world ratio. Now you can see that this trade would have been"
+    },
+    {
+      "start": 973.55,
+      "end": 979.47,
+      "text": " closed at break even unfortunately. But you can see that price came back and retested"
+    },
+    {
+      "start": 979.47,
+      "end": 987.97,
+      "text": " this I F V G and then we had another push to take out these highs over here. So I want"
+    },
+    {
+      "start": 987.97,
+      "end": 993.65,
+      "text": " to show this example because not every trade is going to be perfect. So this is how you"
+    },
+    {
+      "start": 993.65,
+      "end": 1000.33,
+      "text": " would approach, right? A accumulation, manipulation and then we have this fairly gap that"
+    },
+    {
+      "start": 1000.33,
+      "end": 1008.45,
+      "text": " was inversed and a beautiful entry here with 50% profits taken here. Let's move on to another"
+    },
+    {
+      "start": 1008.45,
+      "end": 1015.29,
+      "text": " example. Alright, so here is another example on the same day. You can see we have accumulation"
+    },
+    {
+      "start": 1015.29,
+      "end": 1021.57,
+      "text": " here and then we have manipulation. So essentially if you look for if you if you don't"
+    },
+    {
+      "start": 1021.57,
+      "end": 1024.29,
+      "text": " want to look for power trees you can look for significant liquidity level"
+    },
+    {
+      "start": 1024.29,
+      "end": 1027.69,
+      "text": " streams and then you can look for this model. It's essentially the same thing."
+    },
+    {
+      "start": 1027.69,
+      "end": 1032.81,
+      "text": " Part of three is going to come in all different sizes and shapes and form so"
+    },
+    {
+      "start": 1032.81,
+      "end": 1036.81,
+      "text": " it's not always mechanical. You know you can't just identify part of three in a"
+    },
+    {
+      "start": 1036.81,
+      "end": 1040.61,
+      "text": " mechanical way. You have to see where the accumulation phase was then the"
+    },
+    {
+      "start": 1040.61,
+      "end": 1047.65,
+      "text": " manipulation phase. So a commutation phase, right, manipulation, then we get the distribution."
+    },
+    {
+      "start": 1047.65,
+      "end": 1051.45,
+      "text": " So how you would have approached this is basically, you can also see that we swept this"
+    },
+    {
+      "start": 1051.45,
+      "end": 1059.57,
+      "text": " high over here. Now, we have this low and then we have this high over here, right? Now,"
+    },
+    {
+      "start": 1059.57,
+      "end": 1067.42,
+      "text": " notice this fair value gap. Inside from this low to this high over here, there's only one"
+    },
+    {
+      "start": 1067.42,
+      "end": 1072.1,
+      "text": " fair about your gap. Okay, so this is very crucial. And you can see that price"
+    },
+    {
+      "start": 1072.1,
+      "end": 1078.74,
+      "text": " inversed it right just right here. So this would be my entry right away. Now"
+    },
+    {
+      "start": 1078.74,
+      "end": 1085.46,
+      "text": " you can see that my stop would go right above the high and on one to one I would"
+    },
+    {
+      "start": 1085.46,
+      "end": 1091.7,
+      "text": " go actually I would go break even just around here and then I would take 50"
+    },
+    {
+      "start": 1091.7,
+      "end": 1095.38,
+      "text": " percent of our profits here and as you can see price close to the set break"
+    },
+    {
+      "start": 1095.38,
+      "end": 1101.42,
+      "text": " even once again. But then you can see that price kept going down and down and down for"
+    },
+    {
+      "start": 1101.42,
+      "end": 1106.9,
+      "text": " the rest of the day. Price came back once again. Try to stop you out of break even. But then"
+    },
+    {
+      "start": 1106.9,
+      "end": 1112.54,
+      "text": " it kept going down. So now there are different ways to approach this. You can see that"
+    },
+    {
+      "start": 1112.54,
+      "end": 1119.42,
+      "text": " if you have taken your entry on the retest. You know over here, just around here. This"
+    },
+    {
+      "start": 1119.42,
+      "end": 1127.34,
+      "text": " is the retest. I stopped somewhere around here and you could have easily taken one to one"
+    },
+    {
+      "start": 1127.34,
+      "end": 1135.34,
+      "text": " over here. Now, here is something that if you are really confident about your draw on liquidity."
+    },
+    {
+      "start": 1135.98,
+      "end": 1141.66,
+      "text": " So for example, this is your draw on liquidity, right? This is the closest liquidity level. That's"
+    },
+    {
+      "start": 1141.66,
+      "end": 1149.3,
+      "text": " when we go break even. But if you are extremely confident that okay price is"
+    },
+    {
+      "start": 1149.3,
+      "end": 1155.14,
+      "text": " going towards this high time frame, sorry not the higher but the significant"
+    },
+    {
+      "start": 1155.14,
+      "end": 1160.5,
+      "text": " liquidity level, then this could be your target and you can just avoid going"
+    },
+    {
+      "start": 1160.5,
+      "end": 1165.66,
+      "text": " break even you can simply just decrease your stop loss to some degree and then"
+    },
+    {
+      "start": 1165.66,
+      "end": 1174.3,
+      "text": " And you can basically just go break even when this level is taken, take 50% off and then"
+    },
+    {
+      "start": 1174.3,
+      "end": 1177.82,
+      "text": " keep it running."
+    },
+    {
+      "start": 1177.82,
+      "end": 1188.7,
+      "text": " But yeah, these are two examples that show that this have not everything is perfect."
+    },
+    {
+      "start": 1188.7,
+      "end": 1191.1,
+      "text": " You're not going to get perfect rates every single time."
+    },
+    {
+      "start": 1191.1,
+      "end": 1196.78,
+      "text": " Now I'm gonna show you guys the perfect examples with the benefit of hindsight, right?"
+    },
+    {
+      "start": 1196.78,
+      "end": 1198.78,
+      "text": " And you guys are gonna understand it correctly"
+    },
+    {
+      "start": 1200.94,
+      "end": 1205.2,
+      "text": " All right guys, so here is the perfect example and you can see we have"
+    },
+    {
+      "start": 1206.86,
+      "end": 1212.24,
+      "text": " the accumulation phase over here, right and then we have the manipulation and"
+    },
+    {
+      "start": 1213.74,
+      "end": 1220.06,
+      "text": " While we manipulated you can see that this leg created the fair about the gap the bullish for what you got but"
+    },
+    {
+      "start": 1220.06,
+      "end": 1226.6,
+      "text": " But since most of the SMC traders are taught to be taking a long position after getting"
+    },
+    {
+      "start": 1226.6,
+      "end": 1229.88,
+      "text": " a break of structure, you know, they get stopped out."
+    },
+    {
+      "start": 1229.88,
+      "end": 1234.84,
+      "text": " The price inverses this bullish fair value gap."
+    },
+    {
+      "start": 1234.84,
+      "end": 1238.36,
+      "text": " So let me just color it green."
+    },
+    {
+      "start": 1238.36,
+      "end": 1240.92,
+      "text": " The candle closes here."
+    },
+    {
+      "start": 1240.92,
+      "end": 1244.68,
+      "text": " Now this would be your entry, your stop right above the high."
+    },
+    {
+      "start": 1244.68,
+      "end": 1247.0,
+      "text": " This is the closest liquidity level."
+    },
+    {
+      "start": 1247.0,
+      "end": 1252.32,
+      "text": " So when this level is taken, you would go break even right away."
+    },
+    {
+      "start": 1252.32,
+      "end": 1254.36,
+      "text": " You have to just go break even there."
+    },
+    {
+      "start": 1254.36,
+      "end": 1258.36,
+      "text": " There's just no if sent bots."
+    },
+    {
+      "start": 1258.36,
+      "end": 1263.0,
+      "text": " But since I said before, if your bias is extremely strong, then you can just go break"
+    },
+    {
+      "start": 1263.0,
+      "end": 1264.16,
+      "text": " even later."
+    },
+    {
+      "start": 1264.16,
+      "end": 1267.16,
+      "text": " But you go break even right here."
+    },
+    {
+      "start": 1267.16,
+      "end": 1274.8,
+      "text": " And since we are training on the one minute, don't set stop loss orders and take profit"
+    },
+    {
+      "start": 1274.8,
+      "end": 1282.4,
+      "text": " levels to be hit automatically. You have to manage this trade manually. So you can't you have to manually"
+    },
+    {
+      "start": 1282.4,
+      "end": 1287.76,
+      "text": " close when price reaches your stop loss level. You have to manually go break even run price"
+    },
+    {
+      "start": 1287.76,
+      "end": 1292.88,
+      "text": " reaches the exact breaking point. And then you have to take your profits when price actually reaches"
+    },
+    {
+      "start": 1292.88,
+      "end": 1298.56,
+      "text": " this level. Okay. You just don't set up the levels because what's going to do is price will sometimes"
+    },
+    {
+      "start": 1298.56,
+      "end": 1303.84,
+      "text": " stop you out at break even even when prices are due to spreads and whatnot. So it's just going to"
+    },
+    {
+      "start": 1303.84,
+      "end": 1308.0,
+      "text": " really hurt you. I'm not getting it has happened to me before, but I think this is the best"
+    },
+    {
+      "start": 1308.0,
+      "end": 1312.32,
+      "text": " approaches. Keep watching the trade since we're trading on the one minute you can be on the"
+    },
+    {
+      "start": 1312.32,
+      "end": 1319.28,
+      "text": " charts for 15 minutes man. Come on bro, you can't do that. So break even here, uh, 50% off at"
+    },
+    {
+      "start": 1319.28,
+      "end": 1327.76,
+      "text": " one to one and then the main target, the TP2 would be somewhere around here, right? And my last"
+    },
+    {
+      "start": 1327.76,
+      "end": 1336.0,
+      "text": " Tp would be targeting the London lows and this would give me roughly around this much so"
+    },
+    {
+      "start": 1336.96,
+      "end": 1339.12,
+      "text": " and this is like an extremely"
+    },
+    {
+      "start": 1340.4,
+      "end": 1343.28,
+      "text": " Awesome model that you can use guys. It's basically"
+    },
+    {
+      "start": 1344.0,
+      "end": 1346.4,
+      "text": " In no brainer. Okay, I've explained everything"
+    },
+    {
+      "start": 1347.52,
+      "end": 1349.52,
+      "text": " S&Ts to pair it up with"
+    },
+    {
+      "start": 1351.2,
+      "end": 1356.48,
+      "text": " So for example, if you look at it here right we also swept the Asian high here"
+    },
+    {
+      "start": 1356.48,
+      "end": 1363.92,
+      "text": " So when you combine these different things and take a trade with this model, trust me,"
+    },
+    {
+      "start": 1363.92,
+      "end": 1365.12,
+      "text": " you're going to tag me."
+    },
+    {
+      "start": 1365.12,
+      "end": 1367.36,
+      "text": " Now let's move on to the next example."
+    },
+    {
+      "start": 1367.36,
+      "end": 1373.28,
+      "text": " All right, guys, so here is another example and you can see that in this price action"
+    },
+    {
+      "start": 1373.28,
+      "end": 1377.16,
+      "text": " you're going to have taken so many of these trades and some of them would have given you"
+    },
+    {
+      "start": 1377.16,
+      "end": 1382.88,
+      "text": " 50% profit at one to one and some of them would have been closed at break even."
+    },
+    {
+      "start": 1382.88,
+      "end": 1387.64,
+      "text": " And then there is on the same day, we have accumulation,"
+    },
+    {
+      "start": 1387.64,
+      "end": 1388.52,
+      "text": " somewhere around here."
+    },
+    {
+      "start": 1388.52,
+      "end": 1390.36,
+      "text": " And then we have the manipulation."
+    },
+    {
+      "start": 1390.36,
+      "end": 1394.72,
+      "text": " So basically, manipulation is liquidity sweep over here."
+    },
+    {
+      "start": 1394.72,
+      "end": 1398.56,
+      "text": " And then notice that this leg created this bearish"
+    },
+    {
+      "start": 1398.56,
+      "end": 1399.36,
+      "text": " for a value gap."
+    },
+    {
+      "start": 1399.36,
+      "end": 1404.96,
+      "text": " So I'm just going to name it sorry color it red."
+    },
+    {
+      "start": 1404.96,
+      "end": 1408.12,
+      "text": " So we close right above the fair value gap."
+    },
+    {
+      "start": 1408.12,
+      "end": 1409.92,
+      "text": " So that in versus it."
+    },
+    {
+      "start": 1409.92,
+      "end": 1414.92,
+      "text": " Now the closest liquidity level is this high over here."
+    },
+    {
+      "start": 1414.96,
+      "end": 1417.48,
+      "text": " So now you can see that if I take my long position"
+    },
+    {
+      "start": 1417.48,
+      "end": 1421.08,
+      "text": " from this level and just put my stop here,"
+    },
+    {
+      "start": 1421.08,
+      "end": 1425.56,
+      "text": " now I would go break even when this level is taken, right?"
+    },
+    {
+      "start": 1425.56,
+      "end": 1429.64,
+      "text": " And then I would take 50% of my profit at one to one."
+    },
+    {
+      "start": 1430.56,
+      "end": 1435.56,
+      "text": " And then my second TP would be somewhere around here, right?"
+    },
+    {
+      "start": 1437.4,
+      "end": 1439.84,
+      "text": " Just around here, I would be break even."
+    },
+    {
+      "start": 1439.84,
+      "end": 1444.6,
+      "text": " And my third TP, the final TP that I would look to"
+    },
+    {
+      "start": 1444.6,
+      "end": 1448.0,
+      "text": " is some form of high time film level, right?"
+    },
+    {
+      "start": 1448.0,
+      "end": 1449.44,
+      "text": " Because you can see that probably just kept"
+    },
+    {
+      "start": 1449.44,
+      "end": 1452.2,
+      "text": " going up, bro, that's insane, right?"
+    },
+    {
+      "start": 1452.2,
+      "end": 1456.28,
+      "text": " So yeah, that would be, or you can just take"
+    },
+    {
+      "start": 1456.28,
+      "end": 1459.6,
+      "text": " and close your entire position on the second TP, okay?"
+    },
+    {
+      "start": 1460.84,
+      "end": 1461.88,
+      "text": " It doesn't really matter."
+    },
+    {
+      "start": 1461.88,
+      "end": 1464.52,
+      "text": " As long as you're making profits, it should not matter."
+    },
+    {
+      "start": 1464.52,
+      "end": 1466.2,
+      "text": " Let me do guys, one more example,"
+    },
+    {
+      "start": 1466.2,
+      "end": 1468.28,
+      "text": " and then we will end this chapter."
+    },
+    {
+      "start": 1468.28,
+      "end": 1473.84,
+      "text": " Alright guys so here's the final example and you can see we have a very clean"
+    },
+    {
+      "start": 1473.84,
+      "end": 1478.64,
+      "text": " borrow 3 we have accumulation then we have manipulation right and the"
+    },
+    {
+      "start": 1478.64,
+      "end": 1483.1,
+      "text": " manipulation leg created this fairly gap the bullish fairly gap so let me"
+    },
+    {
+      "start": 1483.1,
+      "end": 1488.24,
+      "text": " just color it green because it's a bullish fairly gap and now it's in"
+    },
+    {
+      "start": 1488.24,
+      "end": 1492.64,
+      "text": " versed this is the closest target right so this is where we were gonna go break"
+    },
+    {
+      "start": 1492.64,
+      "end": 1497.28,
+      "text": " even so your entry would be here stop somewhere around here right or maybe"
+    },
+    {
+      "start": 1497.28,
+      "end": 1504.44,
+      "text": " above the actually above the high and you would go break even here. 50% at one"
+    },
+    {
+      "start": 1504.44,
+      "end": 1509.82,
+      "text": " to one right and your second teepee could basically be just this because this is"
+    },
+    {
+      "start": 1509.82,
+      "end": 1514.6,
+      "text": " a significant high. You can also see that this is a fair value gap. This is an"
+    },
+    {
+      "start": 1514.6,
+      "end": 1518.16,
+      "text": " auto-blocks at this right here. It's a very good location to take your profits."
+    },
+    {
+      "start": 1518.16,
+      "end": 1523.6,
+      "text": " Right. One to one point five somewhere around that. You would have got close"
+    },
+    {
+      "start": 1523.6,
+      "end": 1525.6,
+      "text": " I'll show you a bit of a video for you."
+    },
+    {
+      "start": 1525.6,
+      "end": 1530.6,
+      "text": " So, this is a very good scalloping."
+    },
+    {
+      "start": 1530.6,
+      "end": 1533.6,
+      "text": " It is absolutely powerful."
+    },
+    {
+      "start": 1533.6,
+      "end": 1535.6,
+      "text": " Just pair it up with SMT."
+    },
+    {
+      "start": 1535.6,
+      "end": 1538.6,
+      "text": " And the PDRA is."
+    },
+    {
+      "start": 1538.6,
+      "end": 1539.6,
+      "text": " You're going to thank me."
+    },
+    {
+      "start": 1539.6,
+      "end": 1540.6,
+      "text": " Alright?"
+    },
+    {
+      "start": 1540.6,
+      "end": 1541.6,
+      "text": " So, thank you so much for watching."
+    }
+  ]
+}

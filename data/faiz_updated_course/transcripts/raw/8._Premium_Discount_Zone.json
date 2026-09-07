@@ -1,0 +1,433 @@
+{
+  "source": "F:\\new faiz\\8. Premium & Discount Zone.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 409.298125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.14,
+      "end": 30.14,
+      "text": " Alright guys, so in this video we are going to learn about premium and discount zones. What is a premium and a discount zone? So I am going to give you an example. Let's say that you want to buy a house, right? And the prices are very high, okay? But you know that the prices are going to be lower in the future."
+    },
+    {
+      "start": 30.14,
+      "end": 40.14,
+      "text": " So are you going to buy the house at a very high price or you're going to wait for price to lower down and then you buy."
+    },
+    {
+      "start": 40.14,
+      "end": 47.14,
+      "text": " Of course, you're going to wait for price to lower so that you can buy it at a discount."
+    },
+    {
+      "start": 47.14,
+      "end": 48.14,
+      "text": " That makes sense."
+    },
+    {
+      "start": 48.14,
+      "end": 59.14,
+      "text": " Similarly, whenever we want to go long, we should always be buying at a discounted zone."
+    },
+    {
+      "start": 59.14,
+      "end": 65.14,
+      "text": " Now, how do we find a discounted or a premium zone?"
+    },
+    {
+      "start": 65.14,
+      "end": 70.14,
+      "text": " Now, let me give you an example for premium zone, right?"
+    },
+    {
+      "start": 70.14,
+      "end": 78.14,
+      "text": " So let's say that you bought a house at a very low price."
+    },
+    {
+      "start": 78.14,
+      "end": 80.14,
+      "text": " Now, you want to sell it."
+    },
+    {
+      "start": 80.14,
+      "end": 84.14,
+      "text": " Of course, you are going to sell it for a higher price."
+    },
+    {
+      "start": 84.14,
+      "end": 90.94,
+      "text": " Okay, you don't want to sell it at a lower price because that's gonna, you know, if one profitable for you."
+    },
+    {
+      "start": 90.94,
+      "end": 96.62,
+      "text": " So that's why when you are going to sell your house, you're going to sell it at a higher price."
+    },
+    {
+      "start": 97.18,
+      "end": 102.38,
+      "text": " Similarly, when you're about to short, when you're about to take a short position,"
+    },
+    {
+      "start": 102.38,
+      "end": 109.42,
+      "text": " you should be waiting for the price to come up at a premium level so that you can sell it if that makes sense."
+    },
+    {
+      "start": 109.42,
+      "end": 111.9,
+      "text": " All right, you want the price to be higher"
+    },
+    {
+      "start": 111.9,
+      "end": 114.86,
+      "text": " in order for you to be selling it."
+    },
+    {
+      "start": 114.86,
+      "end": 117.74,
+      "text": " So first of all, let me give you an example"
+    },
+    {
+      "start": 117.74,
+      "end": 119.86,
+      "text": " for a discounted zone."
+    },
+    {
+      "start": 119.86,
+      "end": 124.1,
+      "text": " So as you can see, price went up right up to this level."
+    },
+    {
+      "start": 124.1,
+      "end": 130.67,
+      "text": " So you can see, price made a very huge move"
+    },
+    {
+      "start": 130.67,
+      "end": 133.15,
+      "text": " from this point to this point."
+    },
+    {
+      "start": 133.15,
+      "end": 134.71,
+      "text": " From this to this."
+    },
+    {
+      "start": 135.79,
+      "end": 139.21,
+      "text": " Now, are you going to buy here?"
+    },
+    {
+      "start": 140.35,
+      "end": 141.19,
+      "text": " Absolutely not."
+    },
+    {
+      "start": 141.19,
+      "end": 148.03,
+      "text": " If you are a trader, you should know that you should never be buying at around this level."
+    },
+    {
+      "start": 148.03,
+      "end": 150.67,
+      "text": " You should always be buying at a pullback."
+    },
+    {
+      "start": 150.67,
+      "end": 157.27,
+      "text": " So how do we determine a discounted zone?"
+    },
+    {
+      "start": 157.27,
+      "end": 161.79,
+      "text": " Well, what you want to do is you want to pull out your Fibonacci tool."
+    },
+    {
+      "start": 161.79,
+      "end": 165.51,
+      "text": " You go to the settings here, choose fib retracement."
+    },
+    {
+      "start": 165.51,
+      "end": 175.15,
+      "text": " You want to start from the very low of that push to the very top of that push."
+    },
+    {
+      "start": 175.15,
+      "end": 182.58,
+      "text": " And then you want to, first of all, you want to copy these settings."
+    },
+    {
+      "start": 182.58,
+      "end": 189.58,
+      "text": " You can pause the video right here and you want to copy these settings."
+    },
+    {
+      "start": 189.58,
+      "end": 198.14,
+      "text": " Now when the price is below the 50% level, then the price is considered to be in a discounted"
+    },
+    {
+      "start": 198.14,
+      "end": 199.48,
+      "text": " area."
+    },
+    {
+      "start": 199.48,
+      "end": 208.18,
+      "text": " I will repeat when the price, as you can see, when the price is below the 50% Fibonacci"
+    },
+    {
+      "start": 208.18,
+      "end": 214.78,
+      "text": " area, then the price is considered to be in a discounted zone."
+    },
+    {
+      "start": 214.78,
+      "end": 217.58,
+      "text": " That is where you should be buying."
+    },
+    {
+      "start": 217.58,
+      "end": 225.56,
+      "text": " Now, I will not tell you how to exactly enter in this video, but this is what I am telling"
+    },
+    {
+      "start": 225.56,
+      "end": 232.02,
+      "text": " you, just for the sake of this video that you should always be buying when the price falls"
+    },
+    {
+      "start": 232.02,
+      "end": 234.46,
+      "text": " into the discounted zone."
+    },
+    {
+      "start": 234.46,
+      "end": 241.34,
+      "text": " So, as you can see, price pushed up from this point to this point, you should not be buying"
+    },
+    {
+      "start": 241.34,
+      "end": 243.82,
+      "text": " here or here or here."
+    },
+    {
+      "start": 243.82,
+      "end": 248.36,
+      "text": " You should be waiting for price to fall down into the discounted zone which is below the"
+    },
+    {
+      "start": 248.36,
+      "end": 250.94,
+      "text": " 50% as you can see."
+    },
+    {
+      "start": 250.94,
+      "end": 254.14,
+      "text": " And then this is the best area to be buying."
+    },
+    {
+      "start": 254.14,
+      "end": 256.64,
+      "text": " Okay."
+    },
+    {
+      "start": 256.64,
+      "end": 260.78,
+      "text": " Let's talk about premium zones."
+    },
+    {
+      "start": 260.78,
+      "end": 267.1,
+      "text": " So as you can see, we made a move from this level to this level."
+    },
+    {
+      "start": 267.1,
+      "end": 268.1,
+      "text": " All right."
+    },
+    {
+      "start": 268.1,
+      "end": 273.46,
+      "text": " We dropped down heavily from this point to this point."
+    },
+    {
+      "start": 273.46,
+      "end": 280.0,
+      "text": " So similarly, we are going to draw our Fibonacci retracement tool from the very high of that"
+    },
+    {
+      "start": 280.0,
+      "end": 287.7,
+      "text": " move, from the start of that move, sorry, to the end of that move, which ends here."
+    },
+    {
+      "start": 287.7,
+      "end": 288.7,
+      "text": " Okay?"
+    },
+    {
+      "start": 288.7,
+      "end": 292.7,
+      "text": " Now you don't want to sell here, you don't want to sell here, you don't want to sell"
+    },
+    {
+      "start": 292.7,
+      "end": 294.18,
+      "text": " here."
+    },
+    {
+      "start": 294.18,
+      "end": 297.86,
+      "text": " You should be waiting for price to come back into the premium zone."
+    },
+    {
+      "start": 297.86,
+      "end": 299.54,
+      "text": " Now what is premium zone?"
+    },
+    {
+      "start": 299.54,
+      "end": 307.5,
+      "text": " Whenever price falls or goes, sorry, not falls, but whenever price goes into the premium"
+    },
+    {
+      "start": 307.5,
+      "end": 310.98,
+      "text": " zone, which is above 50%."
+    },
+    {
+      "start": 310.98,
+      "end": 318.42,
+      "text": " So whenever price goes above the 50% then that price is considered to be in a premium zone."
+    },
+    {
+      "start": 318.42,
+      "end": 320.62,
+      "text": " Now what does that mean?"
+    },
+    {
+      "start": 320.62,
+      "end": 325.74,
+      "text": " It means that this is a great area for you to be selling."
+    },
+    {
+      "start": 325.74,
+      "end": 329.1,
+      "text": " Okay, now you don't want to just blindly sell off"
+    },
+    {
+      "start": 329.1,
+      "end": 332.78,
+      "text": " when price fell falls into the, you know,"
+    },
+    {
+      "start": 332.78,
+      "end": 335.58,
+      "text": " falls above the 50% on below the 50%"
+    },
+    {
+      "start": 335.58,
+      "end": 339.78,
+      "text": " there are certain criteria that we should be discussing"
+    },
+    {
+      "start": 339.78,
+      "end": 340.66,
+      "text": " in the upcoming videos."
+    },
+    {
+      "start": 340.66,
+      "end": 342.74,
+      "text": " But for now, all you want to know is"
+    },
+    {
+      "start": 342.74,
+      "end": 344.7,
+      "text": " what are discounted and premium zones."
+    },
+    {
+      "start": 344.7,
+      "end": 345.58,
+      "text": " All right."
+    },
+    {
+      "start": 345.58,
+      "end": 350.58,
+      "text": " So for price to be considered in a premium area,"
+    },
+    {
+      "start": 351.82,
+      "end": 354.26,
+      "text": " you should be waiting for the price to go above"
+    },
+    {
+      "start": 354.26,
+      "end": 358.82,
+      "text": " the 50% level of the Fibonacci."
+    },
+    {
+      "start": 358.82,
+      "end": 362.94,
+      "text": " All right, so now this area is the best HB selling."
+    },
+    {
+      "start": 362.94,
+      "end": 365.1,
+      "text": " So if you sold here,"
+    },
+    {
+      "start": 366.26,
+      "end": 368.42,
+      "text": " all right, you could have made a great profit."
+    },
+    {
+      "start": 369.38,
+      "end": 371.66,
+      "text": " Like this could be one to two, restore what,"
+    },
+    {
+      "start": 371.66,
+      "end": 374.26,
+      "text": " but of course, it's a hindsight,"
+    },
+    {
+      "start": 374.26,
+      "end": 376.22,
+      "text": " but this is what I'm telling you, right?"
+    },
+    {
+      "start": 376.22,
+      "end": 379.86,
+      "text": " You should always be selling at a premium zone"
+    },
+    {
+      "start": 379.86,
+      "end": 383.86,
+      "text": " and you should always be buying at a discounted zone."
+    },
+    {
+      "start": 383.86,
+      "end": 392.58,
+      "text": " So I really hope that this video is clear and I really hope that you know what is premium and discounted zones."
+    },
+    {
+      "start": 393.06,
+      "end": 405.62,
+      "text": " So we are slowly moving towards our main strategies but there are one or two more videos before we move to those beautiful life changing videos guys."
+    },
+    {
+      "start": 405.62,
+      "end": 408.18,
+      "text": " So I'll see you guys in the next video."
+    }
+  ]
+}

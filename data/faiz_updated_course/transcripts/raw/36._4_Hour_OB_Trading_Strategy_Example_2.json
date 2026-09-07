@@ -1,0 +1,238 @@
+{
+  "source": "F:\\new faiz\\36. 4 Hour OB Trading Strategy Example 2.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 267.3778125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.56,
+      "end": 30.56,
+      "text": " All right guys, so here is the example number two for this strategy, so I'm looking at Euro GDP on 4 hour of course, and you can see we are making lor-lor high, lor-lor, no, lor-lor high, and then another lor-lor low. And the internal market structure been creating lor-lor high for quite some time now. So it is clear that the autoflow is bearish, I'm not going back here."
+    },
+    {
+      "start": 30.56,
+      "end": 33.28,
+      "text": " I'm just looking at the price here, okay?"
+    },
+    {
+      "start": 33.28,
+      "end": 36.28,
+      "text": " And as you can see, we are making low lows."
+    },
+    {
+      "start": 36.28,
+      "end": 38.8,
+      "text": " Low lows, low highs, low lows, low highs."
+    },
+    {
+      "start": 38.8,
+      "end": 43.8,
+      "text": " Cool, so now what we do have is this autoblog, okay?"
+    },
+    {
+      "start": 44.12,
+      "end": 48.48,
+      "text": " Of course, this is hindsight, but you're gonna notice these, okay?"
+    },
+    {
+      "start": 48.48,
+      "end": 53.48,
+      "text": " So, this is the candle and prize goes back into our pure,"
+    },
+    {
+      "start": 54.96,
+      "end": 59.8,
+      "text": " so let's drop down to 15 minute time from."
+    },
+    {
+      "start": 59.8,
+      "end": 64.8,
+      "text": " And you can see that just over here,"
+    },
+    {
+      "start": 64.8,
+      "end": 66.9,
+      "text": " we have a shift in market structure,"
+    },
+    {
+      "start": 66.9,
+      "end": 69.2,
+      "text": " but notice what happened."
+    },
+    {
+      "start": 69.2,
+      "end": 72.0,
+      "text": " The market structure shift did not happen"
+    },
+    {
+      "start": 72.0,
+      "end": 74.04,
+      "text": " during kills on ours."
+    },
+    {
+      "start": 74.04,
+      "end": 81.19,
+      "text": " Okay, so the kills on ours are basically two till,"
+    },
+    {
+      "start": 84.27,
+      "end": 86.65,
+      "text": " my god, seven,"
+    },
+    {
+      "start": 86.65,
+      "end": 102.38,
+      "text": " right and then 730 for this specific strategy only okay to him till 7 that is your"
+    },
+    {
+      "start": 102.38,
+      "end": 107.78,
+      "text": " London and then from 730 till 1130 is your New York session make sure you set"
+    },
+    {
+      "start": 107.78,
+      "end": 115.42,
+      "text": " your time zone to New York so now we're gonna wait okay we are going to wait till"
+    },
+    {
+      "start": 115.42,
+      "end": 121.22,
+      "text": " this high is taken out again because this is liquidy now. When you have a market"
+    },
+    {
+      "start": 121.22,
+      "end": 127.18,
+      "text": " structure shift outside the kills on ours and the kills on ours start which"
+    },
+    {
+      "start": 127.18,
+      "end": 132.3,
+      "text": " happens right here. You don't want to look for market structure shift here. You"
+    },
+    {
+      "start": 132.3,
+      "end": 136.42,
+      "text": " want to wait for first price to take out this high over here and then you want to"
+    },
+    {
+      "start": 136.42,
+      "end": 140.86,
+      "text": " look for a clean market structure shift and that happens right here and let me"
+    },
+    {
+      "start": 140.86,
+      "end": 147.5,
+      "text": " show you how. We also took out this high here. Okay, so that is a clear shift."
+    },
+    {
+      "start": 147.5,
+      "end": 153.74,
+      "text": " Low low higher high high low higher high. And then we have a market structure shift"
+    },
+    {
+      "start": 153.74,
+      "end": 158.54,
+      "text": " during kills on ours. Perfect. Now this right here are our consecutive"
+    },
+    {
+      "start": 158.54,
+      "end": 164.62,
+      "text": " bearish candles. And also look at this breaker block. It is in alignment with the"
+    },
+    {
+      "start": 164.62,
+      "end": 170.46,
+      "text": " auto block. And this consecutive bullish candles becomes your auto block. Right? So you're"
+    },
+    {
+      "start": 170.46,
+      "end": 177.66,
+      "text": " going to take your entry here put your stop right above this high over here and you go for"
+    },
+    {
+      "start": 177.66,
+      "end": 188.12,
+      "text": " one to two simple as that let's go and see how this plays out as you can see we got our entry"
+    },
+    {
+      "start": 188.12,
+      "end": 197.85,
+      "text": " right here at 645 and you can see we hit our take profit if we held that would have been a"
+    },
+    {
+      "start": 197.85,
+      "end": 203.37,
+      "text": " beautiful trade but we only go for one to two. So I hope you learned something from"
+    },
+    {
+      "start": 203.37,
+      "end": 212.88,
+      "text": " this example. Remember if let's say that this candle did not take out the high"
+    },
+    {
+      "start": 212.88,
+      "end": 219.02,
+      "text": " here and then you had a shift over here. That is a low probability"
+    },
+    {
+      "start": 219.02,
+      "end": 223.74,
+      "text": " low probability market structure shift. I want this clean liquidity sweep and"
+    },
+    {
+      "start": 223.74,
+      "end": 227.74,
+      "text": " And then displacement that gives us market structure shift."
+    },
+    {
+      "start": 227.74,
+      "end": 231.74,
+      "text": " Something like boom, boom, boom, okay?"
+    },
+    {
+      "start": 231.74,
+      "end": 233.74,
+      "text": " This is prime."
+    },
+    {
+      "start": 233.74,
+      "end": 237.74,
+      "text": " You have a liquidity sweep, right?"
+    },
+    {
+      "start": 237.74,
+      "end": 238.74,
+      "text": " And then you mark your structure shift."
+    },
+    {
+      "start": 238.74,
+      "end": 243.74,
+      "text": " And this leg has consecutive candles of the same color."
+    },
+    {
+      "start": 243.74,
+      "end": 248.74,
+      "text": " So if I was looking at here, I would love to see bullish candles."
+    },
+    {
+      "start": 248.74,
+      "end": 255.74,
+      "text": " Take out this liquidity and then a market structure shift and I take my entry from here, couple."
+    },
+    {
+      "start": 255.74,
+      "end": 264.21,
+      "text": " So I really really do hope that you learned something from the strategy and from this example."
+    },
+    {
+      "start": 264.21,
+      "end": 266.21,
+      "text": " I'll give you guys one more example."
+    }
+  ]
+}

@@ -1,0 +1,331 @@
+1
+00:00:00,000 --> 00:00:33,300
+So in this lecture, we're going to learn about the 930 AM trading strategy. Burian Mine, it works the best with indices, for example, NAS100, as in P500. It does work with Forex as well, but I would recommend that you stick to indices with this trading strategy. So first of all, you want to change your time zone to New York. And then you want to trade. You can only trade between 930 AM,
+
+2
+00:00:33,300 --> 00:00:40,300
+till 11.59 am New York time.
+
+3
+00:00:41,100 --> 00:00:42,860
+So this is your window period.
+
+4
+00:00:42,860 --> 00:00:45,060
+You can only trade within these hours.
+
+5
+00:00:45,060 --> 00:00:48,500
+So this is the very first rule of the trading strategy.
+
+6
+00:00:48,500 --> 00:00:55,500
+The second rule is you want to identify some sort of liquidity.
+
+7
+00:00:56,660 --> 00:01:00,000
+So you want to identify some sort of liquidity
+
+8
+00:01:00,000 --> 00:01:01,700
+between these hours.
+
+9
+00:01:01,700 --> 00:01:11,540
+Okay. And or you can start looking for some sort of liquidity at 925.
+
+10
+00:01:11,540 --> 00:01:20,020
+Yeah, okay. You can take trades after 930. Okay. So let's say if, okay, I'm going to explain it later,
+
+11
+00:01:20,020 --> 00:01:26,340
+but you want the rule number two is you want to define some sort of liquidity. Okay. And the rule
+
+12
+00:01:26,340 --> 00:01:37,940
+number three is you want to wait for price to sweep that liquid. So you want to
+
+13
+00:01:37,940 --> 00:01:42,540
+wait for price to take out the liquidity that you have identified. Once we
+
+14
+00:01:42,540 --> 00:01:47,620
+advance the price, once the price sweeps out the liquidity, you want to wait
+
+15
+00:01:47,620 --> 00:01:54,620
+for you then wait for market structure shift.
+
+16
+00:01:54,620 --> 00:02:00,620
+Once price takes out the liquidity, then you then wait for market structure shift.
+
+17
+00:02:00,620 --> 00:02:04,620
+And now there are two ways to enter.
+
+18
+00:02:04,620 --> 00:02:15,420
+You can either take the entry from the first fair value gap, or you take your entry from
+
+19
+00:02:15,420 --> 00:02:21,110
+the extreme fare value gap.
+
+20
+00:02:21,110 --> 00:02:25,950
+So what I mean by that is let's say this is liquidity,
+
+21
+00:02:25,950 --> 00:02:27,630
+right?
+
+22
+00:02:27,630 --> 00:02:31,550
+Before, so this is the ninth tier you open, right?
+
+23
+00:02:31,550 --> 00:02:33,430
+This is where, let's say, for example,
+
+24
+00:02:33,430 --> 00:02:36,710
+okay, the ninth tier e times starts from here.
+
+25
+00:02:36,710 --> 00:02:40,150
+And you have this liquidity zone equal highs,
+
+26
+00:02:40,150 --> 00:02:43,830
+you know, day of the high, it could be any sort of liquidity,
+
+27
+00:02:43,830 --> 00:02:44,670
+liquidity, okay?
+
+28
+00:02:44,670 --> 00:02:46,870
+So it could be equal highs.
+
+29
+00:02:46,870 --> 00:02:49,870
+It could be a major swing high or a swing low.
+
+30
+00:02:49,870 --> 00:02:52,430
+It could be a daily high, daily low,
+
+31
+00:02:52,430 --> 00:02:54,590
+or previous day high, previous day low.
+
+32
+00:02:54,590 --> 00:02:57,270
+It could be a weekly high, a weekly low.
+
+33
+00:02:57,270 --> 00:02:59,310
+So any sort of liquidity.
+
+34
+00:02:59,310 --> 00:03:00,270
+Okay.
+
+35
+00:03:00,270 --> 00:03:03,870
+And then you wait for price to sweep the liquidity.
+
+36
+00:03:03,870 --> 00:03:04,870
+Okay.
+
+37
+00:03:04,870 --> 00:03:07,750
+And on the, once the price sweeps the liquidity,
+
+38
+00:03:07,750 --> 00:03:10,070
+or actually when you spot the liquidity,
+
+39
+00:03:10,070 --> 00:03:11,870
+you wanna go down to the one minute timeframe.
+
+40
+00:03:11,870 --> 00:03:15,430
+So you are looking for liquidity on a 15 minute timeframe.
+
+41
+00:03:15,430 --> 00:03:17,670
+Okay, keep this in mind.
+
+42
+00:03:17,670 --> 00:03:22,270
+You have to look for liquidity on a 15 minute timeframe.
+
+43
+00:03:22,270 --> 00:03:24,030
+1, 5, 15, okay.
+
+44
+00:03:24,030 --> 00:03:25,590
+And once you have spotted the liquidity
+
+45
+00:03:25,590 --> 00:03:28,350
+and the 930 starts, you go to the 1 minute timeframe,
+
+46
+00:03:28,350 --> 00:03:30,030
+you wait for price to sleep out the liquidity.
+
+47
+00:03:30,030 --> 00:03:33,230
+And then on the 1 minute timeframe,
+
+48
+00:03:33,230 --> 00:03:35,830
+this is how the price is gonna look like, right?
+
+49
+00:03:35,830 --> 00:03:36,910
+Price sweeps the liquidity
+
+50
+00:03:36,910 --> 00:03:38,990
+and then you wait for market structure shift.
+
+51
+00:03:38,990 --> 00:03:41,590
+So this right here is a market structure shift.
+
+52
+00:03:41,590 --> 00:03:45,830
+As you can see, now before the price breaks this structure,
+
+53
+00:03:45,830 --> 00:03:48,230
+there would be some fair value gap here, here,
+
+54
+00:03:48,230 --> 00:03:50,070
+and the extreme one here.
+
+55
+00:03:50,070 --> 00:03:51,790
+So you can either take your entry
+
+56
+00:03:51,790 --> 00:03:54,670
+from the very first fair value gap, okay?
+
+57
+00:03:54,670 --> 00:03:56,470
+But you'll gotta keep your stopless up there.
+
+58
+00:03:56,470 --> 00:03:59,470
+So, and there's another option that is
+
+59
+00:03:59,470 --> 00:04:01,870
+you take your entry from the extreme fair value gap.
+
+60
+00:04:01,870 --> 00:04:03,710
+Now, what would happen with this
+
+61
+00:04:03,710 --> 00:04:05,470
+is if you take your entry from the extreme fair value gap,
+
+62
+00:04:05,470 --> 00:04:09,830
+you're gonna get a higher risk to reward trade, okay?
+
+63
+00:04:09,830 --> 00:04:18,030
+But if you take your entry from let's say the very first fairbody gap, you're gonna have a bigger stop loss, but you're not gonna miss a trade.
+
+64
+00:04:18,030 --> 00:04:22,830
+Okay, so sometimes if you have your entry at the very extreme fairbody gap, you're gonna miss out the trade.
+
+65
+00:04:22,830 --> 00:04:30,830
+So I would say that strict with the extreme fairbody gap because you know, it's okay to do sometimes Mr. Trade.
+
+66
+00:04:30,830 --> 00:04:37,430
+As long as you're getting the trades with big ratio of world trades and it's gonna cover up the miss trades if that makes sense.
+
+67
+00:04:37,430 --> 00:04:40,150
+So here's the thing, when the price seems to look really,
+
+68
+00:04:40,150 --> 00:04:41,670
+you wanna wait for market structure shift
+
+69
+00:04:41,670 --> 00:04:43,750
+and then you enter at the fair value gap
+
+70
+00:04:43,750 --> 00:04:48,070
+and you target some sort of fair value gap here.
+
+71
+00:04:48,070 --> 00:04:51,190
+Or I go by this rule when I take my entry
+
+72
+00:04:51,190 --> 00:04:54,710
+and I have my stop loss, I go for minimum ratio wall three
+
+73
+00:04:54,710 --> 00:04:57,430
+and I can go for maximum five ratio wall.
+
+74
+00:04:57,430 --> 00:04:59,670
+This is all I go for, okay?
+
+75
+00:04:59,670 --> 00:05:01,710
+I do not chase big ratio wall trades
+
+76
+00:05:01,710 --> 00:05:05,070
+because there's so much going on in the world right now
+
+77
+00:05:05,070 --> 00:05:09,390
+and I do not want to hold my trades for a longer duration.
+
+78
+00:05:09,390 --> 00:05:12,950
+So yes, we have then you can either take the entry
+
+79
+00:05:12,950 --> 00:05:14,030
+from the first regular gap
+
+80
+00:05:14,030 --> 00:05:15,550
+or you can take your entry from the stream
+
+81
+00:05:15,550 --> 00:05:16,390
+really gap.
+
+82
+00:05:16,390 --> 00:05:18,470
+So I'm going to give you guys some examples
+
+83
+00:05:18,470 --> 00:05:20,830
+and it's going to be crucial clear to you guys.

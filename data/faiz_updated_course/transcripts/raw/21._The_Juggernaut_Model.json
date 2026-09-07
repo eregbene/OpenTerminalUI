@@ -1,0 +1,508 @@
+{
+  "source": "F:\\new faiz\\21. The Juggernaut Model.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 503.4783125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.14,
+      "end": 30.14,
+      "text": " Alright, everybody, so this is going to be the lost course update. This is basically the part two of the course update. And starting off, I'm going to teach you a trading model that is called the JYGANOT and it is basically, if not the best, one of my best, sculpting no daily"
+    },
+    {
+      "start": 30.14,
+      "end": 37.66,
+      "text": " trading models. It works on all time frames. So whether it's one minute, 30 seconds or"
+    },
+    {
+      "start": 37.66,
+      "end": 50.96,
+      "text": " five minute, it will work the same. Now it is very simple and you must know what an inverse"
+    },
+    {
+      "start": 50.96,
+      "end": 58.48,
+      "text": " free body gap is. So simply what it's an inverse for the gap. So let's assume that we have a"
+    },
+    {
+      "start": 58.48,
+      "end": 67.12,
+      "text": " a fair value gap here. Now price made a higher high, higher low, and then a higher high."
+    },
+    {
+      "start": 67.12,
+      "end": 73.76,
+      "text": " Now inside this higher high, we have a fair value gap. Now when price is here, when price"
+    },
+    {
+      "start": 73.76,
+      "end": 81.52,
+      "text": " is here, right, it is still a fair value gap. But if price closes below the fair value"
+    },
+    {
+      "start": 81.52,
+      "end": 88.4,
+      "text": " gap, right, in this leg, this leg, closed below this fair value gap. Now once that happens,"
+    },
+    {
+      "start": 88.4,
+      "end": 96.4,
+      "text": " it becomes inverse fair value gap. So remember that. When price went up there, we had a fair value gap,"
+    },
+    {
+      "start": 96.4,
+      "end": 103.12,
+      "text": " but then it was not respected and it was broken through like this and the candle closed. Notice what"
+    },
+    {
+      "start": 103.12,
+      "end": 109.76,
+      "text": " I said, the candle closed. Once the candle closes, this fair value gap becomes inverse fair value gap."
+    },
+    {
+      "start": 109.76,
+      "end": 118.24,
+      "text": " All right. So now what is the model? So we have, you know, a higher high, a higher low, and then a higher high."
+    },
+    {
+      "start": 118.8,
+      "end": 125.44,
+      "text": " This higher high must have only one fair body gap. So this should not be multiple fair body gaps here."
+    },
+    {
+      "start": 125.44,
+      "end": 131.68,
+      "text": " Okay. So in this instance, for example, let's say that this right here is the only, was the only"
+    },
+    {
+      "start": 131.68,
+      "end": 138.52,
+      "text": " everybody gap in this leg. All right. And let's say, all right, so we have this"
+    },
+    {
+      "start": 138.52,
+      "end": 142.16,
+      "text": " early gap. We have to wait for a formation of the inverse, we get once the"
+    },
+    {
+      "start": 142.16,
+      "end": 147.04,
+      "text": " inverse, for the gap is formed, we can take, look to take our entry. So what are"
+    },
+    {
+      "start": 147.04,
+      "end": 152.16,
+      "text": " the rules? Number one, look for a liquidy sweep. All right, it could be any liquidy"
+    },
+    {
+      "start": 152.16,
+      "end": 157.4,
+      "text": " sweep. All right, once the liquidy sweep is done, mark out the free everybody gap"
+    },
+    {
+      "start": 157.4,
+      "end": 164.12,
+      "text": " and make sure that there's only one fair value gap in the leg that swept the"
+    },
+    {
+      "start": 164.12,
+      "end": 170.28,
+      "text": " liquidity, right? So over here you can see we swept this high over here, right? And"
+    },
+    {
+      "start": 170.28,
+      "end": 176.04,
+      "text": " this leg only had one for the gap. Now what if you're looking at this on one"
+    },
+    {
+      "start": 176.04,
+      "end": 181.6,
+      "text": " minute but there are like multiple fair value gaps here? What you can do is move"
+    },
+    {
+      "start": 181.6,
+      "end": 185.64,
+      "text": " higher. So if there are multiple fair value gaps go to two minute timeframe and"
+    },
+    {
+      "start": 185.64,
+      "end": 187.76,
+      "text": " and see if you get one fermil gap."
+    },
+    {
+      "start": 187.76,
+      "end": 191.24,
+      "text": " If there are multiple fermil gaps on two minute time frame,"
+    },
+    {
+      "start": 191.24,
+      "end": 193.2,
+      "text": " go to three minute or four minute"
+    },
+    {
+      "start": 193.2,
+      "end": 196.68,
+      "text": " and keep going higher until you see one fermil gap."
+    },
+    {
+      "start": 197.76,
+      "end": 200.32,
+      "text": " It is very important that there's only one fermil gap"
+    },
+    {
+      "start": 200.32,
+      "end": 202.56,
+      "text": " in the leg that breaks the structure"
+    },
+    {
+      "start": 202.56,
+      "end": 204.32,
+      "text": " or sweeps the liquidy, right?"
+    },
+    {
+      "start": 204.32,
+      "end": 205.52,
+      "text": " It is very important."
+    },
+    {
+      "start": 205.52,
+      "end": 208.4,
+      "text": " Now, all you're looking for is after liquidy sweep,"
+    },
+    {
+      "start": 208.4,
+      "end": 212.04,
+      "text": " you're waiting for a formation of the inverse fermil gap,"
+    },
+    {
+      "start": 212.04,
+      "end": 212.88,
+      "text": " right?"
+    },
+    {
+      "start": 212.88,
+      "end": 215.32,
+      "text": " And then you're looking to take your entry on the retest"
+    },
+    {
+      "start": 215.32,
+      "end": 216.8,
+      "text": " or on the body close."
+    },
+    {
+      "start": 216.8,
+      "end": 220.6,
+      "text": " So once the body closes, you can enter directly"
+    },
+    {
+      "start": 220.6,
+      "end": 222.6,
+      "text": " or you wait for a retest."
+    },
+    {
+      "start": 222.6,
+      "end": 226.28,
+      "text": " So close in virtual gap forms,"
+    },
+    {
+      "start": 226.28,
+      "end": 231.28,
+      "text": " wait for a retest and you target the most closest low."
+    },
+    {
+      "start": 231.4,
+      "end": 234.2,
+      "text": " So this is where the price action is gonna be,"
+    },
+    {
+      "start": 234.2,
+      "end": 238.84,
+      "text": " look below and the closest low that you see,"
+    },
+    {
+      "start": 238.84,
+      "end": 241.08,
+      "text": " that is gonna be your take profit one"
+    },
+    {
+      "start": 241.08,
+      "end": 243.28,
+      "text": " or your entire take profit level"
+    },
+    {
+      "start": 243.28,
+      "end": 245.92,
+      "text": " or a place where you should be going break even."
+    },
+    {
+      "start": 245.92,
+      "end": 249.04,
+      "text": " So let's assume that this low right here"
+    },
+    {
+      "start": 249.04,
+      "end": 251.4,
+      "text": " was the closest low here, okay?"
+    },
+    {
+      "start": 253.08,
+      "end": 256.44,
+      "text": " Now, once price takes out this low, right?"
+    },
+    {
+      "start": 256.44,
+      "end": 258.52,
+      "text": " You can do three things here."
+    },
+    {
+      "start": 258.52,
+      "end": 261.24,
+      "text": " Once it happens, you go break even"
+    },
+    {
+      "start": 261.24,
+      "end": 265.44,
+      "text": " and target the higher time frame draw on liquidity"
+    },
+    {
+      "start": 265.44,
+      "end": 268.28,
+      "text": " or what you can do is you can take"
+    },
+    {
+      "start": 268.28,
+      "end": 271.2,
+      "text": " 30 to 40% of your position off here,"
+    },
+    {
+      "start": 271.2,
+      "end": 273.24,
+      "text": " move your stop to break even."
+    },
+    {
+      "start": 273.24,
+      "end": 278.6,
+      "text": " and target some other form of higher time from liquidity or a significant level."
+    },
+    {
+      "start": 279.8,
+      "end": 285.08,
+      "text": " Or you can take your entire take profit level here, but make sure you are getting at least one"
+    },
+    {
+      "start": 285.08,
+      "end": 290.2,
+      "text": " to one of the rest of the world and how would that happen? I would go short here. First off,"
+    },
+    {
+      "start": 290.2,
+      "end": 300.12,
+      "text": " I will move my profit level to this level. Now, I will decrease the stop loss key,"
+    },
+    {
+      "start": 300.12,
+      "end": 307.88,
+      "text": " decreasing the stop loss, right? Until I get one to one. But if my stop is higher than the high over here,"
+    },
+    {
+      "start": 307.88,
+      "end": 314.2,
+      "text": " I can then reduce it so I can get more residual water out of this range. Right? But what if,"
+    },
+    {
+      "start": 315.4,
+      "end": 321.56,
+      "text": " and what if the fairly gap was here? And this is just an example and there was an inverse"
+    },
+    {
+      "start": 321.56,
+      "end": 323.56,
+      "text": " for the gap, right?"
+    },
+    {
+      "start": 323.56,
+      "end": 325.56,
+      "text": " The apologies."
+    },
+    {
+      "start": 325.56,
+      "end": 327.56,
+      "text": " So, what would happen?"
+    },
+    {
+      "start": 327.56,
+      "end": 328.56,
+      "text": " My take profit level would be here."
+    },
+    {
+      "start": 328.56,
+      "end": 335.56,
+      "text": " So, I would increase my stop like that until I get 1 to 1 risk total watt, right?"
+    },
+    {
+      "start": 335.56,
+      "end": 341.56,
+      "text": " So, now we do not have a stop above here, but somewhere around here, because we need to get at least 1 to 1."
+    },
+    {
+      "start": 341.56,
+      "end": 350.56,
+      "text": " Otherwise, your risk reward and your total, I would say profit factor would be very low, okay?"
+    },
+    {
+      "start": 350.56,
+      "end": 357.6,
+      "text": " Okay, so make sure you're getting at least one to one and then you can hold the trades if you want to till then like the"
+    },
+    {
+      "start": 357.88,
+      "end": 359.88,
+      "text": " Significant target level is hit"
+    },
+    {
+      "start": 360.32,
+      "end": 366.64,
+      "text": " This is very simple and this is why I call it the juggernaut because it is very quick and it is very powerful"
+    },
+    {
+      "start": 366.72,
+      "end": 370.24,
+      "text": " It has over 70% win rate and notice"
+    },
+    {
+      "start": 370.96,
+      "end": 372.96,
+      "text": " Wash the video again because"
+    },
+    {
+      "start": 373.44,
+      "end": 376.96,
+      "text": " Make sure first off that there is only one fairly app, right?"
+    },
+    {
+      "start": 376.96,
+      "end": 384.84,
+      "text": " and wait for a formation of IFPG or in virtual gap and free on the close or on the retest and target this level"
+    },
+    {
+      "start": 385.36,
+      "end": 388.2,
+      "text": " Now here's another way to look at it. So"
+    },
+    {
+      "start": 388.96,
+      "end": 390.96,
+      "text": " You would get like a"
+    },
+    {
+      "start": 390.96,
+      "end": 397.04,
+      "text": " Market structure shift so now once you get a market structure shift right this leg right here"
+    },
+    {
+      "start": 398.87,
+      "end": 404.83,
+      "text": " Right you have to look for a single fair value gap inside this leg because now we had swept this low"
+    },
+    {
+      "start": 404.83,
+      "end": 408.11,
+      "text": " And we can also consider this as a market structure shift."
+    },
+    {
+      "start": 408.11,
+      "end": 413.43,
+      "text": " So previously, if I go here, we had a break of structure, right?"
+    },
+    {
+      "start": 413.43,
+      "end": 417.75,
+      "text": " And we looked for a fairly gap in the this leg that broke the structure."
+    },
+    {
+      "start": 417.75,
+      "end": 422.43,
+      "text": " But if we remove this and now we look at the."
+    },
+    {
+      "start": 423.63,
+      "end": 427.63,
+      "text": " At this, right? We had a market structure shift."
+    },
+    {
+      "start": 427.63,
+      "end": 437.67,
+      "text": " Now inside this leg that did the marker structure shift or swept the liquidity right you have to look for a"
+    },
+    {
+      "start": 437.91,
+      "end": 443.41,
+      "text": " Singular freer value gap and the singular freer value gap. Let's assume it's right here"
+    },
+    {
+      "start": 444.11,
+      "end": 448.75,
+      "text": " All right, you keep going higher you keep going to a high time frame until you see"
+    },
+    {
+      "start": 448.75,
+      "end": 451.43,
+      "text": " You know a single fairway, but you can stay on one minute"
+    },
+    {
+      "start": 451.43,
+      "end": 455.95,
+      "text": " And if you see like a single freer value gap from this range high to this range low"
+    },
+    {
+      "start": 455.95,
+      "end": 458.11,
+      "text": " Then you should be good now"
+    },
+    {
+      "start": 458.67,
+      "end": 463.91,
+      "text": " All you're looking for is price to close above this level once the price closes this old"
+    },
+    {
+      "start": 464.47,
+      "end": 469.95,
+      "text": " Fair value gap becomes inverse fair value gap and from there almost you're looking to take you and to you on the retest"
+    },
+    {
+      "start": 469.95,
+      "end": 476.71,
+      "text": " And you're targeting the most recent high or most recent or more the closest the closest"
+    },
+    {
+      "start": 476.71,
+      "end": 480.03,
+      "text": " Liquidy level and that is gonna be this high over here"
+    },
+    {
+      "start": 481.47,
+      "end": 485.87,
+      "text": " So your end to it be here. You stop with go. Let's go. Let's suppose you go"
+    },
+    {
+      "start": 485.95,
+      "end": 492.83,
+      "text": " long here. If I so move your take profit level and we decrease the stop to till this level"
+    },
+    {
+      "start": 492.83,
+      "end": 498.91,
+      "text": " and we get 1.33 and we can then hold if you want to take some price as I said before."
+    },
+    {
+      "start": 498.91,
+      "end": 502.19,
+      "text": " Now let me give you guys some examples and then everything is going to be clear."
+    }
+  ]
+}

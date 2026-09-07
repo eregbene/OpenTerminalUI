@@ -1,0 +1,295 @@
+1
+00:00:00,080 --> 00:00:30,080
+Alright guys, so now we are going to learn the ABC trading strategy. It's kind of similar to the New York session trading strategy, but more advanced and more profitable. It's going to have huge, richer, water crates. So it's quite simple. You want to identify a A-Viv, which is this. So let me put this out. This is an A-Viv.
+
+2
+00:00:30,080 --> 00:00:38,000
+which is a small trend in the opposite direction or a pullback, right? And then a fakeout.
+
+3
+00:00:39,760 --> 00:00:49,920
+Now what you want to identify is when the a leg is complete, okay? When the a leg is complete
+
+4
+00:00:49,920 --> 00:01:04,800
+And the B leg is complete. The C leg must create some sort of structure which is this.
+
+5
+00:01:04,800 --> 00:01:14,640
+It went up lower low, lower high and then it went lower low. I want the price to create some sort of
+
+6
+00:01:14,640 --> 00:01:24,400
+low or high before the C leg takes out the A. Okay, so we got the A, we got the B,
+
+7
+00:01:24,400 --> 00:01:40,980
+we got the C. So what are the rules? Identify A leg, okay. Wait for B leg to
+
+8
+00:01:40,980 --> 00:01:55,740
+form which is a significant pull back or small trend in opposite direction.
+
+9
+00:01:55,740 --> 00:02:11,330
+Let me put this like this. Okay, once we have the B leg, then wait for the C leg
+
+10
+00:02:11,330 --> 00:02:22,130
+to take out the low of the a leg, the low slash high if you're looking for a
+
+11
+00:02:22,130 --> 00:02:29,970
+cell position, right, of the a leg, then wait for the c leg to take out the low or
+
+12
+00:02:29,970 --> 00:02:35,290
+high of the a leg depending on what position you're trying to want to trade in.
+
+13
+00:02:35,290 --> 00:03:00,700
+the C-leg must create some structure before taking out the A-legs low high. Then wait for
+
+14
+00:03:00,700 --> 00:03:13,700
+price to reclaim the A level. Okay, wait for price to reclaim the A level and break that
+
+15
+00:03:13,700 --> 00:03:31,140
+structure created in the C-Leg. Then identify an order block slash fair rather gap and
+
+16
+00:03:31,140 --> 00:03:46,370
+take your entry from there, target the high slash look of the b leg. So this is a bit
+
+17
+00:03:46,370 --> 00:03:51,090
+this looks like a bit complicated but it's very easy guys okay when I'm going to explain it to you.
+
+18
+00:03:51,970 --> 00:04:00,770
+So what you want to do is identify a leg which is a main trend so this big push to the downside
+
+19
+00:04:00,770 --> 00:04:13,980
+is the a leg right now we have a small term trend in the opposite direction
+
+20
+00:04:13,980 --> 00:04:23,060
+okay so this is the b leg okay and then this line right here so let me
+
+21
+00:04:23,060 --> 00:04:30,060
+disable this just to make it a bit clear okay so this is the high of the b leg
+
+22
+00:04:30,060 --> 00:04:35,380
+right let me put this like this I have the b leg which is going to be our
+
+23
+00:04:35,380 --> 00:04:45,700
+potential take profit area. We got the a leg, sorry guys, I made it
+
+24
+00:04:45,700 --> 00:04:52,500
+steak. So this is the a leg, this is the b leg. Okay, so we got the a, we got the
+
+25
+00:04:52,500 --> 00:04:57,180
+b leg here, this is the high of the b leg and then we got the c. All right, so we
+
+26
+00:04:57,180 --> 00:05:07,520
+got the C leg. Okay. So this is like the C leg. Okay. So within that C leg, right, we want to
+
+27
+00:05:07,520 --> 00:05:14,520
+create some sort of structure. So as you can see, this C leg created this structure, right,
+
+28
+00:05:14,520 --> 00:05:23,360
+before taking out the low of the B leg, right. Once that happens, you want to identify
+
+29
+00:05:23,360 --> 00:05:27,880
+a market structure shift, not below the B leg,
+
+30
+00:05:27,880 --> 00:05:29,800
+but you wanna wait for price to break this level
+
+31
+00:05:29,800 --> 00:05:33,520
+because it is above the B leg.
+
+32
+00:05:33,520 --> 00:05:35,000
+If the market structure happens,
+
+33
+00:05:35,000 --> 00:05:38,600
+structure shift happens here, then it doesn't count.
+
+34
+00:05:39,680 --> 00:05:40,880
+All right, very simple.
+
+35
+00:05:42,160 --> 00:05:44,920
+When that happens, as you can see,
+
+36
+00:05:44,920 --> 00:05:48,640
+this was a structure within the B leg and the C leg,
+
+37
+00:05:48,640 --> 00:05:57,640
+And the price did not take out our take profit area. So this trade is now this setup is now valid.
+
+38
+00:05:57,640 --> 00:06:08,640
+Okay, so we have market structure shift right here. Let me make it bigger. Let's make it 24. Okay. So now what do we have here?
+
+39
+00:06:08,640 --> 00:06:14,640
+We got the imbalance and the auto block. So we are going to enter by or off this level.
+
+40
+00:06:14,640 --> 00:06:19,380
+We put our stop loss right below this level and we target the high
+
+41
+00:06:20,400 --> 00:06:21,400
+of
+
+42
+00:06:21,400 --> 00:06:25,440
+The B leg this would have been a three ratio walk trade
+
+43
+00:06:25,880 --> 00:06:32,360
+This is one of my favorite credit strategies actually my favorite strategy out of all that I'm teaching
+
+44
+00:06:33,200 --> 00:06:35,200
+But really depends on you so
+
+45
+00:06:36,080 --> 00:06:39,340
+Let me remove everything here and let's
+
+46
+00:06:39,340 --> 00:06:47,520
+revise what I've taught here. So we got the a leg, this is the leg, the main
+
+47
+00:06:47,520 --> 00:06:53,000
+trend leg, okay? So we are in a downtrend, we see a push down and then we see a
+
+48
+00:06:53,000 --> 00:07:01,860
+pullback, very simple, right? This pullback, this move is called b leg, okay? So it
+
+49
+00:07:01,860 --> 00:07:09,060
+went boom, it's a b leg and we want to identify the high of that b leg, which is
+
+50
+00:07:09,060 --> 00:07:16,820
+this right the high of the B leg must not exceed and I repeat must not exceed the
+
+51
+00:07:16,820 --> 00:07:23,460
+A leg okay it just must not break the A leg level which is this okay so this is
+
+52
+00:07:23,460 --> 00:07:27,860
+where the big push started if the B leg cross this level then the trace set
+
+53
+00:07:27,860 --> 00:07:36,140
+of becomes invalid so we got the B leg and now we want to identify the low of
+
+54
+00:07:36,140 --> 00:07:43,860
+of the B leg which is this. Perfect. Now we wait for price to break. Break through
+
+55
+00:07:43,860 --> 00:07:56,220
+that B leg. Okay and the move that breaks the B leg is called C leg. So A, B, C
+
+56
+00:07:56,220 --> 00:08:04,020
+actually. Now when the price is about to break the B leg level it must and I
+
+57
+00:08:04,020 --> 00:08:06,460
+I mean must create some structure.
+
+58
+00:08:07,380 --> 00:08:09,540
+All right, so we got, as you can see,
+
+59
+00:08:09,540 --> 00:08:12,260
+lower, lower, lower, high, lower, lower, high,
+
+60
+00:08:12,260 --> 00:08:14,660
+and then we broke, okay?
+
+61
+00:08:14,660 --> 00:08:18,820
+Now below the B leg, we also created some structure,
+
+62
+00:08:18,820 --> 00:08:21,940
+and I also break this level, but this doesn't count, okay?
+
+63
+00:08:21,940 --> 00:08:24,140
+We are only going to look for structure,
+
+64
+00:08:24,140 --> 00:08:28,460
+which is inside the B leg and the C leg, okay?
+
+65
+00:08:28,460 --> 00:08:29,860
+The lines that I've drawn,
+
+66
+00:08:29,860 --> 00:08:32,540
+the low of the B leg and the high of the C leg,
+
+67
+00:08:32,540 --> 00:08:33,700
+there must be some structure.
+
+68
+00:08:33,700 --> 00:08:36,020
+before price takes out the B leg.
+
+69
+00:08:36,020 --> 00:08:38,740
+Then we identify a market structure shift
+
+70
+00:08:38,740 --> 00:08:42,220
+that happens, then we identify an autoblock,
+
+71
+00:08:42,220 --> 00:08:45,860
+which is right here, and we take our entry.
+
+72
+00:08:45,860 --> 00:08:50,860
+So this is three wrist-to-wall trade, very easy guys.
+
+73
+00:08:51,140 --> 00:08:53,980
+So now in the next video, I'll give you some examples.
+
+74
+00:08:53,980 --> 00:08:54,820
+So you guys.

@@ -1,0 +1,43 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright, so here is the example. This is just for example, I don't know the context behind this move. I'm just showing you that how it can work. So you see we have lower low, lower high, lower low. So now these consecutive bearish candles are in alignment with this breaker block. You can see that. The body, the size of the body is the same here. And then you can see that we have a
+
+2
+00:00:30,000 --> 00:00:37,280
+push down. So these are the consecutive bearish candles because this bearish candle did not take out the
+
+3
+00:00:37,280 --> 00:00:45,360
+low hairs. If this bearish candle took out this low then that would be my auto block. Okay and this green
+
+4
+00:00:45,360 --> 00:00:50,880
+candle would have become a breaker block. Do you understand what I'm trying to say here? So as you can
+
+5
+00:00:50,880 --> 00:00:56,160
+see we had their setup here. We could have taken our entry from this level, put our shot right below
+
+6
+00:00:56,160 --> 00:01:05,760
+slow and went for one to two or two for this high over here. Um, it's really all that guys,
+
+7
+00:01:05,760 --> 00:01:12,080
+like simply you can take your entries. See, if you use the old method, right, remember the first
+
+8
+00:01:12,080 --> 00:01:16,800
+candle of the fair value gap, which is right here, you would have missed your entry guys. So
+
+9
+00:01:16,800 --> 00:01:24,640
+this is, this is what I'm trying to teach you in this video. Okay, you must know, you must have
+
+10
+00:01:24,640 --> 00:01:30,880
+like a plan. You have to choose one model entry model. You either stick with the
+
+11
+00:01:31,680 --> 00:01:41,840
+the old method or the new one. It's really up to you. Okay? So um yeah guys I'll see you guys in the next video.

@@ -1,0 +1,56 @@
+{
+  "methodology": "BSI_V3_ADAPTIVE_WITH_SCHEDULED_ECONOMIC_CALENDAR_OVERLAY",
+  "source": "data\\research\\bsi_v3_prep_2026_09_07_ytd_full.json",
+  "window": {
+    "start": "2026-01-01T00:00:00+00:00",
+    "end": "2026-09-08T00:00:00+00:00"
+  },
+  "symbols": [
+    "EURUSD",
+    "GBPUSD",
+    "USDJPY",
+    "AUDUSD",
+    "USDCAD",
+    "USDCHF",
+    "NZDUSD",
+    "EURJPY",
+    "GBPJPY",
+    "XAUUSD"
+  ],
+  "baseline_adaptive": {
+    "trades": 275,
+    "wins": 197,
+    "losses": 78,
+    "win_rate": 71.64,
+    "net_r": 128.3103,
+    "expectancy": 0.4666,
+    "profit_factor": 2.7108,
+    "max_losing_streak": 3,
+    "max_drawdown_r": 4.0
+  },
+  "economic_calendar_overlay": {
+    "trades": 275,
+    "wins": 197,
+    "losses": 78,
+    "win_rate": 71.64,
+    "net_r": 128.3103,
+    "expectancy": 0.4666,
+    "profit_factor": 2.7108,
+    "max_losing_streak": 3,
+    "max_drawdown_r": 4.0
+  },
+  "economic_decision_counts": {
+    "ALLOW": 275,
+    "BLOCK": 0,
+    "DELAY": 0,
+    "REDUCE_SIZE": 0,
+    "MANAGE_EXISTING_ONLY": 0
+  },
+  "blocked_or_delayed_examples": [],
+  "reduced_size_examples": [],
+  "limitations": [
+    "Scheduled Forex Factory calendar events are replayed at each historical entry time.",
+    "Unscheduled news classification is not replayed point-in-time here because the current news query path is live-age based and has no as-of parameter.",
+    "Spread-normalization is assumed true for the historical overlay; live MT5 still evaluates live spread."
+  ]
+}

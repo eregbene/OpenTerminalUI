@@ -1,0 +1,135 @@
+Alright guys, so this is a brand new course and every week there will be a new chapter
+that's going to be released in the Discord server.
+And in this very first chapter, I'm going to teach you guys about the Monday range.
+It is a very good model with high win rate.
+It works on Gold, NAS100, EuroUSD, GBP, USD, okay.
+So essentially what we're doing is we are marking out high of the Monday and low of
+the Monday.
+So let's assume that this candle on the daily time from is the Monday candle and it closes.
+So we mark out the Monday high and the Monday range low, okay.
+Now on Tuesday, we want to see price take out either the swing, sorry, the Monday high
+or the Monday low, okay.
+So let's assume that on Tuesday, the low is taken out.
+The low of the Monday is taken out.
+What we want to do is we want to simply drop down to 15 minute time frame.
+So we'll drop down to 15 minute time frame.
+And then we're going to look for a market structure shift, right.
+And we're going to take our entry and we can target the Monday high or we can take our
+profit at the 50% of this Monday range, right.
+So we can take our profit somewhere around here or we can simply go for one to two.
+Now key thing to note is that you should get your market structure shift during London
+session because let's assume that you get your market structure shift during Asian session.
+Now this will then become the Asian session low.
+So there's a chance that price will take out the Asian low first and then give you another
+market structure shift and move towards the Monday high, okay.
+So remember this one thing.
+We are looking for market structure shift during London or New York session.
+If the market structure shift occurs during the Asian session, right, then we have to
+keep the Asian range strategy in the first course in our mind.
+And we have to think about it logically, right.
+As if we get the market structure shift during the Asian session, we can expect the price
+to take out the Asian low first and then move towards the Monday high.
+So similarly, if the Monday candle high is taken out first, we're going to drop down
+to the 15 minute time frame, right.
+And then we're going to look for a market structure shift and then we're going to look
+to take our entry from the Fair Valley gap or an auto block and we're going to target
+the Monday low.
+Very simple, okay.
+So to increase the probabilities, we can do is look for SMT divergence.
+It is not necessary, but what it's going to do is it's going to confirm, you know, the
+momentum, but it's not necessary and it requires, this model requires no delay bias and this
+is like a one trade per week setup and it has a very high event rate.
+So if you are someone who has, you know, a 95 job or you just busy with your family
+or whatnot, right, you can just take one set of per day and make a living.
+So I'm going to give you guys some examples and then I'll be back next week with a new
+chapter.
+Okay, guys.
+So here is example number one and you can see this is the Monday candle and that close.
+So all you have to do is mark out the Monday candle high and the Monday candle low.
+You can see that on Tuesday, the low of the Monday candle was taken out.
+So if I drop down to 15 minute time frame, right, this is the Monday low, right, and it
+was taken out first and we have our Monday high over here.
+So you can simply see that what happened.
+We got a market structure shift, right, of during the kills and ours and then you can
+see that we had this breaker block and afterwards price tapped into this and it just flew away.
+Now of course, this is hindsight, primarily you want to be taking, trying to take your
+entry from the auto block, right?
+But since the range was so big, you want to get into the trade as soon as possible.
+So for example, even if I took my trade here, right, I put my stop somewhere around here.
+This would have easily given me around 3.5 one, okay?
+The general rule of thumb, a very good rule of thumb is that you always go for one to
+two risk to reward, right?
+And all of us go break even after one to one is hit.
+So that was a very clean example.
+Let's move on to another example now.
+Okay guys, so in this example, you can see that I've marked out the Monday candle high
+and the Monday candle low.
+So you can clearly see how well this played out.
+So I'm going to drop down to 15 minute time from here and if I zoom out a bit, you can
+see that the Monday low was here and it was taken out on Tuesday.
+And simply what we would do is we would look for a market structure shift and that happened
+just around here.
+Now if you see this, that we were outside decals and ours.
+Now you could have taken your entry from this break of block here, right?
+But eventually what I would do is I would wait for the next day and the next London
+session to start and then I would look for a liquidity purge.
+So continuation purge in the first course, right afterwards we have a break in the structure
+then we have the auto block here and you can see the beautiful delivery to the upside,
+taking out the Monday candle high.
+Let's move on to another example.
+All right guys, so here is another example.
+This is going to be a different example because I'm going to show you a loser and I'm going
+to also show you that as long as you have, you know, your idea, right, you can still
+get re-enter into the trade.
+So over here you can see we have the Monday high and the Monday low, right?
+So if I go to the 15 minute time frame, you're going to see that the Monday high was taken
+out first.
+So what we were doing is looking for a market structure shift.
+So over here, what we had, we had the Asian session high taken out and somewhere around
+here, we had a market structure shift and now we did push up, we did mitigate this auto
+block and then we did go below it, but price had another push up, right?
+And then afterwards, we had a shift in the market structure over here, right?
+And over here.
+So then we had this auto block here and you can see the beautiful tap and you can see
+how price delivered by taking out the Monday low.
+All right guys, so here is another example.
+This time looking at gold.
+So you can see on Monday, we have a Monday high and the Monday low.
+So now you can see that price first took out the Monday low and then went up ahead and took
+out the Monday high.
+So if I go to the 15 minute time from here, you're going to see that on Tuesday, we had
+a purge on the Monday low, right?
+And that's what we want to see afterwards.
+What do we have is a, if you see, look closely, this is a high, right?
+So this was broken.
+And then what we are simply doing is taking our entry from the breaker block or a fair
+valley gap.
+So you can see that we have this fair valley gap and the entry was perfect right here.
+And you can see that the draw on liquidity was taken out.
+So you can see that we had a push up.
+You could have gone break even at somewhere around here, right?
+After these highs were taken out or at one to one and this would have a break down perfectly.
+So let me go because one more example.
+All right.
+Guess.
+So here's the last example.
+You can see that we have a Monday candle, the Monday high and the Monday low.
+So you can see that the Monday high was taken out first.
+So if I go to the 15 minute time from here, you can see that I have marked out the Monday
+high over here.
+And on Tuesday, the Monday high was taken out.
+So now we're looking for a market structure shift.
+The market structure shift happened just around here.
+And then what we have is a consecutive bullish candles to the upside.
+This could be your entry level, right?
+So a short position just right here, stop right above here.
+And you can see that the take profit was easily hit.
+So that is it for this chapter guys.
+I really hope that this works out for you.
+There are a lot of more models coming up.
+I can't wait to show you guys, but I'm going to keep it slow.
+One model per week because I want you to get familiar with every single model and I want
+you to practice every model because at the end of this brand new course, you're going
+to thank me.
+Okay.
+So just keep watching, keep back practicing and keep back testing.

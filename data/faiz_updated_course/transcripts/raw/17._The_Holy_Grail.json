@@ -1,0 +1,483 @@
+{
+  "source": "F:\\new faiz\\17. The Holy Grail.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 359.9789375,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.3,
+      "end": 30.3,
+      "text": " Alright guys, so now that we have learned the market maker model, now that we know how to find our daily bias, the monthly bias and the weekly bias, now we are going to use a complete, I'm gonna teach you the complete model that has the best win rate out of everything that I've thought before. This is like, you know,"
+    },
+    {
+      "start": 30.3,
+      "end": 34.14,
+      "text": " I would just simply say the best strategy out of all."
+    },
+    {
+      "start": 34.14,
+      "end": 38.1,
+      "text": " Okay, and I'm not even over exaggerating right at the moment."
+    },
+    {
+      "start": 38.1,
+      "end": 45.78,
+      "text": " If you can apply this strategy correctly, you're going to pass challenges."
+    },
+    {
+      "start": 45.78,
+      "end": 50.78,
+      "text": " You're going to become a consistently profitable trader and you will not rely on other people"
+    },
+    {
+      "start": 50.78,
+      "end": 53.42,
+      "text": " or other people's signals."
+    },
+    {
+      "start": 53.42,
+      "end": 54.42,
+      "text": " Okay."
+    },
+    {
+      "start": 54.42,
+      "end": 58.98,
+      "text": " So here is the complete model."
+    },
+    {
+      "start": 58.98,
+      "end": 66.18,
+      "text": " one we have to look for external and internal liquid we have to determine our bias okay."
+    },
+    {
+      "start": 66.18,
+      "end": 70.66,
+      "text": " So we are going to use three time frames for this strategy okay."
+    },
+    {
+      "start": 70.66,
+      "end": 75.86,
+      "text": " Previously we used two right but remember in the beginning of the update I said that we are"
+    },
+    {
+      "start": 75.86,
+      "end": 80.74,
+      "text": " going to use the third time frame as well later on in the course right."
+    },
+    {
+      "start": 80.74,
+      "end": 86.62,
+      "text": " So let's assume that this is the daily time frame this is the one hour time frame and"
+    },
+    {
+      "start": 86.62,
+      "end": 92.34,
+      "text": " This is the five minute timeframe because remember for the daily we're going from daily to hourly to five minute."
+    },
+    {
+      "start": 93.46,
+      "end": 93.9,
+      "text": " Okay."
+    },
+    {
+      "start": 94.6,
+      "end": 100.18,
+      "text": " So let's say that you have a purge on the external liquidity on the daily timeframe."
+    },
+    {
+      "start": 100.44,
+      "end": 100.9,
+      "text": " Okay."
+    },
+    {
+      "start": 101.4,
+      "end": 104.32,
+      "text": " And you have the free value gap in the discount over here."
+    },
+    {
+      "start": 104.32,
+      "end": 105.76,
+      "text": " That should be your draw on liquidity."
+    },
+    {
+      "start": 105.76,
+      "end": 110.86,
+      "text": " So now once you have the purge, you simply drop down."
+    },
+    {
+      "start": 113.29,
+      "end": 114.49,
+      "text": " Let me mark this out like that."
+    },
+    {
+      "start": 114.91,
+      "end": 116.99,
+      "text": " You drop down to one hour timeframe."
+    },
+    {
+      "start": 116.99,
+      "end": 122.93,
+      "text": " So now price has taken out this daily high with this external look now you're waiting for that"
+    },
+    {
+      "start": 123.31,
+      "end": 127.57,
+      "text": " Time frame to align with your narrative or your bias for the daily"
+    },
+    {
+      "start": 127.57,
+      "end": 130.33,
+      "text": " So you want to wait for a market structure shift"
+    },
+    {
+      "start": 131.17,
+      "end": 136.13,
+      "text": " Once you have a market structure shift on the one hour time frame after price takes out the daily high"
+    },
+    {
+      "start": 136.61,
+      "end": 142.09,
+      "text": " Right and you have the target here, which is a fair value gap now notice here very carefully"
+    },
+    {
+      "start": 142.09,
+      "end": 146.89,
+      "text": " When price did a market structure shift, there was a fair value gap, right?"
+    },
+    {
+      "start": 146.89,
+      "end": 148.01,
+      "text": " There was a PD error."
+    },
+    {
+      "start": 148.01,
+      "end": 149.29,
+      "text": " It could be an auto block here."
+    },
+    {
+      "start": 149.29,
+      "end": 151.41,
+      "text": " It could be a fair value gap."
+    },
+    {
+      "start": 151.41,
+      "end": 154.09,
+      "text": " Price comes into that fair value gap."
+    },
+    {
+      "start": 154.09,
+      "end": 156.89,
+      "text": " So now, right?"
+    },
+    {
+      "start": 156.89,
+      "end": 161.01,
+      "text": " I have from here to here, this movement."
+    },
+    {
+      "start": 161.01,
+      "end": 161.61,
+      "text": " Okay."
+    },
+    {
+      "start": 161.61,
+      "end": 163.81,
+      "text": " So from here, this is the fair value gap."
+    },
+    {
+      "start": 163.81,
+      "end": 164.61,
+      "text": " This right here."
+    },
+    {
+      "start": 164.61,
+      "end": 165.61,
+      "text": " I zoomed in a bit."
+    },
+    {
+      "start": 165.61,
+      "end": 166.45,
+      "text": " Okay."
+    },
+    {
+      "start": 166.45,
+      "end": 171.65,
+      "text": " So now once the price goes into the one hour fair value gap, we want to drop down to"
+    },
+    {
+      "start": 171.65,
+      "end": 179.05,
+      "text": " the five minute timeframe. Okay. So from daily, we go to the hourly timeframe. We look"
+    },
+    {
+      "start": 179.05,
+      "end": 183.01,
+      "text": " for a market structure shift. We wait for the price to come back into the one hour"
+    },
+    {
+      "start": 183.01,
+      "end": 187.49,
+      "text": " free value gap. And one price is in the one hour free value gap or auto block. We drop"
+    },
+    {
+      "start": 187.49,
+      "end": 195.69,
+      "text": " down to the five minute timeframe. So now this move from here to that PD array, we have"
+    },
+    {
+      "start": 195.69,
+      "end": 202.97,
+      "text": " to look for a market maker model inside this move. So when price goes into the furbly gap,"
+    },
+    {
+      "start": 202.97,
+      "end": 211.21,
+      "text": " the move starting from here must have a consolidation. First consolidation. So now this right"
+    },
+    {
+      "start": 211.21,
+      "end": 217.53,
+      "text": " here is here. Look at this. This price action, I have zoomed in and this is what it looks like."
+    },
+    {
+      "start": 217.53,
+      "end": 224.57,
+      "text": " So what do we have here? We have consolidation. So that is going to be our target."
+    },
+    {
+      "start": 224.57,
+      "end": 226.13,
+      "text": " What do we have?"
+    },
+    {
+      "start": 226.13,
+      "end": 230.27,
+      "text": " Your accumulation phase one, which is consolidation number two, right?"
+    },
+    {
+      "start": 230.27,
+      "end": 231.27,
+      "text": " What do we have then?"
+    },
+    {
+      "start": 231.27,
+      "end": 235.01,
+      "text": " We have a market structure shift when price came into the fair value gap."
+    },
+    {
+      "start": 235.01,
+      "end": 240.19,
+      "text": " And then you can simply look to take your entry from the fair value gap or auto block."
+    },
+    {
+      "start": 240.19,
+      "end": 244.53,
+      "text": " From here onwards, when you get a market structure shift on the five minute, every single"
+    },
+    {
+      "start": 244.53,
+      "end": 246.85,
+      "text": " PD area is going to be respected."
+    },
+    {
+      "start": 246.85,
+      "end": 248.17,
+      "text": " All right?"
+    },
+    {
+      "start": 248.17,
+      "end": 251.41,
+      "text": " Every single fair value gap, every single auto block."
+    },
+    {
+      "start": 251.41,
+      "end": 253.49,
+      "text": " get an entry here on the fair value gap, right?"
+    },
+    {
+      "start": 253.49,
+      "end": 255.29,
+      "text": " You have a break of structure, you take your entry"
+    },
+    {
+      "start": 255.29,
+      "end": 257.39,
+      "text": " on the fair value gap, you keep on doing that"
+    },
+    {
+      "start": 257.39,
+      "end": 259.93,
+      "text": " until this level is taken out."
+    },
+    {
+      "start": 261.01,
+      "end": 264.17,
+      "text": " Make sure this level has consolidation, guys."
+    },
+    {
+      "start": 265.49,
+      "end": 266.49,
+      "text": " Okay?"
+    },
+    {
+      "start": 266.49,
+      "end": 269.21,
+      "text": " So we don't even look at the fair value gap."
+    },
+    {
+      "start": 269.21,
+      "end": 272.33,
+      "text": " We just know that our draw on liquidity is here."
+    },
+    {
+      "start": 272.33,
+      "end": 275.05,
+      "text": " The higher time frame draw on liquidity is here, right?"
+    },
+    {
+      "start": 275.05,
+      "end": 278.09,
+      "text": " But then we wanna use the five minute timeframe"
+    },
+    {
+      "start": 278.09,
+      "end": 281.01,
+      "text": " to increase our chances to win the trade, right?"
+    },
+    {
+      "start": 281.01,
+      "end": 284.05,
+      "text": " We want to increase our probabilities here."
+    },
+    {
+      "start": 284.05,
+      "end": 288.61,
+      "text": " So we look for a market maker model inside this move"
+    },
+    {
+      "start": 288.61,
+      "end": 291.53,
+      "text": " from this bottom low to this high"
+    },
+    {
+      "start": 291.53,
+      "end": 294.25,
+      "text": " into the frame value gap."
+    },
+    {
+      "start": 295.25,
+      "end": 297.37,
+      "text": " And once price comes into one hour frame value gap,"
+    },
+    {
+      "start": 297.37,
+      "end": 301.73,
+      "text": " you look for and scout out the market maker consolidation"
+    },
+    {
+      "start": 301.73,
+      "end": 307.65,
+      "text": " in this leg, in this leg around here, starting from here."
+    },
+    {
+      "start": 307.65,
+      "end": 310.45,
+      "text": " Originally on the one hour, this would have been our target,"
+    },
+    {
+      "start": 310.45,
+      "end": 313.09,
+      "text": " this fairly gap on the daily time from this over here,"
+    },
+    {
+      "start": 313.09,
+      "end": 315.81,
+      "text": " draw a liquidity, but on the five minute,"
+    },
+    {
+      "start": 315.81,
+      "end": 318.77,
+      "text": " when we drop down, this is where we will not identify"
+    },
+    {
+      "start": 318.77,
+      "end": 320.77,
+      "text": " and scout out the market maker model."
+    },
+    {
+      "start": 320.77,
+      "end": 322.77,
+      "text": " So now when price comes into the fairly gap,"
+    },
+    {
+      "start": 322.77,
+      "end": 324.49,
+      "text": " look for a market structure shift,"
+    },
+    {
+      "start": 324.49,
+      "end": 326.93,
+      "text": " take your entry, break of structure, entry,"
+    },
+    {
+      "start": 326.93,
+      "end": 330.37,
+      "text": " break of structure, entry, and remember,"
+    },
+    {
+      "start": 330.37,
+      "end": 332.41,
+      "text": " mitigation blocks, right?"
+    },
+    {
+      "start": 332.41,
+      "end": 335.61,
+      "text": " So if a mitigation that we can utilize"
+    },
+    {
+      "start": 335.61,
+      "end": 339.09,
+      "text": " every single mitigation block inside this move."
+    },
+    {
+      "start": 339.09,
+      "end": 341.81,
+      "text": " So, I'm gonna have a bottle block here."
+    },
+    {
+      "start": 341.81,
+      "end": 343.53,
+      "text": " Pries touch like that."
+    },
+    {
+      "start": 343.53,
+      "end": 345.45,
+      "text": " Let me just draw it out like that."
+    },
+    {
+      "start": 345.45,
+      "end": 352.22,
+      "text": " Wait, boom, boom, boom, boom."
+    },
+    {
+      "start": 352.22,
+      "end": 353.82,
+      "text": " Once this target is taken out,"
+    },
+    {
+      "start": 353.82,
+      "end": 355.54,
+      "text": " you are out of the trade guys."
+    },
+    {
+      "start": 356.82,
+      "end": 358.82,
+      "text": " Very, very simple."
+    }
+  ]
+}

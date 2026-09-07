@@ -1,0 +1,64 @@
+[00:00:00] Alright guys, so here's another example for the ABCD trading strategy. So we got the ALAG right around here. Right? So we want to mark out the value of the ALAG right? Something like that. And then we got the BLAG which is the significant pullback or a small down trend, small sorry small trend in an opposite direction which is this.
+[00:00:41] So this is the B leg and then we got the C leg right around here, which is this
+[00:00:50] Okay, and we got the
+[00:00:53] Low of the B leg. Sorry. How about
+[00:01:03] We got the high of the B leg right here
+[00:01:06] right
+[00:01:08] B leg high which is our take profit area and we got the a leg
+[00:01:14] low here so
+[00:01:16] Let me delete that.
+[00:01:20] We wait for price to fake out.
+[00:01:22] Before price, it created structure.
+[00:01:31] You can see lower low, lower high, lower low, lower high, and then price broke down.
+[00:01:39] Price faked out and before faking out, before crossing this line, price created some
+[00:01:45] structure.
+[00:01:46] And there we have market structure shift and we got imbalance just here.
+[00:01:56] So if I remove the line, you can see we got the imbalance between this level.
+[00:02:02] So this whole candle is our auto block, right?
+[00:02:11] And we target the B leg high, which is this.
+[00:02:23] So that was 4.74.
+[00:02:25] Easy, guys.
+[00:02:27] You see the accuracy, it took out the B leg high and then it reversed.
+[00:02:34] So let me repeat this again.
+[00:02:39] So let's see what happened.
+[00:02:40] We got the A leg, okay, we got the A leg and then we got the B leg, right?
+[00:02:46] And then we got the C leg.
+[00:02:49] The C leg created structure before taking out the low of the A leg, which is this.
+[00:02:56] then we get so went once that low was taken out before taking out the low price credit
+[00:03:04] some structure okay it created structure here it created structure here and these structures
+[00:03:09] were taken out so this is market structure shift and when price took out the level it created
+[00:03:15] some imbalance and auto block so this was our entry right around here and a beautiful
+[00:03:22] trade guys. Very, very simple guys. So I hope by now it's gonna be clear. I tried my best
+[00:03:31] to explain the strategy literally my throat is hurting right now. I don't know why. So I would
+[00:03:39] repeat it once again. And the ABC structure and the ABC definition is one identified the
+[00:03:44] the L-E leg, the B leg and the C leg.
+[00:03:49] The C leg must take out this level, okay,
+[00:03:53] which is the start of the B leg.
+[00:03:56] And before taking out the start of the B leg,
+[00:04:00] it must create some structure, all right?
+[00:04:03] And that structure gets broken here.
+[00:04:06] To add the A, B, C, and then we got this beautiful entry
+[00:04:11] here, wait for price to come back into the,
+[00:04:15] Auto block and very well you get and as you can see it just went crazily down
+[00:04:21] Then you can see that we can continue this. Okay, so we got the
+[00:04:25] Let's let me show you one amazing thing about the strategy
+[00:04:28] So we got the now this whole thing is an a leg this whole thing is a b leg and this thing is a c leg
+[00:04:36] Okay, so it just can't continue forever
+[00:04:40] So let me go ahead and draw out this level
+[00:04:44] Okay, so before price took out this level, price created some structure here and it left some imbalance.
+[00:04:54] Now unfortunately it did not hit our auto block which were right here but it did fill in the imbalance around here and as you can see if you
+[00:05:06] If you would have taken the entry from this level, put your stop right below this level.
+[00:05:12] You could have made another 4.21% return on the straight guys.
+[00:05:20] Absolutely brilliant trading strategy.
+[00:05:23] So yeah guys, I hope that things are clear enough now.
+[00:05:30] This works on any timeframe.
+[00:05:34] If you want to sculpt, you can work on the 5-minute timeframe.
+[00:05:39] Also, it works really, really good with the 1R timeframe.
+[00:05:43] So what are the best pairs for this tragedy?
+[00:05:47] Well honestly, every pair, according to my backtesting data, anything works with it.
+[00:05:57] Crypto, Forex, stocks, indices, everything.
+[00:06:03] So yeah guys this was my favorite trading strategy and this is what I'm currently using
+[00:06:07] nowadays and it is highly profitable.
+[00:06:11] You can see these big moves right?
+[00:06:14] And yeah, so I'll see you guys in the next trading strategy.
+[00:06:20] Goodbye.

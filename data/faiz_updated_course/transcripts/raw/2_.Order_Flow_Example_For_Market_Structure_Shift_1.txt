@@ -1,0 +1,33 @@
+[00:00:00] Here's another example, how you can trade market structure shifts using the autofold training strategy. You can see that we were making higher high, higher low, higher high, higher high, higher high, higher high. And then we made this move, which broke this level. There you go, it broke this level. This low.
+[00:00:32] high high and then price broke this higher low. So that is considered to be has
+[00:00:38] market structure shift. And then what you want to do remember you want to draw
+[00:00:50] your Fibonacci tool not necessarily but if you just want to see where are that
+[00:00:55] zones right you want to draw out the Fibonacci from the top to the bottom and
+[00:01:01] and then you want to choose the extreme zone.
+[00:01:04] Okay.
+[00:01:05] So as you can see,
+[00:01:08] we got an autoblock
+[00:01:11] right around here.
+[00:01:14] What are autoblocks?
+[00:01:16] The first candle that create imbalance.
+[00:01:18] You can see first, second, third.
+[00:01:20] There's some gap here as well.
+[00:01:22] And basically, you do not.
+[00:01:25] Okay.
+[00:01:26] So, yeah.
+[00:01:27] So basically you can see you would have entered
+[00:01:30] right around here put your stop loss right above that level and kaboom very easy guys
+[00:01:39] and you would have taken your take profit at this level which is another liquidity pool and before
+[00:01:46] price went up you can see price created these relative equal highs
+[00:01:53] okay this is liquidity this is basically a resistance level if that makes sense okay
+[00:02:00] So make sure you identify
+[00:02:02] Liquidity before taking these entries if there's no liquidity
+[00:02:06] You're going to lose. Okay, if there's no liquidity what's probably gonna do?
+[00:02:09] It's just gonna go up it will not respect your level because there's no reason for it to respect it. Okay
+[00:02:18] So you can see price
+[00:02:20] Broke structure
+[00:02:22] There was a market structure shift then price
+[00:02:25] engineer liquidity and then it went all the way up to the extreme zone of that
+[00:02:31] move that broke the market structure. If that makes sense. So this was another
+[00:02:37] example how you can use each and everything together to trade. So I'll give
+[00:02:42] you now examples for the long positions.

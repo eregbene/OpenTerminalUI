@@ -1,0 +1,188 @@
+{
+  "source": "F:\\new faiz\\6. ABC POI Combination Example.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 144.056625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " So here is an example of using combining POI with ABC. So we have A, B, and the C leg goes into this order block. You can say this right here. Price goes straight into this order block here. And it also takes out liquidity or the high of the A leg."
+    },
+    {
+      "start": 30.0,
+      "end": 38.06,
+      "text": " B and C. Now what you have here is a marker structure shift here and you also have"
+    },
+    {
+      "start": 38.56,
+      "end": 42.58,
+      "text": " Mark's or the shift here and you also have a marker structure shift here"
+    },
+    {
+      "start": 43.32,
+      "end": 45.12,
+      "text": " cool"
+    },
+    {
+      "start": 45.12,
+      "end": 51.28,
+      "text": " After that you have your autoblock here, right? You see this very well together. So"
+    },
+    {
+      "start": 52.36,
+      "end": 56.48,
+      "text": " your autoblock could beat this right here considering this high as well and"
+    },
+    {
+      "start": 56.48,
+      "end": 61.48,
+      "text": " And you shot it right here, right?"
+    },
+    {
+      "start": 62.98,
+      "end": 65.96,
+      "text": " And you put your stop there, just like that,"
+    },
+    {
+      "start": 65.96,
+      "end": 71.0,
+      "text": " and you target the low here, which is a six-risk"
+    },
+    {
+      "start": 71.0,
+      "end": 72.2,
+      "text": " to reward trade."
+    },
+    {
+      "start": 72.2,
+      "end": 75.68,
+      "text": " So notice how we took this auto block"
+    },
+    {
+      "start": 75.68,
+      "end": 79.24,
+      "text": " or supply zone into consideration."
+    },
+    {
+      "start": 79.24,
+      "end": 81.6,
+      "text": " The C-leg goes into this level."
+    },
+    {
+      "start": 81.6,
+      "end": 84.08,
+      "text": " We had a market structure shift, right?"
+    },
+    {
+      "start": 84.08,
+      "end": 89.08,
+      "text": " And we took our entry from this extreme friendly gap plus OB."
+    },
+    {
+      "start": 89.96,
+      "end": 90.96,
+      "text": " Right?"
+    },
+    {
+      "start": 90.96,
+      "end": 93.32,
+      "text": " You could put your stop here as well."
+    },
+    {
+      "start": 93.32,
+      "end": 96.52,
+      "text": " But I usually like to put them here,"
+    },
+    {
+      "start": 96.52,
+      "end": 99.36,
+      "text": " but it's also safe to put it here."
+    },
+    {
+      "start": 99.36,
+      "end": 101.12,
+      "text": " I'm not saying that you should put it here."
+    },
+    {
+      "start": 101.12,
+      "end": 105.2,
+      "text": " You should put it here just like if you want to, right?"
+    },
+    {
+      "start": 105.2,
+      "end": 108.2,
+      "text": " But for me, I do not care about losing a trade."
+    },
+    {
+      "start": 108.2,
+      "end": 109.84,
+      "text": " My psychology is good."
+    },
+    {
+      "start": 109.84,
+      "end": 112.96,
+      "text": " So even if I lose this price goes back here in reverses,"
+    },
+    {
+      "start": 112.96,
+      "end": 116.56,
+      "text": " I'm gonna be fine because, you know, unlike some people,"
+    },
+    {
+      "start": 116.56,
+      "end": 120.16,
+      "text": " if they put this top loss here and it gets stopped,"
+    },
+    {
+      "start": 120.16,
+      "end": 122.84,
+      "text": " and it just reverses from this area,"
+    },
+    {
+      "start": 122.84,
+      "end": 124.6,
+      "text": " you would be mad, right?"
+    },
+    {
+      "start": 124.6,
+      "end": 126.24,
+      "text": " So just keep it there."
+    },
+    {
+      "start": 127.56,
+      "end": 130.48,
+      "text": " Do you don't wanna mess around with the,"
+    },
+    {
+      "start": 131.88,
+      "end": 132.72,
+      "text": " oh, never mind."
+    },
+    {
+      "start": 132.72,
+      "end": 135.6,
+      "text": " So we got the 3.25 you could say,"
+    },
+    {
+      "start": 135.6,
+      "end": 137.28,
+      "text": " or six through a screw rod,"
+    },
+    {
+      "start": 137.28,
+      "end": 139.8,
+      "text": " and this was a perfect example"
+    },
+    {
+      "start": 139.8,
+      "end": 142.8,
+      "text": " on how you can use ABC with POI."
+    }
+  ]
+}

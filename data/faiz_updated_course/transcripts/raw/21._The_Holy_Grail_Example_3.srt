@@ -1,0 +1,211 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, so here is another example for the Holy Grail strategy and for this I'm going to use the continuation purge or the ABC or the ABCD combination with this. You can say that it's a continuation purge but if you are familiar with my concepts you can call them ABC or ABCD as well. So on the daily timeframe we're going to go from daily to hourly to 5 minute to frame our trade. So over here we have
+
+2
+00:00:30,000 --> 00:00:35,340
+this external liquidity taken out and in the discount we have this
+
+3
+00:00:36,040 --> 00:00:43,120
+Fair value gap right so now let's go to the hourly timeframe and we have to wait for a shift in the market structure right and
+
+4
+00:00:46,140 --> 00:00:53,880
+See what has happened here. We got a break to have a low low low high lower low
+
+5
+00:00:53,880 --> 00:00:59,140
+Right so that is a shift in the market structure as well considering the fact that we have taken out the objective
+
+6
+00:00:59,140 --> 00:01:03,140
+So now what we want to wait for is a continuation purge.
+
+7
+00:01:03,140 --> 00:01:04,140
+Right?
+
+8
+00:01:04,140 --> 00:01:09,140
+And over here, what do we have?
+
+9
+00:01:09,140 --> 00:01:12,140
+We have this BICIDE, right?
+
+10
+00:01:12,140 --> 00:01:18,140
+Or a high over here, the indicator failed to do so.
+
+11
+00:01:18,140 --> 00:01:20,140
+So that is a high.
+
+12
+00:01:20,140 --> 00:01:22,140
+So we wait for Prash to take out that high.
+
+13
+00:01:22,140 --> 00:01:27,140
+Once that happens, you want to mark out the move.
+
+14
+00:01:27,140 --> 00:01:30,660
+We want to scout out the market maker model inside here, right?
+
+15
+00:01:30,660 --> 00:01:34,420
+And look at when the, when the purge happened at around eight.
+
+16
+00:01:34,420 --> 00:01:40,180
+So remember when I say that the purges happen roughly from eight to 10, 30, right?
+
+17
+00:01:40,180 --> 00:01:41,540
+That is like your sweet spot.
+
+18
+00:01:41,540 --> 00:01:43,540
+It can happen anytime of a day, right?
+
+19
+00:01:43,540 --> 00:01:44,980
+But that is what you want to look for.
+
+20
+00:01:44,980 --> 00:01:52,660
+So going into the five minute timeframe now, first off, you simply want to mark out your
+
+21
+00:01:52,660 --> 00:01:53,540
+consolidation phase.
+
+22
+00:01:53,540 --> 00:02:00,260
+So we have this beautiful consolidation face right with with this equal lows here. That is our clear draw on liquidity, right?
+
+23
+00:02:00,500 --> 00:02:04,660
+So now we wait for is a shift in the market structure and over here
+
+24
+00:02:04,660 --> 00:02:08,100
+We have a shift in the market structure, but there's no fair value gap, right?
+
+25
+00:02:08,100 --> 00:02:12,660
+And there is these this equal highs over here, right?
+
+26
+00:02:12,660 --> 00:02:18,700
+And this auto block didn't take out any liquidity here. So this is not a valid auto block here, right?
+
+27
+00:02:18,700 --> 00:02:25,220
+So you want to keep these things in mind you want to wait for a clean shift in the market structure with fair value gap
+
+28
+00:02:25,220 --> 00:02:27,040
+Fair value gap is very necessary here guys
+
+29
+00:02:28,580 --> 00:02:34,980
+So we wait for price to give us something here and right away you can see we took out these equal highs
+
+30
+00:02:35,900 --> 00:02:39,660
+Over here right this build up of liquidity this engineer look at it
+
+31
+00:02:39,660 --> 00:02:47,500
+We have this shift in the market structure right you have this fair value gap and also this fair value gap
+
+32
+00:02:47,500 --> 00:02:53,220
+like this whole thoroughly at right your entry should be from this FPG your stop
+
+33
+00:02:53,220 --> 00:02:59,560
+goes here and you target simply this but since that your wrist reward is 1.61
+
+34
+00:02:59,560 --> 00:03:04,460
+we need at least two R R right so you want to just decrease your stop until
+
+35
+00:03:04,460 --> 00:03:08,780
+you get one to two but your target remains the same all right so let's see how
+
+36
+00:03:08,780 --> 00:03:14,100
+this plays out we tap in and we have a small scalp on the five minute time
+
+37
+00:03:14,100 --> 00:03:19,700
+from. So now we are in the scalloping territory here, right? So we're gonna get like one to two or
+
+38
+00:03:19,700 --> 00:03:26,260
+one to three or four max out of these trades, even sometimes one to four as well. But you can see
+
+39
+00:03:26,260 --> 00:03:32,260
+that you have to look for these guys. Look, a normal trader once he saw this structure break,
+
+40
+00:03:33,460 --> 00:03:38,580
+he could have taken the entry from, I don't know, from somewhere here, because there's no
+
+41
+00:03:38,580 --> 00:03:43,140
+don't probably gap here right there's no clean auto block look at the so many
+
+42
+00:03:43,140 --> 00:03:49,980
+candles here but then price but it did it created these equal highs over here so
+
+43
+00:03:49,980 --> 00:03:56,380
+now these these concepts are not like ABC or ABCD trading strategy right you
+
+44
+00:03:56,380 --> 00:04:01,140
+don't just follow the rules like a robot no you have to look at these things
+
+45
+00:04:01,140 --> 00:04:05,260
+you have to look for a clean shift and market structure look at this we took
+
+46
+00:04:05,260 --> 00:04:11,900
+out the liquidity and we didn't have any double top right we don't have any highs around here.
+
+47
+00:04:11,900 --> 00:04:16,140
+So once you get the shift we can simply take our entry here there's a very good gap here.
+
+48
+00:04:18,860 --> 00:04:25,260
+There's a brick block here as well that you could have utilized but fairly gap is my best
+
+49
+00:04:25,260 --> 00:04:32,140
+friend for this strategy. So consolidation is all you need to identify and you can get a setup out
+
+50
+00:04:32,140 --> 00:04:37,060
+of it right like this is like the the best strategy guys there's I don't think
+
+51
+00:04:37,060 --> 00:04:43,140
+there's something better out there that is better than this okay so yeah we
+
+52
+00:04:43,140 --> 00:04:49,860
+look for a continuation perch here you can see and bats about it so let me
+
+53
+00:04:49,860 --> 00:04:53,700
+give you guys one more example

@@ -1,0 +1,1623 @@
+{
+  "source": "F:\\new faiz\\45. The Enigma.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 1094.1706875,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.11,
+      "end": 30.11,
+      "text": " Alright, everybody, so this is the closest thing to Enigma. Now, I know actually he says there is an Enigma, but there is no Enigma. But this thing that I'm about to teach you right now is the closest thing to Enigma. And if you use this model correctly, I promise you you can actually make shit ton amount of money. Okay? Now, I have a lot of videos on YouTube."
+    },
+    {
+      "start": 30.11,
+      "end": 35.11,
+      "text": " I have a lot of models in my courses, in my first course, we have models."
+    },
+    {
+      "start": 35.11,
+      "end": 36.31,
+      "text": " And this one, we have models."
+    },
+    {
+      "start": 36.31,
+      "end": 39.83,
+      "text": " But this is what I trade."
+    },
+    {
+      "start": 39.83,
+      "end": 43.51,
+      "text": " I have never revealed this technique before."
+    },
+    {
+      "start": 43.51,
+      "end": 45.71,
+      "text": " So I'm just going to close this here."
+    },
+    {
+      "start": 45.71,
+      "end": 57.15,
+      "text": " So if you refer back to the One-Med range, a strategy on NAS 100, I thought you how to trade ranges"
+    },
+    {
+      "start": 57.15,
+      "end": 59.31,
+      "text": " right on the one minute."
+    },
+    {
+      "start": 59.31,
+      "end": 66.87,
+      "text": " The problem that arises with that model is that let's suppose if price pushes in one direction."
+    },
+    {
+      "start": 66.87,
+      "end": 71.71,
+      "text": " So to identify the range, we first have to see a move to the upside or to the downside."
+    },
+    {
+      "start": 71.71,
+      "end": 75.71,
+      "text": " So let's suppose that price went up."
+    },
+    {
+      "start": 75.71,
+      "end": 77.95,
+      "text": " So that becomes a range high."
+    },
+    {
+      "start": 77.95,
+      "end": 83.07,
+      "text": " So I want to teach you the best way to trade ranges."
+    },
+    {
+      "start": 83.07,
+      "end": 86.95,
+      "text": " If you understand this correctly, I promise you you will not need anything else."
+    },
+    {
+      "start": 86.95,
+      "end": 90.47,
+      "text": " This is basically how I trade most of the time."
+    },
+    {
+      "start": 90.47,
+      "end": 93.27,
+      "text": " When this setup is present, I'm going to take it"
+    },
+    {
+      "start": 93.27,
+      "end": 96.15,
+      "text": " regardless of my bias, regardless of the order flow."
+    },
+    {
+      "start": 96.15,
+      "end": 97.79,
+      "text": " I do not care about that."
+    },
+    {
+      "start": 97.79,
+      "end": 100.71,
+      "text": " So let's suppose that price pushes in one direction."
+    },
+    {
+      "start": 100.71,
+      "end": 102.59,
+      "text": " That is your range."
+    },
+    {
+      "start": 102.59,
+      "end": 105.39,
+      "text": " Hi, but the problem is that how do you actually"
+    },
+    {
+      "start": 105.39,
+      "end": 106.55,
+      "text": " identify the range load?"
+    },
+    {
+      "start": 106.55,
+      "end": 110.35,
+      "text": " Because what can price do is it keeps pulling back?"
+    },
+    {
+      "start": 110.35,
+      "end": 113.95,
+      "text": " So is this the range load?"
+    },
+    {
+      "start": 113.95,
+      "end": 116.11,
+      "text": " Or is this the range load?"
+    },
+    {
+      "start": 116.11,
+      "end": 122.19,
+      "text": " you're going to get faked out again and again most of the time. So how do you actually identify"
+    },
+    {
+      "start": 122.19,
+      "end": 128.51,
+      "text": " the range low? Because for a range to be valid we must have a range high and a range low. But"
+    },
+    {
+      "start": 129.31,
+      "end": 133.39,
+      "text": " it's hard to identify the range low, right? But I'm going to teach you the method and that is"
+    },
+    {
+      "start": 133.39,
+      "end": 142.67,
+      "text": " exactly the juice of this course, okay? So all you have to do is look for a market structure shift."
+    },
+    {
+      "start": 142.67,
+      "end": 147.31,
+      "text": " Now, once you have a market structure shift, right,"
+    },
+    {
+      "start": 147.31,
+      "end": 151.67,
+      "text": " this low over here caused a market structure shift."
+    },
+    {
+      "start": 151.67,
+      "end": 156.39,
+      "text": " So this low becomes range low."
+    },
+    {
+      "start": 156.39,
+      "end": 160.43,
+      "text": " This is a valid range low, not this low,"
+    },
+    {
+      "start": 160.43,
+      "end": 163.23,
+      "text": " or not this low, but this low."
+    },
+    {
+      "start": 163.23,
+      "end": 165.27,
+      "text": " And this low caused, what?"
+    },
+    {
+      "start": 165.27,
+      "end": 166.47,
+      "text": " A market structure shift, right?"
+    },
+    {
+      "start": 166.47,
+      "end": 170.63,
+      "text": " Low or high, low or low, and break in structure."
+    },
+    {
+      "start": 170.63,
+      "end": 173.67,
+      "text": " And this is where we have our range level."
+    },
+    {
+      "start": 173.67,
+      "end": 175.91,
+      "text": " Now, we are simply waiting for price"
+    },
+    {
+      "start": 175.91,
+      "end": 180.11,
+      "text": " to either take out the range low or range high."
+    },
+    {
+      "start": 180.11,
+      "end": 185.11,
+      "text": " Ideally, I want to see the range low first taken out"
+    },
+    {
+      "start": 185.35,
+      "end": 188.51,
+      "text": " because in the in the,"
+    },
+    {
+      "start": 188.51,
+      "end": 192.03,
+      "text": " on a high time frame, we could be going up, right?"
+    },
+    {
+      "start": 192.03,
+      "end": 194.63,
+      "text": " Because we had an initial move to the upside."
+    },
+    {
+      "start": 194.63,
+      "end": 197.87,
+      "text": " So ideally, I want to see this happen,"
+    },
+    {
+      "start": 197.87,
+      "end": 199.39,
+      "text": " but it is not necessary."
+    },
+    {
+      "start": 199.39,
+      "end": 204.39,
+      "text": " It's just going to increase your window by 5% at max."
+    },
+    {
+      "start": 204.39,
+      "end": 210.27,
+      "text": " But you can see if price takes out high or low, and then you can target the opposite"
+    },
+    {
+      "start": 210.27,
+      "end": 211.27,
+      "text": " liquidity."
+    },
+    {
+      "start": 211.27,
+      "end": 213.83,
+      "text": " So, range low, range high, right over here."
+    },
+    {
+      "start": 213.83,
+      "end": 219.75,
+      "text": " So let's suppose that price comes down and it takes out the range low."
+    },
+    {
+      "start": 219.75,
+      "end": 224.87,
+      "text": " So it works on all time frames, but I trade it on 15 minute and above."
+    },
+    {
+      "start": 224.87,
+      "end": 228.99,
+      "text": " 15 minute time frame is the best and above you can also trade it."
+    },
+    {
+      "start": 228.99,
+      "end": 235.51,
+      "text": " One hour is very good. Four hours very good. Daily time from it. Very well if you want to identify daily bias as well"
+    },
+    {
+      "start": 236.35,
+      "end": 241.25,
+      "text": " So range high range low range low was determined up for we got a market structure ship now"
+    },
+    {
+      "start": 241.51,
+      "end": 246.89,
+      "text": " Once the range low is taken we have to look for a market structure shift right?"
+    },
+    {
+      "start": 247.03,
+      "end": 252.21,
+      "text": " So let's suppose that we get a market structure shift now market structure shift when we get it"
+    },
+    {
+      "start": 252.39,
+      "end": 257.99,
+      "text": " We have to wait for price to come back above the range. This is very important"
+    },
+    {
+      "start": 257.99,
+      "end": 261.99,
+      "text": " Market structure shift is not going to do anything by itself."
+    },
+    {
+      "start": 261.99,
+      "end": 266.99,
+      "text": " We have to wait for price to close above the range."
+    },
+    {
+      "start": 266.99,
+      "end": 267.99,
+      "text": " The range low."
+    },
+    {
+      "start": 267.99,
+      "end": 271.99,
+      "text": " We have to see price go up and close around here."
+    },
+    {
+      "start": 271.99,
+      "end": 276.99,
+      "text": " Now, all you got to do is take your entry from the auto block."
+    },
+    {
+      "start": 276.99,
+      "end": 279.99,
+      "text": " So this right here, consecutive down close candles."
+    },
+    {
+      "start": 279.99,
+      "end": 281.99,
+      "text": " That is your auto block."
+    },
+    {
+      "start": 281.99,
+      "end": 285.99,
+      "text": " And from here, you are going to take your entry."
+    },
+    {
+      "start": 285.99,
+      "end": 289.59,
+      "text": " You're going to put your start right below this low over here."
+    },
+    {
+      "start": 289.59,
+      "end": 293.19,
+      "text": " Now, for the wrist management, this is very important,"
+    },
+    {
+      "start": 293.19,
+      "end": 296.63,
+      "text": " and if you skip the step, the strategy will not wait for you."
+    },
+    {
+      "start": 296.63,
+      "end": 297.51,
+      "text": " Very simple."
+    },
+    {
+      "start": 297.51,
+      "end": 301.99,
+      "text": " Okay, so we have to use our fifth from the range high to range low."
+    },
+    {
+      "start": 301.99,
+      "end": 309.19,
+      "text": " Now, you have to copy these settings, and you have to enable 0.79 level as well."
+    },
+    {
+      "start": 309.19,
+      "end": 313.59,
+      "text": " Now, your initial entry is going to be here."
+    },
+    {
+      "start": 313.59,
+      "end": 323.59,
+      "text": " You are going to take a partial at 0.5 level and you're also going break even when price hits the 0.5 level."
+    },
+    {
+      "start": 323.59,
+      "end": 328.59,
+      "text": " So when price goes up and hits the 0.5 level, you're taking one partial."
+    },
+    {
+      "start": 328.59,
+      "end": 335.59,
+      "text": " Then what can happen is price will pull back slightly, then it will push up."
+    },
+    {
+      "start": 335.59,
+      "end": 340.91,
+      "text": " Now, sometimes 0.79 should be your main target,"
+    },
+    {
+      "start": 340.91,
+      "end": 343.99,
+      "text": " because often what price will often do"
+    },
+    {
+      "start": 343.99,
+      "end": 346.55,
+      "text": " is it will go to the 0.79 level,"
+    },
+    {
+      "start": 346.55,
+      "end": 348.07,
+      "text": " and then it will reverse."
+    },
+    {
+      "start": 348.07,
+      "end": 349.19,
+      "text": " OK?"
+    },
+    {
+      "start": 349.19,
+      "end": 355.47,
+      "text": " If your narrative is bullish, then you hold"
+    },
+    {
+      "start": 355.47,
+      "end": 358.75,
+      "text": " the 1 level, the range high."
+    },
+    {
+      "start": 358.75,
+      "end": 359.71,
+      "text": " OK?"
+    },
+    {
+      "start": 359.71,
+      "end": 363.51,
+      "text": " Or what you can do is take one partial at 0.5,"
+    },
+    {
+      "start": 363.51,
+      "end": 368.51,
+      "text": " the other at 0.79 and then close your entire position at one."
+    },
+    {
+      "start": 369.03,
+      "end": 372.87,
+      "text": " Or you simply just take one partial at 0.5"
+    },
+    {
+      "start": 372.87,
+      "end": 377.87,
+      "text": " and then you let the trade running until the range high is taken out."
+    },
+    {
+      "start": 378.55,
+      "end": 381.03,
+      "text": " Very simple, very mechanical."
+    },
+    {
+      "start": 381.03,
+      "end": 385.99,
+      "text": " And for the pairs, right, pairs, what does it work with really well?"
+    },
+    {
+      "start": 385.99,
+      "end": 389.47,
+      "text": " So I'm going to give you guys some pairs and assets, right?"
+    },
+    {
+      "start": 389.47,
+      "end": 392.75,
+      "text": " But before we do that, I'm going to teach you the opposite example."
+    },
+    {
+      "start": 392.75,
+      "end": 399.63,
+      "text": " So where we shot it right? So let's assume that if I remove this, this, this, this, and"
+    },
+    {
+      "start": 399.63,
+      "end": 406.11,
+      "text": " let it do that. Okay perfect we have the range low range high and let's suppose that price"
+    },
+    {
+      "start": 406.11,
+      "end": 412.91,
+      "text": " takes out the range high right? All we are doing afterwards is looking for a market structure shift"
+    },
+    {
+      "start": 412.91,
+      "end": 418.51,
+      "text": " okay. Then we are looking to take our entry from the auto block so that is going to be"
+    },
+    {
+      "start": 418.51,
+      "end": 425.47,
+      "text": " consecutive up-close candles, right? You are going to take your short position from this auto block,"
+    },
+    {
+      "start": 425.47,
+      "end": 434.83,
+      "text": " stop right above the high, and again we are going to use from range low to range high, right?"
+    },
+    {
+      "start": 434.83,
+      "end": 439.55,
+      "text": " And we're gonna get the zero point seven nine level here, zero point five level here. Then you take"
+    },
+    {
+      "start": 439.55,
+      "end": 444.83,
+      "text": " your entry, one partial at zero point five, go break even, then you can close your entire trade"
+    },
+    {
+      "start": 444.83,
+      "end": 449.83,
+      "text": " add 0.79 or you hold till range low."
+    },
+    {
+      "start": 450.63,
+      "end": 453.31,
+      "text": " And basically that's how this right is."
+    },
+    {
+      "start": 453.31,
+      "end": 454.83,
+      "text": " You were just perfect."
+    },
+    {
+      "start": 455.67,
+      "end": 460.83,
+      "text": " Now, let's suppose that what makes this setup"
+    },
+    {
+      "start": 460.83,
+      "end": 463.91,
+      "text": " a low probability setup and I'm going to explain that right now."
+    },
+    {
+      "start": 463.91,
+      "end": 468.27,
+      "text": " So let's suppose that price goes to 0.5 level"
+    },
+    {
+      "start": 469.75,
+      "end": 471.79,
+      "text": " before giving you an entry."
+    },
+    {
+      "start": 471.79,
+      "end": 473.27,
+      "text": " So you get a market structure shift,"
+    },
+    {
+      "start": 473.27,
+      "end": 475.67,
+      "text": " but you don't get a retest of the auto block"
+    },
+    {
+      "start": 475.67,
+      "end": 477.91,
+      "text": " and price goes to the 0.5 level and below."
+    },
+    {
+      "start": 478.87,
+      "end": 482.11,
+      "text": " Then the setup becomes very low probability."
+    },
+    {
+      "start": 482.11,
+      "end": 486.07,
+      "text": " And if price goes to the 0.79 level"
+    },
+    {
+      "start": 486.07,
+      "end": 487.67,
+      "text": " without giving you an entry,"
+    },
+    {
+      "start": 487.67,
+      "end": 491.15,
+      "text": " then the setup becomes entirely invalid."
+    },
+    {
+      "start": 491.15,
+      "end": 492.75,
+      "text": " So we took out the range high,"
+    },
+    {
+      "start": 492.75,
+      "end": 494.43,
+      "text": " we closed below the range,"
+    },
+    {
+      "start": 494.43,
+      "end": 495.39,
+      "text": " which is very important."
+    },
+    {
+      "start": 495.39,
+      "end": 497.47,
+      "text": " We have to close below the range."
+    },
+    {
+      "start": 497.47,
+      "end": 500.07,
+      "text": " Okay, we cannot get a market structure somewhere around here"
+    },
+    {
+      "start": 500.07,
+      "end": 501.99,
+      "text": " and then you cannot take an entry from there."
+    },
+    {
+      "start": 501.99,
+      "end": 504.87,
+      "text": " you have to wait for price to close back into the range."
+    },
+    {
+      "start": 504.87,
+      "end": 508.71,
+      "text": " And ideally, I do not want to see price go way up like that."
+    },
+    {
+      "start": 508.71,
+      "end": 510.83,
+      "text": " And then come back, then your stop loss"
+    },
+    {
+      "start": 510.83,
+      "end": 511.59,
+      "text": " is going to be massive."
+    },
+    {
+      "start": 511.59,
+      "end": 514.27,
+      "text": " And it just makes no sense."
+    },
+    {
+      "start": 514.27,
+      "end": 516.11,
+      "text": " So now that we know how to trade that"
+    },
+    {
+      "start": 516.11,
+      "end": 518.47,
+      "text": " identify the range high and range low,"
+    },
+    {
+      "start": 518.47,
+      "end": 521.07,
+      "text": " I'm going to give you guys some examples."
+    },
+    {
+      "start": 521.07,
+      "end": 523.31,
+      "text": " And then we'll end the video."
+    },
+    {
+      "start": 523.31,
+      "end": 527.31,
+      "text": " But let's suppose that price pushes down in one direction,"
+    },
+    {
+      "start": 527.31,
+      "end": 529.35,
+      "text": " so how do you basically identify range high now?"
+    },
+    {
+      "start": 529.35,
+      "end": 530.43,
+      "text": " We have range low, right?"
+    },
+    {
+      "start": 530.43,
+      "end": 533.91,
+      "text": " price pushes down in one direction, that is your range low."
+    },
+    {
+      "start": 533.91,
+      "end": 536.67,
+      "text": " And then you have to look for a range high."
+    },
+    {
+      "start": 536.67,
+      "end": 538.99,
+      "text": " And you get it once you get a market structure shift."
+    },
+    {
+      "start": 538.99,
+      "end": 541.77,
+      "text": " So over here we have a higher high, high, high, high, high,"
+    },
+    {
+      "start": 541.77,
+      "end": 543.07,
+      "text": " high, high, high, high."
+    },
+    {
+      "start": 543.07,
+      "end": 545.67,
+      "text": " And then we finally get a market structure shift, right?"
+    },
+    {
+      "start": 545.67,
+      "end": 548.87,
+      "text": " And this could be like any low, right?"
+    },
+    {
+      "start": 548.87,
+      "end": 550.47,
+      "text": " It doesn't have to be significant low."
+    },
+    {
+      "start": 550.47,
+      "end": 552.91,
+      "text": " So let's suppose if price creates a low somewhere around here,"
+    },
+    {
+      "start": 552.91,
+      "end": 557.51,
+      "text": " if it breaks, then that is a valid cause for this to become"
+    },
+    {
+      "start": 557.51,
+      "end": 558.99,
+      "text": " a range high as well."
+    },
+    {
+      "start": 558.99,
+      "end": 561.47,
+      "text": " I'm gonna show you examples and then you will understand what I'm trying to say."
+    },
+    {
+      "start": 561.95,
+      "end": 565.47,
+      "text": " But when you get a market share of the ship, that becomes your range."
+    },
+    {
+      "start": 566.79,
+      "end": 570.71,
+      "text": " Hi, because oftentimes what you will see whenever you get a market share of the ship"
+    },
+    {
+      "start": 570.71,
+      "end": 573.75,
+      "text": " and then you take your entry and then you lose a trade, you ask yourself,"
+    },
+    {
+      "start": 573.75,
+      "end": 576.87,
+      "text": " why did this not work out? And then this is very simple."
+    },
+    {
+      "start": 577.07,
+      "end": 579.95,
+      "text": " Prices just engineering a range, okay?"
+    },
+    {
+      "start": 580.19,
+      "end": 583.71,
+      "text": " It's engineering range and that's all it's doing every single time."
+    },
+    {
+      "start": 583.99,
+      "end": 587.07,
+      "text": " Well, of course not in the trending market, but when price starts to consolidate,"
+    },
+    {
+      "start": 587.07,
+      "end": 587.95,
+      "text": " that's what it's doing."
+    },
+    {
+      "start": 587.95,
+      "end": 592.79,
+      "text": " So, let's assume that price takes out the range low, you get a Markzarkshiff close"
+    },
+    {
+      "start": 592.79,
+      "end": 595.67,
+      "text": " above the range, auto block entry and boom."
+    },
+    {
+      "start": 595.67,
+      "end": 596.67,
+      "text": " Just like that."
+    },
+    {
+      "start": 596.67,
+      "end": 598.11,
+      "text": " So let me get some examples now."
+    },
+    {
+      "start": 598.11,
+      "end": 604.35,
+      "text": " Okay, for the pairs and assets and crypto that it works with, so it works with all the"
+    },
+    {
+      "start": 604.35,
+      "end": 609.55,
+      "text": " crypto assets and pairs, right?"
+    },
+    {
+      "start": 609.55,
+      "end": 610.95,
+      "text": " Every single one of them."
+    },
+    {
+      "start": 610.95,
+      "end": 616.87,
+      "text": " I don't care whether it's low cap or high cap, it works with every single crypto coin."
+    },
+    {
+      "start": 616.87,
+      "end": 618.67,
+      "text": " You can create anything."
+    },
+    {
+      "start": 618.67,
+      "end": 621.47,
+      "text": " And the best timeframe if you want to sculpt,"
+    },
+    {
+      "start": 621.47,
+      "end": 622.79,
+      "text": " and you want to be an intradater,"
+    },
+    {
+      "start": 622.79,
+      "end": 624.35,
+      "text": " is the 15 minute timeframe."
+    },
+    {
+      "start": 624.35,
+      "end": 626.67,
+      "text": " You can trade the one hour, four hour daily as well."
+    },
+    {
+      "start": 626.67,
+      "end": 629.07,
+      "text": " And even weekly, if you are a swing trader."
+    },
+    {
+      "start": 630.15,
+      "end": 634.11,
+      "text": " But in this example, you can see we have the BNB,"
+    },
+    {
+      "start": 634.11,
+      "end": 638.07,
+      "text": " USDT, and also it works with NAS100, right?"
+    },
+    {
+      "start": 638.07,
+      "end": 642.11,
+      "text": " It works with your USD and gold as well."
+    },
+    {
+      "start": 642.11,
+      "end": 646.03,
+      "text": " I suggest you avoid treating any other pair with it."
+    },
+    {
+      "start": 646.03,
+      "end": 651.03,
+      "text": " Just stick to your USD, NAS100 and crypto."
+    },
+    {
+      "start": 651.31,
+      "end": 653.87,
+      "text": " Every single crypto coin, it's gonna work phenomenally."
+    },
+    {
+      "start": 653.87,
+      "end": 658.23,
+      "text": " So price pushes up in one direction."
+    },
+    {
+      "start": 658.23,
+      "end": 660.95,
+      "text": " That is your range what?"
+    },
+    {
+      "start": 660.95,
+      "end": 662.23,
+      "text": " Range high."
+    },
+    {
+      "start": 662.23,
+      "end": 665.27,
+      "text": " Now we have to identify the range low."
+    },
+    {
+      "start": 665.27,
+      "end": 667.55,
+      "text": " So is this a range low?"
+    },
+    {
+      "start": 667.55,
+      "end": 668.71,
+      "text": " I want to ask you a simple quote."
+    },
+    {
+      "start": 668.71,
+      "end": 672.99,
+      "text": " Is this a range low right here?"
+    },
+    {
+      "start": 672.99,
+      "end": 674.31,
+      "text": " Is this a range low?"
+    },
+    {
+      "start": 674.31,
+      "end": 675.43,
+      "text": " No, why?"
+    },
+    {
+      "start": 675.43,
+      "end": 677.03,
+      "text": " Because it didn't break any structure."
+    },
+    {
+      "start": 677.03,
+      "end": 679.87,
+      "text": " we didn't get a market structure ship, right?"
+    },
+    {
+      "start": 679.87,
+      "end": 681.99,
+      "text": " So we have to wait."
+    },
+    {
+      "start": 681.99,
+      "end": 683.79,
+      "text": " And then you can see price pushes up"
+    },
+    {
+      "start": 683.79,
+      "end": 686.67,
+      "text": " and then it breaks this structure."
+    },
+    {
+      "start": 686.67,
+      "end": 688.83,
+      "text": " This gives us a market structure shift."
+    },
+    {
+      "start": 688.83,
+      "end": 693.51,
+      "text": " So this right here becomes our range low."
+    },
+    {
+      "start": 694.55,
+      "end": 697.63,
+      "text": " So we have range high, range low."
+    },
+    {
+      "start": 697.63,
+      "end": 699.75,
+      "text": " And then afterwards, what happens?"
+    },
+    {
+      "start": 699.75,
+      "end": 703.03,
+      "text": " We look for a market structure shift right there"
+    },
+    {
+      "start": 703.03,
+      "end": 705.07,
+      "text": " and our entry from the auto block."
+    },
+    {
+      "start": 705.07,
+      "end": 707.51,
+      "text": " So if I turn on the executions here,"
+    },
+    {
+      "start": 707.51,
+      "end": 710.31,
+      "text": " you can see I took this trade myself"
+    },
+    {
+      "start": 710.31,
+      "end": 712.19,
+      "text": " and three was around somewhere here,"
+    },
+    {
+      "start": 712.19,
+      "end": 713.79,
+      "text": " stopped somewhere around here,"
+    },
+    {
+      "start": 713.79,
+      "end": 717.25,
+      "text": " and at the range low, I closed my position."
+    },
+    {
+      "start": 718.63,
+      "end": 720.99,
+      "text": " So you can see how well this works."
+    },
+    {
+      "start": 720.99,
+      "end": 724.87,
+      "text": " Let me give you guys another example."
+    },
+    {
+      "start": 724.87,
+      "end": 726.67,
+      "text": " All right, so here is another example,"
+    },
+    {
+      "start": 726.67,
+      "end": 728.95,
+      "text": " looking at sand, U.S.D.T."
+    },
+    {
+      "start": 728.95,
+      "end": 731.51,
+      "text": " and I have the range high marked out here."
+    },
+    {
+      "start": 731.51,
+      "end": 733.31,
+      "text": " Price pushes up in one direction."
+    },
+    {
+      "start": 734.35,
+      "end": 735.87,
+      "text": " And to identify the range low,"
+    },
+    {
+      "start": 735.87,
+      "end": 737.91,
+      "text": " we have to look for a market structure shift."
+    },
+    {
+      "start": 737.91,
+      "end": 741.63,
+      "text": " So we have a lower low, lower high, lower low."
+    },
+    {
+      "start": 741.63,
+      "end": 744.39,
+      "text": " And then afterwards we have a market structure shift."
+    },
+    {
+      "start": 744.39,
+      "end": 746.59,
+      "text": " OK, this is not the range low."
+    },
+    {
+      "start": 746.59,
+      "end": 747.59,
+      "text": " This is a range low."
+    },
+    {
+      "start": 747.59,
+      "end": 748.31,
+      "text": " Why?"
+    },
+    {
+      "start": 748.31,
+      "end": 752.47,
+      "text": " Because this low caused a market structure shift to the upside."
+    },
+    {
+      "start": 752.47,
+      "end": 756.15,
+      "text": " So what happens, we marked this out as a range low."
+    },
+    {
+      "start": 756.15,
+      "end": 759.03,
+      "text": " Now we are simply looking for a price"
+    },
+    {
+      "start": 759.03,
+      "end": 760.31,
+      "text": " to take out the range lower range high."
+    },
+    {
+      "start": 760.31,
+      "end": 762.23,
+      "text": " And you can see price takes out range low."
+    },
+    {
+      "start": 762.23,
+      "end": 763.83,
+      "text": " You get a market structure shift."
+    },
+    {
+      "start": 763.83,
+      "end": 765.51,
+      "text": " And that is our auto block."
+    },
+    {
+      "start": 765.51,
+      "end": 768.51,
+      "text": " but you can take your entry from a little discount"
+    },
+    {
+      "start": 768.51,
+      "end": 769.65,
+      "text": " because the autoblock is big"
+    },
+    {
+      "start": 769.65,
+      "end": 772.13,
+      "text": " and you need to have a good wrist reward ratio."
+    },
+    {
+      "start": 772.13,
+      "end": 773.87,
+      "text": " So if I turn on the executions here,"
+    },
+    {
+      "start": 774.87,
+      "end": 777.11,
+      "text": " you can see I entered somewhere around here."
+    },
+    {
+      "start": 777.11,
+      "end": 779.19,
+      "text": " My stop was somewhere around here"
+    },
+    {
+      "start": 779.19,
+      "end": 781.95,
+      "text": " because I believed price will not go here."
+    },
+    {
+      "start": 781.95,
+      "end": 783.03,
+      "text": " This was a tight range."
+    },
+    {
+      "start": 783.03,
+      "end": 784.63,
+      "text": " So in this scenario, I put my stop here,"
+    },
+    {
+      "start": 784.63,
+      "end": 786.79,
+      "text": " but I recommend you always put it here."
+    },
+    {
+      "start": 786.79,
+      "end": 788.55,
+      "text": " I'm okay with losing trades guys,"
+    },
+    {
+      "start": 788.55,
+      "end": 790.87,
+      "text": " but if you are someone who is not okay with losing trades,"
+    },
+    {
+      "start": 790.87,
+      "end": 793.31,
+      "text": " then please do put your stop here."
+    },
+    {
+      "start": 793.31,
+      "end": 797.63,
+      "text": " long here, TP here, I'm out and I'm just going about with my day."
+    },
+    {
+      "start": 797.63,
+      "end": 801.3,
+      "text": " Let me give you guys another example."
+    },
+    {
+      "start": 801.3,
+      "end": 806.78,
+      "text": " All right, so this is an example with Forex and the high probability ranges on Forex and"
+    },
+    {
+      "start": 806.78,
+      "end": 810.14,
+      "text": " NAS100 are going to form pre-acia session."
+    },
+    {
+      "start": 810.14,
+      "end": 814.06,
+      "text": " So the no-session price, right?"
+    },
+    {
+      "start": 814.06,
+      "end": 820.5,
+      "text": " So in this area, to this area, price will form a high probability range or within the"
+    },
+    {
+      "start": 820.5,
+      "end": 823.5,
+      "text": " So we have a push to be downside, right?"
+    },
+    {
+      "start": 823.5,
+      "end": 826.5,
+      "text": " So we have range low price pushes back up."
+    },
+    {
+      "start": 826.5,
+      "end": 831.5,
+      "text": " We need to identify range high and we do so by identifying a market structure."
+    },
+    {
+      "start": 831.5,
+      "end": 837.5,
+      "text": " So we have a hard high, hard low, hard high, hard low and then a hard high."
+    },
+    {
+      "start": 837.5,
+      "end": 840.5,
+      "text": " Then we get a market structure shift right here."
+    },
+    {
+      "start": 840.5,
+      "end": 843.5,
+      "text": " So this becomes a very range high, right?"
+    },
+    {
+      "start": 843.5,
+      "end": 844.5,
+      "text": " Very simple."
+    },
+    {
+      "start": 844.5,
+      "end": 849.5,
+      "text": " Then you can see price goes up, takes out the range high."
+    },
+    {
+      "start": 849.5,
+      "end": 855.86,
+      "text": " We look for a market structure shift and then we have this auto block price taps into this auto block"
+    },
+    {
+      "start": 856.66,
+      "end": 862.62,
+      "text": " Oops my bad right there and you can see the push to do downside and then price goes back down again"
+    },
+    {
+      "start": 862.62,
+      "end": 864.5,
+      "text": " Goes up again. I don't care what it does"
+    },
+    {
+      "start": 864.5,
+      "end": 867.74,
+      "text": " But I am out of the market and then this setup is complete"
+    },
+    {
+      "start": 868.26,
+      "end": 870.26,
+      "text": " Let's move on to another example"
+    },
+    {
+      "start": 871.14,
+      "end": 874.46,
+      "text": " So here is another example with Yuri with Steve we push down"
+    },
+    {
+      "start": 874.46,
+      "end": 878.72,
+      "text": " we create a range low over here we're gonna go up and look closely we have a"
+    },
+    {
+      "start": 878.72,
+      "end": 884.9,
+      "text": " hard high, high low, high high, high low and then a high high and then afterwards"
+    },
+    {
+      "start": 884.9,
+      "end": 889.76,
+      "text": " we have a market structure ship so this becomes our range high so we have"
+    },
+    {
+      "start": 889.76,
+      "end": 893.0,
+      "text": " range low and then we have a range high and then look what happened afterwards"
+    },
+    {
+      "start": 893.0,
+      "end": 898.0,
+      "text": " we take out the range low and then we push back up price gives us a market"
+    },
+    {
+      "start": 898.0,
+      "end": 902.24,
+      "text": " structure shift and if you look closely this low was protected price never came"
+    },
+    {
+      "start": 902.24,
+      "end": 906.32,
+      "text": " below it. So that was your entry. You put up stop. You could have put your stop here, right?"
+    },
+    {
+      "start": 907.52,
+      "end": 910.88,
+      "text": " And then you can see how well it's put it. It was not the cleanest setup, but you can see that"
+    },
+    {
+      "start": 910.88,
+      "end": 914.48,
+      "text": " let's suppose that you took your entry from the auto block, stop right below here,"
+    },
+    {
+      "start": 914.48,
+      "end": 921.84,
+      "text": " and you target this level. That would have given you a 2.81R. So you can see the power of this"
+    },
+    {
+      "start": 921.84,
+      "end": 927.2,
+      "text": " strategy guys, like I said before. This is the coolest thing that comes to Enigma. There's no"
+    },
+    {
+      "start": 927.2,
+      "end": 934.08,
+      "text": " other stuff, a thing called, a nigma guys, trust me on this. I've been trading for like so many"
+    },
+    {
+      "start": 934.08,
+      "end": 940.48,
+      "text": " years now and this, though this way of trading is one of the best ways and I personally use this"
+    },
+    {
+      "start": 940.48,
+      "end": 947.92,
+      "text": " every single day, mostly with crypto but if there's a set of present on Forex or indices I traded"
+    },
+    {
+      "start": 947.92,
+      "end": 954.96,
+      "text": " right away. Let's move on to the next example. All right guys, this is an example with NAS 100,"
+    },
+    {
+      "start": 954.96,
+      "end": 957.96,
+      "text": " price pushes down, pre-issue session,"
+    },
+    {
+      "start": 957.96,
+      "end": 959.84,
+      "text": " you mark out the issue low,"
+    },
+    {
+      "start": 959.84,
+      "end": 962.44,
+      "text": " then we wait for a range higher formation."
+    },
+    {
+      "start": 962.44,
+      "end": 965.76,
+      "text": " So, higher high, higher low, higher high,"
+    },
+    {
+      "start": 966.72,
+      "end": 969.12,
+      "text": " higher low, and then a higher high,"
+    },
+    {
+      "start": 969.12,
+      "end": 971.6,
+      "text": " and then you can see we'll wick through this level."
+    },
+    {
+      "start": 971.6,
+      "end": 974.72,
+      "text": " So this becomes a range high,"
+    },
+    {
+      "start": 974.72,
+      "end": 976.92,
+      "text": " because this high caused a market structure shift"
+    },
+    {
+      "start": 976.92,
+      "end": 977.76,
+      "text": " to the downside."
+    },
+    {
+      "start": 978.8,
+      "end": 980.8,
+      "text": " Then we take out the range high,"
+    },
+    {
+      "start": 980.8,
+      "end": 983.8,
+      "text": " and then we look for a market structure shift."
+    },
+    {
+      "start": 983.8,
+      "end": 987.56,
+      "text": " So, hi, hi, hello, hi, hi, hi."
+    },
+    {
+      "start": 987.56,
+      "end": 988.56,
+      "text": " Market's on the ship."
+    },
+    {
+      "start": 988.56,
+      "end": 989.84,
+      "text": " But notice what happens here."
+    },
+    {
+      "start": 989.84,
+      "end": 991.48,
+      "text": " Price didn't close below the range."
+    },
+    {
+      "start": 991.48,
+      "end": 992.48,
+      "text": " So we wait for it."
+    },
+    {
+      "start": 992.48,
+      "end": 994.68,
+      "text": " That happens right there."
+    },
+    {
+      "start": 994.68,
+      "end": 996.56,
+      "text": " And then look at this."
+    },
+    {
+      "start": 996.56,
+      "end": 997.88,
+      "text": " The auto block right here."
+    },
+    {
+      "start": 997.88,
+      "end": 1000.12,
+      "text": " This is the highest candle, right?"
+    },
+    {
+      "start": 1000.12,
+      "end": 1002.6,
+      "text": " Up close candle."
+    },
+    {
+      "start": 1002.6,
+      "end": 1004.8,
+      "text": " Tap into it."
+    },
+    {
+      "start": 1004.8,
+      "end": 1007.64,
+      "text": " And price goes right to the range low."
+    },
+    {
+      "start": 1007.64,
+      "end": 1010.76,
+      "text": " And then from there onwards, I don't care what price does."
+    },
+    {
+      "start": 1010.76,
+      "end": 1013.28,
+      "text": " Our setup is complete."
+    },
+    {
+      "start": 1013.28,
+      "end": 1017.0,
+      "text": " Let me give you guys one more example."
+    },
+    {
+      "start": 1017.0,
+      "end": 1018.56,
+      "text": " All right, guys, this is the last example."
+    },
+    {
+      "start": 1018.56,
+      "end": 1021.12,
+      "text": " I'm looking at sheeb, USDT."
+    },
+    {
+      "start": 1021.12,
+      "end": 1022.72,
+      "text": " And you can see we have a push to the upside."
+    },
+    {
+      "start": 1022.72,
+      "end": 1025.16,
+      "text": " So that is our range high."
+    },
+    {
+      "start": 1025.16,
+      "end": 1026.96,
+      "text": " And then we're looking for a market structure shift."
+    },
+    {
+      "start": 1026.96,
+      "end": 1028.76,
+      "text": " So we have a lower low."
+    },
+    {
+      "start": 1028.76,
+      "end": 1031.08,
+      "text": " You can see president take out the low."
+    },
+    {
+      "start": 1031.08,
+      "end": 1033.04,
+      "text": " So that is not a valid market structure shift."
+    },
+    {
+      "start": 1033.04,
+      "end": 1034.76,
+      "text": " We need to see lower low, lower high, lower low,"
+    },
+    {
+      "start": 1034.76,
+      "end": 1035.76,
+      "text": " and then a market structure shift."
+    },
+    {
+      "start": 1035.76,
+      "end": 1037.48,
+      "text": " OK?"
+    },
+    {
+      "start": 1037.48,
+      "end": 1040.28,
+      "text": " So price goes down once again."
+    },
+    {
+      "start": 1040.28,
+      "end": 1043.88,
+      "text": " And then we have this market structure shift right here."
+    },
+    {
+      "start": 1043.88,
+      "end": 1045.04,
+      "text": " We also broke the structure."
+    },
+    {
+      "start": 1045.04,
+      "end": 1050.04,
+      "text": " So this level becomes our range low."
+    },
+    {
+      "start": 1051.88,
+      "end": 1054.88,
+      "text": " So we have a range high, range low."
+    },
+    {
+      "start": 1054.88,
+      "end": 1057.12,
+      "text": " Then price suits this."
+    },
+    {
+      "start": 1057.12,
+      "end": 1058.88,
+      "text": " High, high, high, high, high."
+    },
+    {
+      "start": 1059.88,
+      "end": 1061.84,
+      "text": " Then a shift in the market structure."
+    },
+    {
+      "start": 1061.84,
+      "end": 1063.8,
+      "text": " We have a fair value gap."
+    },
+    {
+      "start": 1063.8,
+      "end": 1066.48,
+      "text": " And you can take your entry from the 50% of the auto block"
+    },
+    {
+      "start": 1066.48,
+      "end": 1067.92,
+      "text": " as well."
+    },
+    {
+      "start": 1067.92,
+      "end": 1070.32,
+      "text": " Or on the retest of the range high,"
+    },
+    {
+      "start": 1070.32,
+      "end": 1072.16,
+      "text": " you can see this would have been somewhere,"
+    },
+    {
+      "start": 1072.16,
+      "end": 1076.96,
+      "text": " your entry would have been somewhere around here, stops right above the high."
+    },
+    {
+      "start": 1076.96,
+      "end": 1082.87,
+      "text": " And you can see how well this played out."
+    },
+    {
+      "start": 1082.87,
+      "end": 1085.63,
+      "text": " Price takes out liquidity and then it pushes somewhere else."
+    },
+    {
+      "start": 1085.63,
+      "end": 1089.07,
+      "text": " I don't care, but our play is done here."
+    },
+    {
+      "start": 1089.07,
+      "end": 1090.55,
+      "text": " So that was it guys."
+    },
+    {
+      "start": 1090.55,
+      "end": 1091.55,
+      "text": " Thank you for watching."
+    },
+    {
+      "start": 1091.55,
+      "end": 1093.79,
+      "text": " I'll see you guys in a couple of weeks."
+    }
+  ]
+}

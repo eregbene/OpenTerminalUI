@@ -1,0 +1,138 @@
+{
+  "source": "F:\\new faiz\\11. ABC Trading Strategy Example 1.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 139.598375,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so this is an example for a short position, so as you can see, we got the ALEG, right? So let me mark this out very easily, there you go. We got the ALEG, we got the B-leg and then we got the C-leg. Perfect. So let me mark this out. So we got the ALEG, right around here, which is from here. Okay. And then we got the B-leg, okay."
+    },
+    {
+      "start": 30.0,
+      "end": 35.4,
+      "text": " is the leg, this downward move."
+    },
+    {
+      "start": 35.4,
+      "end": 41.91,
+      "text": " So we want to mark out the very low of the b leg, which is this."
+    },
+    {
+      "start": 41.91,
+      "end": 48.07,
+      "text": " And we want to mark out the high of the a leg, which is this."
+    },
+    {
+      "start": 48.07,
+      "end": 50.27,
+      "text": " Perfect."
+    },
+    {
+      "start": 50.27,
+      "end": 63.17,
+      "text": " Now the c leg, which is this, it takes out the high of the a leg."
+    },
+    {
+      "start": 63.17,
+      "end": 66.65,
+      "text": " So the high of the L-E leg is here."
+    },
+    {
+      "start": 66.65,
+      "end": 68.73,
+      "text": " L-E like high."
+    },
+    {
+      "start": 68.73,
+      "end": 72.23,
+      "text": " Right?"
+    },
+    {
+      "start": 72.23,
+      "end": 74.87,
+      "text": " Let me do this."
+    },
+    {
+      "start": 74.87,
+      "end": 75.87,
+      "text": " Looks better."
+    },
+    {
+      "start": 75.87,
+      "end": 77.63,
+      "text": " There you go."
+    },
+    {
+      "start": 77.63,
+      "end": 82.67,
+      "text": " So the C-E legs takes up the high of the L-E"
+    },
+    {
+      "start": 82.67,
+      "end": 88.59,
+      "text": " while leaving some structure here."
+    },
+    {
+      "start": 88.59,
+      "end": 93.27,
+      "text": " So before price took out this high,"
+    },
+    {
+      "start": 93.27,
+      "end": 95.15,
+      "text": " it created some structure."
+    },
+    {
+      "start": 95.15,
+      "end": 95.99,
+      "text": " Okay."
+    },
+    {
+      "start": 97.03,
+      "end": 102.03,
+      "text": " Then when price took out the high,"
+    },
+    {
+      "start": 102.23,
+      "end": 105.43,
+      "text": " it made a market structure shift."
+    },
+    {
+      "start": 105.43,
+      "end": 110.43,
+      "text": " So it broke this structure, right?"
+    },
+    {
+      "start": 112.59,
+      "end": 119.0,
+      "text": " Then price left the imbalance and auto block."
+    },
+    {
+      "start": 119.16,
+      "end": 121.72,
+      "text": " So this is an auto block, right?"
+    },
+    {
+      "start": 121.72,
+      "end": 133.46,
+      "text": " We would enter straight from the autoblock, put our stop close right about there, and target"
+    },
+    {
+      "start": 133.46,
+      "end": 136.3,
+      "text": " the low, which is here."
+    },
+    {
+      "start": 136.3,
+      "end": 137.94,
+      "text": " So that's 5.62 guys."
+    }
+  ]
+}

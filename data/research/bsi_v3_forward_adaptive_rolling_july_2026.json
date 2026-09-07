@@ -1,0 +1,480 @@
+{
+  "methodology": "BSI_V3_FORWARD_ADAPTIVE_TRAIN_TEST",
+  "label": "rolling_july_2026",
+  "symbols": [
+    "EURUSD",
+    "GBPUSD",
+    "USDJPY",
+    "AUDUSD",
+    "USDCAD",
+    "USDCHF",
+    "NZDUSD",
+    "EURJPY",
+    "GBPJPY",
+    "XAUUSD"
+  ],
+  "train_window": {
+    "start": "2026-01-01T00:00:00+00:00",
+    "end": "2026-07-01T00:00:00+00:00"
+  },
+  "test_window": {
+    "start": "2026-07-01T00:00:00+00:00",
+    "end": "2026-08-01T00:00:00+00:00"
+  },
+  "train_allowed_bucket_count": 96,
+  "test_raw_baseline": {
+    "trades": 3117,
+    "wins": 435,
+    "losses": 2682,
+    "win_rate": 13.96,
+    "net_r": -700.907,
+    "expectancy": -0.2249,
+    "profit_factor": 0.5151,
+    "average_winner_r": 1.712,
+    "average_loser_r": -0.539,
+    "median_r": 0.0,
+    "max_winning_streak": 4,
+    "max_losing_streak": 57,
+    "max_drawdown_r": 723.133
+  },
+  "test_raw_mentor_management": {
+    "trades": 3117,
+    "wins": 1621,
+    "losses": 1496,
+    "win_rate": 52.01,
+    "net_r": -285.407,
+    "expectancy": -0.0916,
+    "profit_factor": 0.8026,
+    "average_winner_r": 0.7157,
+    "average_loser_r": -0.9663,
+    "median_r": 0.5,
+    "max_winning_streak": 10,
+    "max_losing_streak": 12,
+    "max_drawdown_r": 312.7373
+  },
+  "test_forward_adaptive": {
+    "trades": 2895,
+    "wins": 1499,
+    "losses": 1396,
+    "win_rate": 51.78,
+    "net_r": -269.407,
+    "expectancy": -0.0931,
+    "profit_factor": 0.7998,
+    "max_losing_streak": 12,
+    "max_drawdown_r": 296.7373
+  },
+  "test_skipped": {
+    "trades": 222,
+    "wins": 122,
+    "losses": 100,
+    "win_rate": 54.95,
+    "net_r": -16.0,
+    "expectancy": -0.0721,
+    "profit_factor": 0.84,
+    "max_losing_streak": 6,
+    "max_drawdown_r": 21.5
+  },
+  "kept_trades": 2896,
+  "skipped_trades": 222,
+  "allowed_buckets": [
+    {
+      "strategy_id": "bsi_v3_4h_order_block",
+      "symbol": "XAUUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "EURJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "GBPJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "GBPUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "USDCAD"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "USDCHF"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "XAUUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_abcd",
+      "symbol": "XAUUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "AUDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "EURJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "EURUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "GBPJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "GBPUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "NZDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "USDCAD"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "USDCHF"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "USDJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "XAUUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "AUDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "EURJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "EURUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "GBPJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "GBPUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "NZDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "USDCAD"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "USDCHF"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "USDJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "XAUUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "AUDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "EURJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "EURUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "GBPJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "GBPUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "NZDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "USDCAD"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "USDCHF"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "USDJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "XAUUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "symbol": "EURJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "symbol": "GBPJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "symbol": "NZDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "symbol": "USDJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "symbol": "XAUUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_monday_range",
+      "symbol": "EURUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_monday_range",
+      "symbol": "XAUUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "AUDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "EURJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "EURUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "GBPJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "GBPUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "NZDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "USDCAD"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "USDCHF"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "USDJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "XAUUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "AUDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "EURJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "EURUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "GBPJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "GBPUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "NZDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "USDCAD"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "USDCHF"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "USDJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "XAUUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "AUDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "EURJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "EURUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "GBPJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "GBPUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "NZDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "USDCAD"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "USDCHF"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "USDJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "XAUUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "AUDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "EURJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "EURUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "GBPJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "GBPUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "NZDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "USDCAD"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "USDCHF"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "USDJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "XAUUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "AUDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "EURJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "EURUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "GBPJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "GBPUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "NZDUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "USDCAD"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "USDCHF"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "USDJPY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "XAUUSD"
+    },
+    {
+      "strategy_id": "bsi_v3_yin_yang",
+      "symbol": "XAUUSD"
+    }
+  ],
+  "account_estimates": {
+    "0.10%_risk": {
+      "profit": -5388.14,
+      "ending_balance": 14611.86
+    },
+    "0.25%_risk": {
+      "profit": -13470.35,
+      "ending_balance": 6529.65
+    },
+    "0.50%_risk": {
+      "profit": -26940.7,
+      "ending_balance": -6940.7
+    }
+  },
+  "warning": "Forward split only: the train window built the bucket gate, and the test window applied it. Still not a live-routing guarantee."
+}

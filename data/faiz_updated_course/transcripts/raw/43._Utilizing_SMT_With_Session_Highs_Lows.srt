@@ -1,0 +1,551 @@
+1
+00:00:00,530 --> 00:00:30,530
+Alright guys, so here is a brand new chapter of the course and in this chapter I'm going to be talking about the session highs, lows and SMT. So the SMT that occurs at the highs and lows of the sessions are extremely powerful. But keeping that in mind, we can frame our trades whenever a setup is presented to us. Alright? So I'm looking at NAS100 and
+
+2
+00:00:30,530 --> 00:00:37,010
+US 30 because both of them are correlating assets. You can similarly look at your USD,
+
+3
+00:00:37,010 --> 00:00:54,130
+JPP USD, AUD USD, NCD USD, AUD JPPY and JPPY and JPPY. So you can also look at S&P 500,
+
+4
+00:00:54,130 --> 00:00:57,290
+But I'm looking at NAS100 and US30.
+
+5
+00:00:57,290 --> 00:01:02,530
+You can look NAS100, US30, and S&P 500,
+
+6
+00:01:02,530 --> 00:01:06,010
+three of them at once to look for the setup.
+
+7
+00:01:06,010 --> 00:01:11,250
+So I'm going to mark out the high of the Asia session
+
+8
+00:01:11,250 --> 00:01:14,090
+and low of the Asia session on NAS100.
+
+9
+00:01:14,090 --> 00:01:15,570
+And similarly, I'm going to mark out
+
+10
+00:01:15,570 --> 00:01:18,370
+the high of the Asian session.
+
+11
+00:01:18,370 --> 00:01:22,410
+Actually, this is the high right here and low
+
+12
+00:01:22,410 --> 00:01:31,370
+the issue session. So what do you notice here? The very first thing that you see. So on NAS 100,
+
+13
+00:01:32,250 --> 00:01:40,890
+we failed to take out the issue alone. But on US 30, on the 50, so the time from is very important.
+
+14
+00:01:40,890 --> 00:01:49,450
+We have to stick to this time from. But on US 30, we took out the issue alone. So notice this
+
+15
+00:01:49,450 --> 00:02:00,650
+low here and notice this low here. We have SMT divergence. So you have to trade the one that did
+
+16
+00:02:00,650 --> 00:02:09,770
+not sweep the liquidity. Why? Because this is a stronger pair. Right? The reason why NAS 100 failed
+
+17
+00:02:09,770 --> 00:02:17,290
+to take out this low is because the bullish momentum on NAS 100 is stronger. But on US 30, it is
+
+18
+00:02:17,290 --> 00:02:23,450
+weaker because we dropped down and we took out liquidity. Right. Now you can trade both of them,
+
+19
+00:02:23,450 --> 00:02:30,250
+but you primarily want to trade the one that did not suit liquidity because it is showing
+
+20
+00:02:30,250 --> 00:02:35,850
+bullish momentum. Now there are two ways to look for your entry. The number one and easiest way
+
+21
+00:02:35,850 --> 00:02:40,170
+is to look for change in the state of delivery and what is change in the state of delivery.
+
+22
+00:02:40,170 --> 00:02:51,490
+So whenever a candle closes above a bearish autoblock, so this is a bullish autoblock, so I'm going to
+
+23
+00:02:51,490 --> 00:02:58,770
+rephrase what I said, whenever a candle closes above a bullish autoblock, so this is a bullish
+
+24
+00:02:58,770 --> 00:03:05,010
+autoblock, right? It's not bearish, so I am rephrasing what I said. So this is a bearish autoblock,
+
+25
+00:03:05,010 --> 00:03:07,570
+we have SMT here, right?
+
+26
+00:03:07,570 --> 00:03:12,530
+Price closes above the body of this bullish autoblock.
+
+27
+00:03:12,530 --> 00:03:15,530
+And that is called change in the state of delivery.
+
+28
+00:03:15,530 --> 00:03:18,490
+Another way to look at it is the SMT candle.
+
+29
+00:03:18,490 --> 00:03:21,050
+So this candle, right?
+
+30
+00:03:21,050 --> 00:03:24,330
+This candle right here, caused SMT, right?
+
+31
+00:03:24,330 --> 00:03:27,090
+So you can also look for a closure above that candle
+
+32
+00:03:27,090 --> 00:03:28,930
+and that is also considered a change
+
+33
+00:03:28,930 --> 00:03:30,810
+in the state of delivery.
+
+34
+00:03:30,810 --> 00:03:33,770
+However, primarily you wanna wait for price to close
+
+35
+00:03:33,770 --> 00:03:37,290
+above the bullish auto block that is marked out around here.
+
+36
+00:03:37,290 --> 00:03:39,290
+Now that is your change instead of delivery
+
+37
+00:03:39,290 --> 00:03:42,410
+and you can take your entry, right?
+
+38
+00:03:42,410 --> 00:03:44,650
+Or if you go to the old ways,
+
+39
+00:03:44,650 --> 00:03:47,250
+we can simply look for a market structure shift
+
+40
+00:03:47,250 --> 00:03:48,650
+entry from the auto block
+
+41
+00:03:48,650 --> 00:03:51,770
+and you can see how price went right up.
+
+42
+00:03:53,090 --> 00:03:57,930
+Okay, so the key thing to note here is that the SMT
+
+43
+00:03:57,930 --> 00:04:01,130
+is occurring at the lows and highs of the session.
+
+44
+00:04:01,130 --> 00:04:05,770
+So as you can see on US study, we took out the low.
+
+45
+00:04:05,770 --> 00:04:09,850
+But on NAS100, we failed to take out the low.
+
+46
+00:04:09,850 --> 00:04:12,810
+So this shows that there was a clear manipulation
+
+47
+00:04:12,810 --> 00:04:15,090
+to the downside liquidity on US study.
+
+48
+00:04:15,090 --> 00:04:18,650
+But since the NAS100 was a stronger asset,
+
+49
+00:04:18,650 --> 00:04:19,890
+it didn't suit liquidity.
+
+50
+00:04:19,890 --> 00:04:23,690
+And that's giving us a clue that, OK, now price
+
+51
+00:04:23,690 --> 00:04:25,410
+will push to the upside.
+
+52
+00:04:25,410 --> 00:04:29,930
+So your first target could be the Asia high, right?
+
+53
+00:04:29,930 --> 00:04:33,810
+If you go back to the Asian session strategy from course one,
+
+54
+00:04:33,810 --> 00:04:36,290
+you will know that we target,
+
+55
+00:04:36,290 --> 00:04:38,130
+if the low is taken, we take target high,
+
+56
+00:04:38,130 --> 00:04:40,410
+if the high is taken, we target low.
+
+57
+00:04:40,410 --> 00:04:43,410
+So the number one reason why you would have lost
+
+58
+00:04:43,410 --> 00:04:45,970
+your Asian session strategy trade
+
+59
+00:04:45,970 --> 00:04:48,810
+is because there could have been an SMT here
+
+60
+00:04:48,810 --> 00:04:52,050
+and when price swept the Asia high
+
+61
+00:04:52,050 --> 00:04:53,570
+and you look for a market structure shift
+
+62
+00:04:53,570 --> 00:04:55,130
+and it didn't work out, you were like,
+
+63
+00:04:55,130 --> 00:04:56,770
+okay, this strategy didn't work today.
+
+64
+00:04:56,770 --> 00:05:00,630
+But in reality, we took out the low on another correlating
+
+65
+00:05:00,630 --> 00:05:02,370
+acid or pear.
+
+66
+00:05:02,370 --> 00:05:04,090
+I hope that makes sense.
+
+67
+00:05:04,090 --> 00:05:09,010
+So let me give you guys a couple more examples.
+
+68
+00:05:09,010 --> 00:05:13,130
+All right, so what can you see in this picture?
+
+69
+00:05:13,130 --> 00:05:19,570
+Pause the video and see what happened in the London session.
+
+70
+00:05:19,570 --> 00:05:22,010
+So it's very clear, guys.
+
+71
+00:05:22,010 --> 00:05:24,130
+Very, very clear.
+
+72
+00:05:24,130 --> 00:05:27,370
+You have your issue, sorry, London high here.
+
+73
+00:05:29,290 --> 00:05:33,600
+And you have your London high here.
+
+74
+00:05:33,600 --> 00:05:38,600
+Now, on NAS 100, we took out the London high.
+
+75
+00:05:38,600 --> 00:05:39,600
+Right?
+
+76
+00:05:39,600 --> 00:05:40,640
+It's very clear.
+
+77
+00:05:40,640 --> 00:05:44,600
+We took out the London high with this candle over here.
+
+78
+00:05:44,600 --> 00:05:45,640
+Notice this?
+
+79
+00:05:45,640 --> 00:05:46,760
+Right?
+
+80
+00:05:46,760 --> 00:05:50,880
+Now, we wanna look at the same candle
+
+81
+00:05:50,880 --> 00:05:53,600
+and you can see we failed to take out the London high
+
+82
+00:05:53,600 --> 00:05:55,360
+on US 30.
+
+83
+00:05:55,360 --> 00:06:00,360
+Now we are simply waiting for change in the state of delivery.
+
+84
+00:06:01,720 --> 00:06:06,040
+Now once that happens, you can see price went back tapped
+
+85
+00:06:06,040 --> 00:06:08,520
+into this auto block once again,
+
+86
+00:06:09,480 --> 00:06:14,480
+pushed the price down right away with extreme momentum.
+
+87
+00:06:14,960 --> 00:06:17,160
+We took out London low.
+
+88
+00:06:18,560 --> 00:06:22,480
+And then you could have probably trailed your shop loss
+
+89
+00:06:22,480 --> 00:06:25,700
+or you could have just went for one to two
+
+90
+00:06:25,700 --> 00:06:27,460
+or one to three, wish or what.
+
+91
+00:06:27,460 --> 00:06:30,060
+But remember, you're always going break
+
+92
+00:06:30,060 --> 00:06:32,420
+even after one to one,
+
+93
+00:06:32,420 --> 00:06:33,980
+wish or what is hit,
+
+94
+00:06:33,980 --> 00:06:38,100
+because that keeps us safe from losing streaks.
+
+95
+00:06:38,100 --> 00:06:42,660
+Because remember this, no matter what strategy you try,
+
+96
+00:06:42,660 --> 00:06:45,500
+no matter what model you trade,
+
+97
+00:06:45,500 --> 00:06:47,300
+even if ICT comes to you
+
+98
+00:06:47,300 --> 00:06:50,500
+and teaches you a strategy personally,
+
+99
+00:06:50,500 --> 00:06:52,180
+you are going to have losing streaks.
+
+100
+00:06:52,180 --> 00:06:56,060
+So three trades in a row, four trades in a row, right?
+
+101
+00:06:56,060 --> 00:06:58,660
+The key here is to protect your capital.
+
+102
+00:06:58,660 --> 00:07:00,540
+That is the most important thing.
+
+103
+00:07:00,540 --> 00:07:03,420
+So that is why we go break even, all right?
+
+104
+00:07:03,420 --> 00:07:04,260
+After one, two, one.
+
+105
+00:07:04,260 --> 00:07:07,060
+Or in rare cases when your bias is strong
+
+106
+00:07:07,060 --> 00:07:10,620
+and the auto flow is in alignment with your,
+
+107
+00:07:10,620 --> 00:07:12,780
+with your high timeframe trend.
+
+108
+00:07:14,460 --> 00:07:19,020
+Then you can simply go break even after one to one point five
+
+109
+00:07:19,020 --> 00:07:28,020
+are. Some people also take a partial at 1 to 1.5 because you do not want to take a trade
+
+110
+00:07:28,020 --> 00:07:33,900
+wait for an entire day and then close at break even. So it would be best if you take a partial.
+
+111
+00:07:33,900 --> 00:07:38,900
+You know there's not there's not any strategy risk management strategy that is best.
+
+112
+00:07:38,900 --> 00:07:42,580
+There are different ways to approach risk management and I personally believe that going
+
+113
+00:07:42,580 --> 00:07:47,500
+break even at 1 to 1 and then taking your profit at 1 to 2 is the best approach. Let me
+
+114
+00:07:47,500 --> 00:07:58,420
+me to be guys more examples. All right guys, so in this example, you can see that we have
+
+115
+00:07:58,420 --> 00:08:06,940
+the London high here and London high here. So London high was taken out on US 30, but on
+
+116
+00:08:06,940 --> 00:08:13,700
+NAS 100 it didn't take out. So this is the SMT candle. This candle caused SMT, right?
+
+117
+00:08:13,700 --> 00:08:20,200
+So we want to refer back to it and you can see right here when candle closes,
+
+118
+00:08:20,200 --> 00:08:23,700
+I consider this an SMT divergence.
+
+119
+00:08:23,700 --> 00:08:25,700
+Right?
+
+120
+00:08:25,700 --> 00:08:27,700
+And what happens afterwards?
+
+121
+00:08:27,700 --> 00:08:29,700
+Look, we also had inverse value.
+
+122
+00:08:29,700 --> 00:08:32,700
+So you could have probably inverse it as well.
+
+123
+00:08:32,700 --> 00:08:37,700
+But entry on the retest stops below.
+
+124
+00:08:37,700 --> 00:08:43,100
+So your first target would have been the London low and then you can see
+
+125
+00:08:43,100 --> 00:08:46,260
+price just went down like crazily.
+
+126
+00:08:46,260 --> 00:08:47,700
+OK.
+
+127
+00:08:47,700 --> 00:08:51,420
+So we do not look at the New York session,
+
+128
+00:08:51,420 --> 00:08:54,420
+because we do not want to be treating the PM session.
+
+129
+00:08:54,420 --> 00:08:58,060
+But this is the model.
+
+130
+00:08:58,060 --> 00:09:03,060
+Now, make sure that if you want to increase your win rate,
+
+131
+00:09:03,060 --> 00:09:05,020
+you are aligned with the high time from trend,
+
+132
+00:09:05,020 --> 00:09:07,860
+which would be the four hour trend.
+
+133
+00:09:07,860 --> 00:09:11,660
+So if we are bearish, you are only looking for longs.
+
+134
+00:09:11,660 --> 00:09:16,540
+If we are sorry, if you're bareish, we're only looking for shots.
+
+135
+00:09:16,540 --> 00:09:18,620
+If we are bullish, we're only looking for longs.
+
+136
+00:09:18,620 --> 00:09:20,180
+It's very simple.
+
+137
+00:09:20,180 --> 00:09:25,220
+We refer back to the old videos where I explain autoflow, but that would be it.
+
+138
+00:09:25,220 --> 00:09:27,260
+So let's move on to the next chapter now.

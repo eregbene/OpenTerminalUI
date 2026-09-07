@@ -1,0 +1,403 @@
+{
+  "source": "F:\\new faiz\\20. ORDERFLOW 101.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 374.9558125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so in this lecture, I'm going to teach you how I personally use auto-flow trading strategy from A to Z, what I look for and all. Okay. So this is my personal method, the matter that I've taught you before, it works as well, but this is a little bit different how I approach it. Okay. So first of all, as you know me, I like to stick with higher time frames. So first of all, I would go to the 4 hour time frame or daily. Okay."
+    },
+    {
+      "start": 30.0,
+      "end": 32.44,
+      "text": " So let's suppose I'm looking at your USD."
+    },
+    {
+      "start": 32.44,
+      "end": 35.68,
+      "text": " So for auto flow, what I like to do is use your USD,"
+    },
+    {
+      "start": 35.68,
+      "end": 40.48,
+      "text": " to be used D and AUD USD because I like to,"
+    },
+    {
+      "start": 40.48,
+      "end": 44.04,
+      "text": " you know, combine DXY and these pairs together"
+    },
+    {
+      "start": 44.04,
+      "end": 46.56,
+      "text": " to find auto flow trades."
+    },
+    {
+      "start": 46.56,
+      "end": 48.52,
+      "text": " And I'm gonna explain that later in the video."
+    },
+    {
+      "start": 48.52,
+      "end": 52.04,
+      "text": " So if I'm on the four hour timeframe"
+    },
+    {
+      "start": 52.04,
+      "end": 56.36,
+      "text": " and the market structure is bullish, right?"
+    },
+    {
+      "start": 56.36,
+      "end": 63.36,
+      "text": " only going to look for long positions."
+    },
+    {
+      "start": 63.36,
+      "end": 65.76,
+      "text": " And I want a clear trending market."
+    },
+    {
+      "start": 65.76,
+      "end": 70.72,
+      "text": " I do not want consolidation, something like that."
+    },
+    {
+      "start": 70.72,
+      "end": 74.88,
+      "text": " I want a clear perfect trend."
+    },
+    {
+      "start": 74.88,
+      "end": 81.12,
+      "text": " So what happens is when you are on a four-a-ton frame, you're going to have, so let's say"
+    },
+    {
+      "start": 81.12,
+      "end": 83.0,
+      "text": " you have a new break of structure."
+    },
+    {
+      "start": 83.0,
+      "end": 85.76,
+      "text": " So this right here is a new break of structure."
+    },
+    {
+      "start": 85.76,
+      "end": 92.24,
+      "text": " going to be an auto block and for you know when I'm on a higher timeframe and also for the auto"
+    },
+    {
+      "start": 92.24,
+      "end": 100.8,
+      "text": " flow strategy I use the auto blocks the last bearish candle before move to the upside or consecutive"
+    },
+    {
+      "start": 100.8,
+      "end": 107.6,
+      "text": " bearish candles before move to the upside I have made a video about auto blocks on my youtube you"
+    },
+    {
+      "start": 107.6,
+      "end": 114.96,
+      "text": " can go and watch it that type of auto blocks I use for this strategy specifically only okay so"
+    },
+    {
+      "start": 114.96,
+      "end": 120.56,
+      "text": " So what I'm going to do is I'm going to patiently wait for price to come back into your"
+    },
+    {
+      "start": 120.56,
+      "end": 122.76,
+      "text": " autoblock."
+    },
+    {
+      "start": 122.76,
+      "end": 127.44,
+      "text": " And when that happens, wait, yep."
+    },
+    {
+      "start": 127.44,
+      "end": 132.24,
+      "text": " When that happens, I'm going to drop down to 15 minute timeframe and I'm simply going to look"
+    },
+    {
+      "start": 132.24,
+      "end": 139.68,
+      "text": " for market structure shift entry during kills on ours and boom."
+    },
+    {
+      "start": 139.68,
+      "end": 142.24,
+      "text": " That is absolutely it guys."
+    },
+    {
+      "start": 142.24,
+      "end": 144.52,
+      "text": " No need to complicate it."
+    },
+    {
+      "start": 144.52,
+      "end": 149.92,
+      "text": " I will give you examples and it's gonna be clear to you, but let me show you another bearish diagram"
+    },
+    {
+      "start": 150.16,
+      "end": 153.1,
+      "text": " So let's assume that you have a bearish trend"
+    },
+    {
+      "start": 154.12,
+      "end": 155.96,
+      "text": " and you have"
+    },
+    {
+      "start": 155.96,
+      "end": 161.36,
+      "text": " consecutive bullish candles before moved to the downside so you mark that out the body of the candle, okay?"
+    },
+    {
+      "start": 161.36,
+      "end": 163.68,
+      "text": " You're gonna watch you have to watch that video on YouTube"
+    },
+    {
+      "start": 164.44,
+      "end": 168.64,
+      "text": " And then you're gonna know what I'm talking about so when price comes back"
+    },
+    {
+      "start": 169.92,
+      "end": 172.16,
+      "text": " Right you drop down to 15 minute"
+    },
+    {
+      "start": 172.16,
+      "end": 182.5,
+      "text": " you look for market structure shift okay and once you have like market"
+    },
+    {
+      "start": 182.5,
+      "end": 190.58,
+      "text": " structure shift you take your entry from that last bullish candle that is going"
+    },
+    {
+      "start": 190.58,
+      "end": 195.76,
+      "text": " to be here the body of the candle okay or you could use consecutive bullish"
+    },
+    {
+      "start": 195.76,
+      "end": 201.24,
+      "text": " candles so I will give you an examples I'll give you a couple of examples and it's"
+    },
+    {
+      "start": 201.24,
+      "end": 207.22,
+      "text": " going to be clear what I'm talking about. So the very first rule is identify high"
+    },
+    {
+      "start": 207.22,
+      "end": 218.69,
+      "text": " timeframe market structure. Price action has to be in a solid trending position."
+    },
+    {
+      "start": 219.41,
+      "end": 225.61,
+      "text": " Okay. It has to trend. Okay. It does not need to be console dating. No, we do"
+    },
+    {
+      "start": 225.61,
+      "end": 230.45,
+      "text": " not want that. Because when price is console dating, that is the condition where"
+    },
+    {
+      "start": 230.45,
+      "end": 236.09,
+      "text": " there's gonna be a lot of liquidy sweeps. So even though your buys or your prediction"
+    },
+    {
+      "start": 236.09,
+      "end": 241.81,
+      "text": " about the trend is accurate, it's gonna stop you out most of the time. So just see guys,"
+    },
+    {
+      "start": 241.81,
+      "end": 249.17,
+      "text": " forics is the game of patience. If a guy is good with his psychology and it has some sort"
+    },
+    {
+      "start": 249.17,
+      "end": 255.17,
+      "text": " of patience, he's gonna just kill these markets. Whereas a person who has like the best"
+    },
+    {
+      "start": 255.17,
+      "end": 260.17,
+      "text": " in the world but his psychology is shit. He's gonna lose money. Trust me. Okay?"
+    },
+    {
+      "start": 261.33,
+      "end": 268.01,
+      "text": " Because when I studied ICT back in like 2018 and 17, I was a student and"
+    },
+    {
+      "start": 268.97,
+      "end": 273.77,
+      "text": " I knew what I was doing but my psychology was so bad guys like I"
+    },
+    {
+      "start": 275.21,
+      "end": 278.61,
+      "text": " Literally would over risk revenge trade and all so don't do that. Okay?"
+    },
+    {
+      "start": 279.21,
+      "end": 284.33,
+      "text": " I'm just saying these things because so you don't have to go through those things again"
+    },
+    {
+      "start": 285.17,
+      "end": 290.15,
+      "text": " So in a solid training position, we have that perfect weight for"
+    },
+    {
+      "start": 291.01,
+      "end": 293.41,
+      "text": " Be a break of structure and also"
+    },
+    {
+      "start": 294.29,
+      "end": 296.29,
+      "text": " let me point this out"
+    },
+    {
+      "start": 296.29,
+      "end": 298.05,
+      "text": " the"
+    },
+    {
+      "start": 298.05,
+      "end": 304.13,
+      "text": " Autoblog that is right here right it could be here as well too and it means any"
+    },
+    {
+      "start": 304.69,
+      "end": 307.97,
+      "text": " Autoblog above the 0.5 level, okay?"
+    },
+    {
+      "start": 307.97,
+      "end": 312.49,
+      "text": " You just have to look for confirmation and we so let's say there is a bullish"
+    },
+    {
+      "start": 312.49,
+      "end": 317.49,
+      "text": " this is, yeah, if there is a bullish candle right here,"
+    },
+    {
+      "start": 317.69,
+      "end": 319.69,
+      "text": " something around here, right?"
+    },
+    {
+      "start": 319.69,
+      "end": 322.45,
+      "text": " You wait for price to come back here."
+    },
+    {
+      "start": 322.45,
+      "end": 323.61,
+      "text": " Let me do that."
+    },
+    {
+      "start": 328.44,
+      "end": 332.08,
+      "text": " Okay, so you wait for price to come back"
+    },
+    {
+      "start": 332.08,
+      "end": 334.84,
+      "text": " and do the auto block, look for market structure shift."
+    },
+    {
+      "start": 335.8,
+      "end": 337.16,
+      "text": " And if it gives you market structure shift"
+    },
+    {
+      "start": 337.16,
+      "end": 340.4,
+      "text": " or confirmation entry, take that trade, okay?"
+    },
+    {
+      "start": 340.4,
+      "end": 343.8,
+      "text": " Simple as that."
+    },
+    {
+      "start": 343.8,
+      "end": 348.68,
+      "text": " And what I sometimes like is when I'm on the four"
+    },
+    {
+      "start": 348.68,
+      "end": 350.76,
+      "text": " all the time frame, right?"
+    },
+    {
+      "start": 350.76,
+      "end": 352.52,
+      "text": " And there's auto block here."
+    },
+    {
+      "start": 352.52,
+      "end": 355.68,
+      "text": " I wanna see some sort of little bit of consolidation here,"
+    },
+    {
+      "start": 355.68,
+      "end": 356.52,
+      "text": " guys."
+    },
+    {
+      "start": 356.52,
+      "end": 359.92,
+      "text": " Like, if you have the patience to look for this, right?"
+    },
+    {
+      "start": 359.92,
+      "end": 362.52,
+      "text": " And then price goes back into your POI,"
+    },
+    {
+      "start": 362.52,
+      "end": 365.8,
+      "text": " look for confirmation entry and boom."
+    },
+    {
+      "start": 365.8,
+      "end": 366.64,
+      "text": " Okay."
+    },
+    {
+      "start": 366.64,
+      "end": 371.44,
+      "text": " So, yeah, guys, let me give you guys a couple of examples."
+    },
+    {
+      "start": 371.44,
+      "end": 373.2,
+      "text": " And that is going to be clear for you."
+    }
+  ]
+}

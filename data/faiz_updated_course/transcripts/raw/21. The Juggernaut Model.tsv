@@ -1,0 +1,107 @@
+start	end	text
+0	5080	All right, everybody, so this is going to be the last course update
+6240	10040	this is basically the part two of the course update and
+12120	13720	Starting off
+13720	16880	I'm gonna teach you a trading model
+18000	20240	that is called the juggernaut and
+22160	24160	It is basically
+25120	27800	If not the best one of my best
+28800	31200	Sculping no daily boss trading models
+31760	38360	It works on all time frames. So whether it's one minute 30 seconds or five minutes
+38720	41040	It will work the same
+42080	44080	now
+45680	47680	It is very simple and
+48440	51840	You must know what an inverse for everybody gap is
+52440	55680	So simply what is an inverse for the gap?
+56160	59560	So let's assume that we have a fair body gap here, right?
+61120	65880	Now price made a higher high higher low and then a higher high
+66600	71840	Now inside this higher high we have a fair body gap now when price is here
+72880	74880	When price is here, right?
+75840	81760	It is still a fair body gap, but if price closes below the fair body gap
+81920	88320	Right in this leg this leg closed below this fair body gap that once that happens
+88320	92280	It becomes inverse for everybody gap. So remember that
+93480	96280	One price went up there. We had a fair body gap
+96280	101840	But then it was not respected and it was broken through like this and the candle closed
+102560	106120	Notice what I said the candle closed once the candle closes
+106560	110960	This fair body gap becomes inverse for everybody gap. All right, so
+111400	113720	Now, what is the model?
+114080	118160	So we have you know a higher high a higher low and then a higher high
+118640	122800	This higher high must have only one fair body gap
+122800	125720	So this should not be multiple fair body gaps here, okay?
+126120	133360	So in this instance for example, let's say that this right here is the only was the only fair body gap in this leg
+133720	135720	All right, and let's say
+136600	143440	All right, so we have this really gap we have to wait for information of the inverse really get once the inverse really gap is formed
+144080	149960	We can take look to take our entry. So what are the rules number one look for a liquidity sweep?
+149960	152960	All right, it could be any liquidity sweep. All right
+153400	157680	once the liquidy sweep is done mark out the fair body gap and
+158080	164120	Make sure that there's only one fair body gap in the leg that swept the
+164520	169200	Liquidity, right? So over here you can see we swept this high over here, right?
+169200	170800	and
+170800	172800	This leg only had one for the gap
+173400	174360	now
+174360	177980	What if you're looking at this on one minute, but there are like multiple
+178280	181960	Ferebody gaps here what you can do is move higher
+181960	187520	So if there are multiple ferebody gaps go to two minute time frame and see if you get one fair body gap
+187520	190800	If there are multiple ferebody gaps on two minute time frame
+190920	196440	Go to three minute or four minute and keep going higher until you see one ferebody gap
+197360	203960	It is very important that there's only one ferebody gap in the leg that breaks the structure or sweeps the liquidity, right?
+203960	211120	It is very important now all you're looking for is after liquidy sweep you are waiting for formation of the inverse ferebody gap
+211720	216640	Right, and then you're looking to take your entry on the retest or on the body close
+216640	222560	So once the body closes you can enter directly or you wait for a retest, all right?
+222560	228720	So close in from in virtual gap forms wait for a retest and you target the most
+229560	231200	closest low
+231200	235600	so this is where the price action is gonna be look below and the
+236360	238360	closest low that you see
+238440	245480	That is gonna be your take profit one or your entire take profit level or a place where you should be going break even
+245560	251080	So let's assume that this low right here was the closest low here, okay?
+252680	253960	Now
+253960	259480	Once price takes out the slow, right? You can do three things here once it happens
+259480	262560	you go break even and target the
+263080	267680	Hard time frame draw on liquidity or what you can do is you can take
+268000	273120	30 to 40% of your position off here move your stop to break even and
+273840	278840	target some other form of higher time from liquidity or a significant level or
+279800	283080	You can take your entire take profit level here
+283080	287920	But make sure you are getting at least one-to-one restore reward and how would that happen?
+287920	293200	I would go short here first off. I will move my stop my take profit level
+293200	296360	I will move my take profit level to this level, okay?
+296760	301360	Now I will decrease the stop loss key decreasing the stop loss
+301520	303600	Right until I get one-to-one
+303600	307680	But if my stop is higher than the high over here
+307680	312920	I can then reduce it so I can get more restore what out of this range, right?
+313000	315000	but what if and
+315640	322640	What if the fair value gap was here and this is just an example and there was inverse rule gap, right?
+323640	325560	Apologies
+325560	332680	So what would happen my take profit level would be here so I would increase I would decrease my stop like that
+333080	335600	Until I get one-to-one restore reward, right?
+335920	338520	So now we do not have a restop above here
+338640	342600	But somewhere around here because we need to get at least one-to-one. Otherwise
+344440	351040	Your risk reward and like your total I would say profit factor would be very low, okay?
+351560	357600	So make sure you're getting at least one-to-one and then you can hold the trades if you want to till then like the
+358280	360280	Significant target level is hit
+360360	366320	This is very simple and this is why I call it the juggernaut because it is very quick and it is very powerful
+366680	370280	it has over 70% win rate and notice
+370960	372960	watch the video again because
+373480	377200	make sure first off that there is only one fair value gap, right and
+377840	384880	Wait for a formation of IFVG or inverse rule gap and free on the close or on the retest and target this level
+385360	388200	now, here's another way to look at it. So
+388920	390920	You would get like a
+391000	397040	Market structure shift. So now once you get a market structure shift, right this leg right here
+398880	404840	Right, you have to look for a single fair value gap inside this leg because now we had swept this low
+404840	409760	And we can also consider this as a market structure shift. So previously if I go
+410800	415280	Here we had a break of structure, right? And we looked for a free value gap in the
+415600	418820	this leg that broke the structure, but if we
+419320	422080	With this and now we look at the
+423280	428080	At this right we had a market structure shift now
+429480	430960	inside
+431440	435840	This leg that did the market structure shift or swept the liquidity, right?
+436000	443440	You have to look for a singular fair value gap and the singular fair value gap. Let's assume it's right here
+444080	448760	All right, you keep going higher you keep going to a high time frame until you see
+448760	451400	You know a single fair but you can stay on one minute
+451400	458120	And if you see like a single fair value gap from this range high to this range low then you should be good now
+458560	465920	All you're looking for is price to close above this level once the price closes this old fair value gap becomes inverse
+465920	472000	Fair value gap and from there onwards you're looking to take your entry on the retest and you're targeting the most recent
+472280	480040	High or most recent or more the closest the closest liquidity level and that is going to be this high over here
+481480	486840	So your entry would be here you stop would go. Let's go. Let's suppose you go along here, right?
+487200	489640	first off move your take profit level and
+490200	497840	We decrease the stop to till this level and we get 1.33 and we can then hold if you want to take some partials as I said before
+498480	502120	Now let me give you guys some examples and then everything is going to be clear

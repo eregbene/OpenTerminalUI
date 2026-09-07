@@ -1,0 +1,287 @@
+1
+00:00:00,400 --> 00:00:38,020
+Hello guys, welcome back. In this video, we are going to learn about market structure. If you're looking at a bullish trend, if you want to identify a bullish trend, you would be looking for a higher high and higher lows. So what is higher high and higher lows? This is considered as higher high, high low, higher high, higher low, higher high and higher low.
+
+2
+00:00:38,020 --> 00:00:42,620
+This state of market is considered to be bullish.
+
+3
+00:00:42,620 --> 00:00:47,220
+When you see market creating higher highs and higher lows,
+
+4
+00:00:47,220 --> 00:00:53,580
+then that market is considered to be bullish.
+
+5
+00:00:53,580 --> 00:00:57,260
+When you want to identify a bearish trend,
+
+6
+00:00:57,260 --> 00:01:02,460
+you would be looking for lower lows, lower highs, lower lows,
+
+7
+00:01:02,460 --> 00:01:03,860
+lower highs.
+
+8
+00:01:03,860 --> 00:01:10,290
+So this is what low and lower high looks like.
+
+9
+00:01:10,290 --> 00:01:17,290
+lower low, lower high, lower low, lower high, lower low.
+
+10
+00:01:21,090 --> 00:01:27,090
+When you see market constantly creating lower lows, lower highs, you will know that the market
+
+11
+00:01:29,130 --> 00:01:36,130
+is in bearish condition. So for bullish market, we need to identify price creating higher
+
+12
+00:01:36,130 --> 00:01:44,330
+identify price creating higher high, higher low, higher high, higher low. And in case of bearish
+
+13
+00:01:44,330 --> 00:01:50,450
+market, if you want to identify a bearish market, you would be looking for lower, lower,
+
+14
+00:01:50,450 --> 00:01:59,610
+high, lower, lower, lower, higher. Then we got another market condition known as ranging
+
+15
+00:01:59,610 --> 00:02:09,290
+market. Now what is a ranging market? When price is not moving in any direction, but it is
+
+16
+00:02:09,290 --> 00:02:21,540
+moving within a small range. So this type of price action is considered to be ranging.
+
+17
+00:02:21,540 --> 00:02:27,260
+When you see this type of market, it is considered to be a ranging market. And I have
+
+18
+00:02:27,260 --> 00:02:31,580
+a strategy based on their ranging market condition.
+
+19
+00:02:31,580 --> 00:02:35,460
+So there are three types of market structures.
+
+20
+00:02:35,460 --> 00:02:38,460
+We got a bullish market structure,
+
+21
+00:02:38,460 --> 00:02:40,940
+we got a bearish market structure,
+
+22
+00:02:40,940 --> 00:02:46,040
+and then we got the ranging market structure.
+
+23
+00:02:46,040 --> 00:02:55,300
+So this is a very simple textbook definition of market structure.
+
+24
+00:02:55,300 --> 00:03:00,820
+Now let's go let's suppose that you are looking at a
+
+25
+00:03:01,420 --> 00:03:04,420
+Market structure on a five minute timeframe
+
+26
+00:03:04,940 --> 00:03:08,220
+You are gonna see that price is making
+
+27
+00:03:08,780 --> 00:03:10,780
+higher highs and higher lows
+
+28
+00:03:11,380 --> 00:03:14,700
+But when you drop down to one minute timeframe
+
+29
+00:03:15,700 --> 00:03:18,520
+You are gonna see that the market
+
+30
+00:03:18,860 --> 00:03:36,450
+Oops, sorry my bad. Let me draw this out and then I'll explain
+
+31
+00:03:36,450 --> 00:03:48,260
+Okay, so I'm gonna change the color of this and make it a little...
+
+32
+00:03:48,260 --> 00:03:55,960
+Oops, not that is a bad color. Let me change it to something yellowish. Okay.
+
+33
+00:03:55,960 --> 00:03:59,960
+Wow, this is bad. This is bad.
+
+34
+00:03:59,960 --> 00:04:02,960
+Wait, wait, wait, wait, wait.
+
+35
+00:04:02,960 --> 00:04:06,960
+So, when you drop down to one minute timeframe,
+
+36
+00:04:06,960 --> 00:04:11,960
+you are gonna see that in this five minute timeframe,
+
+37
+00:04:11,960 --> 00:04:16,960
+to the downside, we have a downtrend.
+
+38
+00:04:16,960 --> 00:04:17,960
+Right?
+
+39
+00:04:17,960 --> 00:04:23,960
+But so you can see that the price is fractal.
+
+40
+00:04:23,960 --> 00:04:24,960
+All right?
+
+41
+00:04:24,960 --> 00:04:28,960
+So let me just move this away.
+
+42
+00:04:28,960 --> 00:04:32,960
+You see, we are looking at this on a five minute timeframe.
+
+43
+00:04:32,960 --> 00:04:35,960
+But when you're going to drop down to one minute timeframe,
+
+44
+00:04:35,960 --> 00:04:38,960
+you're going to see something like this.
+
+45
+00:04:38,960 --> 00:04:47,960
+In a uptrend on the 500 timeframe, you can see a downtrend on a 1-minute timeframe.
+
+46
+00:04:47,960 --> 00:04:51,160
+I hope that definition is clear.
+
+47
+00:04:51,160 --> 00:05:01,240
+On an uptrend on a 500 timeframe, you can see a downtrend on a 1-minute timeframe.
+
+48
+00:05:01,240 --> 00:05:03,720
+So what does that tell us?
+
+49
+00:05:03,720 --> 00:05:07,880
+It means that we can trade on any timeframe.
+
+50
+00:05:07,880 --> 00:05:11,880
+It doesn't matter if you are trading on a daily time from.
+
+51
+00:05:11,880 --> 00:05:16,420
+It doesn't matter if you're trading on a early time from, or it doesn't even matter
+
+52
+00:05:16,420 --> 00:05:19,680
+if you're trading on a one minute time from.
+
+53
+00:05:19,680 --> 00:05:28,160
+If you know about market structure, you can trade literally on any time from.
+
+54
+00:05:28,160 --> 00:05:36,480
+So yeah, I hope this clears everything about market structure.
+
+55
+00:05:36,480 --> 00:05:46,690
+So you can see that the price would be creating Lola's lower highs on this leg of 5 minute
+
+56
+00:05:46,690 --> 00:05:47,770
+timeframe.
+
+57
+00:05:47,770 --> 00:05:55,490
+So a small pullback on a 5 minute timeframe could be a big downtrend on a smaller timeframe.
+
+58
+00:05:55,490 --> 00:06:03,770
+So let's say you were looking at this chart on an early timeframe, one hour timeframe.
+
+59
+00:06:03,770 --> 00:06:10,210
+On the pullback on one-hour timeframe, what you will do is you will then drop down to
+
+60
+00:06:10,210 --> 00:06:12,850
+five-minute timeframe and then you're going to see something like this.
+
+61
+00:06:12,850 --> 00:06:20,370
+You will see a downtrend on a five-minute timeframe, but on the all-day timeframe, the overall
+
+62
+00:06:20,370 --> 00:06:22,170
+trend is bullish.
+
+63
+00:06:22,170 --> 00:06:29,490
+So this is what I'm going to teach you in the upcoming videos and how you can trade knowing
+
+64
+00:06:29,490 --> 00:06:34,490
+that if a market is bullish in one time frame,
+
+65
+00:06:36,650 --> 00:06:40,370
+you can trade the market as bearish
+
+66
+00:06:40,370 --> 00:06:42,130
+in a smaller time frame.
+
+67
+00:06:42,130 --> 00:06:44,250
+I hope that clears what I'm trying to say.
+
+68
+00:06:44,250 --> 00:06:46,410
+I'm sorry, if my English is bad
+
+69
+00:06:46,410 --> 00:06:49,010
+or it's hard for you to understand the certain concepts,
+
+70
+00:06:49,010 --> 00:06:50,970
+but I'm trying my best here.
+
+71
+00:06:50,970 --> 00:06:53,810
+So this was all about market structure.
+
+72
+00:06:53,810 --> 00:06:57,730
+I hope it's clear and I will see you guys in the next video.

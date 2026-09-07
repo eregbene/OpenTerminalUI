@@ -1,0 +1,98 @@
+{
+  "source": "F:\\new faiz\\2. Valid MSS vs Invalid MSS.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 101.0996875,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 32.98,
+      "text": " So in this video we are going to talk about market structure shift and invalid market structure shift. So let's assume that you have a lower lower high and then you have a market structure shift but there is no displacement, there is no wall in, right? So let me just draw this out first. Okay. So would you consider this a market structure shift? Yes, you might but for me, this is not a valid market structure shift."
+    },
+    {
+      "start": 32.98,
+      "end": 38.98,
+      "text": " Why? Because there was no displacement and what is displacement?"
+    },
+    {
+      "start": 38.98,
+      "end": 42.98,
+      "text": " It's a move in one direction with momentum or volume."
+    },
+    {
+      "start": 42.98,
+      "end": 47.98,
+      "text": " But this move right here, it didn't break the structure with volume or momentum."
+    },
+    {
+      "start": 47.98,
+      "end": 51.98,
+      "text": " So you can see price went before price broke the structure."
+    },
+    {
+      "start": 51.98,
+      "end": 55.98,
+      "text": " It creates higher high, higher low, higher high, higher low, higher low."
+    },
+    {
+      "start": 55.98,
+      "end": 60.98,
+      "text": " And for me, that is not a valid market structure shift."
+    },
+    {
+      "start": 60.98,
+      "end": 66.22,
+      "text": " However, if you look at it here, we got lower, lower, lower, lower, lower, lower, lower,"
+    },
+    {
+      "start": 66.22,
+      "end": 71.5,
+      "text": " and then we have this move right here with volume, right?"
+    },
+    {
+      "start": 71.5,
+      "end": 73.14,
+      "text": " And we break the structure."
+    },
+    {
+      "start": 73.14,
+      "end": 75.22,
+      "text": " So now you can see there's volume."
+    },
+    {
+      "start": 75.22,
+      "end": 81.66,
+      "text": " Now when that happens, that for me is a valid market structure shift or yeah, or you"
+    },
+    {
+      "start": 81.66,
+      "end": 84.18,
+      "text": " can say change of character."
+    },
+    {
+      "start": 84.18,
+      "end": 88.34,
+      "text": " So over here, you can see that we have no volume, right?"
+    },
+    {
+      "start": 88.34,
+      "end": 94.88,
+      "text": " we have this messed up price action, but over here you have a very clean move to the"
+    },
+    {
+      "start": 94.88,
+      "end": 97.28,
+      "text": " upside that breaks the structure."
+    },
+    {
+      "start": 97.28,
+      "end": 99.88,
+      "text": " So let me give you guys a couple of examples."
+    }
+  ]
+}

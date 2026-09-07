@@ -1,0 +1,152 @@
+1
+00:00:00,000 --> 00:00:07,440
+Alright, so this is the example. This is a Bitcoin chart, but it can just work on any pair to be
+
+2
+00:00:07,440 --> 00:00:19,440
+very honest. Any volatile pair like your USD, GBPUSD, GBPJPY and NAS, 100 NAS, 30 and all that good stuff.
+
+3
+00:00:19,440 --> 00:00:27,760
+Alright, so as I mentioned, you can see that I have labeled this as a support level because we have
+
+4
+00:00:27,760 --> 00:00:36,320
+one, two, three, four and almost five touches, right? And if we mark it out with a rectangle box,
+
+5
+00:00:36,320 --> 00:00:41,440
+you can see that it's a clear support level. Alright, so a clear support level is what we are talking
+
+6
+00:00:41,440 --> 00:00:49,200
+about. And as you can see, I have marked this as a resistance level. So if I put this rectangle
+
+7
+00:00:49,200 --> 00:00:54,080
+right around here, you can see that's a clear resistance level. And also, it could be considered
+
+8
+00:00:54,080 --> 00:00:59,120
+as a key, key level, because you can see we had a touch here, touch here and all that good stuff.
+
+9
+00:00:59,120 --> 00:01:06,400
+Alright, so as I said before, now people are expecting to buy at this support level, right?
+
+10
+00:01:06,400 --> 00:01:10,880
+And they're going to have your stop loss somewhere around this level, all right? And they're going
+
+11
+00:01:10,880 --> 00:01:15,200
+to aim for the resistance. Very cool. But let's see what happens.
+
+12
+00:01:15,200 --> 00:01:24,480
+It stops you out. Alright, now when it stops you out, you're going to be like, okay, it's breaking
+
+13
+00:01:24,480 --> 00:01:30,480
+out. I think I should sell it. Alright, so you sell this right here. And then you put your stop
+
+14
+00:01:30,480 --> 00:01:36,160
+loss right above this level. Alright, right above the support level. And then you target somewhere
+
+15
+00:01:36,160 --> 00:01:42,480
+around here. Alright, or maybe this key level right around this level. Okay, so you target maybe this
+
+16
+00:01:42,480 --> 00:01:51,200
+level. But then guess what happens? It goes into some profit, but then see what happens. It stops
+
+17
+00:01:51,200 --> 00:02:00,480
+you out. So this is basically a liquidity purge. Alright, and or a fake out whatever you want to
+
+18
+00:02:00,480 --> 00:02:10,480
+call it. But the concept that I taught you is real. And it is not my own concept. It's actually an
+
+19
+00:02:10,480 --> 00:02:19,440
+ICT concept. He is the one who, you know, invented the liquidity setups and all that auto blogs and
+
+20
+00:02:19,440 --> 00:02:25,920
+all that good stuff. So credit where it's due. Okay, so as you can see, price just goes back up
+
+21
+00:02:26,800 --> 00:02:32,480
+with heavy momentum. Alright, so this is what I taught you. Price goes back up. It triggers
+
+22
+00:02:32,480 --> 00:02:40,320
+by orders. And then it just goes back up. As you can see, it comes back to fill some imbalance
+
+23
+00:02:40,320 --> 00:02:55,920
+around this area. And yeah, so it takes out the this level resistance level liquidity as well.
+
+24
+00:02:55,920 --> 00:03:02,800
+So a fake out. And it just goes back up and takes out the liquidity. So I hope this explains
+
+25
+00:03:03,600 --> 00:03:12,000
+very well that what is liquidity. And I hope that it's clear by now that liquidity comes in all
+
+26
+00:03:12,000 --> 00:03:20,160
+shapes and forms. Alright, so I'll give you a few more examples. So let me see if we got a few
+
+27
+00:03:20,240 --> 00:03:31,440
+more examples around here. So you can see that we got a, what I would say, a lower low, lower high,
+
+28
+00:03:32,240 --> 00:03:39,920
+lower low. Alright, so now what happens here is that, so let me go back into the replay mode. So
+
+29
+00:03:39,920 --> 00:03:48,080
+it's more clear. Okay, so let me go back here. So we created a lower low, lower high, lower low.
+
+30
+00:03:48,080 --> 00:03:54,560
+And then we're expecting as a retail trader, we are going to sell off this level, right? We're
+
+31
+00:03:54,560 --> 00:04:03,040
+gonna sell here. And I put our stopwatch right above that previous high. And then we're gonna
+
+32
+00:04:03,920 --> 00:04:09,840
+target this level maybe. Alright, and then let's see what happens. It instantly stops you out.
+
+33
+00:04:09,840 --> 00:04:18,240
+Alright, and now you might buy here, right, on this key level, which is this, right? And let's see
+
+34
+00:04:18,240 --> 00:04:28,240
+what happens. It stops you out again. Alright, so it keeps on happening. Alright, it's gonna keep
+
+35
+00:04:28,240 --> 00:04:36,400
+on purging the liquidity. And then what happens here? It took out all the liquidity and then it
+
+36
+00:04:36,400 --> 00:04:44,240
+went down to its original destination. So this is what liquidity is guys. And now I'm sure that
+
+37
+00:04:44,240 --> 00:04:51,280
+you might be 100% clear about liquidity. So if you are not, make sure to rewatch this video.
+
+38
+00:04:51,280 --> 00:04:56,080
+And let's move on to the next video.
+

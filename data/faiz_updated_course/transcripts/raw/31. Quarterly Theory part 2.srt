@@ -1,0 +1,328 @@
+1
+00:00:00,000 --> 00:00:20,000
+All right, guys, so this is how I personally use quarterly theory as a as a standalone model, or I can use it with other things as well. So, when do we want to look for manipulations and when we want to look for expansion.
+
+2
+00:00:20,000 --> 00:00:40,000
+So, when you are on the intraday chart, so this is going to be 15 minutes, you will have, of course, you know, accumulation, then you're going to have manipulation, then you will have distribution, and then you will have continuation.
+
+3
+00:00:41,000 --> 00:01:01,000
+Right. Now, you want to focus on the manipulation part here. Okay. So, as I said before, you will have then quadrants. So there will be, you know, accumulation inside here, then manipulation and vice versa. Right.
+
+4
+00:01:01,000 --> 00:01:11,000
+Now, in the manipulation quarter, which is this, right, let's remove this so you don't get confused. So remember, in each quarter, there are going to be four quadrants.
+
+5
+00:01:11,000 --> 00:01:21,000
+So in accumulation quarter, you're going to have four quadrants that will be accumulation, manipulation, distribution and continuation. All right.
+
+6
+00:01:21,000 --> 00:01:34,000
+Now, we want to focus on the big, the quarter, right? We do not want to focus on the quadrants at the moment. Now, inside the manipulation quarter, we have to focus on the manipulation quadrant.
+
+7
+00:01:34,000 --> 00:01:45,000
+Okay. So, this is, you have to understand this carefully, guys, because this is the only possible way to explain this.
+
+8
+00:01:45,000 --> 00:01:56,000
+So, inside the manipulation quarter, you're going to have, you know, accumulation, manipulation, distribution, continuation, you want to focus on the manipulation part.
+
+9
+00:01:56,000 --> 00:02:07,000
+So, inside a manipulation quarter, you have to focus on a manipulation quadrant. Now, that is clear. Now, let's go here.
+
+10
+00:02:07,000 --> 00:02:14,000
+So, let's say that the order flow is bearish. Okay.
+
+11
+00:02:14,000 --> 00:02:20,000
+Now, when the order flow is bearish, of course, we want to take short positions.
+
+12
+00:02:20,000 --> 00:02:31,000
+Now, during the manipulation phase of the manipulation quarter, you have to look for a liquidy sweep.
+
+13
+00:02:31,000 --> 00:02:45,000
+So, inside a manipulation red box, or you could say a manipulation quarter, you have to look for a liquidy sweep during a manipulation quadrant, if that makes sense.
+
+14
+00:02:45,000 --> 00:02:53,000
+So, this is going to be right here, right? Once you have a liquidy sweep, you then have to look for a market structure shift.
+
+15
+00:02:53,000 --> 00:03:04,000
+Okay. Now, this could be either on a lower time frame. So, for example, if you're looking at this on the 15 minute time frame, you can then drop down to two minutes time frame or one minute time frame to look for a market structure shift.
+
+16
+00:03:04,000 --> 00:03:15,000
+However, I highly suggest you stick to the same time frame. So, that's going to be 15 minutes time frame, then you look for a shift in market structure, and then you can look to take your entry.
+
+17
+00:03:15,000 --> 00:03:22,000
+Similarly, if you have a PD array, so there's could be a, you know, an auto blog here.
+
+18
+00:03:22,000 --> 00:03:35,000
+So, we swept this liquidity before, but then we have a fair value gap, price can manipulate into that fair value gap, because remember, fair value gap on a lower time frame is also a liquidity level.
+
+19
+00:03:36,000 --> 00:03:40,000
+Refer back to internal and external liquidity videos, and then you will understand.
+
+20
+00:03:40,000 --> 00:03:50,000
+So, price can also go into the PD array without sweeping liquidity, but in this case, it swept liquidity and went into the fair value gap.
+
+21
+00:03:50,000 --> 00:03:53,000
+So, that is also acceptable. Okay.
+
+22
+00:03:53,000 --> 00:04:05,000
+But I prefer you look for liquidity sweeps, because that you will be like satisfied that, okay, you will not be in fear that, okay, if I take my entry from this fair value gap, price can maybe go ahead and take out that high.
+
+23
+00:04:05,000 --> 00:04:11,000
+So, I suggest look for liquidity sweeps. So, right here, we have liquidity sweep, and price also went into the fair value gap.
+
+24
+00:04:11,000 --> 00:04:15,000
+You look for a market structure shift, and then you can take your entry.
+
+25
+00:04:15,000 --> 00:04:23,000
+Now, the price will distribute lower during the distribution phase, right?
+
+26
+00:04:23,000 --> 00:04:29,000
+And then it can reverse during the reversal quarter, okay?
+
+27
+00:04:29,000 --> 00:04:32,000
+So, this is very, very simple guys.
+
+28
+00:04:32,000 --> 00:04:36,000
+If you understood what I said in this video, I'll repeat this again.
+
+29
+00:04:36,000 --> 00:04:39,000
+So, remember, we have four quarters, right?
+
+30
+00:04:39,000 --> 00:04:44,000
+We have accumulation, manipulation, distribution, and continuation.
+
+31
+00:04:44,000 --> 00:04:48,000
+Now, inside each quarter, we're going to have four coordinates.
+
+32
+00:04:48,000 --> 00:04:55,000
+So, in a accumulation quarter, we're going to have accumulation, manipulation, manipulation, distribution, and continuation.
+
+33
+00:04:55,000 --> 00:04:59,000
+In the manipulation quarter, we're going to have four coordinates as well.
+
+34
+00:04:59,000 --> 00:05:07,000
+That's going to be accumulation, manipulation, distribution, and continuation, it goes on with these two as well.
+
+35
+00:05:07,000 --> 00:05:12,000
+Now we wanna look for a manipulation inside a manipulation quarter
+
+36
+00:05:12,520 --> 00:05:17,120
+during manipulation quadrant, if that makes sense, okay?
+
+37
+00:05:17,120 --> 00:05:20,080
+So the manipulation quarter is gonna have four phases.
+
+38
+00:05:20,080 --> 00:05:22,100
+We're gonna have to focus on the second phase,
+
+39
+00:05:22,100 --> 00:05:25,600
+which is the manipulation phase of the quadrant.
+
+40
+00:05:25,600 --> 00:05:26,440
+During that phase,
+
+41
+00:05:26,440 --> 00:05:27,880
+we wanna look for a liquidy sweep
+
+42
+00:05:27,880 --> 00:05:31,000
+or a push to the PDA red,
+
+43
+00:05:31,000 --> 00:05:32,240
+that could be fairly gap,
+
+44
+00:05:32,240 --> 00:05:34,120
+breaker block, autoblock.
+
+45
+00:05:34,120 --> 00:05:36,480
+Now please note that we have to trade this
+
+46
+00:05:36,480 --> 00:05:38,000
+with the high time frame trend
+
+47
+00:05:38,000 --> 00:05:39,520
+or high time frame autoflow.
+
+48
+00:05:40,480 --> 00:05:42,520
+Without that, you are just basically taking
+
+49
+00:05:42,520 --> 00:05:46,400
+random liquidy sweeps, and this might not work for you.
+
+50
+00:05:46,400 --> 00:05:48,320
+So understand that identifying the autoflow
+
+51
+00:05:48,320 --> 00:05:49,200
+is very important.
+
+52
+00:05:49,200 --> 00:05:50,520
+To identify autoflow,
+
+53
+00:05:50,520 --> 00:05:52,160
+all you have to do is come onto the chart,
+
+54
+00:05:52,160 --> 00:05:53,560
+look at the high time frame,
+
+55
+00:05:53,560 --> 00:05:55,400
+and if you see that the price is going down,
+
+56
+00:05:55,400 --> 00:05:56,960
+you will instantly know the autoflow.
+
+57
+00:05:56,960 --> 00:05:59,040
+You will know that, okay, price is going in that direction,
+
+58
+00:05:59,040 --> 00:06:01,840
+but if you're confused and you can't identify the autoflow,
+
+59
+00:06:01,840 --> 00:06:04,000
+you're confused if it's bullish or bearish,
+
+60
+00:06:04,080 --> 00:06:06,440
+then it's best to avoid that pair or asset.
+
+61
+00:06:07,600 --> 00:06:10,080
+So that's pretty much it guys for this.
+
+62
+00:06:10,080 --> 00:06:13,120
+You don't have to focus on anything else.
+
+63
+00:06:13,120 --> 00:06:16,120
+Although there's another strategy that I use with this,
+
+64
+00:06:16,120 --> 00:06:19,520
+so let's remove this.
+
+65
+00:06:20,680 --> 00:06:23,520
+You can use this model as well.
+
+66
+00:06:23,520 --> 00:06:25,600
+So inside the accumulation phase,
+
+67
+00:06:25,600 --> 00:06:27,320
+you will mostly see consolidation.
+
+68
+00:06:27,320 --> 00:06:29,360
+So you will have a high of the accumulation phase
+
+69
+00:06:29,360 --> 00:06:31,680
+and the low of the accumulation phase, right?
+
+70
+00:06:31,680 --> 00:06:33,800
+Now during the manipulation phase,
+
+71
+00:06:33,800 --> 00:06:37,560
+what you can do is look for a purge of either the high
+
+72
+00:06:37,560 --> 00:06:40,080
+or the low of the accumulation phase.
+
+73
+00:06:40,080 --> 00:06:42,720
+So this is the high of the accumulation phase, right?
+
+74
+00:06:42,720 --> 00:06:44,240
+This around here.
+
+75
+00:06:44,240 --> 00:06:48,120
+Now during the manipulation quarter,
+
+76
+00:06:48,120 --> 00:06:51,440
+look for a sweep of either the high or the low,
+
+77
+00:06:51,440 --> 00:06:53,520
+and then you can look for a shift in the market structure,
+
+78
+00:06:53,520 --> 00:06:56,560
+take your entry and you can target the low
+
+79
+00:06:56,560 --> 00:06:58,640
+of the accumulation phase.
+
+80
+00:06:58,640 --> 00:07:01,560
+So let me give you guys some examples about
+
+81
+00:07:02,400 --> 00:07:04,600
+how I use this in the real life market
+
+82
+00:07:04,600 --> 00:07:06,520
+and then we'll move on to the next chapter.
+

@@ -1,0 +1,47 @@
+All right guys, so this is going to be the last lecture of this course update
+There will be plenty of course updates in the future
+Um, I will also be teaching you guys the ICT 2323 mentorship when it's out
+I'm gonna watch all of that content and I'm gonna upload it here
+Like the important and like the things that actually matter and I'll it will skip all the talking and you don't have to be watching like
+The long videos that I see these are gonna put out
+but in this last final lecture, we're going to learn about Asian
+Session strategy version 2.0
+so
+You want to use
+FX and Asian session rage just as the old one, right?
+so
+what you want to look for is
+Asian session, right? So simply you will you're gonna have Asian session like this and
+Bill look for P.O.I.s below the Asian low and above the Asian high
+So this does not require daily bias or market structure or whatever
+so let's assume that
+Whoops, that was terrible
+Okay, so let's assume you have a POI right here, which could be an autoblock
+okay, and
+Once the Asian session is over which is going to be I believe
+to
+Am New York time
+Right and the indicator is going to show you when the session is over so after that
+When the session is over you want to see price go to that POI
+So essentially you're looking at 15 minute first 15 minute, right? You mark at the PI or POI on 15 minute
+And when the price reaches your POI you drop down to one minute time frame look for market structure shift
+Take your entry from family gap break a block BPR family gap whatever we want to use and
+Kaboom
+It's that simple guys and similarly
+Let me remove this and this if you have
+Wow, terrible again
+Okay, so
+Wait a minute you have an autoblock here right on the 15 minute time frame make sure it's the first candle of the
+Fair Valley gap we're gonna use that type of autoblock in this strategy, okay
+And not like the ones like the way we use an autoflow
+so simply once the Asian is over you wait for price to just drop down into your POI and
+Drop down then you want to drop down to one minute look for market structure shift take your entry and boom
+Very simple, okay
+And unlike the Asian session
+version 1.0 you can look for entry
+Or you know price and come into your POI during the London session as well
+Okay, so in the old strategy we had to look for shift in market structure during the lunch hour, okay?
+but this
+Version 2 can work in the London session as well the starting hours of London session
+Okay, the starting hours of London session price comes into your POI you get marks to shift with displacement entry and boom
+So I'm gonna give you guys a couple of examples

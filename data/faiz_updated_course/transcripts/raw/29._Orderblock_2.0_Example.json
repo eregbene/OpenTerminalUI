@@ -1,0 +1,68 @@
+{
+  "source": "F:\\new faiz\\29. Orderblock 2.0 Example.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 102.1445625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright, so here is the example. This is just for example, I don't know the context behind this move. I'm just showing you that how it can work. So you see we have lower low, lower high, lower low. So now these consecutive bearish candles are in alignment with this breaker block. You can see that. The body, the size of the body is the same here. And then you can see that we have a"
+    },
+    {
+      "start": 30.0,
+      "end": 37.28,
+      "text": " push down. So these are the consecutive bearish candles because this bearish candle did not take out the"
+    },
+    {
+      "start": 37.28,
+      "end": 45.36,
+      "text": " low hairs. If this bearish candle took out this low then that would be my auto block. Okay and this green"
+    },
+    {
+      "start": 45.36,
+      "end": 50.88,
+      "text": " candle would have become a breaker block. Do you understand what I'm trying to say here? So as you can"
+    },
+    {
+      "start": 50.88,
+      "end": 56.16,
+      "text": " see we had their setup here. We could have taken our entry from this level, put our shot right below"
+    },
+    {
+      "start": 56.16,
+      "end": 65.76,
+      "text": " slow and went for one to two or two for this high over here. Um, it's really all that guys,"
+    },
+    {
+      "start": 65.76,
+      "end": 72.08,
+      "text": " like simply you can take your entries. See, if you use the old method, right, remember the first"
+    },
+    {
+      "start": 72.08,
+      "end": 76.8,
+      "text": " candle of the fair value gap, which is right here, you would have missed your entry guys. So"
+    },
+    {
+      "start": 76.8,
+      "end": 84.64,
+      "text": " this is, this is what I'm trying to teach you in this video. Okay, you must know, you must have"
+    },
+    {
+      "start": 84.64,
+      "end": 90.88,
+      "text": " like a plan. You have to choose one model entry model. You either stick with the"
+    },
+    {
+      "start": 91.68,
+      "end": 101.84,
+      "text": " the old method or the new one. It's really up to you. Okay? So um yeah guys I'll see you guys in the next video."
+    }
+  ]
+}

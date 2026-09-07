@@ -1,0 +1,51 @@
+[00:00:00] Alright guys, so here is the example number one for the ICT Silver Bullet. You can see that over here we do not have a clear liquidity sweep anywhere and the time is 955, right? So we're gonna wait for this for the price due to either take out the buy side or the sell side. So you can see price took out the sell side here. So now here's the thing. Price can take out liquidity even when even after 10 AM, okay?
+[00:00:31] There is no like rule that the liquidity sweep must happen before 10.
+[00:00:35] The thing is your entry must only be after 10.
+[00:00:39] So let's take it out the sell site.
+[00:00:42] Let's go back to one minute and look for a clear market structure shift.
+[00:00:48] And as you can see right here, what we do have is a lower low, lower high, lower low.
+[00:00:54] And then over here we have a shift in market structure.
+[00:00:57] Now this I consider internal market structure and this right here would be my external market
+[00:01:04] structure.
+[00:01:05] So let's say if price takes out this significant high over here, then the chances of that
+[00:01:10] trade playing out is going to be decreased.
+[00:01:13] I want these tiny structures to break.
+[00:01:15] I do not want this like significant structure to break because of that breaks.
+[00:01:20] In my eyes that is a liquidy tree, especially when we're looking at one way to turn from.
+[00:01:24] So now what we do have is a fairly gap right here.
+[00:01:30] And my entry would go here.
+[00:01:32] So let's say we put our stop at five handles right here and we go for five handles take
+[00:01:39] profit.
+[00:01:40] Right?
+[00:01:41] And the time is 1036.
+[00:01:42] And your entry must not be later than 1050 AM.
+[00:01:47] OK?
+[00:01:48] So your window, the trading period is 10 AM.
+[00:01:52] Oops.
+[00:01:53] 10, 8, oh my god.
+[00:01:56] 10, 50 am.
+[00:02:00] Alright?
+[00:02:01] So your entry must happen during this time window, okay?
+[00:02:05] And you must close your trade before 11.
+[00:02:07] Okay, so we have our entry and let's see how this plays out.
+[00:02:10] We go back in a little draw down here and then look at that.
+[00:02:14] We push back up right away.
+[00:02:16] So that take profit was it however.
+[00:02:18] If you held your trade till this level,
+[00:02:21] this level, you can see we would have got an one to two wrist or wall trade. So it needs some sort
+[00:02:29] of practicing and then you can master this strategy. Remember, this is very important part here.
+[00:02:37] When a significant structure, something like that, if it breaks and then it comes back to your
+[00:02:42] entry, that is a low probability setup. I want, so let's say you have a liquid industry, right? This
+[00:02:48] this is a legacy. I want this tiny structure, something like that. Okay? Not
+[00:02:53] something like this where you have like three, four, or let me give you another
+[00:02:57] example. That's right here. If that breaks, right, that is invalid. I want to
+[00:03:02] see a break of structure, something like, you know, this over here or maybe you
+[00:03:08] see, lower, lower, high, lower, something like that. That is prime market
+[00:03:13] this is the best example right here okay you see this tiny structure here
+[00:03:19] lower lower high lower low I do not want to see this structure break and then I
+[00:03:23] wait for my entry that is invalid you can see that we broke the structure
+[00:03:26] and we filled in this very value gap and then we went down because this is
+[00:03:31] liquidity guys a lot of people what they do is they consider this as the low
+[00:03:35] and they consider this as you know market structure shift no that is the
+[00:03:40] liquid is sweet. Okay? Just open your eyes, bro. So right here we hit 1 to 2. Let me give you
+[00:03:46] guys another example.

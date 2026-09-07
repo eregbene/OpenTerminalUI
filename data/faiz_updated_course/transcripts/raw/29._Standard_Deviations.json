@@ -1,0 +1,1123 @@
+{
+  "source": "F:\\new faiz\\29. Standard Deviations.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 1076.4306875,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.08,
+      "end": 10.48,
+      "text": " Alright guys, in this video I will teach you how to use STEM and Deviation Projections. Sand deviation is a very, very powerful tool. You can"
+    },
+    {
+      "start": 10.48,
+      "end": 29.28,
+      "text": " measure your accumulation phases, actually not the accumulation phase, but you can measure the manipulation phase, and then you can also measure the expansion phase, and then you can measure your reversals or continuations. This is very, very powerful, and"
+    },
+    {
+      "start": 29.28,
+      "end": 33.36,
+      "text": " We use this with a power of three."
+    },
+    {
+      "start": 33.36,
+      "end": 39.0,
+      "text": " So remember one thing that every single candle has a power of three."
+    },
+    {
+      "start": 39.0,
+      "end": 42.88,
+      "text": " It's going to have accumulation, manipulation and distribution."
+    },
+    {
+      "start": 42.88,
+      "end": 46.88,
+      "text": " Whenever you see a candle, it's going to have a wick, right?"
+    },
+    {
+      "start": 46.88,
+      "end": 49.56,
+      "text": " Either to do one side or both sides."
+    },
+    {
+      "start": 49.56,
+      "end": 52.88,
+      "text": " So it's going to have a wick here, could have a wick here."
+    },
+    {
+      "start": 52.88,
+      "end": 55.56,
+      "text": " Right? So let's say this was the opening price."
+    },
+    {
+      "start": 55.56,
+      "end": 60.56,
+      "text": " Price manipulates to the upside and then expands to the downside. So that is called power of three"
+    },
+    {
+      "start": 60.88,
+      "end": 64.96,
+      "text": " Now what if I told you that by standard deviation projections you can mayor the"
+    },
+    {
+      "start": 65.68,
+      "end": 72.34,
+      "text": " Manipulation so you will know where the manipulation phase ends and you will also know where the expansion ends"
+    },
+    {
+      "start": 72.62,
+      "end": 77.96,
+      "text": " So you can look to take both trades or you can look to take the trade after"
+    },
+    {
+      "start": 80.2,
+      "end": 83.4,
+      "text": " The manipulation now keep in mind that"
+    },
+    {
+      "start": 83.4,
+      "end": 87.72,
+      "text": " that we trade this with autoflow."
+    },
+    {
+      "start": 87.72,
+      "end": 90.32,
+      "text": " So if the autoflow is bearish,"
+    },
+    {
+      "start": 90.32,
+      "end": 94.72,
+      "text": " we primarily want to see a manipulation"
+    },
+    {
+      "start": 94.72,
+      "end": 96.32,
+      "text": " to the BICIDE liquidity."
+    },
+    {
+      "start": 96.32,
+      "end": 99.24,
+      "text": " So I want to see price go up, manipulate,"
+    },
+    {
+      "start": 99.24,
+      "end": 103.36,
+      "text": " and then expand to the downside."
+    },
+    {
+      "start": 103.36,
+      "end": 106.12,
+      "text": " So when you combine autoflow with this,"
+    },
+    {
+      "start": 106.12,
+      "end": 108.92,
+      "text": " then your win-win-win will significantly improve."
+    },
+    {
+      "start": 108.92,
+      "end": 111.24,
+      "text": " So what exactly is standard deviation?"
+    },
+    {
+      "start": 111.24,
+      "end": 112.28,
+      "text": " Right?"
+    },
+    {
+      "start": 112.28,
+      "end": 119.93,
+      "text": " So let's assume that, and also, I personally use this with"
+    },
+    {
+      "start": 119.93,
+      "end": 123.71,
+      "text": " Borrow3, but you can also use this with key levels."
+    },
+    {
+      "start": 123.71,
+      "end": 129.67,
+      "text": " So this could be, let's say that there is a key level here."
+    },
+    {
+      "start": 129.67,
+      "end": 132.67,
+      "text": " Could be a hard time from auto block, right?"
+    },
+    {
+      "start": 132.67,
+      "end": 134.39,
+      "text": " Could be a friendly gap."
+    },
+    {
+      "start": 134.39,
+      "end": 142.63,
+      "text": " And price goes into your key level,"
+    },
+    {
+      "start": 142.63,
+      "end": 144.87,
+      "text": " and then gives you a market structure shift."
+    },
+    {
+      "start": 146.47,
+      "end": 152.19,
+      "text": " Now to mayor where the price is going to go from here, what you can do is use"
+    },
+    {
+      "start": 152.19,
+      "end": 161.19,
+      "text": " your Fibonacci tool, use from the top to the high. So use it from the last high"
+    },
+    {
+      "start": 161.19,
+      "end": 169.67,
+      "text": " to the last low. That was formed before market structure shift. Now let me turn"
+    },
+    {
+      "start": 169.67,
+      "end": 181.43,
+      "text": " on some numbers here. So it's going to be 1.5 and this should be okay. So this is the key"
+    },
+    {
+      "start": 181.43,
+      "end": 189.27,
+      "text": " level. Price goes into the key level gives you a shift in the market structure. So now look"
+    },
+    {
+      "start": 189.27,
+      "end": 196.91,
+      "text": " at this negative 2 and negative 2.5% level. Also make sure you copy all these numbers."
+    },
+    {
+      "start": 196.91,
+      "end": 203.67,
+      "text": " your focus on the negative two and negative two point five. So I think let's just do this"
+    },
+    {
+      "start": 203.67,
+      "end": 219.26,
+      "text": " like that. Okay. So the negative two and negative two point five remember that. Look at the"
+    },
+    {
+      "start": 219.26,
+      "end": 225.22,
+      "text": " liquidity level below the negative two level. What is a significant liquidity pool? It could"
+    },
+    {
+      "start": 225.22,
+      "end": 234.64,
+      "text": " be a low, could be a high. So this is negative two below that. But do we have this liquidity"
+    },
+    {
+      "start": 234.64,
+      "end": 243.47,
+      "text": " level. This is going to be your final target level, if that makes sense. So you will be taking"
+    },
+    {
+      "start": 243.47,
+      "end": 251.0,
+      "text": " your entry from the Fair Valley Gap, whatever is presented to you or auto block. And you"
+    },
+    {
+      "start": 251.0,
+      "end": 259.94,
+      "text": " take your take profit level once this liquidity pool is hit. Or just to be even safer,"
+    },
+    {
+      "start": 259.94,
+      "end": 266.48,
+      "text": " what I sometimes do is I take my profits at the negative two lines. So this over here."
+    },
+    {
+      "start": 266.48,
+      "end": 272.84,
+      "text": " Now this level here is from where price is going to reverse."
+    },
+    {
+      "start": 272.84,
+      "end": 281.0,
+      "text": " So whenever this level inside this level price can reverse from this level."
+    },
+    {
+      "start": 281.0,
+      "end": 287.16,
+      "text": " But if there are targets that are not met, if the price has some business that is left"
+    },
+    {
+      "start": 287.16,
+      "end": 291.68,
+      "text": " out, so in this scenario it is this liquidity level, most of the time it's going to take"
+    },
+    {
+      "start": 291.68,
+      "end": 294.48,
+      "text": " out that liquidity and then reverse."
+    },
+    {
+      "start": 294.48,
+      "end": 300.92,
+      "text": " Now price can also expand even further to negative 4 level."
+    },
+    {
+      "start": 300.92,
+      "end": 305.28,
+      "text": " And this happens when there is a significant target for price to achieve."
+    },
+    {
+      "start": 305.28,
+      "end": 314.77,
+      "text": " So there could be a higher level of liquidity pool down there near this level."
+    },
+    {
+      "start": 314.77,
+      "end": 320.85,
+      "text": " So price can take out this level here as well."
+    },
+    {
+      "start": 320.85,
+      "end": 330.19,
+      "text": " But mostly price will reverse from the negative 2 and negative 2.5 level."
+    },
+    {
+      "start": 330.19,
+      "end": 332.99,
+      "text": " So let's talk about the silver bullet zones."
+    },
+    {
+      "start": 332.99,
+      "end": 338.99,
+      "text": " So negative 1 and negative 1.5 inside this level."
+    },
+    {
+      "start": 338.99,
+      "end": 345.59,
+      "text": " So once you get like a market structure shift and an entry, now if you don't want to enter"
+    },
+    {
+      "start": 345.59,
+      "end": 352.07,
+      "text": " directly from here to increase your wind rate, once price hits the negative 1 and negative"
+    },
+    {
+      "start": 352.07,
+      "end": 359.79,
+      "text": " 1.5 in between here, it should not go below the negative 1.5 level inside this box."
+    },
+    {
+      "start": 359.79,
+      "end": 367.87,
+      "text": " goes into this level and once it does that you mark out any PD array that is there so it could"
+    },
+    {
+      "start": 367.87,
+      "end": 374.19,
+      "text": " be a friendly gap here could be a breaker block could be an auto block. Once you take your entry"
+    },
+    {
+      "start": 375.31,
+      "end": 382.99,
+      "text": " price will rush towards the main target that is why it is called standard deviation silver bullet"
+    },
+    {
+      "start": 382.99,
+      "end": 392.59,
+      "text": " entry. Also when price goes into this level, it significantly confirms that price will not head"
+    },
+    {
+      "start": 392.59,
+      "end": 400.35,
+      "text": " towards the main target. So ideally, I will not hold till negative 4 because it is very risky."
+    },
+    {
+      "start": 401.71,
+      "end": 407.23,
+      "text": " I will just take my profit at negative 2 or if there's a closed target, so there could be"
+    },
+    {
+      "start": 407.23,
+      "end": 411.79,
+      "text": " you know, a literally level below the negative 2, which could be just right around here, or it could"
+    },
+    {
+      "start": 411.79,
+      "end": 419.07,
+      "text": " be here. Once price does take that out, I'm out of the trade. Now, I will take out some"
+    },
+    {
+      "start": 419.07,
+      "end": 425.07,
+      "text": " partial. So maybe price breaks this level. I will take some partial here, grow big"
+    },
+    {
+      "start": 425.07,
+      "end": 432.91,
+      "text": " agreement, right? I'll grow a breakeven here. And yeah. Now, let's talk about how we actually"
+    },
+    {
+      "start": 432.91,
+      "end": 439.63,
+      "text": " use this with power of three. All right. So in this video, I will teach you a strategy that is"
+    },
+    {
+      "start": 439.63,
+      "end": 446.99,
+      "text": " included in my upcoming course update. So this strategy uses daily power of three and standard"
+    },
+    {
+      "start": 446.99,
+      "end": 454.19,
+      "text": " deviation projections. This happens every single day. So the setup is going to be there every"
+    },
+    {
+      "start": 454.19,
+      "end": 459.31,
+      "text": " single day. So I want you guys to watch the entire video to in order to understand this whole"
+    },
+    {
+      "start": 459.31,
+      "end": 467.23,
+      "text": " strategy. So 95% of the candles are going to have a week either to do one side or both sides,"
+    },
+    {
+      "start": 467.23,
+      "end": 473.39,
+      "text": " Right only five percent of the candles will not have a wig and a complete body of that makes sense"
+    },
+    {
+      "start": 474.35,
+      "end": 476.35,
+      "text": " So we want a trade"
+    },
+    {
+      "start": 478.22,
+      "end": 482.34,
+      "text": " When we have a wig and then we have expansion to the downside"
+    },
+    {
+      "start": 482.34,
+      "end": 485.96,
+      "text": " So the wig is mostly a manipulation move"
+    },
+    {
+      "start": 486.66,
+      "end": 488.46,
+      "text": " Was the manipulation is over?"
+    },
+    {
+      "start": 488.46,
+      "end": 495.0,
+      "text": " We want to get into the trade somewhere around here and then take the entire trade or example"
+    },
+    {
+      "start": 495.0,
+      "end": 502.88,
+      "text": " I mean take the entire expansion to read down side if that makes sense right so let's assume that this"
+    },
+    {
+      "start": 503.8,
+      "end": 505.8,
+      "text": " candle is a"
+    },
+    {
+      "start": 505.8,
+      "end": 507.8,
+      "text": " bearish"
+    },
+    {
+      "start": 507.8,
+      "end": 509.8,
+      "text": " Daily candle, okay"
+    },
+    {
+      "start": 510.36,
+      "end": 519.56,
+      "text": " So all you have to do is mark out the daily candle opening price now once you have marked out the daily candle opening price"
+    },
+    {
+      "start": 519.56,
+      "end": 522.5,
+      "text": " You have to drop down to five minute timeframe"
+    },
+    {
+      "start": 522.5,
+      "end": 529.78,
+      "text": " Once you drop down to 500 times from you will have your opening price right now"
+    },
+    {
+      "start": 529.78,
+      "end": 539.06,
+      "text": " the price will first of all manipulate okay so let's do let's remove this for"
+    },
+    {
+      "start": 539.06,
+      "end": 546.98,
+      "text": " now and we have we will see price consolidate for some time and then we will"
+    },
+    {
+      "start": 546.98,
+      "end": 552.26,
+      "text": " have a market structure shift and then we will have a manipulation which as I"
+    },
+    {
+      "start": 552.26,
+      "end": 559.06,
+      "text": " it before is going to be a week, right? We will see a manipulation move. Now, the goal here"
+    },
+    {
+      "start": 559.06,
+      "end": 564.82,
+      "text": " is to my year, the manipulation. We need to know where the manipulation is going to end. And"
+    },
+    {
+      "start": 564.82,
+      "end": 572.66,
+      "text": " to do so, we use standard deviation projections. So user Fibonacci and use your Fibonacci from the"
+    },
+    {
+      "start": 572.66,
+      "end": 581.06,
+      "text": " last low and last high that was formed before market structure sheds. So that is the opening"
+    },
+    {
+      "start": 581.06,
+      "end": 589.38,
+      "text": " price, I want to see price go below this level. Okay, first off, I want to see price go and dip"
+    },
+    {
+      "start": 589.38,
+      "end": 594.34,
+      "text": " below here and then give me a market structure shift. Now it can dip and give me a market"
+    },
+    {
+      "start": 594.34,
+      "end": 600.34,
+      "text": " structure shift above the opening price, but it has to go down to some degree. Okay, for example,"
+    },
+    {
+      "start": 600.34,
+      "end": 605.38,
+      "text": " here, here and here, it went down and then gave you a market structure shift. All right, so you use"
+    },
+    {
+      "start": 605.38,
+      "end": 611.78,
+      "text": " Use your Fibonacci from the low to the high and you will get these projections."
+    },
+    {
+      "start": 611.78,
+      "end": 617.14,
+      "text": " So you can copy these numbers just to save all this just in case you want to copy these."
+    },
+    {
+      "start": 617.14,
+      "end": 622.06,
+      "text": " Alright, once you have these copied now you have to put your focus on the negative 2,"
+    },
+    {
+      "start": 622.06,
+      "end": 625.9,
+      "text": " negative 2.5 and negative 4."
+    },
+    {
+      "start": 625.9,
+      "end": 629.38,
+      "text": " So we are first of all mering the manipulation move."
+    },
+    {
+      "start": 629.38,
+      "end": 638.26,
+      "text": " So once price goes to goes above negative 2, you have to start looking for a market structure"
+    },
+    {
+      "start": 638.26,
+      "end": 647.02,
+      "text": " shift because from here onwards price will now reverse and expand towards its original direction"
+    },
+    {
+      "start": 647.02,
+      "end": 648.94,
+      "text": " if that makes sense."
+    },
+    {
+      "start": 648.94,
+      "end": 653.94,
+      "text": " So over here we had a shift in the market structure, right?"
+    },
+    {
+      "start": 653.94,
+      "end": 657.62,
+      "text": " And now we are projecting the manipulation move."
+    },
+    {
+      "start": 657.62,
+      "end": 664.86,
+      "text": " So here it can either, the manipulation move can either end above, just above negative 2,"
+    },
+    {
+      "start": 664.86,
+      "end": 671.0,
+      "text": " it can end above negative 2.5 or it could go even further to negative 4."
+    },
+    {
+      "start": 671.0,
+      "end": 673.26,
+      "text": " But most is going to be somewhere around here."
+    },
+    {
+      "start": 673.26,
+      "end": 678.18,
+      "text": " Now from here onwards, what you're looking for is a shift in the market structure."
+    },
+    {
+      "start": 678.18,
+      "end": 684.62,
+      "text": " Now once you have a shift in the market structure, you have to now mare the expansion"
+    },
+    {
+      "start": 684.62,
+      "end": 693.58,
+      "text": " move. And to do so, you want to use your Fibonacci from the last high to the last low that was formed"
+    },
+    {
+      "start": 693.58,
+      "end": 704.22,
+      "text": " before market structure shift. Now, for the target, look below the negative two. And if you have any"
+    },
+    {
+      "start": 704.22,
+      "end": 709.42,
+      "text": " liquidy level, any significant liquid level, it could be a low, it could be a high below the"
+    },
+    {
+      "start": 709.42,
+      "end": 716.74,
+      "text": " negative 2, that is your take profit level. Okay? So you can then take your entry from the"
+    },
+    {
+      "start": 716.74,
+      "end": 723.98,
+      "text": " breaker block or your fair value gap or an auto block. So I usually love to take my"
+    },
+    {
+      "start": 723.98,
+      "end": 729.62,
+      "text": " entries from auto block. I would take my entry, I would take some partial around some"
+    },
+    {
+      "start": 729.62,
+      "end": 735.26,
+      "text": " fair value gap that could be here. And then the last take profit level would be this"
+    },
+    {
+      "start": 735.26,
+      "end": 737.06,
+      "text": " this liquidity level around here."
+    },
+    {
+      "start": 739.14,
+      "end": 742.14,
+      "text": " And similarly, if we invert the chart here,"
+    },
+    {
+      "start": 742.98,
+      "end": 745.46,
+      "text": " and let's do this, to do."
+    },
+    {
+      "start": 746.54,
+      "end": 751.54,
+      "text": " So we have, let's say, this is the opening price, right?"
+    },
+    {
+      "start": 751.54,
+      "end": 754.1,
+      "text": " And we are bullish."
+    },
+    {
+      "start": 754.1,
+      "end": 758.34,
+      "text": " We wanna see like the candle expanded bullish, right?"
+    },
+    {
+      "start": 758.34,
+      "end": 760.1,
+      "text": " So this is what it's gonna look like"
+    },
+    {
+      "start": 760.1,
+      "end": 762.06,
+      "text": " on the five minute timeframe."
+    },
+    {
+      "start": 762.06,
+      "end": 764.26,
+      "text": " We will see consolidation, probably."
+    },
+    {
+      "start": 764.26,
+      "end": 767.82,
+      "text": " All you have to do is look for a market structure shift."
+    },
+    {
+      "start": 767.82,
+      "end": 770.14,
+      "text": " Once you have a market structure shift,"
+    },
+    {
+      "start": 770.14,
+      "end": 771.98,
+      "text": " you want to look for,"
+    },
+    {
+      "start": 771.98,
+      "end": 774.58,
+      "text": " you won't have to admire the manipulation move."
+    },
+    {
+      "start": 774.58,
+      "end": 777.42,
+      "text": " So again, from the last high to the last low"
+    },
+    {
+      "start": 777.42,
+      "end": 779.22,
+      "text": " before market structure shift,"
+    },
+    {
+      "start": 779.22,
+      "end": 783.26,
+      "text": " price dips into this level, right?"
+    },
+    {
+      "start": 783.26,
+      "end": 785.86,
+      "text": " And then we get a market structure shift."
+    },
+    {
+      "start": 785.86,
+      "end": 787.66,
+      "text": " Then once you get a market structure shift,"
+    },
+    {
+      "start": 787.66,
+      "end": 790.3,
+      "text": " you wanna mirror the expansion move,"
+    },
+    {
+      "start": 790.3,
+      "end": 793.06,
+      "text": " and that is gonna be here."
+    },
+    {
+      "start": 793.06,
+      "end": 798.38,
+      "text": " This is the liquidity level inside this key zone area above negative two level."
+    },
+    {
+      "start": 799.02,
+      "end": 799.34,
+      "text": " Right."
+    },
+    {
+      "start": 799.58,
+      "end": 802.14,
+      "text": " This is what you have to, this is like the entire strategy guys."
+    },
+    {
+      "start": 802.14,
+      "end": 807.86,
+      "text": " So this is how you can mayor the the wicks the entire daily power of three of that"
+    },
+    {
+      "start": 807.86,
+      "end": 808.54,
+      "text": " makes sense."
+    },
+    {
+      "start": 809.14,
+      "end": 810.22,
+      "text": " This is very easy."
+    },
+    {
+      "start": 810.22,
+      "end": 817.54,
+      "text": " I go into more detail in the update, the course update video, but this should be enough."
+    },
+    {
+      "start": 817.58,
+      "end": 819.74,
+      "text": " The what I've taught you here, it should be enough."
+    },
+    {
+      "start": 819.74,
+      "end": 824.94,
+      "text": " So let me give you guys some examples and then I'll end the video and also my apologies"
+    },
+    {
+      "start": 824.94,
+      "end": 825.94,
+      "text": " up."
+    },
+    {
+      "start": 825.94,
+      "end": 827.1,
+      "text": " There's no face in this video."
+    },
+    {
+      "start": 827.1,
+      "end": 828.9,
+      "text": " I'm a little bit sick."
+    },
+    {
+      "start": 828.9,
+      "end": 831.74,
+      "text": " But yeah, let's end this video."
+    },
+    {
+      "start": 831.74,
+      "end": 834.18,
+      "text": " Alright guys, so here's example number one."
+    },
+    {
+      "start": 834.18,
+      "end": 837.82,
+      "text": " Look how I used the cat on the daily town frame and we're going to study today's candle"
+    },
+    {
+      "start": 837.82,
+      "end": 840.18,
+      "text": " that is still information."
+    },
+    {
+      "start": 840.18,
+      "end": 843.74,
+      "text": " So marking out the opening price, let's drop down to five minute down frame and see"
+    },
+    {
+      "start": 843.74,
+      "end": 845.5,
+      "text": " what happened."
+    },
+    {
+      "start": 845.5,
+      "end": 853.42,
+      "text": " going back here. What I can see is this is the opening price and price went up. Gave us"
+    },
+    {
+      "start": 853.42,
+      "end": 861.9,
+      "text": " this market structure shift, right? But if I use my fib from here to here, price never went down"
+    },
+    {
+      "start": 861.9,
+      "end": 869.1,
+      "text": " to negative 2 and negative 2.5. But it went up swept the liquidity here, right? And then it gave us"
+    },
+    {
+      "start": 869.1,
+      "end": 874.06,
+      "text": " a market structure shift by breaking this low. So using our perfect analogy of the last high"
+    },
+    {
+      "start": 874.06,
+      "end": 879.58,
+      "text": " to the last low. What you can see, price dipped into negative 2 and negative 2.5, but we didn't get"
+    },
+    {
+      "start": 879.58,
+      "end": 887.26,
+      "text": " a market structure shift. However, price dipped into negative 4, right? And then we had a shift in"
+    },
+    {
+      "start": 887.26,
+      "end": 891.5,
+      "text": " the market structure. Once we have a shift in the market structure, I can see a clear,"
+    },
+    {
+      "start": 891.5,
+      "end": 897.9,
+      "text": " fairly gap down here in the discount. Now to my or our expansion move, we want to use our"
+    },
+    {
+      "start": 897.9,
+      "end": 901.14,
+      "text": " are from the last low to last high."
+    },
+    {
+      "start": 902.4,
+      "end": 904.06,
+      "text": " And this is negative two here."
+    },
+    {
+      "start": 904.06,
+      "end": 905.46,
+      "text": " Look slightly above it."
+    },
+    {
+      "start": 905.46,
+      "end": 908.58,
+      "text": " And we have this high over here."
+    },
+    {
+      "start": 908.58,
+      "end": 910.74,
+      "text": " That should be a take profit level."
+    },
+    {
+      "start": 910.74,
+      "end": 913.3,
+      "text": " So this would have given you around seven RR"
+    },
+    {
+      "start": 913.3,
+      "end": 915.3,
+      "text": " if you took your trade from this fair value."
+    },
+    {
+      "start": 915.3,
+      "end": 916.14,
+      "text": " Yeah."
+    },
+    {
+      "start": 916.14,
+      "end": 919.26,
+      "text": " So let's move on to the next example."
+    },
+    {
+      "start": 919.26,
+      "end": 921.58,
+      "text": " All right guys, so here's example of a tool"
+    },
+    {
+      "start": 921.58,
+      "end": 923.74,
+      "text": " looking at USD CAD on the daily term frame."
+    },
+    {
+      "start": 923.74,
+      "end": 924.86,
+      "text": " We're gonna study this candle."
+    },
+    {
+      "start": 924.86,
+      "end": 926.74,
+      "text": " So let's mark out the opening price."
+    },
+    {
+      "start": 926.74,
+      "end": 929.46,
+      "text": " and then we drop down to five minute time from."
+    },
+    {
+      "start": 929.46,
+      "end": 931.22,
+      "text": " Now if I go back here,"
+    },
+    {
+      "start": 931.22,
+      "end": 932.06,
+      "text": " which you can see,"
+    },
+    {
+      "start": 932.06,
+      "end": 934.54,
+      "text": " this is the opening price of the candle."
+    },
+    {
+      "start": 934.54,
+      "end": 937.5,
+      "text": " Price goes up and gives us a market structure shift."
+    },
+    {
+      "start": 937.5,
+      "end": 940.1,
+      "text": " So now we wanna measure our manipulation move."
+    },
+    {
+      "start": 940.1,
+      "end": 943.7,
+      "text": " So let's use our fifth from the last high to last slow."
+    },
+    {
+      "start": 943.7,
+      "end": 946.02,
+      "text": " Price dipped below the negative 2.5"
+    },
+    {
+      "start": 946.02,
+      "end": 948.34,
+      "text": " and then gave us a market structure shift."
+    },
+    {
+      "start": 948.34,
+      "end": 949.5,
+      "text": " Before market structure shift,"
+    },
+    {
+      "start": 949.5,
+      "end": 954.42,
+      "text": " we had a small liquidity strip, as you can see right there."
+    },
+    {
+      "start": 954.42,
+      "end": 957.42,
+      "text": " And afterwards we have a shift in the market structure."
+    },
+    {
+      "start": 957.42,
+      "end": 959.62,
+      "text": " Now if we look closely, what do we have?"
+    },
+    {
+      "start": 959.62,
+      "end": 961.42,
+      "text": " We have this variable eGAP."
+    },
+    {
+      "start": 961.42,
+      "end": 965.22,
+      "text": " We also have this autoblock here,"
+    },
+    {
+      "start": 965.22,
+      "end": 968.42,
+      "text": " surprise respected both variable eGAP and the autoblock."
+    },
+    {
+      "start": 968.42,
+      "end": 970.42,
+      "text": " Now to measure our expansion move,"
+    },
+    {
+      "start": 970.42,
+      "end": 973.42,
+      "text": " we can use our favor of the last low to last high."
+    },
+    {
+      "start": 973.42,
+      "end": 978.42,
+      "text": " And above the negative two, we have this liquid level."
+    },
+    {
+      "start": 978.42,
+      "end": 980.42,
+      "text": " So that is going to be our target level."
+    },
+    {
+      "start": 980.42,
+      "end": 983.42,
+      "text": " And yes, you can take your entries during Asian session"
+    },
+    {
+      "start": 983.42,
+      "end": 988.58,
+      "text": " session for this strategy. So pretty simple guys. Let's move on to the next"
+    },
+    {
+      "start": 988.58,
+      "end": 993.9,
+      "text": " example. Alright guys, so here is example number three. I'm looking at aUDUD. So"
+    },
+    {
+      "start": 993.9,
+      "end": 1000.14,
+      "text": " this is the open price of the daily candle right here at 17. And you can see"
+    },
+    {
+      "start": 1000.14,
+      "end": 1005.58,
+      "text": " that this green candle is both a high and a low. So if you're wondering what"
+    },
+    {
+      "start": 1005.58,
+      "end": 1009.04,
+      "text": " indicator I'm using to determine highs and lows, go indicators, type in"
+    },
+    {
+      "start": 1009.04,
+      "end": 1016.01,
+      "text": " fractals and the one by original is the one you should use and that's what I'm using."
+    },
+    {
+      "start": 1016.01,
+      "end": 1021.45,
+      "text": " So we're going to use from this is the low, this is the high and this gets a market"
+    },
+    {
+      "start": 1021.45,
+      "end": 1022.45,
+      "text": " sugar shift here."
+    },
+    {
+      "start": 1022.45,
+      "end": 1027.93,
+      "text": " So we're going to use our fib from the last low to the last high and you can see price"
+    },
+    {
+      "start": 1027.93,
+      "end": 1032.57,
+      "text": " dip above the negative two but we didn't get any market sugar shift here."
+    },
+    {
+      "start": 1032.57,
+      "end": 1037.77,
+      "text": " But then price went above negative 2.5 and from here onwards we had a clean market"
+    },
+    {
+      "start": 1037.77,
+      "end": 1041.49,
+      "text": " structure shift and above that we have a very beautiful, very"
+    },
+    {
+      "start": 1041.49,
+      "end": 1046.59,
+      "text": " lovely gap. Now to my your our expansion move, we're going to"
+    },
+    {
+      "start": 1046.59,
+      "end": 1051.49,
+      "text": " my your from the Fibonacci from the last high to last low and just"
+    },
+    {
+      "start": 1051.49,
+      "end": 1056.97,
+      "text": " below the negative two we have this high sorry this low that"
+    },
+    {
+      "start": 1056.97,
+      "end": 1060.65,
+      "text": " should be a take profit level. You could have also targeted this"
+    },
+    {
+      "start": 1060.69,
+      "end": 1065.41,
+      "text": " but we want to be safe so we just targeted this. So that's"
+    },
+    {
+      "start": 1065.41,
+      "end": 1068.77,
+      "text": " pretty much it guys is very easy and mechanical in a way that"
+    },
+    {
+      "start": 1068.77,
+      "end": 1072.33,
+      "text": " you can use it every single day on every single pair."
+    },
+    {
+      "start": 1072.33,
+      "end": 1076.09,
+      "text": " Just pick three to four pairs and use this on those pairs."
+    },
+    {
+      "start": 1076.09,
+      "end": 1076.93,
+      "text": " Okay."
+    }
+  ]
+}

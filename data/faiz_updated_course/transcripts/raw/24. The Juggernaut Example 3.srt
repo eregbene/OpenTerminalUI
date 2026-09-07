@@ -1,0 +1,260 @@
+1
+00:00:00,000 --> 00:00:06,320
+Alright guys, so here is the final example and over here what you can see is we clearly
+
+2
+00:00:06,320 --> 00:00:12,760
+take out these relative equal highs here and we also form a frevaly gap, right?
+
+3
+00:00:12,760 --> 00:00:18,320
+And there's from this range low to this range high, there's only one frevaly gap and that's
+
+4
+00:00:18,320 --> 00:00:20,380
+on the 10 minute, okay?
+
+5
+00:00:20,380 --> 00:00:24,400
+So now I'm going to draw this out and I'm going to wait for price to close below it.
+
+6
+00:00:24,400 --> 00:00:29,440
+And just now, as you can see, we closed below it.
+
+7
+00:00:29,440 --> 00:00:34,560
+So now, this is going to be my take profit level as indicated by the fractals indicator
+
+8
+00:00:34,560 --> 00:00:39,300
+by Rachel T and I'm going to take my entry on the retest.
+
+9
+00:00:39,300 --> 00:00:45,160
+So if I put my shot position here, first off, I'm going to adjust my take profit level and
+
+10
+00:00:45,160 --> 00:00:47,600
+that is giving me one, two, one point four.
+
+11
+00:00:47,600 --> 00:00:54,800
+Now, as long as my stop is above the wake, I can get unlimited risk reward, right?
+
+12
+00:00:54,800 --> 00:00:57,080
+So it's giving me one point eight five.
+
+13
+00:00:57,120 --> 00:01:00,440
+So that is perfect.
+
+14
+00:01:00,440 --> 00:01:01,560
+Now look at the timing.
+
+15
+00:01:01,560 --> 00:01:03,440
+We are in the kill zone, right?
+
+16
+00:01:03,440 --> 00:01:08,320
+It is the, so we can also trade the strategy during the lunch breaks.
+
+17
+00:01:08,320 --> 00:01:14,120
+So usually there's a lunch break from five to six or from, you know, also, but it doesn't
+
+18
+00:01:14,120 --> 00:01:15,760
+really matter for the strategy.
+
+19
+00:01:15,760 --> 00:01:17,040
+You can literally just trade it.
+
+20
+00:01:17,040 --> 00:01:21,000
+So this is when we get the retests.
+
+21
+00:01:21,000 --> 00:01:25,680
+Look at this beautiful delivery that this is when you would be in the trade.
+
+22
+00:01:25,840 --> 00:01:33,640
+If I play this through, you're going to see that the take profit level was hit and probably
+
+23
+00:01:33,640 --> 00:01:40,280
+you could have targeted this low because that was a significant liquidity level.
+
+24
+00:01:40,280 --> 00:01:45,160
+This could have given you 2.45 risk to reward ratio.
+
+25
+00:01:45,160 --> 00:01:48,280
+So a very simple model.
+
+26
+00:01:48,280 --> 00:01:52,480
+You have to rewatch the video again and again until you understand this.
+
+27
+00:01:53,080 --> 00:01:55,720
+Here are some key notes that you should know.
+
+28
+00:01:56,640 --> 00:01:58,760
+So this is very important.
+
+29
+00:01:58,760 --> 00:02:02,400
+Listen very closely to increase the win rate of the strategy.
+
+30
+00:02:02,400 --> 00:02:07,360
+What you can do is you can identify one hour highs and lows.
+
+31
+00:02:07,400 --> 00:02:09,640
+So this is one hour time from now.
+
+32
+00:02:09,640 --> 00:02:13,760
+You look for any type of, you know, a sweep off the buy side or sell side.
+
+33
+00:02:14,240 --> 00:02:16,280
+So let's say on the one hour price takes out a buy side.
+
+34
+00:02:16,280 --> 00:02:21,520
+You drop down to five minute time from and then you look for bearish inverse
+
+35
+00:02:21,520 --> 00:02:22,360
+revenue gaps.
+
+36
+00:02:22,360 --> 00:02:29,240
+So you might see this on the five minute and you can see that we have another
+
+37
+00:02:29,240 --> 00:02:33,040
+buy side sweep and we're going to have one for value gap here.
+
+38
+00:02:34,360 --> 00:02:36,160
+We must have one for the gap inside there.
+
+39
+00:02:37,760 --> 00:02:40,680
+You can market the fair value gap.
+
+40
+00:02:40,720 --> 00:02:45,800
+Once the price closes below it, you go shot on the retest, target this level.
+
+41
+00:02:46,080 --> 00:02:50,120
+Now this is going to increase the win rate to some degree, but I haven't noticed
+
+42
+00:02:50,640 --> 00:02:54,160
+like a much significant difference, all right.
+
+43
+00:02:54,720 --> 00:02:56,040
+So you should be fine.
+
+44
+00:02:56,080 --> 00:03:03,720
+Also, if you if you if you've watched my SMT video and if you can use SMT with this.
+
+45
+00:03:03,760 --> 00:03:10,280
+So let's say on the DXY price failed to create a another higher high.
+
+46
+00:03:10,760 --> 00:03:14,840
+But on GPP USD, we do create a higher high.
+
+47
+00:03:15,680 --> 00:03:22,120
+Now, then the inverse for a gap is going to act even more strong and there's a high
+
+48
+00:03:22,120 --> 00:03:26,400
+chance there will be even higher chance that price will take out this low over here.
+
+49
+00:03:27,320 --> 00:03:33,560
+And make sure you stick to two to three pairs only because if you if you trade
+
+50
+00:03:33,560 --> 00:03:36,080
+every single pair, you're going to over trade and that is not good.
+
+51
+00:03:36,680 --> 00:03:40,840
+You make sure you only take two to three trades max per day with the strategy.
+
+52
+00:03:41,040 --> 00:03:44,680
+You do not have to over trade because some days, you know,
+
+53
+00:03:44,680 --> 00:03:50,080
+for what reason, God knows what reason, you know, every single trading strategy
+
+54
+00:03:50,080 --> 00:03:51,240
+can have a losing day.
+
+55
+00:03:51,480 --> 00:03:56,680
+So this can have it to start to minimize the losses, keep your maximum trades to two
+
+56
+00:03:56,680 --> 00:04:02,040
+or three and only choose two to three pairs or two assets.
+
+57
+00:04:02,560 --> 00:04:05,320
+This could be SMP 500 and that's 100.
+
+58
+00:04:06,640 --> 00:04:10,400
+This should be it for this model.
+
+59
+00:04:10,800 --> 00:04:13,720
+I hope you guys make good profits with it.
+
+60
+00:04:14,000 --> 00:04:17,840
+Of course, on a demo, I'm not a financial advisor, but make sure you practice this
+
+61
+00:04:17,840 --> 00:04:25,960
+first and try to trade above two minute time frame, but it works on all time frames.
+
+62
+00:04:26,040 --> 00:04:26,440
+All right.
+
+63
+00:04:27,280 --> 00:04:31,880
+And as I said, before, keep your trades two or three per day, not more than that.
+
+64
+00:04:32,320 --> 00:04:34,160
+Otherwise, the strategy will not work.
+
+65
+00:04:35,160 --> 00:04:36,880
+All right, let's move on to the next chapter now.
+

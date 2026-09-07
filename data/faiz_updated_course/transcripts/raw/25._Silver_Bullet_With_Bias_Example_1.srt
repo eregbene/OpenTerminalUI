@@ -1,0 +1,63 @@
+1
+00:00:00,180 --> 00:00:32,930
+Alright, so here is an example for the Silver Bullet, Interday Bias Sculpting, whatever you want to call it, right? So first of all, we want to determine the... Since we're going to take our entry on the one minute, we want to determine our 15 minute bias or narrative. So right here, we have this external taken out at 330, right? So from here onwards, what you want to look for is a fair value gap here, right?
+
+2
+00:00:32,930 --> 00:00:37,930
+So we have this fairly gap now going to the one minute timeframe
+
+3
+00:00:38,450 --> 00:00:47,680
+This is gonna be our draw liquidity right so we have to look for a shift in the market structure and that happens right there
+
+4
+00:00:48,180 --> 00:00:50,880
+And we have this fairly gap
+
+5
+00:00:51,420 --> 00:00:57,410
+So we're gonna get our entry before four o'clock, right? So
+
+6
+00:00:58,250 --> 00:01:02,050
+We get our entry to the 354 so we should be good. This is gonna be our draw
+
+7
+00:01:02,450 --> 00:01:04,490
+Right and if I play this through
+
+8
+00:01:04,490 --> 00:01:15,150
+you will see that we have hit our take profit level and if I please do you will see that after price takes up the objective
+
+9
+00:01:15,150 --> 00:01:22,270
+It will just go up. So that is the beauty of using this external internal with your
+
+10
+00:01:23,310 --> 00:01:30,710
+Every single strategy that I have right it could either be Asian session could be the ninth area and eight 30 open
+
+11
+00:01:31,430 --> 00:01:34,390
+You have this beautiful tool that you can use right now, okay?
+
+12
+00:01:34,390 --> 00:01:39,950
+And yeah, that's pretty much about it. Let me give you guys one more example simply look for a shift in the market
+
+13
+00:01:39,950 --> 00:01:49,710
+So as I said before the timings is that your entry only must be after enduring the kill during the silver bullet hours, okay?
+
+14
+00:01:50,990 --> 00:01:55,030
+The shift in the market structure can happen anytime as long as that
+
+15
+00:01:55,390 --> 00:02:01,990
+Liquidy level is still intact the drawn liquidity you can take your entry in that direction after 10 or after three
+
+16
+00:02:01,990 --> 00:02:03,990
+So let's move on to the next example.

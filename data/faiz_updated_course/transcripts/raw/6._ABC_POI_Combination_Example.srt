@@ -1,0 +1,139 @@
+1
+00:00:00,000 --> 00:00:30,000
+So here is an example of using combining POI with ABC. So we have A, B, and the C leg goes into this order block. You can say this right here. Price goes straight into this order block here. And it also takes out liquidity or the high of the A leg.
+
+2
+00:00:30,000 --> 00:00:38,060
+B and C. Now what you have here is a marker structure shift here and you also have
+
+3
+00:00:38,560 --> 00:00:42,580
+Mark's or the shift here and you also have a marker structure shift here
+
+4
+00:00:43,320 --> 00:00:45,120
+cool
+
+5
+00:00:45,120 --> 00:00:51,280
+After that you have your autoblock here, right? You see this very well together. So
+
+6
+00:00:52,360 --> 00:00:56,480
+your autoblock could beat this right here considering this high as well and
+
+7
+00:00:56,480 --> 00:01:01,480
+And you shot it right here, right?
+
+8
+00:01:02,980 --> 00:01:05,960
+And you put your stop there, just like that,
+
+9
+00:01:05,960 --> 00:01:11,000
+and you target the low here, which is a six-risk
+
+10
+00:01:11,000 --> 00:01:12,200
+to reward trade.
+
+11
+00:01:12,200 --> 00:01:15,680
+So notice how we took this auto block
+
+12
+00:01:15,680 --> 00:01:19,240
+or supply zone into consideration.
+
+13
+00:01:19,240 --> 00:01:21,600
+The C-leg goes into this level.
+
+14
+00:01:21,600 --> 00:01:24,080
+We had a market structure shift, right?
+
+15
+00:01:24,080 --> 00:01:29,080
+And we took our entry from this extreme friendly gap plus OB.
+
+16
+00:01:29,960 --> 00:01:30,960
+Right?
+
+17
+00:01:30,960 --> 00:01:33,320
+You could put your stop here as well.
+
+18
+00:01:33,320 --> 00:01:36,520
+But I usually like to put them here,
+
+19
+00:01:36,520 --> 00:01:39,360
+but it's also safe to put it here.
+
+20
+00:01:39,360 --> 00:01:41,120
+I'm not saying that you should put it here.
+
+21
+00:01:41,120 --> 00:01:45,200
+You should put it here just like if you want to, right?
+
+22
+00:01:45,200 --> 00:01:48,200
+But for me, I do not care about losing a trade.
+
+23
+00:01:48,200 --> 00:01:49,840
+My psychology is good.
+
+24
+00:01:49,840 --> 00:01:52,960
+So even if I lose this price goes back here in reverses,
+
+25
+00:01:52,960 --> 00:01:56,560
+I'm gonna be fine because, you know, unlike some people,
+
+26
+00:01:56,560 --> 00:02:00,160
+if they put this top loss here and it gets stopped,
+
+27
+00:02:00,160 --> 00:02:02,840
+and it just reverses from this area,
+
+28
+00:02:02,840 --> 00:02:04,600
+you would be mad, right?
+
+29
+00:02:04,600 --> 00:02:06,240
+So just keep it there.
+
+30
+00:02:07,560 --> 00:02:10,480
+Do you don't wanna mess around with the,
+
+31
+00:02:11,880 --> 00:02:12,720
+oh, never mind.
+
+32
+00:02:12,720 --> 00:02:15,600
+So we got the 3.25 you could say,
+
+33
+00:02:15,600 --> 00:02:17,280
+or six through a screw rod,
+
+34
+00:02:17,280 --> 00:02:19,800
+and this was a perfect example
+
+35
+00:02:19,800 --> 00:02:22,800
+on how you can use ABC with POI.

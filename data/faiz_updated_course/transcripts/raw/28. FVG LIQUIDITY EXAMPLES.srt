@@ -1,0 +1,128 @@
+1
+00:00:00,000 --> 00:00:07,800
+Alright, so I just found the example, so you can see we have the Fair Valley gap here.
+
+2
+00:00:07,800 --> 00:00:12,800
+And price created this high inside the Fair Valley gap.
+
+3
+00:00:12,800 --> 00:00:19,160
+And we also have this Fair Valley gap.
+
+4
+00:00:19,160 --> 00:00:22,600
+Price came into this Fair Valley gap, right created this low here.
+
+5
+00:00:22,600 --> 00:00:24,400
+So what happens then?
+
+6
+00:00:24,400 --> 00:00:28,880
+Price takes out the high that was formed inside the Fair Valley gap.
+
+7
+00:00:28,880 --> 00:00:35,920
+And then it goes to the low that was formed inside the Fair Valley gap.
+
+8
+00:00:35,920 --> 00:00:43,240
+So this is like, I think one of the best ways to find your daily buys or actually you can
+
+9
+00:00:43,240 --> 00:00:50,400
+use it as a trading model itself, but I wouldn't suggest it.
+
+10
+00:00:50,400 --> 00:00:56,820
+So over here you can also see that we have another Fair Valley gap, right?
+
+11
+00:00:56,820 --> 00:01:00,060
+And this high was formed inside this Fair Valley gap.
+
+12
+00:01:00,060 --> 00:01:02,500
+So price takes out the high.
+
+13
+00:01:02,500 --> 00:01:10,660
+And then you can see that we have this Fair Valley gap as well, right?
+
+14
+00:01:10,660 --> 00:01:15,820
+And this low was formed inside the Fair Valley gap right here.
+
+15
+00:01:15,820 --> 00:01:21,340
+So price takes out the high that was formed inside this Fair Valley gap.
+
+16
+00:01:21,340 --> 00:01:28,740
+And then it goes towards the low that was formed inside this tiny Fair Valley gap.
+
+17
+00:01:28,740 --> 00:01:34,780
+So you can use it as I say before to find your daily buys or a model itself.
+
+18
+00:01:34,780 --> 00:01:39,940
+So I hope by now it is clear and just wanted to make a very short video about this because
+
+19
+00:01:39,940 --> 00:01:45,260
+this is very easy and it is very, very effective.
+
+20
+00:01:45,260 --> 00:01:48,020
+Remember it only works with Fair Valley gaps.
+
+21
+00:01:49,020 --> 00:01:56,660
+And also one thing to note is that let's say price comes into the Fair Valley gap, right?
+
+22
+00:01:56,660 --> 00:02:01,820
+And as soon as it comes and creates a high and then the high gets purged, then you don't
+
+23
+00:02:01,820 --> 00:02:06,180
+have to look for anything that Fair Valley gaps becomes invalid.
+
+24
+00:02:06,180 --> 00:02:10,220
+Only one high is allowed in one Fair Valley gap.
+
+25
+00:02:10,220 --> 00:02:14,820
+If there are two highs that Fair Valley gap is invalid, okay?
+
+26
+00:02:14,820 --> 00:02:20,660
+So for example, this is another high that is created inside this Fair Valley gap, right?
+
+27
+00:02:20,660 --> 00:02:22,620
+And it took out the first high.
+
+28
+00:02:22,620 --> 00:02:25,940
+Now I will not be looking at this because the job is done here.
+
+29
+00:02:25,940 --> 00:02:31,740
+So I will move on and look to find another setup.
+
+30
+00:02:31,740 --> 00:02:37,740
+If there's one high like this, then that liquidity pool is valid.
+
+31
+00:02:37,740 --> 00:02:40,340
+So yeah, that's what I wanted to tell you.
+
+32
+00:02:40,340 --> 00:02:42,340
+So let's move on to next chapter.
+

@@ -1,0 +1,129 @@
+Alright guys so welcome to course update 4.0 this update is going to actually
+make you a monster okay this update has all the advanced ICT concepts and if you
+understand these concepts guys trust me you will become an independent trader
+you will not need anyone else okay you will be able to identify daily bias
+multi bias weekly bias you will be able to create your own model I will teach
+you a couple of new strategies that are insanely profitable and insanely
+powerful but let's talk about our first topic of the course update which is the
+monthly weekly and daily bias now before we get into the monthly weekly daily
+bias you want to know about external liquidity and internal liquidity so
+over here as you can see I have marked out this high as external liquidity I've
+also marked out this low as external liquidity so basically price and this
+right here this fair value gap in the discount so this is the equilibrium of
+this move so if you use your Fibonacci from this to this that is your
+equilibrium right and below any fair value gap below that is an internal
+liquidity so what market does is it market only moves in two ways okay it
+either takes out external liquidity right and seeks for internal liquidity right
+so market will take out external liquidity and it will the drawn
+liquidity would be the fair value gap in the discount okay that is one thing
+that market does and the second and the last thing that market is is it moves
+from internal sorry guys it moves from internal to external right here so this
+right here is an external liquidity here as well so basically we are moving from
+external to internal and from internal to external I repeat again external
+liquidity is any high or low and internal liquidity is any fair value gap in the
+discount or premium that is what you need to know about
+external and internal liquidity okay so now how do we find our let's talk about
+monthly bias okay so for monthly bias we want to be using three time frames
+okay and for like for weekly bias we will use two times as well and for daily we
+would use three time frames as well and you will be learning a new strategy in
+this video as well so keep watching okay so how do we determine the monthly
+bias it's very simple you mark out the closest high or low and if you see that
+prices take on an extended liquidity look below it where is the fair value gap
+in the discount okay so you want to use your frame from bottom to top on the
+monthly time frame first okay we go to the monthly first once price has taken
+out extended liquidity now we need to have a confluence that price is not
+going to reverse into internal liquidity okay we can't just simply short from
+here because we have no confirmation so once you have a purge of external
+liquidity on the monthly time frame you want to drop down to the daily time
+frame and once you drop down to daily time frame you want to look for a market
+structure shift once you have a market structure shift guys that is your
+confirmation that we are gonna seek this internal liquidity okay now you have
+your high time frame and now you have your daily time frame supporting that
+narrative as well that we are gonna go down into the internal liquidity right
+here which is the fair value gap in the discount so once you have the market
+structure shift what you want to do is you can literally take your entry from
+that autoblock okay that is your like simple model okay you can simply use
+this as a strategy once you get a market structure shift take your entry from
+here take portions along the way your main target would be here okay although
+when we go into different chapters of this course update I'm gonna teach you
+my specific strategies that I use with this by combining daily bias and all but
+for now what we are learning is how to identify your monthly bias so once you
+have a market structure shift on the daily time frame your monthly bias would
+be bearish until this internal liquidity is hit now of course it's not gonna be
+hit like hundred percent of the time but most of the time price will draw
+into the fair value gap that is in the discount and that is unmitigated the
+fair value gap has to be unmitigated okay that is very important so you have a
+market structure shift right and that is pretty much your level so once you have
+a market structure shift you can look for simply take your entry from the
+revenue gap you can use ABC strategy you can use ABCD trading strategy you can
+use whatever you want once you have a market structure shift your bias is to
+the downside now your entries and executions must be on the one hour time
+frame okay when you're using ABC or ABCD whatever it is I'm gonna talk about
+those later but once you have a market structure shift you can take your entry
+on the daily time frame as well because we got the market structure shift
+surprise is gonna go down anyways right so you can take your entry from I don't
+know this fairly gap over here or could be an auto block here just remember your
+target is over here and similarly for weekly bias we use these time streams
+for the higher time frame is gonna be one week so our high time frame is
+weekly our intermediate time is like four hour and our lowest time frame is
+gonna be 15 minutes so similarly what you're looking for is price to take out
+some form of high or low once practice has taken out higher low on the weekly
+time frame you are simply looking for a market structure shift on a four hour
+time frame now the thing is price cannot keep going up right like that and then
+give you a market shift you want to see like a an instant market structure shift
+runs price takes out liquidity okay you can yeah so you have to train your eyes
+I'm gonna show you the examples and then that would be clear on how you can you
+know differentiate it so once you have like a market structure shift on the
+four hour time frame you can simply take your entry from the four hour time frame
+itself or you can use 15 minute time frames for other strategies but don't
+worry about that I'm gonna teach you that stuff later on but what we need to
+know is once you get the market structure shift your bias is now set okay
+your bias for the weekly your weekly bias is gonna be bearish until the
+internal liquidity is hit right here so let me show you an example how this
+would look like so let's say price takes out external liquidity on the weekly
+time frame you drop down to the four hour time frame you mark out any low once
+price breaks that low you will get a market structure shift so you simply use
+your fit from top to bottom and look for your entry above the 0.5 level okay so
+there could be a fairly gap and that is a simple model okay that you can use a
+strategy but there are better ones I'm gonna teach you so don't worry so right
+here you can see we get a market structure shift right here over here we
+take our entry we target this level this fairly gap below the 0.5 level and from
+here onwards you can see we move from internal to external now moving from
+internal to external is is I would say is not that high probable if that makes
+sense for example if you're looking to go from internal to external that would
+require you to have a very very strong bias like if the auto flow is
+extremely bullish then you can look for this type of bias setup right so this
+whole concept this right here even though I knew ABC right this is ABC
+basically and into the fairly gap and ABC right here and then into the
+fairly gap or this low here this this was simplified big shout out to the
+market maker I don't know what's his name the market maker maker or
+something like that on Twitter and this is a this concept is from him so I want
+to give a shout out to him credit to him the market maker model I think maker I
+don't know wait let me just check so I am giving the shout out to the correct
+person it is basically the the market maker trader okay the MMXM trader big
+shout out to him so if you want to learn this concept from the the person who
+like simplified at this you can go and you know learn from here but I'm teaching
+the exact same thing so basically that is pretty much it you need to know about
+extended and liquid foil and for the daily bias of course we're gonna use
+three time frames as well so let's say that this is the daily time frame price
+takes out extended liquidity on the daily time frame right here right you
+want to drop down to one hour again and then you want to look for a
+market such a shift once you have a market such a shift on the hourly time
+frame you can simply look for your entry on the one hour time frame okay that is
+your like your simple bread and butter model you can simply use that model to
+take trades okay but if you want to increase your win rate I mean I wouldn't
+say win rate but if you want to increase your risk reward ratio you have to use
+this this time five minutes and I will get to that later in the video in the
+course okay so don't worry about it once you get the market shift as I said
+before your bias is confirmed okay price will not breach this high once you get
+the market structure shift so your target will be here okay but that doesn't
+mean that you take your trade and you hold the whole trade until internal
+liquidity is hit we don't know about markets what they're gonna do so just
+just take your target at a specific level could be 1 to 2 1 to 3 right you
+just need to know the direction of the market you don't want to target the
+exact same location which is this okay price can simply just go come down here
+and then reverse but we are setting up a revised like okay this is gonna be hit
+so we're gonna trade until you know we are above so basically your entries
+also entries also must be above the you know the 0.5 level here okay so
+remember that so now that we have talked about all these things and
+external and internal liquidity let me give you guys a couple of examples

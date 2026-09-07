@@ -1,0 +1,463 @@
+{
+  "source": "F:\\new faiz\\5. Liquidity.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 439.55375,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.46,
+      "end": 30.46,
+      "text": " Okay, so we are slowly moving forward. Today in this video, I'm going to teach you about liquidity and the actual concept about liquidity. So, I'm pretty sure you have watched a lot of videos on liquidity, maybe on YouTube or you bought someone else's course and you, you know, they thought you about liquidity. So, it's my job to teach you as well."
+    },
+    {
+      "start": 30.46,
+      "end": 36.7,
+      "text": " spend a lot of money right so it's just it's just best for me to explain what is liquidity so"
+    },
+    {
+      "start": 37.9,
+      "end": 44.06,
+      "text": " Let's suppose that this is resistance right and this is support level all right so"
+    },
+    {
+      "start": 45.02,
+      "end": 51.18,
+      "text": " We are told to sell at the resistance and then buy at the support level"
+    },
+    {
+      "start": 52.14,
+      "end": 57.22,
+      "text": " Okay, and now you might have noticed that I have labeled the resistance as"
+    },
+    {
+      "start": 57.22,
+      "end": 59.74,
+      "text": " as Bysight Liquidity."
+    },
+    {
+      "start": 59.74,
+      "end": 64.58,
+      "text": " And I have labeled the support level as cell size liquidity."
+    },
+    {
+      "start": 64.58,
+      "end": 67.1,
+      "text": " And I want to explain to you why I did that."
+    },
+    {
+      "start": 67.1,
+      "end": 70.82,
+      "text": " But let me explain a bit more about liquidity."
+    },
+    {
+      "start": 70.82,
+      "end": 74.74,
+      "text": " So you can see that price goes up to resistance."
+    },
+    {
+      "start": 74.74,
+      "end": 78.38,
+      "text": " And then we see a huge selloff, right?"
+    },
+    {
+      "start": 78.38,
+      "end": 81.86,
+      "text": " So now this area becomes a resistance"
+    },
+    {
+      "start": 81.86,
+      "end": 85.78,
+      "text": " because price couldn't go above that level."
+    },
+    {
+      "start": 85.78,
+      "end": 89.02,
+      "text": " And there are heavy sellers around this area."
+    },
+    {
+      "start": 89.02,
+      "end": 90.74,
+      "text": " So price goes down."
+    },
+    {
+      "start": 90.74,
+      "end": 94.18,
+      "text": " And then from this area, price goes back up"
+    },
+    {
+      "start": 94.18,
+      "end": 96.94,
+      "text": " in like with a momentum."
+    },
+    {
+      "start": 96.94,
+      "end": 100.3,
+      "text": " So now this place could be considered as a support level."
+    },
+    {
+      "start": 100.3,
+      "end": 103.86,
+      "text": " This level and this level is now considered to be a support level."
+    },
+    {
+      "start": 103.86,
+      "end": 107.82,
+      "text": " So a lot of retail traders, what they are expecting"
+    },
+    {
+      "start": 107.82,
+      "end": 110.94,
+      "text": " is that when the price is going to come back to this level,"
+    },
+    {
+      "start": 110.94,
+      "end": 114.9,
+      "text": " which is the resistance, the price is going to fall down."
+    },
+    {
+      "start": 114.9,
+      "end": 119.9,
+      "text": " Okay, so what price actually does is let me explain to you."
+    },
+    {
+      "start": 120.82,
+      "end": 121.74,
+      "text": " Oops, sorry."
+    },
+    {
+      "start": 123.06,
+      "end": 124.54,
+      "text": " Did you do?"
+    },
+    {
+      "start": 124.54,
+      "end": 130.32,
+      "text": " Price fix out like this, all right?"
+    },
+    {
+      "start": 130.32,
+      "end": 136.5,
+      "text": " And then goes down, all right?"
+    },
+    {
+      "start": 136.5,
+      "end": 139.38,
+      "text": " Fix up the support level."
+    },
+    {
+      "start": 140.26,
+      "end": 143.14,
+      "text": " And then it might either go up or down,"
+    },
+    {
+      "start": 143.14,
+      "end": 146.86,
+      "text": " depending on the daily bias, all right?"
+    },
+    {
+      "start": 146.86,
+      "end": 150.62,
+      "text": " So I'll assume that it just goes down."
+    },
+    {
+      "start": 150.62,
+      "end": 153.18,
+      "text": " So now what really happened here, all right?"
+    },
+    {
+      "start": 153.18,
+      "end": 158.18,
+      "text": " A lot of retail traders, what they do is they go short"
+    },
+    {
+      "start": 159.66,
+      "end": 164.66,
+      "text": " on the resistance level and they put their stop losses"
+    },
+    {
+      "start": 164.78,
+      "end": 168.46,
+      "text": " right above the resistance level, all right?"
+    },
+    {
+      "start": 168.46,
+      "end": 171.46,
+      "text": " So what price does it stops you out,"
+    },
+    {
+      "start": 171.46,
+      "end": 174.82,
+      "text": " but then why am I calling it a buy side liquidity?"
+    },
+    {
+      "start": 174.82,
+      "end": 179.34,
+      "text": " Let me explain it to you very, very easily."
+    },
+    {
+      "start": 179.34,
+      "end": 182.66,
+      "text": " All right, so when price breaks out,"
+    },
+    {
+      "start": 183.66,
+      "end": 188.06,
+      "text": " the breakout artist, people who trade breakout patterns,"
+    },
+    {
+      "start": 188.06,
+      "end": 189.82,
+      "text": " what they're gonna do is they're gonna buy"
+    },
+    {
+      "start": 191.02,
+      "end": 194.5,
+      "text": " once the resistance level is broken, right?"
+    },
+    {
+      "start": 194.5,
+      "end": 198.02,
+      "text": " And they're gonna put their stop loss below this level."
+    },
+    {
+      "start": 199.46,
+      "end": 204.46,
+      "text": " All right, so they have a buy order,"
+    },
+    {
+      "start": 204.46,
+      "end": 207.58,
+      "text": " Alright, and their stop loss order is a sell order."
+    },
+    {
+      "start": 207.58,
+      "end": 212.38,
+      "text": " So if a person buys, if a person goes long,"
+    },
+    {
+      "start": 212.38,
+      "end": 218.7,
+      "text": " and then he gets stopped out, then that stop order would be considered as a sell position."
+    },
+    {
+      "start": 218.7,
+      "end": 227.1,
+      "text": " Alright, so the reason why it happens is that the price can go down with a momentum with"
+    },
+    {
+      "start": 227.1,
+      "end": 233.1,
+      "text": " huge volume because when the price breaks out, people buy right, but then they have stop loss"
+    },
+    {
+      "start": 233.1,
+      "end": 241.2,
+      "text": " orders. So what price is it just goes down triggers a lot of stop loss orders, which are sell"
+    },
+    {
+      "start": 241.2,
+      "end": 249.18,
+      "text": " orders, right? So it's gonna create more sell orders here. And the price gonna go way down."
+    },
+    {
+      "start": 249.18,
+      "end": 255.7,
+      "text": " All right. So people who just shorted at the resistance level, they got stopped out as well."
+    },
+    {
+      "start": 255.7,
+      "end": 261.26,
+      "text": " People who went along on the breakout, they got stopped out as well. And as you can see,"
+    },
+    {
+      "start": 261.26,
+      "end": 264.38,
+      "text": " price would go right down."
+    },
+    {
+      "start": 264.38,
+      "end": 272.1,
+      "text": " This is why I call it buy side liquidity because people are going to buy when the price breaks"
+    },
+    {
+      "start": 272.1,
+      "end": 274.1,
+      "text": " out of the resistance level."
+    },
+    {
+      "start": 274.1,
+      "end": 281.46,
+      "text": " And when the price breaks out, people are going to buy here, put their stop loss below"
+    },
+    {
+      "start": 281.46,
+      "end": 288.5,
+      "text": " this resistance level and price goes back down, triggers sell orders or stop loss"
+    },
+    {
+      "start": 288.5,
+      "end": 294.98,
+      "text": " others and it just goes down. Similarly, when price breaks through the support level, people"
+    },
+    {
+      "start": 294.98,
+      "end": 304.35,
+      "text": " are going to shot, right? And when people shot here, they're going to have their stop-loss right"
+    },
+    {
+      "start": 304.35,
+      "end": 309.79,
+      "text": " here. So the breakout artist, they're going to shot here, put their stop-loss right above the"
+    },
+    {
+      "start": 309.79,
+      "end": 317.55,
+      "text": " support level. And what happens, price stops you out, twiggers, buy orders. Okay? So when we are"
+    },
+    {
+      "start": 317.55,
+      "end": 324.75,
+      "text": " shorting let's say you shorted here right and price stops you out then it would trigger by"
+    },
+    {
+      "start": 324.75,
+      "end": 331.07,
+      "text": " orders because you are selling right so when you get stopped out it will trigger by orders"
+    },
+    {
+      "start": 331.07,
+      "end": 338.19,
+      "text": " and then with the momentum with liquidity price is going to go back up with momentum it's"
+    },
+    {
+      "start": 338.19,
+      "end": 347.47,
+      "text": " going to go back to its original destination with heavy momentum so this is the concept of liquidity"
+    },
+    {
+      "start": 347.47,
+      "end": 351.35,
+      "text": " Now, liquidity could be literally anywhere."
+    },
+    {
+      "start": 351.35,
+      "end": 356.16,
+      "text": " It could be right here, right?"
+    },
+    {
+      "start": 356.16,
+      "end": 357.64,
+      "text": " This level, all right?"
+    },
+    {
+      "start": 357.64,
+      "end": 360.88,
+      "text": " When we are in an uptrend,"
+    },
+    {
+      "start": 360.88,
+      "end": 364.16,
+      "text": " you can see the higher high and higher low."
+    },
+    {
+      "start": 364.16,
+      "end": 366.84,
+      "text": " This high low could be considered as liquidity as well"
+    },
+    {
+      "start": 366.84,
+      "end": 371.84,
+      "text": " because people are going to buy, oops, by that."
+    },
+    {
+      "start": 373.8,
+      "end": 376.36,
+      "text": " At the breakout of this previous high,"
+    },
+    {
+      "start": 376.36,
+      "end": 377.88,
+      "text": " so let's say people buy here,"
+    },
+    {
+      "start": 377.88,
+      "end": 382.88,
+      "text": " They might put the store clause right below this previous higher low."
+    },
+    {
+      "start": 382.88,
+      "end": 392.28,
+      "text": " And then in the future, the price can come back down to some auto block here or demand zone."
+    },
+    {
+      "start": 392.28,
+      "end": 396.48,
+      "text": " And then the price can just actually move back up."
+    },
+    {
+      "start": 396.48,
+      "end": 397.88,
+      "text": " Oops, my bad."
+    },
+    {
+      "start": 397.88,
+      "end": 399.88,
+      "text": " It can just move back up like that."
+    },
+    {
+      "start": 399.88,
+      "end": 401.88,
+      "text": " So it could be anywhere."
+    },
+    {
+      "start": 401.88,
+      "end": 406.88,
+      "text": " but we need to identify the most important liquidity areas."
+    },
+    {
+      "start": 408.04,
+      "end": 412.52,
+      "text": " So the more prominent that area is,"
+    },
+    {
+      "start": 412.52,
+      "end": 417.16,
+      "text": " the more it's gonna be working with your strategies,"
+    },
+    {
+      "start": 417.16,
+      "end": 418.96,
+      "text": " the strategies that I'm gonna teach you"
+    },
+    {
+      "start": 418.96,
+      "end": 423.32,
+      "text": " in the upcoming videos, we are going to use liquidity."
+    },
+    {
+      "start": 423.32,
+      "end": 425.48,
+      "text": " We are gonna trade with liquidity,"
+    },
+    {
+      "start": 425.48,
+      "end": 427.56,
+      "text": " liquidity is everything, all right?"
+    },
+    {
+      "start": 427.56,
+      "end": 431.68,
+      "text": " So I hope you did understand the concept of liquidity"
+    },
+    {
+      "start": 431.68,
+      "end": 438.68,
+      "text": " And I'll give you some examples in the next part of this concept."
+    }
+  ]
+}

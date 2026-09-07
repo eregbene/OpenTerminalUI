@@ -1,0 +1,92 @@
+[00:00:00] Alright guys, so this is how I personally use quarterly theory as a standalone model or I can use it with other things as well. So when do we want to look for manipulations and when we want to look for expansions? So when you are on the intraday chart, so this is going to be 15 minute, you will have of course, you know,
+[00:00:30] then you're gonna have manipulation,
+[00:00:33] then you will have distribution,
+[00:00:37] and then you will have continuation, right?
+[00:00:42] Now, you want to focus on the manipulation part here, okay?
+[00:00:47] So, as I said before, you will have then quadrants,
+[00:00:50] so there will be, you know, a simulation inside here,
+[00:00:55] then manipulation and vice versa right now in the manipulation quarter which is
+[00:01:05] this right let's remove this so you don't get confused so remember in each
+[00:01:09] quarter they're gonna be four quadrants so in accumulation quarter you're
+[00:01:13] gonna have four quadrants that will be accumulation manipulation distribution
+[00:01:18] and continuation alright now we want to focus on the big the quarter right we do
+[00:01:24] not want to focus on the quadrants at the moment. Now inside the manipulation
+[00:01:28] quarter, we have to focus on the manipulation quadrant. Okay. So this is
+[00:01:39] you have to decide on this carefully guys because this is the only
+[00:01:43] possible way to explain this. So inside the manipulation quarter, you're
+[00:01:49] going to have, you know, accumulation manipulation, distribution
+[00:01:52] continuation. You want to focus on the manipulation part. So inside a manipulation
+[00:01:58] quarter, you have to focus on a manipulation quarter. Now that is clear. Now let's
+[00:02:06] go here. So let's say that the overflow is bearish. Okay. Now when the overflow is
+[00:02:16] bearish, of course we want to take short positions. Now during the manipulation
+[00:02:25] phase of the manipulation quarter you have to look for a liquidity sweep. So
+[00:02:31] inside a manipulation red box or you could say a manipulation quarter you have to
+[00:02:38] look for a liquidity sweep during a manipulation quadrant if that makes sense.
+[00:02:45] So this gonna be right here, right?
+[00:02:47] Once you have a liquid use rep,
+[00:02:49] you then have to look for a market structure shift, okay?
+[00:02:53] Now this could be either on a lower timeframe.
+[00:02:56] So for example, if you're looking at this
+[00:02:57] on the 15 minute timeframe,
+[00:02:59] you can then drop down to two minutes time from,
+[00:03:01] or one minute timeframe to look for a market structure shift.
+[00:03:04] However, I highly suggest you stick to the same timeframe.
+[00:03:08] So that's gonna be 15 minutes timeframe,
+[00:03:10] then you look for a shift in market structure,
+[00:03:11] and then you can look to take your entry.
+[00:03:15] Similarly, if you have a period array, so there's be a you know an auto blog here
+[00:03:22] So we swept this liquidity before but then we have a fairly gap price can manipulate into that fairly gap
+[00:03:30] Because remember fairly gap on a lower time frame is also a liquidity level
+[00:03:35] Refer back to internal and external liquidity videos and then you will understand so price can also go into the period array
+[00:03:45] without sweeping liquidity but in this case it's so
+[00:03:48] liquidity and went into the fair value gap. That is also acceptable.
+[00:03:51] Okay but I prefer you look for liquidity soups because that you will be
+[00:03:56] like satisfied that okay you will not be in fear that okay if I take my entry from
+[00:04:02] this fair value gap price can maybe go ahead and take out that high. So I
+[00:04:06] suggest look for liquidity soups. So here we have liquidity sheep and price
+[00:04:10] also went into the fair value gap. You look for a market structure shift and
+[00:04:13] then you can take your entry.
+[00:04:15] Now the price will distribute lower
+[00:04:19] during the distribution phase.
+[00:04:23] And then it can reverse during the reversal quarter.
+[00:04:29] So this is very, very simple guys.
+[00:04:32] If you understood what I said in this video,
+[00:04:35] I'll repeat this again.
+[00:04:36] So remember, we have four quarters.
+[00:04:39] We have accumulation, manipulation, distribution and continuation.
+[00:04:44] Now inside each quarter, we're going to have four quadrants.
+[00:04:48] So in a accumulation quarter, we're going to have accumulation, manipulation, distribution
+[00:04:54] and continuation.
+[00:04:55] In the manipulation quarter, we're going to have four quadrants as well.
+[00:05:00] That's going to be accumulation, manipulation, distribution and continuation.
+[00:05:03] It goes on with these two as well.
+[00:05:07] Now we want to look for a manipulation inside a manipulation quarter during manipulation quadrant
+[00:05:14] if that makes sense.
+[00:05:17] So the manipulation quarter is going to have four faces.
+[00:05:20] We're going to have to focus on the second face which is the manipulation face of the quadrant.
+[00:05:25] During that face we want to look for a liquid you sweep or a push to the period rate
+[00:05:30] that could be fairly gap, breaker block, autoblock.
+[00:05:34] Now please note that we have to trade this with the high time frame trend or high time
+[00:05:38] frame auto flow.
+[00:05:40] Without that you are just basically taking random liquidy strips and this might not work
+[00:05:45] for you.
+[00:05:46] So understand that identifying the auto flow is very important to identify auto flow.
+[00:05:50] All you have to do is come onto the chart, look at the high time frame.
+[00:05:53] And if you see that the price is going down, you will instantly know the auto flow.
+[00:05:57] You will know that okay price is going in that direction.
+[00:05:59] But if you are confused and you can't identify the auto flow, you are like confused if
+[00:06:02] if it's bullish or bearish, then it's best to avoid that pair or asset.
+[00:06:07] So that's pretty much it guys for this.
+[00:06:10] You don't have to focus on anything else.
+[00:06:13] Although there's another strategy that I use with this, so let's remove this.
+[00:06:20] You can use this model as well.
+[00:06:23] So inside the accumulation phase, you will mostly see consolidation.
+[00:06:27] So you will have a high of the accumulation phase and the low of the accumulation phase,
+[00:06:31] right?
+[00:06:32] the manipulation phase, what you can do is look for a purge of either the high or the
+[00:06:37] low of the accumulation phase. So this is the high of the accumulation phase, right?
+[00:06:42] This around here. Now during the manipulation quarter, look for a sweep of either the
+[00:06:50] high or the low. And then you can look for a shift in the market structure, take your entry
+[00:06:54] and you can target the low of the accumulation phase.
+[00:06:58] So let me give you guys some examples about how I use this in the real life market and
+[00:07:04] then we'll move on to the next chapter.

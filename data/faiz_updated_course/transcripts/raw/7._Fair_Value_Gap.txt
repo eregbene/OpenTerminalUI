@@ -1,0 +1,82 @@
+[00:00:00] Okay guys, so in this video we are going to learn about fair value gaps and imbalances. They are the same thing, but different names. You could either call it fair value gap or imbalances. It's really up to you. But shout out to this guy over here. Great presentation or diagram you could say. Okay, so a gap of liquidity left during the move down in price due to new brand price share overlapping that part of the move in the previous or next candle.
+[00:00:30] is fair about your gap is the space between the three candles. Alright, so this is the one candle,
+[00:00:38] second candle and third candle. So as you can see from the left side from this low and the third
+[00:00:45] candle to the right, this high, there's this gap. Alright, there's nothing around this level.
+[00:00:54] So this is considered to be imbalance.
+[00:00:59] I will repeat.
+[00:01:00] You can see that price went up and then we had three candles.
+[00:01:05] So this is like a three candle.
+[00:01:08] You could say so you can see one, two, three, three candles.
+[00:01:14] And in between those three candles, there should be a gap.
+[00:01:18] So how do we determine a gap?
+[00:01:21] We look if we are looking at a
+[00:01:24] Short position we're gonna look from the first we're gonna look start looking from the first candle
+[00:01:29] So this is the first candle and
+[00:01:32] We look at the low of the first candle which is this and then we look at the high of the third candle and if there is gap between the
+[00:01:45] low of the first candle and the high of the third candle
+[00:01:49] then that area could be considered as fair value gap or imbalance. Now why does
+[00:01:57] this happen is when big institutional buyers or sellers are in the market when
+[00:02:04] there is unfair or you could say huge amounts of selling or buying going on market
+[00:02:11] leaves unfair price okay and that price should always be filled it should be
+[00:02:19] filled to keep the value of the market fair if that makes sense. So that is why we call it a
+[00:02:27] fair value gap because when price comes into this level, it makes a price fair if that makes sense.
+[00:02:35] All right. So if we look at the by example here, we look for the high of the first candle and the
+[00:02:43] low of the third candle. So this is again a three candle formation. Remember that one, two, three.
+[00:02:51] All right. So the first candle we're looking at a by example. Okay. So the first candle,
+[00:02:58] the high of the first candle and the low of the third candle, we have to look for these two
+[00:03:05] things. All right. The high of the first candle and the low of the third candle. If there's any space
+[00:03:11] between the first candle and the third candle then that space should be
+[00:03:17] considered as fair value gap. Alright so let me give you some examples. So as
+[00:03:23] you can see we got let me zoom in a bit you can see one two three candles
+[00:03:32] right so we're looking at three candles okay so we got one candle right
+[00:03:37] here the second candle right here and the third candle right around here right and in between these
+[00:03:46] three candles we got fair value gap right so let me put that in like this and let me go to the
+[00:03:55] repo mode so it's clear for you guys all right okay so as you can see what we discussed when
+[00:04:01] When we're looking for a short position, we are going to look for the low of the first candle,
+[00:04:07] which is this as you can see, there is a week, right?
+[00:04:10] So this is the low of the first candle.
+[00:04:15] And then we look at the high of the third candle.
+[00:04:18] And there you can see this gap around this level, right?
+[00:04:22] And what we should be expecting is that price is going to fill this level, this area
+[00:04:31] imbalance and go down.
+[00:04:33] All right?
+[00:04:36] So let's see what happens.
+[00:04:38] Price fills the imbalance and then it drops down.
+[00:04:43] Very simple guys, okay?
+[00:04:46] And as you can see, price goes up a bit.
+[00:04:48] Fills all the imbalance here.
+[00:04:51] And there should be some imbalance
+[00:04:54] on a smaller timeframe, right?
+[00:04:57] So we are looking at this imbalance on a five-minute timeframe,
+[00:05:01] But I'm pretty sure there's gonna be imbalance
+[00:05:04] on a short time frame.
+[00:05:07] So let's go to the one minute timeframe.
+[00:05:10] And as you can see, as you can see, if we zoom in,
+[00:05:19] you can see there's gap, all right?
+[00:05:21] From here to here.
+[00:05:23] So a one, two, three candles, very nice.
+[00:05:27] And then you can see we got this gap, all right?
+[00:05:31] price must fill this level. So if we draw this out, you can see how perfectly price
+[00:05:43] filled the balance here, make the price fair and then it went down all the way
+[00:05:50] down. Alright, so let me play this ad for you. Yep, so it went all the way down.
+[00:05:57] Let me should give you an example for buy position. Alright, so we are looking at
+[00:06:05] this. So we got, let me label it so it's easier for you. So we got the one candle
+[00:06:13] around here. So this is our first candle. So this is the first candle. This is the second
+[00:06:25] and this is third. When we're looking for buys, we are going to look at the high, the
+[00:06:32] very high of the first candle and the low of the third candle and then we wait for the price
+[00:06:40] to fill this level and as you can see if we draw this out price filled this level fill this imbalance
+[00:06:49] or fill a value gap and it went all the way up all right and I'm pretty sure that there was some
+[00:06:56] imbalance around this level here as well. Alright on a 30 second timeframe or I
+[00:07:02] don't know 15 second timeframe remember guys price is fractal alright so whatever is
+[00:07:08] happening on the one minute it could be happening on a smaller timeframe so it
+[00:07:13] doesn't really matter what timeframe you're looking at as long as you are following
+[00:07:17] your rules. Okay so as you can see price fills the imbalance and the farewell you
+[00:07:25] gap and it just goes all the way up. Now we should not use the fair value gap or
+[00:07:34] imbalance, whatever you want to call it, as an independent strategy. All right.
+[00:07:39] This is something that we're going to use with a lot of other conferences like
+[00:07:42] liquidity, market structure break, okay, market structure shift and all. So keep watching.
+[00:07:49] And I'm pretty sure that you should be pretty clear about imbalances and what they are.
+[00:07:58] I tried my best, my very best to explain it to you.
+[00:08:02] I really do hope that you understood it. If you did not, I would highly recommend that you watch
+[00:08:08] this video again because this is one of the most important things of this course.
+[00:08:14] So yeah, I'll see you guys in the next video.

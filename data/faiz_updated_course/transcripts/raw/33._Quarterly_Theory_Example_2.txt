@@ -1,0 +1,54 @@
+[00:00:00] Alright guys, so this is example number two. So the thing is, there is not a fixed way to use cartilage theory. It works with every strategy. You can say it is a tool to confirm your entries. Typically, and you know, the prime entry that you would get is during the manipulation phase. Because that is when price is going into some form of PDRA.
+[00:00:30] to either sweep cell side liquidity, buy side liquidity, or it will go into a
+[00:00:36] period. So I want to give you an example here. So if I go to the for our time
+[00:00:42] from here, now this is going to be how I use this with the auto flow trading
+[00:00:47] strategy. So over here, you can see we are clearly sorry for that. Okay, so you
+[00:00:57] You can clearly see that we are bullish here.
+[00:01:01] Now you can see we have this auto block here, this auto block right here.
+[00:01:08] Focus on that.
+[00:01:10] I will mark this on like that.
+[00:01:11] Now let's go to 15 minute timeframe.
+[00:01:17] Now if I go to 15 minutes timeframe, you can see over here we came into the auto block.
+[00:01:23] So if I disable this just to be, just to make the chart clean.
+[00:01:27] was the four hour autoblock price tapped into it and we had a shift in market structure.
+[00:01:32] Now notice when the price come into the PDA and when the price take out this low here.
+[00:01:42] First off, the big quarter was the manipulation quarter.
+[00:01:48] During this phase, the manipulation quadrant of the manipulation quarter, you can see
+[00:01:55] We also took out this liquidity and this liquidity.
+[00:01:59] But you can see during the manipulation quarter,
+[00:02:02] we tapped into the autoblock.
+[00:02:05] Now, afterwards, what do we have?
+[00:02:07] We have a shift in the market structure right here.
+[00:02:11] Now, the green box is the expansion quarter.
+[00:02:14] And over here, you can see we have a beautiful autoblock here.
+[00:02:20] And once price came into our autoblock,
+[00:02:23] And you can see that during the manipulation phase
+[00:02:27] of the distribution quarter.
+[00:02:31] So this green box is the expansion quarter.
+[00:02:36] But look at the manipulation quadrant, the red box here.
+[00:02:41] This box went into this border block.
+[00:02:46] So do you understand what I'm trying to teach here?
+[00:02:49] If you can understand this, this will significantly
+[00:02:52] improve the way you trade. Alright, look at this carefully. We marked out the
+[00:02:58] four hour auto block during the manipulation phase during the manipulation
+[00:03:03] quarter. We went into the high time frame period rate. Now afterwards we have a
+[00:03:11] shift in the market structure. Now we had a lower time from auto block and
+[00:03:17] During the expansion quarter, we had a manipulative
+[00:03:22] quadrant and that pushed the price into this autoblog
+[00:03:27] for expansion.
+[00:03:30] So we also had this break-up block,
+[00:03:36] you can say price taps into here and it pushed back up.
+[00:03:41] So by now you must get the idea what I'm trying to teach you.
+[00:03:44] We use the quarterly theory to improve our win rate.
+[00:03:49] And when we are using this with other strategies,
+[00:03:51] we want to make sure that we are taking our entries
+[00:03:54] at the right time.
+[00:03:56] All right.
+[00:03:57] Are we taking our entry during the manipulation phase?
+[00:04:00] Or are we taking our entry during the expansion phase?
+[00:04:03] We primarily want to take our entry on the lower time
+[00:04:07] from during the expansion phase.
+[00:04:10] And we want to see price go into our high time
+[00:04:13] for impedia rate during the manipulation phase.
+[00:04:18] I hope that clears it.
+[00:04:19] I'll just move on to another example.

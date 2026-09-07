@@ -1,0 +1,107 @@
+1
+00:00:00,180 --> 00:00:30,180
+Alright everybody, so here is example number one. Looking at GPPUSD on the 6 minute timeframe. So the reason why I'm looking at 6 minute timeframe is because if I go to the 5 minute timeframe, there are two for value gaps here, one here and one here. So remember, as I said before, the leg that takes out liquidity or does a break of structure must only have one fair value gap. And over here, you can see we took out this height here.
+
+2
+00:00:30,180 --> 00:00:35,180
+Also, this high over here once again.
+
+3
+00:00:36,820 --> 00:00:39,380
+And let's see if we got something else that we took.
+
+4
+00:00:40,580 --> 00:00:45,580
+And you can clearly see this old liquidity was taken out.
+
+5
+00:00:45,900 --> 00:00:50,310
+So now once it was taken out,
+
+6
+00:00:51,590 --> 00:00:53,150
+we had this fairly up.
+
+7
+00:00:53,150 --> 00:00:54,910
+We draw this along like that.
+
+8
+00:00:54,910 --> 00:00:59,350
+And remember, we're gonna trade during the kills on ours.
+
+9
+00:00:59,350 --> 00:01:00,910
+So from 2am,
+
+10
+00:01:02,190 --> 00:01:04,190
+right till
+
+11
+00:01:05,190 --> 00:01:15,290
+1130 now what happens here after liquid sleep and break of structure most of the people would be going long of
+
+12
+00:01:15,790 --> 00:01:19,630
+This foreverly gap because they would consider this as a break of structure
+
+13
+00:01:20,270 --> 00:01:27,370
+Right, but this is basically an SMC trap now what happens price closes below this level right here
+
+14
+00:01:27,710 --> 00:01:29,950
+My entry would be on the retest
+
+15
+00:01:29,950 --> 00:01:39,630
+Oops, my bad. Right? And first of all, I will adjust my take profit level. So this is right here.
+
+16
+00:01:39,630 --> 00:01:46,510
+Now it's giving me one to one point zero five. So I can just move it slightly up like that until it
+
+17
+00:01:46,510 --> 00:01:53,310
+gives me one to one at least. Now this is where I would go break even. And this is the closest
+
+18
+00:01:53,310 --> 00:02:03,390
+low. Okay, not this because this low was created after the inverse
+
+19
+00:02:03,390 --> 00:02:07,950
+probability gap was formed. Okay, so this is not going to be your take profit
+
+20
+00:02:07,950 --> 00:02:15,070
+level because this price section doesn't matter. For your draw on liquidity,
+
+21
+00:02:15,070 --> 00:02:19,390
+you have to look at the previous price section which was this leg, right? So
+
+22
+00:02:19,390 --> 00:02:23,430
+So we created in verse, look to the left, which is the closest low, that is going to be a
+
+23
+00:02:23,430 --> 00:02:24,910
+take profit level.
+
+24
+00:02:24,910 --> 00:02:32,110
+Now over here, you could have taken full profits or could have gone break even and held
+
+25
+00:02:32,110 --> 00:02:40,790
+the trade until this level was taken out or even this level was taken out.
+
+26
+00:02:40,790 --> 00:02:46,230
+So you could have held this would have given you one to one point five or you could have
+
+27
+00:02:46,230 --> 00:02:53,230
+going for one to two. Very simple and very very powerful. Let's move on to the next example now.

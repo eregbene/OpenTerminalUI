@@ -1,0 +1,263 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, so in this lecture I'm gonna show you how I personally use ABCD trading strategy and trust me guys, this is like I would say even powerful than ABC. If we used properly and I'm gonna show you how to use it properly. So how do I use ABCD trading strategy? First of all, as I said before, I look at the overall market structure.
+
+2
+00:00:30,000 --> 00:00:36,560
+or are we bearish okay once I know the direction of the market so I look back
+
+3
+00:00:36,560 --> 00:00:43,800
+30 days or 20 days and if the market is going up I look for loans and if the
+
+4
+00:00:43,800 --> 00:00:50,520
+market has been going down for the past 30 days I only shot guys that is one
+
+5
+00:00:50,520 --> 00:01:02,200
+in Peru to identify trends. So you have a, b, c, right? You look for
+
+6
+00:01:02,200 --> 00:01:12,390
+D-leg, okay? And after that, you look for market structure shift on a smaller
+
+7
+00:01:12,390 --> 00:01:23,350
+time frame. Okay, so there could be structure here. Now unlike, so in ABC strategy, we look for
+
+8
+00:01:23,350 --> 00:01:37,750
+market structure shift above the range or below the range. Okay, but in ABCD, what can happen is
+
+9
+00:01:37,750 --> 00:01:44,750
+as long as this level is not broken, you can look for market structure shifts.
+
+10
+00:01:44,750 --> 00:01:51,750
+And while this level gets broken, you can still look for market structure shifts.
+
+11
+00:01:51,750 --> 00:01:59,750
+If the trend is bullish, right, this level can act as a liquidity level as well.
+
+12
+00:01:59,750 --> 00:02:03,750
+But most of the time, the pattern is going to look like this.
+
+13
+00:02:03,750 --> 00:02:10,070
+A B C D. The D leg takes out the low of the B leg and then you look at the market
+
+14
+00:02:10,070 --> 00:02:18,270
+such shift on a smaller timeframe. So the recommended timing, the timing that I use, the
+
+15
+00:02:18,270 --> 00:02:27,150
+timeframe that I use for the strategy is for our and 15 minutes. Okay. And guys trust me,
+
+16
+00:02:27,150 --> 00:02:28,790
+I'm not lying.
+
+17
+00:02:28,790 --> 00:02:33,230
+This is like the best time frame to use these strategies.
+
+18
+00:02:33,230 --> 00:02:37,410
+So on the four hour you look at the market structure
+
+19
+00:02:37,410 --> 00:02:39,910
+and you identify the ABC pattern.
+
+20
+00:02:39,910 --> 00:02:42,710
+And after that you look for the del egg
+
+21
+00:02:42,710 --> 00:02:44,950
+that takes out the low of the b leg.
+
+22
+00:02:44,950 --> 00:02:46,950
+Once that low is taken out,
+
+23
+00:02:46,950 --> 00:02:49,470
+you drop down to 15 minutes time frame
+
+24
+00:02:49,470 --> 00:02:51,270
+and then you look for market structure shift
+
+25
+00:02:51,270 --> 00:02:53,710
+with displacement that has favorably gap
+
+26
+00:02:53,710 --> 00:02:56,150
+before market structure shift.
+
+27
+00:02:56,150 --> 00:02:59,550
+And you take your entry during kill zone ours, okay?
+
+28
+00:02:59,550 --> 00:03:00,990
+As explained in the ABC video,
+
+29
+00:03:00,990 --> 00:03:04,590
+I have shown the timings, you must follow that timing.
+
+30
+00:03:04,590 --> 00:03:08,470
+And you take your entry and you can look for one to two,
+
+31
+00:03:08,470 --> 00:03:10,670
+target some fairly good gap here.
+
+32
+00:03:10,670 --> 00:03:13,830
+Probably there is a supplies on our auto block
+
+33
+00:03:13,830 --> 00:03:15,110
+with very very good gap.
+
+34
+00:03:15,110 --> 00:03:16,790
+Your flush target would be that.
+
+35
+00:03:16,790 --> 00:03:18,350
+You would take some partial,
+
+36
+00:03:18,350 --> 00:03:20,390
+you'd take some partial along the way.
+
+37
+00:03:20,390 --> 00:03:23,550
+And probably you could be treating your stop loss.
+
+38
+00:03:23,550 --> 00:03:27,390
+It really depends on your risk management style.
+
+39
+00:03:27,390 --> 00:03:37,270
+So similarly, if we have a downtrend for the past 30 days or 20 days, you look for a purge
+
+40
+00:03:37,270 --> 00:03:38,270
+of this level.
+
+41
+00:03:38,270 --> 00:03:43,990
+So we have a, b, c and this D leg takes out the high of the B leg right here.
+
+42
+00:03:43,990 --> 00:03:50,870
+Once that is taken out, you look for market structure shift on 15 minute timeframe and yeah,
+
+43
+00:03:50,870 --> 00:03:53,870
+it's gonna break out perfectly.
+
+44
+00:03:55,070 --> 00:03:57,990
+Now, sometimes what I do
+
+45
+00:04:00,190 --> 00:04:03,270
+to make it even more perfect,
+
+46
+00:04:03,270 --> 00:04:09,300
+I would look for an ABC pen like that,
+
+47
+00:04:09,300 --> 00:04:14,300
+and I'll use the fib from the start of a leg
+
+48
+00:04:16,060 --> 00:04:18,180
+and the end of C leg.
+
+49
+00:04:18,180 --> 00:04:23,180
+And if the delay comes into 0.705 level of 5 or 0.79 level,
+
+50
+00:04:31,380 --> 00:04:33,540
+right, and then gives you a market structure shift,
+
+51
+00:04:33,540 --> 00:04:38,380
+then guys, that is an A plus setup I would say.
+
+52
+00:04:38,380 --> 00:04:41,980
+Okay, I mean, the previous setup is also A plus,
+
+53
+00:04:41,980 --> 00:04:45,180
+but this adds in more confidence, right?
+
+54
+00:04:45,180 --> 00:04:49,500
+And if there is a perfect auto block with free value gap
+
+55
+00:04:49,500 --> 00:04:52,460
+around this level, then, oh, guys, trust me,
+
+56
+00:04:52,460 --> 00:04:54,340
+you're gonna love when this trade's gonna play out
+
+57
+00:04:54,340 --> 00:04:55,740
+in your favor.
+
+58
+00:04:55,740 --> 00:04:58,220
+So your low-per-market switch is shift on 15 minutes.
+
+59
+00:04:58,220 --> 00:05:03,020
+One price touches the 0.75 or 0.79 level
+
+60
+00:05:03,020 --> 00:05:07,540
+or an auto block around this area, right?
+
+61
+00:05:07,540 --> 00:05:10,780
+And I could say 0.5 above the 0.5 level
+
+62
+00:05:10,780 --> 00:05:14,660
+if you find an auto block or this, these levels,
+
+63
+00:05:15,180 --> 00:05:18,220
+the ODE levels 0.7 and 0.75.
+
+64
+00:05:18,220 --> 00:05:21,980
+You look for Microsoft Shift and you take your entry targeting
+
+65
+00:05:21,980 --> 00:05:24,140
+favorite gaps or auto blocks.
+
+66
+00:05:25,660 --> 00:05:27,900
+So let me give you guys a couple of examples.

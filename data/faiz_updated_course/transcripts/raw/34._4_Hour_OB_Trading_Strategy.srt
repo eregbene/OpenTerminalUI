@@ -1,0 +1,547 @@
+1
+00:00:00,560 --> 00:00:30,560
+Alright guys, so in this video I will go over the 4 hour auto block trading strategy in detail. I have uploaded a couple of videos on this topic on YouTube but in this video I will explain it in detail. So basically it is an auto flow trading strategy but it is a bit unique to the normal traditional auto flow trading strategy.
+
+2
+00:00:30,560 --> 00:00:34,440
+So this is how we look at it.
+
+3
+00:00:34,440 --> 00:00:39,440
+So number one thing is, look at the autoflow
+
+4
+00:00:40,680 --> 00:00:43,080
+on for our timeframe.
+
+5
+00:00:43,080 --> 00:00:45,720
+Now, when you open the charts,
+
+6
+00:00:45,720 --> 00:00:47,840
+let's say you open your USD, okay?
+
+7
+00:00:47,840 --> 00:00:49,320
+You don't wanna go back.
+
+8
+00:00:49,320 --> 00:00:53,120
+What do you see at the current price, right?
+
+9
+00:00:53,120 --> 00:00:54,680
+What are you seeing?
+
+10
+00:00:54,680 --> 00:00:56,680
+Are you seeing price going up,
+
+11
+00:00:56,680 --> 00:00:59,680
+creating higher highs, higher lows, higher highs?
+
+12
+00:00:59,680 --> 00:01:03,120
+If you see like three higher highs like that,
+
+13
+00:01:03,120 --> 00:01:05,960
+the trend is bullish, okay?
+
+14
+00:01:05,960 --> 00:01:09,160
+And if you see like a market structure shift
+
+15
+00:01:09,160 --> 00:01:11,240
+and then a break of structure like that,
+
+16
+00:01:11,240 --> 00:01:16,240
+then that could be your shift in the market structure
+
+17
+00:01:16,800 --> 00:01:19,440
+or a reversal, okay?
+
+18
+00:01:19,440 --> 00:01:21,840
+Perfectly I would like to see another break of structure
+
+19
+00:01:21,840 --> 00:01:22,680
+like that.
+
+20
+00:01:22,680 --> 00:01:24,560
+So three break of like one break of structure
+
+21
+00:01:24,560 --> 00:01:26,720
+and two break of structures like that.
+
+22
+00:01:26,720 --> 00:01:31,720
+And that would be my trend reversal, specifically for this strategy.
+
+23
+00:01:32,720 --> 00:01:39,720
+So now that you know that, let's say that the auto flow is bullish.
+
+24
+00:01:39,720 --> 00:01:43,120
+Okay. So in real markets, this is not going to look like this.
+
+25
+00:01:43,120 --> 00:01:44,720
+It's not going to be that clean.
+
+26
+00:01:44,720 --> 00:01:50,290
+It's going to look something like, you know, something like that.
+
+27
+00:01:50,290 --> 00:01:54,990
+And then you're going to have this and then you're going to have something like that.
+
+28
+00:01:54,990 --> 00:01:57,290
+Yeah. So you're going to be making,
+
+29
+00:01:57,290 --> 00:02:05,010
+going to see price making hard highs, hard lows, hard highs like that. Cool. So now my point
+
+30
+00:02:05,010 --> 00:02:13,050
+here is the second point here is you have to mark out every single autoblog. So remember
+
+31
+00:02:13,050 --> 00:02:18,970
+the autoblog video that I thought like before like autoblog 2.0, right? You want to mark
+
+32
+00:02:18,970 --> 00:02:26,010
+out every single autoblog. But when you are, remember this thing, okay? For this strategy,
+
+33
+00:02:26,010 --> 00:02:27,890
+when you are looking at the higher time frame,
+
+34
+00:02:27,890 --> 00:02:30,530
+so we are currently looking at the higher time frame, right?
+
+35
+00:02:30,530 --> 00:02:33,490
+So let's say that this down move
+
+36
+00:02:33,490 --> 00:02:35,450
+is consecutive bearish candles.
+
+37
+00:02:35,450 --> 00:02:38,650
+So one, two, three bearish candles, okay?
+
+38
+00:02:38,650 --> 00:02:40,370
+When you're looking at the higher time frame,
+
+39
+00:02:40,370 --> 00:02:43,370
+which is the four hour, you wanna refine it, okay?
+
+40
+00:02:43,370 --> 00:02:46,370
+So let's say there are three candles in this leg here.
+
+41
+00:02:46,370 --> 00:02:51,290
+You wanna mark out the body of the last candle here, okay?
+
+42
+00:02:51,290 --> 00:02:53,210
+So in the auto-lock 2.0,
+
+43
+00:02:53,210 --> 00:02:55,090
+remember we use the body of the candle.
+
+44
+00:02:55,090 --> 00:02:57,050
+So you have three bearish candles, one, two, three.
+
+45
+00:02:57,050 --> 00:02:58,250
+That is a whole audible.
+
+46
+00:02:58,250 --> 00:02:59,490
+But we will define it.
+
+47
+00:02:59,490 --> 00:03:00,410
+We are going to refine it.
+
+48
+00:03:00,410 --> 00:03:01,250
+Okay.
+
+49
+00:03:01,250 --> 00:03:03,330
+We refine it and this is the candle.
+
+50
+00:03:03,330 --> 00:03:05,370
+So not what we are gonna wait for
+
+51
+00:03:05,370 --> 00:03:09,130
+is price to come back into our auto block.
+
+52
+00:03:09,130 --> 00:03:13,490
+Once that happens, we drop down to 15 minute time from.
+
+53
+00:03:13,490 --> 00:03:14,290
+Okay.
+
+54
+00:03:14,290 --> 00:03:19,170
+So you mark out, oops, mark out,
+
+55
+00:03:19,170 --> 00:03:23,410
+OB, near price action.
+
+56
+00:03:23,410 --> 00:03:24,250
+Okay.
+
+57
+00:03:24,250 --> 00:03:31,250
+Wait for price to come back into your OB.
+
+58
+00:03:31,250 --> 00:03:41,250
+Look for market structure shift during kill zone R's and entry during kill zone R's as well.
+
+59
+00:03:41,250 --> 00:03:47,250
+So you wait for price to come back into your auto block.
+
+60
+00:03:47,250 --> 00:03:50,250
+So once that happens, you drop down to 15 minutes timeframe.
+
+61
+00:03:50,250 --> 00:03:52,470
+You look for markers such as shift during
+
+62
+00:03:53,290 --> 00:03:57,730
+Kills on ours now when you're at 15 minute timeframe
+
+63
+00:03:57,730 --> 00:04:02,290
+So we are only using like two time frames for the strategy for our and 15 minutes
+
+64
+00:04:02,290 --> 00:04:04,650
+We're not gonna use any other time frame, okay?
+
+65
+00:04:04,890 --> 00:04:09,770
+For our and 15 minutes so now that you have a marker such a shift on 15 minute timeframe
+
+66
+00:04:10,050 --> 00:04:14,450
+Now you have to use the consecutive bearish candles as your autoblock and
+
+67
+00:04:15,090 --> 00:04:19,210
+Remember this one thing a lot of people don't get this right
+
+68
+00:04:19,210 --> 00:04:24,530
+So if you have something like this price did not take out the low here and then you have let's say a
+
+69
+00:04:25,330 --> 00:04:30,770
+Maybe a break of structure here. There was some structure here in price broke it. That is a low probability setup
+
+70
+00:04:30,770 --> 00:04:34,350
+I want my auto block to take out some sort of liquidity
+
+71
+00:04:34,350 --> 00:04:36,590
+So these are the consecutive bearish candles, right?
+
+72
+00:04:37,210 --> 00:04:40,930
+It if it takes out some form of liquidity could be just be a
+
+73
+00:04:41,210 --> 00:04:47,490
+Like a little low here right it takes out and then you have a marker structure shift now that guys
+
+74
+00:04:47,490 --> 00:04:52,610
+That is a hyper-wilty autoblog and let's say that there is a bigger block here as well
+
+75
+00:04:52,610 --> 00:04:58,850
+right so you know the definition of a bigger blocks right the first candle of this here and
+
+76
+00:04:59,250 --> 00:05:05,010
+the first candle and the first candle is like the of this leg right so this leg right here
+
+77
+00:05:05,010 --> 00:05:08,450
+the first count of this leg and the first candle of the autoblog are
+
+78
+00:05:09,450 --> 00:05:12,810
+In alignment with each other the size is the same here, okay?
+
+79
+00:05:13,570 --> 00:05:16,490
+so
+
+80
+00:05:16,490 --> 00:05:22,250
+You mark out this level right here right this is consecutive bearish candles on 15 minutes
+
+81
+00:05:22,450 --> 00:05:24,450
+Okay, you take your entry
+
+82
+00:05:25,010 --> 00:05:27,430
+Right there and you target one to two
+
+83
+00:05:28,570 --> 00:05:33,550
+You go for one to two for this trading strategy guys, okay, and you got you're gonna have above
+
+84
+00:05:34,530 --> 00:05:39,650
+58 to 60% wind rate with this strategy. Okay. I'm not gonna say you're gonna have like a 70%
+
+85
+00:05:39,650 --> 00:05:41,650
+Personality person wind rate
+
+86
+00:05:41,650 --> 00:05:44,650
+You're gonna have 50-60% win rate.
+
+87
+00:05:44,650 --> 00:05:47,450
+You are gonna easily pass your FTMO challenges
+
+88
+00:05:47,450 --> 00:05:50,650
+or problem challenges if you follow the strategy correctly.
+
+89
+00:05:50,650 --> 00:05:54,050
+Remember, this works with every single pair.
+
+90
+00:05:54,050 --> 00:05:56,050
+I do not try this with indices.
+
+91
+00:05:56,050 --> 00:05:58,650
+I will comment, you do not try this with indices.
+
+92
+00:05:58,650 --> 00:06:02,650
+You can back test it, but the thing is try with Forex.
+
+93
+00:06:02,650 --> 00:06:07,650
+Every single pair here except these ones.
+
+94
+00:06:07,650 --> 00:06:10,650
+Just use these main ones.
+
+95
+00:06:10,650 --> 00:06:14,450
+So here's the risk management for this strategy.
+
+96
+00:06:14,450 --> 00:06:18,390
+So once the price hits one to one risk to reward,
+
+97
+00:06:18,390 --> 00:06:20,330
+let's say price hits one to one risk to reward.
+
+98
+00:06:20,330 --> 00:06:22,410
+You move your stop loss to break even.
+
+99
+00:06:23,570 --> 00:06:27,170
+And then you keep the trade open till one to two is hit.
+
+100
+00:06:27,170 --> 00:06:30,610
+That way it is like the least,
+
+101
+00:06:30,610 --> 00:06:32,850
+anxiety, like I would say it's the anxiety-free
+
+102
+00:06:32,850 --> 00:06:33,910
+hitting strategy guys.
+
+103
+00:06:36,410 --> 00:06:38,810
+It's quite rule-based and one more thing.
+
+104
+00:06:38,810 --> 00:06:40,890
+So let's do this.
+
+105
+00:06:40,890 --> 00:06:42,770
+Okay, boom, boom, boom.
+
+106
+00:06:42,770 --> 00:06:45,010
+So let's say the trend is bullish, right?
+
+107
+00:06:46,010 --> 00:06:49,530
+This strategy does not require break of structure
+
+108
+00:06:49,530 --> 00:06:51,890
+for the auto block to be valid, okay?
+
+109
+00:06:51,890 --> 00:06:58,780
+So it does not have to break the high over here, right?
+
+110
+00:06:59,860 --> 00:07:03,580
+And then you would consider this as your POI or auto block.
+
+111
+00:07:03,580 --> 00:07:06,140
+No, if you know that the trend is bullish,
+
+112
+00:07:06,140 --> 00:07:10,020
+you mark out every single bearish candle
+
+113
+00:07:10,020 --> 00:07:15,460
+below the price action. So let's say that this is a bearish candle, right?
+
+114
+00:07:15,940 --> 00:07:21,540
+And the bullish candle closes above it. So this is the bearish candle and this is the bullish candle,
+
+115
+00:07:21,540 --> 00:07:30,900
+right? Even that is a valid auto block. So you wait for price to come back into this auto block.
+
+116
+00:07:30,900 --> 00:07:34,740
+You drop down to 15 minute timeframe. You look for market structure shift. It's going to happen
+
+117
+00:07:34,740 --> 00:07:42,900
+something like that. You take your entry and boom. So let's say there was like, let's do this,
+
+118
+00:07:42,900 --> 00:07:55,280
+something like that. Okay. This is a bearish candle, right? And after that you have a bullish candle
+
+119
+00:07:55,280 --> 00:08:02,880
+and the body of the bullish candle closes above the body of the bearish candle. Wicks don't matter.
+
+120
+00:08:02,880 --> 00:08:10,320
+So if the body closes above the bearish candle, right, bearish candles body, then that is a valid
+
+121
+00:08:12,000 --> 00:08:17,280
+demand zone or an auto block price comes back as long as this
+
+122
+00:08:18,240 --> 00:08:23,680
+as long as the low the wick is not violated. So let's say there's the wick of this auto block, right?
+
+123
+00:08:24,400 --> 00:08:32,720
+So you keep looking for market structure shift until this level is broken or this level is violated.
+
+124
+00:08:32,880 --> 00:08:35,760
+Once that happens, that auto block becomes invalid.
+
+125
+00:08:35,760 --> 00:08:39,040
+However, let's say that you have an auto block here.
+
+126
+00:08:39,040 --> 00:08:41,280
+Okay? Maybe you have an auto block here.
+
+127
+00:08:41,280 --> 00:08:44,400
+So you choose the body of the candle.
+
+128
+00:08:44,400 --> 00:08:45,440
+Oops, my bad.
+
+129
+00:08:46,880 --> 00:08:49,200
+You choose the body of the candle like that.
+
+130
+00:08:49,840 --> 00:08:50,480
+Cool.
+
+131
+00:08:50,480 --> 00:08:52,480
+And then you look for markers, structure shift.
+
+132
+00:08:53,280 --> 00:08:54,400
+On the smaller timeframe.
+
+133
+00:08:55,280 --> 00:08:56,640
+And you take your entry.
+
+134
+00:08:56,640 --> 00:08:57,840
+Couple one to two.
+
+135
+00:08:57,840 --> 00:08:58,560
+Simple as that.
+
+136
+00:08:59,600 --> 00:09:01,440
+I'll give you guys a couple of examples.
+
+137
+00:09:01,440 --> 00:09:02,560
+And then I'll end the video.

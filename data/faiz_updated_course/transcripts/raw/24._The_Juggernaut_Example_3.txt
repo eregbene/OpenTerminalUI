@@ -1,0 +1,45 @@
+[00:00:00] Alright guys, so here is the final example and over here we can see is we clearly take out these relative equal highs here and we also form a Fravale gap. Right? And there's from this range low to this range high. There's only one Fravale gap and that's on the 10 minute. Okay? So now I'm gonna draw this out. I'm gonna wait for price to close below it. And just now, as you can see, we closed below it. So now this is going to be my take
+[00:00:31] profit level as indicated by the fractals indicator by Rachel T.
+[00:00:36] And I'm going to take my entry on the retest.
+[00:00:39] So if I put my shot position here, first off,
+[00:00:43] I'm going to adjust my take profit level and that is giving me one,
+[00:00:46] two, one, point four. Now, as long as my stop is above the wake,
+[00:00:52] I can get unlimited risk reward, right?
+[00:00:54] So it's giving me 1.85. So that is perfect. Now look at the timing.
+[00:01:01] We are in the kill zone, right? It is the so that we can also trade the strategy during the lunch breaks.
+[00:01:08] So usually there's a lunch break from five to six or from, you know, also, but it doesn't really matter for the strategy.
+[00:01:15] You can literally just trade it. So.
+[00:01:19] This is when we get the retest. Look at this beautiful delivery that this is when you would be in the trade.
+[00:01:25] And if I play this through, you're going to see that the take profit level was hit.
+[00:01:29] And probably you could have targeted this low because that was a significant liquidity level.
+[00:01:40] This could have given you 2.45 registered reward ratio.
+[00:01:45] So a very simple model.
+[00:01:48] You have to rewatch the video again and again until you understand this.
+[00:01:52] And here are some key notes that you should know.
+[00:01:56] So this is very important, listen very closely, to increase the wind rate of the strategy.
+[00:02:02] What you can do is you can identify one hour highs and lows.
+[00:02:07] So this is one hour time from now you look for any type of you know, a strip of the
+[00:02:12] bicep or sell side.
+[00:02:14] So let's say you want our price takes out bicep, you drop down to five minute time from
+[00:02:19] and then you look for bearish inverse fairly gaps.
+[00:02:22] So you might see this on the 5 minute and you can see that we have another bicep sweep
+[00:02:30] and we're gonna have one for value gap here.
+[00:02:33] We must have one for value gap inside there.
+[00:02:37] You can mark at the fair value gap once the price closes below it.
+[00:02:42] You go short on the retest, target this level.
+[00:02:46] Now this is gonna increase the window to some degree but I haven't noticed like a much
+[00:02:52] significant difference. All right. So you should be fine. Also, if you watch my SMT video,
+[00:03:00] and if you can use SMT with this, so let's say on the DXY price failed to create another higher
+[00:03:09] high, but on GPPUSD, we do create a higher high. Now then the inverse roger gap is going to act
+[00:03:18] even more strong. And there's a high chance. There will be even higher chance that price will
+[00:03:24] take out this low over here. And make sure you stick to two to three pairs only because if you
+[00:03:33] trade every single pair you're going to over trade and that is not good. Make sure you only take
+[00:03:37] two to three trades max per day with the strategy. You do not have to over trade because some days
+[00:03:44] you know for what reason God knows what reason you know every single trading strategy can have a losing day so this can have it to start to minimize the losses keep your maximum trades to two or three and only choose two to three pairs or two assets this could be smp 500 and naz 100.
+[00:04:06] This should be it for this model.
+[00:04:10] I hope you guys make good profits with it.
+[00:04:13] Of course, on a demo, I'm not a financial advisor, but make sure you practice this first
+[00:04:18] and try to trade above two minute time from, but it works on all time frames.
+[00:04:26] As I said before, keep your trades two or three per day, not more than that.
+[00:04:32] Otherwise, the strategy will not work.
+[00:04:34] Alright, let's move on to the next chapter now.

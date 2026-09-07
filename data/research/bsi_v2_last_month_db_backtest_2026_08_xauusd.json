@@ -1,0 +1,356 @@
+{
+  "summary": {
+    "overall": {
+      "closed_win_rate": 18.75,
+      "contexts": 2191,
+      "net_r": 8.2976,
+      "outcomes": {
+        "sl": 11,
+        "sl_same_bar": 2,
+        "tp": 3
+      },
+      "subtype_evaluations": 19719,
+      "valid_setups": 16
+    },
+    "subtypes": {
+      "bsi_0930": {
+        "evaluated": 2191,
+        "net_r": 0,
+        "outcomes": {},
+        "top_rejections": {
+          "NO_0930_SETUP": 2191
+        },
+        "valid_setups": 0
+      },
+      "bsi_abc": {
+        "evaluated": 2191,
+        "net_r": 0,
+        "outcomes": {},
+        "top_rejections": {
+          "NO_ABC_GEOMETRY": 2191
+        },
+        "valid_setups": 0
+      },
+      "bsi_abcd": {
+        "evaluated": 2191,
+        "net_r": 0,
+        "outcomes": {},
+        "top_rejections": {
+          "NO_ABCD_GEOMETRY": 2191
+        },
+        "valid_setups": 0
+      },
+      "bsi_asian": {
+        "evaluated": 2191,
+        "net_r": 0,
+        "outcomes": {},
+        "top_rejections": {
+          "NO_ASIAN_SETUP": 2191
+        },
+        "valid_setups": 0
+      },
+      "bsi_new_york": {
+        "evaluated": 2191,
+        "net_r": 0,
+        "outcomes": {},
+        "top_rejections": {
+          "NY_LIQUIDITY_NOT_SIGNIFICANT_SWING": 2191
+        },
+        "valid_setups": 0
+      },
+      "bsi_ob_liquidity": {
+        "evaluated": 2191,
+        "net_r": 0,
+        "outcomes": {},
+        "top_rejections": {
+          "NO_OB_LIQUIDITY_SETUP": 2191
+        },
+        "valid_setups": 0
+      },
+      "bsi_order_flow": {
+        "evaluated": 2191,
+        "net_r": 8.2976,
+        "outcomes": {
+          "sl": 11,
+          "sl_same_bar": 2,
+          "tp": 3
+        },
+        "top_rejections": {
+          "INVALID_EXECUTION_GEOMETRY": 1,
+          "MSS_NOT_IN_DISCOUNT": 22,
+          "MSS_NOT_IN_PREMIUM": 155,
+          "NO_NATURAL_TARGET": 74,
+          "NO_UNMITIGATED_FVG": 209,
+          "OPPORTUNITY_ALREADY_CONSUMED": 3,
+          "PRICE_NOT_IN_ENTRY_ZONE": 1711
+        },
+        "valid_setups": 16
+      },
+      "bsi_reactionary": {
+        "evaluated": 2191,
+        "net_r": 0,
+        "outcomes": {},
+        "top_rejections": {
+          "NO_REACTIONARY_SEQUENCE": 2191
+        },
+        "valid_setups": 0
+      },
+      "bsi_under_over": {
+        "evaluated": 2191,
+        "net_r": 0,
+        "outcomes": {},
+        "top_rejections": {
+          "NO_UNDER_OVER_LEVEL": 2191
+        },
+        "valid_setups": 0
+      }
+    },
+    "symbols": {
+      "XAUUSD": {
+        "evaluated": 19719,
+        "h1_loaded": 0,
+        "h4_loaded": 0,
+        "insufficient_contexts": 0,
+        "m15_month_bars": 2191,
+        "outcomes": {
+          "sl": 11,
+          "sl_same_bar": 2,
+          "tp": 3
+        },
+        "rejections": {
+          "INVALID_EXECUTION_GEOMETRY": 1,
+          "MSS_NOT_IN_DISCOUNT": 22,
+          "MSS_NOT_IN_PREMIUM": 155,
+          "NO_0930_SETUP": 2191,
+          "NO_ABCD_GEOMETRY": 2191,
+          "NO_ABC_GEOMETRY": 2191,
+          "NO_ASIAN_SETUP": 2191,
+          "NO_NATURAL_TARGET": 74,
+          "NO_OB_LIQUIDITY_SETUP": 2191,
+          "NO_REACTIONARY_SEQUENCE": 2191,
+          "NO_UNDER_OVER_LEVEL": 2191,
+          "NO_UNMITIGATED_FVG": 209,
+          "NY_LIQUIDITY_NOT_SIGNIFICANT_SWING": 2191,
+          "OPPORTUNITY_ALREADY_CONSUMED": 3,
+          "PRICE_NOT_IN_ENTRY_ZONE": 1711
+        },
+        "valid_setups": 16
+      }
+    },
+    "window": {
+      "end": "2026-09-01T00:00:00+00:00",
+      "max_hold_m15_bars": 16,
+      "start": "2026-08-01T00:00:00+00:00"
+    }
+  },
+  "trades": [
+    {
+      "at": "2026-08-04T07:00:00+00:00",
+      "direction": "SHORT",
+      "entry": 4056.79,
+      "exit_at": "2026-08-04T07:15:00+00:00",
+      "outcome": "sl",
+      "r_multiple": -1.0,
+      "rr": 1.2340425531914894,
+      "stop_loss": 4057.73,
+      "subtype": "bsi_order_flow",
+      "symbol": "XAUUSD",
+      "take_profit": 4055.63
+    },
+    {
+      "at": "2026-08-04T09:30:00+00:00",
+      "direction": "SHORT",
+      "entry": 4060.14,
+      "exit_at": "2026-08-04T09:45:00+00:00",
+      "outcome": "sl",
+      "r_multiple": -1.0,
+      "rr": 2.75,
+      "stop_loss": 4061.78,
+      "subtype": "bsi_order_flow",
+      "symbol": "XAUUSD",
+      "take_profit": 4055.63
+    },
+    {
+      "at": "2026-08-04T13:30:00+00:00",
+      "direction": "SHORT",
+      "entry": 4052.68,
+      "exit_at": "2026-08-04T13:45:00+00:00",
+      "outcome": "sl",
+      "r_multiple": -1.0,
+      "rr": 0.9431818181818182,
+      "stop_loss": 4054.44,
+      "subtype": "bsi_order_flow",
+      "symbol": "XAUUSD",
+      "take_profit": 4051.02
+    },
+    {
+      "at": "2026-08-07T15:00:00+00:00",
+      "direction": "LONG",
+      "entry": 4315.05,
+      "exit_at": "2026-08-07T15:15:00+00:00",
+      "outcome": "sl_same_bar",
+      "r_multiple": -1.0,
+      "rr": 2.161764705882353,
+      "stop_loss": 4314.37,
+      "subtype": "bsi_order_flow",
+      "symbol": "XAUUSD",
+      "take_profit": 4316.52
+    },
+    {
+      "at": "2026-08-10T17:30:00+00:00",
+      "direction": "SHORT",
+      "entry": 4349.32,
+      "exit_at": "2026-08-10T18:00:00+00:00",
+      "outcome": "sl",
+      "r_multiple": -1.0,
+      "rr": 6.246428571428571,
+      "stop_loss": 4352.12,
+      "subtype": "bsi_order_flow",
+      "symbol": "XAUUSD",
+      "take_profit": 4331.83
+    },
+    {
+      "at": "2026-08-10T20:00:00+00:00",
+      "direction": "SHORT",
+      "entry": 4356.96,
+      "exit_at": "2026-08-10T20:15:00+00:00",
+      "outcome": "sl",
+      "r_multiple": -1.0,
+      "rr": 6.613157894736842,
+      "stop_loss": 4360.76,
+      "subtype": "bsi_order_flow",
+      "symbol": "XAUUSD",
+      "take_profit": 4331.83
+    },
+    {
+      "at": "2026-08-19T15:15:00+00:00",
+      "direction": "LONG",
+      "entry": 4483.68,
+      "exit_at": "2026-08-19T16:00:00+00:00",
+      "outcome": "tp",
+      "r_multiple": 1.872,
+      "rr": 1.8720496894409937,
+      "stop_loss": 4475.63,
+      "subtype": "bsi_order_flow",
+      "symbol": "XAUUSD",
+      "take_profit": 4498.75
+    },
+    {
+      "at": "2026-08-20T01:00:00+00:00",
+      "direction": "LONG",
+      "entry": 4493.3,
+      "exit_at": "2026-08-20T01:15:00+00:00",
+      "outcome": "tp",
+      "r_multiple": 3.3436,
+      "rr": 3.3435582822085887,
+      "stop_loss": 4491.67,
+      "subtype": "bsi_order_flow",
+      "symbol": "XAUUSD",
+      "take_profit": 4498.75
+    },
+    {
+      "at": "2026-08-20T01:30:00+00:00",
+      "direction": "LONG",
+      "entry": 4493.93,
+      "exit_at": "2026-08-20T01:45:00+00:00",
+      "outcome": "sl",
+      "r_multiple": -1.0,
+      "rr": 2.1327433628318584,
+      "stop_loss": 4491.67,
+      "subtype": "bsi_order_flow",
+      "symbol": "XAUUSD",
+      "take_profit": 4498.75
+    },
+    {
+      "at": "2026-08-21T01:00:00+00:00",
+      "direction": "SHORT",
+      "entry": 4520.85,
+      "exit_at": "2026-08-21T01:15:00+00:00",
+      "outcome": "sl",
+      "r_multiple": -1.0,
+      "rr": 1.7841409691629957,
+      "stop_loss": 4523.12,
+      "subtype": "bsi_order_flow",
+      "symbol": "XAUUSD",
+      "take_profit": 4516.8
+    },
+    {
+      "at": "2026-08-21T13:00:00+00:00",
+      "direction": "SHORT",
+      "entry": 4585.33,
+      "exit_at": "2026-08-21T13:30:00+00:00",
+      "outcome": "sl_same_bar",
+      "r_multiple": -1.0,
+      "rr": 1.8989637305699483,
+      "stop_loss": 4589.19,
+      "subtype": "bsi_order_flow",
+      "symbol": "XAUUSD",
+      "take_profit": 4578.0
+    },
+    {
+      "at": "2026-08-23T06:00:00+00:00",
+      "direction": "LONG",
+      "entry": 4560.93,
+      "exit_at": "2026-08-23T08:30:00+00:00",
+      "outcome": "tp",
+      "r_multiple": 16.082,
+      "rr": 16.08203125,
+      "stop_loss": 4558.37,
+      "subtype": "bsi_order_flow",
+      "symbol": "XAUUSD",
+      "take_profit": 4602.1
+    },
+    {
+      "at": "2026-08-24T10:15:00+00:00",
+      "direction": "LONG",
+      "entry": 4643.24,
+      "exit_at": "2026-08-24T11:00:00+00:00",
+      "outcome": "sl",
+      "r_multiple": -1.0,
+      "rr": 2.9125,
+      "stop_loss": 4640.84,
+      "subtype": "bsi_order_flow",
+      "symbol": "XAUUSD",
+      "take_profit": 4650.23
+    },
+    {
+      "at": "2026-08-24T10:30:00+00:00",
+      "direction": "LONG",
+      "entry": 4644.34,
+      "exit_at": "2026-08-24T11:00:00+00:00",
+      "outcome": "sl",
+      "r_multiple": -1.0,
+      "rr": 1.6828571428571428,
+      "stop_loss": 4640.84,
+      "subtype": "bsi_order_flow",
+      "symbol": "XAUUSD",
+      "take_profit": 4650.23
+    },
+    {
+      "at": "2026-08-24T10:45:00+00:00",
+      "direction": "LONG",
+      "entry": 4643.35,
+      "exit_at": "2026-08-24T11:00:00+00:00",
+      "outcome": "sl",
+      "r_multiple": -1.0,
+      "rr": 2.733067729083665,
+      "stop_loss": 4640.84,
+      "subtype": "bsi_order_flow",
+      "symbol": "XAUUSD",
+      "take_profit": 4650.21
+    },
+    {
+      "at": "2026-08-25T23:00:00+00:00",
+      "direction": "LONG",
+      "entry": 4668.13,
+      "exit_at": "2026-08-25T23:15:00+00:00",
+      "outcome": "sl",
+      "r_multiple": -1.0,
+      "rr": 0.8785046728971962,
+      "stop_loss": 4667.06,
+      "subtype": "bsi_order_flow",
+      "symbol": "XAUUSD",
+      "take_profit": 4669.07
+    }
+  ]
+}

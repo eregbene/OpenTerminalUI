@@ -1,0 +1,88 @@
+{
+  "source": "F:\\new faiz\\3. Invalid MSS Example.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 105.766875,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " So here is an invalid market structure shift. So you can see we created this higher, high, high, high, high, high. And for me to look for a market structure shift, I want to see this structure broken. But you can see that when price came near this level, we consolidated, then we came back, touched the line, did not break it, then went back up, then broke it. With only a single candle, then we had a bullish candle. So there's no momentum in this move."
+    },
+    {
+      "start": 30.0,
+      "end": 33.3,
+      "text": " If there was momentum, I would see something like this, right?"
+    },
+    {
+      "start": 33.3,
+      "end": 43.0,
+      "text": " And the fact that the price is consolidating just near this level gives me a sign that this is not a vetted market structure shift."
+    },
+    {
+      "start": 43.0,
+      "end": 48.0,
+      "text": " And as you can see, we have these candles. We have this consolidation area."
+    },
+    {
+      "start": 48.0,
+      "end": 52.0,
+      "text": " So for me, this is not a valid market structure shift."
+    },
+    {
+      "start": 52.0,
+      "end": 59.0,
+      "text": " And if you took your entry from this auto block right here, you can see price just bearsed through it and it just went back up."
+    },
+    {
+      "start": 59.0,
+      "end": 68.0,
+      "text": " So you can notice that there was no volume in this level."
+    },
+    {
+      "start": 68.0,
+      "end": 73.0,
+      "text": " We had consolidation, we went back to this level, we did not break it."
+    },
+    {
+      "start": 73.0,
+      "end": 75.0,
+      "text": " We just reacted off it."
+    },
+    {
+      "start": 75.0,
+      "end": 79.0,
+      "text": " We couldn't go below this level for two candles on a 15 minute timeframe."
+    },
+    {
+      "start": 79.0,
+      "end": 85.0,
+      "text": " So this shows you that there might not be enough of volume and it could just be, you know,"
+    },
+    {
+      "start": 85.0,
+      "end": 90.32,
+      "text": " a trap for smart money traders and it can one candle can close blow this"
+    },
+    {
+      "start": 90.32,
+      "end": 95.16,
+      "text": " level giving with a sign that maybe this is a market structure shift but when you"
+    },
+    {
+      "start": 95.16,
+      "end": 101.8,
+      "text": " take your entry you are going to lose so I hope that is clear I'll see you guys in"
+    },
+    {
+      "start": 101.8,
+      "end": 106.12,
+      "text": " the next video with another topic"
+    }
+  ]
+}

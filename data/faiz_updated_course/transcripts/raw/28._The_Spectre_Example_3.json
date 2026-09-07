@@ -1,0 +1,68 @@
+{
+  "source": "F:\\new faiz\\28. The Spectre Example 3.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 91.0686875,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Here is example number three. So you can clearly see we took out buy side here and afterwards we had a market structure shift. And now we have consecutive bullish candles here or up close candles. So if I mark these out like that and I drag this along, you can see price came into the order block but it wicked above it taking out the autoblock liquidity as well. Or you can say this is the ICT 3 strike pattern. What I've thought before on the show but we're not going to detail but this is what you have to look for. Basically an autoblock,"
+    },
+    {
+      "start": 30.0,
+      "end": 36.08,
+      "text": " I sweep off the auto block liquidity and afterwards we have a close below it."
+    },
+    {
+      "start": 36.08,
+      "end": 39.44,
+      "text": " So it goes up and then closes below it like that, right?"
+    },
+    {
+      "start": 39.44,
+      "end": 42.84,
+      "text": " Or a reclaim and then we enter on the retest."
+    },
+    {
+      "start": 42.84,
+      "end": 52.32,
+      "text": " So now once we enter on the retest, like that, stop goes above the wig or above the auto"
+    },
+    {
+      "start": 52.32,
+      "end": 55.52,
+      "text": " block like that."
+    },
+    {
+      "start": 55.52,
+      "end": 64.88,
+      "text": " you go for one to two and you can see that one to two was hit and a significant target"
+    },
+    {
+      "start": 64.88,
+      "end": 71.24,
+      "text": " could have been hit as well I think. If I believe this low was taken out, yep this was taken"
+    },
+    {
+      "start": 71.24,
+      "end": 77.24,
+      "text": " out like that just this level here by this level. So that's pretty much it for this strategy"
+    },
+    {
+      "start": 77.24,
+      "end": 84.56,
+      "text": " guys. I'm going back test and now let's move on to the most requested video how to trade the"
+    },
+    {
+      "start": 84.56,
+      "end": 90.0,
+      "text": " AR50 with daily bass. Let's move on to that chapter."
+    }
+  ]
+}

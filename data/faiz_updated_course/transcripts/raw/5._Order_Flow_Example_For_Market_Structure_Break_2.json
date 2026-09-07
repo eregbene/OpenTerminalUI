@@ -1,0 +1,208 @@
+{
+  "source": "F:\\new faiz\\5. Order Flow Example For Market Structure Break (2).mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 227.4394375,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, this is an example for the buys. Of course, this is hindsight, it's not gonna always work. And this is, the auto floor trading strategy is not my favorite one. But you can back test it and you know, get used to it if that makes sense. Alright? So, what we have here is that we create a higher high, a higher low, and then another higher high. So basically, we create a higher high."
+    },
+    {
+      "start": 30.0,
+      "end": 35.04,
+      "text": " the structure and now this is a continuation of a trend, okay? And what do we have here?"
+    },
+    {
+      "start": 35.04,
+      "end": 40.52,
+      "text": " imbalance plus auto block. But what happens here? Price does not hit the auto block,"
+    },
+    {
+      "start": 40.52,
+      "end": 46.38,
+      "text": " but it hits the imbalance. So this is what I say that sometimes I'm gonna take"
+    },
+    {
+      "start": 46.38,
+      "end": 50.76,
+      "text": " entries of the imbalance, sometimes of the auto block. I always take my entry"
+    },
+    {
+      "start": 50.76,
+      "end": 55.16,
+      "text": " from the imbalance. If the imbalance is very short like this, okay? So I would"
+    },
+    {
+      "start": 55.16,
+      "end": 60.92,
+      "text": " take my entry right around here and I put my stop loss here and I go for this level right around here."
+    },
+    {
+      "start": 61.56,
+      "end": 68.12,
+      "text": " This would have been a 3.73. Now we can see we created another higher high which is this."
+    },
+    {
+      "start": 68.12,
+      "end": 76.68,
+      "text": " Okay and then we got this imbalance plus the autoblog. Okay so now what happens here is that you"
+    },
+    {
+      "start": 76.68,
+      "end": 84.44,
+      "text": " can see we have marked the autoblog but what it did it just maybe stopped you out. But if you want"
+    },
+    {
+      "start": 84.44,
+      "end": 90.12,
+      "text": " be on the safe side, what you can do is put your stop below this low. Okay, because sometimes,"
+    },
+    {
+      "start": 90.68,
+      "end": 95.4,
+      "text": " and I'm saying sometimes, I'm looking at this at the 500 time frame, right? But on the one minute"
+    },
+    {
+      "start": 95.4,
+      "end": 100.68,
+      "text": " timeframe, there could be another imbalance in auto block around in this week. Okay, this whole"
+    },
+    {
+      "start": 100.68,
+      "end": 107.72,
+      "text": " week is a price action as well. So maybe on the 30 second timeframe or 15 second timeframe,"
+    },
+    {
+      "start": 107.72,
+      "end": 112.52,
+      "text": " there was an imbalance plus auto block right around here. So make sure you put your stop loss"
+    },
+    {
+      "start": 112.52,
+      "end": 120.12,
+      "text": " here just to be on the safe side and as you can see we go up targeting this high and then we broke"
+    },
+    {
+      "start": 120.12,
+      "end": 127.4,
+      "text": " the structure once again which is right here and then you can see we got the extreme"
+    },
+    {
+      "start": 127.4,
+      "end": 132.44,
+      "text": " fair value gap at this level there's no imbalance here it's all filled all filled and we got"
+    },
+    {
+      "start": 132.44,
+      "end": 138.92,
+      "text": " this auto block here and you can see we got a perfect entry around this level we would have entered"
+    },
+    {
+      "start": 138.92,
+      "end": 149.46,
+      "text": " here and boom, turning the high. That was a 5.72 wrist reward trade guys. Very, very simple"
+    },
+    {
+      "start": 149.46,
+      "end": 156.34,
+      "text": " guys. And yeah, this is how we trade. And let me give you another example. We broke the"
+    },
+    {
+      "start": 156.34,
+      "end": 163.46,
+      "text": " structure again. So there is the extreme fair value gap around this level. So you could"
+    },
+    {
+      "start": 163.46,
+      "end": 168.1,
+      "text": " have entered from the fair value gap, or you could have your entry around this auto block,"
+    },
+    {
+      "start": 168.1,
+      "end": 173.1,
+      "text": " then you would have missed the entry by one pip."
+    },
+    {
+      "start": 173.1,
+      "end": 178.1,
+      "text": " But just to, just, I want to tell you guys this one thing,"
+    },
+    {
+      "start": 179.7,
+      "end": 182.66,
+      "text": " you should always put your entry a little above your actual"
+    },
+    {
+      "start": 182.66,
+      "end": 185.46,
+      "text": " entry point to deal with the spreads of the broker, right?"
+    },
+    {
+      "start": 185.46,
+      "end": 189.7,
+      "text": " Because sometimes due to the spreads, you will not get your entry."
+    },
+    {
+      "start": 189.7,
+      "end": 194.38,
+      "text": " If your entry is exactly at the order block, okay?"
+    },
+    {
+      "start": 194.38,
+      "end": 198.26,
+      "text": " So make sure you always have your entry a little shy"
+    },
+    {
+      "start": 198.26,
+      "end": 200.58,
+      "text": " above the actual entry point."
+    },
+    {
+      "start": 200.58,
+      "end": 203.18,
+      "text": " And then you can see price went all the way up."
+    },
+    {
+      "start": 203.18,
+      "end": 206.1,
+      "text": " So we are done with the auto floor trading strategy."
+    },
+    {
+      "start": 206.1,
+      "end": 208.62,
+      "text": " My least favorite trading strategy,"
+    },
+    {
+      "start": 208.62,
+      "end": 212.22,
+      "text": " but it can be your most favorite trading strategy, okay?"
+    },
+    {
+      "start": 212.22,
+      "end": 214.62,
+      "text": " So as I said before in the course,"
+    },
+    {
+      "start": 214.62,
+      "end": 217.98,
+      "text": " you must choose one strategy and work on it."
+    },
+    {
+      "start": 217.98,
+      "end": 222.54,
+      "text": " You should not try out a lot of other strategies."
+    },
+    {
+      "start": 222.54,
+      "end": 225.86,
+      "text": " So I'll see you guys in my next trading strategy video."
+    }
+  ]
+}

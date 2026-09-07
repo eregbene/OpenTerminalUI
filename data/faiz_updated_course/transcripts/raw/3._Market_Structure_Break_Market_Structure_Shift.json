@@ -1,0 +1,283 @@
+{
+  "source": "F:\\new faiz\\3. Market Structure Break & Market Structure Shift.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 358.9573125,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Hello guys, welcome to the video number three of this course in this video. We are going to learn about market structure break and market structure shift. Now what is market structure break? Let's suppose that we are in an uptrend, right? So let me pull out this path too. So let's say we are in an uptrend, right? Now you can see that the price is making higher high."
+    },
+    {
+      "start": 30.0,
+      "end": 33.16,
+      "text": " high, high, high, high, low."
+    },
+    {
+      "start": 33.16,
+      "end": 36.64,
+      "text": " When price makes another higher, high,"
+    },
+    {
+      "start": 38.2,
+      "end": 41.88,
+      "text": " then it is considered to be a market structure break."
+    },
+    {
+      "start": 41.88,
+      "end": 42.8,
+      "text": " Okay?"
+    },
+    {
+      "start": 42.8,
+      "end": 47.8,
+      "text": " The continuation of a trend is called market structure break."
+    },
+    {
+      "start": 49.84,
+      "end": 52.84,
+      "text": " Now how do we know that the trend is going to continue?"
+    },
+    {
+      "start": 53.76,
+      "end": 56.4,
+      "text": " We look for market structure break,"
+    },
+    {
+      "start": 56.4,
+      "end": 61.16,
+      "text": " which is when price creates a new higher high."
+    },
+    {
+      "start": 61.16,
+      "end": 64.2,
+      "text": " And then price creates a new high low"
+    },
+    {
+      "start": 64.2,
+      "end": 67.08,
+      "text": " creates another higher high,"
+    },
+    {
+      "start": 67.08,
+      "end": 69.28,
+      "text": " breaking the previous structure."
+    },
+    {
+      "start": 69.28,
+      "end": 72.8,
+      "text": " So you can see that we are creating higher high,"
+    },
+    {
+      "start": 72.8,
+      "end": 75.68,
+      "text": " higher low, higher high, higher low, higher high,"
+    },
+    {
+      "start": 75.68,
+      "end": 78.52,
+      "text": " higher low, and then higher high."
+    },
+    {
+      "start": 78.52,
+      "end": 82.6,
+      "text": " This higher high broke the previous high."
+    },
+    {
+      "start": 82.6,
+      "end": 88.28,
+      "text": " So it means that it should be considered as market structure break."
+    },
+    {
+      "start": 90.95,
+      "end": 98.23,
+      "text": " Let's learn that in a bearish market condition. So it's clear. So let me remove that."
+    },
+    {
+      "start": 100.84,
+      "end": 108.92,
+      "text": " Similarly, one price is creating lower low, lower high, lower low, lower high. You want to look for"
+    },
+    {
+      "start": 109.48,
+      "end": 114.68,
+      "text": " market structure break. And how do we identify a market structure break? It's when price creates"
+    },
+    {
+      "start": 114.68,
+      "end": 127.66,
+      "text": " another lower low like that. Now this is considered to be a market structure break. Okay,"
+    },
+    {
+      "start": 128.46,
+      "end": 136.86,
+      "text": " as you can see, price broke this leg broke the previous lower low and created another lower low."
+    },
+    {
+      "start": 137.66,
+      "end": 147.9,
+      "text": " Now this is considered to be a market structure break. Very simple guys. So now let's learn about"
+    },
+    {
+      "start": 147.9,
+      "end": 157.66,
+      "text": " market structure shift. What is market structure shift? Let's suppose that we are in a bullish"
+    },
+    {
+      "start": 157.66,
+      "end": 166.06,
+      "text": " trend. So we are creating high, high, high, high, high, high, high, high, high, high, high, high,"
+    },
+    {
+      "start": 166.06,
+      "end": 177.9,
+      "text": " high, high, high. But then if you want to identify a market structure shift, you would wait for"
+    },
+    {
+      "start": 177.9,
+      "end": 188.78,
+      "text": " price to break the previous low. Okay, so we got the higher high, high low, high high, high"
+    },
+    {
+      "start": 188.78,
+      "end": 197.06,
+      "text": " high, high high high high, high high, then we got the lower high. If that makes sense, because"
+    },
+    {
+      "start": 197.06,
+      "end": 205.7,
+      "text": " it broke this structure, which means that the market structure has shifted from a bullish"
+    },
+    {
+      "start": 205.7,
+      "end": 213.62,
+      "text": " trend to a bearish trend. Okay, so very simple guys. When price breaks the"
+    },
+    {
+      "start": 213.62,
+      "end": 219.62,
+      "text": " previous low, then that price action is considered to be a market structure"
+    },
+    {
+      "start": 219.62,
+      "end": 226.34,
+      "text": " shift. Let's repeat, I will repeat that again. So you can see that we are"
+    },
+    {
+      "start": 226.34,
+      "end": 232.06,
+      "text": " continuously making higher highs, high lows, higher high, high, low, higher high."
+    },
+    {
+      "start": 232.06,
+      "end": 238.06,
+      "text": " Once the new higher high is made, we can then look for market structure shift."
+    },
+    {
+      "start": 238.06,
+      "end": 249.06,
+      "text": " After the new high is made, we would then look for a market structure shift, which would be when price breaks the previous low."
+    },
+    {
+      "start": 249.06,
+      "end": 257.06,
+      "text": " The low debt was created, the low debt was created after a new high."
+    },
+    {
+      "start": 257.06,
+      "end": 259.06,
+      "text": " I hope that is clear."
+    },
+    {
+      "start": 259.06,
+      "end": 265.52,
+      "text": " Let me give you an example for a bearish to bullish market."
+    },
+    {
+      "start": 265.52,
+      "end": 269.68,
+      "text": " So let's suppose that we are in a, oops, my bat."
+    },
+    {
+      "start": 269.68,
+      "end": 275.64,
+      "text": " Let's suppose that we are in a bearish market."
+    },
+    {
+      "start": 275.64,
+      "end": 276.32,
+      "text": " Okay?"
+    },
+    {
+      "start": 276.32,
+      "end": 280.3,
+      "text": " So we continuously making lower, lower, lower, high, lower, lower, lower, lower, lower,"
+    },
+    {
+      "start": 280.3,
+      "end": 281.6,
+      "text": " lower, lower, lower."
+    },
+    {
+      "start": 281.6,
+      "end": 288.5,
+      "text": " When the new lower low is made, and if you want to, and if you're looking for market structure"
+    },
+    {
+      "start": 288.5,
+      "end": 291.54,
+      "text": " shift, then we would wait for price to break."
+    },
+    {
+      "start": 291.54,
+      "end": 300.46,
+      "text": " the previous lower high. So we made lower low, lower high, lower low, lower high, lower"
+    },
+    {
+      "start": 300.46,
+      "end": 311.94,
+      "text": " low. And then what we would wait for is for price to break the previous high. So as you"
+    },
+    {
+      "start": 311.94,
+      "end": 320.1,
+      "text": " can see after the new lower low was made, we then wait for price to break the previous low,"
+    },
+    {
+      "start": 320.1,
+      "end": 327.54,
+      "text": " which would be this. Now this is considered to be a market structure shift for a bearish"
+    },
+    {
+      "start": 327.54,
+      "end": 335.06,
+      "text": " example. So I really hope that by now it should be clear that what is market structure"
+    },
+    {
+      "start": 335.06,
+      "end": 344.48,
+      "text": " break and what is market structure shift. Very simple, when market shifts basically it means"
+    },
+    {
+      "start": 344.48,
+      "end": 350.12,
+      "text": " that their trend has shifted and by market structure break it means that their trend"
+    },
+    {
+      "start": 350.12,
+      "end": 351.92,
+      "text": " is going to continue."
+    },
+    {
+      "start": 351.92,
+      "end": 357.2,
+      "text": " So keep these concepts in your mind and I'll see you guys in the next video."
+    }
+  ]
+}

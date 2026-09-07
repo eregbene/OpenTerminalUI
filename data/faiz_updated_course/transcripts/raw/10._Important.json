@@ -1,0 +1,58 @@
+{
+  "source": "F:\\new faiz\\10. Important.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 83.5454375,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.59,
+      "end": 30.59,
+      "text": " Alright guys, so before you guys move on to the course videos, I want to give you guys some tips on how to start, okay? So I want you to watch each and every single video in this course first. Once you do that, I then want you to watch all the videos on my YouTube channel because on my YouTube channel, I show different variations of each strategy. Not each strategy, but one of the, uh,"
+    },
+    {
+      "start": 30.59,
+      "end": 36.67,
+      "text": " one of my favorite strategies. Okay. So what I want you to do is to watch all of the videos,"
+    },
+    {
+      "start": 36.67,
+      "end": 42.83,
+      "text": " don't skip any video because I share a lot of details and you might miss if you skip any,"
+    },
+    {
+      "start": 42.83,
+      "end": 52.03,
+      "text": " any one of the videos. Okay. So watch all the course videos and after that watch all the videos on"
+    },
+    {
+      "start": 52.03,
+      "end": 57.55,
+      "text": " my YouTube channel. Okay. You have to watch all of them. So that and then you're going to"
+    },
+    {
+      "start": 57.55,
+      "end": 66.27,
+      "text": " understand each and everything correctly. Okay. And to join the discord server, after you finish"
+    },
+    {
+      "start": 66.27,
+      "end": 73.15,
+      "text": " the course, there is a link at the very bottom of the endgame section of the course. I recommend"
+    },
+    {
+      "start": 73.15,
+      "end": 78.59,
+      "text": " that you watch all the videos and then join the discord server. Okay. So anyways, I hope you guys"
+    },
+    {
+      "start": 78.59,
+      "end": 81.75,
+      "text": " enjoy the scores and I'll see you guys in the next one."
+    }
+  ]
+}

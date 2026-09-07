@@ -1,0 +1,738 @@
+{
+  "source": "F:\\new faiz\\9. Orderblocks.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 679.253375,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so in this video we are going to learn about auto blocks. Now I'm pretty sure that you guys have heard a lot about auto blocks. And if you've been watching a lot of youtubers for X creators, I'm pretty sure that by now you know about auto blocks. But just for the sake of this course I'm gonna still teach it. Alright?"
+    },
+    {
+      "start": 30.0,
+      "end": 39.96,
+      "text": " That's that makes sense. So what is an auto block? Now if we are new you should be"
+    },
+    {
+      "start": 39.96,
+      "end": 50.16,
+      "text": " listening very very carefully. So when we get an impulsive move, I will repeat when"
+    },
+    {
+      "start": 50.16,
+      "end": 58.85,
+      "text": " we get an impulsive move to the downside or to the upside price is going to"
+    },
+    {
+      "start": 58.85,
+      "end": 72.41,
+      "text": " leave out some imbalance or fair value gap. Now above now the first candle of that fair"
+    },
+    {
+      "start": 72.41,
+      "end": 78.09,
+      "text": " value gap that creates the, remember we talked about three candle pattern right. So we"
+    },
+    {
+      "start": 78.09,
+      "end": 85.05,
+      "text": " got one candle, two candle and a third candle. Okay. So as I've said before, I'm going"
+    },
+    {
+      "start": 85.05,
+      "end": 87.57,
+      "text": " I want to explain to you auto blocks in my own way."
+    },
+    {
+      "start": 87.57,
+      "end": 88.57,
+      "text": " All right?"
+    },
+    {
+      "start": 88.57,
+      "end": 93.01,
+      "text": " I believe it works way better than what other people are teaching."
+    },
+    {
+      "start": 93.01,
+      "end": 95.69,
+      "text": " Because if you, I'm going to just say it quickly,"
+    },
+    {
+      "start": 95.69,
+      "end": 97.13,
+      "text": " if you have been watching a lot of videos,"
+    },
+    {
+      "start": 97.13,
+      "end": 99.41,
+      "text": " they always tell you that you should always pick"
+    },
+    {
+      "start": 99.41,
+      "end": 103.25,
+      "text": " the very last candle of that impulsive move."
+    },
+    {
+      "start": 103.25,
+      "end": 104.81,
+      "text": " But that is absolutely wrong."
+    },
+    {
+      "start": 104.81,
+      "end": 105.17,
+      "text": " All right?"
+    },
+    {
+      "start": 105.17,
+      "end": 109.01,
+      "text": " So first of all, you want to identify imbalance."
+    },
+    {
+      "start": 109.01,
+      "end": 112.17,
+      "text": " So we talked about the three candle pattern."
+    },
+    {
+      "start": 112.17,
+      "end": 113.33,
+      "text": " So this is one candle."
+    },
+    {
+      "start": 113.33,
+      "end": 114.73,
+      "text": " This is the second candle."
+    },
+    {
+      "start": 114.73,
+      "end": 116.69,
+      "text": " And this is the third candle, all right?"
+    },
+    {
+      "start": 116.69,
+      "end": 123.97,
+      "text": " And we got fair value gap around this."
+    },
+    {
+      "start": 123.97,
+      "end": 125.25,
+      "text": " So this is fair value gap."
+    },
+    {
+      "start": 125.25,
+      "end": 127.93,
+      "text": " Now the very first candle, which is this, all right?"
+    },
+    {
+      "start": 127.93,
+      "end": 130.01,
+      "text": " That is your autoblock."
+    },
+    {
+      "start": 130.01,
+      "end": 132.37,
+      "text": " So you just mark it out."
+    },
+    {
+      "start": 132.37,
+      "end": 134.85,
+      "text": " And this is from way you should be entering."
+    },
+    {
+      "start": 134.85,
+      "end": 137.13,
+      "text": " If you want to enter off the autoblocks,"
+    },
+    {
+      "start": 137.13,
+      "end": 140.81,
+      "text": " I sometimes I enter off the autoblock."
+    },
+    {
+      "start": 140.81,
+      "end": 143.41,
+      "text": " If the imbalance is too big, OK?"
+    },
+    {
+      "start": 143.41,
+      "end": 147.57,
+      "text": " Sometimes I just be directly entering from the imbalance."
+    },
+    {
+      "start": 147.57,
+      "end": 151.05,
+      "text": " So this is basically autoglog guys."
+    },
+    {
+      "start": 151.05,
+      "end": 154.05,
+      "text": " What you want to determine, first of all,"
+    },
+    {
+      "start": 154.05,
+      "end": 156.57,
+      "text": " is a impulsive move."
+    },
+    {
+      "start": 156.57,
+      "end": 159.37,
+      "text": " It could be, as you can see, this is an impulsive move."
+    },
+    {
+      "start": 159.37,
+      "end": 163.05,
+      "text": " And by impulsive move, I mean a price action"
+    },
+    {
+      "start": 163.05,
+      "end": 164.73,
+      "text": " that leaves imbalance."
+    },
+    {
+      "start": 165.69,
+      "end": 169.69,
+      "text": " And what we should be always keeping in mind"
+    },
+    {
+      "start": 169.69,
+      "end": 174.25,
+      "text": " is that we should be only considering the autoblog"
+    },
+    {
+      "start": 174.25,
+      "end": 176.81,
+      "text": " and imbalance in the premium zone"
+    },
+    {
+      "start": 176.81,
+      "end": 178.57,
+      "text": " if we are looking to sell, okay?"
+    },
+    {
+      "start": 178.57,
+      "end": 180.69,
+      "text": " So we are looking to sell, right?"
+    },
+    {
+      "start": 180.69,
+      "end": 183.13,
+      "text": " So then we're gonna draw out our fib"
+    },
+    {
+      "start": 183.13,
+      "end": 186.41,
+      "text": " and you can see price is above the 50% level."
+    },
+    {
+      "start": 186.41,
+      "end": 190.53,
+      "text": " So yeah, you can buy, sorry,"
+    },
+    {
+      "start": 190.53,
+      "end": 194.89,
+      "text": " you can short it right around when price reaches the imbalance"
+    },
+    {
+      "start": 194.89,
+      "end": 205.37,
+      "text": " for the optimized entry, you can just put your short position at this auto block and"
+    },
+    {
+      "start": 205.37,
+      "end": 214.85,
+      "text": " yeah boom that is it. So I'm not going to explain complicated stuff. I'm just going to teach"
+    },
+    {
+      "start": 214.85,
+      "end": 219.93,
+      "text": " you in the most easiest way so you can understand easily okay. Don't over complicate things"
+    },
+    {
+      "start": 219.93,
+      "end": 225.69,
+      "text": " guys. It's just, I don't know, there's so many grooves that overcomplicate auto blocks so much."
+    },
+    {
+      "start": 225.69,
+      "end": 234.33,
+      "text": " All right. So keep that in mind and impulsive move that creates some sort of imbalance in the premium"
+    },
+    {
+      "start": 234.33,
+      "end": 243.53,
+      "text": " or discounted zone. All right. And then the first candle, I don't care if it's a bearish candle"
+    },
+    {
+      "start": 243.53,
+      "end": 250.57,
+      "text": " or a bullish candle, I just wanted to be the first candle of that imbalance. Okay, so remember"
+    },
+    {
+      "start": 250.57,
+      "end": 259.65,
+      "text": " three candle pattern, one, two, three, the low of the first candle, the high of the second"
+    },
+    {
+      "start": 259.65,
+      "end": 266.77,
+      "text": " third candle. All right, so I'm going to explain it again, just in case you didn't understand."
+    },
+    {
+      "start": 266.77,
+      "end": 268.01,
+      "text": " So this is imbalance."
+    },
+    {
+      "start": 268.01,
+      "end": 273.69,
+      "text": " But if the imbalance is too big, I enter of the autoblock,"
+    },
+    {
+      "start": 273.69,
+      "end": 276.65,
+      "text": " which is this candle, the beginning of the autoblock."
+    },
+    {
+      "start": 276.65,
+      "end": 278.61,
+      "text": " Put your stop-loss right above it."
+    },
+    {
+      "start": 278.61,
+      "end": 280.73,
+      "text": " And boom."
+    },
+    {
+      "start": 280.73,
+      "end": 283.37,
+      "text": " Now, this is, of course, hindsight."
+    },
+    {
+      "start": 283.37,
+      "end": 286.57,
+      "text": " So yeah, this is autoblock."
+    },
+    {
+      "start": 286.57,
+      "end": 292.85,
+      "text": " Now, let me give you an example for if I can find it, of course."
+    },
+    {
+      "start": 292.85,
+      "end": 293.17,
+      "text": " OK."
+    },
+    {
+      "start": 293.17,
+      "end": 294.69,
+      "text": " I think I do find it."
+    },
+    {
+      "start": 294.69,
+      "end": 296.69,
+      "text": " I think this is in a"
+    },
+    {
+      "start": 297.57,
+      "end": 300.33,
+      "text": " That I'm all right. Yeah, so we got the"
+    },
+    {
+      "start": 303.06,
+      "end": 309.06,
+      "text": " Example here, but this is not the perfect example, but I'm just still gonna teach it all right, so we see we got a pull"
+    },
+    {
+      "start": 309.58,
+      "end": 311.1,
+      "text": " push up"
+    },
+    {
+      "start": 311.1,
+      "end": 313.46,
+      "text": " Push down and then we got another leg up"
+    },
+    {
+      "start": 313.46,
+      "end": 320.38,
+      "text": " So we are gonna go first of all draw if if not you do so you can see this in a pulse and move that leaves the imbalance behind"
+    },
+    {
+      "start": 320.38,
+      "end": 325.5,
+      "text": " All right, so let me go this out right around here is okay, so perfect voila"
+    },
+    {
+      "start": 326.1,
+      "end": 330.98,
+      "text": " Now, after the impulse and move to the upside, we are going to wait for the price to fall"
+    },
+    {
+      "start": 330.98,
+      "end": 335.62,
+      "text": " down into the discounted zone, which is below 50% of the Fibonacci deal."
+    },
+    {
+      "start": 335.62,
+      "end": 336.62,
+      "text": " Perfect."
+    },
+    {
+      "start": 336.62,
+      "end": 337.62,
+      "text": " Great."
+    },
+    {
+      "start": 337.62,
+      "end": 345.2,
+      "text": " Now, where is the imbalance?"
+    },
+    {
+      "start": 345.2,
+      "end": 348.68,
+      "text": " You can see that we see imbalance around this level."
+    },
+    {
+      "start": 348.68,
+      "end": 352.24,
+      "text": " So we got imbalance."
+    },
+    {
+      "start": 352.24,
+      "end": 365.52,
+      "text": " The problem with it is that it is above 50% but if you look just below it, you can see"
+    },
+    {
+      "start": 365.52,
+      "end": 368.52,
+      "text": " that this is auto-block."
+    },
+    {
+      "start": 368.52,
+      "end": 373.32,
+      "text": " The first candle that creates the imbalance."
+    },
+    {
+      "start": 373.32,
+      "end": 379.4,
+      "text": " So price falls into this autoblock."
+    },
+    {
+      "start": 379.4,
+      "end": 389.44,
+      "text": " But then we got another fair value gap around this level."
+    },
+    {
+      "start": 389.44,
+      "end": 397.3,
+      "text": " So we should be considering this as our autoblock."
+    },
+    {
+      "start": 397.3,
+      "end": 403.54,
+      "text": " And if we draw this out, you can see how perfect our entry is."
+    },
+    {
+      "start": 403.54,
+      "end": 405.7,
+      "text": " So you would have gone long here."
+    },
+    {
+      "start": 405.7,
+      "end": 410.46,
+      "text": " Of course, your stop loss was a bit huge, but look,"
+    },
+    {
+      "start": 410.46,
+      "end": 412.14,
+      "text": " we are on a one minute timeframe."
+    },
+    {
+      "start": 412.14,
+      "end": 414.78,
+      "text": " So this is very small, okay?"
+    },
+    {
+      "start": 414.78,
+      "end": 418.9,
+      "text": " And boom, and I'm explaining it on a one minute timeframe,"
+    },
+    {
+      "start": 418.9,
+      "end": 421.98,
+      "text": " just to show you guys that price is fractal, okay?"
+    },
+    {
+      "start": 423.02,
+      "end": 427.7,
+      "text": " So I hope you understood what I talked about here, okay?"
+    },
+    {
+      "start": 427.7,
+      "end": 431.34,
+      "text": " First of all, we saw an imbalance around here,"
+    },
+    {
+      "start": 431.34,
+      "end": 435.62,
+      "text": " but the imbalance was above the 50% area, okay?"
+    },
+    {
+      "start": 435.7,
+      "end": 440.7,
+      "text": " But then price fell into this discounted auto block."
+    },
+    {
+      "start": 440.7,
+      "end": 444.7,
+      "text": " Now you kind of entered here as well."
+    },
+    {
+      "start": 444.7,
+      "end": 448.7,
+      "text": " Okay, as I said before, I sometimes enter off the imbalances."
+    },
+    {
+      "start": 448.7,
+      "end": 450.7,
+      "text": " If the imbalances short, I would enter here."
+    },
+    {
+      "start": 450.7,
+      "end": 454.7,
+      "text": " And as you can see in this scenario, the imbalances were small."
+    },
+    {
+      "start": 454.7,
+      "end": 457.7,
+      "text": " So I would have entered at this level."
+    },
+    {
+      "start": 457.7,
+      "end": 463.7,
+      "text": " But if you are only entering off the auto blocks,"
+    },
+    {
+      "start": 463.7,
+      "end": 466.5,
+      "text": " Then you want to see you want to mark out the"
+    },
+    {
+      "start": 469.41,
+      "end": 475.57,
+      "text": " the auto block in the discounted zone. So this was the first if you did enter here congrats, okay?"
+    },
+    {
+      "start": 476.21,
+      "end": 481.73,
+      "text": " But as you can see the imbalance was about 50% this this could have been a risky trade, okay?"
+    },
+    {
+      "start": 482.53,
+      "end": 486.93,
+      "text": " But then this auto block was way below the 50% level"
+    },
+    {
+      "start": 487.89,
+      "end": 491.81,
+      "text": " Way to discount it. Okay, so this is like the perfect place for you to buy"
+    },
+    {
+      "start": 491.81,
+      "end": 498.81,
+      "text": " and price falls into this level of course you're gonna enter a little above your"
+    },
+    {
+      "start": 498.81,
+      "end": 505.81,
+      "text": " actual entry to deal with the spreads of your broker and as you can see price went"
+    },
+    {
+      "start": 505.81,
+      "end": 514.85,
+      "text": " all the way up very very simple guys okay and not complicated at all let me see if"
+    },
+    {
+      "start": 514.85,
+      "end": 520.49,
+      "text": " I can give you another example and then I'm gonna end the video so now of course"
+    },
+    {
+      "start": 520.49,
+      "end": 543.4,
+      "text": " is hindsight guys and yeah you know and okay so let me see okay so we got the"
+    },
+    {
+      "start": 543.4,
+      "end": 551.44,
+      "text": " market structure break now I consider wakes sometimes as a break as well"
+    },
+    {
+      "start": 551.44,
+      "end": 557.84,
+      "text": " because you know it's just showing I shine a sign of strength that price can go"
+    },
+    {
+      "start": 557.84,
+      "end": 560.62,
+      "text": " up. So I considered it as a Microsoft"
+    },
+    {
+      "start": 560.62,
+      "end": 563.48,
+      "text": " break as well. And now you're gonna see"
+    },
+    {
+      "start": 563.48,
+      "end": 567.24,
+      "text": " that we got this autoblog right around"
+    },
+    {
+      "start": 567.24,
+      "end": 573.55,
+      "text": " here. Now of course, I'm just telling you"
+    },
+    {
+      "start": 573.55,
+      "end": 577.39,
+      "text": " guys if you're just entering only"
+    },
+    {
+      "start": 577.39,
+      "end": 579.91,
+      "text": " because of the autoblocks you're gonna"
+    },
+    {
+      "start": 579.91,
+      "end": 582.31,
+      "text": " lose a lot because yeah of course my"
+    },
+    {
+      "start": 582.31,
+      "end": 583.95,
+      "text": " job is to teach you autoblocks but I"
+    },
+    {
+      "start": 583.95,
+      "end": 588.35,
+      "text": " don't usually recommend using autoblocks"
+    },
+    {
+      "start": 588.35,
+      "end": 593.07,
+      "text": " like this but for the sake of this video I'm just gonna teach you anyways okay so"
+    },
+    {
+      "start": 593.07,
+      "end": 599.51,
+      "text": " as you can see price broke through this level so we're gonna first of all draw"
+    },
+    {
+      "start": 599.51,
+      "end": 603.33,
+      "text": " our Fibonacci too all right wait for the price to fall down into the premium"
+    },
+    {
+      "start": 603.33,
+      "end": 608.43,
+      "text": " sorry discounted zone price comes down to the discounted zone and we got this"
+    },
+    {
+      "start": 608.43,
+      "end": 612.99,
+      "text": " imbalance here so now I would personally directly enter off this imbalance"
+    },
+    {
+      "start": 612.99,
+      "end": 617.03,
+      "text": " which is around here so you can see we have gotten this move right up right up"
+    },
+    {
+      "start": 617.03,
+      "end": 627.19,
+      "text": " there. But then as you can see, we got this autoblog, all right? And price fell into it,"
+    },
+    {
+      "start": 627.67,
+      "end": 633.83,
+      "text": " probably stopped you out. Of course it did because in my opinion, if you're using autoblogs like"
+    },
+    {
+      "start": 633.83,
+      "end": 638.71,
+      "text": " that, you're always going to lose. I'm pretty sure that you have watched a lot of SMC videos."
+    },
+    {
+      "start": 640.15,
+      "end": 644.47,
+      "text": " Or you bought someone else's course and they taught you that you should be buying a"
+    },
+    {
+      "start": 644.47,
+      "end": 646.55,
+      "text": " I thought a block putting your stop was right below it,"
+    },
+    {
+      "start": 646.55,
+      "end": 649.03,
+      "text": " but eventually you get stopped out a lot"
+    },
+    {
+      "start": 649.03,
+      "end": 651.39,
+      "text": " in my strategy videos."
+    },
+    {
+      "start": 651.39,
+      "end": 653.11,
+      "text": " I'm gonna clear everything to you."
+    },
+    {
+      "start": 653.11,
+      "end": 655.99,
+      "text": " So don't worry about it, but I'm pretty sure"
+    },
+    {
+      "start": 655.99,
+      "end": 659.67,
+      "text": " you should be clear about auto blocks."
+    },
+    {
+      "start": 659.67,
+      "end": 663.75,
+      "text": " This was a long video and unnecessarily long video,"
+    },
+    {
+      "start": 663.75,
+      "end": 666.75,
+      "text": " but I did, oh, I do hope that you got"
+    },
+    {
+      "start": 666.75,
+      "end": 668.47,
+      "text": " some information out of it."
+    },
+    {
+      "start": 668.47,
+      "end": 670.95,
+      "text": " So don't just rely on auto blocks, guys."
+    },
+    {
+      "start": 670.95,
+      "end": 675.35,
+      "text": " mean yeah they are helpful but in a different way and I'm gonna teach you that"
+    },
+    {
+      "start": 675.35,
+      "end": 679.75,
+      "text": " different way so see you guys in the next video"
+    }
+  ]
+}

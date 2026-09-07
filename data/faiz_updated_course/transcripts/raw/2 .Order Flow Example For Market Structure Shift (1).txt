@@ -1,0 +1,48 @@
+Okay, here's another example of how you can create
+market structure shifts using the autofold training strategy.
+So you can see that we were making hard, high,
+hard, low, hard, high, high, low, hard, high,
+and then we made this move, which broke this level.
+Okay, there you go, it broke this level, this low.
+Okay, high, high, low, high, high, high, high, high, high,
+and then price broke this higher low.
+So that is considered to be as market structure shift.
+And then what you wanna do, remember,
+you wanna draw your Fibonacci tool, not necessarily,
+but if you just want to see where are the zones, right?
+You wanna draw out the Fibonacci
+from the top to the bottom,
+and then you wanna choose the extreme zone, okay?
+So as you can see, we got an autoblock
+right around here.
+What are autoblocks?
+The first candle that create imbalance,
+you can see first, second, third,
+there's some gap here as well.
+And basically, you do not, okay, so yeah,
+so basically you can see you would have entered
+right around here, put your stop loss
+right above that level, and kaboom, very easy guys.
+And you would have taken your take profit at this level,
+which is another liquidity pool.
+And before price went up, you can see price created
+these relative equal highs, okay?
+This is liquidity, this is basically a resistance level.
+If that makes sense, okay?
+So make sure you identify liquidity
+before taking these entries.
+If there's no liquidity, you're going to lose, okay?
+If there's no liquidity, what's probably gonna do,
+it's just gonna go up.
+It will not respect your level
+because there's no reason for it to respect it, okay?
+So you can see price broke the structure,
+there was a market structure shift,
+then price engineered liquidity,
+and then it went all the way up to the extreme zone
+of that move that broke the market structure.
+If that makes sense.
+So this was another example, how you can use each
+and everything together to trade.
+So I'll give you now examples
+for the long positions.

@@ -1,0 +1,113 @@
+{
+  "source": "F:\\new faiz\\3. Order Flow Example For Market Structure Shift (2).mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 136.0225,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " OK, so as you can see, price was creating, lower low, lower high, lower low, lower high, lower low, lower high, lower low, and then price broke the market structure. Right around here, you can see, price broke this level. I will mark it as market structure shift, very simple, alright? And then you want to draw out your Fibonacci from the"
+    },
+    {
+      "start": 30.0,
+      "end": 36.46,
+      "text": " very bottom to the top of that move. Where is your discounted zone below the"
+    },
+    {
+      "start": 36.46,
+      "end": 43.82,
+      "text": " 50% level? Okay. Now you can see there's no imbalance here. So we will not"
+    },
+    {
+      "start": 43.82,
+      "end": 56.3,
+      "text": " consider this. But then there is imbalance around this area. So you can see, okay?"
+    },
+    {
+      "start": 56.3,
+      "end": 63.59,
+      "text": " Perfect. But then in this case scenario you can see price respected this"
+    },
+    {
+      "start": 63.59,
+      "end": 69.27,
+      "text": " auto block right around here. So let me go and remove this. You could have"
+    },
+    {
+      "start": 69.27,
+      "end": 74.63,
+      "text": " entered from this auto block. Put your long position here. You stop the"
+    },
+    {
+      "start": 74.63,
+      "end": 79.63,
+      "text": " right block, the auto block, and you would have captured a very nice move. Okay."
+    },
+    {
+      "start": 79.63,
+      "end": 90.38,
+      "text": " So this is an example for a by position. And before taking the by position, of course"
+    },
+    {
+      "start": 90.38,
+      "end": 92.82,
+      "text": " you want to identify liquidity."
+    },
+    {
+      "start": 92.82,
+      "end": 104.24,
+      "text": " Okay, so you can see we got liquidity right around here."
+    },
+    {
+      "start": 104.24,
+      "end": 105.52,
+      "text": " There you go, perfect."
+    },
+    {
+      "start": 106.8,
+      "end": 111.24,
+      "text": " Okay, so now it could either be this,"
+    },
+    {
+      "start": 111.24,
+      "end": 113.04,
+      "text": " you can see, right?"
+    },
+    {
+      "start": 113.04,
+      "end": 116.44,
+      "text": " So there was like a lot of liquidity here, so yeah."
+    },
+    {
+      "start": 116.44,
+      "end": 120.04,
+      "text": " You took that into consideration, consideration,"
+    },
+    {
+      "start": 120.04,
+      "end": 122.04,
+      "text": " and then you entered right off that autoblock,"
+    },
+    {
+      "start": 122.04,
+      "end": 124.48,
+      "text": " and you can see that huge, huge move."
+    },
+    {
+      "start": 124.48,
+      "end": 126.96,
+      "text": " Okay, very simple guys."
+    },
+    {
+      "start": 127.48,
+      "end": 134.48,
+      "text": " So now I will give you examples for market structure break the continuation of the trend."
+    }
+  ]
+}

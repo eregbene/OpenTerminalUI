@@ -1,0 +1,163 @@
+{
+  "source": "F:\\new faiz\\1. Introduction.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 159.7300625,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 6.61,
+      "end": 36.61,
+      "text": " Hello guys, my name is Faiz and I want to thank you guys for trusting me and I want to thank you guys for purchasing this course. Now this is an introduction video and I want to tell you guys what I will be teaching you in this course. So, first of all, we are going to learn about market structure."
+    },
+    {
+      "start": 36.61,
+      "end": 42.25,
+      "text": " structure what is a change of character what is imbalance or farewell gap"
+    },
+    {
+      "start": 42.25,
+      "end": 47.71,
+      "text": " whatever you want to call it what is an auto block what is a reactionary auto"
+    },
+    {
+      "start": 47.71,
+      "end": 56.17,
+      "text": " block what is supply what is demand and after that we are gonna learn our main"
+    },
+    {
+      "start": 56.17,
+      "end": 66.05,
+      "text": " trading strategies so I have around eight trading strategies and I will teach"
+    },
+    {
+      "start": 66.05,
+      "end": 70.53,
+      "text": " each and every strategy that I use."
+    },
+    {
+      "start": 70.53,
+      "end": 74.41,
+      "text": " Now, first of all, we are going to learn"
+    },
+    {
+      "start": 74.41,
+      "end": 77.25,
+      "text": " Asian session liquidity strategy."
+    },
+    {
+      "start": 77.25,
+      "end": 80.77,
+      "text": " After that, it's gonna be New York session liquidity strategy."
+    },
+    {
+      "start": 80.77,
+      "end": 83.57,
+      "text": " Then auto-flow trading strategy."
+    },
+    {
+      "start": 83.57,
+      "end": 85.95,
+      "text": " And on number four, we have the eight,"
+    },
+    {
+      "start": 85.95,
+      "end": 88.29,
+      "text": " third, the AM trading strategy."
+    },
+    {
+      "start": 89.17,
+      "end": 90.97,
+      "text": " After that, we're gonna learn about"
+    },
+    {
+      "start": 90.97,
+      "end": 93.57,
+      "text": " under over pattern trading strategy."
+    },
+    {
+      "start": 93.57,
+      "end": 96.25,
+      "text": " and then ABC Trading Strategy."
+    },
+    {
+      "start": 96.25,
+      "end": 99.49,
+      "text": " And then we have the ABC D Trading Strategy."
+    },
+    {
+      "start": 99.49,
+      "end": 104.33,
+      "text": " And at last we have the reactionary blog trading strategy."
+    },
+    {
+      "start": 104.33,
+      "end": 108.77,
+      "text": " Now you are not going to find any of these strategies"
+    },
+    {
+      "start": 108.77,
+      "end": 112.45,
+      "text": " on YouTube or on any other courses."
+    },
+    {
+      "start": 112.45,
+      "end": 115.97,
+      "text": " This is my own system that I have created"
+    },
+    {
+      "start": 115.97,
+      "end": 118.05,
+      "text": " through back testing."
+    },
+    {
+      "start": 118.05,
+      "end": 122.33,
+      "text": " I will not teach you the basic SMC strategies."
+    },
+    {
+      "start": 122.33,
+      "end": 127.33,
+      "text": " And I am sure they do not work as good as these strategies."
+    },
+    {
+      "start": 128.13,
+      "end": 131.07,
+      "text": " So, once again, I want to thank you guys"
+    },
+    {
+      "start": 131.07,
+      "end": 133.21,
+      "text": " for purchasing this course."
+    },
+    {
+      "start": 133.21,
+      "end": 137.65,
+      "text": " And I can guarantee in the next three to four months,"
+    },
+    {
+      "start": 137.65,
+      "end": 143.77,
+      "text": " you are going to make a lot of money and trust me,"
+    },
+    {
+      "start": 143.77,
+      "end": 148.53,
+      "text": " if you put your effort and hard work in this course,"
+    },
+    {
+      "start": 148.53,
+      "end": 151.93,
+      "text": " you're gonna become a really, really good trader."
+    },
+    {
+      "start": 151.93,
+      "end": 156.73,
+      "text": " So thank you once again and I will see you in the next video."
+    }
+  ]
+}

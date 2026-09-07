@@ -1,0 +1,1335 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, in this video, we, in this lecture, you could say, we are going to learn about SMT divergence and how you can trade with SMT divergence or you could, you know, add SMT divergence in other trading strategies as a confidence. Okay? So, we're going to trade SMT divergence or you could say, smart money technique divergence.
+
+2
+00:00:30,000 --> 00:00:38,640
+This is a very powerful tool that you can use and it's going to increase your wind rate
+
+3
+00:00:38,640 --> 00:00:39,640
+by a lot.
+
+4
+00:00:39,640 --> 00:00:43,920
+You can use it as a single strategy by its own.
+
+5
+00:00:43,920 --> 00:00:48,960
+You could use this single thing by its own and you will be shocked.
+
+6
+00:00:48,960 --> 00:00:53,800
+Or you could add this as a confluence with other strategies and it's going to work perfectly
+
+7
+00:00:53,800 --> 00:00:55,680
+fine as well.
+
+8
+00:00:55,680 --> 00:01:02,480
+What is an SMT or sorry SMT divergence or you could say smart-made technique
+
+9
+00:01:02,480 --> 00:01:09,760
+divergence? So for this strategy you need two or three correlated pairs.
+
+10
+00:01:10,880 --> 00:01:20,080
+The pairs or assets or instruments that have similar movements, they have correlation between
+
+11
+00:01:20,080 --> 00:01:29,680
+each other. Right. So for example, Bitcoin, right, BTC and Ethereum, they have similar movements.
+
+12
+00:01:29,680 --> 00:01:35,040
+Right. If Bitcoin is going up, Ethereum should be going up as well. If Bitcoin is going down,
+
+13
+00:01:35,040 --> 00:01:48,640
+Ethereum should be going down. Then we have NAS100, S and B500 and US30. Right. So these three pairs
+
+14
+00:01:48,640 --> 00:01:58,840
+have similar movement as well. Now for Forex, you could use, you know, your USD, GVP USD,
+
+15
+00:01:58,840 --> 00:02:12,720
+AOD USD, with dollar index, DXY. Right? You're sorry. Now what is DXY? It is a, you
+
+16
+00:02:12,720 --> 00:02:17,720
+dollar index, it shows the strength of a dollar.
+
+17
+00:02:17,760 --> 00:02:22,760
+So you can use like Bitcoin and 3M, they have correlation,
+
+18
+00:02:23,840 --> 00:02:27,040
+NAS100, S&P 500 and US 30.
+
+19
+00:02:27,040 --> 00:02:32,040
+You can use your USG, GP, USG, AUD, USD, with.
+
+20
+00:02:32,040 --> 00:02:34,800
+So you don't wanna use your USG, GP, USD,
+
+21
+00:02:35,880 --> 00:02:38,800
+together, you don't wanna use your USG,
+
+22
+00:02:38,800 --> 00:02:45,800
+PUSD or AUDUSD together, you want to use one of these with DXY, a dollar index.
+
+23
+00:02:45,800 --> 00:02:49,360
+Okay.
+
+24
+00:02:49,360 --> 00:02:55,960
+And yeah, you can just simply trade with these instruments and pairs and assets.
+
+25
+00:02:55,960 --> 00:03:01,760
+So let's talk about what SMT divergence really is in detail.
+
+26
+00:03:01,760 --> 00:03:02,840
+Okay.
+
+27
+00:03:02,840 --> 00:03:14,640
+So let's assume that, let me draw this out first.
+
+28
+00:03:14,640 --> 00:03:38,120
+So this right here, let's assume that this is S&P500 and this is NAS100.
+
+29
+00:03:38,120 --> 00:03:39,920
+Cool?
+
+30
+00:03:39,920 --> 00:03:43,040
+So notice this right?
+
+31
+00:03:43,040 --> 00:03:51,100
+On S&P500 we have higher high, higher high, higher high, higher high, higher high, higher
+
+32
+00:03:51,100 --> 00:03:52,740
+high, right?
+
+33
+00:03:52,740 --> 00:03:59,520
+On NAS 100 we have higher high, higher low, higher high, higher low.
+
+34
+00:03:59,520 --> 00:04:04,220
+And then NAS 100 fails to create another higher high.
+
+35
+00:04:04,220 --> 00:04:05,580
+So I will repeat it again.
+
+36
+00:04:05,580 --> 00:04:12,420
+On S&P 500 we have higher high, higher low, higher high, higher low, higher high, and
+
+37
+00:04:12,420 --> 00:04:18,140
+on NAS 100 we have higher high, high low, higher high, high low.
+
+38
+00:04:18,140 --> 00:04:25,540
+And then NAS100 failed to create a higher high, whereas S&P managed to create another higher
+
+39
+00:04:25,540 --> 00:04:26,640
+high.
+
+40
+00:04:26,640 --> 00:04:31,440
+So what does this tell us?
+
+41
+00:04:31,440 --> 00:04:37,300
+This right here, for me personally, is a liquidity sweep, right?
+
+42
+00:04:37,300 --> 00:04:38,300
+This right here.
+
+43
+00:04:38,300 --> 00:04:39,300
+Why?
+
+44
+00:04:39,300 --> 00:04:43,660
+Because on NAS100, price couldn't make a higher high.
+
+45
+00:04:43,660 --> 00:04:44,820
+What does that tell me?
+
+46
+00:04:44,820 --> 00:04:49,580
+It tells me that the autoflow has shifted into a bearish trend.
+
+47
+00:04:49,580 --> 00:04:51,740
+This right here is a liquidity sweep.
+
+48
+00:04:52,740 --> 00:04:53,940
+All right, why?
+
+49
+00:04:53,940 --> 00:04:58,940
+Because NAS100 could not make another higher high.
+
+50
+00:04:59,300 --> 00:05:03,380
+But this S&P 500 did actually create a higher high.
+
+51
+00:05:03,380 --> 00:05:05,580
+This tells me there was a liquidity sweep.
+
+52
+00:05:05,580 --> 00:05:08,340
+So now what we can do is let's suppose
+
+53
+00:05:08,340 --> 00:05:10,740
+that you are looking at S&P divergence
+
+54
+00:05:10,740 --> 00:05:13,500
+on a 15 minute timeframe.
+
+55
+00:05:13,500 --> 00:05:15,460
+Once you have the liquidity sweep, right,
+
+56
+00:05:15,460 --> 00:05:19,020
+and you see that the other asset or pair
+
+57
+00:05:19,020 --> 00:05:21,500
+could not make a higher high.
+
+58
+00:05:21,500 --> 00:05:23,580
+And this period, let's say, made a higher high.
+
+59
+00:05:23,580 --> 00:05:25,700
+You drop down to the one minute timeframe.
+
+60
+00:05:25,700 --> 00:05:28,780
+If you're looking at at a 15 minute timeframe,
+
+61
+00:05:28,780 --> 00:05:31,220
+you drop down to one minute timeframe after liquid sweep,
+
+62
+00:05:31,220 --> 00:05:33,060
+you wait for market structure shift
+
+63
+00:05:33,060 --> 00:05:35,540
+and you take your entry from the extreme variable you got.
+
+64
+00:05:35,540 --> 00:05:37,340
+Just really that simple.
+
+65
+00:05:37,340 --> 00:05:42,340
+So you can see that S&P 500 managed to create a higher high,
+
+66
+00:05:42,540 --> 00:05:46,980
+but on NAS 100, we could not make a higher high,
+
+67
+00:05:46,980 --> 00:05:55,140
+tells us that the auto flow has shifted into a what into a bearish trend. You want to trade
+
+68
+00:05:55,140 --> 00:06:02,580
+the pair or asset or instrument that has swept the liquidity. Right. You do not want to trade this.
+
+69
+00:06:02,580 --> 00:06:08,100
+You can trade it because the movement is going to be the same. Okay. So if NASA is going down,
+
+70
+00:06:08,660 --> 00:06:14,660
+this should go down as well. But I recommend that you trade the pair or asset that sweeps the
+
+71
+00:06:14,660 --> 00:06:18,160
+because you're gonna get a better racial war entry.
+
+72
+00:06:19,400 --> 00:06:24,400
+So in a bearish scenario, let me note this,
+
+73
+00:06:26,880 --> 00:06:29,360
+we have, let's suppose,
+
+74
+00:06:29,360 --> 00:06:32,000
+low, low, low, low, low, low, high,
+
+75
+00:06:32,000 --> 00:06:34,880
+and low, low, right?
+
+76
+00:06:34,880 --> 00:06:39,880
+And on S100, we have low, low, low, low, low, low,
+
+77
+00:06:41,640 --> 00:06:43,680
+low, low, low, low, low, high,
+
+78
+00:06:43,680 --> 00:06:48,080
+And then we fail to create another low-low.
+
+79
+00:06:48,080 --> 00:06:53,880
+So right here, we have divergence, SMT divergence.
+
+80
+00:06:53,880 --> 00:06:56,960
+SMP 500 managed to create a lower low.
+
+81
+00:06:56,960 --> 00:07:01,960
+But on NAS 100, we could not create a lower low.
+
+82
+00:07:01,960 --> 00:07:04,080
+So what does that tell us?
+
+83
+00:07:04,080 --> 00:07:07,920
+What does that tell us according to marbles?
+
+84
+00:07:07,920 --> 00:07:13,080
+So it shows that the autoflow or the momentum
+
+85
+00:07:13,080 --> 00:07:16,040
+has now shifted into a bullish trend.
+
+86
+00:07:16,040 --> 00:07:19,240
+So they'd create a low low on S&P 500,
+
+87
+00:07:19,240 --> 00:07:21,800
+but we could not create it on NAS 100.
+
+88
+00:07:21,800 --> 00:07:24,360
+Or similarly, if you just switch these pairs,
+
+89
+00:07:24,360 --> 00:07:29,360
+like this, sorry, assets, it doesn't matter.
+
+90
+00:07:29,360 --> 00:07:30,840
+You can trade any one of these pairs.
+
+91
+00:07:30,840 --> 00:07:34,000
+You should trade any one of the pairs or assets
+
+92
+00:07:34,000 --> 00:07:35,800
+that sweep the liquidity.
+
+93
+00:07:35,800 --> 00:07:40,640
+So let me put this here just so you don't get confused.
+
+94
+00:07:40,640 --> 00:07:43,300
+So once you see that NAS100 or any other
+
+95
+00:07:43,300 --> 00:07:47,360
+as a repair has failed to create a lower lower high,
+
+96
+00:07:47,360 --> 00:07:52,080
+you then wait for liquidity sweep on S&P 500
+
+97
+00:07:52,080 --> 00:07:54,160
+or any other pair as you're looking at.
+
+98
+00:07:54,160 --> 00:07:58,600
+And then you trade that pair or asset that swept the liquidity,
+
+99
+00:07:58,600 --> 00:08:00,560
+after the liquidity sweep you look for marked
+
+100
+00:08:00,560 --> 00:08:02,960
+shift to shift on a smaller timeframe.
+
+101
+00:08:02,960 --> 00:08:05,480
+And then you take your entry from the extreme failure gap
+
+102
+00:08:05,480 --> 00:08:06,840
+or on a block.
+
+103
+00:08:07,840 --> 00:08:10,240
+So I will try to give you guys some examples.
+
+104
+00:08:10,240 --> 00:08:13,680
+And I'll also give you some techniques
+
+105
+00:08:13,680 --> 00:08:16,960
+that you can use with the strategy to increase the win rate.
+
+106
+00:08:16,960 --> 00:08:19,920
+All right, guys, so here is example number one.
+
+107
+00:08:19,920 --> 00:08:22,960
+Looking at your USD and dollar index.
+
+108
+00:08:22,960 --> 00:08:27,360
+So when you, for specifically for dollar index,
+
+109
+00:08:27,360 --> 00:08:29,480
+when you are going to put it out on your chart,
+
+110
+00:08:29,480 --> 00:08:30,640
+it's gonna look like this.
+
+111
+00:08:30,640 --> 00:08:33,560
+It's gonna be inverted, unlike Bitcoin Ethereum,
+
+112
+00:08:33,560 --> 00:08:38,400
+that's 100 and S&P 500, or any other correlated pair.
+
+113
+00:08:38,400 --> 00:08:40,720
+So if you don't want to get confused,
+
+114
+00:08:40,720 --> 00:08:44,360
+what you can do is press Alt plus I.
+
+115
+00:08:44,360 --> 00:08:48,280
+Alt plus I on your keyboard,
+
+116
+00:08:48,280 --> 00:08:51,080
+and it's gonna flip the chart upside down.
+
+117
+00:08:51,080 --> 00:08:53,200
+And then it's just gonna make,
+
+118
+00:08:53,200 --> 00:08:55,600
+it just won't confuse you anymore.
+
+119
+00:08:55,600 --> 00:08:56,800
+So here is an example.
+
+120
+00:08:56,800 --> 00:09:00,080
+We took this trade in the community as well.
+
+121
+00:09:00,080 --> 00:09:01,640
+If you're watching it,
+
+122
+00:09:01,640 --> 00:09:06,320
+I shared it in the Mentors chart channel of the Discord.
+
+123
+00:09:06,320 --> 00:09:09,120
+So what did I see here?
+
+124
+00:09:09,120 --> 00:09:16,960
+So as you can see on the EuroUSD, we had this high, right?
+
+125
+00:09:16,960 --> 00:09:19,960
+And we created a higher high, higher low.
+
+126
+00:09:19,960 --> 00:09:24,540
+And then this right here, this right here, right?
+
+127
+00:09:24,540 --> 00:09:26,140
+Is a liquidy sweep.
+
+128
+00:09:26,140 --> 00:09:34,980
+However, if you look at it here, price did not manage to break this high.
+
+129
+00:09:34,980 --> 00:09:38,220
+It did not manage to break this high here.
+
+130
+00:09:38,220 --> 00:09:41,660
+So what does this tell us?
+
+131
+00:09:41,660 --> 00:09:44,260
+Now this tells us two things, right?
+
+132
+00:09:44,260 --> 00:09:47,220
+That the auto flow has not switched
+
+133
+00:09:47,220 --> 00:09:49,300
+into a bearish trend.
+
+134
+00:09:49,300 --> 00:09:53,700
+And over here, what you can see is we have a liquidity sweep.
+
+135
+00:09:53,700 --> 00:09:55,620
+So once you have a liquidity sweep,
+
+136
+00:09:55,620 --> 00:09:57,580
+what you can do now is you can go back
+
+137
+00:09:57,580 --> 00:10:00,220
+to the one minute timeframe on your USD.
+
+138
+00:10:01,340 --> 00:10:02,940
+After the liquidity sweep and you wait
+
+139
+00:10:02,940 --> 00:10:10,140
+for market structure shift. Simple as that. So right here what we have is a market
+
+140
+00:10:10,140 --> 00:10:14,940
+structure shift. Also we have this structure break, right? So we have a break of
+
+141
+00:10:14,940 --> 00:10:19,100
+structure as well. This right here is an extreme fair value gap level that you
+
+142
+00:10:19,100 --> 00:10:25,500
+can look for for an entry. You can take your entry from this extreme fair value
+
+143
+00:10:25,500 --> 00:10:30,060
+gap, put your stop maybe both the first candle of the fair value gap or maybe
+
+144
+00:10:30,060 --> 00:10:37,160
+above here just to be on the safe side. And I remember we targeted this, this
+
+145
+00:10:37,160 --> 00:10:42,860
+low here, but we could have targeted this level here as well because this is an
+
+146
+00:10:42,860 --> 00:10:48,440
+ABC formation and on the ABC strategy as we know, we target this level as our
+
+147
+00:10:48,440 --> 00:10:54,440
+take profit. So if I play this through, you're gonna see that we got our entry,
+
+148
+00:10:54,440 --> 00:11:03,120
+right? And if I play this through, you can see just because we knew that intraday
+
+149
+00:11:03,120 --> 00:11:08,600
+bias, we knew that the autoflow has shifted on you know the dollar and we
+
+150
+00:11:08,600 --> 00:11:16,120
+knew that your USD has set the liquidity, we took this entry and look at that
+
+151
+00:11:16,120 --> 00:11:21,560
+beautiful move. This is like textbook example of this strategy or technique
+
+152
+00:11:21,560 --> 00:11:27,080
+that you can use in your trading. So right here I use this technique with ABC
+
+153
+00:11:27,080 --> 00:11:35,220
+strategy. You can use it as a standalone strategy as well and it's going to work perfectly fine.
+
+154
+00:11:35,940 --> 00:11:40,500
+It doesn't have to be combined with any other strategy. It can work just absolutely fine. But
+
+155
+00:11:40,500 --> 00:11:47,140
+please keep that in mind. I can give you the best strategy in the world and it will not work for you
+
+156
+00:11:47,140 --> 00:11:51,540
+if you are not going to backtest it. It's just not simple. For instance, it's not simple.
+
+157
+00:11:51,540 --> 00:11:55,620
+trading is not that simple okay yeah the strategies that I'm teaching you are
+
+158
+00:11:55,620 --> 00:12:00,260
+simple but they require backtesting okay they're not just like you're gonna
+
+159
+00:12:00,260 --> 00:12:04,420
+start using them on the real chart right now and you're gonna make profits no
+
+160
+00:12:04,420 --> 00:12:08,700
+yeah maybe if you get lucky but if you don't know the movement right if you
+
+161
+00:12:08,700 --> 00:12:12,540
+don't know your peer if you don't know the asset that you're trading you
+
+162
+00:12:12,540 --> 00:12:16,740
+don't know the movement of that asset all right you're gonna fail tremendously
+
+163
+00:12:16,740 --> 00:12:21,300
+So backtesting is a must at least test 100 times
+
+164
+00:12:22,140 --> 00:12:24,140
+for your own sake, okay?
+
+165
+00:12:25,500 --> 00:12:30,060
+So this was a perfect example. We got 6.81 and
+
+166
+00:12:30,900 --> 00:12:35,500
+Notice that we are in a New York session around here, right?
+
+167
+00:12:35,820 --> 00:12:42,780
+So make sure your entries are during kill zones or you know a New York session preferably
+
+168
+00:12:42,980 --> 00:12:45,260
+You can trade at in a London session as well
+
+169
+00:12:45,260 --> 00:12:53,980
+make sure you don't trade Asian. It's just not reliable for me. I mean it can
+
+170
+00:12:53,980 --> 00:12:58,940
+work for you but it's just not for me. So I only trade London and New York.
+
+171
+00:12:58,940 --> 00:13:09,500
+So this was an example number one. We used your USD and dollar index. Now similarly, if you
+
+172
+00:13:09,500 --> 00:13:16,540
+have a liquid history, right? And let's say you have a liquid history on Bitcoin and you don't
+
+173
+00:13:16,540 --> 00:13:19,820
+have a liquid history on Ethereum, it's just and the Ethereum is telling you that the
+
+174
+00:13:19,820 --> 00:13:25,820
+auto has shifted in a very strong, you can trade Ethereum as well because Ethereum is now a
+
+175
+00:13:25,820 --> 00:13:32,620
+weaker or you could say weaker in terms of bullish, right? In terms of bullishness. So you can
+
+176
+00:13:32,620 --> 00:13:37,820
+trade that pair as well instead of the one that swept the liquidity, but notice that how we got
+
+177
+00:13:37,820 --> 00:13:43,260
+a greater ratio of ratio because we traded the pair that swept the liquidity.
+
+178
+00:13:43,260 --> 00:13:46,380
+So I hope that clears that doubt.
+
+179
+00:13:46,380 --> 00:13:49,820
+So let me move on to the next example.
+
+180
+00:13:49,820 --> 00:13:54,380
+All right, this example is for crypto bros.
+
+181
+00:13:54,380 --> 00:13:59,740
+So we are looking at Bitcoin and Ethereum SMT divergence here.
+
+182
+00:13:59,740 --> 00:14:03,100
+So on Bitcoin, you can see we have a higher high.
+
+183
+00:14:03,100 --> 00:14:04,940
+Right, we have a higher high, higher low.
+
+184
+00:14:04,940 --> 00:14:07,660
+And then we have a liquidity sweep.
+
+185
+00:14:07,660 --> 00:14:12,060
+But over here, you can see if we may hear from this candle, right?
+
+186
+00:14:12,260 --> 00:14:21,060
+You can see that price failed to break the high of this candle and also this high.
+
+187
+00:14:21,260 --> 00:14:28,340
+Right? So this clearly shows us that the auto for has shifted into a bearish trend.
+
+188
+00:14:28,540 --> 00:14:31,740
+After the liquid is cheap, you can see that the candle that sweeps the liquid.
+
+189
+00:14:31,940 --> 00:14:37,740
+You want to point your cursor towards that candle and you see if it has swept the high on it here.
+
+190
+00:14:37,740 --> 00:14:44,140
+as well in this example it has not right so often liquid use sweep what you do is simply go back to
+
+191
+00:14:44,140 --> 00:14:49,900
+the one minute timeframe if you are looking at the 15 minute timeframe right and you look for
+
+192
+00:14:49,900 --> 00:14:58,220
+extreme fair value gap and extreme fair value gap is around here you can see and I can use this
+
+193
+00:14:58,220 --> 00:15:06,020
+whole candle as my stop-offs. I will put my stop here and I can look to target
+
+194
+00:15:06,020 --> 00:15:14,900
+maybe this fear-body gap here right there's this fear-body gap here or I could
+
+195
+00:15:14,900 --> 00:15:22,500
+target this low here as well or I could target this low here as well so let's
+
+196
+00:15:22,500 --> 00:15:32,100
+target a 3.5 or it eventually just do actually let's do this. So you can see we have our entry
+
+197
+00:15:32,100 --> 00:15:45,360
+of the liquidity sweep and it just melts like a candle. Just goes down and it hits our take profit.
+
+198
+00:15:46,720 --> 00:15:54,320
+So look at the power of this thing. You knew that your short term bias is bearish because of the
+
+199
+00:15:54,320 --> 00:15:58,420
+the SMT divergence, right?
+
+200
+00:15:58,420 --> 00:16:01,780
+And due to that, you managed to win this trade.
+
+201
+00:16:01,780 --> 00:16:03,180
+It's really that simple.
+
+202
+00:16:03,180 --> 00:16:06,940
+This is a very, very powerful tool that you can use.
+
+203
+00:16:06,940 --> 00:16:13,940
+So you can see that we had a small divergence here.
+
+204
+00:16:14,740 --> 00:16:18,820
+And over here, you can see that we failed
+
+205
+00:16:18,820 --> 00:16:20,740
+to create a higher high.
+
+206
+00:16:20,740 --> 00:16:23,620
+So this tells us only one thing.
+
+207
+00:16:23,620 --> 00:16:26,180
+You could have traded this as well.
+
+208
+00:16:26,180 --> 00:16:32,780
+You could have looked for a fairly gap around this level, or maybe here, and then you took
+
+209
+00:16:32,780 --> 00:16:33,780
+a trade here.
+
+210
+00:16:33,780 --> 00:16:39,540
+But I recommend, as I always said, recommend that you trade the pair or asset that sweeps
+
+211
+00:16:39,540 --> 00:16:41,940
+the liquidity.
+
+212
+00:16:41,940 --> 00:16:43,460
+That was a beautiful trade.
+
+213
+00:16:43,460 --> 00:16:49,780
+As you can see, it works with crypto as well if you're using Bitcoin Ethereum, because
+
+214
+00:16:49,780 --> 00:16:53,140
+they have similar movements, as you can see.
+
+215
+00:16:53,140 --> 00:16:59,780
+So and also notice that this was also an ABC strategy, right?
+
+216
+00:16:59,780 --> 00:17:09,720
+So we had an ABC pattern and then we had a divergence of sorry, a auto flow shift on
+
+217
+00:17:09,720 --> 00:17:10,720
+ethereum.
+
+218
+00:17:10,720 --> 00:17:15,300
+This tells us that the momentum is moving to the downside, right?
+
+219
+00:17:15,300 --> 00:17:21,300
+The ethereum is now weaker in terms of being bullish, right?
+
+220
+00:17:21,300 --> 00:17:25,140
+this right here tells us there was a liquidity sweep so we trade this and we write it down.
+
+221
+00:17:26,660 --> 00:17:32,260
+So this was example number two as you can see it works with crypto as well.
+
+222
+00:17:33,140 --> 00:17:40,100
+And yeah guys let's move on to the another example. All right guys in this last example
+
+223
+00:17:40,100 --> 00:17:45,940
+I'm gonna show you how you can use three correlated pairs together in order to trade so we have
+
+224
+00:17:45,940 --> 00:17:56,100
+three correlated pairs like NAS 100, Dodge Jones, US 30, and S&P 500. So you can look at three
+
+225
+00:17:56,100 --> 00:18:03,780
+of these shots, right? Three of these, you can look three of them, right? And look for the one
+
+226
+00:18:03,780 --> 00:18:10,500
+that's used to look at it out of all these three, right? So you can see over here we have higher
+
+227
+00:18:10,500 --> 00:18:14,800
+higher high, higher, higher, high on NAS 100.
+
+228
+00:18:14,800 --> 00:18:17,560
+So yes, we swept the liquidity here.
+
+229
+00:18:17,560 --> 00:18:19,300
+Over here you can see this right,
+
+230
+00:18:19,300 --> 00:18:21,060
+if I mayor from this candle,
+
+231
+00:18:22,020 --> 00:18:24,620
+we could not make a,
+
+232
+00:18:24,620 --> 00:18:27,700
+we could not break this candle high here
+
+233
+00:18:27,700 --> 00:18:30,460
+just like NAS 100 did, right?
+
+234
+00:18:30,460 --> 00:18:33,380
+You can clearly see that this candle
+
+235
+00:18:33,380 --> 00:18:37,100
+on US 30 price failed to create a higher high.
+
+236
+00:18:38,220 --> 00:18:40,340
+It just kept on going down.
+
+237
+00:18:40,340 --> 00:18:44,020
+this right here, this exact reference candle, this right here, right?
+
+238
+00:18:44,020 --> 00:18:47,740
+That's what the liquidity, you move your pointer to that candle and look at this
+
+239
+00:18:47,740 --> 00:18:50,180
+candle, it did not sweep the liquidity.
+
+240
+00:18:50,180 --> 00:18:54,020
+So we can trade this pair.
+
+241
+00:18:54,020 --> 00:19:02,260
+Also, if you look at S&P 500, you can see that S&P 500 also swept the
+
+242
+00:19:02,260 --> 00:19:03,780
+liquidity, right?
+
+243
+00:19:03,780 --> 00:19:07,260
+So you could trade this pair as well.
+
+244
+00:19:08,460 --> 00:19:10,180
+It's that simple.
+
+245
+00:19:10,180 --> 00:19:18,380
+If this one pair is showing weakness in bullish direction, you can trade the other pairs in
+
+246
+00:19:18,380 --> 00:19:20,820
+the same momentum, right?
+
+247
+00:19:20,820 --> 00:19:25,740
+The bearish momentum because the autofoil has now shifted into a bearish trend.
+
+248
+00:19:25,740 --> 00:19:29,900
+So you can trade this and this as well.
+
+249
+00:19:29,900 --> 00:19:35,420
+So on NAS100, after the liquidity sweep, if you go back to the one minute timeframe, we
+
+250
+00:19:35,420 --> 00:19:42,740
+look for market structure shift and it happens right here, right? It happened right here,
+
+251
+00:19:42,740 --> 00:19:48,580
+you can see. So now when you have a fair value gap, this big, right? What you can do is
+
+252
+00:19:48,580 --> 00:19:53,340
+go back to go to the higher time frame like this and it's going to show you another
+
+253
+00:19:53,340 --> 00:19:58,140
+fair value gap which is right here. If I go to the three minute time frame, alright,
+
+254
+00:19:58,140 --> 00:20:04,260
+so the two minute time frame is this fair value gap. And to further refine your entry,
+
+255
+00:20:04,260 --> 00:20:10,720
+you can do is you can use your Fibonacci from the start of the fairly gap to the end of the
+
+256
+00:20:10,720 --> 00:20:15,420
+fairly gap and you can take your entry from the 0.5 level.
+
+257
+00:20:15,420 --> 00:20:22,340
+Yeah, out of 10 times you're going to miss your entry two times or three times but you're
+
+258
+00:20:22,340 --> 00:20:24,940
+going to get a better entry.
+
+259
+00:20:24,940 --> 00:20:27,740
+So we could take our entry from here.
+
+260
+00:20:27,740 --> 00:20:31,740
+We can put our stop loss at the top of the fairly gap candle.
+
+261
+00:20:31,740 --> 00:20:41,180
+remove this and let's wait for our target to be made. Alright so I think we have a
+
+262
+00:20:41,180 --> 00:20:46,740
+target here which would be this low here. So let's see how this plays out.
+
+263
+00:20:46,740 --> 00:20:55,380
+Alright so we get our entry right and if I play this through you're gonna see
+
+264
+00:20:55,380 --> 00:21:05,340
+that we eventually go ahead and hit the take profit level. So this is 3.56 if you
+
+265
+00:21:05,340 --> 00:21:09,580
+took a refined entry right if you took your entry from this free body gap and
+
+266
+00:21:09,580 --> 00:21:21,780
+put it here this would have been a 1 to 2.28 which is really nice. So this is
+
+267
+00:21:21,780 --> 00:21:31,720
+how you can use combinations and look for divergences and trade SMT guys. So I'm going to
+
+268
+00:21:31,720 --> 00:21:38,940
+give you a little bit of tips that you can use to even increase the wind rate of the
+
+269
+00:21:38,940 --> 00:21:48,060
+strategy. Right? So what is as in my previous course videos, I have taught you guys premium
+
+270
+00:21:48,060 --> 00:21:49,980
+and discount zones.
+
+271
+00:21:49,980 --> 00:21:53,340
+So let's suppose that on a hard time frame,
+
+272
+00:21:53,340 --> 00:21:56,580
+like the four hour time frame on a or a one hour time frame,
+
+273
+00:21:56,580 --> 00:21:59,660
+price direction is bullish.
+
+274
+00:21:59,660 --> 00:22:04,380
+So price is continuously making high, high, high, high, high.
+
+275
+00:22:04,380 --> 00:22:07,640
+So when you have a high, high, high, high,
+
+276
+00:22:07,640 --> 00:22:10,540
+and then you have a new higher high here,
+
+277
+00:22:10,540 --> 00:22:17,150
+you use your Fibonacci from that new higher high.
+
+278
+00:22:17,150 --> 00:22:21,790
+And you wait for price to come back into a discounted zone.
+
+279
+00:22:21,790 --> 00:22:25,670
+So now when the price comes back into a discounted zone,
+
+280
+00:22:25,670 --> 00:22:29,430
+then you can look for SMT divergence
+
+281
+00:22:29,430 --> 00:22:33,070
+around this level on a 15 minute timeframe.
+
+282
+00:22:33,070 --> 00:22:34,110
+Right?
+
+283
+00:22:34,110 --> 00:22:36,990
+Now that is going to increase your win rate by even more.
+
+284
+00:22:36,990 --> 00:22:40,630
+So notice what I have explained here.
+
+285
+00:22:40,630 --> 00:22:43,070
+You use premium in discount with SMT
+
+286
+00:22:43,070 --> 00:22:45,110
+and it's gonna increase the win rate.
+
+287
+00:22:45,110 --> 00:22:48,350
+All right, if you are really serious about that doing that,
+
+288
+00:22:48,350 --> 00:22:51,150
+because sometimes when I tell people about using
+
+289
+00:22:51,150 --> 00:22:53,790
+premium discount and using like a hard time
+
+290
+00:22:53,790 --> 00:22:57,190
+for my confidence, they just don't wanna do it.
+
+291
+00:22:57,190 --> 00:23:00,350
+Why? Because they want easier way to trade.
+
+292
+00:23:00,350 --> 00:23:03,870
+But if you just implement this little thing
+
+293
+00:23:03,870 --> 00:23:07,870
+in this strategy, it's gonna increase your wind rate, okay?
+
+294
+00:23:07,870 --> 00:23:10,350
+So you look at the hard time frame.
+
+295
+00:23:10,350 --> 00:23:12,470
+So let's suppose that this is a,
+
+296
+00:23:12,470 --> 00:23:14,770
+What are your time from?
+
+297
+00:23:15,470 --> 00:23:17,770
+Or let's do four hour time from.
+
+298
+00:23:17,970 --> 00:23:18,370
+Okay.
+
+299
+00:23:18,870 --> 00:23:23,170
+So price is making a higher, higher, higher, higher, higher, high, on a four hour time from.
+
+300
+00:23:23,170 --> 00:23:27,470
+You know that the market structure is bullish.
+
+301
+00:23:27,770 --> 00:23:29,170
+Now what do you do?
+
+302
+00:23:29,170 --> 00:23:33,470
+You wait for price to come back into a discounted zone below a 0.5 level.
+
+303
+00:23:34,270 --> 00:23:38,570
+And then you look for small time from SMT divergence.
+
+304
+00:23:38,770 --> 00:23:41,870
+So let's suppose that you're looking at your USD here.
+
+305
+00:23:41,870 --> 00:23:49,390
+right so you're looking at your USD so on your USD you have liquidity sweep and on dxy
+
+306
+00:23:49,390 --> 00:24:00,060
+dollar index what you have is a is a weakness all right so you have a weakness in dxy in
+
+307
+00:24:00,060 --> 00:24:07,740
+terms of bullish so now this is going to like oh my god this is going to be like the best entry
+
+308
+00:24:07,740 --> 00:24:15,820
+that you can take okay so sorry guys I have flew at the moment so yeah so you notice how
+
+309
+00:24:15,820 --> 00:24:22,780
+we can implement PD areas premium discount areas into our trading and it can't work like a charm
+
+310
+00:24:24,460 --> 00:24:32,460
+and let me take what comes what else comes to my mind so make sure that you are
+
+311
+00:24:33,340 --> 00:24:38,940
+trading during kill zone hours all right you can go into the indicators tab and you can just type
+
+312
+00:24:38,940 --> 00:24:41,280
+type in iced tea kill zones, right?
+
+313
+00:24:43,040 --> 00:24:45,500
+And there are so many indicators that you can use.
+
+314
+00:24:45,500 --> 00:24:47,500
+So let's say iced tea kill zone boxes.
+
+315
+00:24:47,500 --> 00:24:49,020
+This one right here.
+
+316
+00:24:49,020 --> 00:24:53,700
+And now you can trade within these kill zones, right?
+
+317
+00:24:53,700 --> 00:24:57,540
+You should get the entry within this time period.
+
+318
+00:24:57,540 --> 00:25:08,540
+So you can use like a high time frame structure, PD array, premium discount.
+
+319
+00:25:08,940 --> 00:25:23,330
+right SMT divergence on 15 minutes right and some model time frame
+
+320
+00:25:23,330 --> 00:25:35,280
+Microsoft has shift with fair value gap and you take your entry so this is
+
+321
+00:25:35,280 --> 00:25:41,040
+like a whole model that you can use to trade you can yeah of course you can
+
+322
+00:25:41,040 --> 00:25:47,280
+use this as a standalone strategy as well, the SFT divergence, but if you just add these
+
+323
+00:25:47,280 --> 00:25:54,080
+things together, because you know, you gotta do a little, you gotta just add these things
+
+324
+00:25:54,080 --> 00:26:01,040
+together and combine them together to create your own strategy, right? Like if every single person
+
+325
+00:26:01,840 --> 00:26:07,440
+starts using the same strategy, right, it just makes no sense because everyone is going to be
+
+326
+00:26:07,440 --> 00:26:11,680
+a millionaire. So it's just going to destroy the economy and everyone is sitting with
+
+327
+00:26:11,680 --> 00:26:17,040
+a billion dollars in their bank accounts. Right. There is no perfect strategy. Guys, the
+
+328
+00:26:17,040 --> 00:26:24,240
+perfect strategy is only when you backtest it and just, you know, change the strategy
+
+329
+00:26:24,240 --> 00:26:31,680
+in your own way. You just create that strategy in your own way by backtesting, forward
+
+330
+00:26:31,680 --> 00:26:37,980
+testing and you know just journaling each and everything. So I will add this
+
+331
+00:26:37,980 --> 00:26:44,180
+lecture on SMT divergence right now and we are going to move forward with our
+
+332
+00:26:44,180 --> 00:26:49,640
+course videos. If you have any questions about the strategy you can ask me in
+
+333
+00:26:49,640 --> 00:26:54,020
+the discord channel and if you didn't understand anything please re-watch the
+
+334
+00:26:54,020 --> 00:26:58,680
+video and I'll see you guys in the next video.

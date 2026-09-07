@@ -1,0 +1,99 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, so this is an example for a short position, so as you can see, we got the ALEG, right? So let me mark this out very easily, there you go. We got the ALEG, we got the B-leg and then we got the C-leg. Perfect. So let me mark this out. So we got the ALEG, right around here, which is from here. Okay. And then we got the B-leg, okay.
+
+2
+00:00:30,000 --> 00:00:35,400
+is the leg, this downward move.
+
+3
+00:00:35,400 --> 00:00:41,910
+So we want to mark out the very low of the b leg, which is this.
+
+4
+00:00:41,910 --> 00:00:48,070
+And we want to mark out the high of the a leg, which is this.
+
+5
+00:00:48,070 --> 00:00:50,270
+Perfect.
+
+6
+00:00:50,270 --> 00:01:03,170
+Now the c leg, which is this, it takes out the high of the a leg.
+
+7
+00:01:03,170 --> 00:01:06,650
+So the high of the L-E leg is here.
+
+8
+00:01:06,650 --> 00:01:08,730
+L-E like high.
+
+9
+00:01:08,730 --> 00:01:12,230
+Right?
+
+10
+00:01:12,230 --> 00:01:14,870
+Let me do this.
+
+11
+00:01:14,870 --> 00:01:15,870
+Looks better.
+
+12
+00:01:15,870 --> 00:01:17,630
+There you go.
+
+13
+00:01:17,630 --> 00:01:22,670
+So the C-E legs takes up the high of the L-E
+
+14
+00:01:22,670 --> 00:01:28,590
+while leaving some structure here.
+
+15
+00:01:28,590 --> 00:01:33,270
+So before price took out this high,
+
+16
+00:01:33,270 --> 00:01:35,150
+it created some structure.
+
+17
+00:01:35,150 --> 00:01:35,990
+Okay.
+
+18
+00:01:37,030 --> 00:01:42,030
+Then when price took out the high,
+
+19
+00:01:42,230 --> 00:01:45,430
+it made a market structure shift.
+
+20
+00:01:45,430 --> 00:01:50,430
+So it broke this structure, right?
+
+21
+00:01:52,590 --> 00:01:59,000
+Then price left the imbalance and auto block.
+
+22
+00:01:59,160 --> 00:02:01,720
+So this is an auto block, right?
+
+23
+00:02:01,720 --> 00:02:13,460
+We would enter straight from the autoblock, put our stop close right about there, and target
+
+24
+00:02:13,460 --> 00:02:16,300
+the low, which is here.
+
+25
+00:02:16,300 --> 00:02:17,940
+So that's 5.62 guys.

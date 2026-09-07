@@ -1,0 +1,312 @@
+1
+00:00:00,000 --> 00:00:03,380
+All right guys, so this is an example for the buys.
+
+2
+00:00:03,380 --> 00:00:05,000
+Of course, this is hindsight,
+
+3
+00:00:05,000 --> 00:00:06,480
+it's not gonna always work.
+
+4
+00:00:06,480 --> 00:00:10,560
+And this is, the auto-flow trading strategy
+
+5
+00:00:10,560 --> 00:00:14,480
+is not my favorite one, but you can back test it
+
+6
+00:00:14,480 --> 00:00:18,320
+and you know, get used to it, if that makes sense, all right?
+
+7
+00:00:18,320 --> 00:00:23,000
+So what we have here is that we create a higher high,
+
+8
+00:00:24,720 --> 00:00:27,960
+a higher low, and then another higher high.
+
+9
+00:00:27,960 --> 00:00:30,880
+So basically, we broke the structure
+
+10
+00:00:30,880 --> 00:00:33,600
+and now this is a continuation of a trend, okay?
+
+11
+00:00:33,600 --> 00:00:35,400
+And what do we have here?
+
+12
+00:00:35,400 --> 00:00:38,720
+Imbalance plus auto-block, but what happens here?
+
+13
+00:00:38,720 --> 00:00:41,320
+Price does not hit the auto-block,
+
+14
+00:00:41,320 --> 00:00:43,640
+but it hits the imbalance.
+
+15
+00:00:43,640 --> 00:00:47,160
+So this is what I say that sometimes I'm gonna take entries
+
+16
+00:00:47,160 --> 00:00:49,500
+of the imbalance, sometimes of the auto-block.
+
+17
+00:00:49,500 --> 00:00:52,280
+I always take my entry from the imbalance,
+
+18
+00:00:52,280 --> 00:00:54,840
+if the imbalance is very short like this, okay?
+
+19
+00:00:54,840 --> 00:00:56,800
+So I would take my entry right around here
+
+20
+00:00:56,800 --> 00:00:58,080
+and I put my stop plus here
+
+21
+00:00:58,080 --> 00:01:01,720
+and I go for this level right around here.
+
+22
+00:01:01,720 --> 00:01:03,920
+This would have been a 3.73.
+
+23
+00:01:03,920 --> 00:01:07,560
+Now we can see we created another higher high,
+
+24
+00:01:07,560 --> 00:01:08,880
+which is this, okay?
+
+25
+00:01:08,880 --> 00:01:13,720
+And then we got this imbalance plus the auto-block, okay?
+
+26
+00:01:13,720 --> 00:01:17,120
+So now what happens here is that you can see
+
+27
+00:01:17,120 --> 00:01:18,160
+we have marked the auto-block,
+
+28
+00:01:18,160 --> 00:01:21,720
+but what it did, it just maybe stopped you out.
+
+29
+00:01:21,720 --> 00:01:25,600
+But if you wanna be on the safe side,
+
+30
+00:01:25,600 --> 00:01:28,960
+what you can do is put your stop below this low.
+
+31
+00:01:28,960 --> 00:01:31,960
+Okay, because sometimes, and I'm saying sometimes,
+
+32
+00:01:31,960 --> 00:01:34,520
+I'm looking at this at the five minute timeframe, right?
+
+33
+00:01:34,520 --> 00:01:36,000
+But on the one minute timeframe,
+
+34
+00:01:36,000 --> 00:01:38,440
+there could be another imbalance and auto-block
+
+35
+00:01:38,440 --> 00:01:40,240
+around in this week, okay?
+
+36
+00:01:40,240 --> 00:01:43,200
+This whole week is a price action as well.
+
+37
+00:01:43,200 --> 00:01:46,160
+So maybe on the 30 second timeframe
+
+38
+00:01:46,160 --> 00:01:49,200
+or 15 second timeframe, there was an imbalance
+
+39
+00:01:49,200 --> 00:01:50,920
+plus auto-block right around here.
+
+40
+00:01:50,920 --> 00:01:53,160
+So make sure you put your stop plus here
+
+41
+00:01:53,160 --> 00:01:54,400
+just to be on the safe side.
+
+42
+00:01:54,480 --> 00:01:58,960
+And as you can see, we go up targeting this high
+
+43
+00:01:58,960 --> 00:02:02,680
+and then we broke the structure once again,
+
+44
+00:02:02,680 --> 00:02:04,800
+which is right here.
+
+45
+00:02:04,800 --> 00:02:07,520
+And then you can see we got the extreme
+
+46
+00:02:07,520 --> 00:02:09,080
+fair value gap at this level.
+
+47
+00:02:09,080 --> 00:02:11,840
+There's no imbalance here, it's all filled, all filled.
+
+48
+00:02:11,840 --> 00:02:14,000
+And we got this auto-block here.
+
+49
+00:02:14,000 --> 00:02:18,120
+And you can see we got a perfect entry around this level.
+
+50
+00:02:18,120 --> 00:02:22,360
+We would have entered here and boom,
+
+51
+00:02:22,360 --> 00:02:24,440
+targeting the high.
+
+52
+00:02:24,440 --> 00:02:28,640
+That was a 5.72 risk to reward trade guys.
+
+53
+00:02:28,640 --> 00:02:29,960
+Very, very simple guys.
+
+54
+00:02:29,960 --> 00:02:33,760
+And yeah, this is how we trade.
+
+55
+00:02:33,760 --> 00:02:35,840
+And let me give you another example.
+
+56
+00:02:35,840 --> 00:02:37,600
+We broke the structure again.
+
+57
+00:02:37,600 --> 00:02:42,120
+So there is the extreme fair value gap around this level.
+
+58
+00:02:42,120 --> 00:02:45,360
+So you could have entered from the fair value gap
+
+59
+00:02:45,360 --> 00:02:48,040
+or you could have your entry around this auto-block,
+
+60
+00:02:48,040 --> 00:02:50,040
+but then you would have missed the entry
+
+61
+00:02:50,040 --> 00:02:53,120
+by one people.
+
+62
+00:02:53,120 --> 00:02:58,120
+But just to just, I want to tell you guys this one thing,
+
+63
+00:02:59,760 --> 00:03:01,920
+you should always put your entry a little
+
+64
+00:03:01,920 --> 00:03:03,800
+above your actual entry point to deal
+
+65
+00:03:03,800 --> 00:03:05,520
+with the spreads of the broker, right?
+
+66
+00:03:05,520 --> 00:03:07,800
+Because sometimes, due to the spreads,
+
+67
+00:03:07,800 --> 00:03:11,600
+you will not get your entry if your entry
+
+68
+00:03:11,600 --> 00:03:14,440
+is exactly at the auto-block, okay?
+
+69
+00:03:14,440 --> 00:03:18,320
+So make sure you always have your entry a little shy
+
+70
+00:03:18,320 --> 00:03:20,520
+above the actual entry point.
+
+71
+00:03:20,520 --> 00:03:23,200
+And then you can see price went all the way up.
+
+72
+00:03:23,200 --> 00:03:26,120
+So we are done with the auto-flow trading strategy,
+
+73
+00:03:26,120 --> 00:03:28,680
+my least favorite trading strategy,
+
+74
+00:03:28,680 --> 00:03:32,240
+but it can be your most favorite trading strategy, okay?
+
+75
+00:03:32,240 --> 00:03:34,680
+So as I said before, in the course,
+
+76
+00:03:34,680 --> 00:03:38,040
+you must choose one strategy and work on it.
+
+77
+00:03:38,040 --> 00:03:42,560
+You should not try out a lot of other strategies.
+
+78
+00:03:42,560 --> 00:03:45,960
+So I'll see you guys in my next trading strategy video.
+

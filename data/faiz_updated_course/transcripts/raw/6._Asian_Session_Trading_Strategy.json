@@ -1,0 +1,303 @@
+{
+  "source": "F:\\new faiz\\6. Asian Session Trading Strategy.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 339.47575,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 30.0,
+      "text": " Alright guys, so now we're going to learn the Asian session liquidity trading strategy. So let me tell you the Asian session, liquidity trading strategy. Let me put this like this. Alright, perfect. So what is Asian session liquidity trading strategy? Well, during the Asian session, price, most of the time, consulting."
+    },
+    {
+      "start": 30.0,
+      "end": 36.32,
+      "text": " Okay, so it's gonna be like this and blah blah blah right. So let's suppose that"
+    },
+    {
+      "start": 37.28,
+      "end": 39.28,
+      "text": " This is an asian session"
+    },
+    {
+      "start": 40.4,
+      "end": 45.56,
+      "text": " All right, this is the start of the asian session and this is the end of the asian session"
+    },
+    {
+      "start": 46.04,
+      "end": 48.04,
+      "text": " All right"
+    },
+    {
+      "start": 48.04,
+      "end": 51.0,
+      "text": " There you go perfect. This is the end so"
+    },
+    {
+      "start": 51.0,
+      "end": 60.56,
+      "text": " So, once the Asian session is over, we get a 1 to 2 hours time period of lunch."
+    },
+    {
+      "start": 60.56,
+      "end": 61.56,
+      "text": " Okay?"
+    },
+    {
+      "start": 61.56,
+      "end": 65.4,
+      "text": " So, let me draw this out like this."
+    },
+    {
+      "start": 65.4,
+      "end": 73.12,
+      "text": " Once the Asian session is over, we get this 1 hour break or 2 hour break before London session"
+    },
+    {
+      "start": 73.12,
+      "end": 74.12,
+      "text": " starts."
+    },
+    {
+      "start": 74.12,
+      "end": 75.12,
+      "text": " Okay?"
+    },
+    {
+      "start": 75.12,
+      "end": 83.78,
+      "text": " During that break, I want the price to pull back and create another high high or lower low,"
+    },
+    {
+      "start": 83.78,
+      "end": 87.6,
+      "text": " depending on where the price is going."
+    },
+    {
+      "start": 87.6,
+      "end": 98.04,
+      "text": " Once it does that, what you want the price to do is to break or do a market structure shift"
+    },
+    {
+      "start": 98.04,
+      "end": 104.36,
+      "text": " or change of protector, whatever you want to call it."
+    },
+    {
+      "start": 104.36,
+      "end": 113.72,
+      "text": " Now the price can also break the structure after the London session starts."
+    },
+    {
+      "start": 113.72,
+      "end": 120.38,
+      "text": " The only thing that you should be focusing on that the fakeout like this happens during"
+    },
+    {
+      "start": 120.38,
+      "end": 124.12,
+      "text": " the lunch time period."
+    },
+    {
+      "start": 124.12,
+      "end": 132.78,
+      "text": " Now it doesn't matter when price does a market structure shift or change of character within"
+    },
+    {
+      "start": 132.78,
+      "end": 136.3,
+      "text": " in that launch period or during the London session."
+    },
+    {
+      "start": 136.3,
+      "end": 141.3,
+      "text": " All right, once that market structure shift has happened,"
+    },
+    {
+      "start": 141.3,
+      "end": 146.44,
+      "text": " you want to identify autoblock plus fair value gap."
+    },
+    {
+      "start": 146.44,
+      "end": 150.66,
+      "text": " You want to go short, put your stop-loss right above there,"
+    },
+    {
+      "start": 150.66,
+      "end": 155.58,
+      "text": " and you want to target the low of the Asian session."
+    },
+    {
+      "start": 155.58,
+      "end": 158.3,
+      "text": " So, what's price going to do?"
+    },
+    {
+      "start": 158.3,
+      "end": 163.08,
+      "text": " It's gonna go back up and then it's gonna take out the"
+    },
+    {
+      "start": 164.74,
+      "end": 167.56,
+      "text": " Low of the Asian session. All right"
+    },
+    {
+      "start": 168.86,
+      "end": 170.42,
+      "text": " similarly"
+    },
+    {
+      "start": 170.42,
+      "end": 172.9,
+      "text": " Let me draw this let me remove this"
+    },
+    {
+      "start": 173.9,
+      "end": 183.03,
+      "text": " If you're looking for bias during the lunch period, I want to see price"
+    },
+    {
+      "start": 183.03,
+      "end": 194.03,
+      "text": " fake out and then a clear a very clear market structure shift. We take our entry"
+    },
+    {
+      "start": 194.03,
+      "end": 199.31,
+      "text": " from the imbalance and farewell gap and we target the high of the Asian session."
+    },
+    {
+      "start": 199.31,
+      "end": 206.11,
+      "text": " Very simple guys, okay? You do not need any daily buys for it. It's an"
+    },
+    {
+      "start": 206.11,
+      "end": 211.31,
+      "text": " algorithmic trading strategy. So we see a market structure shift right around here."
+    },
+    {
+      "start": 211.31,
+      "end": 218.87,
+      "text": " Okay, and we got the farewell gap right around here or autoblog. Okay, we take our entry here"
+    },
+    {
+      "start": 218.87,
+      "end": 225.95,
+      "text": " and we target the Asian session liquidity high. So let me remove this and let me show you an example."
+    },
+    {
+      "start": 225.95,
+      "end": 235.71,
+      "text": " Okay, so you can see we created the lower low, lower high, lower low, higher high, but then we create another"
+    },
+    {
+      "start": 235.71,
+      "end": 244.43,
+      "text": " or look and then we did not create anything these were just wicks okay we did create this level"
+    },
+    {
+      "start": 244.43,
+      "end": 252.27,
+      "text": " and we broke we created another level so after that you can see that price faked out"
+    },
+    {
+      "start": 254.35,
+      "end": 262.35,
+      "text": " during the lunch period and now what you want to do before we even start you want to"
+    },
+    {
+      "start": 262.35,
+      "end": 267.47,
+      "text": " How do we identify a Asian session, London session and the lunch breaks and all?"
+    },
+    {
+      "start": 267.95,
+      "end": 269.31,
+      "text": " You want to go to the indicator tab."
+    },
+    {
+      "start": 269.35,
+      "end": 273.95,
+      "text": " You want to type in fx and Asian session range."
+    },
+    {
+      "start": 273.99,
+      "end": 276.39,
+      "text": " Once you do that, you want to go to the settings tab here."
+    },
+    {
+      "start": 277.07,
+      "end": 281.27,
+      "text": " You want to go to the style settings and you want to disable labels and lines."
+    },
+    {
+      "start": 281.31,
+      "end": 282.19,
+      "text": " That is it."
+    },
+    {
+      "start": 282.47,
+      "end": 284.95,
+      "text": " So the blue one is an Asian session."
+    },
+    {
+      "start": 285.43,
+      "end": 287.35,
+      "text": " The green one is the London session."
+    },
+    {
+      "start": 287.79,
+      "end": 290.95,
+      "text": " And the gray one is the New York session."
+    },
+    {
+      "start": 290.95,
+      "end": 295.15,
+      "text": " All right clear. All right, so let's move on now. What do we have here?"
+    },
+    {
+      "start": 295.15,
+      "end": 299.51,
+      "text": " We got this market structure shape and we broke a lot of structures, right?"
+    },
+    {
+      "start": 299.51,
+      "end": 303.39,
+      "text": " So this shows us that price want to go up and take out the"
+    },
+    {
+      "start": 304.43,
+      "end": 312.59,
+      "text": " High of the Asian session. All right, so what we do here is that we want to mark out the fair value gap and"
+    },
+    {
+      "start": 312.99,
+      "end": 319.31,
+      "text": " The auto blocks so as you can see this is an auto block with fair value gap. You want to enter from here"
+    },
+    {
+      "start": 320.95,
+      "end": 325.19,
+      "text": " You want to put your stop-loss right below that auto block and you want to target the high."
+    },
+    {
+      "start": 326.15,
+      "end": 331.75,
+      "text": " Okay. Now you must always take all of your profits. One, the high is taken out because"
+    },
+    {
+      "start": 332.63,
+      "end": 337.59,
+      "text": " price can reverse heavily. Okay. So let me give you a few more examples."
+    }
+  ]
+}

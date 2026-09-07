@@ -1,0 +1,12 @@
+Alright guys, so this is going to be the final, I would say, example for the strategy.
+So as you can see, we made high, high, high, low, high, low, low, low, sorry, high, high,
+then we created lower, high, lower, low, lower, low, lower, low, then we created high, high,
+high, low, high, high, high, and then after we swept the high of the Asian range, which
+is this, during the lunch break, we swept the high, and then we had a market structure
+shift, as you can see right around here, alright, and then if I mark out the autoblog, this
+is the autoblog that we have, alright, so you would have entered here, you stop, should
+have gone here, if it went there, you would have gotten stopped out, but if you had you
+stopped here, you would have targeted the Asian session range, and this would have given
+you a 3.26-risk reward rate.
+So we will be moving on to our next strategy after this video, and as we guys in the next
+trading strategy video.

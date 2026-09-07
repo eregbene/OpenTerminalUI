@@ -1,0 +1,149 @@
+Hey guys, hope you're doing good in the chapter. I'm going to teach you my personal approach
+to CRD or Gandal range theory. Now I explained this concept over one and a half years ago
+on my YouTube, but it wasn't really in that much detail. I just told you guys that candles
+are ranges and basically you can take a turtle soup whenever the candle high is taken out
+or the candle low is taken out. Now a lot of people on Twitter consider this as their
+own concept. It is not my concept. It is not their concept. This is all ICT. There's nothing
+that someone invented, right? Someone else invented. This is all ICT. So what exactly
+is CRD? So CRD is Gandal range theory, right? Every candle is a range and that is absolutely
+obvious, right? That there's nothing new to it. But then there are some timings that
+if we focus on, you know, you can trade with very high probability. So although every single
+candle is a range, it doesn't mean that every single candle's range is high probability.
+We have specific times that make those candle ranges high probability. So the number one
+is one M for our candle. So this is a four hour candle and this is also a four hour candle.
+Okay. So we're going to have two high probability turtle soups in a day. Now one can work and
+one cannot work or both total soups can work in a day. So basically you will win two trades
+in a day. Now don't get confused. I'm going to explain each and everything. All right.
+So this may sound a bit complicated, but it is not just listen to me. So this is the
+first four hour candle and that's going to open at one M. And then this is the second
+four hour candle and that's going to open at five M. So practically we want to wait for
+the candle closure. So the one M for our candle needs to close. So once it closes, we are simply
+marking out the one M for our candle high and low. Now there are two ways to trade this.
+Okay, the very first step is we need to see when the candle closes, right, the one M for our candle,
+we have to drop down to five minute time from. And let's suppose that the high is taken out.
+Now I want to see a market structure shift.
+Also acceptance back into the range, the candle range. So this is the candle range high. This is
+the candle range low. Once the candle closes, we are waiting for a rate either to the candle high
+or the candle low. So in this example, you can see that the next candle opened here and on the
+five minute down from, we took out the four hour candle high. And then we also have a market
+structure shift and we also have acceptance back into the range. I want to see price come back
+into the range, right? And that's going to increase the probability. Now, I am simply just taking my
+entry from the fair valley gap or a breaker block or an auto block. And here is the risk management
+for this strategy. You take your entry, put your stock right above the high and you close 50% of
+your position at one to one ratio ratio. So once you reach one to one, you are basically
+taking 50% of your position. And then you're also going break even. Now, you are leaving the
+trade till the candle low is taken out. So this is going to maximize the profits. Now, the second
+way to trade is you have a period rate on the four hour time from this is a four hour candle.
+On the four time, let's suppose that you have a fair valley gap. Now, once price takes out the
+four hour candle high, and it also taps into a period rate, and then gives you a market structure
+shift on the five minute down from that makes it high probability. Okay, there are always some ways
+to increase the probabilities of the strategy. All right, and that's what I'm teaching. My goal
+is to teach you ways that you can approach this strategy. And there are two ways. One is, of course,
+going to have low probability, but it's not a huge difference. If you're in account for PDRAs,
+your win rate is going to just go five to 10% higher. That's it. But it's not very significant when
+when you're going to win these massive trades. So you take 50% off at one to one, and then you
+basically hold till this level. Now, of course, I'm going to give you examples and your confusion
+will be gone. So it's very simple, just five minute market structure shift. Now, here is one
+scenario that can occur, right? So let's assume, just let me just let me just remove this. The new
+candle opens, you have price keeps going up, right? And then you get a market structure shift. Now,
+I will not take my entry. Why? Because price didn't come back into the range. So even though price can
+go here, and I want to see price close below the range. So now once it does that,
+right? Let me just remove this. Once it does that, then I can look to take my entry from any
+PDRA that is present, right? So I can basically just consider this as an auto blog and then take
+my entry. I just want to see price come back into the range. So very simple guys. Now,
+here's another thing that you need to know. Okay, this is very important. So if you do not get an
+entry before the 5M candle closes, right? So let's suppose that the 1M for our candle closed. But
+you know, the rate, the price doesn't take out the 1M candle high or the low. Before
+the 5M candle closes. That's going to be around 8, right? Am. I'm going to explain everything when I
+go to the live charts, but try to understand what I'm saying. If the rate doesn't happen, right? So
+let's suppose price keeps on, you know, consolidating, consolidating, no, right? But then the new candle
+opens, the 5M candle opens and, you know, basically, oh, my bad, my bad, my bad, let me explain it
+because this is very confusing, right? So the 5M candle open is when you're going to see the
+rate, right? So this open is the open of this candle. I hope that makes sense. The open of this
+candle is the open of this candle. Just this is just for like, it's a picture to explain things,
+right? So if you don't get a rate before the 5M candle closes, then you have to wait for the
+rate of the 5M candle. I know it's, it's confusing, right? Don't worry, I'm going to go to the live
+charts and it's going to clear each and everything. But if the rate doesn't happen
+of this candle, then we have to wait for this candle to close. And then we have to look for
+the rate of this candle. This one becomes useless. This candle becomes useless, all right?
+Now I'm just going to go to the live charts and I'm going to explain everything so all of your
+confusion is going to be over. All right, so here is example one, right? This is the 1M candle
+and this is the 5M candle. Now, look at this 1M candle. All you need to do is mark out the high
+and the low of that candle. Very simple, all right? Now if I drop down to 5M time frame,
+you can see that this was the candle high and it got swept right here. Now we simply look for a
+shift in the market structure, right? And around here, we have that. Now I was going to send this
+setup today in the discord, but I sent the other one, which was this and it turned out to be a
+loser. So very unfortunate, whoever took that trade, this would have been an awesome winner.
+You can see that we had this autoblock here, right? This fair value gap as well. This could have been
+basically your entry somewhere around here and you would go shot right here, stop right above the
+high. At one to one, you would take like 50% or 40% of your trade, go break even and then hold till
+here. Now what I sometimes like to do is use my fib from the last high that was formed to the last
+low that was formed before market structure shift and I use the standard deviation projections
+to take my profits, right? So if the real draw on liquidity, which is the candle low is near the
+negative to negative 2.5 or negative four, then it increases the probability of the setup.
+So this happened today and it happens every single day. Now I want to give you guys
+the peers and assets that this works with. So first off, it works with gold, then it works with
+your USD and that works works with NAS 100, USD 30 and S&P 500, all right? You don't have to trade
+anything else. Every single day, you choose one pair or asset and then you trade that asset or
+pair, all right? You don't have to take two different trades. So for example, if you are
+short on gold, you do not want to buy your USD, right? You just have to trade one pair,
+whichever presents the setup, don't trade multiple pairs at the same time. So let's move on to the
+next example now. Alright guys, so here is example two. So over here you can see that we have a
+PD array that is a four hour free value gap, then we have the 5M four hour candle, all right?
+So this is the opening price, the candle closes here. So we simply mark out the high and the low
+of that candle. So this is a method two where price goes into the PD array. So you can see that the
+high of the 5M candle was taken out and price also was in a PD array and this is the candle
+low. So this would be a redraw on liquidity. So if I go to the five minute time from now,
+I zoom out a bit, you can see that this was this was the high. So this tiny bit, let me just
+mark this up like that. So at nine, actually, the can the 5M candle closes at 9M, the 5M candle
+closes. Remember that. So we get a clean shift in the market structure. We have this big auto
+block. So a good entry point would be this, because that is a BPR. And you can see that this
+would have been a short position just right here. You can also take your, you know, usually I would
+wait for the extreme level to be taken. But since price is already giving me one to two,
+right, there is no need to take your entry from here, because price is giving us decent
+risk to reward. Now, you can see that your entry would have been here at one to one,
+you would take around 40 to 50% of your position, go break even, right? And then you can see that
+the take profit was hit. Your entry, remember must be before 12, always. Okay, 12. So our entry was
+at 11 something. So this was a beautiful trade. We tap into PD array, you know, and this is method
+too. Let's move on to the next example. All right, guys, so here is another example. And you can see
+that we have the one M candle here. Price did take it out, but it went up and you may have got stopped
+at break even with one partial. Now, however, if we look at the 5M for our candle, right,
+we simply mark out the low and the high of that candle. Okay, so we get we have the one M and the
+5M candle. These are important. Now, if I go to the five minute chart here, you can see that after
+taking this, we had a shift in the market structure. So you can account for weeks as well for this
+strategy. And most importantly, we closed back above the range above this low.
+Then we have the auto blog, right, a very clean trade. And if we use our standard deviation tool,
+although the draw on liquidity is here, there's a higher draw on liquidity that might be here.
+So this around here, because it is above the negative two. So this could be your final
+take profit level, right? Let me just close this real quick. So this could be your final take profit
+level. So a very beautiful entry from this auto blog here. And it played out perfectly. And this
+strategy works really well for some reason with US study, right? If you want like insane consistency,
+then I suggest you trade this because it has like a very, very high win rate for this, like,
+asset. Let me give you guys one more example. And then I will end this chapter.
+All right, guys. So here is the final example. And I'm looking at the one M candle. So I'm going
+to mark out the low. And I'm going to mark out the high. Now do note that we are inside this
+PRA. This is a auto block, right? A bullish auto block. So that increases the probabilities.
+Always remember that. And one key thing to note, we are in the discount. So that is also a plus
+point. These small things, if you try to implement them in every strategy that I've taught you,
+your win rate is going to improve. All right. So the one M candle low was taken out for us.
+So let's study what happened. So if I go here, right, the low was taken out first.
+And notice what happened. This has to be the cleanest example. We swept this low. We broke
+the structure market structure. We also broke the structure. Very nice. Then we have this
+fair value gap. Look at the precision here. The bodies were beautifully respected.
+So this could have been a long position. Your stop would go right below this low.
+And at one to one. Somewhere around here, right? One, two, one. This is the entry.
+Probably goes up here. So let me just do that. You would go break even somewhere around here.
+And then you can see that if you held till here, this would have given you a beautiful
+restore what ratio. So this is pretty much it. Right. So
+let me just show you one thing. This is very important. So notice this. Okay.
+This is. So let's assume that this is the one M candle and this is the five M candle. All right.
+Now let's say that you mark out the low and the high of the one M candle. But you see that
+the high and low were not taken out in the next candle, which is the five M candle.
+So now we want to stop looking at this candle and we're going to mark out the high and low of
+the five M candle. Why? Because the five M candle could not couldn't take out the high low of the
+one M candle. I repeat, if the high or the low of the one M candle is not taken out between the
+five M candle, then we wait for the five M candle to close. And then we mark out the five M candle
+high and low. Right. And that's where our focus is going to go. We forget about the one M candle.
+And then we look for the purge of the five M low and we target the high. So thank you so much
+for watching. Please practice. All right. Just by watching this and trading this on the live
+market is not going to help you go and back test and see the results by yourself.

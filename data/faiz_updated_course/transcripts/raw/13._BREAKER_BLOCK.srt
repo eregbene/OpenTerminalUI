@@ -1,0 +1,95 @@
+1
+00:00:00,000 --> 00:00:30,000
+Alright guys, so in this video we are going to talk about breaker blocks. It is another entry pattern that you can use. It is very powerful. So what essentially is breaker block? When you have a lower low, lower high, lower low, and a market structure shift. So when you had lower low, lower high, lower low,
+
+2
+00:00:30,000 --> 00:00:45,260
+the last lower low and the last candle of that lower low right here is your brick
+
+3
+00:00:45,260 --> 00:00:51,820
+block. So you have lower low, lower high, lower low and mark a structure shift. If you
+
+4
+00:00:51,820 --> 00:00:56,620
+have another small lower low here, like lower low, lower high, small lower high,
+
+5
+00:00:56,620 --> 00:01:04,220
+lower low and then mark a shift, then that would be your brick block. So the first
+
+6
+00:01:04,220 --> 00:01:14,030
+candle right here, first candle before this move, or you could say the last candle, before
+
+7
+00:01:14,030 --> 00:01:23,390
+this last lower low is your breaker block. And if there is some fear volume gap here, then
+
+8
+00:01:23,390 --> 00:01:29,630
+that breaker block becomes very strong. However, if there is no fear volume gap, you can still
+
+9
+00:01:29,630 --> 00:01:36,750
+take entry from this level. Okay? But if there's fibrilligap, then that becomes even better.
+
+10
+00:01:36,750 --> 00:01:44,030
+Price comes back here and boom. Similarly, you have higher high, high low, higher high,
+
+11
+00:01:44,030 --> 00:01:53,550
+market structure shift. This last candle before the move to the upside and then market structure
+
+12
+00:01:53,550 --> 00:02:00,350
+shift so you have higher high high low. The last candle of the high low is your
+
+13
+00:02:00,350 --> 00:02:05,550
+breaker block. Okay? Price comes back here. If there is freeable you gap right
+
+14
+00:02:05,550 --> 00:02:10,430
+here, you can literally take your entry from here. Instead of looking for entry
+
+15
+00:02:10,430 --> 00:02:14,550
+from the extreme freeable you gap, what you can do as an entry model, you can
+
+16
+00:02:14,550 --> 00:02:19,870
+look for entry here. So a lot of people ask me, we miss, sometimes we miss the
+
+17
+00:02:19,870 --> 00:02:27,910
+trade. And this is how you can minimize the risk of missing their trade. Yes,
+
+18
+00:02:27,910 --> 00:02:31,590
+your stop loss is going to be big, or you can just put your stop above the
+
+19
+00:02:31,590 --> 00:02:35,870
+breaker block, but trust me, you're going to lose. So just put it above the
+
+20
+00:02:35,870 --> 00:02:42,190
+extreme fear of what you get. So this right here is your breaker block. Let me
+
+21
+00:02:42,190 --> 00:02:53,670
+show you an example. If I can find it, I drew it somewhere here. Where is it? Where's
+
+22
+00:02:53,670 --> 00:02:57,680
+Where is it?
+
+23
+00:02:57,680 --> 00:02:58,680
+Mm-hmm.
+
+24
+00:02:58,680 --> 00:03:04,680
+Okay, I think I deleted it, so I'm gonna pause the video, find it, and then come back.

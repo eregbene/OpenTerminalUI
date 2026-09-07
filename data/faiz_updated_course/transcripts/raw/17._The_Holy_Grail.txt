@@ -1,0 +1,94 @@
+[00:00:00] Alright guys, so now that we have learned the market maker model, now that we know how to find our daily bias, the monthly bias and the weekly bias, now we are going to use a complete, I'm gonna teach you the complete model that has the best win rate out of everything that I've thought before. This is like, you know,
+[00:00:30] I would just simply say the best strategy out of all.
+[00:00:34] Okay, and I'm not even over exaggerating right at the moment.
+[00:00:38] If you can apply this strategy correctly, you're going to pass challenges.
+[00:00:45] You're going to become a consistently profitable trader and you will not rely on other people
+[00:00:50] or other people's signals.
+[00:00:53] Okay.
+[00:00:54] So here is the complete model.
+[00:00:58] one we have to look for external and internal liquid we have to determine our bias okay.
+[00:01:06] So we are going to use three time frames for this strategy okay.
+[00:01:10] Previously we used two right but remember in the beginning of the update I said that we are
+[00:01:15] going to use the third time frame as well later on in the course right.
+[00:01:20] So let's assume that this is the daily time frame this is the one hour time frame and
+[00:01:26] This is the five minute timeframe because remember for the daily we're going from daily to hourly to five minute.
+[00:01:33] Okay.
+[00:01:34] So let's say that you have a purge on the external liquidity on the daily timeframe.
+[00:01:40] Okay.
+[00:01:41] And you have the free value gap in the discount over here.
+[00:01:44] That should be your draw on liquidity.
+[00:01:45] So now once you have the purge, you simply drop down.
+[00:01:53] Let me mark this out like that.
+[00:01:54] You drop down to one hour timeframe.
+[00:01:56] So now price has taken out this daily high with this external look now you're waiting for that
+[00:02:03] Time frame to align with your narrative or your bias for the daily
+[00:02:07] So you want to wait for a market structure shift
+[00:02:11] Once you have a market structure shift on the one hour time frame after price takes out the daily high
+[00:02:16] Right and you have the target here, which is a fair value gap now notice here very carefully
+[00:02:22] When price did a market structure shift, there was a fair value gap, right?
+[00:02:26] There was a PD error.
+[00:02:28] It could be an auto block here.
+[00:02:29] It could be a fair value gap.
+[00:02:31] Price comes into that fair value gap.
+[00:02:34] So now, right?
+[00:02:36] I have from here to here, this movement.
+[00:02:41] Okay.
+[00:02:41] So from here, this is the fair value gap.
+[00:02:43] This right here.
+[00:02:44] I zoomed in a bit.
+[00:02:45] Okay.
+[00:02:46] So now once the price goes into the one hour fair value gap, we want to drop down to
+[00:02:51] the five minute timeframe. Okay. So from daily, we go to the hourly timeframe. We look
+[00:02:59] for a market structure shift. We wait for the price to come back into the one hour
+[00:03:03] free value gap. And one price is in the one hour free value gap or auto block. We drop
+[00:03:07] down to the five minute timeframe. So now this move from here to that PD array, we have
+[00:03:15] to look for a market maker model inside this move. So when price goes into the furbly gap,
+[00:03:22] the move starting from here must have a consolidation. First consolidation. So now this right
+[00:03:31] here is here. Look at this. This price action, I have zoomed in and this is what it looks like.
+[00:03:37] So what do we have here? We have consolidation. So that is going to be our target.
+[00:03:44] What do we have?
+[00:03:46] Your accumulation phase one, which is consolidation number two, right?
+[00:03:50] What do we have then?
+[00:03:51] We have a market structure shift when price came into the fair value gap.
+[00:03:55] And then you can simply look to take your entry from the fair value gap or auto block.
+[00:04:00] From here onwards, when you get a market structure shift on the five minute, every single
+[00:04:04] PD area is going to be respected.
+[00:04:06] All right?
+[00:04:08] Every single fair value gap, every single auto block.
+[00:04:11] get an entry here on the fair value gap, right?
+[00:04:13] You have a break of structure, you take your entry
+[00:04:15] on the fair value gap, you keep on doing that
+[00:04:17] until this level is taken out.
+[00:04:21] Make sure this level has consolidation, guys.
+[00:04:25] Okay?
+[00:04:26] So we don't even look at the fair value gap.
+[00:04:29] We just know that our draw on liquidity is here.
+[00:04:32] The higher time frame draw on liquidity is here, right?
+[00:04:35] But then we wanna use the five minute timeframe
+[00:04:38] to increase our chances to win the trade, right?
+[00:04:41] We want to increase our probabilities here.
+[00:04:44] So we look for a market maker model inside this move
+[00:04:48] from this bottom low to this high
+[00:04:51] into the frame value gap.
+[00:04:55] And once price comes into one hour frame value gap,
+[00:04:57] you look for and scout out the market maker consolidation
+[00:05:01] in this leg, in this leg around here, starting from here.
+[00:05:07] Originally on the one hour, this would have been our target,
+[00:05:10] this fairly gap on the daily time from this over here,
+[00:05:13] draw a liquidity, but on the five minute,
+[00:05:15] when we drop down, this is where we will not identify
+[00:05:18] and scout out the market maker model.
+[00:05:20] So now when price comes into the fairly gap,
+[00:05:22] look for a market structure shift,
+[00:05:24] take your entry, break of structure, entry,
+[00:05:26] break of structure, entry, and remember,
+[00:05:30] mitigation blocks, right?
+[00:05:32] So if a mitigation that we can utilize
+[00:05:35] every single mitigation block inside this move.
+[00:05:39] So, I'm gonna have a bottle block here.
+[00:05:41] Pries touch like that.
+[00:05:43] Let me just draw it out like that.
+[00:05:45] Wait, boom, boom, boom, boom.
+[00:05:52] Once this target is taken out,
+[00:05:53] you are out of the trade guys.
+[00:05:56] Very, very simple.

@@ -1,0 +1,195 @@
+1
+00:00:00,020 --> 00:00:30,020
+So in this small lecture, I'm going to tell you how you guys, you can utilize the Silver Bullet with the external and internal, liquidity method. So we're going to start off on the 15 minute timeframe if you're going to take your entry on one minute and on one hour timeframe if you're going to take your entry on the 5 minute timeframe. So let's suppose that we're going to take our entries on the 1 minute because as ICT has taught himself, you can take your entries on 1 minute or 5 minute.
+
+2
+00:00:30,020 --> 00:00:31,940
+It doesn't matter.
+
+3
+00:00:31,940 --> 00:00:34,820
+So let's say that we're on the 15 minutes, right?
+
+4
+00:00:34,820 --> 00:00:42,340
+And the ICD silver bullet timings are three to four and 10 to 11 AM, right?
+
+5
+00:00:42,340 --> 00:00:43,340
+New York time.
+
+6
+00:00:43,340 --> 00:00:48,850
+So let's suppose that before 10, right?
+
+7
+00:00:48,850 --> 00:00:50,290
+Or even after 10, right?
+
+8
+00:00:50,290 --> 00:00:52,170
+You have a purge on the external.
+
+9
+00:00:52,170 --> 00:01:00,570
+So let's say at 950, 930 you have a purge and you have a freebelly gap.
+
+10
+00:01:00,570 --> 00:01:02,530
+Where is it, dude?
+
+11
+00:01:02,530 --> 00:01:04,930
+Okay, you have a fairly gap in the discount, right?
+
+12
+00:01:05,810 --> 00:01:08,610
+You want to wait for a shift in the market structure, right?
+
+13
+00:01:09,330 --> 00:01:14,210
+The shift in market structure can happen before 940, before 10, right?
+
+14
+00:01:14,210 --> 00:01:16,610
+It can happen at 94950, it doesn't matter.
+
+15
+00:01:17,410 --> 00:01:22,370
+As long as this internal liquidity is intact, your draw is going to be this.
+
+16
+00:01:22,370 --> 00:01:27,730
+So let's say, first, let's talk about the first scenario, right?
+
+17
+00:01:27,730 --> 00:01:31,970
+You drop down to one minute now, you get a market structure shift, entry beautiful.
+
+18
+00:01:32,530 --> 00:01:36,230
+I mean don't target this, just go for one to two.
+
+19
+00:01:36,230 --> 00:01:39,770
+But there's another scenario where this market
+
+20
+00:01:39,770 --> 00:01:43,770
+structure happens, market structure happens before 10, right?
+
+21
+00:01:43,770 --> 00:01:49,090
+And you get, let's say, a push down another break of structure.
+
+22
+00:01:49,090 --> 00:01:52,890
+And that's when, when you have this break of structure, right?
+
+23
+00:01:52,890 --> 00:01:53,810
+Oops, my bad.
+
+24
+00:01:54,850 --> 00:01:58,410
+That's when the silver bullet timing stopped and you have a
+
+25
+00:01:58,410 --> 00:01:59,290
+friendly gap here.
+
+26
+00:01:59,290 --> 00:02:01,690
+You are going to take that entry from that friendly gap.
+
+27
+00:02:01,690 --> 00:02:04,610
+because we know our drawn liquidity is here.
+
+28
+00:02:04,610 --> 00:02:07,170
+So take that trade.
+
+29
+00:02:07,170 --> 00:02:10,970
+Very simple, we go from external to internal.
+
+30
+00:02:10,970 --> 00:02:13,690
+Your entry must be at 10,
+
+31
+00:02:13,690 --> 00:02:15,930
+after 10, right, of the free value gap.
+
+32
+00:02:15,930 --> 00:02:19,730
+That forms after break of structure or displacement.
+
+33
+00:02:20,930 --> 00:02:24,290
+But I would suggest that you look for a marker
+
+34
+00:02:24,290 --> 00:02:27,250
+such a shift after 10, right?
+
+35
+00:02:27,250 --> 00:02:30,330
+Or let's say you have this level here,
+
+36
+00:02:30,330 --> 00:02:32,730
+price goes up gives you a shift in structure.
+
+37
+00:02:32,730 --> 00:02:37,060
+Your entry is at 10.
+
+38
+00:02:37,060 --> 00:02:39,520
+This the first move is always hyperb
+
+39
+00:02:39,520 --> 00:02:41,940
+ago. Now in this case,
+
+40
+00:02:41,940 --> 00:02:45,460
+you can look for that second distribution entry as well
+
+41
+00:02:45,460 --> 00:02:47,540
+on the one minute timeframe. Right?
+
+42
+00:02:47,540 --> 00:02:50,860
+So you can get a purge here, right?
+
+43
+00:02:50,860 --> 00:02:53,140
+And once you get a purge, you look for a
+
+44
+00:02:54,500 --> 00:02:58,880
+double break of structure, right?
+
+45
+00:02:58,880 --> 00:02:59,800
+You can get a double record trigger.
+
+46
+00:02:59,800 --> 00:03:02,360
+You can take your entry from that very well you got.
+
+47
+00:03:02,360 --> 00:03:09,360
+So that's going to increase your silver bullet wind rate to like it's going to increase it by a lot.
+
+48
+00:03:09,360 --> 00:03:14,360
+So yeah, that's about it.
+
+49
+00:03:14,360 --> 00:03:22,360
+Let me give you guys an example and then we'll move on to the last lecture which is going to be how to pause your prop from challenges.

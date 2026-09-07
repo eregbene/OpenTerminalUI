@@ -1,0 +1,98 @@
+{
+  "source": "F:\\new faiz\\32. Quarterly Theory Example 1.mp4",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 129.729875,
+    "model": "tiny.en",
+    "engine": "faster-whisper",
+    "compute_type": "int8"
+  },
+  "segments": [
+    {
+      "start": 0.11,
+      "end": 30.11,
+      "text": " Alright guys, so here is example number one. So if you are confused, what is this? This is an indicator. So go to indicators type in quarterly cycles by day's theory and this is by alt-maniac. It has one for eight zero reviews. Once you have that, you can go ahead and copy my settings. So it's gonna hide, I disable these and I also disable the labels to make the chart clean. Now over here, what do we have?"
+    },
+    {
+      "start": 30.11,
+      "end": 35.11,
+      "text": " You see these big boxes and then we have small boxes."
+    },
+    {
+      "start": 35.11,
+      "end": 42.11,
+      "text": " So the big boxes are the quarters and the small boxes are the quadrants in each quarter."
+    },
+    {
+      "start": 42.11,
+      "end": 45.11,
+      "text": " Now the autoflow is clearly bearish here."
+    },
+    {
+      "start": 45.11,
+      "end": 50.11,
+      "text": " We broke this structure, went down, broke this structure and went down."
+    },
+    {
+      "start": 50.11,
+      "end": 54.11,
+      "text": " Now focus on the red box and the red quadrant here."
+    },
+    {
+      "start": 54.11,
+      "end": 63.73,
+      "text": " zoom in a bit here. What you can see is we have a sweep of this high over here. This is a"
+    },
+    {
+      "start": 63.73,
+      "end": 70.93,
+      "text": " liquidity perch, right? We slightly went above here, but we didn't take out this, but we took out"
+    },
+    {
+      "start": 70.93,
+      "end": 76.13,
+      "text": " this liquidity here. So that is important. After we took out the liquidity, what you can see is we"
+    },
+    {
+      "start": 76.13,
+      "end": 85.25,
+      "text": " have a shift in the market structure during the expansion phase of the quarter. Now what we do have"
+    },
+    {
+      "start": 85.25,
+      "end": 92.05,
+      "text": " here is an auto block and price as you can see during the expansion phase"
+    },
+    {
+      "start": 92.05,
+      "end": 98.17,
+      "text": " during the manipulation phase of the expansion quarter so the red box of the"
+    },
+    {
+      "start": 98.17,
+      "end": 103.97,
+      "text": " expansion or you could say distribution we went into the PDA rate so this"
+    },
+    {
+      "start": 103.97,
+      "end": 110.05,
+      "text": " could have been your entry and you could have targeted somewhere around here so a"
+    },
+    {
+      "start": 110.05,
+      "end": 121.05,
+      "text": " a very simple trading strategy guys and oops my bad right there so if I go in"
+    },
+    {
+      "start": 121.05,
+      "end": 126.77,
+      "text": " somewhere around here alright perfect I think this should be example number"
+    },
+    {
+      "start": 126.77,
+      "end": 130.61,
+      "text": " one let's move on to the next example"
+    }
+  ]
+}

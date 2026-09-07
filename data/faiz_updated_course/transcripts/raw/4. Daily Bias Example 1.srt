@@ -1,0 +1,140 @@
+1
+00:00:00,000 --> 00:00:06,640
+Alright guys, so I have an example for the daily bias, as you can see on the daily timeframe
+
+2
+00:00:06,640 --> 00:00:11,600
+and I'm looking at USD CAD, it happened recently actually, like a couple of days ago.
+
+3
+00:00:11,600 --> 00:00:16,800
+So you can see we have this external liquidity marked out here, and where do you see the
+
+4
+00:00:16,800 --> 00:00:21,120
+draw on liquidity, which is our internal liquidity, this fairly gap right here.
+
+5
+00:00:21,120 --> 00:00:24,080
+So that is our draw on liquidity right here.
+
+6
+00:00:24,080 --> 00:00:29,000
+We took out this low, which is an external liquidity, so let's drop down to the one hour
+
+7
+00:00:29,000 --> 00:00:30,000
+timeframe.
+
+8
+00:00:30,000 --> 00:00:33,920
+Remember on for the daily bias, we go from daily to one hour.
+
+9
+00:00:33,920 --> 00:00:37,560
+So let's drop down to the one hour timeframe.
+
+10
+00:00:37,560 --> 00:00:43,760
+Now we're simply looking for a market structure shift that supports our high timeframe narrative
+
+11
+00:00:43,760 --> 00:00:49,280
+and right there, what you can see is we have a shift in the market structure.
+
+12
+00:00:49,280 --> 00:00:54,720
+Now this right here is an auto block consecutive bearish candles right as I explained in the
+
+13
+00:00:54,720 --> 00:00:57,000
+auto block 2.0 video.
+
+14
+00:00:57,000 --> 00:01:01,080
+So right here, what you can see, this would have been our entry point.
+
+15
+00:01:01,080 --> 00:01:11,200
+We go long here, right for every simple and we look to target this level here.
+
+16
+00:01:11,200 --> 00:01:15,920
+And now that is your bread and butter model going for 5.55 RR.
+
+17
+00:01:15,920 --> 00:01:22,920
+You see we get our entry here and it is currently a weekend that I'm recording, so I'm pretty
+
+18
+00:01:22,920 --> 00:01:26,080
+much sure that's going to take out this level.
+
+19
+00:01:26,080 --> 00:01:30,840
+But as you can see how beautifully it distributed to the app site, we also had a fairly gap
+
+20
+00:01:30,840 --> 00:01:31,840
+here.
+
+21
+00:01:31,840 --> 00:01:35,840
+So if price filled the fairly gap, also they were going to auto block and you could say
+
+22
+00:01:35,840 --> 00:01:36,760
+a breaker block.
+
+23
+00:01:36,760 --> 00:01:44,720
+So you can see you can easily identify your targets, which is the beauty of this concept.
+
+24
+00:01:44,720 --> 00:01:51,080
+Although if you were using the 5 minute timeframe, you could have taken multiple entries here
+
+25
+00:01:51,080 --> 00:01:56,040
+and I want to talk about those later in the video when we get to the more advanced concepts.
+
+26
+00:01:56,040 --> 00:02:03,880
+So let me give you guys an example for the monthly bias once again and then I will do
+
+27
+00:02:03,880 --> 00:02:08,600
+one more for the weekly and one more for the daily and then we will move on to the next
+
+28
+00:02:08,600 --> 00:02:09,600
+chapter.
+
+29
+00:02:09,600 --> 00:02:14,120
+I want you guys to understand these concepts very clearly and I'm like, yeah, I'm very
+
+30
+00:02:14,120 --> 00:02:19,400
+confident you guys are going to absolutely kill the markets once this course is out and
+
+31
+00:02:19,400 --> 00:02:20,720
+you master this.
+
+32
+00:02:20,720 --> 00:02:25,480
+Of course you will have your back test first, give it a month or two, back test these concepts
+
+33
+00:02:25,480 --> 00:02:29,280
+or I don't know if you are a quick learner, you could just give it a one week of back
+
+34
+00:02:29,280 --> 00:02:32,120
+testing and then get into the markets right away.
+
+35
+00:02:32,120 --> 00:02:35,280
+So let me give you guys an example for the monthly bias once again.
+

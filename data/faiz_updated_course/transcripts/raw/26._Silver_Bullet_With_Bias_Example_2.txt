@@ -1,0 +1,24 @@
+[00:00:00] Alright guys, so here is an example number two for using the Silver Bullet with PIS. So in the 15 minutes, as you can see, we have taken out this external, right? And we took this out at 845, but we have our drawn liquidity still intact. So let's go to the 1 minute time from here and let's wait for that 10 o'clock time to hit. So we're gonna wait for that. Okay, so over here, this is when the clock hits 10, right? We have the 10 here.
+[00:00:33] We have the shift in the marker structure as well.
+[00:00:38] We have it here as well.
+[00:00:40] We filled it in this fair value gap.
+[00:00:42] So now we only have this fair value gap left.
+[00:00:44] This is our drawn liquidity.
+[00:00:46] So our entry is going to be off this fair value gap.
+[00:00:50] Or the 0.5 level of this fair value gap.
+[00:00:53] Right.
+[00:00:54] And if I play this through,
+[00:00:57] you can see that the take profit was hit.
+[00:01:00] And from there onwards, I don't know what price does.
+[00:01:04] I don't have to think about it.
+[00:01:07] My target is hit.
+[00:01:08] I sculpt out the silver bullet, right?
+[00:01:11] One to one or one to one point five or one to two is what I see suggest.
+[00:01:16] So you could have easily gone on that by going long here,
+[00:01:19] putting your stop here and then targeting this.
+[00:01:22] So just go and experiment with this.
+[00:01:26] It's very, very powerful.
+[00:01:27] and maybe that can become your model. I don't know, but it's really up to you.
+[00:01:33] And I'm showing the things that work. So good luck. We're using that. So let's
+[00:01:39] we want the last lecture guys. I'm going to teach you how you can use proper risk management
+[00:01:45] to pass your prop from challenges. So see you guys in the next one.

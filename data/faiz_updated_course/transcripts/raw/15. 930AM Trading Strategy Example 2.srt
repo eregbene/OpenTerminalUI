@@ -1,0 +1,224 @@
+1
+00:00:00,000 --> 00:00:04,620
+Okay guys, so here's another example and I'm gonna teach you a few more things in this video. So first of all
+
+2
+00:00:06,120 --> 00:00:10,980
+You want to mark out when when you're looking for these type of setups, you want to mark out the
+
+3
+00:00:11,520 --> 00:00:15,440
+New York midnight open. So the midnight midnight open is at around
+
+4
+00:00:16,400 --> 00:00:19,620
+12 a.m. New York time. So if I look at the
+
+5
+00:00:20,240 --> 00:00:22,240
+Open of this is the 10941
+
+6
+00:00:22,800 --> 00:00:26,780
+So this is the open right this candle. So I'm gonna mark this out as
+
+7
+00:00:27,720 --> 00:00:29,720
+Here midnight open
+
+8
+00:00:30,000 --> 00:00:32,000
+Okay, I'm gonna put it at the top
+
+9
+00:00:32,520 --> 00:00:38,200
+Perfect. I'm gonna decrease the size of it midnight open right and you want to mark out the
+
+10
+00:00:39,340 --> 00:00:41,500
+After midnight open you want to start?
+
+11
+00:00:42,480 --> 00:00:45,080
+Identifying the high of the day and the low of the day. So
+
+12
+00:00:46,200 --> 00:00:50,880
+The high of the day as as you can see this is the highest point after 12 am right?
+
+13
+00:00:50,880 --> 00:00:56,480
+So this is the high of the day. This is the highest point. So I'm gonna mark this high edge
+
+14
+00:00:57,000 --> 00:00:59,000
+high okay, and
+
+15
+00:01:00,560 --> 00:01:06,720
+You want to look for you can only look for the highs and lows before 9 30 once the 9 30 p. It starts
+
+16
+00:01:07,600 --> 00:01:12,960
+You don't want to look for you just you can only look for highs and lows before 9 30, okay?
+
+17
+00:01:13,280 --> 00:01:14,640
+so
+
+18
+00:01:14,640 --> 00:01:21,720
+As you can see we have a candle close at 9 30. So this is the actually the low of the day, okay?
+
+19
+00:01:21,920 --> 00:01:28,040
+So this here is the low of the day. So if I mark this out, this is the low L, okay?
+
+20
+00:01:28,760 --> 00:01:34,960
+Now this is considered as liquidity as well because this is actually the low of the day before the new
+
+21
+00:01:34,960 --> 00:01:40,960
+Ex session before the 9 30 period starts. Okay, so you wait for price to once you have identified the
+
+22
+00:01:41,960 --> 00:01:45,000
+The law of the day, which is actually this candle
+
+23
+00:01:45,480 --> 00:01:50,680
+Surprisingly, so we go to the one at a time frame and we will look for a liquidity sweep and if I play this through
+
+24
+00:01:50,680 --> 00:01:55,720
+We have the liquidity sweep now. We wait for market structure shift and if we play this through
+
+25
+00:01:55,720 --> 00:02:01,240
+We got this beautiful move. Oh, sorry. It was nothing
+
+26
+00:02:02,520 --> 00:02:07,320
+So if I play this through I think we got the market structure shift right around here
+
+27
+00:02:08,040 --> 00:02:10,040
+Boom boom boom right?
+
+28
+00:02:10,360 --> 00:02:13,720
+This is a break-off structure as well, but there's no fair value gap
+
+29
+00:02:13,720 --> 00:02:20,720
+So when there's no further gap you can go down to the go up to the two minute time frame and you can look for your entry as well
+
+30
+00:02:21,320 --> 00:02:23,320
+There's some favorable gap here
+
+31
+00:02:24,280 --> 00:02:29,680
+All right, so let's see if you get our entry from here and we do not so when you do not get your entry
+
+32
+00:02:29,680 --> 00:02:32,880
+you look for another market structure shift which happens right around here and
+
+33
+00:02:33,720 --> 00:02:36,960
+You take your entry from this fair value gap
+
+34
+00:02:37,880 --> 00:02:39,640
+right very simple
+
+35
+00:02:39,640 --> 00:02:41,640
+you take your entry and
+
+36
+00:02:41,640 --> 00:02:47,000
+As you can see now, I'm taking my entry from the very first favorite gap that was created as I explained before
+
+37
+00:02:47,000 --> 00:02:48,960
+So there's also some favorable gap around here
+
+38
+00:02:48,960 --> 00:02:52,920
+So I will put my stop loss right above right below this level just to be on the safe side
+
+39
+00:02:52,920 --> 00:02:57,560
+Because prices come down to this really gap and it can go up from there
+
+40
+00:02:57,640 --> 00:03:03,920
+So make sure you are cautious about that. So now where would you want to be taking your profit levels now?
+
+41
+00:03:03,920 --> 00:03:06,480
+There's some there's a high over around here
+
+42
+00:03:06,480 --> 00:03:10,800
+So I will take some partials here and then I will take some partials in and I will
+
+43
+00:03:11,600 --> 00:03:14,800
+There's some favorable gap around this level. So this would be my
+
+44
+00:03:17,640 --> 00:03:19,640
+Trade and let's see how this plays out
+
+45
+00:03:20,640 --> 00:03:22,400
+and
+
+46
+00:03:22,400 --> 00:03:24,400
+Kaboom
+
+47
+00:03:25,320 --> 00:03:31,040
+Yep, sorry for that that was a car outside my home, but anyways as you can see it hit the
+
+48
+00:03:32,040 --> 00:03:33,800
+The take profit level
+
+49
+00:03:33,800 --> 00:03:38,760
+You might have gone stop that break even here, but it just really depends on you how you trade
+
+50
+00:03:38,760 --> 00:03:40,760
+What's your risk management plan?
+
+51
+00:03:40,760 --> 00:03:46,080
+But anyways as you can see there was a sharp movement and as you can also see is
+
+52
+00:03:46,960 --> 00:03:48,960
+we before
+
+53
+00:03:49,120 --> 00:03:55,320
+We broke the structure with momentum. You can see this one two three candle. They have huge volume
+
+54
+00:03:55,320 --> 00:03:57,320
+So this is what you should be looking for. Okay
+
+55
+00:03:58,120 --> 00:04:02,840
+And then we had this beautiful fair value gap we filled this fair value gap and then we went up
+
+56
+00:04:03,360 --> 00:04:07,280
+Very simple guys. I'm gonna give you guys one more example and I'll end this lecture
+
