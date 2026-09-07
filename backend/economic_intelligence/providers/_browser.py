@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 from contextlib import asynccontextmanager
 from typing import Any, AsyncIterator
 
@@ -21,11 +22,16 @@ async def launch_page(*, timeout_seconds: int) -> AsyncIterator[Any]:
     except ImportError as exc:
         raise PlaywrightUnavailableError("playwright package not installed") from exc
     async with async_playwright() as pw:
-        browser = await pw.chromium.launch(headless=True)
+        timeout_ms = timeout_seconds * 1000
+        browser = await asyncio.wait_for(pw.chromium.launch(headless=True, timeout=timeout_ms), timeout=timeout_seconds + 5)
         try:
-            context = await browser.new_context(user_agent="BensimTrading-EconomicIntelligence/1.0 (+demo-mt5-research)")
-            page = await context.new_page()
-            page.set_default_timeout(timeout_seconds * 1000)
+            context = await asyncio.wait_for(
+                browser.new_context(user_agent="BensimTrading-EconomicIntelligence/1.0 (+demo-mt5-research)"),
+                timeout=timeout_seconds,
+            )
+            page = await asyncio.wait_for(context.new_page(), timeout=timeout_seconds)
+            page.set_default_timeout(timeout_ms)
+            page.set_default_navigation_timeout(timeout_ms)
             yield page
         finally:
             await browser.close()

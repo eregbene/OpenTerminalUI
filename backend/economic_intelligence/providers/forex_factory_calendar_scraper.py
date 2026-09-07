@@ -40,11 +40,12 @@ async def scrape_month(month: str, config: EconomicIntelligenceConfig, *, debug_
     from the weekly JSON feed). Never raises out of this function -- returns (rows, meta)."""
     started = datetime.now(timezone.utc)
     token = month_token(month)
+    year = int(token.split(".")[1])
     url = f"https://www.forexfactory.com/calendar?month={token}"
     try:
         async with launch_page(timeout_seconds=config.ff_request_timeout_seconds) as page:
             await page.goto(url, wait_until="domcontentloaded")
-            rows = await _extract_rows(page, debug_raw_html=debug_raw_html)
+            rows = await _extract_rows(page, debug_raw_html=debug_raw_html, year=year)
     except PlaywrightUnavailableError as exc:
         return [], {"status": "unavailable", "reason": str(exc), "month": token}
     except ScraperSchemaError as exc:
@@ -56,7 +57,7 @@ async def scrape_month(month: str, config: EconomicIntelligenceConfig, *, debug_
     return rows, {"status": "ok", "reason": None, "month": token, "latency_ms": latency_ms, "records_received": len(rows)}
 
 
-async def _extract_rows(page: Any, *, debug_raw_html: bool) -> list[dict[str, Any]]:
+async def _extract_rows(page: Any, *, debug_raw_html: bool, year: int | None = None) -> list[dict[str, Any]]:
     """Row parsing uses semantic/structural selectors (not brittle exact class-name equality).
 
     Forex Factory's calendar table historically uses `tr.calendar__row` with per-cell
@@ -95,6 +96,7 @@ async def _extract_rows(page: Any, *, debug_raw_html: bool) -> list[dict[str, An
             impact = (await impact_cell.get_attribute("title") if impact_cell else None) or ""
             event_id = await handle.get_attribute("data-event-id")
             row_time = (await time_cell.inner_text()).strip() if time_cell else ""
+            raw_scheduled_at = f"{current_date} {row_time}".strip() or None
             raw_html = await handle.inner_html() if debug_raw_html else None
             rows.append(
                 {
@@ -102,7 +104,8 @@ async def _extract_rows(page: Any, *, debug_raw_html: bool) -> list[dict[str, An
                     "raw_name": event_name,
                     "currency": currency,
                     "impact": _impact_from_title(impact),
-                    "scheduled_at": f"{current_date} {row_time}".strip() or None,
+                    "scheduled_at": _scheduled_at_iso(raw_scheduled_at, year),
+                    "raw_scheduled_at": raw_scheduled_at,
                     "source_timezone": "forex_factory_scraper",
                     "actual_raw": (await actual_cell.inner_text()).strip() if actual_cell else None,
                     "forecast_raw": (await forecast_cell.inner_text()).strip() if forecast_cell else None,
@@ -135,6 +138,41 @@ def _impact_from_title(title: str) -> str:
     if "holiday" in text:
         return "none"
     return "unknown"
+
+
+def _scheduled_at_iso(raw: str | None, year: int | None) -> str | None:
+    if not raw or year is None:
+        return raw
+    text = " ".join(str(raw).replace("\n", " ").split())
+    parts = text.split()
+    if len(parts) < 3:
+        return raw
+    month = parts[1][:3].lower()
+    if month not in _MONTH_ABBR:
+        return raw
+    try:
+        day = int(parts[2])
+    except ValueError:
+        return raw
+    hour = 0
+    minute = 0
+    if len(parts) >= 4:
+        token = parts[3].lower()
+        if token in {"all", "day", "tentative"} or token.startswith("day"):
+            token = ""
+        if token:
+            try:
+                parsed_time = datetime.strptime(token, "%I:%M%p").time()
+                hour = parsed_time.hour
+                minute = parsed_time.minute
+            except ValueError:
+                try:
+                    parsed_time = datetime.strptime(token, "%I%p").time()
+                    hour = parsed_time.hour
+                    minute = parsed_time.minute
+                except ValueError:
+                    pass
+    return datetime(year, _MONTH_ABBR.index(month) + 1, day, hour, minute, tzinfo=timezone.utc).isoformat()
 
 
 async def backfill_range(start_month: str, end_month: str, config: EconomicIntelligenceConfig, *, resume_from: str | None = None) -> dict[str, Any]:
