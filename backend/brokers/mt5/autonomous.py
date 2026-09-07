@@ -15,6 +15,7 @@ from typing import Any
 from backend.adaptive_management.tp_protection import classify_stop_quality_v2, construct_dynamic_stop
 from backend.market_structure.bar_utils import normalize_bars
 from backend.market_structure.configuration import MarketStructureConfig
+from backend.market_structure.daily_aggregation import aggregate_daily_bars_from_h4
 from backend.market_structure.displacement import detect_displacements
 from backend.market_structure.engine import analyze_bars
 from backend.market_structure.imbalance import detect_fair_value_gaps
@@ -30,15 +31,21 @@ from backend.brokers.mt5 import account_registry
 from backend.brokers.mt5.adapter import MT5Adapter, mt5_adapter
 from backend.brokers.mt5.config import MT5Config
 from backend.brokers.mt5.config import mt5_config
+from backend.brokers.mt5.exceptions import MT5UnavailableError
 from backend.brokers.mt5.multi_account import adapter_for_account
 from backend.brokers.mt5.reconciliation_watchdog import is_account_state_trustworthy, reconcile_account
 from backend.brokers.mt5.candidate_evaluation import capture_cycle_candidate_evaluations
 from backend.brokers.mt5.confidence import compute_trade_confidence, is_autonomous_eligible, rank_candidates
 from backend.mt5_strategies.context import build_strategy_context, cheap_prefilter, quick_regime, summarize_smc_evidence
 from backend.mt5_strategies.families import evaluate_all
+from backend.mt5_strategies.families.bsi_v3_runtime_detectors import (
+    evaluate_bsi_v3_existing_planned_queue,
+    planned_entry_queue_path,
+)
 from backend.mt5_strategies.fusion import build_candidates
 from backend.mt5_strategies.models import ACTIVE_MT5, activation_status, all_strategy_ids, multi_strategy_enabled, normalize_strategy_id, regime_compatible
 from backend.mt5_strategies import redis_layer
+from backend.mt5_strategies.families.bsi_v2_scaffold import BSI_BASELINE_V2_AUDIOVISUAL
 from backend.brokers.mt5.execution import MT5ExecutionService
 from backend.brokers.mt5.market_data import candle_quality
 from backend.brokers.mt5.models import MT5ForexInstrument, MT5TradeIntent
@@ -61,6 +68,9 @@ logger = logging.getLogger(__name__)
 # analysis phase only. Candle/quote fetching always stays fully serial -- see _screen()'s
 # comment for why concurrent calls into the MetaTrader5 module are not safe to introduce.
 _MULTI_STRATEGY_CONCURRENCY = int(os.getenv("MT5_MULTI_STRATEGY_CONCURRENCY", "6"))
+# BSI Daily Bias Audit (2026-09-02): ~8 H4 bars per NY calendar day (a generous multiple over the
+# real ~6/day, comfortably covering weekend/holiday gaps) x 60 target daily bars.
+_H4_COUNT_FOR_DAILY_AGGREGATION = int(os.getenv("MT5_BSI_DAILY_H4_FETCH_COUNT", "480"))
 _NO_OPENAI_CALLS = 0
 
 # DEMO-only rolling execution diversity cap: MTFAI1 may account for at most
@@ -72,6 +82,42 @@ _NO_OPENAI_CALLS = 0
 MT5_DEMO_MTF_AI1_MAX_TRADES = int(os.getenv("MT5_DEMO_MTF_AI1_MAX_TRADES", "3"))
 MT5_DEMO_MTF_AI1_WINDOW = int(os.getenv("MT5_DEMO_MTF_AI1_WINDOW", "10"))
 MTFAI1_STRATEGY_ID = "mtfai1"
+
+
+def _candidate_min_reward_multiple(candidate: dict[str, Any]) -> Decimal:
+    evidence = ((candidate.get("context") or {}).get("strategy_evidence") or {})
+    if (
+        evidence.get("active_methodology") == "BSI_BASELINE_V3_UPDATED_FAIZ"
+        or str(evidence.get("v3_strategy_id") or "").startswith("bsi_v3")
+    ):
+        return Decimal(os.getenv("MT5_BSI_V3_MIN_RISK_REWARD", "1.0"))
+    return MIN_REWARD_MULTIPLE
+
+
+def _is_bsi_v2_candidate(candidate: dict[str, Any]) -> bool:
+    context = candidate.get("context") or {}
+    evidence = context.get("strategy_evidence") or {}
+    return (
+        context.get("strategy_family") == "bsi"
+        and evidence.get("bsi_version") == BSI_BASELINE_V2_AUDIOVISUAL
+        and evidence.get("active_methodology") != "BSI_BASELINE_V3_UPDATED_FAIZ"
+    )
+
+
+def _bsi_v2_submission_blockers(candidate: dict[str, Any]) -> list[str]:
+    if not _is_bsi_v2_candidate(candidate):
+        return []
+    evidence = (candidate.get("context") or {}).get("strategy_evidence") or {}
+    blockers: list[str] = []
+    if evidence.get("freshness_status") != "AVAILABLE":
+        blockers.append("BSI_V2_FRESHNESS_NOT_AVAILABLE")
+    if evidence.get("lifecycle_state") != "CONSUMED":
+        blockers.append("BSI_V2_LIFECYCLE_NOT_CONSUMED")
+    if not evidence.get("bsi_thesis_id"):
+        blockers.append("BSI_V2_THESIS_ID_MISSING")
+    if not evidence.get("bsi_entry_opportunity_id"):
+        blockers.append("BSI_V2_OPPORTUNITY_ID_MISSING")
+    return blockers
 
 # DEMO-only MTFAI1 entry-quality experiment: a standalone MTFAI1 candidate (no other signal
 # family agreeing on the same symbol+direction this cycle) may not execute unless at least one
@@ -147,6 +193,8 @@ class MT5AutonomousTradingService:
         self.state = MT5AutonomousState()
         self._task: asyncio.Task | None = None
         self._stop_event: asyncio.Event | None = None
+        self._fast_watcher_task: asyncio.Task | None = None
+        self._fast_watcher_stop_event: asyncio.Event | None = None
         self._cycle_lock = asyncio.Lock()
         # Per-cycle only (Part 2): reset at the top of every _screen() call, never carried across
         # cycles -- avoids the "stale cross-cycle cache" risk called out in the spec. A cache miss
@@ -258,6 +306,8 @@ class MT5AutonomousTradingService:
                 for broker_symbol in symbols:
                     try:
                         await redis_layer.cached_symbol_info(self.adapter, broker_symbol)
+                        await redis_layer.cached_candles(self.adapter, broker_symbol, "M1", count=100)
+                        await redis_layer.cached_candles(self.adapter, broker_symbol, "M5", count=100)
                         await redis_layer.cached_candles(self.adapter, broker_symbol, "M15", count=100)
                         await redis_layer.cached_candles(self.adapter, broker_symbol, "H1", count=100)
                         await redis_layer.cached_candles(self.adapter, broker_symbol, "H4", count=100)
@@ -596,7 +646,10 @@ class MT5AutonomousTradingService:
             # explicitly now, but this keeps older persisted shapes safe too).
             eligible_for_execution = []
             for row in ranked:
-                confidence_ok = is_autonomous_eligible(row["trade_confidence"]["overall_score"], min_trade_confidence=self.config.min_trade_confidence)
+                bsi_v2_candidate = _is_bsi_v2_candidate(row)
+                confidence_ok = bsi_v2_candidate or is_autonomous_eligible(row["trade_confidence"]["overall_score"], min_trade_confidence=self.config.min_trade_confidence)
+                if bsi_v2_candidate:
+                    row["trade_confidence"]["legacy_hard_gate_applied"] = False
                 activation = row.get("strategy_activation", ACTIVE_MT5)
                 shadow = activation != ACTIVE_MT5
                 if confidence_ok and shadow:
@@ -604,7 +657,7 @@ class MT5AutonomousTradingService:
                     row["rejection_reasons"] = sorted(set((row.get("rejection_reasons") or []) + [reason]))
                 if confidence_ok and not shadow:
                     eligible_for_execution.append(row)
-            self._last_screen_counters["eligible_ge_75"] = sum(1 for row in ranked if is_autonomous_eligible(row["trade_confidence"]["overall_score"], min_trade_confidence=self.config.min_trade_confidence))
+            self._last_screen_counters["eligible_ge_75"] = sum(1 for row in ranked if _is_bsi_v2_candidate(row) or is_autonomous_eligible(row["trade_confidence"]["overall_score"], min_trade_confidence=self.config.min_trade_confidence))
             if not eligible_for_execution:
                 result = await _finalize({"cycle_id": cycle_id, "status": "NO_TRADE", "winner": ranked[0] if ranked else None, "candidates": ranked, "order_send_calls": 0})
                 self._record_cycle(result, dry_run=dry_run)
@@ -704,12 +757,19 @@ class MT5AutonomousTradingService:
                 if fresh_entry is not None:
                     stale_stop_distance = abs(fresh_entry - Decimal(str(best["stop_loss"])))
                     stale_target_distance = abs(Decimal(str(best["take_profit"])) - fresh_entry)
-                    if stale_stop_distance > 0 and (stale_target_distance / stale_stop_distance) < MIN_REWARD_MULTIPLE:
+                    min_reward_multiple = _candidate_min_reward_multiple(best)
+                    if stale_stop_distance > 0 and (stale_target_distance / stale_stop_distance) < min_reward_multiple:
                         result = await _finalize({"cycle_id": cycle_id, "status": "SKIPPED_STALE_RISK_REWARD", "winner": best, "candidates": ranked, "blockers": ["RISK_REWARD_DEGRADED_SINCE_SCREENING"], "diversity_cap": diversity_cap, "confirmation_gate": confirmation_gate, "order_send_calls": 0})
                         self._record_cycle(result, mark_processed=False, dry_run=dry_run)
                         return result
             except Exception as exc:
                 logger.warning("Reward:risk pre-check failed (non-fatal, proceeding to submission): %s", exc.__class__.__name__)
+            bsi_v2_blockers = _bsi_v2_submission_blockers(best)
+            if bsi_v2_blockers:
+                best["rejection_reasons"] = sorted(set((best.get("rejection_reasons") or []) + bsi_v2_blockers))
+                result = await _finalize({"cycle_id": cycle_id, "status": "SKIPPED_BSI_V2_FRESHNESS", "winner": best, "candidates": ranked, "blockers": bsi_v2_blockers, "diversity_cap": diversity_cap, "confirmation_gate": confirmation_gate, "order_send_calls": 0})
+                self._record_cycle(result, mark_processed=False, dry_run=dry_run)
+                return result
             if not dry_run:
                 await redis_layer.publish_event("mt5.candidate.selected", {"cycle_id": cycle_id, "symbol": best["broker_symbol"], "direction": best["direction"], "strategy": best.get("context", {}).get("strategy_id"), "confidence": best["trade_confidence"]["overall_score"]})
             submission = await self._submit(best, confidence=float(best["trade_confidence"]["overall_score"]), dry_run=dry_run)
@@ -812,6 +872,16 @@ class MT5AutonomousTradingService:
         {"status": "UNAVAILABLE", "reason": "HIST_INTEL_CONTEXT_UNAVAILABLE"} when context truly
         could not be reconstructed -- never fabricated, never left unset."""
         rank_before = candidate.get("ranking_score")
+        if _is_bsi_v2_candidate(candidate):
+            candidate["historical_intelligence"] = {
+                "status": "NEUTRAL",
+                "reason": "BSI_V2_HI_NOT_YET_VERSION_COMPATIBLE",
+                "ranking_adjustment": 0.0,
+                "defer_reject_reason": None,
+                "rank_before": rank_before,
+                "rank_after": rank_before,
+            }
+            return
         # 2026-08-25 MTFAI1 V2 confidence-calibration audit: HI's peer-group probabilities
         # (probability_0_5r/1r/1_5r/2r) are MFE-milestone-reach stats, not tied to the actual TP
         # placement -- directionally compatible with V2's move to FVG/order-block targets. But
@@ -948,7 +1018,11 @@ class MT5AutonomousTradingService:
             blockers.append("EMERGENCY_DISABLED")
         if self.config.manual_acceptance_enabled:
             blockers.append("MANUAL_ACCEPTANCE_ENABLED")
-        account = await self.adapter.mt5_account()
+        try:
+            account = await self.adapter.mt5_account()
+        except MT5UnavailableError as exc:
+            blockers.append(f"BROKER_NOT_READY:{exc.__class__.__name__}")
+            return blockers
         with SessionLocal() as db:
             protection = evaluate_entry_protection(db, self.account_id, self.config, balance=account.balance, equity=account.equity)
         # PROP_DAILY_LOSS_ENTRY_BLOCK / PROP_MAX_LOSS_ENTRY_BLOCK / PROP_INTERNAL_DAILY_BUFFER_BLOCK /
@@ -963,7 +1037,11 @@ class MT5AutonomousTradingService:
             total_pnl=account.equity - protection["initial_balance"],
         )
         blockers.extend(risk.get("blockers") or [])
-        positions = await self.adapter.mt5_positions()
+        try:
+            positions = await self.adapter.mt5_positions()
+        except MT5UnavailableError as exc:
+            blockers.append(f"BROKER_NOT_READY:{exc.__class__.__name__}")
+            return blockers
         owned = [p for p in positions if p.magic == self.config.bensim_magic or str(p.comment or "").startswith("BENSIM_AUTO")]
         if len(owned) >= self.config.max_open_positions:
             blockers.append("MAX_OPEN_POSITIONS")
@@ -1020,13 +1098,27 @@ class MT5AutonomousTradingService:
                 reasons.append("RISK_METADATA_UNHEALTHY")
             if not account_state_trustworthy:
                 reasons.append("ACCOUNT_STATE_UNTRUSTED")
+            # Bug fix (2026-09-02): captured BEFORE mtfai1's own WEAK_CONSENSUS check appends to
+            # `reasons` below -- cheap_prefilter's own docstring promises "no per-strategy logic
+            # of any kind... never looks at MTFAI1's own trend/SMA direction", but the call site
+            # was passing bool(reasons) AFTER WEAK_CONSENSUS (mtfai1's own score<70 concept, fully
+            # irrelevant to every other strategy family including BSI) had already been appended.
+            # That meant an mtfai1-specific rejection was silently skipping should_analyze for
+            # EVERY multi-strategy family on that symbol this cycle -- confirmed live: a real,
+            # valid, ACTIVE_MT5 bsi_new_york XAUUSD signal never even reached evaluate_all()
+            # because mtfai1's own score happened to be <70 the same cycle. Only genuine,
+            # strategy-neutral symbol-level ineligibility (broker-ineligible, existing position,
+            # unhealthy risk metadata, untrusted account state) should gate this.
+            genuinely_symbol_ineligible = bool(reasons)
             _fetch_t0 = time.perf_counter()
             try:
                 # L1 (_cycle_context_cache, below) -> Redis L2 -> MT5 broker fetch. Candle-
                 # boundary-keyed (not just TTL), so a symbol re-fetched later THIS SAME cycle
                 # (_entry_quality_score, _submit's tick) or by another process reuses these
-                # exact rows until the next M15/H1/H4 bar actually closes -- never across it.
+                # exact rows until the next M1/M5/M15/H1/H4 bar actually closes -- never across it.
                 quote = await redis_layer.cached_latest_tick(self.adapter, instrument.broker_symbol)
+                m1 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "M1", count=100)
+                m5 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "M5", count=100)
                 m15 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "M15", count=100)
                 h1 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "H1", count=100)
                 h4 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "H4", count=100)
@@ -1035,6 +1127,26 @@ class MT5AutonomousTradingService:
                 rows.append(_candidate(instrument, reasons + [f"DATA_UNAVAILABLE:{exc.__class__.__name__}"]))
                 continue
             market_data_ms += (time.perf_counter() - _fetch_t0) * 1000
+            # BSI Daily Bias Audit (2026-09-02, BSI_DAILY_BIAS_AUDIT.md): mentor-faithful Daily
+            # HTF bias for the 4 BSI subtypes that need it (bsi_order_flow/abc/0930/abcd, see
+            # bsi_engine.py::_mentor_htf_direction). A SEPARATE, larger H4 fetch (the live MT5-
+            # sourced candle table has zero native D1 rows -- Section 4 of the audit -- so Daily
+            # bars are synthesized from H4, Section 5 Option B) rather than reusing the existing
+            # count=100 `h4` above, which stays completely UNCHANGED so h4_snapshot/ctx.htf_
+            # trend_h4 (still used by fusion.py/smc_continuation.py/mean_reversion.py/
+            # trend_pullback.py, none of which this task touches) behave identically to before.
+            # cached_candles' own cache is candle-boundary-keyed, not count-specific, so this
+            # extra fetch only pays a real broker round-trip once per H4-close (every 4h) per
+            # symbol, not every 5-minute cycle. Fails open (daily_rows_live=None) on any error --
+            # bsi_engine.py's own _mentor_htf_direction() falls back to ctx.htf_trend_h4 in that
+            # case, exactly the pre-existing behavior, never a silent demotion.
+            daily_rows_live: list[dict[str, Any]] | None = None
+            try:
+                h4_for_daily = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "H4", count=_H4_COUNT_FOR_DAILY_AGGREGATION)
+                daily_rows_live = aggregate_daily_bars_from_h4([c.model_dump(mode="json") for c in h4_for_daily], symbol=instrument.broker_symbol)
+            except Exception as exc:
+                logger.warning("BSI Daily bias aggregation failed for %s (falls back to H4 gate, non-fatal): %s", instrument.broker_symbol, exc.__class__.__name__)
+                daily_rows_live = None
             if len(m15) < 60 or len(h1) < 50 or len(h4) < 30:
                 reasons.append("HISTORY_UNAVAILABLE")
                 rows.append(_candidate(instrument, reasons))
@@ -1044,7 +1156,7 @@ class MT5AutonomousTradingService:
             # eligible_candles() API but never actually consulted by this, the real live
             # eligibility path. The length check above stays exactly as tuned; this only adds
             # the OHLC-sanity half candle_quality already implements, never touching thresholds.
-            if any("DATA_QUALITY_FAILED" in candle_quality(tf_rows) for tf_rows in (m15, h1, h4)):
+            if any("DATA_QUALITY_FAILED" in candle_quality(tf_rows) for tf_rows in (m1, m5, m15, h1, h4)):
                 reasons.append("DATA_QUALITY_FAILED")
                 rows.append(_candidate(instrument, reasons))
                 continue
@@ -1063,7 +1175,7 @@ class MT5AutonomousTradingService:
             if multi_strategy_on:
                 _prefilter_t0 = time.perf_counter()
                 try:
-                    should_analyze, _prefilter_reason = cheap_prefilter(already_ineligible=bool(reasons), m15_rows=m15_rows, spread=quote.spread)
+                    should_analyze, _prefilter_reason = cheap_prefilter(already_ineligible=genuinely_symbol_ineligible, m15_rows=m15_rows, spread=quote.spread)
                     if should_analyze:
                         regime_info = quick_regime(m15_rows)
                         multi_strategy_regime = str(regime_info.get("regime") or "insufficient_data")
@@ -1103,7 +1215,7 @@ class MT5AutonomousTradingService:
                 "direction": direction,
                 "score": score,
                 "provider_policy": "MT5_ONLY",
-                "timeframe_context": {"policy": "MT5_ONLY", "timeframes": ["M15", "H1", "H4"]},
+                "timeframe_context": {"policy": "MT5_ONLY", "timeframes": ["M1", "M5", "M15", "H1", "H4"]},
                 "broker_server": account.server,
                 "account_mode": self.config.account_mode,
                 "strategy_id": "mtfai1",
@@ -1112,6 +1224,7 @@ class MT5AutonomousTradingService:
                 "smc_evidence": {},
                 **geometry,
             }
+            mtfai1_activation = activation_status("mtfai1")
             # 2026-08-17: was hardcoded "ACTIVE_MT5" -- MTFAI1 was the only strategy in the whole
             # multi-strategy layer with NO working activation kill switch (its own scoring is
             # inline here, entirely outside STRATEGY_FAMILIES/EVALUATORS, so it never went
@@ -1121,12 +1234,14 @@ class MT5AutonomousTradingService:
             # fix and was aspirational until now). MT5_STRATEGY_ACTIVATION_MTFAI1=SHADOW_MT5 now
             # actually demotes it (still scored/tracked for calibration, never executed) instead
             # of silently doing nothing.
-            row = {**_candidate(instrument, reasons), "direction": direction, "ranking_score": score, "context": context, "context_hash": _hash(context), "strategy_activation": activation_status("mtfai1"), **geometry}
-            rows.append(row)
+            row = {**_candidate(instrument, reasons), "direction": direction, "ranking_score": score, "context": context, "context_hash": _hash(context), "strategy_activation": mtfai1_activation, **geometry}
+            if mtfai1_activation != "DISABLED":
+                rows.append(row)
 
             if should_analyze:
                 counters["symbols_after_prefilter"] += 1
-                row_by_symbol[instrument.broker_symbol] = row
+                if mtfai1_activation != "DISABLED":
+                    row_by_symbol[instrument.broker_symbol] = row
                 # Part 5: analyze_bars() cache lookup happens HERE, in the main event loop
                 # (redis_layer's Redis client belongs to this loop) -- never inside the
                 # asyncio.to_thread() worker below, which runs in its own OS thread with no
@@ -1142,9 +1257,13 @@ class MT5AutonomousTradingService:
                     redis_layer.note_smc_cache_result(_cached is not None)
                 pending.append({
                     "instrument": instrument,
+                    "account_id": self.account_id,
+                    "m1_rows": [c.model_dump(mode="json") for c in m1],
+                    "m5_rows": [c.model_dump(mode="json") for c in m5],
                     "m15_rows": m15_rows,
                     "h1_rows": [c.model_dump(mode="json") for c in h1],
                     "h4_rows": [c.model_dump(mode="json") for c in h4],
+                    "daily_rows": daily_rows_live,
                     "bid": quote.bid, "ask": quote.ask, "spread": quote.spread,
                     "regime_info": regime_info,
                     "cached_m15": cached_m15, "cached_h1": cached_h1, "cached_h4": cached_h4,
@@ -1167,12 +1286,15 @@ class MT5AutonomousTradingService:
             async def _run(item: dict[str, Any]):
                 async with semaphore:
                     return await asyncio.to_thread(
-                        _build_multi_strategy_analysis, item["instrument"], cycle_id,
+                        _build_multi_strategy_analysis, item["instrument"], item.get("account_id"), cycle_id,
                         item["m15_rows"], item["h1_rows"], item["h4_rows"],
                         item["bid"], item["ask"], item["spread"], item["regime_info"],
                         m15_snapshot=_reconstruct_snapshot(item.get("cached_m15")),
                         h1_snapshot=_reconstruct_snapshot(item.get("cached_h1")),
                         h4_snapshot=_reconstruct_snapshot(item.get("cached_h4")),
+                        daily_rows=item.get("daily_rows"),
+                        m1_rows=item.get("m1_rows"),
+                        m5_rows=item.get("m5_rows"),
                     )
 
             analysis_results = await asyncio.gather(*(_run(item) for item in pending), return_exceptions=True)
@@ -1483,6 +1605,7 @@ class MT5AutonomousTradingService:
             risk_budget_adjustment=risk_adjustment_detail, portfolio_available_risk_usd=portfolio_available_risk_usd,
             prop_remaining_budget_usd=prop_remaining_budget_usd, strategy_tier_cap_multiplier=tier_factor,
             account_fingerprint=account_fingerprint, account_currency=account.currency,
+            min_risk_reward=_candidate_min_reward_multiple(candidate),
         )
         if risk.status != "APPROVED":
             return {"status": "RISK_REJECTED", "risk": risk.model_dump(mode="json"), "risk_budget_adjustment": risk_adjustment_detail, "order_send_calls": 0}
@@ -1882,6 +2005,182 @@ class MT5AutonomousTradingService:
             return [latest["winner"]]
         return []
 
+    def _mark_planned_entry_submission(self, plan_ids: str | list[str] | None, status: str, detail: dict[str, Any]) -> None:
+        if not plan_ids:
+            return
+        target_ids = {plan_ids} if isinstance(plan_ids, str) else {str(plan_id) for plan_id in plan_ids if plan_id}
+        if not target_ids:
+            return
+        path = planned_entry_queue_path(self.account_id)
+        try:
+            rows = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
+            if not isinstance(rows, list):
+                return
+            now = utcnow().isoformat()
+            for row in rows:
+                if row.get("plan_id") in target_ids:
+                    row["status"] = status
+                    row["submitted_at"] = now
+                    row["submission_detail"] = detail
+            tmp = path.with_suffix(f"{path.suffix}.tmp")
+            tmp.write_text(json.dumps(rows, indent=2, default=str), encoding="utf-8")
+            tmp.replace(path)
+        except Exception as exc:
+            logger.warning("BSI V3 fast watcher could not mark plan submission account_id=%s plan_ids=%s: %s", self.account_id, sorted(target_ids), exc.__class__.__name__)
+
+    async def run_fast_planned_entry_watch(self) -> dict[str, Any]:
+        """Fast V3 queue consumer.
+
+        The normal M5 scheduler creates/refreshes HTF plans. This method only consumes already
+        queued plans and can therefore poll more frequently for POI touch/confirmation without
+        forcing a new all-symbol M5 screening cycle.
+        """
+        if os.getenv("BSI_V3_FAST_ENTRY_WATCHER_ENABLED", "true").strip().lower() in {"false", "0", "off", "no"}:
+            return {"account_id": self.account_id, "status": "DISABLED"}
+        if self._cycle_lock.locked():
+            return {"account_id": self.account_id, "status": "SKIPPED_CYCLE_BUSY"}
+        path = planned_entry_queue_path(self.account_id)
+        try:
+            queue = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
+        except Exception as exc:
+            return {"account_id": self.account_id, "status": "QUEUE_UNAVAILABLE", "reason": exc.__class__.__name__}
+        if not isinstance(queue, list):
+            return {"account_id": self.account_id, "status": "QUEUE_INVALID"}
+        active_statuses = {"PENDING_POI_TOUCH", "TOUCHED_WAITING_CONFIRMATION", "CONFIRMED_FOR_ENTRY"}
+        queued_symbols = sorted({str(row.get("symbol") or "").upper() for row in queue if row.get("status") in active_statuses and row.get("symbol")})
+        if not queued_symbols:
+            return {"account_id": self.account_id, "status": "NO_ACTIVE_PLANS"}
+
+        async with self._cycle_lock:
+            blockers = await self._global_blockers()
+            if blockers:
+                return {"account_id": self.account_id, "status": "TRADING_DISABLED", "blockers": blockers}
+            try:
+                from backend.adaptive_management.v3_faiz import load_v3_next_session_profile
+
+                profile = load_v3_next_session_profile()
+            except Exception as exc:
+                return {"account_id": self.account_id, "status": "PROFILE_UNAVAILABLE", "reason": exc.__class__.__name__}
+            if profile is None:
+                return {"account_id": self.account_id, "status": "PROFILE_MISSING"}
+            allowed_by_symbol: dict[str, set[str]] = {}
+            for bucket in profile.allowed_buckets:
+                allowed_by_symbol.setdefault(bucket.symbol.upper(), set()).add(bucket.strategy_id)
+
+            try:
+                universe = await self.adapter.forex_universe()
+            except Exception as exc:
+                return {"account_id": self.account_id, "status": "UNIVERSE_UNAVAILABLE", "reason": exc.__class__.__name__}
+            instruments = {item.canonical_pair.upper(): item for item in universe.items}
+            candidates: list[dict[str, Any]] = []
+            cycle_id = f"MT5_FAST_{utcnow().strftime('%Y%m%d%H%M%S')}"
+            for canonical in queued_symbols:
+                allowed = allowed_by_symbol.get(canonical) or set()
+                if not allowed:
+                    continue
+                instrument = instruments.get(canonical)
+                if instrument is None:
+                    continue
+                try:
+                    quote = await self.adapter.latest_tick(instrument.broker_symbol)
+                    m1 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "M1", count=80)
+                    m5 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "M5", count=80)
+                    m15 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "M15", count=100)
+                    h1 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "H1", count=100)
+                    h4 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "H4", count=100)
+                    if quote.bid is None or quote.ask is None:
+                        continue
+                    ctx = build_strategy_context(
+                        account_id=self.account_id,
+                        symbol=instrument.canonical_pair,
+                        broker_symbol=instrument.broker_symbol,
+                        m15_rows=[row.model_dump(mode="json") for row in m15],
+                        h1_rows=[row.model_dump(mode="json") for row in h1],
+                        h4_rows=[row.model_dump(mode="json") for row in h4],
+                        bid=quote.bid,
+                        ask=quote.ask,
+                        spread=quote.spread or Decimal("0"),
+                        symbol_info=instrument.symbol,
+                        m1_rows=[row.model_dump(mode="json") for row in m1],
+                        m5_rows=[row.model_dump(mode="json") for row in m5],
+                    )
+                    if ctx is None:
+                        continue
+                    signal = evaluate_bsi_v3_existing_planned_queue(ctx, allowed)
+                    if signal is None or not signal.valid:
+                        continue
+                    built = build_candidates(
+                        symbol=instrument.canonical_pair,
+                        broker_symbol=instrument.broker_symbol,
+                        asset_class=instrument.asset_class,
+                        cycle_id=cycle_id,
+                        signals=[signal],
+                        htf_trend_h4=ctx.htf_trend_h4,
+                        now=ctx.generated_at,
+                    )
+                    smc_evidence = summarize_smc_evidence(ctx)
+                    for candidate in built:
+                        candidate["context"]["smc_evidence"] = smc_evidence
+                        candidate["raw_trend_score"] = candidate.get("ranking_score")
+                        candidates.append(candidate)
+                except Exception as exc:
+                    logger.warning("BSI V3 fast watcher symbol scan failed account_id=%s symbol=%s: %s", self.account_id, canonical, exc.__class__.__name__)
+                    continue
+            if not candidates:
+                return {"account_id": self.account_id, "status": "NO_CONFIRMED_ENTRY", "queued_symbols": queued_symbols}
+
+            ranked = sorted(candidates, key=lambda row: float(row.get("ranking_score") or 0.0), reverse=True)
+            best = ranked[0]
+            entry_quality = await self._entry_quality_score(best)
+            best["entry_quality"] = entry_quality
+            symbol_memory, global_memory = confidence_memory_for_symbol(
+                best["canonical_pair"],
+                self.account_id,
+                strategy_id=(best.get("context") or {}).get("strategy_id"),
+            )
+            try:
+                exposure = portfolio_manager.exposure(self.account_id)
+                correlation_penalty, correlated_symbols = _correlation_penalty(best, exposure)
+            except Exception:
+                correlation_penalty, correlated_symbols = 0.0, []
+            confidence = compute_trade_confidence(
+                candidate=best,
+                entry_quality=entry_quality,
+                symbol_memory=symbol_memory,
+                global_memory=global_memory,
+                correlation_penalty_points=correlation_penalty,
+                correlated_symbols=correlated_symbols,
+                now=utcnow(),
+            )
+            best["trade_confidence"] = confidence
+            best["ranking_score"] = confidence["overall_score"]
+            evidence = ((best.get("context") or {}).get("strategy_evidence") or {})
+            plan_id = evidence.get("v3_plan_id")
+            plan_ids = evidence.get("v3_confluence_plan_ids") or ([plan_id] if plan_id else [])
+            logger.warning(
+                "BSI V3 fast watcher selected plan: account_id=%s symbol=%s direction=%s strategy=%s confluence=%s confidence=%s",
+                self.account_id,
+                best.get("broker_symbol"),
+                best.get("direction"),
+                evidence.get("v3_strategy_id"),
+                evidence.get("v3_confluence_strategy_ids"),
+                confidence.get("overall_score"),
+            )
+            self._mark_planned_entry_submission(plan_ids, "SUBMITTING", {"status": "SUBMITTING", "cycle_id": cycle_id})
+            submission = await self._submit(best, confidence=float(confidence["overall_score"]))
+            terminal_status = "CONSUMED" if submission.get("status") == "ACCEPTED" else "BROKER_SUBMISSION_REJECTED"
+            self._mark_planned_entry_submission(plan_ids, terminal_status, {"status": submission.get("status"), "trade_id": submission.get("trade_id")})
+            return {
+                "account_id": self.account_id,
+                "status": submission.get("status"),
+                "cycle_id": cycle_id,
+                "selected_symbol": best.get("broker_symbol"),
+                "selected_strategy": evidence.get("v3_strategy_id"),
+                "confluence": evidence.get("v3_confluence_strategy_ids"),
+                "confidence": confidence.get("overall_score"),
+                "order_send_calls": submission.get("order_send_calls", 0),
+            }
+
     async def risk_status(self) -> dict[str, Any]:
         account = await self.adapter.mt5_account()
         with SessionLocal() as db:
@@ -2045,9 +2344,24 @@ class MT5MultiAccountAutonomousOrchestrator:
         self.state.current_state = "sleeping"
         self._task = asyncio.create_task(self._loop(scheduler_owner), name="mt5-multi-account-autonomous-scheduler")
         logger.warning("MT5 multi-account autonomous scheduler started owner=%s accounts=%s next=%s", scheduler_owner, ",".join(services), self.state.next_cycle_time.isoformat())
+        if os.getenv("BSI_V3_FAST_ENTRY_WATCHER_ENABLED", "true").strip().lower() not in {"false", "0", "off", "no"}:
+            self._fast_watcher_stop_event = asyncio.Event()
+            self._fast_watcher_task = asyncio.create_task(self._fast_watcher_loop(), name="bsi-v3-fast-entry-watcher")
+            logger.warning("BSI V3 fast planned-entry watcher started interval_seconds=%s", os.getenv("BSI_V3_FAST_ENTRY_WATCHER_INTERVAL_SECONDS", "10"))
         return True
 
     async def stop(self) -> None:
+        if self._fast_watcher_task:
+            logger.warning("BSI V3 fast planned-entry watcher stopping")
+            if self._fast_watcher_stop_event:
+                self._fast_watcher_stop_event.set()
+            self._fast_watcher_task.cancel()
+            try:
+                await self._fast_watcher_task
+            except asyncio.CancelledError:
+                pass
+            self._fast_watcher_task = None
+            logger.warning("BSI V3 fast planned-entry watcher stopped")
         if not self._task:
             return
         logger.warning("MT5 multi-account autonomous scheduler stopping")
@@ -2066,6 +2380,24 @@ class MT5MultiAccountAutonomousOrchestrator:
             service._persist_state()
         self.default_service._release_lock()
         logger.warning("MT5 multi-account autonomous scheduler stopped")
+
+    async def _fast_watcher_loop(self) -> None:
+        assert self._fast_watcher_stop_event is not None
+        interval = max(2, int(os.getenv("BSI_V3_FAST_ENTRY_WATCHER_INTERVAL_SECONDS", "10")))
+        while not self._fast_watcher_stop_event.is_set():
+            try:
+                services = self._enabled_services()
+                for account_id, service in services.items():
+                    result = await service.run_fast_planned_entry_watch()
+                    status = result.get("status")
+                    if status not in {"NO_ACTIVE_PLANS", "NO_CONFIRMED_ENTRY", "SKIPPED_CYCLE_BUSY", "DISABLED"}:
+                        logger.warning("BSI V3 fast watcher account_id=%s result=%s", account_id, result)
+            except Exception as exc:
+                logger.exception("BSI V3 fast planned-entry watcher failed: %s", exc.__class__.__name__)
+            try:
+                await asyncio.wait_for(self._fast_watcher_stop_event.wait(), timeout=interval)
+            except asyncio.TimeoutError:
+                pass
 
     async def _loop(self, owner: str) -> None:
         assert self._stop_event is not None
@@ -2173,19 +2505,39 @@ class MT5MultiAccountAutonomousOrchestrator:
         return self._flatten("candidates")
 
     async def refresh_risk_metadata_health(self) -> dict[str, Any]:
-        accounts = {account_id: await service.refresh_risk_metadata_health() for account_id, service in self._enabled_services().items()}
+        accounts: dict[str, dict[str, Any]] = {}
+        for account_id, service in self._enabled_services().items():
+            try:
+                accounts[account_id] = await service.refresh_risk_metadata_health()
+            except Exception as exc:
+                logger.warning("MT5 risk metadata health unavailable account_id=%s error=%s", account_id, exc.__class__.__name__)
+                accounts[account_id] = {"account_id": account_id, "status": "unavailable", "error": exc.__class__.__name__}
         return {"status": "ok" if all(row.get("status") == "ok" for row in accounts.values()) else "partial", "accounts": accounts}
 
     async def risk_status(self) -> dict[str, Any]:
-        accounts = {account_id: await service.risk_status() for account_id, service in self._enabled_services().items()}
+        accounts: dict[str, dict[str, Any]] = {}
+        for account_id, service in self._enabled_services().items():
+            try:
+                accounts[account_id] = await service.risk_status()
+            except Exception as exc:
+                logger.warning("MT5 risk status unavailable account_id=%s error=%s", account_id, exc.__class__.__name__)
+                accounts[account_id] = {"account_id": account_id, "status": "unavailable", "error": exc.__class__.__name__}
         return {"accounts": accounts, "default": accounts.get("demo_10k")}
 
     async def performance(self) -> dict[str, Any]:
         return await self.default_service.performance()
 
     async def reconciliation(self) -> dict[str, Any]:
-        accounts = {account_id: await service.reconciliation() for account_id, service in self._enabled_services().items()}
+        accounts: dict[str, dict[str, Any]] = {}
+        for account_id, service in self._enabled_services().items():
+            try:
+                accounts[account_id] = await service.reconciliation()
+            except Exception as exc:
+                logger.warning("MT5 reconciliation unavailable account_id=%s error=%s", account_id, exc.__class__.__name__)
+                accounts[account_id] = {"account_id": account_id, "status": "UNAVAILABLE", "error": exc.__class__.__name__, "created_at": utcnow().isoformat()}
         status = "MATCHED_EMPTY" if all(row.get("status") == "MATCHED_EMPTY" for row in accounts.values()) else "MATCHED_OPEN"
+        if any(row.get("status") == "UNAVAILABLE" for row in accounts.values()):
+            status = "PARTIAL_UNAVAILABLE"
         if any(row.get("status") == "PROTECTION_MISMATCH" for row in accounts.values()):
             status = "PROTECTION_MISMATCH"
         return {"status": status, "accounts": accounts, "created_at": utcnow().isoformat()}
@@ -2202,10 +2554,13 @@ class MT5MultiAccountAutonomousOrchestrator:
 
 
 def _build_multi_strategy_analysis(
-    instrument: MT5ForexInstrument, cycle_id: str,
+    instrument: MT5ForexInstrument, account_id: str | None, cycle_id: str,
     m15_rows: list[dict[str, Any]], h1_rows: list[dict[str, Any]], h4_rows: list[dict[str, Any]],
     bid: Any, ask: Any, spread: Any, regime_info: dict[str, Any] | None,
     *, m15_snapshot: Any = None, h1_snapshot: Any = None, h4_snapshot: Any = None,
+    daily_rows: list[dict[str, Any]] | None = None,
+    m1_rows: list[dict[str, Any]] | None = None,
+    m5_rows: list[dict[str, Any]] | None = None,
 ) -> tuple[str, dict[str, Any], list[dict[str, Any]], Any, int]:
     """Builds the shared strategy context once, evaluates every regime-compatible canonical
     strategy family, fuses same-direction agreement and resolves opposite-direction conflicts
@@ -2220,11 +2575,15 @@ def _build_multi_strategy_analysis(
     cached by the caller so _entry_quality_score never re-runs analyze_bars for this symbol
     within the same cycle (Part 2)."""
     ctx = build_strategy_context(
+        account_id=account_id,
         symbol=instrument.canonical_pair, broker_symbol=instrument.broker_symbol,
         m15_rows=m15_rows, h1_rows=h1_rows, h4_rows=h4_rows,
         bid=Decimal(str(bid)), ask=Decimal(str(ask)), spread=Decimal(str(spread or 0)),
         regime_info=regime_info, symbol_info=instrument.symbol,
         m15_snapshot=m15_snapshot, h1_snapshot=h1_snapshot, h4_snapshot=h4_snapshot,
+        daily_rows=daily_rows,
+        m1_rows=m1_rows,
+        m5_rows=m5_rows,
     )
     if ctx is None:
         return "insufficient_data", {}, [], None, 0
@@ -2761,6 +3120,32 @@ _STRATEGY_SHORT_CODES: dict[str, str] = {
     "session_breakout": "sessbrk",
     "vwap_reversion": "vwaprev",
     "wyckoff": "wyckoff",
+    "bsi_v3_order_flow": "v3flow",
+    "bsi_v3_smt_divergence": "v3smt",
+    "bsi_v3_abc": "v3abc",
+    "bsi_v3_abcd": "v3abcd",
+    "bsi_v3_asian_v2": "v3asia",
+    "bsi_v3_0930": "v3930",
+    "bsi_v3_reactionary_block": "v3react",
+    "bsi_v3_ict_silver_bullet": "v3sb",
+    "bsi_v3_silver_bullet_with_bias": "v3sbb",
+    "bsi_v3_4h_order_block": "v34hob",
+    "bsi_v3_mmxm": "v3mmxm",
+    "bsi_v3_mmxm_second_distribution": "v3mmx2",
+    "bsi_v3_holy_grail": "v3holy",
+    "bsi_v3_juggernaut": "v3jugg",
+    "bsi_v3_spectre": "v3spec",
+    "bsi_v3_monday_range": "v3mon",
+    "bsi_v3_weaver": "v3weav",
+    "bsi_v3_standard_deviation_po3": "v3sd",
+    "bsi_v3_ar50": "v3ar50",
+    "bsi_v3_ifvg_po3": "v3ifvg",
+    "bsi_v3_turtle_soups_ranges": "v3turt",
+    "bsi_v3_yin_yang": "v3yy",
+    "bsi_v3_4h_candle_ranges": "v34hcr",
+    "bsi_v3_smt_session_hl": "v3smts",
+    "bsi_v3_1h_candle_ranges": "v31hcr",
+    "bsi_v3_enigma_range": "v3enig",
 }
 _COMMENT_TOTAL_MAX = 31
 _COMMENT_PREFIX = "BSM|"
@@ -2778,9 +3163,16 @@ def _candidate_strategy_label(candidate: dict[str, Any], *, max_len: int) -> str
     (full names -> short codes -> a bare count) as the broker comment's length budget requires,
     so which strategy was primary is never ambiguous even when the label must be shortened."""
     context = candidate.get("context") or {}
-    anchor = str(context.get("strategy_id") or "mtfai1")
-    contributing = context.get("contributing_strategies") or []
-    others = sorted({str(sid) for sid in contributing if sid and str(sid) != anchor})
+    evidence = context.get("strategy_evidence") or {}
+    anchor = str(evidence.get("v3_strategy_id") or context.get("strategy_id") or "mtfai1")
+    contributing = evidence.get("v3_confluence_strategy_ids") or context.get("contributing_strategies") or []
+    others = sorted(
+        {
+            str(sid)
+            for sid in contributing
+            if sid and str(sid) != anchor and not (anchor.startswith("bsi_v3") and str(sid) == "bsi")
+        }
+    )
 
     full = anchor if not others else f"{anchor}+{'+'.join(others)}"
     if len(full) <= max_len:
