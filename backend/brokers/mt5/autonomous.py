@@ -56,6 +56,7 @@ from backend.mt5_strategies.families import evaluate_all
 from backend.mt5_strategies.families.bsi_v3_runtime_detectors import (
     _compact_queue_by_opportunity,
     evaluate_bsi_v3_existing_planned_queue,
+    plan_monitoring_state,
     planned_entry_queue_path,
 )
 from backend.mt5_strategies.fusion import build_candidates
@@ -2131,6 +2132,12 @@ class MT5AutonomousTradingService:
         tmp.replace(path)
         return queue
 
+    def _save_planned_entry_queue_file(self, path: Any, rows: list[dict[str, Any]]) -> None:
+        path = Path(path)
+        tmp = path.with_suffix(f"{path.suffix}.tmp")
+        tmp.write_text(json.dumps(rows[-_env_int("BSI_V3_PLANNED_ENTRY_MAX_QUEUE", 500):], indent=2, default=str), encoding="utf-8")
+        tmp.replace(path)
+
     def _mark_planned_entry_submission(self, plan_ids: str | list[str] | None, status: str, detail: dict[str, Any]) -> None:
         if not plan_ids:
             return
@@ -2147,16 +2154,14 @@ class MT5AutonomousTradingService:
                     row["status"] = status
                     row["submitted_at"] = now
                     row["submission_detail"] = detail
-            tmp = path.with_suffix(f"{path.suffix}.tmp")
-            tmp.write_text(json.dumps(rows, indent=2, default=str), encoding="utf-8")
-            tmp.replace(path)
+            self._save_planned_entry_queue_file(path, rows)
         except Exception as exc:
             logger.warning("BSI V3 fast watcher could not mark plan submission account_id=%s plan_ids=%s: %s", self.account_id, sorted(target_ids), exc.__class__.__name__)
 
     def _fast_watcher_trade_frequency_blockers(self, candidate: dict[str, Any]) -> list[str]:
         blockers: list[str] = []
         now = utcnow()
-        max_per_day = _env_int("BSI_V3_FAST_ENTRY_MAX_ACCEPTED_PER_ACCOUNT_DAY", 3)
+        max_per_day = _env_int("BSI_V3_FAST_ENTRY_MAX_ACCEPTED_PER_ACCOUNT_DAY", 0)
         cooldown_minutes = _env_int("BSI_V3_FAST_ENTRY_SYMBOL_COOLDOWN_MINUTES", 60)
         symbol = str(candidate.get("canonical_pair") or candidate.get("symbol") or "").upper()
         since_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -2171,7 +2176,7 @@ class MT5AutonomousTradingService:
                 )
                 .count()
             )
-            if accepted_today >= max_per_day:
+            if max_per_day > 0 and accepted_today >= max_per_day:
                 blockers.append("BSI_V3_FAST_DAILY_ACCOUNT_CAP")
             recent_same_symbol = (
                 db.query(MT5OrderRecordORM)
@@ -2257,6 +2262,10 @@ class MT5AutonomousTradingService:
             "execution_confidence": evidence.get("execution_confidence") or (candidate.get("trade_confidence") or {}).get("overall_score"),
             "rr": candidate.get("risk_reward") or evidence.get("risk_reward"),
             "created_at": evidence.get("v3_plan_created_at") or candidate.get("generated_at"),
+            "trade_horizon": evidence.get("trade_horizon"),
+            "planning_timeframe": evidence.get("planning_timeframe"),
+            "confirmation_timeframe": evidence.get("strategy_confirmation_timeframe") or evidence.get("v3_confirmation_timeframe"),
+            "management_timeframe": evidence.get("management_timeframe"),
         }
 
     def _v3_global_portfolio_blockers(self, candidate: dict[str, Any]) -> list[str]:
@@ -2326,6 +2335,8 @@ class MT5AutonomousTradingService:
                 return {"account_id": self.account_id, "status": "UNIVERSE_UNAVAILABLE", "reason": exc.__class__.__name__}
             instruments = {item.canonical_pair.upper(): item for item in universe.items}
             candidates: list[dict[str, Any]] = []
+            monitoring_counts: dict[str, int] = {}
+            horizon_counts: dict[str, int] = {}
             cycle_id = f"MT5_FAST_{utcnow().strftime('%Y%m%d%H%M%S')}"
             for canonical in queued_symbols:
                 instrument = instruments.get(canonical)
@@ -2333,13 +2344,33 @@ class MT5AutonomousTradingService:
                     continue
                 try:
                     quote = await self.adapter.latest_tick(instrument.broker_symbol)
+                    if quote.bid is None or quote.ask is None:
+                        continue
+                    related_plans = [
+                        row
+                        for row in queue
+                        if row.get("status") in active_statuses and str(row.get("symbol") or "").upper() == canonical
+                    ]
+                    actionable_states: set[str] = set()
+                    for plan in related_plans:
+                        monitor = plan_monitoring_state(plan, bid=quote.bid, ask=quote.ask, spread=quote.spread or Decimal("0"))
+                        plan.update(monitor)
+                        plan["last_monitoring_check_at"] = utcnow().isoformat()
+                        state = str(monitor.get("monitoring_state") or "")
+                        horizon = str(plan.get("trade_horizon") or "UNKNOWN")
+                        actionable_states.add(state)
+                        monitoring_counts[state] = monitoring_counts.get(state, 0) + 1
+                        horizon_counts[horizon] = horizon_counts.get(horizon, 0) + 1
+                    if related_plans:
+                        self._save_planned_entry_queue_file(path, queue)
+                    if actionable_states and not actionable_states.intersection({"APPROACHING_POI", "POI_ACTIVE"}):
+                        blocked_by_symbol.setdefault(canonical, set()).add("DORMANT_PLAN")
+                        continue
                     m1 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "M1", count=80)
                     m5 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "M5", count=80)
                     m15 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "M15", count=100)
                     h1 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "H1", count=100)
                     h4 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "H4", count=100)
-                    if quote.bid is None or quote.ask is None:
-                        continue
                     ctx = build_strategy_context(
                         account_id=self.account_id,
                         symbol=instrument.canonical_pair,
@@ -2387,7 +2418,20 @@ class MT5AutonomousTradingService:
                     logger.warning("BSI V3 fast watcher symbol scan failed account_id=%s symbol=%s: %s", self.account_id, canonical, exc.__class__.__name__)
                     continue
             if not candidates:
-                return {"account_id": self.account_id, "status": "NO_CONFIRMED_ENTRY", "queued_symbols": queued_symbols}
+                return {
+                    "account_id": self.account_id,
+                    "status": "NO_CONFIRMED_ENTRY",
+                    "queued_symbols": queued_symbols,
+                    "monitoring_counts": monitoring_counts,
+                    "horizon_counts": horizon_counts,
+                    "observability": {
+                        "FAST_WATCHER_POLLS": 1,
+                        "NEW_THESES_CREATED": 0,
+                        "NEW_OPPORTUNITIES_CREATED": 0,
+                        "CONFIRMATIONS_CREATED": 0,
+                        "ORDERS_SUBMITTED": 0,
+                    },
+                }
 
             ranked = sorted(candidates, key=lambda row: float(row.get("ranking_score") or 0.0), reverse=True)
             best = ranked[0]
@@ -2465,6 +2509,15 @@ class MT5AutonomousTradingService:
                     "confidence": confidence.get("overall_score"),
                     "execution_confidence_band": evidence.get("execution_confidence_band"),
                     "order_send_calls": 0,
+                    "monitoring_counts": monitoring_counts,
+                    "horizon_counts": horizon_counts,
+                    "observability": {
+                        "FAST_WATCHER_POLLS": 1,
+                        "NEW_THESES_CREATED": 0,
+                        "NEW_OPPORTUNITIES_CREATED": 0,
+                        "CONFIRMATIONS_CREATED": len(candidates),
+                        "ORDERS_SUBMITTED": 0,
+                    },
                 }
             logger.warning(
                 "BSI V3 fast watcher selected plan: account_id=%s symbol=%s direction=%s strategy=%s confluence=%s confidence=%s",
@@ -2509,6 +2562,15 @@ class MT5AutonomousTradingService:
                 "confluence": evidence.get("v3_confluence_strategy_ids"),
                 "confidence": confidence.get("overall_score"),
                 "order_send_calls": submission.get("order_send_calls", 0),
+                "monitoring_counts": monitoring_counts,
+                "horizon_counts": horizon_counts,
+                "observability": {
+                    "FAST_WATCHER_POLLS": 1,
+                    "NEW_THESES_CREATED": 0,
+                    "NEW_OPPORTUNITIES_CREATED": 0,
+                    "CONFIRMATIONS_CREATED": len(candidates),
+                    "ORDERS_SUBMITTED": int(submission.get("order_send_calls", 0) or 0),
+                },
             }
 
     async def risk_status(self) -> dict[str, Any]:

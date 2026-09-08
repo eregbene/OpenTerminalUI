@@ -38,6 +38,21 @@ class RuntimeSpec:
 
 
 @dataclass(frozen=True)
+class RuntimeClockPolicy:
+    strategy_id: str
+    trade_horizon: str
+    context_timeframes: tuple[str, ...]
+    planning_timeframe: str
+    poi_timeframe: str
+    confirmation_timeframe: str
+    session_window: str
+    planning_refresh_event: str
+    poi_activation_condition: str
+    confirmation_activation_condition: str
+    management_timeframe: str
+
+
+@dataclass(frozen=True)
 class RuntimeOpportunity:
     spec: RuntimeSpec
     direction: str
@@ -98,6 +113,35 @@ RUNTIME_SPECS: tuple[RuntimeSpec, ...] = (
 )
 
 SPEC_BY_ID = {spec.strategy_id: spec for spec in RUNTIME_SPECS}
+
+RUNTIME_CLOCK_POLICIES: dict[str, RuntimeClockPolicy] = {
+    "bsi_v3_order_flow": RuntimeClockPolicy("bsi_v3_order_flow", "INTRADAY", ("D1", "H4", "H1", "M15"), "H1", "M15", "M5", "LONDON_NY", "NEW_H1_OR_STRUCTURE_BREAK", "PRICE_WITHIN_POI_BUFFER", "M5_CLOSED_MSS_DISPLACEMENT", "M15"),
+    "bsi_v3_smt_divergence": RuntimeClockPolicy("bsi_v3_smt_divergence", "SESSION", ("M15", "M5", "M1"), "M15", "M5", "M1", "LONDON_NY", "NEW_SESSION_OR_SMT_SWEEP", "PRICE_RAIDS_SESSION_LIQUIDITY", "M1_CLOSED_MSS_DISPLACEMENT", "M5"),
+    "bsi_v3_abc": RuntimeClockPolicy("bsi_v3_abc", "INTRADAY", ("D1", "H4", "H1", "M15"), "H1", "M15", "M5", "LONDON_NY", "NEW_ABC_SEQUENCE_OR_H1_STRUCTURE", "PRICE_RETURNS_TO_ABC_POI", "M5_CLOSED_CONFIRMATION_ENTRY", "M15"),
+    "bsi_v3_abcd": RuntimeClockPolicy("bsi_v3_abcd", "INTRADAY", ("D1", "H4", "H1", "M15"), "H1", "M15", "M5", "LONDON_NY", "NEW_ABCD_LEG_OR_H1_STRUCTURE", "PRICE_RETURNS_TO_D_LEG_POI", "M5_CLOSED_CONFIRMATION_ENTRY", "M15"),
+    "bsi_v3_asian_v2": RuntimeClockPolicy("bsi_v3_asian_v2", "SESSION", ("M15", "M5", "M1"), "M15", "M5", "M1", "ASIAN_LONDON_NY", "NEW_ASIAN_RANGE_OR_RANGE_SWEEP", "PRICE_SWEEPS_ASIAN_RANGE_POI", "M1_CLOSED_MSS_DISPLACEMENT", "M5"),
+    "bsi_v3_0930": RuntimeClockPolicy("bsi_v3_0930", "SCALP", ("M5", "M1"), "M5", "M1", "M1", "NY_0930", "NEW_0930_LIQUIDITY_EVENT", "PRICE_RAIDS_0930_LIQUIDITY", "M1_CLOSED_CONFIRMATION_ENTRY", "M1"),
+    "bsi_v3_reactionary_block": RuntimeClockPolicy("bsi_v3_reactionary_block", "INTRADAY", ("H1", "M15"), "M15", "M15", "M5", "LONDON_NY", "NEW_REACTIONARY_BLOCK", "PRICE_RETURNS_TO_REACTIONARY_BLOCK", "M5_CLOSED_REACTION", "M15"),
+    "bsi_v3_ict_silver_bullet": RuntimeClockPolicy("bsi_v3_ict_silver_bullet", "SCALP", ("M5", "M1"), "M5", "M1", "M1", "SILVER_BULLET", "NEW_SB_WINDOW_LIQUIDITY_RAID", "PRICE_ENTERS_SB_FVG", "M1_CLOSED_DISPLACEMENT_FVG", "M1"),
+    "bsi_v3_silver_bullet_with_bias": RuntimeClockPolicy("bsi_v3_silver_bullet_with_bias", "SESSION", ("H1", "M15", "M5", "M1"), "H1", "M5", "M1_OR_M5", "SILVER_BULLET", "NEW_BIAS_ALIGNED_SB_EVENT", "PRICE_ENTERS_BIAS_ALIGNED_POI", "M1_OR_M5_CLOSED_CONFIRMATION", "M5"),
+    "bsi_v3_4h_order_block": RuntimeClockPolicy("bsi_v3_4h_order_block", "SWING", ("D1", "H4", "H1", "M15"), "H4", "H1", "M15", "ANY", "NEW_H4_OB_OR_H4_CLOSE", "PRICE_APPROACHES_H4_OB", "M15_CLOSED_STRUCTURE_CONFIRMATION", "H1"),
+    "bsi_v3_mmxm": RuntimeClockPolicy("bsi_v3_mmxm", "SWING", ("D1", "H4", "H1", "M15", "M5"), "H4", "H1", "M5", "LONDON_NY", "NEW_MMXM_PHASE_OR_H4_H1_STRUCTURE", "PRICE_RETURNS_TO_MMXM_POI", "M5_CLOSED_MMXM_CONFIRMATION", "H1"),
+    "bsi_v3_mmxm_second_distribution": RuntimeClockPolicy("bsi_v3_mmxm_second_distribution", "INTRADAY", ("H1", "M15", "M5"), "H1", "M15", "M5", "LONDON_NY", "NEW_SECOND_DISTRIBUTION_EVENT", "PRICE_RETURNS_TO_FINAL_FRACTAL_POI", "M5_CLOSED_BOS_FVG", "M15"),
+    "bsi_v3_holy_grail": RuntimeClockPolicy("bsi_v3_holy_grail", "SWING", ("D1", "H4", "H1", "M5"), "H1", "H1", "M5", "LONDON_NY", "NEW_HOLY_GRAIL_MMXM_EVENT", "PRICE_RETURNS_TO_HG_POI", "M5_CLOSED_MMXM_CONFIRMATION", "H1"),
+    "bsi_v3_juggernaut": RuntimeClockPolicy("bsi_v3_juggernaut", "SESSION", ("M5", "M1"), "M5", "M1", "M1_OR_M5", "LONDON_NY", "NEW_IFVG_OR_JUGGERNAUT_EVENT", "PRICE_RETURNS_TO_IFVG", "M1_OR_M5_CLOSED_CONFIRMATION", "M5"),
+    "bsi_v3_spectre": RuntimeClockPolicy("bsi_v3_spectre", "INTRADAY", ("H1", "M15"), "M15", "M15", "M5", "LONDON_NY", "NEW_INVERSE_OB_EVENT", "PRICE_RETURNS_TO_INVERSE_OB", "M5_CLOSED_CONFIRMATION", "M15"),
+    "bsi_v3_monday_range": RuntimeClockPolicy("bsi_v3_monday_range", "SWING", ("D1", "H4", "H1", "M15"), "H4", "H1", "M15", "WEEKLY", "NEW_MONDAY_RANGE_OR_WEEKLY_OPEN", "PRICE_RAIDS_MONDAY_RANGE", "M15_CLOSED_REVERSAL", "H1"),
+    "bsi_v3_weaver": RuntimeClockPolicy("bsi_v3_weaver", "INTRADAY", ("H1", "M15"), "H1", "M15", "M5", "LONDON_NY", "NEW_H1_FVG_DRAW", "PRICE_RETURNS_TO_WEAVER_POI", "M5_CLOSED_STRUCTURE", "M15"),
+    "bsi_v3_standard_deviation_po3": RuntimeClockPolicy("bsi_v3_standard_deviation_po3", "SESSION", ("M15", "M5"), "M15", "M5", "M5", "LONDON_NY", "NEW_PO3_STDDEV_EVENT", "PRICE_REACHES_STDDEV_POI", "M5_CLOSED_CONFIRMATION", "M5"),
+    "bsi_v3_ar50": RuntimeClockPolicy("bsi_v3_ar50", "SESSION", ("M15", "M5"), "M15", "M15", "M5", "ASIAN_LONDON_NY", "NEW_ASIAN_RANGE_50_EVENT", "PRICE_RETURNS_TO_AR50", "M5_CLOSED_CONFIRMATION", "M5"),
+    "bsi_v3_ifvg_po3": RuntimeClockPolicy("bsi_v3_ifvg_po3", "SCALP", ("M5", "M1"), "M5", "M1", "M1", "LONDON_NY", "NEW_MANIPULATION_IFVG_EVENT", "PRICE_RETURNS_TO_IFVG_50", "M1_CLOSED_CONFIRMATION", "M1"),
+    "bsi_v3_turtle_soups_ranges": RuntimeClockPolicy("bsi_v3_turtle_soups_ranges", "SCALP", ("M5", "M1"), "M5", "M1", "M1", "RANGE_SESSION", "NEW_RANGE_SWEEP_EVENT", "PRICE_SWEEPS_RANGE_EXTREME", "M1_CLOSED_TURTLE_CONFIRMATION", "M1"),
+    "bsi_v3_yin_yang": RuntimeClockPolicy("bsi_v3_yin_yang", "SESSION", ("M15", "M5"), "M15", "M15", "M5", "LONDON_NY", "NEW_LONDON_FVG_BODY_EVENT", "PRICE_RETURNS_TO_LONDON_FVG", "M5_CLOSED_CONFIRMATION", "M5"),
+    "bsi_v3_4h_candle_ranges": RuntimeClockPolicy("bsi_v3_4h_candle_ranges", "SWING", ("D1", "H4", "H1", "M15"), "H4", "H4", "M15", "ANY", "NEW_H4_CANDLE_RANGE", "PRICE_RAIDS_H4_RANGE_EXTREME", "M15_CLOSED_CONFIRMATION", "H1"),
+    "bsi_v3_smt_session_hl": RuntimeClockPolicy("bsi_v3_smt_session_hl", "SESSION", ("M15", "M5", "M1"), "M15", "M5", "M1", "LONDON_NY", "NEW_SESSION_HIGH_LOW_SMT", "PRICE_RAIDS_SESSION_HIGH_LOW", "M1_CLOSED_SMT_CONFIRMATION", "M5"),
+    "bsi_v3_1h_candle_ranges": RuntimeClockPolicy("bsi_v3_1h_candle_ranges", "INTRADAY", ("H1", "M15", "M5", "M1"), "H1", "H1", "M1", "ANY", "NEW_H1_CANDLE_RANGE", "PRICE_RAIDS_H1_RANGE_EXTREME", "M1_CLOSED_CONFIRMATION", "M15"),
+    "bsi_v3_enigma_range": RuntimeClockPolicy("bsi_v3_enigma_range", "SWING", ("D1", "H4", "H1", "M15"), "H4", "H1", "M15", "ANY", "NEW_ENGINEERED_RANGE_EVENT", "PRICE_RAIDS_ENIGMA_RANGE_EXTREME", "M15_CLOSED_CONFIRMATION", "H1"),
+}
 
 CONFIRMATION_TIMEFRAME_POLICY: dict[str, str] = {
     "bsi_v3_smt_divergence": "M1_REQUIRED",
@@ -365,6 +409,35 @@ def _planned_target_multiple(spec: RuntimeSpec) -> float:
     return 2.0
 
 
+def clock_policy_for_strategy(strategy_id: str) -> RuntimeClockPolicy:
+    return RUNTIME_CLOCK_POLICIES[strategy_id]
+
+
+def plan_monitoring_state(plan: dict[str, Any], *, bid: Decimal | float | str, ask: Decimal | float | str, spread: Decimal | float | str | None = None) -> dict[str, Any]:
+    direction = str(plan.get("direction") or "").upper()
+    price = float(ask if direction == "LONG" else bid)
+    zone_low = float(plan.get("fvg_low") or plan.get("entry_zone_low") or plan.get("entry") or 0.0)
+    zone_high = float(plan.get("fvg_high") or plan.get("entry_zone_high") or plan.get("entry") or 0.0)
+    if zone_high < zone_low:
+        zone_low, zone_high = zone_high, zone_low
+    width = max(abs(zone_high - zone_low), 0.0)
+    spread_value = abs(float(spread or 0.0))
+    activation_distance = max(width * _env_float("BSI_V3_POI_APPROACH_WIDTH_MULTIPLIER", 2.0), spread_value * _env_float("BSI_V3_POI_APPROACH_SPREAD_MULTIPLIER", 4.0))
+    if zone_low <= price <= zone_high:
+        state = "POI_ACTIVE"
+        distance = 0.0
+    else:
+        distance = min(abs(price - zone_low), abs(price - zone_high))
+        state = "APPROACHING_POI" if distance <= activation_distance else "DORMANT_PLAN"
+    return {
+        "monitoring_state": state,
+        "price": price,
+        "distance_to_poi": round(distance, 10),
+        "activation_distance": round(activation_distance, 10),
+        "activation_basis": "BENSIM_ENGINEERING:poi_width_and_spread",
+    }
+
+
 def _make_plan_from_fvg(ctx: StrategyContext, spec: RuntimeSpec, fvg: dict[str, Any], rows: list[dict[str, Any]]) -> dict[str, Any] | None:
     idx = int(fvg["index"])
     lookback = rows[max(0, idx - 10) : idx + 1]
@@ -392,6 +465,7 @@ def _make_plan_from_fvg(ctx: StrategyContext, spec: RuntimeSpec, fvg: dict[str, 
     poi_id = f"poi:{structural_key}"
     opportunity_id = f"entry:{structural_key}:{entry:.8f}:{stop:.8f}:{target:.8f}"
     plan_id = f"{spec.strategy_id}:{opportunity_id}"
+    clock = clock_policy_for_strategy(spec.strategy_id)
     return {
         "plan_id": plan_id,
         "bsi_v3_market_context_id": context_id,
@@ -400,6 +474,7 @@ def _make_plan_from_fvg(ctx: StrategyContext, spec: RuntimeSpec, fvg: dict[str, 
         "bsi_v3_entry_opportunity_id": opportunity_id,
         "canonical_plan_id": f"canonical:{opportunity_id}",
         "status": "PENDING_POI_TOUCH",
+        "monitoring_state": "DORMANT_PLAN",
         "strategy_id": spec.strategy_id,
         "primary_strategy_id": spec.strategy_id,
         "confluence_strategy_ids": [spec.strategy_id],
@@ -426,6 +501,20 @@ def _make_plan_from_fvg(ctx: StrategyContext, spec: RuntimeSpec, fvg: dict[str, 
         "stop_model": spec.stop_model,
         "target_model": spec.target_model,
         "confirmation_policy": CONFIRMATION_TIMEFRAME_POLICY.get(spec.strategy_id, "M1_OR_M5_ALLOWED"),
+        "trade_horizon": clock.trade_horizon,
+        "context_timeframes": list(clock.context_timeframes),
+        "planning_timeframe": clock.planning_timeframe,
+        "poi_timeframe": clock.poi_timeframe,
+        "confirmation_timeframe": clock.confirmation_timeframe,
+        "session_window": clock.session_window,
+        "planning_refresh_event": clock.planning_refresh_event,
+        "poi_activation_condition": clock.poi_activation_condition,
+        "confirmation_activation_condition": clock.confirmation_activation_condition,
+        "management_timeframe": clock.management_timeframe,
+        "planning_bar_timestamp": created_at.isoformat(),
+        "planning_event_id": structural_key,
+        "mentor_invalidation_model": spec.stop_model,
+        "mentor_target_model": spec.target_model,
     }
 
 
@@ -663,6 +752,16 @@ def _live_cycle_key(ctx: StrategyContext) -> str:
         except Exception:
             pass
     return ctx.generated_at.replace(second=0, microsecond=0).astimezone(timezone.utc).isoformat()
+
+
+def _confirmation_cycle_key(ctx: StrategyContext, timeframe: str) -> str:
+    rows = _rows_for_timeframe(ctx, timeframe)
+    if rows:
+        try:
+            return _row_time(rows[-1]).isoformat()
+        except Exception:
+            pass
+    return _live_cycle_key(ctx)
 
 
 def _detect_order_flow(ctx: StrategyContext, spec: RuntimeSpec) -> tuple[list[RuntimeOpportunity], list[str]]:
@@ -923,7 +1022,6 @@ def _evaluate_bsi_v3_planned_runtime_detectors(ctx: StrategyContext, allowed_str
     allowed_specs = [spec for spec in RUNTIME_SPECS if (not allowed_strategy_ids or spec.strategy_id in allowed_strategy_ids)]
     queue = _compact_queue_by_opportunity(_load_queue(ctx))
     now = ctx.generated_at.astimezone(timezone.utc)
-    cycle_key = _live_cycle_key(ctx)
     min_plan_confidence = _env_float("BSI_V3_MIN_PLAN_CONFIDENCE", 65.0)
     active: list[dict[str, Any]] = []
     best: tuple[RuntimeOpportunity, dict[str, Any], str] | None = None
@@ -958,7 +1056,13 @@ def _evaluate_bsi_v3_planned_runtime_detectors(ctx: StrategyContext, allowed_str
         if _plan_invalidated(ctx, plan):
             plan["status"] = "INVALIDATED_BEFORE_CONFIRMATION"
             continue
-        if not _current_price_touches_plan(ctx, plan):
+        monitor = plan_monitoring_state(plan, bid=ctx.bid, ask=ctx.ask, spread=ctx.spread)
+        plan.update(monitor)
+        plan["last_monitoring_check_at"] = now.isoformat()
+        if monitor["monitoring_state"] == "DORMANT_PLAN":
+            active.append(plan)
+            continue
+        if monitor["monitoring_state"] == "APPROACHING_POI" and not _current_price_touches_plan(ctx, plan):
             active.append(plan)
             continue
         if not plan.get("alerted_touch_at"):
@@ -988,9 +1092,10 @@ def _evaluate_bsi_v3_planned_runtime_detectors(ctx: StrategyContext, allowed_str
         plan["confirmed_at"] = now.isoformat()
         plan["confirmation_started_at"] = plan.get("last_touch_at") or plan.get("alerted_touch_at") or now.isoformat()
         plan["confirmation_confirmed_at"] = now.isoformat()
-        plan["confirmation_bar_close_at"] = now.isoformat()
-        plan["bsi_v3_confirmation_id"] = f"confirm:{plan.get('bsi_v3_entry_opportunity_id') or plan.get('plan_id')}:{confirmation_tf}:{cycle_key}"
-        plan["confirmed_cycle_key"] = cycle_key
+        confirmation_bar_key = _confirmation_cycle_key(ctx, confirmation_tf)
+        plan["confirmation_bar_close_at"] = confirmation_bar_key
+        plan["bsi_v3_confirmation_id"] = f"confirm:{plan.get('bsi_v3_entry_opportunity_id') or plan.get('plan_id')}:{confirmation_tf}:{confirmation_bar_key}"
+        plan["confirmed_cycle_key"] = confirmation_bar_key
         if not plan.get("alerted_confirmed_at"):
             plan["alerted_confirmed_at"] = now.isoformat()
             logger.warning(
@@ -1050,6 +1155,10 @@ def _evaluate_bsi_v3_planned_runtime_detectors(ctx: StrategyContext, allowed_str
         "bsi_v3_confirmation_id": plan.get("bsi_v3_confirmation_id"),
         "v3_plan_created_at": plan.get("created_at"),
         "v3_poi_touch_status": plan.get("status"),
+        "v3_monitoring_state": plan.get("monitoring_state"),
+        "v3_distance_to_poi": plan.get("distance_to_poi"),
+        "v3_poi_activation_distance": plan.get("activation_distance"),
+        "v3_poi_activation_basis": plan.get("activation_basis"),
         "v3_confirmation_timeframe": confirmation_tf,
         "v3_confirmation_policy": plan.get("confirmation_policy") or CONFIRMATION_TIMEFRAME_POLICY.get(spec.strategy_id, "M1_OR_M5_ALLOWED"),
         "confirmation_started_at": plan.get("confirmation_started_at"),
@@ -1067,6 +1176,15 @@ def _evaluate_bsi_v3_planned_runtime_detectors(ctx: StrategyContext, allowed_str
         "management_model": spec.management_model,
         "stop_model": spec.stop_model,
         "target_model": spec.target_model,
+        "trade_horizon": plan.get("trade_horizon"),
+        "planning_timeframe": plan.get("planning_timeframe"),
+        "poi_timeframe": plan.get("poi_timeframe"),
+        "strategy_confirmation_timeframe": plan.get("confirmation_timeframe"),
+        "management_timeframe": plan.get("management_timeframe"),
+        "mentor_invalidation_model": plan.get("mentor_invalidation_model"),
+        "mentor_target_model": plan.get("mentor_target_model"),
+        "planning_bar_timestamp": plan.get("planning_bar_timestamp"),
+        "planning_event_id": plan.get("planning_event_id"),
         "fvg_entry_zone_low": op.fvg_low,
         "fvg_entry_zone_high": op.fvg_high,
         "execution_entry_source": "planned_poi_touch_then_current_bid_ask",

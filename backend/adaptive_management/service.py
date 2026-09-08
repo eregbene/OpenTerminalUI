@@ -93,21 +93,78 @@ V3_MANAGEMENT_MODEL_BY_STRATEGY = {
 
 V3_COMMENT_STRATEGY_CODES = {
     "v3flow": "bsi_v3_order_flow",
+    "v3smt": "bsi_v3_smt_divergence",
     "v3abc": "bsi_v3_abc",
     "v3abcd": "bsi_v3_abcd",
+    "v3asia": "bsi_v3_asian_v2",
+    "v3930": "bsi_v3_0930",
     "v3react": "bsi_v3_reactionary_block",
+    "v3sb": "bsi_v3_ict_silver_bullet",
+    "v3sbb": "bsi_v3_silver_bullet_with_bias",
     "v34hob": "bsi_v3_4h_order_block",
+    "v3mmxm": "bsi_v3_mmxm",
     "v3mmx2": "bsi_v3_mmxm_second_distribution",
     "v3holy": "bsi_v3_holy_grail",
+    "v3jugg": "bsi_v3_juggernaut",
     "v3spec": "bsi_v3_spectre",
     "v3mon": "bsi_v3_monday_range",
     "v3weav": "bsi_v3_weaver",
     "v3sd": "bsi_v3_standard_deviation_po3",
     "v3ar50": "bsi_v3_ar50",
+    "v3ifvg": "bsi_v3_ifvg_po3",
+    "v3turt": "bsi_v3_turtle_soups_ranges",
     "v3yy": "bsi_v3_yin_yang",
     "v34hcr": "bsi_v3_4h_candle_ranges",
+    "v3smts": "bsi_v3_smt_session_hl",
+    "v31hcr": "bsi_v3_1h_candle_ranges",
     "v3enig": "bsi_v3_enigma_range",
 }
+
+V3_TRADE_HORIZON_BY_STRATEGY = {
+    "bsi_v3_4h_order_block": "SWING",
+    "bsi_v3_mmxm": "SWING",
+    "bsi_v3_holy_grail": "SWING",
+    "bsi_v3_monday_range": "SWING",
+    "bsi_v3_4h_candle_ranges": "SWING",
+    "bsi_v3_enigma_range": "SWING",
+    "bsi_v3_order_flow": "INTRADAY",
+    "bsi_v3_abc": "INTRADAY",
+    "bsi_v3_abcd": "INTRADAY",
+    "bsi_v3_reactionary_block": "INTRADAY",
+    "bsi_v3_mmxm_second_distribution": "INTRADAY",
+    "bsi_v3_spectre": "INTRADAY",
+    "bsi_v3_weaver": "INTRADAY",
+    "bsi_v3_1h_candle_ranges": "INTRADAY",
+    "bsi_v3_smt_divergence": "SESSION",
+    "bsi_v3_asian_v2": "SESSION",
+    "bsi_v3_silver_bullet_with_bias": "SESSION",
+    "bsi_v3_juggernaut": "SESSION",
+    "bsi_v3_standard_deviation_po3": "SESSION",
+    "bsi_v3_ar50": "SESSION",
+    "bsi_v3_yin_yang": "SESSION",
+    "bsi_v3_smt_session_hl": "SESSION",
+    "bsi_v3_0930": "SCALP",
+    "bsi_v3_ict_silver_bullet": "SCALP",
+    "bsi_v3_ifvg_po3": "SCALP",
+    "bsi_v3_turtle_soups_ranges": "SCALP",
+}
+
+
+def _canonical_v3_strategy_id(strategy_id: str | None) -> str | None:
+    raw = str(strategy_id or "").lower()
+    if not raw:
+        return None
+    first = raw.split("+", 1)[0]
+    if first in V3_TRADE_HORIZON_BY_STRATEGY:
+        return first
+    return V3_COMMENT_STRATEGY_CODES.get(first)
+
+
+def _v3_trade_horizon(strategy_id: str | None) -> str | None:
+    canonical = _canonical_v3_strategy_id(strategy_id)
+    if not canonical:
+        return None
+    return V3_TRADE_HORIZON_BY_STRATEGY.get(canonical)
 
 # v2 action types added by the trade-sizing/profit-protection overhaul. Execution of these (like
 # every other action type) is gated by account CLASSIFICATION, not by a manual env opt-in: see
@@ -2481,8 +2538,9 @@ class AdaptiveManagementService:
             if r_now >= _env_float("ADAPTIVE_TRAIL_R", 1.5) and trail and _stop_improves(state.direction, trail, state.current_sl):
                 candidates.append(ManagementCandidate("TRAIL_STOP", 60, requested_sl=trail, requested_tp=state.current_tp, reason="volatility_aware_trailing_stop", evidence={"r": r_now, "max_r": max_r, "trail_fraction": trail_fraction}))
 
-        if _candles_held(state.opened_at, candles) >= _env_int("ADAPTIVE_TIME_EXIT_CANDLES", 24, minimum=1, maximum=288) and max_r < 0.25:
-            candidates.append(ManagementCandidate("TIME_EXIT", 70, requested_volume=float(state.current_volume), reason="no_progress_time_exit", evidence={"max_r": max_r}))
+        horizon = _v3_trade_horizon(state.strategy_id)
+        if horizon != "SWING" and _candles_held(state.opened_at, candles) >= _env_int("ADAPTIVE_TIME_EXIT_CANDLES", 24, minimum=1, maximum=288) and max_r < 0.25:
+            candidates.append(ManagementCandidate("TIME_EXIT", 70, requested_volume=float(state.current_volume), reason="no_progress_time_exit", evidence={"max_r": max_r, "trade_horizon": horizon or "LEGACY_OR_UNKNOWN"}))
 
         if not bsi_adaptive_v2_active and v2_mode() != "disabled" and cooldown_ok and not manage_existing_only:
             candidates.extend(self._v2_candidates(state, r_now, max_r, atr, atr_r, regime, zone, normalized_candles))

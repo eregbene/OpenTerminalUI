@@ -5,20 +5,26 @@ from decimal import Decimal
 import json
 from types import SimpleNamespace
 
+import backend.brokers.mt5.autonomous as autonomous_mod
 from backend.brokers.mt5.autonomous import MT5AutonomousTradingService, _env_float, _env_int, _v3_execution_confidence_blockers, _v3_m5_direct_execution_enabled, _v3_planned_entry_live
 from backend.brokers.mt5.config import MT5Config
 from backend.brokers.mt5.ownership import is_bensim_owned_position, is_bensim_owned_order
+from backend.adaptive_management.service import _v3_trade_horizon
 from backend.adaptive_management.v3_faiz import V3AdaptiveRoutingBucket, V3NextSessionProfile
 from backend.mt5_strategies.context import REGIME_NEUTRAL, StrategyContext
 from backend.mt5_strategies.families import bsi_v3_engine
 from backend.mt5_strategies.families.bsi_v3_runtime_detectors import (
     RUNTIME_SPECS,
+    RUNTIME_CLOCK_POLICIES,
+    clock_policy_for_strategy,
+    evaluate_bsi_v3_existing_planned_queue,
     _lower_tf_confirms,
     _load_queue,
     _make_plan_from_fvg,
     _compact_queue_by_opportunity,
     _same_poi_group,
     _upsert_new_plans,
+    plan_monitoring_state,
     planned_entry_queue_path,
 )
 from backend.mt5_strategies.models import StrategySignal
@@ -27,6 +33,25 @@ from backend.mt5_strategies.models import StrategySignal
 class _FakeAdapter:
     def __init__(self, account_id: str) -> None:
         self.config = MT5Config(account_id=account_id, enabled=True, autonomous_submission_enabled=True)
+
+
+class _FakeQuery:
+    def filter(self, *args, **kwargs):
+        return self
+
+    def count(self) -> int:
+        return 999
+
+
+class _FakeSession:
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        return False
+
+    def query(self, *_args, **_kwargs):
+        return _FakeQuery()
 
 
 def _rows_with_recent_fvg(*, timeframe_seconds: int = 60, count: int = 10) -> list[dict]:
@@ -92,6 +117,91 @@ def test_same_thesis_and_entry_opportunity_merge_but_different_thesis_stays_sepa
 
     assert _same_poi_group(base, same)
     assert not _same_poi_group(base, different)
+
+
+def test_all_v3_strategies_have_clock_policy() -> None:
+    assert set(RUNTIME_CLOCK_POLICIES) == {spec.strategy_id for spec in RUNTIME_SPECS}
+    assert sum(1 for policy in RUNTIME_CLOCK_POLICIES.values() if policy.trade_horizon == "SWING") == 6
+    assert sum(1 for policy in RUNTIME_CLOCK_POLICIES.values() if policy.trade_horizon == "INTRADAY") == 8
+    assert sum(1 for policy in RUNTIME_CLOCK_POLICIES.values() if policy.trade_horizon == "SESSION") == 8
+    assert sum(1 for policy in RUNTIME_CLOCK_POLICIES.values() if policy.trade_horizon == "SCALP") == 4
+
+
+def test_adaptive_horizon_resolver_recognizes_full_and_compact_v3_strategy_ids() -> None:
+    assert _v3_trade_horizon("bsi_v3_mmxm") == "SWING"
+    assert _v3_trade_horizon("v3mmxm+v3holy") == "SWING"
+    assert _v3_trade_horizon("v3react+v3spec") == "INTRADAY"
+    assert _v3_trade_horizon("v3930") == "SCALP"
+
+
+def test_fast_watcher_daily_cap_is_disabled_by_default(monkeypatch) -> None:
+    monkeypatch.delenv("BSI_V3_FAST_ENTRY_MAX_ACCEPTED_PER_ACCOUNT_DAY", raising=False)
+    monkeypatch.setenv("BSI_V3_FAST_ENTRY_SYMBOL_COOLDOWN_MINUTES", "0")
+    monkeypatch.setattr(autonomous_mod, "SessionLocal", lambda: _FakeSession())
+    service = MT5AutonomousTradingService(_FakeAdapter("demo_10k"))
+
+    blockers = service._fast_watcher_trade_frequency_blockers({"canonical_pair": "EURUSD"})
+
+    assert "BSI_V3_FAST_DAILY_ACCOUNT_CAP" not in blockers
+
+
+def test_new_plan_persists_strategy_clock_metadata() -> None:
+    spec = next(row for row in RUNTIME_SPECS if row.strategy_id == "bsi_v3_4h_order_block")
+    ctx = _ctx()
+    fvg = {"direction": "LONG", "index": 9, "low": 1.1010, "high": 1.1018, "confirmed_at": ctx.generated_at, "timeframe": "H4"}
+
+    plan = _make_plan_from_fvg(ctx, spec, fvg, _rows_with_recent_fvg(count=12))
+
+    assert plan is not None
+    assert plan["trade_horizon"] == "SWING"
+    assert plan["planning_timeframe"] == "H4"
+    assert plan["confirmation_timeframe"] == "M15"
+    assert plan["mentor_invalidation_model"] == spec.stop_model
+
+
+def test_far_from_poi_plan_remains_dormant() -> None:
+    plan = {"direction": "LONG", "fvg_low": 1.1000, "fvg_high": 1.1010}
+
+    state = plan_monitoring_state(plan, bid=1.1200, ask=1.1201, spread=0.0001)
+
+    assert state["monitoring_state"] == "DORMANT_PLAN"
+    assert state["activation_basis"].startswith("BENSIM_ENGINEERING")
+
+
+def test_approaching_poi_activates_monitoring() -> None:
+    plan = {"direction": "LONG", "fvg_low": 1.1000, "fvg_high": 1.1010}
+
+    state = plan_monitoring_state(plan, bid=1.1025, ask=1.1026, spread=0.0001)
+
+    assert state["monitoring_state"] == "APPROACHING_POI"
+
+
+def test_inside_poi_is_active() -> None:
+    plan = {"direction": "SHORT", "fvg_low": 1.1000, "fvg_high": 1.1010}
+
+    state = plan_monitoring_state(plan, bid=1.1005, ask=1.1006, spread=0.0001)
+
+    assert state["monitoring_state"] == "POI_ACTIVE"
+
+
+def test_confirmation_id_uses_closed_confirmation_candle(monkeypatch, tmp_path) -> None:
+    monkeypatch.setenv("BSI_V3_PLANNED_ENTRY_QUEUE_PATH", str(tmp_path / "queue.json"))
+    spec = next(row for row in RUNTIME_SPECS if row.strategy_id == "bsi_v3_asian_v2")
+    ctx = _ctx(m1_rows=_rows_with_recent_fvg(count=60))
+    queue = []
+    _upsert_new_plans(ctx, [spec], queue)
+    assert queue
+    for plan in queue:
+        plan["fvg_low"] = 1.1010
+        plan["fvg_high"] = 1.1018
+    path = planned_entry_queue_path(ctx.account_id)
+    path.write_text(json.dumps(queue), encoding="utf-8")
+
+    signal = evaluate_bsi_v3_existing_planned_queue(ctx, set())
+
+    assert signal is not None
+    expected_key = ctx.m1_rows[-1]["time"]
+    assert str(signal.evidence["bsi_v3_confirmation_id"]).endswith(f":M1:{expected_key}")
 
 
 def test_queue_compaction_collapses_same_opportunity_into_confluence_row() -> None:

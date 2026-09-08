@@ -23,6 +23,35 @@ ACTIVE_OPPORTUNITY_STATUSES = {
     "RESERVED",
 }
 
+V3_TRADE_HORIZON_BY_STRATEGY = {
+    "bsi_v3_4h_order_block": "SWING",
+    "bsi_v3_mmxm": "SWING",
+    "bsi_v3_holy_grail": "SWING",
+    "bsi_v3_monday_range": "SWING",
+    "bsi_v3_4h_candle_ranges": "SWING",
+    "bsi_v3_enigma_range": "SWING",
+    "bsi_v3_order_flow": "INTRADAY",
+    "bsi_v3_abc": "INTRADAY",
+    "bsi_v3_abcd": "INTRADAY",
+    "bsi_v3_reactionary_block": "INTRADAY",
+    "bsi_v3_mmxm_second_distribution": "INTRADAY",
+    "bsi_v3_spectre": "INTRADAY",
+    "bsi_v3_weaver": "INTRADAY",
+    "bsi_v3_1h_candle_ranges": "INTRADAY",
+    "bsi_v3_smt_divergence": "SESSION",
+    "bsi_v3_asian_v2": "SESSION",
+    "bsi_v3_silver_bullet_with_bias": "SESSION",
+    "bsi_v3_juggernaut": "SESSION",
+    "bsi_v3_standard_deviation_po3": "SESSION",
+    "bsi_v3_ar50": "SESSION",
+    "bsi_v3_yin_yang": "SESSION",
+    "bsi_v3_smt_session_hl": "SESSION",
+    "bsi_v3_0930": "SCALP",
+    "bsi_v3_ict_silver_bullet": "SCALP",
+    "bsi_v3_ifvg_po3": "SCALP",
+    "bsi_v3_turtle_soups_ranges": "SCALP",
+}
+
 
 @dataclass(frozen=True)
 class CurrencyExposure:
@@ -107,6 +136,16 @@ def strategy_ids(row: dict[str, Any]) -> list[str]:
     return sorted({str(item) for item in ids if item})
 
 
+def trade_horizon(row: dict[str, Any]) -> str:
+    direct = str(row.get("trade_horizon") or "")
+    if direct:
+        return direct
+    horizons = [V3_TRADE_HORIZON_BY_STRATEGY[strategy] for strategy in strategy_ids(row) if strategy in V3_TRADE_HORIZON_BY_STRATEGY]
+    if not horizons:
+        return "UNKNOWN"
+    return Counter(horizons).most_common(1)[0][0]
+
+
 def opportunity_identity(row: dict[str, Any]) -> dict[str, str]:
     symbol = canonical_symbol(row.get("symbol") or row.get("broker_symbol"))
     direction = str(row.get("direction") or "").upper()
@@ -148,6 +187,7 @@ def canonicalize_opportunities(rows: Iterable[dict[str, Any]], *, now: datetime 
         current["status"] = str(current.get("status") or current.get("v3_poi_touch_status") or "")
         current["symbol"] = canonical_symbol(current.get("symbol") or current.get("broker_symbol"))
         current["strategies"] = strategy_ids(current)
+        current["trade_horizon"] = trade_horizon(current)
         current["quality_score"] = quality_score(current, now=now)
         current["exposure_theme"] = currency_exposure(current["symbol"], str(current.get("direction") or "")).theme
         current["shared_exposure_theme"] = shared_exposure_theme(current["symbol"], str(current.get("direction") or ""))
@@ -226,6 +266,8 @@ def signal_explosion_summary(rows: Iterable[dict[str, Any]], selected: Iterable[
     confirmed = [row for row in selected_rows if str(row.get("status") or "") in {"CONFIRMED", "CONFIRMED_FOR_ENTRY", "RESERVED", "SUBMITTING"}]
     account_ids = {str(row.get("account_id")) for row in source_rows if row.get("account_id")}
     strategy_counts = Counter(strategy for row in source_rows for strategy in strategy_ids(row))
+    horizon_counts = Counter(trade_horizon(row) for row in source_rows)
+    selected_horizons = Counter(str(row.get("trade_horizon") or "UNKNOWN") for row in selected_rows if str(row.get("portfolio_decision")) == "SELECTED")
     duplicate_reduction = 0.0 if raw == 0 else round((1.0 - (len(opportunities) / raw)) * 100.0, 2)
     return {
         "raw_observations": raw,
@@ -239,6 +281,8 @@ def signal_explosion_summary(rows: Iterable[dict[str, Any]], selected: Iterable[
         "duplicate_reduction_pct": duplicate_reduction,
         "account_replication_accounts": len(account_ids),
         "strategy_counts": dict(strategy_counts.most_common()),
+        "horizon_counts": dict(horizon_counts.most_common()),
+        "selected_horizon_counts": dict(selected_horizons.most_common()),
         "portfolio_exposure": exposure_vector(row for row in selected_rows if str(row.get("portfolio_decision")) == "SELECTED"),
     }
 

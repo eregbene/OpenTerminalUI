@@ -103,6 +103,8 @@ def _write_markdown(report: dict[str, Any], path: Path) -> None:
         f"- Portfolio-selected opportunities: `{summary['portfolio_selected_opportunities']}`",
         f"- Accepted broker trades: `{summary['accepted_broker_trades']}`",
         f"- Duplicate reduction: `{summary['duplicate_reduction_pct']}%`",
+        f"- Horizon counts: `{summary.get('horizon_counts', {})}`",
+        f"- Selected horizon counts: `{summary.get('selected_horizon_counts', {})}`",
         "",
         "## Top Opportunities",
         "",
