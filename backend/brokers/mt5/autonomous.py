@@ -173,15 +173,7 @@ def _operator_strategy_name(strategy_id: Any) -> str:
 
 
 def _operator_confluence_label(primary: Any, confluence: Any) -> str:
-    primary_name = _operator_strategy_name(primary)
-    ids = [str(item) for item in (confluence or []) if item]
-    others = [item for item in ids if item != str(primary or "")]
-    if not others:
-        return primary_name
-    named = [_operator_strategy_name(item) for item in others[:3]]
-    if len(others) < 3:
-        return f"{primary_name} + {' + '.join(named)}"
-    return f"{primary_name} +{len(others)} confluence"
+    return _operator_strategy_name(primary)
 
 
 def _operator_digits(symbol: Any) -> int:

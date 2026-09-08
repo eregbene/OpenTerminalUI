@@ -268,7 +268,8 @@ def test_operator_log_hides_full_ids_formats_bucharest_and_prices() -> None:
 
     assert "15:00:00 RO" in line
     assert "BLOCKED: ENTRY WINDOW" in line
-    assert "MMXM +3 confluence" in line
+    assert "MMXM" in line
+    assert "+3 confluence" not in line
     assert "bsi_v3_" not in line
     assert full_id not in line
     assert _operator_short_opportunity_id("GBPJPY", "SHORT", full_id).startswith("OPP-GBPJPY-S-")
@@ -550,6 +551,7 @@ def _v3_candidate(symbol: str, direction: str, opportunity_id: str, confidence: 
 
 
 def test_global_opportunity_book_defers_weaker_shared_usd_exposure(monkeypatch, tmp_path) -> None:
+    monkeypatch.setenv("BSI_V3_GLOBAL_OPPORTUNITY_BOOK_ENABLED", "true")
     monkeypatch.setenv("BSI_V3_PLANNED_ENTRY_QUEUE_PATH", str(tmp_path / "queue.json"))
     service = MT5AutonomousTradingService(_FakeAdapter("demo_10k"))
     stronger_path = planned_entry_queue_path("ftmo_demo_100k")
@@ -581,6 +583,7 @@ def test_global_opportunity_book_defers_weaker_shared_usd_exposure(monkeypatch, 
 
 
 def test_global_opportunity_book_allows_independent_selected_opportunity(monkeypatch, tmp_path) -> None:
+    monkeypatch.setenv("BSI_V3_GLOBAL_OPPORTUNITY_BOOK_ENABLED", "true")
     monkeypatch.setenv("BSI_V3_PLANNED_ENTRY_QUEUE_PATH", str(tmp_path / "queue.json"))
     service = MT5AutonomousTradingService(_FakeAdapter("demo_10k"))
     planned_entry_queue_path("ftmo_demo_100k").write_text(
