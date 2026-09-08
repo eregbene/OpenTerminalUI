@@ -327,9 +327,13 @@ def _load_queue(ctx: StrategyContext) -> list[dict[str, Any]]:
     path = _queue_path(ctx)
     try:
         if path.exists():
-            payload = json.loads(path.read_text(encoding="utf-8"))
+            text = path.read_text(encoding="utf-8")
+            try:
+                payload = json.loads(text)
+            except json.JSONDecodeError:
+                payload, _ = json.JSONDecoder().raw_decode(text)
             if isinstance(payload, list):
-                return payload
+                return _compact_queue_by_opportunity([row for row in payload if isinstance(row, dict)])
     except Exception:
         return []
     return []
@@ -561,6 +565,90 @@ def _same_poi_group(left: dict[str, Any], right: dict[str, Any]) -> bool:
         return False
     keys = ("entry", "stop", "target", "fvg_low", "fvg_high")
     return all(abs(float(left.get(key) or 0.0) - float(right.get(key) or 0.0)) <= 1e-9 for key in keys)
+
+
+def _merge_plan_confluence(target: dict[str, Any], source: dict[str, Any]) -> None:
+    status_rank = {
+        "PENDING_POI_TOUCH": 1,
+        "TOUCHED_WAITING_CONFIRMATION": 2,
+        "CONFIRMED_FOR_ENTRY": 3,
+        "RESERVED": 4,
+        "SUBMITTING": 5,
+        "BROKER_ACCEPTED": 6,
+        "CONSUMED": 6,
+        "BROKER_SUBMISSION_REJECTED": 6,
+    }
+    target_status = str(target.get("status") or "PENDING_POI_TOUCH")
+    source_status = str(source.get("status") or "PENDING_POI_TOUCH")
+    if status_rank.get(source_status, 0) > status_rank.get(target_status, 0):
+        target["status"] = source_status
+        for key in (
+            "submitted_at",
+            "submission_detail",
+            "alerted_touch_at",
+            "last_touch_at",
+            "confirmed_at",
+            "confirmation_started_at",
+            "confirmation_confirmed_at",
+            "confirmation_bar_close_at",
+            "bsi_v3_confirmation_id",
+            "confirmed_cycle_key",
+        ):
+            if source.get(key):
+                target[key] = source[key]
+    current = float(source.get("current_plan_confidence") or source.get("initial_plan_confidence") or 0.0)
+    target_current = float(target.get("current_plan_confidence") or target.get("initial_plan_confidence") or 0.0)
+    target_max = float(target.get("max_plan_confidence") or target_current)
+    if current > target_current:
+        target["current_plan_confidence"] = current
+        target["primary_strategy_id"] = source.get("strategy_id") or source.get("primary_strategy_id")
+        target["strategy_id"] = source.get("strategy_id") or target.get("strategy_id")
+    target["max_plan_confidence"] = max(target_max, float(source.get("max_plan_confidence") or current))
+    target["plan_confidence_band"] = _plan_confidence_band(float(target.get("current_plan_confidence") or target_current))
+    strategies = sorted(
+        {
+            str(item)
+            for row in (target, source)
+            for item in (row.get("confluence_strategy_ids") or [row.get("strategy_id")])
+            if item
+        }
+    )
+    target["confluence_strategy_ids"] = strategies
+    videos = sorted(
+        {
+            str(item)
+            for row in (target, source)
+            for item in (row.get("confluence_source_videos") or row.get("source_videos") or [])
+            if item
+        }
+    )
+    target["confluence_source_videos"] = videos
+    plan_ids = sorted(
+        {
+            str(item)
+            for row in (target, source)
+            for item in (row.get("confluence_plan_ids") or [row.get("plan_id")])
+            if item
+        }
+    )
+    target["confluence_plan_ids"] = plan_ids
+
+
+def _compact_queue_by_opportunity(queue: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    by_opportunity: dict[str, dict[str, Any]] = {}
+    compacted: list[dict[str, Any]] = []
+    for row in queue:
+        opportunity_id = str(row.get("bsi_v3_entry_opportunity_id") or "")
+        if not opportunity_id:
+            compacted.append(row)
+            continue
+        existing = by_opportunity.get(opportunity_id)
+        if existing is None:
+            by_opportunity[opportunity_id] = row
+            compacted.append(row)
+            continue
+        _merge_plan_confluence(existing, row)
+    return compacted
 
 
 def _confluent_plans(queue: list[dict[str, Any]], anchor: dict[str, Any]) -> list[dict[str, Any]]:
@@ -833,7 +921,7 @@ def evaluate_bsi_v3_existing_planned_queue(ctx: StrategyContext, allowed_strateg
 def _evaluate_bsi_v3_planned_runtime_detectors(ctx: StrategyContext, allowed_strategy_ids: set[str], *, create_new_plans: bool) -> StrategySignal | None:
     min_rr = _env_float("MT5_BSI_V3_MIN_RISK_REWARD", 1.25)
     allowed_specs = [spec for spec in RUNTIME_SPECS if (not allowed_strategy_ids or spec.strategy_id in allowed_strategy_ids)]
-    queue = _load_queue(ctx)
+    queue = _compact_queue_by_opportunity(_load_queue(ctx))
     now = ctx.generated_at.astimezone(timezone.utc)
     cycle_key = _live_cycle_key(ctx)
     min_plan_confidence = _env_float("BSI_V3_MIN_PLAN_CONFIDENCE", 65.0)
@@ -843,6 +931,7 @@ def _evaluate_bsi_v3_planned_runtime_detectors(ctx: StrategyContext, allowed_str
 
     if create_new_plans:
         _upsert_new_plans(ctx, allowed_specs, queue)
+        queue = _compact_queue_by_opportunity(queue)
 
     for plan in queue:
         if str(plan.get("symbol") or "").upper() != ctx.symbol.upper():
@@ -927,7 +1016,8 @@ def _evaluate_bsi_v3_planned_runtime_detectors(ctx: StrategyContext, allowed_str
     op, plan, confirmation_tf = best
     spec = op.spec
     confluent = _confluent_plans(active, plan)
-    confluent_plan_ids = sorted({str(row.get("plan_id") or "") for row in confluent if row.get("plan_id")})
+    stored_confluent_plan_ids = {str(plan_id) for plan_id in (plan.get("confluence_plan_ids") or []) if plan_id}
+    confluent_plan_ids = sorted(stored_confluent_plan_ids | {str(row.get("plan_id") or "") for row in confluent if row.get("plan_id")})
     confluent_strategy_ids = sorted(
         set(
             str(strategy)

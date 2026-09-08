@@ -6,6 +6,7 @@ fail closed when a strategy/symbol bucket is not allowed.
 """
 from __future__ import annotations
 
+import os
 from dataclasses import replace
 
 from backend.adaptive_management.v3_faiz import (
@@ -14,6 +15,7 @@ from backend.adaptive_management.v3_faiz import (
 )
 from backend.mt5_strategies.context import StrategyContext
 from backend.mt5_strategies.families.bsi_v2_engine import evaluate_bsi_v2_active
+from backend.mt5_strategies.families.bsi_v3_runtime_detectors import evaluate_bsi_v3_planned_runtime_detectors, evaluate_bsi_v3_runtime_detectors
 from backend.mt5_strategies.models import StrategySignal, invalid_signal
 
 
@@ -52,11 +54,83 @@ def _reject(ctx: StrategyContext, reason: str, evidence: dict | None = None) -> 
 def evaluate_bsi_v3_profile_gated(ctx: StrategyContext) -> StrategySignal:
     """Evaluate BSI through the V3 next-session adaptive profile gate.
 
-    Candidate geometry is still supplied by the existing BSI lane until the full
-    V3 detector registry is promoted into backend runtime modules. The V3 profile
-    is therefore a hard pre-routing gate, not a claim that every V3 video detector
-    is live in MT5.
+    The primary path is the strategy-specific V3 runtime detector registry. The
+    older V2-geometry bridge is now an explicit opt-out fallback only.
     """
+
+    profile = load_v3_next_session_profile()
+    if profile is None:
+        return _reject(ctx, "v3_next_session_profile_missing")
+    if not profile.point_in_time_safe:
+        return _reject(
+            ctx,
+            "v3_profile_not_point_in_time_safe",
+            {"v3_profile_id": profile.profile_id, "v3_risk_mode": profile.risk_mode},
+        )
+    if profile.generic_detector_routing_count:
+        return _reject(
+            ctx,
+            "v3_profile_contains_generic_detector_routes",
+            {"v3_profile_id": profile.profile_id, "v3_risk_mode": profile.risk_mode},
+        )
+
+    allowed_strategy_ids = {bucket.strategy_id for bucket in profile.allowed_buckets if bucket.symbol == ctx.symbol.upper()}
+    blocked_strategy_ids = {bucket.strategy_id for bucket in profile.blocked_buckets if bucket.symbol == ctx.symbol.upper()}
+
+    planned_enabled = os.getenv("BSI_V3_PLANNED_ENTRY_LIVE", "true").strip().lower() not in {"false", "0", "off", "no"}
+    runtime_signal = (
+        evaluate_bsi_v3_planned_runtime_detectors(ctx, set())
+        if planned_enabled
+        else evaluate_bsi_v3_runtime_detectors(ctx, set())
+    )
+    if runtime_signal is not None and runtime_signal.valid:
+        v3_strategy_id = str(runtime_signal.evidence.get("v3_strategy_id") or "")
+        if v3_strategy_id in blocked_strategy_ids:
+            return _reject(
+                ctx,
+                "v3_profile_reliable_hard_block",
+                {
+                    "v3_strategy_id": v3_strategy_id,
+                    "v3_profile_id": profile.profile_id,
+                    "v3_risk_mode": profile.risk_mode,
+                    "v3_bridge_source": "v3_runtime_detector_registry",
+                },
+            )
+        decision = allow_v3_demo_entry_from_profile(profile, strategy_id=v3_strategy_id, symbol=ctx.symbol)
+        if not decision.allow_entry:
+            return _reject(
+                ctx,
+                decision.reason,
+                {
+                    "v3_strategy_id": v3_strategy_id,
+                    "v3_profile_id": decision.profile_id,
+                    "v3_risk_mode": decision.risk_mode,
+                    "v3_bridge_source": "v3_runtime_detector_registry",
+                },
+            )
+        return replace(
+            runtime_signal,
+            evidence={
+                **runtime_signal.evidence,
+                "v3_profile_id": decision.profile_id,
+                "v3_risk_mode": decision.risk_mode,
+                "v3_profile_decision": decision.reason,
+            },
+            metadata={**runtime_signal.metadata, "active_methodology": BSI_BASELINE_V3_UPDATED_FAIZ},
+        )
+
+    if os.getenv("BSI_V3_ALLOW_V2_GEOMETRY_FALLBACK", "false").strip().lower() not in {"1", "true", "yes", "on"}:
+        return _reject(
+            ctx,
+            "V3_RUNTIME_DETECTOR_NO_SETUP",
+            {
+                "v3_profile_id": profile.profile_id,
+                "v3_risk_mode": profile.risk_mode,
+                "v3_allowed_strategy_ids_for_symbol": sorted(allowed_strategy_ids),
+                "v3_blocked_strategy_ids_for_symbol": sorted(blocked_strategy_ids),
+                "v3_bridge_source": "v3_runtime_detector_registry",
+            },
+        )
 
     signal = evaluate_bsi_v2_active(ctx)
     if not signal.valid:
@@ -80,7 +154,6 @@ def evaluate_bsi_v3_profile_gated(ctx: StrategyContext) -> StrategySignal:
             {"setup_subtype": subtype, "v3_bridge_source": "bsi_v2_candidate_geometry"},
         )
 
-    profile = load_v3_next_session_profile()
     decision = allow_v3_demo_entry_from_profile(profile, strategy_id=v3_strategy_id, symbol=ctx.symbol)
     if not decision.allow_entry:
         return _reject(

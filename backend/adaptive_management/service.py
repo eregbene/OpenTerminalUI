@@ -12,6 +12,7 @@ from typing import Any
 
 from backend.adaptive_management import tp_protection
 from backend.adaptive_management.event_capture import capture_management_event, capture_position_baseline
+from backend.adaptive_management.v3_faiz import V3AdaptiveState, select_v3_demo_management_action
 from backend.adaptive_management.orm import (
     AdaptiveActivationORM,
     AdaptiveBrokerActionResultORM,
@@ -62,6 +63,51 @@ REWARD_VERSION = "adaptive_reward_v1"
 ACTIVE_POLICY_ID = "conservative_demo_manager_v1"
 ACTIVE_POLICY_VERSION = "v2"
 logger = logging.getLogger(__name__)
+
+V3_MANAGEMENT_MODEL_BY_STRATEGY = {
+    "bsi_v3_order_flow": "MENTOR_FINAL_TARGET_LIQUIDITY",
+    "bsi_v3_asian_session": "MENTOR_SESSION_SMT_BE_1R_OR_STRONG_BIAS_1_5R",
+    "bsi_v3_new_york_session": "MENTOR_SESSION_SMT_BE_1R_OR_STRONG_BIAS_1_5R",
+    "bsi_v3_abc": "MENTOR_PARTIAL_AT_POI_OR_2R",
+    "bsi_v3_abcd": "MENTOR_PARTIAL_AT_POI_OR_2R",
+    "bsi_v3_under_over": "MENTOR_FIXED_1R_BE_2R_TARGET",
+    "bsi_v3_reactionary_block": "MENTOR_FINAL_TARGET_LIQUIDITY",
+    "bsi_v3_ob_liquidity": "MENTOR_FINAL_TARGET_LIQUIDITY",
+    "bsi_v3_0930": "MENTOR_SESSION_SMT_BE_1R_OR_STRONG_BIAS_1_5R",
+    "bsi_v3_silver_bullet": "MENTOR_SESSION_SMT_BE_1R_OR_STRONG_BIAS_1_5R",
+    "bsi_v3_holy_grail": "MENTOR_PARTIAL_AT_POI_OR_2R",
+    "bsi_v3_ifvg": "MENTOR_IFVG_CLOSEST_LIQUIDITY_BE",
+    "bsi_v3_turtle_soup": "MENTOR_TURTLE_RANGE_PARTIAL_BE_AT_0_5",
+    "bsi_v3_4h_ob": "MENTOR_FINAL_TARGET_LIQUIDITY",
+    "bsi_v3_4h_order_block": "MENTOR_FIXED_1R_BE_2R_TARGET",
+    "bsi_v3_mmxm_second_distribution": "MENTOR_FINAL_TARGET_LIQUIDITY",
+    "bsi_v3_spectre": "MENTOR_FINAL_TARGET_LIQUIDITY",
+    "bsi_v3_monday_range": "MENTOR_RANGE_TARGET",
+    "bsi_v3_weaver": "MENTOR_FINAL_TARGET_LIQUIDITY",
+    "bsi_v3_ar50": "MENTOR_FINAL_TARGET_LIQUIDITY",
+    "bsi_v3_yin_yang": "MENTOR_FIXED_1R_BE_2R_TARGET",
+    "bsi_v3_4h_candle_ranges": "MENTOR_CANDLE_RANGE_PARTIAL_BE_TARGET_OPPOSITE_SIDE",
+    "bsi_v3_enigma_range": "MENTOR_ENIGMA_PARTIAL_BE_0_5_TARGET_0_79_OR_1_0",
+    "bsi_v3_1h_candle_range": "MENTOR_1H_CRD_PARTIAL_AT_50_PERCENT_RANGE",
+}
+
+V3_COMMENT_STRATEGY_CODES = {
+    "v3flow": "bsi_v3_order_flow",
+    "v3abc": "bsi_v3_abc",
+    "v3abcd": "bsi_v3_abcd",
+    "v3react": "bsi_v3_reactionary_block",
+    "v34hob": "bsi_v3_4h_order_block",
+    "v3mmx2": "bsi_v3_mmxm_second_distribution",
+    "v3holy": "bsi_v3_holy_grail",
+    "v3spec": "bsi_v3_spectre",
+    "v3mon": "bsi_v3_monday_range",
+    "v3weav": "bsi_v3_weaver",
+    "v3sd": "bsi_v3_standard_deviation_po3",
+    "v3ar50": "bsi_v3_ar50",
+    "v3yy": "bsi_v3_yin_yang",
+    "v34hcr": "bsi_v3_4h_candle_ranges",
+    "v3enig": "bsi_v3_enigma_range",
+}
 
 # v2 action types added by the trade-sizing/profit-protection overhaul. Execution of these (like
 # every other action type) is gated by account CLASSIFICATION, not by a manual env opt-in: see
@@ -122,6 +168,30 @@ VOLUME_CLOSE_ACTION_TYPES = {"PARTIAL_PROFIT", "EVENT_RISK_REDUCTION", "MFE_PROT
 RATE_LIMIT_EXEMPT_ACTION_TYPES = {"THESIS_INVALIDATION_CLOSE", "VALIDATION_INCIDENT_CLOSE"}
 
 
+async def _mt5_account_with_retries(adapter: Any, *, attempts: int | None = None, delay_seconds: float | None = None) -> Any:
+    """Retry transient MT5/bridge account reads without weakening account-identity safety."""
+    if attempts is None:
+        try:
+            attempts = int(os.getenv("MT5_ACCOUNT_LOOKUP_RETRY_ATTEMPTS", "5"))
+        except Exception:
+            attempts = 5
+    if delay_seconds is None:
+        try:
+            delay_seconds = float(os.getenv("MT5_ACCOUNT_LOOKUP_RETRY_DELAY_SECONDS", "0.5"))
+        except Exception:
+            delay_seconds = 0.5
+    last_exc: Exception | None = None
+    for attempt in range(max(1, attempts)):
+        try:
+            return await adapter.mt5_account()
+        except Exception as exc:
+            last_exc = exc
+            if attempt < attempts - 1:
+                await asyncio.sleep(delay_seconds)
+    assert last_exc is not None
+    raise last_exc
+
+
 def v2_mode() -> str:
     """Operator kill-switch for the v2 action types (see V2_ACTION_TYPES), independent of the
     base mode()/ACCOUNT MODES classification gate. Read fresh on every call, matching
@@ -179,6 +249,15 @@ def learning_recommendation_mode() -> str:
     downstream of it can currently act."""
     value = os.getenv("LEARNING_RECOMMENDATION_MODE", "shadow").strip().lower()
     return value if value in {"disabled", "shadow", "enforce"} else "shadow"
+
+
+def _bsi_v2_adaptive_actions_enabled() -> bool:
+    return os.getenv("BSI_V2_ADAPTIVE_ACTIONS_ENABLED", "false").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _is_bsi_v2_position(state: Any) -> bool:
+    strategy_id = normalize_strategy_id(getattr(state, "strategy_id", None))
+    return strategy_id.startswith("bsi_v2")
 
 
 @dataclass(frozen=True)
@@ -273,21 +352,6 @@ class AdaptiveManagementService:
         # adapter_for_account(...) instance) always have .config -- this only falls back to the
         # global mt5_config() for adapters that predate this attribute.
         return getattr(self.adapter, "config", None) or mt5_config()
-
-    def _broker_utc_offset(self) -> timedelta:
-        """2026-08-24 MTFAI1 forensic audit fix: MT5Client.broker_utc_offset() (backend/brokers/
-        mt5/client.py, built + tested 2026-08-19) detects and corrects the ~3h broker-server-time
-        skew confirmed in this deployment's own position data (that method's own docstring cites
-        529/534 adaptive-management positions with closed_detected_at earlier than opened_at --
-        a chronological impossibility). That method was never actually wired into any real code
-        path -- only its own unit tests called it. This wires it into _position_time so
-        AdaptivePositionStateORM.opened_at stops being silently ~3h ahead of true UTC. Fails open
-        (timedelta(0), i.e. old behavior) for adapters that don't expose .client.broker_utc_offset
-        -- e.g. lightweight fakes in existing tests -- never raises."""
-        try:
-            return self.adapter.client.broker_utc_offset()
-        except Exception:
-            return timedelta(0)
 
     async def start(self) -> None:
         if self._task and not self._task.done():
@@ -569,14 +633,18 @@ class AdaptiveManagementService:
             state = db.get(AdaptivePositionStateORM, position_id)
             if state is None:
                 return {"status": "NOT_FOUND", "position_id": position_id}
-            # Duplicate-close guard: an already-submitted VALIDATION_INCIDENT_CLOSE for this
+            # Duplicate-close guard: an already-submitted/accepted VALIDATION_INCIDENT_CLOSE for this
             # position means the broker mutation already happened. Never resubmit -- report the
             # original outcome instead. This is bucket/time-independent, unlike the generic
             # idempotency-key dedup in _persist_action (which only catches an exact repeat
             # within the same minute bucket).
             existing = (
                 db.query(AdaptiveManagementActionORM)
-                .filter(AdaptiveManagementActionORM.position_id == position_id, AdaptiveManagementActionORM.action_type == "VALIDATION_INCIDENT_CLOSE", AdaptiveManagementActionORM.status == "submitted")
+                .filter(
+                    AdaptiveManagementActionORM.position_id == position_id,
+                    AdaptiveManagementActionORM.action_type == "VALIDATION_INCIDENT_CLOSE",
+                    AdaptiveManagementActionORM.status.in_(("submitted", "accepted")),
+                )
                 .order_by(AdaptiveManagementActionORM.created_at.desc())
                 .first()
             )
@@ -1162,7 +1230,11 @@ class AdaptiveManagementService:
                 if key:
                     deals_by_position.setdefault(key, []).append(row)
             actions_by_position: dict[str, list[AdaptiveManagementActionORM]] = {}
-            for row in db.query(AdaptiveManagementActionORM).filter(AdaptiveManagementActionORM.status == "submitted").all():
+            for row in (
+                db.query(AdaptiveManagementActionORM)
+                .filter(AdaptiveManagementActionORM.status.in_(("submitted", "accepted")))
+                .all()
+            ):
                 actions_by_position.setdefault(row.position_id, []).append(row)
 
         records: list[dict[str, Any]] = []
@@ -1371,7 +1443,7 @@ class AdaptiveManagementService:
             # after switching MT5 accounts. None on lookup failure fails safe: _can_execute
             # treats "can't determine the account" the same as "wrong account" (blocked).
             try:
-                live_account = await self.adapter.mt5_account()
+                live_account = await _mt5_account_with_retries(self.adapter)
                 current_fingerprint = account_registry.fingerprint_account(live_account).fingerprint_hash
             except Exception as exc:
                 # Was previously silent (bare `except Exception: current_fingerprint = None`),
@@ -1379,7 +1451,7 @@ class AdaptiveManagementService:
                 # healthy cycle in every log/metric: _can_execute() fails closed on
                 # current_fingerprint=None (correct), but nobody could ever tell THAT was why a
                 # position's protective actions kept getting selected and never executed.
-                logger.warning("Adaptive trade manager: mt5_account()/fingerprint lookup failed this cycle, execution will fail closed: %s", exc.__class__.__name__)
+                logger.warning("Adaptive trade manager: mt5_account()/fingerprint lookup failed account_id=%s this cycle, execution will fail closed: %s", self.account_id, exc.__class__.__name__)
                 current_fingerprint = None
                 live_account = None
             # Deliberately a separate try/except from the fingerprint lookup above: equity is
@@ -1577,7 +1649,21 @@ class AdaptiveManagementService:
         logger.error("Adaptive trade manager: position evaluation failed, skipping this position only (ticket=%s symbol=%s exception=%s): %s", ticket, symbol, exc.__class__.__name__, safe_summary)
 
     def _auto_recover_breaker(self, db: Any, breaker: Any) -> None:
-        if breaker.state != "open" or not str(breaker.reason or "").startswith("BROKER_NOT_READY"):
+        reason = str(breaker.reason or "")
+        recoverable_broker_ready = reason.startswith("BROKER_NOT_READY")
+        rejection_recovery_seconds = _env_int(
+            "ADAPTIVE_BREAKER_REJECTION_AUTO_RECOVER_SECONDS",
+            900,
+            minimum=60,
+            maximum=86_400,
+        )
+        opened_at = _as_aware(breaker.opened_at)
+        recoverable_no_retcode_rejection = bool(
+            reason == "MT5_REJECTED:None"
+            and opened_at
+            and (utcnow() - opened_at).total_seconds() >= rejection_recovery_seconds
+        )
+        if breaker.state != "open" or not (recoverable_broker_ready or recoverable_no_retcode_rejection):
             return
         previous_reason = breaker.reason
         breaker.state = "closed"
@@ -1591,7 +1677,15 @@ class AdaptiveManagementService:
         logger.warning("Adaptive circuit breaker auto-recovered: broker reachable again after %s", previous_reason)
 
     async def _reconcile_recently_closed(self, db: Any, currently_open_ids: set[str]) -> None:
-        tracked = db.query(AdaptivePositionStateORM).filter(AdaptivePositionStateORM.closed_detected_at.is_(None), AdaptivePositionStateORM.opened_at.isnot(None)).all()
+        tracked = (
+            db.query(AdaptivePositionStateORM)
+            .filter(
+                AdaptivePositionStateORM.account_id == self.account_id,
+                AdaptivePositionStateORM.closed_detected_at.is_(None),
+                AdaptivePositionStateORM.opened_at.isnot(None),
+            )
+            .all()
+        )
         newly_closed = [row for row in tracked if row.position_id not in currently_open_ids]
         if not newly_closed:
             return
@@ -1688,7 +1782,22 @@ class AdaptiveManagementService:
         row = db.get(AdaptivePositionStateORM, position_id) or AdaptivePositionStateORM(position_id=position_id)
         row.account_id = self.account_id
         direction = _position_direction(payload)
-        opened_at = _position_time(payload, utc_offset=self._broker_utc_offset())
+        # 2026-08-27 forensic fix: payload comes from self.adapter.mt5_positions(), which already
+        # converts each position's raw MT5 broker-server time to true UTC (backend/brokers/mt5/
+        # adapter.py::mt5_positions() -> position_from_raw(row, broker_utc_offset=offset)). The
+        # 2026-08-24 fix below (see git history) additionally subtracted the SAME offset again
+        # here, double-correcting opened_at ~3h into the past. Confirmed live: real order fill
+        # 13:31:56 UTC was recorded as opened_at=10:31:54 UTC -- exactly the deployment's ~3h
+        # broker offset, in the direction double-subtraction produces. With opened_at stuck 3h in
+        # the past, _candles_held() (fed up to 120 recent M5 candles by _safe_candles) instantly
+        # counted ~36 candles as "already held" on the position's very FIRST management cycle
+        # (loop runs every ADAPTIVE_TRADE_MANAGEMENT_INTERVAL_SECONDS, default 10s), clearing the
+        # ADAPTIVE_TIME_EXIT_CANDLES=24 threshold and firing a real TIME_EXIT close within
+        # seconds of nearly every position opened -- confirmed against 88/88 broker-mutating
+        # adaptive_management_actions rows in a 48h window, all reason_code=no_progress_time_exit,
+        # all max_r=0.0. payload["time"] must be trusted as already-true-UTC here; no further
+        # offset correction belongs at this call site.
+        opened_at = _position_time(payload)
         current_price = float(payload.get("price_current") or payload.get("price_open") or 0)
         entry = float(payload.get("price_open") or current_price or 0)
         sl = _float(payload.get("sl"))
@@ -1735,6 +1844,11 @@ class AdaptiveManagementService:
         row.broker_ticket = str(payload.get("ticket") or payload.get("identifier") or position_id)
         row.thesis_id = _lineage(payload.get("comment"), "setup")
         row.opened_at = opened_at
+        # If a transient broker/bridge outage marked this still-live broker position closed,
+        # a later confirmed broker sighting must reopen the adaptive state. Otherwise
+        # reconciliation excludes the row and reports BROKER_POSITION_MISSING_IN_DB, blocking
+        # new entries for that account until manual cleanup.
+        row.closed_detected_at = None
         row.original_volume = row.original_volume or volume
         row.current_volume = volume
         row.entry_price = entry
@@ -1984,6 +2098,17 @@ class AdaptiveManagementService:
         r_now, r_source = _compute_r(profit_usd=_float(payload.get("profit")), original_risk_money=state.original_risk_money, entry=entry, current_price=price, original_sl_for_risk=(float(state.original_sl) if state.original_sl is not None else None), direction=state.direction, risk=risk)
         r_reliable = r_source != "UNAVAILABLE"
         candidates = [ManagementCandidate("HOLD", 100, reason="no_management_trigger", evidence={"r": r_now, "r_source": r_source, "max_r": state.max_achieved_r, "tp_progress": state.tp_progress, "winner_classification": state.winner_classification})]
+        is_bsi_position = (state.strategy_id or "").strip().lower().startswith("bsi")
+        bsi_adaptive_v2_active = is_bsi_position and os.getenv("BSI_ADAPTIVE_V2_ENABLED", "false").strip().lower() not in {"false", "0", "off", "no"}
+        if _is_bsi_v2_position(state) and not _bsi_v2_adaptive_actions_enabled():
+            return [
+                ManagementCandidate(
+                    "HOLD",
+                    1,
+                    reason="bsi_v2_adaptive_actions_disabled",
+                    evidence={"r": r_now, "r_source": r_source, "strategy_id": state.strategy_id},
+                )
+            ]
         if not state.current_sl or not state.current_tp:
             candidates.append(ManagementCandidate("HOLD", 1, reason="missing_static_protection_preserve_manual_review", evidence={"sl": state.current_sl, "tp": state.current_tp}))
             return candidates
@@ -1993,7 +2118,8 @@ class AdaptiveManagementService:
             # cycle (not fabricated as HOLD-with-r=0, which would look like "flat/no progress"
             # rather than "unknown"). The account-scaled equity-profit protection layer
             # (_account_scaled_profit_protection) is R-independent and still runs normally.
-            candidates.extend(self._account_scaled_profit_protection(state, payload, candidates, 0.0, 0.0, "insufficient_data", account_equity))
+            if not bsi_adaptive_v2_active:
+                candidates.extend(self._account_scaled_profit_protection(state, payload, candidates, 0.0, 0.0, "insufficient_data", account_equity))
             return candidates
         if _opposing_candles(candles, state.direction) >= 2 and r_now < -0.25:
             invalidation_candidate = ManagementCandidate("THESIS_INVALIDATION_CLOSE", 10, requested_volume=float(state.current_volume), reason="two_completed_opposing_candles_after_adverse_move", evidence={"r": r_now})
@@ -2018,6 +2144,7 @@ class AdaptiveManagementService:
 
         economic_decision = str(((economic_result or {}).get("guard") or {}).get("decision") or "ALLOW").upper()
         manage_existing_only = economic_decision in {"MANAGE_EXISTING_ONLY", "BLOCK"}
+        cooldown_ok = _cooldown_elapsed(state.last_management_at)
         if economic_decision == "REDUCE_SIZE" and r_now > 0:
             # Priority 21: same tier as the existing EVENT_RISK_REDUCTION(20) -- deliberately
             # ranked below THESIS_INVALIDATION_CLOSE(10) and above the TP-progress protection
@@ -2033,6 +2160,56 @@ class AdaptiveManagementService:
             # happens below via the `manage_existing_only` flag directly, not via priority.
             candidates.append(ManagementCandidate("ECONOMIC_MANAGE_EXISTING_ONLY", 95, reason="forex_factory_calendar_manage_existing_only", evidence={"r": r_now, "economic_guard": economic_result}))
 
+        normalized_strategy_id = normalize_strategy_id(state.strategy_id)
+        is_bsi_v3_position = normalized_strategy_id.startswith("bsi_v3")
+        if is_bsi_v3_position:
+            model = V3_MANAGEMENT_MODEL_BY_STRATEGY.get(normalized_strategy_id, "MENTOR_FINAL_TARGET_LIQUIDITY")
+            direction = "LONG" if str(state.direction or "").upper() in {"BUY", "LONG"} else "SHORT"
+            current_sl = float(state.current_sl) if state.current_sl is not None else None
+            stop_at_breakeven = bool(
+                current_sl is not None
+                and ((direction == "LONG" and current_sl >= entry) or (direction == "SHORT" and current_sl <= entry))
+            )
+            v3_decision = select_v3_demo_management_action(
+                V3AdaptiveState(
+                    strategy_id=normalized_strategy_id,
+                    management_model=model,
+                    entry=entry,
+                    stop=float(state.original_sl or state.current_sl or entry),
+                    target=float(state.current_tp or state.original_tp or entry),
+                    current_price=price,
+                    direction=direction,
+                    partials_taken=0 if (state.partial_profit_stage or "NONE") == "NONE" else 1,
+                    stop_at_breakeven=stop_at_breakeven,
+                    target_side_liquidity_taken=float(state.max_tp_progress or state.tp_progress or 0) >= 0.95,
+                )
+            )
+            if v3_decision.action == "MOVE_SL_BREAKEVEN" and cooldown_ok and not manage_existing_only:
+                requested_sl = float(v3_decision.requested_sl if v3_decision.requested_sl is not None else entry)
+                if _stop_improves(state.direction, requested_sl, state.current_sl):
+                    candidates.append(
+                        ManagementCandidate(
+                            "MOVE_SL_BREAKEVEN",
+                            50,
+                            requested_sl=requested_sl,
+                            requested_tp=state.current_tp,
+                            reason=v3_decision.reason,
+                            evidence={"r": r_now, "policy": "BSI_V3_ADAPTIVE", "management_model": model},
+                        )
+                    )
+            elif v3_decision.action == "PARTIAL_CLOSE":
+                fraction = float(v3_decision.partial_fraction or 0.5)
+                candidates.append(
+                    ManagementCandidate(
+                        "PARTIAL_PROFIT",
+                        40,
+                        requested_volume=float(state.current_volume) * max(0.0, min(1.0, fraction)),
+                        reason=v3_decision.reason,
+                        evidence={"r": r_now, "policy": "BSI_V3_ADAPTIVE", "management_model": model, "target_stage": "BSI_V3_PARTIAL", "requested_fraction": fraction},
+                    )
+                )
+            return candidates
+
         max_r = float(state.max_achieved_r or 0)
         regime_info = detect_regime(candles, context=context)
         regime = str(regime_info.get("regime", "insufficient_data"))
@@ -2040,10 +2217,9 @@ class AdaptiveManagementService:
         atr_r = (atr / risk) if atr else 0.0
         timeframe = os.getenv("ADAPTIVE_MANAGEMENT_TIMEFRAME", "M5")
         normalized_candles = [row for row in (_normalize_candle(item) for item in candles) if row]
-        cooldown_ok = _cooldown_elapsed(state.last_management_at)
 
         floor = tp_protection.resolve_profit_lock_floor(max_tp_progress=float(state.max_tp_progress or 0), max_achieved_r=max_r, regime=regime, atr_r=atr_r)
-        if floor["triggered"] and r_now < float(floor["floor_r"] or 0):
+        if not bsi_adaptive_v2_active and floor["triggered"] and r_now < float(floor["floor_r"] or 0):
             action_kind, fraction = _resolve_profit_lock_action(state.winner_classification, float(state.max_tp_progress or 0))
             candidates.append(
                 ManagementCandidate(
@@ -2065,7 +2241,7 @@ class AdaptiveManagementService:
         elif max_r >= 1.0:
             allowance_fraction = min(allowance_fraction, _env_float("MFE_GIVEBACK_LIMIT_AFTER_1R", 0.50))
         allowance_r = allowance_fraction * max_r
-        if max_r >= _env_float("ADAPTIVE_MFE_MIN_R", 0.25) and giveback_r > allowance_r:
+        if not bsi_adaptive_v2_active and max_r >= _env_float("ADAPTIVE_MFE_MIN_R", 0.25) and giveback_r > allowance_r:
             # 2026-08-18: backtested against 80 real closed trades (2026-08-13/14) before this
             # split existed -- a bare full close with ADAPTIVE_MFE_MIN_R lowered to 0.25 to catch
             # early giveback tested net -2.895R worse than not lowering it at all: it correctly
@@ -2113,7 +2289,7 @@ class AdaptiveManagementService:
 
         zone = tp_protection.progress_zone(state.tp_progress)
         zone_stage = {"zone_25_60": "stage_1", "zone_60_75": "stage_1", "zone_75_85": "stage_1", "zone_85_95": "stage_2", "zone_95_plus": "runner"}.get(zone)
-        if zone_stage and state.winner_classification in {"weakening", "critical"} and not _stage_already_executed(db, state.position_id, zone_stage):
+        if not bsi_adaptive_v2_active and zone_stage and state.winner_classification in {"weakening", "critical"} and not _stage_already_executed(db, state.position_id, zone_stage):
             fraction = {"stage_1": _env_float("ADAPTIVE_TP_STAGE1_FRACTION", 0.25), "stage_2": _env_float("ADAPTIVE_TP_STAGE2_FRACTION", 0.30), "runner": _env_float("ADAPTIVE_TP_RUNNER_FRACTION", 0.5)}[zone_stage]
             candidates.append(
                 ManagementCandidate(
@@ -2125,14 +2301,81 @@ class AdaptiveManagementService:
                 )
             )
 
+        # BSI_ADAPTIVE_V1 (research-validated, feature-flagged, DEFAULT OFF -- see
+        # BSI_MENTOR_TRADE_MANAGEMENT_REPORT.md / BSI_BAR_BY_BAR_VALIDATION_REPORT.md for the
+        # evidence this is built from): bar-by-bar-validated replay of 502 Under/Over + 3266 New
+        # York + 178 ABCD + 28 Order Flow BSI occurrences found the GENERIC partial-profit stage
+        # machine below (25% @ +0.5R, 33% more @ +1.0R) measurably REDUCES total realized R for
+        # every BSI subtype tested (e.g. Under/Over: +0.818R baseline -> +0.662R under the generic
+        # manager) -- it locks in profit far earlier than BSI's own natural-liquidity-target
+        # winners typically run. A single downside-only rule (move stop to breakeven once price
+        # reaches +0.5R of planned risk, no forced partial) outperformed BOTH the static baseline
+        # AND the generic manager, robustly, across both halves of the 6-month window, every
+        # individual month, and both trade directions, for every BSI subtype with enough sample to
+        # judge. `_is_bsi_strategy` identifies any BSI-family position (bsi_engine.py's own
+        # `_STRATEGY_ID = "bsi"`, with confirmation-mode variants "bsi_reactionary"/
+        # "bsi_ob_liquidity" sharing the same prefix) -- SUBTYPE-agnostic by design, since the
+        # BE-at-+0.5R finding held uniformly across every subtype tested, not just Under/Over.
+        # Master kill switch: BSI_ADAPTIVE_ENABLED (default false). Even when true, this can only
+        # ever affect a BSI position, and BSI's own STRATEGY_FAMILIES entry remains
+        # default_activation=DISABLED (untouched by this change) -- so this code path is inert on
+        # every account until BOTH BSI itself and this flag are deliberately turned on.
+        bsi_adaptive_active = is_bsi_position and os.getenv("BSI_ADAPTIVE_ENABLED", "false").strip().lower() not in {"false", "0", "off", "no"}
+
+        # BSI_ADAPTIVE_V2 (2026-09-02, user-authorized build+DEMO-forward-validation, DEFAULT
+        # OFF): a SIBLING to V1's own gate above, not a replacement -- every line of V1's own
+        # code/env vars in this method is otherwise byte-for-byte unchanged (BSI_ADAPTIVE_V1
+        # stays exactly as-is per the explicit instruction, preserved for history as a failed
+        # hypothesis). Where V1 found that a single downside-only breakeven-at-+0.5R rule (no
+        # forced partial at all) beat both the static baseline and the generic manager, V2 tests a
+        # different, still mentor-faithful hypothesis on real DEMO positions going forward: hold
+        # toward the position's own BSI_BASELINE_V1-computed target with NO generic-manager
+        # machinery at all (no 25%@0.5R partial, no 33%@1R partial, no breakeven@1R, no V1-style
+        # breakeven@0.5R either), EXCEPT for exactly one partial once tp_progress reaches
+        # BSI_ADAPTIVE_V2_PARTIAL_AT_TP_PROGRESS (default 0.60) -- see the partial-stage machine
+        # and breakeven block below, both extended with a new bsi_adaptive_v2_active branch.
+        # Precedence: if both BSI_ADAPTIVE_ENABLED and BSI_ADAPTIVE_V2_ENABLED are ever set
+        # together, V2 wins (re-deriving bsi_adaptive_active with an explicit "not
+        # bsi_adaptive_v2_active" guard below) -- this guard is a no-op, changing nothing, whenever
+        # BSI_ADAPTIVE_V2_ENABLED is unset/false, so V1's behavior when V2 is off is unaffected.
+        bsi_adaptive_active = bsi_adaptive_active and not bsi_adaptive_v2_active
+
         # PARTS 9-10: persistent partial-profit stage machine, gated by state.partial_profit_stage
         # (not just the cooldown) -- an EXECUTED stage can never fire its candidate again
         # regardless of r_now/cooldown; a PENDING/RECONCILIATION_REQUIRED stage never generates a
         # new candidate while its prior attempt is unresolved (see
         # _reconcile_pending_partial_stages, which resolves any stuck PENDING row before this
         # code ever runs again on the same cycle).
+        # BSI_ADAPTIVE_V1: this entire generic partial-profit stage machine is SKIPPED for a BSI
+        # position once bsi_adaptive_active is true -- replaced by the BSI-specific breakeven-only
+        # candidate below (no partial-taking at all, per the research finding above).
         partial_stage = state.partial_profit_stage or "NONE"
-        if partial_stage == "NONE" and r_now >= _env_float("ADAPTIVE_PARTIAL_PROFIT_R", 0.5):
+        if bsi_adaptive_v2_active:
+            # BSI_ADAPTIVE_V2's own single partial: fires exactly once (gated on partial_stage ==
+            # "NONE", the SAME persistence pattern V1/generic already use -- reused, not
+            # reinvented, per the spec's own explicit instruction). target_stage="BSI_V2_PARTIAL"
+            # is a genuinely new, distinct stage value that flows through the existing generic
+            # _begin_partial_stage_attempt/_resolve_partial_stage_attempt/
+            # _reconcile_pending_partial_stages machinery UNCHANGED (that machinery already
+            # special-cases only "PARTIAL_2" -> "RUNNER"; every other target_stage, this one
+            # included, takes the generic f"{target_stage}_EXECUTED" success path / "NONE" revert-
+            # on-failure path) -- so once executed, state.partial_profit_stage becomes
+            # "BSI_V2_PARTIAL_EXECUTED", which never again matches "NONE" below, guaranteeing this
+            # fires at most once per position. requested_volume uses CURRENT volume (not the
+            # original), matching every other partial candidate's own convention -- this can only
+            # ever reduce size, never increase it, and never touches SL/TP (no risk widening).
+            if partial_stage == "NONE" and float(state.tp_progress or 0) >= _env_float("BSI_ADAPTIVE_V2_PARTIAL_AT_TP_PROGRESS", 0.60):
+                candidates.append(
+                    ManagementCandidate(
+                        "PARTIAL_PROFIT", 40,
+                        requested_volume=float(state.current_volume) * _env_float("BSI_ADAPTIVE_V2_PARTIAL_FRACTION", 0.5),
+                        reason="bsi_adaptive_v2_partial_at_tp_progress",
+                        evidence={"r": r_now, "tp_progress": state.tp_progress, "target_stage": "BSI_V2_PARTIAL", "requested_fraction": _env_float("BSI_ADAPTIVE_V2_PARTIAL_FRACTION", 0.5), "policy": "BSI_ADAPTIVE_V2"},
+                    )
+                )
+        elif bsi_adaptive_active:
+            pass
+        elif partial_stage == "NONE" and r_now >= _env_float("ADAPTIVE_PARTIAL_PROFIT_R", 0.5):
             candidates.append(ManagementCandidate("PARTIAL_PROFIT", 40, requested_volume=float(state.current_volume) * _env_float("ADAPTIVE_PARTIAL_PROFIT_FRACTION", 0.25), reason="partial_profit_threshold", evidence={"r": r_now, "target_stage": "PARTIAL_1", "requested_fraction": _env_float("ADAPTIVE_PARTIAL_PROFIT_FRACTION", 0.25)}))
         elif partial_stage == "PARTIAL_1_EXECUTED" and r_now >= _env_float("ADAPTIVE_PARTIAL_PROFIT_2_R", 1.0):
             candidates.append(ManagementCandidate("PARTIAL_PROFIT", 40, requested_volume=float(state.current_volume) * _env_float("ADAPTIVE_PARTIAL_PROFIT_2_FRACTION", 0.33), reason="partial_profit_stage2_threshold", evidence={"r": r_now, "target_stage": "PARTIAL_2", "requested_fraction": _env_float("ADAPTIVE_PARTIAL_PROFIT_2_FRACTION", 0.33)}))
@@ -2168,7 +2411,48 @@ class AdaptiveManagementService:
                     )
                 )
 
-        if cooldown_ok and not manage_existing_only:
+        if cooldown_ok and not manage_existing_only and bsi_adaptive_v2_active:
+            # BSI_ADAPTIVE_V2: deliberately no candidate here -- no breakeven move (neither V1's
+            # own 0.5R trigger nor the generic 1R one) and, by not falling into the final `elif
+            # not bsi_adaptive_active` below (explicitly excluded there too), no generic trailing
+            # stop either. "Mostly mentor-faithful: hold toward target" per the spec's own item 1
+            # ("none of the generic manager's machinery applies to BSI positions under this
+            # policy") -- the ONLY intervention this policy makes is the single partial above.
+            pass
+        elif cooldown_ok and not manage_existing_only and bsi_adaptive_active and os.getenv("BSI_BE_ENABLED", "false").strip().lower() not in {"false", "0", "off", "no"}:
+            # BSI_ADAPTIVE_V1's own breakeven candidate -- same underlying mechanics/safety
+            # invariants as the generic MOVE_SL_BREAKEVEN below (_breakeven_price/
+            # _structure_preferred_breakeven/_stop_improves are REUSED, not reimplemented, so BE
+            # can never widen the stop or increase risk here either), but triggered at
+            # BSI_BE_TRIGGER_R (default 0.5, matching the validated research finding) instead of
+            # the generic ADAPTIVE_BREAKEVEN_R (1.0), and WITHOUT the generic candidate's
+            # ADAPTIVE_BREAKEVEN_MIN_TP_PROGRESS>=0.3 gate (untested for BSI's own natural-
+            # liquidity/fixed-1:2 target shapes at a 0.5R trigger point -- BSI_BE_MIN_TP_PROGRESS
+            # defaults to 0.0, i.e. no additional gate, matching exactly what the research
+            # replay validated; raise it via env var if future evidence supports doing so).
+            be = _breakeven_price(state, symbol_info)
+            structure_level = _swing_structure_level(normalized_candles, state.direction)
+            be_candidate = _structure_preferred_breakeven(state.direction, be, structure_level, atr)
+            bsi_breakeven_ready = (
+                r_now >= _env_float("BSI_BE_TRIGGER_R", 0.5)
+                and float(state.tp_progress or 0) >= _env_float("BSI_BE_MIN_TP_PROGRESS", 0.0)
+                and state.winner_classification != "invalidated"
+                and _opposing_candles(candles, state.direction) < 2
+                and atr_r < _env_float("ADAPTIVE_BREAKEVEN_MAX_ATR_R", 4.0)
+                and _stop_improves(state.direction, be_candidate, state.current_sl)
+            )
+            if bsi_breakeven_ready:
+                candidates.append(
+                    ManagementCandidate(
+                        "MOVE_SL_BREAKEVEN",
+                        50,
+                        requested_sl=be_candidate,
+                        requested_tp=state.current_tp,
+                        reason="bsi_adaptive_v1_breakeven_at_0_5r",
+                        evidence={"r": r_now, "tp_progress": state.tp_progress, "structure_based": be_candidate != be, "policy": "BSI_ADAPTIVE_V1"},
+                    )
+                )
+        elif cooldown_ok and not manage_existing_only and not bsi_adaptive_active and not bsi_adaptive_v2_active:
             be = _breakeven_price(state, symbol_info)
             structure_level = _swing_structure_level(normalized_candles, state.direction)
             be_candidate = _structure_preferred_breakeven(state.direction, be, structure_level, atr)
@@ -2200,10 +2484,11 @@ class AdaptiveManagementService:
         if _candles_held(state.opened_at, candles) >= _env_int("ADAPTIVE_TIME_EXIT_CANDLES", 24, minimum=1, maximum=288) and max_r < 0.25:
             candidates.append(ManagementCandidate("TIME_EXIT", 70, requested_volume=float(state.current_volume), reason="no_progress_time_exit", evidence={"max_r": max_r}))
 
-        if v2_mode() != "disabled" and cooldown_ok and not manage_existing_only:
+        if not bsi_adaptive_v2_active and v2_mode() != "disabled" and cooldown_ok and not manage_existing_only:
             candidates.extend(self._v2_candidates(state, r_now, max_r, atr, atr_r, regime, zone, normalized_candles))
 
-        candidates.extend(self._account_scaled_profit_protection(state, payload, candidates, r_now, max_r, regime, account_equity))
+        if not bsi_adaptive_v2_active:
+            candidates.extend(self._account_scaled_profit_protection(state, payload, candidates, r_now, max_r, regime, account_equity))
         return candidates
 
     def _account_scaled_profit_protection(self, state: AdaptivePositionStateORM, payload: dict[str, Any], candidates: list[ManagementCandidate], r_now: float, max_r: float, regime: str, account_equity: float | None) -> list[ManagementCandidate]:
@@ -2597,7 +2882,7 @@ class AdaptiveManagementService:
         row.raw_request = sanitize(result.get("raw_request") or {})
         row.raw_response = sanitize(result.get("raw_response") or result)
         row.reconciliation_state = "pending" if result.get("broker_mutation_attempted") else "not_attempted"
-        action.status = "submitted" if result.get("status") == "ACCEPTED" else str(result.get("status") or "error").lower()
+        action.status = str(result.get("status") or "error").lower()
         action.updated_at = utcnow()
         db.merge(row)
         if result.get("status") == "ACCEPTED":
@@ -3549,9 +3834,13 @@ def _position_direction(payload: dict[str, Any]) -> str:
 
 
 def _position_time(payload: dict[str, Any], *, utc_offset: timedelta = timedelta(0)) -> datetime | None:
-    # `payload["time"]` is the broker's raw MT5 position time -- broker-SERVER time, not UTC (see
-    # AdaptiveManagementService._broker_utc_offset). _parse_dt labels any naive/unlabeled value as
-    # UTC with no conversion, so the caller must subtract the detected server offset itself.
+    # 2026-08-27: `payload["time"]` is whatever the caller passes -- for the one real production
+    # caller (_sync_position_state), it already arrives as true UTC (backend/brokers/mt5/
+    # adapter.py::mt5_positions() converts each position's raw broker-server time before this
+    # code ever sees it), so that caller passes no utc_offset. `utc_offset` stays supported here
+    # only for a hypothetical caller fed genuinely-raw, unconverted broker-server time.
+    # _parse_dt labels any naive/unlabeled value as UTC with no conversion, so a caller passing a
+    # non-zero utc_offset is asserting its own payload's time still needs that correction.
     parsed = _parse_dt(payload.get("time") or payload.get("time_msc"))
     return (parsed - utc_offset) if parsed is not None else None
 
@@ -3791,7 +4080,8 @@ def _parse_bsm_comment(text: str, key: str) -> str | None:
     parts = text.split("|")
     if len(parts) < 3:
         return None
-    mapping = {"strategy": parts[1], "strategy_version": "v1", "timeframe": "M15", "setup": "MT5_AUTONOMOUS_ENTRY"}
+    strategy = V3_COMMENT_STRATEGY_CODES.get(parts[1], parts[1])
+    mapping = {"strategy": strategy, "strategy_version": "v1", "timeframe": "M15", "setup": "MT5_AUTONOMOUS_ENTRY"}
     return mapping.get(key)
 
 

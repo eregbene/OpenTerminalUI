@@ -8,15 +8,20 @@ from types import SimpleNamespace
 from backend.brokers.mt5.autonomous import MT5AutonomousTradingService, _v3_execution_confidence_blockers
 from backend.brokers.mt5.config import MT5Config
 from backend.brokers.mt5.ownership import is_bensim_owned_position, is_bensim_owned_order
+from backend.adaptive_management.v3_faiz import V3AdaptiveRoutingBucket, V3NextSessionProfile
 from backend.mt5_strategies.context import REGIME_NEUTRAL, StrategyContext
+from backend.mt5_strategies.families import bsi_v3_engine
 from backend.mt5_strategies.families.bsi_v3_runtime_detectors import (
     RUNTIME_SPECS,
     _lower_tf_confirms,
+    _load_queue,
     _make_plan_from_fvg,
+    _compact_queue_by_opportunity,
     _same_poi_group,
     _upsert_new_plans,
     planned_entry_queue_path,
 )
+from backend.mt5_strategies.models import StrategySignal
 
 
 class _FakeAdapter:
@@ -87,6 +92,111 @@ def test_same_thesis_and_entry_opportunity_merge_but_different_thesis_stays_sepa
 
     assert _same_poi_group(base, same)
     assert not _same_poi_group(base, different)
+
+
+def test_queue_compaction_collapses_same_opportunity_into_confluence_row() -> None:
+    base = {
+        "plan_id": "react:entry:1",
+        "strategy_id": "bsi_v3_reactionary_block",
+        "status": "PENDING_POI_TOUCH",
+        "bsi_v3_entry_opportunity_id": "entry:eurusd:short:poi1",
+        "current_plan_confidence": 70.0,
+        "max_plan_confidence": 70.0,
+        "confluence_strategy_ids": ["bsi_v3_reactionary_block"],
+        "source_videos": ["Reactionary Block Trading Strategy Example.mp4"],
+    }
+    duplicate = {
+        **base,
+        "plan_id": "spectre:entry:1",
+        "strategy_id": "bsi_v3_spectre",
+        "status": "CONFIRMED_FOR_ENTRY",
+        "current_plan_confidence": 76.0,
+        "max_plan_confidence": 76.0,
+        "confluence_strategy_ids": ["bsi_v3_spectre"],
+        "source_videos": ["The Spectre Example.mp4"],
+    }
+
+    compacted = _compact_queue_by_opportunity([base, duplicate])
+
+    assert len(compacted) == 1
+    assert compacted[0]["status"] == "CONFIRMED_FOR_ENTRY"
+    assert compacted[0]["strategy_id"] == "bsi_v3_spectre"
+    assert compacted[0]["confluence_strategy_ids"] == ["bsi_v3_reactionary_block", "bsi_v3_spectre"]
+    assert compacted[0]["confluence_plan_ids"] == ["react:entry:1", "spectre:entry:1"]
+
+
+def test_queue_load_salvages_valid_array_with_trailing_partial_write(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("BSI_V3_PLANNED_ENTRY_QUEUE_PATH", str(tmp_path / "queue.json"))
+    ctx = _ctx()
+    path = planned_entry_queue_path(ctx.account_id)
+    path.write_text(
+        json.dumps(
+            [
+                {
+                    "plan_id": "p1",
+                    "strategy_id": "bsi_v3_order_flow",
+                    "status": "PENDING_POI_TOUCH",
+                    "bsi_v3_entry_opportunity_id": "entry:eurusd:long:poi1",
+                }
+            ]
+        )
+        + '{"partial":',
+        encoding="utf-8",
+    )
+
+    rows = _load_queue(ctx)
+
+    assert len(rows) == 1
+    assert rows[0]["plan_id"] == "p1"
+
+
+def test_profile_gated_bridge_evaluates_all_v3_detectors_before_profile_ranking(monkeypatch) -> None:
+    captured: dict[str, set[str]] = {}
+
+    def fake_detector(ctx: StrategyContext, allowed_strategy_ids: set[str]) -> StrategySignal:
+        captured["allowed_strategy_ids"] = set(allowed_strategy_ids)
+        return StrategySignal(
+            strategy_id="bsi",
+            strategy_family="bsi",
+            symbol=ctx.symbol,
+            broker_symbol=ctx.broker_symbol,
+            direction="LONG",
+            timeframe="M15(bsi_v3)",
+            generated_at=ctx.generated_at,
+            valid=True,
+            raw_signal_strength=88.0,
+            proposed_entry=1.1012,
+            stop_loss=1.1002,
+            take_profit=1.1027,
+            reward_risk=1.5,
+            regime=ctx.regime,
+            evidence={
+                "v3_strategy_id": "bsi_v3_reactionary_block",
+                "bsi_v3_entry_opportunity_id": "entry:eurusd:long:poi1",
+            },
+            metadata={},
+        )
+
+    monkeypatch.setattr(
+        bsi_v3_engine,
+        "load_v3_next_session_profile",
+        lambda: V3NextSessionProfile(
+            profile_id="PIT",
+            next_trading_day_utc_date="2026-09-08",
+            risk_mode="NORMAL",
+            allowed_buckets=(V3AdaptiveRoutingBucket("bsi_v3_abc", "EURUSD", 3.0, ("year_to_date",)),),
+            methodology="BSI_BASELINE_V3_UPDATED_FAIZ_ROLLING_INTELLIGENCE",
+            as_of_utc_date="2026-09-07",
+            point_in_time_safe=True,
+        ),
+    )
+    monkeypatch.setattr(bsi_v3_engine, "evaluate_bsi_v3_planned_runtime_detectors", fake_detector)
+
+    signal = bsi_v3_engine.evaluate_bsi_v3_profile_gated(_ctx())
+
+    assert captured["allowed_strategy_ids"] == set()
+    assert signal.valid is True
+    assert signal.evidence["v3_profile_decision"] == "v3_profile_bucket_neutral_rank_not_hard_blocked"
 
 
 def test_m1_required_strategy_does_not_fallback_to_m5() -> None:

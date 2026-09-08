@@ -525,19 +525,41 @@ def main() -> None:
     profile_allowed = [e for e in events if e.get("detector_result") == "VALID_SETUP" and e.get("profile_status") in {"ALLOW", "PREFER", "NEUTRAL"}]
     final_ge_80 = [e for e in events if float(e.get("execution_confidence") or 0) >= MIN_EXEC]
 
-    funnel = {
-        "raw_detector_hits": sum(1 for e in events if e.get("detector_result") in {"VALID_SETUP", "INVALID_SETUP"}),
-        "unique_contexts": len({e.get("bsi_v3_market_context_id") for e in events if e.get("bsi_v3_market_context_id")}),
-        "unique_theses": len({e.get("bsi_v3_market_thesis_id") for e in events if e.get("bsi_v3_market_thesis_id")}),
-        "unique_pois": len({e.get("bsi_v3_poi_id") for e in events if e.get("bsi_v3_poi_id")}),
+    valid_events = [e for e in events if e.get("detector_result") == "VALID_SETUP"]
+    detector_funnel = {
+        "raw_detector_evaluations": sum(1 for e in events if e.get("detector_result") in {"VALID_SETUP", "INVALID_SETUP"}),
+        "mentor_valid_detector_hits": len(valid_events),
+        "detector_plan_hits_ge_65": sum(1 for e in valid_events if float(e.get("plan_confidence_current") or 0) >= MIN_PLAN),
+        "detector_hits_touched": sum(1 for e in valid_events if e.get("touch_timestamp")),
+        "detector_hits_confirmed": sum(1 for e in valid_events if e.get("confirmation_timestamp")),
+        "detector_hits_execution_confidence_ge_80": len(final_ge_80),
+        "detector_hits_simulated_trade": len(trade_events),
+    }
+    canonical_funnel = {
+        "unique_contexts": len({e.get("bsi_v3_market_context_id") for e in valid_events if e.get("bsi_v3_market_context_id")}),
+        "unique_theses": len({e.get("bsi_v3_market_thesis_id") for e in valid_events if e.get("bsi_v3_market_thesis_id")}),
+        "unique_pois": len({e.get("bsi_v3_poi_id") for e in valid_events if e.get("bsi_v3_poi_id")}),
         "unique_entry_opportunities": len(canonical_groups),
-        "plans_ge_65": sum(1 for e in events if e.get("detector_result") == "VALID_SETUP" and float(e.get("plan_confidence_current") or 0) >= MIN_PLAN),
-        "touched": sum(1 for e in events if e.get("touch_timestamp")),
-        "confirmed": sum(1 for e in events if e.get("confirmation_timestamp")),
+        "unique_opportunities_plan_ge_65": len({e["bsi_v3_entry_opportunity_id"] for e in valid_events if float(e.get("plan_confidence_current") or 0) >= MIN_PLAN}),
+        "unique_opportunities_touched": len({e["bsi_v3_entry_opportunity_id"] for e in valid_events if e.get("touch_timestamp")}),
+        "unique_opportunities_confirmed": len({e["bsi_v3_entry_opportunity_id"] for e in valid_events if e.get("confirmation_timestamp")}),
+        "unique_opportunities_execution_confidence_ge_80": len({e["bsi_v3_entry_opportunity_id"] for e in final_ge_80}),
+        "unique_opportunities_risk_eligible": len({e["bsi_v3_entry_opportunity_id"] for e in valid_events if e.get("risk_decision") == "PASS"}),
+        "unique_opportunities_simulated_trade": len({e["bsi_v3_entry_opportunity_id"] for e in trade_events}),
+    }
+    funnel = {
+        "raw_detector_hits": detector_funnel["raw_detector_evaluations"],
+        "unique_contexts": canonical_funnel["unique_contexts"],
+        "unique_theses": canonical_funnel["unique_theses"],
+        "unique_pois": canonical_funnel["unique_pois"],
+        "unique_entry_opportunities": canonical_funnel["unique_entry_opportunities"],
+        "plans_ge_65": detector_funnel["detector_plan_hits_ge_65"],
+        "touched": detector_funnel["detector_hits_touched"],
+        "confirmed": detector_funnel["detector_hits_confirmed"],
         "profile_allowed": len(profile_allowed),
-        "execution_confidence_ge_80": len(final_ge_80),
-        "risk_eligible": sum(1 for e in events if e.get("risk_decision") == "PASS"),
-        "simulated_trades": len(trade_events),
+        "execution_confidence_ge_80": detector_funnel["detector_hits_execution_confidence_ge_80"],
+        "risk_eligible": sum(1 for e in valid_events if e.get("risk_decision") == "PASS"),
+        "simulated_trades": detector_funnel["detector_hits_simulated_trade"],
     }
 
     freq = {
@@ -629,6 +651,8 @@ def main() -> None:
         "thresholds": {"min_plan": MIN_PLAN, "min_execution": MIN_EXEC, "min_rr": MIN_RR, "tuned": False},
         "event_rows": events,
         "funnel": funnel,
+        "detector_funnel": detector_funnel,
+        "canonical_funnel": canonical_funnel,
         "frequency": freq,
         "reactionary_spectre_overlap": overlap,
         "strategy_profile_matrix": matrix_rows,
@@ -675,6 +699,8 @@ def main() -> None:
 
     report_tables = {
         "funnel": _table([["Metric", "Value"]] + [[k, v] for k, v in funnel.items()]),
+        "detector_funnel": _table([["Metric", "Value"]] + [[k, v] for k, v in detector_funnel.items()]),
+        "canonical_funnel": _table([["Metric", "Value"]] + [[k, v] for k, v in canonical_funnel.items()]),
         "matrix": _table([["Strategy", "Valid", "Canonical", "Allowed", "Blocked", "Confirmed", "Trades", "Survival %"]] + [
             [r["strategy_id"], r["mentor_valid_setups"], r["canonical_opportunities"], r["profile_allowed"], r["profile_blocked"], r["confirmed"], r["trades"], r["profile_survival_rate"]]
             for r in matrix_rows
@@ -688,6 +714,8 @@ def main() -> None:
 
     report_payloads = {
         "01_FULL_JAN_AUG_CANONICAL_FUNNEL.md": "# Full Jan-Aug Canonical Funnel\n\n" + report_tables["funnel"] + "\n",
+        "01A_DETECTOR_FUNNEL.md": "# Detector Funnel\n\n" + report_tables["detector_funnel"] + "\n",
+        "01B_CANONICAL_OPPORTUNITY_FUNNEL.md": "# Canonical Opportunity Funnel\n\n" + report_tables["canonical_funnel"] + "\n",
         "02_TRUE_PLAN_FREQUENCY.md": "# True Plan Frequency\n\n" + json.dumps(freq, indent=2, default=str) + "\n\nMaximum opportunity day detail:\n\n" + json.dumps(max_caused_by, indent=2) + "\n",
         "03_REACTIONARY_SPECTRE_OVERLAP.md": "# Reactionary/Spectre Overlap\n\n" + report_tables["overlap"] + "\n",
         "04_HIGH_FREQUENCY_STRATEGY_AUDIT.md": "# High Frequency Strategy Audit\n\n" + report_tables["matrix"] + "\n\nHigh frequency is treated as engineering-suspicious when canonical opportunities remain high after dedup; methodology rules were not changed.\n",

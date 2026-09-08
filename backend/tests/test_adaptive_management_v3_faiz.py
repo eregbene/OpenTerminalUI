@@ -199,6 +199,8 @@ def test_v3_next_session_profile_loader_and_allowed_bucket(tmp_path):
         {
           "profile_id": "BSI_V3_NEXT_SESSION_PROFILE_2026-09-08",
           "next_trading_day_utc_date": "2026-09-08",
+          "methodology": "BSI_BASELINE_V3_UPDATED_FAIZ_ROLLING_INTELLIGENCE",
+          "as_of_utc_date": "2026-09-07",
           "risk_mode": "NORMAL",
           "allowed_buckets": [
             {
@@ -222,26 +224,30 @@ def test_v3_next_session_profile_loader_and_allowed_bucket(tmp_path):
     )
 
     assert profile is not None
+    assert profile.point_in_time_safe is True
     assert profile.allowed_buckets[0].symbol == "EURUSD"
     assert decision.allow_entry is True
     assert decision.reason == "v3_profile_bucket_allowed_next_session"
     assert decision.profile_id == "BSI_V3_NEXT_SESSION_PROFILE_2026-09-08"
 
 
-def test_v3_next_session_profile_blocks_missing_or_unlisted_bucket():
+def test_v3_next_session_profile_blocks_missing_but_allows_neutral_unlisted_bucket():
     missing = allow_v3_demo_entry_from_profile(None, strategy_id="bsi_v3_abc", symbol="EURUSD")
     profile = V3NextSessionProfile(
         profile_id="P1",
         next_trading_day_utc_date="2026-09-08",
         risk_mode="NORMAL",
         allowed_buckets=(V3AdaptiveRoutingBucket("bsi_v3_abc", "GBPUSD", 3.0, ("year_to_date",)),),
+        methodology="BSI_BASELINE_V3_UPDATED_FAIZ_ROLLING_INTELLIGENCE",
+        as_of_utc_date="2026-09-07",
+        point_in_time_safe=True,
     )
     unlisted = allow_v3_demo_entry_from_profile(profile, strategy_id="bsi_v3_abc", symbol="EURUSD")
 
     assert missing.allow_entry is False
     assert missing.reason == "v3_next_session_profile_missing"
-    assert unlisted.allow_entry is False
-    assert unlisted.reason == "v3_profile_bucket_not_allowed_next_session"
+    assert unlisted.allow_entry is True
+    assert unlisted.reason == "v3_profile_bucket_neutral_rank_not_hard_blocked"
 
 
 def test_v3_next_session_profile_blocks_paused_or_generic_routes():
@@ -250,6 +256,9 @@ def test_v3_next_session_profile_blocks_paused_or_generic_routes():
         next_trading_day_utc_date="2026-09-08",
         risk_mode="PAUSE_NEW_V3_ENTRIES",
         allowed_buckets=(V3AdaptiveRoutingBucket("bsi_v3_abc", "EURUSD", 3.0, ("year_to_date",)),),
+        methodology="BSI_BASELINE_V3_UPDATED_FAIZ_ROLLING_INTELLIGENCE",
+        as_of_utc_date="2026-09-07",
+        point_in_time_safe=True,
     )
     generic = V3NextSessionProfile(
         profile_id="P2",
@@ -257,7 +266,45 @@ def test_v3_next_session_profile_blocks_paused_or_generic_routes():
         risk_mode="NORMAL",
         allowed_buckets=(V3AdaptiveRoutingBucket("bsi_v3_abc", "EURUSD", 3.0, ("year_to_date",)),),
         generic_detector_routing_count=1,
+        methodology="BSI_BASELINE_V3_UPDATED_FAIZ_ROLLING_INTELLIGENCE",
+        as_of_utc_date="2026-09-07",
+        point_in_time_safe=True,
     )
 
     assert allow_v3_demo_entry_from_profile(paused, strategy_id="bsi_v3_abc", symbol="EURUSD").reason == "v3_profile_risk_mode_paused"
     assert allow_v3_demo_entry_from_profile(generic, strategy_id="bsi_v3_abc", symbol="EURUSD").reason == "v3_profile_contains_generic_detector_routes"
+
+
+def test_v3_next_session_profile_fails_closed_when_not_point_in_time_safe():
+    leaky = V3NextSessionProfile(
+        profile_id="P3",
+        next_trading_day_utc_date="2026-09-08",
+        risk_mode="NORMAL",
+        allowed_buckets=(V3AdaptiveRoutingBucket("bsi_v3_abc", "EURUSD", 3.0, ("full_period",)),),
+        methodology="BSI_V3_FULL_PERIOD_RESEARCH",
+        as_of_utc_date="2026-09-08",
+        point_in_time_safe=False,
+    )
+
+    decision = allow_v3_demo_entry_from_profile(leaky, strategy_id="bsi_v3_abc", symbol="EURUSD")
+
+    assert decision.allow_entry is False
+    assert decision.reason == "v3_profile_not_point_in_time_safe"
+
+
+def test_v3_next_session_profile_blocks_reliable_hard_block_bucket():
+    profile = V3NextSessionProfile(
+        profile_id="P4",
+        next_trading_day_utc_date="2026-09-08",
+        risk_mode="NORMAL",
+        allowed_buckets=(),
+        blocked_buckets=(V3AdaptiveRoutingBucket("bsi_v3_spectre", "EURUSD", -2.0, ("month_to_date",), "BLOCK", 0.9),),
+        methodology="BSI_BASELINE_V3_UPDATED_FAIZ_ROLLING_INTELLIGENCE",
+        as_of_utc_date="2026-09-07",
+        point_in_time_safe=True,
+    )
+
+    decision = allow_v3_demo_entry_from_profile(profile, strategy_id="bsi_v3_spectre", symbol="EURUSD")
+
+    assert decision.allow_entry is False
+    assert decision.reason == "v3_profile_reliable_hard_block"

@@ -56,6 +56,8 @@ class V3AdaptiveRoutingBucket:
     symbol: str
     score: float
     windows: tuple[str, ...]
+    decision: str = "ALLOW_NEXT_TRADING_DAY"
+    reliability: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -64,7 +66,11 @@ class V3NextSessionProfile:
     next_trading_day_utc_date: str
     risk_mode: str
     allowed_buckets: tuple[V3AdaptiveRoutingBucket, ...]
+    blocked_buckets: tuple[V3AdaptiveRoutingBucket, ...] = ()
     generic_detector_routing_count: int = 0
+    methodology: str = ""
+    as_of_utc_date: str | None = None
+    point_in_time_safe: bool = False
 
 
 @dataclass(frozen=True)
@@ -89,15 +95,37 @@ def load_v3_next_session_profile(path: str | Path | None = None) -> V3NextSessio
             symbol=str(row["symbol"]).upper(),
             score=float(row.get("score") or 0.0),
             windows=tuple(str(item) for item in row.get("windows", [])),
+            decision=str(row.get("decision") or "ALLOW_NEXT_TRADING_DAY"),
+            reliability=float(row.get("reliability") or row.get("profile_reliability") or 0.0),
         )
         for row in payload.get("allowed_buckets", [])
     )
+    blocked = tuple(
+        V3AdaptiveRoutingBucket(
+            strategy_id=str(row["strategy_id"]),
+            symbol=str(row["symbol"]).upper(),
+            score=float(row.get("score") or 0.0),
+            windows=tuple(str(item) for item in row.get("windows", [])),
+            decision=str(row.get("decision") or "BLOCK"),
+            reliability=float(row.get("reliability") or row.get("profile_reliability") or 0.0),
+        )
+        for row in (payload.get("blocked_previous_month_shock_buckets", []) + payload.get("blocked_recent_only_buckets", []))
+        if row.get("strategy_id") and row.get("symbol")
+    )
+    methodology = str(payload.get("methodology") or "")
+    as_of = str(payload.get("as_of_utc_date") or "") or None
+    next_day = str(payload["next_trading_day_utc_date"])
+    pit_safe = "ROLLING" in methodology.upper() and as_of is not None and as_of <= next_day and "FULL_PERIOD" not in methodology.upper()
     return V3NextSessionProfile(
         profile_id=str(payload["profile_id"]),
-        next_trading_day_utc_date=str(payload["next_trading_day_utc_date"]),
+        next_trading_day_utc_date=next_day,
         risk_mode=str(payload.get("risk_mode") or "NORMAL"),
         allowed_buckets=buckets,
+        blocked_buckets=blocked,
         generic_detector_routing_count=int(payload.get("risk_rules", {}).get("generic_detector_routing_count") or payload.get("generic_detector_routing_count") or 0),
+        methodology=methodology,
+        as_of_utc_date=as_of,
+        point_in_time_safe=pit_safe,
     )
 
 
@@ -109,6 +137,8 @@ def allow_v3_demo_entry_from_profile(
 ) -> V3AdaptiveEntryDecision:
     if profile is None:
         return V3AdaptiveEntryDecision(False, "v3_next_session_profile_missing")
+    if not profile.point_in_time_safe:
+        return V3AdaptiveEntryDecision(False, "v3_profile_not_point_in_time_safe", risk_mode=profile.risk_mode, profile_id=profile.profile_id)
     if profile.generic_detector_routing_count:
         return V3AdaptiveEntryDecision(False, "v3_profile_contains_generic_detector_routes", risk_mode=profile.risk_mode, profile_id=profile.profile_id)
     if profile.risk_mode == "PAUSE_NEW_V3_ENTRIES":
@@ -117,8 +147,11 @@ def allow_v3_demo_entry_from_profile(
         return V3AdaptiveEntryDecision(False, "v3_profile_risk_mode_reduce_or_pause", risk_mode=profile.risk_mode, profile_id=profile.profile_id)
     wanted = (strategy_id, symbol.upper())
     allowed = {(row.strategy_id, row.symbol) for row in profile.allowed_buckets}
+    blocked = {(row.strategy_id, row.symbol) for row in profile.blocked_buckets}
+    if wanted in blocked:
+        return V3AdaptiveEntryDecision(False, "v3_profile_reliable_hard_block", risk_mode=profile.risk_mode, profile_id=profile.profile_id)
     if wanted not in allowed:
-        return V3AdaptiveEntryDecision(False, "v3_profile_bucket_not_allowed_next_session", risk_mode=profile.risk_mode, profile_id=profile.profile_id)
+        return V3AdaptiveEntryDecision(True, "v3_profile_bucket_neutral_rank_not_hard_blocked", risk_mode=profile.risk_mode, profile_id=profile.profile_id)
     return V3AdaptiveEntryDecision(True, "v3_profile_bucket_allowed_next_session", risk_mode=profile.risk_mode, profile_id=profile.profile_id)
 
 

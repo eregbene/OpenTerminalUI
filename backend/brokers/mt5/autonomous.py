@@ -47,6 +47,7 @@ from backend.brokers.mt5.confidence import compute_trade_confidence, is_autonomo
 from backend.mt5_strategies.context import build_strategy_context, cheap_prefilter, quick_regime, summarize_smc_evidence
 from backend.mt5_strategies.families import evaluate_all
 from backend.mt5_strategies.families.bsi_v3_runtime_detectors import (
+    _compact_queue_by_opportunity,
     evaluate_bsi_v3_existing_planned_queue,
     planned_entry_queue_path,
 )
@@ -2086,6 +2087,22 @@ class MT5AutonomousTradingService:
             return [latest["winner"]]
         return []
 
+    def _load_planned_entry_queue_file(self, path: Any) -> list[dict[str, Any]]:
+        if not path.exists():
+            return []
+        text = path.read_text(encoding="utf-8")
+        try:
+            payload = json.loads(text)
+        except json.JSONDecodeError:
+            payload, _ = json.JSONDecoder().raw_decode(text)
+        if not isinstance(payload, list):
+            return []
+        queue = _compact_queue_by_opportunity([row for row in payload if isinstance(row, dict)])
+        tmp = path.with_suffix(f"{path.suffix}.tmp")
+        tmp.write_text(json.dumps(queue, indent=2, default=str), encoding="utf-8")
+        tmp.replace(path)
+        return queue
+
     def _mark_planned_entry_submission(self, plan_ids: str | list[str] | None, status: str, detail: dict[str, Any]) -> None:
         if not plan_ids:
             return
@@ -2094,12 +2111,11 @@ class MT5AutonomousTradingService:
             return
         path = planned_entry_queue_path(self.account_id)
         try:
-            rows = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
-            if not isinstance(rows, list):
-                return
+            rows = self._load_planned_entry_queue_file(path)
             now = utcnow().isoformat()
             for row in rows:
-                if row.get("plan_id") in target_ids:
+                confluence_ids = {str(item) for item in (row.get("confluence_plan_ids") or []) if item}
+                if row.get("plan_id") in target_ids or confluence_ids.intersection(target_ids):
                     row["status"] = status
                     row["submitted_at"] = now
                     row["submission_detail"] = detail
@@ -2203,11 +2219,9 @@ class MT5AutonomousTradingService:
             return {"account_id": self.account_id, "status": "SKIPPED_CYCLE_BUSY"}
         path = planned_entry_queue_path(self.account_id)
         try:
-            queue = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
+            queue = self._load_planned_entry_queue_file(path)
         except Exception as exc:
             return {"account_id": self.account_id, "status": "QUEUE_UNAVAILABLE", "reason": exc.__class__.__name__}
-        if not isinstance(queue, list):
-            return {"account_id": self.account_id, "status": "QUEUE_INVALID"}
         active_statuses = {"PENDING_POI_TOUCH", "TOUCHED_WAITING_CONFIRMATION", "CONFIRMED_FOR_ENTRY"}
         queued_symbols = sorted({str(row.get("symbol") or "").upper() for row in queue if row.get("status") in active_statuses and row.get("symbol")})
         if not queued_symbols:
@@ -2225,9 +2239,13 @@ class MT5AutonomousTradingService:
                 return {"account_id": self.account_id, "status": "PROFILE_UNAVAILABLE", "reason": exc.__class__.__name__}
             if profile is None:
                 return {"account_id": self.account_id, "status": "PROFILE_MISSING"}
-            allowed_by_symbol: dict[str, set[str]] = {}
-            for bucket in profile.allowed_buckets:
-                allowed_by_symbol.setdefault(bucket.symbol.upper(), set()).add(bucket.strategy_id)
+            if not getattr(profile, "point_in_time_safe", False):
+                return {"account_id": self.account_id, "status": "PROFILE_NOT_POINT_IN_TIME_SAFE", "profile_id": profile.profile_id}
+            if getattr(profile, "generic_detector_routing_count", 0):
+                return {"account_id": self.account_id, "status": "PROFILE_CONTAINS_GENERIC_DETECTOR_ROUTES", "profile_id": profile.profile_id}
+            blocked_by_symbol: dict[str, set[str]] = {}
+            for bucket in profile.blocked_buckets:
+                blocked_by_symbol.setdefault(bucket.symbol.upper(), set()).add(bucket.strategy_id)
 
             try:
                 universe = await self.adapter.forex_universe()
@@ -2237,9 +2255,6 @@ class MT5AutonomousTradingService:
             candidates: list[dict[str, Any]] = []
             cycle_id = f"MT5_FAST_{utcnow().strftime('%Y%m%d%H%M%S')}"
             for canonical in queued_symbols:
-                allowed = allowed_by_symbol.get(canonical) or set()
-                if not allowed:
-                    continue
                 instrument = instruments.get(canonical)
                 if instrument is None:
                     continue
@@ -2268,8 +2283,18 @@ class MT5AutonomousTradingService:
                     )
                     if ctx is None:
                         continue
-                    signal = evaluate_bsi_v3_existing_planned_queue(ctx, allowed)
+                    signal = evaluate_bsi_v3_existing_planned_queue(ctx, set())
                     if signal is None or not signal.valid:
+                        continue
+                    strategy_id = str(signal.evidence.get("v3_strategy_id") or "")
+                    if strategy_id in blocked_by_symbol.get(canonical, set()):
+                        plan_id = signal.evidence.get("v3_plan_id")
+                        plan_ids = signal.evidence.get("v3_confluence_plan_ids") or ([plan_id] if plan_id else [])
+                        self._mark_planned_entry_submission(
+                            plan_ids,
+                            "BROKER_SUBMISSION_REJECTED",
+                            {"status": "FAST_WATCHER_PROFILE_HARD_BLOCK", "cycle_id": cycle_id, "strategy_id": strategy_id},
+                        )
                         continue
                     built = build_candidates(
                         symbol=instrument.canonical_pair,

@@ -492,9 +492,11 @@ def test_adopted_position_can_execute_conservative_demo_action(monkeypatch):
 
     with service.SessionLocal() as db:
         rows = db.query(AdaptiveBrokerActionResultORM).all()
+        actions = db.query(AdaptiveManagementActionORM).all()
     assert result["broker_mutation_calls"] == 1
     assert execution.calls == 1
     assert rows[0].status == "ACCEPTED"
+    assert actions[0].status == "accepted"
 
 
 class _FakePositionTwo:
@@ -746,10 +748,10 @@ def test_sl_at_entry_does_not_crash_position_sync(monkeypatch):
 
 
 def test_position_time_applies_broker_utc_offset():
-    # 2026-08-24 MTFAI1 forensic audit: MT5 position "time" is broker-SERVER time, not UTC (same
-    # root cause as MT5Client.broker_utc_offset(), backend/brokers/mt5/client.py -- confirmed
-    # empirically ~+3h for this deployment's broker). _position_time must subtract the offset it
-    # is given, not just label the raw value as UTC.
+    # _position_time's own math still supports a caller passing a genuinely-raw, unconverted
+    # broker-server timestamp (utc_offset != 0) -- verified in isolation. No production caller
+    # does this today (see test_sync_position_state_trusts_already_corrected_payload_time below
+    # for why), but the function itself must still subtract whatever it's given.
     payload = {"time": "2026-08-12T06:11:54+00:00"}
 
     naive = service._position_time(payload)
@@ -759,25 +761,18 @@ def test_position_time_applies_broker_utc_offset():
     assert corrected == datetime(2026, 8, 12, 3, 11, 54, tzinfo=timezone.utc)
 
 
-def test_broker_utc_offset_fails_open_without_client(monkeypatch):
-    # Existing tests inject lightweight fake adapters exposing only the specific methods they
-    # need (see the `adapter`/`config` properties' own comments) -- none of them carry a .client
-    # with broker_utc_offset(). _broker_utc_offset() must fail open to timedelta(0) (the old,
-    # unadjusted behavior) rather than raise and break every position sync in the suite.
-    class _BareFakeAdapter:
-        pass
-
-    monkeypatch.setattr(service, "mt5_adapter", _BareFakeAdapter())
-
-    assert adaptive_management_service._broker_utc_offset() == timedelta(0)
-
-
-def test_sync_position_state_corrects_broker_time_skew(monkeypatch):
-    # End-to-end: a position opened at broker-server time 06:11:54 (reported raw, no timezone
-    # conversion) with a detected +3h broker offset must land in AdaptivePositionStateORM.opened_at
-    # as true UTC 03:11:54 -- the exact skew found on real ticket 57935367217 during the MTFAI1
-    # forensic audit (state.opened_at was 3h ahead of MT5TradeRecordORM.open_timestamp for the
-    # same trade).
+def test_sync_position_state_trusts_already_corrected_payload_time(monkeypatch):
+    # 2026-08-27 forensic fix (real live incident): _sync_position_state previously subtracted
+    # AdaptiveManagementService._broker_utc_offset() from payload["time"] a SECOND time, on top of
+    # the correction backend/brokers/mt5/adapter.py::mt5_positions() already applies before this
+    # code ever sees the payload. That double-subtraction landed opened_at ~3h in the past,
+    # which made _candles_held() instantly overcount "candles held" on a position's very first
+    # management cycle, firing a real TIME_EXIT close within seconds of nearly every position
+    # opened (confirmed against 88/88 broker-mutating adaptive_management_actions rows in a real
+    # 48h production window). payload["time"] must now be trusted as already-true-UTC and land in
+    # AdaptivePositionStateORM.opened_at completely unchanged, regardless of the account's broker
+    # offset (a nonzero offset here must have NO effect -- the exact regression this test locks
+    # in).
     SessionLocal = _session_factory(monkeypatch)
 
     class _FakeClient:
@@ -797,7 +792,45 @@ def test_sync_position_state_corrects_broker_time_skew(monkeypatch):
         state = adaptive_management_service._sync_position_state(db, payload, None, {}, [])
         db.commit()
 
-    assert state.opened_at == datetime(2026, 8, 12, 3, 11, 54, tzinfo=timezone.utc)
+    assert state.opened_at == datetime(2026, 8, 12, 6, 11, 54, tzinfo=timezone.utc)
+
+
+def test_sync_position_state_clears_false_closed_detected_for_live_broker_position(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    payload = {
+        "ticket": 1910229827,
+        "identifier": 1910229827,
+        "symbol": "XAUUSD",
+        "type": 1,
+        "volume": "0.06",
+        "price_open": "4445.70",
+        "price_current": "4431.63",
+        "sl": "4468.19",
+        "tp": "4365.71",
+        "profit": "84.42",
+        "time": "2026-09-04T15:18:42+00:00",
+        "comment": "BSM|bsi|1518",
+    }
+    with SessionLocal() as db:
+        db.add(
+            AdaptivePositionStateORM(
+                position_id="ftmo_demo_50k:1910229827",
+                account_id="ftmo_demo_50k",
+                symbol="XAUUSD",
+                direction="SHORT",
+                broker_ticket="1910229827",
+                opened_at=datetime(2026, 9, 4, 15, 18, 42, tzinfo=timezone.utc),
+                closed_detected_at=datetime(2026, 9, 4, 15, 18, 52, tzinfo=timezone.utc),
+            )
+        )
+        db.commit()
+
+        manager = service.AdaptiveManagementService(account_id="ftmo_demo_50k")
+        state = manager._sync_position_state(db, payload, None, {}, [])
+        db.commit()
+
+        refreshed = db.get(AdaptivePositionStateORM, state.position_id)
+        assert refreshed.closed_detected_at is None
 
 
 def test_r_uses_original_sl_not_current_sl_after_breakeven_move(monkeypatch):
@@ -1563,17 +1596,26 @@ def test_reconcile_recently_closed_marks_and_triggers_import_once(monkeypatch):
 
     with SessionLocal() as db:
         first = AdaptivePositionStateORM(position_id="CLOSED_1")
+        first.account_id = "demo_10k"
         first.symbol = "EURUSD"
         first.direction = "LONG"
         first.broker_ticket = "CLOSED_1"
         first.opened_at = datetime.now(timezone.utc) - timedelta(hours=2)
         second = AdaptivePositionStateORM(position_id="CLOSED_2")
+        second.account_id = "demo_10k"
         second.symbol = "GBPUSD"
         second.direction = "SHORT"
         second.broker_ticket = "CLOSED_2"
         second.opened_at = datetime.now(timezone.utc) - timedelta(hours=1)
+        foreign = AdaptivePositionStateORM(position_id="ftmo_demo_50k:OPEN_3")
+        foreign.account_id = "ftmo_demo_50k"
+        foreign.symbol = "XAUUSD"
+        foreign.direction = "SHORT"
+        foreign.broker_ticket = "OPEN_3"
+        foreign.opened_at = datetime.now(timezone.utc) - timedelta(hours=1)
         db.add(first)
         db.add(second)
+        db.add(foreign)
         db.commit()
 
         asyncio.run(adaptive_management_service._reconcile_recently_closed(db, {"CLOSED_2"}))
@@ -1581,6 +1623,7 @@ def test_reconcile_recently_closed_marks_and_triggers_import_once(monkeypatch):
         refreshed_second = db.get(AdaptivePositionStateORM, "CLOSED_2")
         assert refreshed_first.closed_detected_at is not None
         assert refreshed_second.closed_detected_at is None
+        assert db.get(AdaptivePositionStateORM, "ftmo_demo_50k:OPEN_3").closed_detected_at is None
         assert calls == [3]
 
         asyncio.run(adaptive_management_service._reconcile_recently_closed(db, set()))
@@ -1745,3 +1788,508 @@ def test_circuit_breaker_auto_recovers_within_next_successful_cycle(monkeypatch)
         breaker = db.get(AdaptiveCircuitBreakerORM, "adaptive_demo_manager")
     assert breaker.state == "closed"
     assert result["broker_mutation_calls"] == 1
+
+
+# ==================================================================================
+# BSI_ADAPTIVE_V1 (research-validated, feature-flagged, DEFAULT OFF) -- bar-by-bar-validated
+# replay of the six-month BSI occurrence corpus (BSI_MENTOR_TRADE_MANAGEMENT_REPORT.md /
+# BSI_BAR_BY_BAR_VALIDATION_REPORT.md) found that the GENERIC partial-profit stage machine
+# reduces total realized R for BSI subtypes, while a single breakeven-at-+0.5R rule (no forced
+# partial) improved expectancy robustly across every subtype/slice tested. These tests exercise
+# the BSI-specific routing added to _evaluate_position: `is_bsi_position` = strategy_id starts
+# with "bsi"; `bsi_adaptive_active` = is_bsi_position AND BSI_ADAPTIVE_ENABLED; the BSI breakeven
+# candidate itself additionally requires BSI_BE_ENABLED and fires at BSI_BE_TRIGGER_R (default
+# 0.5) rather than the generic ADAPTIVE_BREAKEVEN_R (default 1.0). Modeled directly on the
+# existing MT5_MTFAI1_V2_MFE_PARTIAL_ENABLED precedent above (same strategy_id-gated,
+# flag-gated, additive pattern).
+# ==================================================================================
+def test_bsi_be_fires_at_0_5r_when_flags_enabled_long(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_ENABLED", "true")
+    # BSI Daily Bias Audit / BSI_ADAPTIVE_V2 test-isolation fix (2026-09-02): .env now genuinely
+    # sets BSI_ADAPTIVE_V2_ENABLED=true live (deployed), which python-dotenv loads into this test
+    # process the same as any other env var -- V2 deliberately takes precedence over V1 when both
+    # flags are set (see service.py's own bsi_adaptive_v2_active precedence comment), so any V1-
+    # specific test not explicitly controlling this would silently run under V2's routing instead.
+    # Explicitly cleared here so V1 tests stay env-independent; any test that genuinely wants V2
+    # active still sets this back to "true" itself afterward (last write wins) -- not a production
+    # behavior change, same test-isolation pattern already applied elsewhere this session.
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "false")
+    monkeypatch.setenv("BSI_BE_ENABLED", "true")
+    state = _managed_state("BSI_UO_1")
+    state.strategy_id = "bsi"
+    state.winner_classification = "healthy_pullback"
+    # entry=4000, sl=3980 (risk=20) from _managed_state -- +0.5R = entry + 10 = 4010
+    payload = {"price_current": 4010.0}
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    be_candidates = [c for c in candidates if c.action_type == "MOVE_SL_BREAKEVEN"]
+    assert be_candidates, f"expected a BSI breakeven candidate, got action types {[c.action_type for c in candidates]}"
+    assert be_candidates[0].evidence.get("policy") == "BSI_ADAPTIVE_V1"
+    assert be_candidates[0].requested_sl >= state.entry_price  # never below entry for a LONG breakeven
+    assert be_candidates[0].requested_sl > state.current_sl  # genuinely improves (tightens) the stop
+
+
+def test_bsi_be_fires_at_0_5r_short(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_ENABLED", "true")
+    # BSI Daily Bias Audit / BSI_ADAPTIVE_V2 test-isolation fix (2026-09-02): .env now genuinely
+    # sets BSI_ADAPTIVE_V2_ENABLED=true live (deployed), which python-dotenv loads into this test
+    # process the same as any other env var -- V2 deliberately takes precedence over V1 when both
+    # flags are set (see service.py's own bsi_adaptive_v2_active precedence comment), so any V1-
+    # specific test not explicitly controlling this would silently run under V2's routing instead.
+    # Explicitly cleared here so V1 tests stay env-independent; any test that genuinely wants V2
+    # active still sets this back to "true" itself afterward (last write wins) -- not a production
+    # behavior change, same test-isolation pattern already applied elsewhere this session.
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "false")
+    monkeypatch.setenv("BSI_BE_ENABLED", "true")
+    state = AdaptivePositionStateORM(position_id="BSI_NY_SHORT_1")
+    state.symbol = "EURUSD"
+    state.direction = "SHORT"
+    state.strategy_id = "bsi"
+    state.current_volume = 1.0
+    state.original_volume = 1.0
+    state.entry_price = 1.1000
+    state.current_sl = 1.1020
+    state.original_sl = 1.1020
+    state.current_tp = 1.0960
+    state.original_tp = 1.0960
+    state.max_achieved_r = 1.0
+    state.min_achieved_r = 0.0
+    state.winner_classification = "healthy_pullback"
+    payload = {"price_current": 1.0990}  # 10 pips favorable = 0.5R (risk = 20 pips)
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    be_candidates = [c for c in candidates if c.action_type == "MOVE_SL_BREAKEVEN"]
+    assert be_candidates
+    assert be_candidates[0].requested_sl <= state.entry_price  # never above entry for a SHORT breakeven
+    assert be_candidates[0].requested_sl < state.current_sl  # genuinely tightens the stop
+
+
+def test_bsi_be_never_widens_stop_below_0_5r(monkeypatch):
+    """BE must not fire (and therefore cannot widen/loosen anything) before the trade has
+    genuinely reached +0.5R -- this is the core 'do not increase risk' invariant."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_ENABLED", "true")
+    # BSI Daily Bias Audit / BSI_ADAPTIVE_V2 test-isolation fix (2026-09-02): .env now genuinely
+    # sets BSI_ADAPTIVE_V2_ENABLED=true live (deployed), which python-dotenv loads into this test
+    # process the same as any other env var -- V2 deliberately takes precedence over V1 when both
+    # flags are set (see service.py's own bsi_adaptive_v2_active precedence comment), so any V1-
+    # specific test not explicitly controlling this would silently run under V2's routing instead.
+    # Explicitly cleared here so V1 tests stay env-independent; any test that genuinely wants V2
+    # active still sets this back to "true" itself afterward (last write wins) -- not a production
+    # behavior change, same test-isolation pattern already applied elsewhere this session.
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "false")
+    monkeypatch.setenv("BSI_BE_ENABLED", "true")
+    state = _managed_state("BSI_UO_EARLY")
+    state.strategy_id = "bsi"
+    state.winner_classification = "healthy_pullback"
+    payload = {"price_current": 4005.0}  # only +0.25R (risk=20, favorable=5)
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    assert not any(c.action_type == "MOVE_SL_BREAKEVEN" for c in candidates)
+    assert state.current_sl == 3980.0  # untouched
+
+
+def test_bsi_adaptive_skips_generic_partial_profit(monkeypatch):
+    """The single most important behavioral difference this whole change exists for: a BSI
+    position under BSI_ADAPTIVE_V1 must NEVER receive the generic 25%-at-+0.5R /33%-at-+1R
+    partial-profit candidates -- research found these measurably reduce BSI's realized R."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_ENABLED", "true")
+    # BSI Daily Bias Audit / BSI_ADAPTIVE_V2 test-isolation fix (2026-09-02): .env now genuinely
+    # sets BSI_ADAPTIVE_V2_ENABLED=true live (deployed), which python-dotenv loads into this test
+    # process the same as any other env var -- V2 deliberately takes precedence over V1 when both
+    # flags are set (see service.py's own bsi_adaptive_v2_active precedence comment), so any V1-
+    # specific test not explicitly controlling this would silently run under V2's routing instead.
+    # Explicitly cleared here so V1 tests stay env-independent; any test that genuinely wants V2
+    # active still sets this back to "true" itself afterward (last write wins) -- not a production
+    # behavior change, same test-isolation pattern already applied elsewhere this session.
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "false")
+    monkeypatch.setenv("BSI_BE_ENABLED", "true")
+    monkeypatch.setenv("ADAPTIVE_PARTIAL_PROFIT_R", "0.1")  # would fire immediately for a non-BSI position
+    state = _managed_state("BSI_UO_PARTIAL")
+    state.strategy_id = "bsi"
+    state.winner_classification = "healthy_pullback"
+    payload = {"price_current": 4010.0}  # +0.5R
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    assert not any(c.action_type == "PARTIAL_PROFIT" for c in candidates)
+
+
+def test_bsi_flag_disabled_falls_back_to_generic_manager_unchanged(monkeypatch):
+    """With BSI_ADAPTIVE_ENABLED unset (default false), a BSI position must be managed
+    IDENTICALLY to before this change -- generic partials/generic BE, nothing BSI-specific."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.delenv("BSI_ADAPTIVE_ENABLED", raising=False)
+    monkeypatch.delenv("BSI_BE_ENABLED", raising=False)
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "false")  # same live-.env test-isolation fix as above
+    monkeypatch.setenv("ADAPTIVE_PARTIAL_PROFIT_R", "0.1")
+    state = _managed_state("BSI_UO_FLAG_OFF")
+    state.strategy_id = "bsi"
+    state.winner_classification = "healthy_pullback"
+    payload = {"price_current": 4010.0}
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    # generic partial-profit machine (ADAPTIVE_PARTIAL_PROFIT_R=0.1) still applies -- unchanged.
+    assert any(c.action_type == "PARTIAL_PROFIT" for c in candidates)
+    # and no BSI-specific evidence tag anywhere.
+    assert not any(c.evidence.get("policy") == "BSI_ADAPTIVE_V1" for c in candidates)
+
+
+def test_bsi_adaptive_enabled_alone_without_be_enabled_produces_no_breakeven_at_all(monkeypatch):
+    """BSI_ADAPTIVE_ENABLED=true with BSI_BE_ENABLED left off/false must not silently fall back
+    to the generic 1.0R breakeven either -- each BSI behavior is opt-in independently, per the
+    reversible-configuration requirement. This is a deliberate, explicit, conservative default
+    (no downside protection fires until BOTH flags are turned on), not an oversight."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_ENABLED", "true")
+    # BSI Daily Bias Audit / BSI_ADAPTIVE_V2 test-isolation fix (2026-09-02): .env now genuinely
+    # sets BSI_ADAPTIVE_V2_ENABLED=true live (deployed), which python-dotenv loads into this test
+    # process the same as any other env var -- V2 deliberately takes precedence over V1 when both
+    # flags are set (see service.py's own bsi_adaptive_v2_active precedence comment), so any V1-
+    # specific test not explicitly controlling this would silently run under V2's routing instead.
+    # Explicitly cleared here so V1 tests stay env-independent; any test that genuinely wants V2
+    # active still sets this back to "true" itself afterward (last write wins) -- not a production
+    # behavior change, same test-isolation pattern already applied elsewhere this session.
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "false")
+    monkeypatch.delenv("BSI_BE_ENABLED", raising=False)
+    state = _managed_state("BSI_UO_PARTIAL_FLAG")
+    state.strategy_id = "bsi"
+    state.winner_classification = "healthy_pullback"
+    payload = {"price_current": 4020.0}  # +1.0R -- would trigger the GENERIC breakeven if it applied
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    assert not any(c.action_type == "MOVE_SL_BREAKEVEN" for c in candidates)
+    assert not any(c.action_type == "PARTIAL_PROFIT" for c in candidates)
+
+
+def test_bsi_flags_do_not_affect_non_bsi_strategies(monkeypatch):
+    """BSI_ADAPTIVE_ENABLED/BSI_BE_ENABLED turned on globally must have ZERO effect on a
+    non-BSI position -- routing is keyed strictly off state.strategy_id, never a bare global
+    switch that could accidentally reach legacy strategies."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_ENABLED", "true")
+    # BSI Daily Bias Audit / BSI_ADAPTIVE_V2 test-isolation fix (2026-09-02): .env now genuinely
+    # sets BSI_ADAPTIVE_V2_ENABLED=true live (deployed), which python-dotenv loads into this test
+    # process the same as any other env var -- V2 deliberately takes precedence over V1 when both
+    # flags are set (see service.py's own bsi_adaptive_v2_active precedence comment), so any V1-
+    # specific test not explicitly controlling this would silently run under V2's routing instead.
+    # Explicitly cleared here so V1 tests stay env-independent; any test that genuinely wants V2
+    # active still sets this back to "true" itself afterward (last write wins) -- not a production
+    # behavior change, same test-isolation pattern already applied elsewhere this session.
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "false")
+    monkeypatch.setenv("BSI_BE_ENABLED", "true")
+    monkeypatch.setenv("BSI_BE_TRIGGER_R", "0.5")
+    state = _managed_state("LEGACY_TREND_1")
+    state.strategy_id = "trend_pullback"
+    state.winner_classification = "healthy_pullback"
+    payload = {"price_current": 4010.0}  # +0.5R -- would fire the BSI BE candidate if misrouted
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    assert not any(c.evidence.get("policy") == "BSI_ADAPTIVE_V1" for c in candidates)
+    # generic ADAPTIVE_BREAKEVEN_R default (1.0) not yet reached at +0.5R -- no BE at all here,
+    # confirming the legacy strategy still uses the GENERIC (1.0R) trigger, not BSI's 0.5R one.
+    assert not any(c.action_type == "MOVE_SL_BREAKEVEN" for c in candidates)
+
+
+def test_bsi_reactionary_and_ob_liquidity_variants_are_also_routed(monkeypatch):
+    """bsi_engine.py's entry_confirmation_mode variants persist strategy_id as
+    'bsi_reactionary'/'bsi_ob_liquidity' (see evaluate_bsi_order_flow's strategy_id construction)
+    -- routing must match the whole 'bsi' family by prefix, not only the bare 'bsi' id."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_ENABLED", "true")
+    # BSI Daily Bias Audit / BSI_ADAPTIVE_V2 test-isolation fix (2026-09-02): .env now genuinely
+    # sets BSI_ADAPTIVE_V2_ENABLED=true live (deployed), which python-dotenv loads into this test
+    # process the same as any other env var -- V2 deliberately takes precedence over V1 when both
+    # flags are set (see service.py's own bsi_adaptive_v2_active precedence comment), so any V1-
+    # specific test not explicitly controlling this would silently run under V2's routing instead.
+    # Explicitly cleared here so V1 tests stay env-independent; any test that genuinely wants V2
+    # active still sets this back to "true" itself afterward (last write wins) -- not a production
+    # behavior change, same test-isolation pattern already applied elsewhere this session.
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "false")
+    monkeypatch.setenv("BSI_BE_ENABLED", "true")
+    state = _managed_state("BSI_REACTIONARY_1")
+    state.strategy_id = "bsi_reactionary"
+    state.winner_classification = "healthy_pullback"
+    payload = {"price_current": 4010.0}
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    assert any(c.evidence.get("policy") == "BSI_ADAPTIVE_V1" for c in candidates)
+
+
+def test_bsi_v1_still_works_unchanged_when_v2_flag_is_off(monkeypatch):
+    """BSI_ADAPTIVE_V2_ENABLED unset/false is a provable no-op on V1's own behavior -- this is the
+    same test as test_bsi_be_fires_at_0_5r_when_flags_enabled_long above, re-run with the new V2
+    flag explicitly cleared, to prove V1 is unaffected by this change."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_ENABLED", "true")
+    # BSI Daily Bias Audit / BSI_ADAPTIVE_V2 test-isolation fix (2026-09-02): .env now genuinely
+    # sets BSI_ADAPTIVE_V2_ENABLED=true live (deployed), which python-dotenv loads into this test
+    # process the same as any other env var -- V2 deliberately takes precedence over V1 when both
+    # flags are set (see service.py's own bsi_adaptive_v2_active precedence comment), so any V1-
+    # specific test not explicitly controlling this would silently run under V2's routing instead.
+    # Explicitly cleared here so V1 tests stay env-independent; any test that genuinely wants V2
+    # active still sets this back to "true" itself afterward (last write wins) -- not a production
+    # behavior change, same test-isolation pattern already applied elsewhere this session.
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "false")
+    monkeypatch.setenv("BSI_BE_ENABLED", "true")
+    monkeypatch.delenv("BSI_ADAPTIVE_V2_ENABLED", raising=False)
+    state = _managed_state("BSI_V1_STILL_WORKS")
+    state.strategy_id = "bsi"
+    state.winner_classification = "healthy_pullback"
+    payload = {"price_current": 4010.0}  # +0.5R
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    be_candidates = [c for c in candidates if c.action_type == "MOVE_SL_BREAKEVEN"]
+    assert be_candidates and be_candidates[0].evidence.get("policy") == "BSI_ADAPTIVE_V1"
+
+
+def test_bsi_be_trigger_r_is_configurable(monkeypatch):
+    """BSI_BE_TRIGGER_R must be genuinely read from the environment, not hardcoded -- required
+    for Section 10's future coarse sensitivity sweep (0.25R/0.5R/0.75R/1.0R) without a code
+    change."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_ENABLED", "true")
+    # BSI Daily Bias Audit / BSI_ADAPTIVE_V2 test-isolation fix (2026-09-02): .env now genuinely
+    # sets BSI_ADAPTIVE_V2_ENABLED=true live (deployed), which python-dotenv loads into this test
+    # process the same as any other env var -- V2 deliberately takes precedence over V1 when both
+    # flags are set (see service.py's own bsi_adaptive_v2_active precedence comment), so any V1-
+    # specific test not explicitly controlling this would silently run under V2's routing instead.
+    # Explicitly cleared here so V1 tests stay env-independent; any test that genuinely wants V2
+    # active still sets this back to "true" itself afterward (last write wins) -- not a production
+    # behavior change, same test-isolation pattern already applied elsewhere this session.
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "false")
+    monkeypatch.setenv("BSI_BE_ENABLED", "true")
+    monkeypatch.setenv("BSI_BE_TRIGGER_R", "0.75")
+    state = _managed_state("BSI_UO_TRIGGER")
+    state.strategy_id = "bsi"
+    state.winner_classification = "healthy_pullback"
+    payload_at_half_r = {"price_current": 4010.0}  # +0.5R -- below the configured 0.75R trigger
+
+    with SessionLocal() as db:
+        candidates_below = adaptive_management_service._evaluate_position(db, state, payload_at_half_r, {}, [])
+    assert not any(c.action_type == "MOVE_SL_BREAKEVEN" for c in candidates_below)
+
+    payload_at_three_quarter_r = {"price_current": 4015.0}  # +0.75R
+    with SessionLocal() as db:
+        candidates_at = adaptive_management_service._evaluate_position(db, state, payload_at_three_quarter_r, {}, [])
+    assert any(c.action_type == "MOVE_SL_BREAKEVEN" for c in candidates_at)
+
+
+# ==================================================================================
+# BSI_ADAPTIVE_V2 (2026-09-02, user-authorized build+DEMO-forward-validation, DEFAULT OFF) -- a
+# SIBLING to BSI_ADAPTIVE_V1's own gate above, not a replacement (V1's code/tests above are
+# untouched). Policy: hold toward the position's own BSI_BASELINE_V1-computed target with NONE of
+# the generic manager's machinery (no 25%@0.5R/33%@1R partials, no breakeven@1R, no V1-style
+# breakeven@0.5R either) EXCEPT exactly one partial once tp_progress reaches
+# BSI_ADAPTIVE_V2_PARTIAL_AT_TP_PROGRESS (default 0.60), sized at
+# BSI_ADAPTIVE_V2_PARTIAL_FRACTION (default 0.5) of current volume. `_managed_state` gives
+# entry=4000/sl=3980/tp=4100 (LONG), so tp_progress = (price-entry)/(tp-entry); 0.60 progress =
+# price 4060.
+# ==================================================================================
+def test_bsi_v2_partial_fires_at_exactly_0_60_tp_progress(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "true")
+    state = _managed_state("BSI_V2_AT_060")
+    state.strategy_id = "bsi"
+    state.winner_classification = "healthy_pullback"
+    state.tp_progress = 0.60
+    payload = {"price_current": 4060.0}
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    partials = [c for c in candidates if c.action_type == "PARTIAL_PROFIT"]
+    assert partials, f"expected a BSI_ADAPTIVE_V2 partial candidate, got {[c.action_type for c in candidates]}"
+    assert partials[0].evidence.get("policy") == "BSI_ADAPTIVE_V2"
+    assert partials[0].evidence.get("target_stage") == "BSI_V2_PARTIAL"
+    assert partials[0].requested_volume == pytest.approx(0.5)  # 50% of current_volume=1.0, default fraction
+
+
+def test_bsi_v2_partial_does_not_fire_before_0_60_tp_progress(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "true")
+    state = _managed_state("BSI_V2_BELOW_060")
+    state.strategy_id = "bsi"
+    state.winner_classification = "healthy_pullback"
+    state.tp_progress = 0.59
+    payload = {"price_current": 4059.0}
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    assert not any(c.action_type == "PARTIAL_PROFIT" for c in candidates)
+
+
+def test_bsi_v2_partial_fires_exactly_once_not_repeatedly(monkeypatch):
+    """Once the stage is persisted as executed, the SAME reused partial_profit_stage machinery
+    that already guarantees V1/generic partials fire at most once per stage must do the same for
+    V2's new stage value."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "true")
+    state = _managed_state("BSI_V2_ALREADY_FIRED")
+    state.strategy_id = "bsi"
+    state.winner_classification = "healthy_pullback"
+    state.tp_progress = 0.90  # well past the 0.60 trigger
+    state.partial_profit_stage = "BSI_V2_PARTIAL_EXECUTED"
+    payload = {"price_current": 4090.0}
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    assert not any(c.action_type == "PARTIAL_PROFIT" for c in candidates)
+
+
+def test_bsi_v2_never_fires_generic_or_v1_breakeven_or_generic_partials(monkeypatch):
+    """The core invariant of this policy: while active, NONE of the generic manager's machinery
+    (25%@0.5R, 33%@1R, breakeven@1R) or V1's own breakeven@0.5R may fire for a BSI position --
+    only the single tp_progress-gated partial above. Set every other trigger's threshold low
+    enough that it would obviously fire if misrouted."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "true")
+    monkeypatch.setenv("BSI_ADAPTIVE_ENABLED", "true")  # even with V1 also on, V2 must win (see precedence test below) -- here proving no BE fires either way
+    monkeypatch.setenv("BSI_BE_ENABLED", "true")
+    monkeypatch.setenv("ADAPTIVE_PARTIAL_PROFIT_R", "0.05")
+    monkeypatch.setenv("ADAPTIVE_BREAKEVEN_R", "0.05")
+    monkeypatch.setenv("BSI_BE_TRIGGER_R", "0.05")
+    state = _managed_state("BSI_V2_NO_GENERIC")
+    state.strategy_id = "bsi"
+    state.winner_classification = "healthy_pullback"
+    state.tp_progress = 0.30  # below V2's own 0.60 trigger, but well past every other trigger's R threshold
+    payload = {"price_current": 4030.0}  # +1.5R -- would fire ALL generic/V1 triggers if misrouted
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    assert not any(c.action_type == "PARTIAL_PROFIT" for c in candidates)
+    assert not any(c.action_type == "MOVE_SL_BREAKEVEN" for c in candidates)
+    assert not any(c.action_type == "TRAIL_STOP" for c in candidates)
+
+
+def test_bsi_v2_takes_precedence_over_v1_when_both_flags_enabled(monkeypatch):
+    """Item 6 of the spec: when both BSI_ADAPTIVE_ENABLED and BSI_ADAPTIVE_V2_ENABLED are set,
+    V2 wins -- routes to V2's own partial logic, not V1's breakeven."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_ENABLED", "true")
+    # BSI Daily Bias Audit / BSI_ADAPTIVE_V2 test-isolation fix (2026-09-02): .env now genuinely
+    # sets BSI_ADAPTIVE_V2_ENABLED=true live (deployed), which python-dotenv loads into this test
+    # process the same as any other env var -- V2 deliberately takes precedence over V1 when both
+    # flags are set (see service.py's own bsi_adaptive_v2_active precedence comment), so any V1-
+    # specific test not explicitly controlling this would silently run under V2's routing instead.
+    # Explicitly cleared here so V1 tests stay env-independent; any test that genuinely wants V2
+    # active still sets this back to "true" itself afterward (last write wins) -- not a production
+    # behavior change, same test-isolation pattern already applied elsewhere this session.
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "false")
+    monkeypatch.setenv("BSI_BE_ENABLED", "true")
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "true")
+    state = _managed_state("BSI_V2_PRECEDENCE")
+    state.strategy_id = "bsi"
+    state.winner_classification = "healthy_pullback"
+    state.tp_progress = 0.60
+    payload = {"price_current": 4060.0}  # +2.0R -- would also clear V1's 0.5R BE trigger if V1 won
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    assert any(c.evidence.get("policy") == "BSI_ADAPTIVE_V2" for c in candidates)
+    assert not any(c.evidence.get("policy") == "BSI_ADAPTIVE_V1" for c in candidates)
+    assert not any(c.action_type == "MOVE_SL_BREAKEVEN" for c in candidates)
+
+
+def test_bsi_v2_never_fires_for_non_bsi_strategies(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "true")
+    state = _managed_state("LEGACY_V2_CHECK")
+    state.strategy_id = "trend_pullback"
+    state.winner_classification = "healthy_pullback"
+    state.tp_progress = 0.60
+    payload = {"price_current": 4060.0}
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    assert not any(c.evidence.get("policy") == "BSI_ADAPTIVE_V2" for c in candidates)
+
+
+def test_bsi_v2_never_touches_stop_loss(monkeypatch):
+    """V2 makes no SL modification of any kind -- current_sl must be completely untouched by the
+    candidate-generation step itself, and no MOVE_SL_BREAKEVEN/TRAIL_STOP/structure-stop
+    candidate targeting SL should originate from V2's own branches (the ungated, pre-existing
+    TP_PROGRESS_STRUCTURE_STOP zone block is a separate, already-existing mechanism this task
+    deliberately does not touch -- excluded here by keeping winner_classification/zone off its
+    trigger conditions)."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "true")
+    state = _managed_state("BSI_V2_SL_UNTOUCHED")
+    state.strategy_id = "bsi"
+    state.winner_classification = "neutral"  # not strong_continuation/healthy_pullback -- keeps the pre-existing zone-trailing block from firing, isolating V2's own contribution
+    state.tp_progress = 0.75
+    original_sl = state.current_sl
+    payload = {"price_current": 4075.0}
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    assert state.current_sl == original_sl
+    sl_touching = [c for c in candidates if c.requested_sl is not None]
+    assert not sl_touching, f"BSI_ADAPTIVE_V2 must never propose an SL change, got {sl_touching}"
+
+
+def test_bsi_v2_partial_threshold_and_fraction_are_configurable(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_ENABLED", "true")
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_PARTIAL_AT_TP_PROGRESS", "0.40")
+    monkeypatch.setenv("BSI_ADAPTIVE_V2_PARTIAL_FRACTION", "0.25")
+    state = _managed_state("BSI_V2_CONFIGURABLE")
+    state.strategy_id = "bsi"
+    state.winner_classification = "healthy_pullback"
+    state.tp_progress = 0.40
+    payload = {"price_current": 4040.0}
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    partials = [c for c in candidates if c.action_type == "PARTIAL_PROFIT"]
+    assert partials, "custom 0.40 threshold must be genuinely read from env, not hardcoded at 0.60"
+    assert partials[0].requested_volume == pytest.approx(0.25)  # 25% of current_volume=1.0, custom fraction
+
+
+def test_bsi_v2_flag_off_falls_back_to_v1_or_generic_unchanged(monkeypatch):
+    """BSI_ADAPTIVE_V2_ENABLED unset (default false) must leave existing behavior completely
+    unaffected -- here with V1 also off, a BSI position falls through to the untouched generic
+    manager exactly as it did before this change existed."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.delenv("BSI_ADAPTIVE_V2_ENABLED", raising=False)
+    monkeypatch.delenv("BSI_ADAPTIVE_ENABLED", raising=False)
+    monkeypatch.setenv("ADAPTIVE_PARTIAL_PROFIT_R", "0.1")
+    state = _managed_state("BSI_V2_FLAG_OFF")
+    state.strategy_id = "bsi"
+    state.winner_classification = "healthy_pullback"
+    state.tp_progress = 0.60
+    payload = {"price_current": 4060.0}
+
+    with SessionLocal() as db:
+        candidates = adaptive_management_service._evaluate_position(db, state, payload, {}, [])
+
+    assert not any(c.evidence.get("policy") == "BSI_ADAPTIVE_V2" for c in candidates)
+    # generic partial-profit machine (ADAPTIVE_PARTIAL_PROFIT_R=0.1) still applies -- unchanged.
+    assert any(c.action_type == "PARTIAL_PROFIT" and c.evidence.get("target_stage") == "PARTIAL_1" for c in candidates)
