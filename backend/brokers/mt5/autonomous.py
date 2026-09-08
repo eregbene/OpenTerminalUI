@@ -12,6 +12,7 @@ from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from backend.adaptive_management.tp_protection import classify_stop_quality_v2, construct_dynamic_stop
 from backend.market_structure.bar_utils import normalize_bars
@@ -132,6 +133,129 @@ def _v3_execution_confidence_blockers(confidence: float | None) -> list[str]:
     if float(confidence) < _v3_min_execution_confidence():
         return ["BSI_V3_EXECUTION_CONFIDENCE_BELOW_MIN"]
     return []
+
+
+def _parse_hhmm(value: str) -> tuple[int, int]:
+    hour, minute = value.strip().split(":", 1)
+    return int(hour), int(minute)
+
+
+def _v3_entry_windows() -> list[tuple[tuple[int, int], tuple[int, int]]]:
+    windows: list[tuple[tuple[int, int], tuple[int, int]]] = []
+    for key, default in (("BSI_V3_ENTRY_WINDOW_1", "09:50-13:00"), ("BSI_V3_ENTRY_WINDOW_2", "15:30-18:00")):
+        raw = os.getenv(key, default).strip()
+        if not raw:
+            continue
+        start, end = raw.split("-", 1)
+        windows.append((_parse_hhmm(start), _parse_hhmm(end)))
+    return windows
+
+
+def _v3_entry_timezone() -> ZoneInfo:
+    name = os.getenv("BSI_V3_ENTRY_TIMEZONE", "Europe/Bucharest").strip() or "Europe/Bucharest"
+    try:
+        return ZoneInfo(name)
+    except ZoneInfoNotFoundError:
+        logger.warning("Invalid BSI_V3_ENTRY_TIMEZONE=%s; falling back to Europe/Bucharest", name)
+        return ZoneInfo("Europe/Bucharest")
+
+
+def _as_aware_utc(value: Any) -> datetime | None:
+    if isinstance(value, datetime):
+        dt = value
+    elif isinstance(value, str) and value.strip():
+        try:
+            dt = datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
+        except ValueError:
+            return None
+    else:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc)
+
+
+def _v3_confirmation_completed_at(candidate: dict[str, Any]) -> datetime:
+    evidence = bsi_v3_evidence(candidate)
+    for key in ("confirmation_bar_close_at", "confirmation_confirmed_at", "confirmed_at", "timestamp"):
+        parsed = _as_aware_utc(evidence.get(key))
+        if parsed is not None:
+            return parsed
+    parsed = _as_aware_utc((candidate.get("context") or {}).get("timestamp") or candidate.get("generated_at"))
+    return parsed or utcnow()
+
+
+def _v3_candidate_strategy_ids(candidate: dict[str, Any]) -> set[str]:
+    evidence = bsi_v3_evidence(candidate)
+    values: list[Any] = [
+        evidence.get("v3_strategy_id"),
+        evidence.get("setup_subtype"),
+        (candidate.get("context") or {}).get("strategy_id"),
+    ]
+    values.extend(evidence.get("v3_confluence_strategy_ids") or [])
+    return {str(value).strip().lower() for value in values if str(value or "").strip()}
+
+
+def _v3_strategy_time_exception_allowed(candidate: dict[str, Any]) -> bool:
+    if not _env_bool("BSI_V3_ALLOW_STRATEGY_TIME_EXCEPTIONS", False):
+        return False
+    allowed = {
+        item.strip().lower()
+        for item in os.getenv("BSI_V3_ENTRY_WINDOW_EXCEPTION_STRATEGIES", "").split(",")
+        if item.strip()
+    }
+    return bool(allowed.intersection(_v3_candidate_strategy_ids(candidate)))
+
+
+def _v3_next_entry_window(local_dt: datetime) -> str | None:
+    tz = local_dt.tzinfo
+    for day_offset in range(0, 3):
+        local_day = local_dt.date() + timedelta(days=day_offset)
+        for start, _end in _v3_entry_windows():
+            candidate = datetime(local_day.year, local_day.month, local_day.day, start[0], start[1], tzinfo=tz)
+            if candidate > local_dt:
+                return candidate.isoformat()
+    return None
+
+
+def _v3_entry_window_decision(candidate: dict[str, Any], *, now: datetime | None = None) -> dict[str, Any]:
+    if not _env_bool("BSI_V3_GLOBAL_ENTRY_WINDOW_ENABLED", True):
+        return {"allowed": True, "entry_window_source": "BENSIM_USER_POLICY", "policy_enabled": False}
+    completed_at = _v3_confirmation_completed_at(candidate) if now is None else now.astimezone(timezone.utc)
+    tz = _v3_entry_timezone()
+    local = completed_at.astimezone(tz)
+    local_minutes = local.hour * 60 + local.minute
+    evidence = bsi_v3_evidence(candidate)
+    for start, end in _v3_entry_windows():
+        start_minutes = start[0] * 60 + start[1]
+        end_minutes = end[0] * 60 + end[1]
+        if start_minutes <= local_minutes < end_minutes:
+            return {
+                "allowed": True,
+                "entry_window_source": "BENSIM_USER_POLICY",
+                "confirmation_completed_at": completed_at.isoformat(),
+                "local_bucharest_time": local.isoformat(),
+                "entry_timezone": str(tz),
+            }
+    if _v3_strategy_time_exception_allowed(candidate):
+        return {
+            "allowed": True,
+            "entry_window_source": "BENSIM_USER_POLICY",
+            "policy_exception": True,
+            "confirmation_completed_at": completed_at.isoformat(),
+            "local_bucharest_time": local.isoformat(),
+            "entry_timezone": str(tz),
+        }
+    return {
+        "allowed": False,
+        "reason": "ENTRY_WINDOW_BLOCKED",
+        "conflict": "TIME_WINDOW_CONFLICT" if evidence.get("session_window") else None,
+        "entry_window_source": "BENSIM_USER_POLICY",
+        "confirmation_completed_at": completed_at.isoformat(),
+        "local_bucharest_time": local.isoformat(),
+        "next_entry_window": _v3_next_entry_window(local),
+        "entry_timezone": str(tz),
+    }
 
 
 def _v3_confidence_band(value: float | None) -> str:
@@ -1646,6 +1770,26 @@ class MT5AutonomousTradingService:
                     "v3_execution_identity": bsi_v3_identity_from_candidate(candidate) | {"execution_id": evidence["bsi_v3_execution_id"]},
                     "order_send_calls": 0,
                 }
+            entry_window = _v3_entry_window_decision(candidate)
+            evidence.update(
+                {
+                    "entry_window_source": entry_window.get("entry_window_source"),
+                    "entry_window_timezone": entry_window.get("entry_timezone"),
+                    "entry_window_confirmation_completed_at": entry_window.get("confirmation_completed_at"),
+                    "entry_window_local_bucharest_time": entry_window.get("local_bucharest_time"),
+                    "entry_window_next_entry_window": entry_window.get("next_entry_window"),
+                }
+            )
+            if not entry_window.get("allowed"):
+                evidence["entry_window_status"] = "ENTRY_WINDOW_BLOCKED"
+                return {
+                    "status": "REJECTED",
+                    "reasons": ["ENTRY_WINDOW_BLOCKED"],
+                    "entry_window": entry_window,
+                    "v3_execution_identity": bsi_v3_identity_from_candidate(candidate) | {"execution_id": evidence["bsi_v3_execution_id"]},
+                    "order_send_calls": 0,
+                }
+            evidence["entry_window_status"] = "ENTRY_ALLOWED"
             exposure_blockers = await self._v3_duplicate_exposure_blockers(candidate)
             if exposure_blockers:
                 return {
@@ -2472,6 +2616,19 @@ class MT5AutonomousTradingService:
             confluence_count = int(evidence.get("v3_confluence_count") or 0)
             require_confluence = os.getenv("BSI_V3_FAST_ENTRY_REQUIRE_CONFLUENCE", "true").strip().lower() not in {"false", "0", "off", "no"}
             quality_blockers: list[str] = []
+            entry_window = _v3_entry_window_decision(best)
+            evidence.update(
+                {
+                    "entry_window_source": entry_window.get("entry_window_source"),
+                    "entry_window_timezone": entry_window.get("entry_timezone"),
+                    "entry_window_confirmation_completed_at": entry_window.get("confirmation_completed_at"),
+                    "entry_window_local_bucharest_time": entry_window.get("local_bucharest_time"),
+                    "entry_window_next_entry_window": entry_window.get("next_entry_window"),
+                    "entry_window_status": "ENTRY_ALLOWED" if entry_window.get("allowed") else "ENTRY_WINDOW_BLOCKED",
+                }
+            )
+            if not entry_window.get("allowed"):
+                quality_blockers.append("ENTRY_WINDOW_BLOCKED")
             if float(confidence["overall_score"]) < min_fast_confidence:
                 quality_blockers.append("BSI_V3_EXECUTION_CONFIDENCE_BELOW_MIN")
             if require_confluence and confluence_count < 2:
@@ -2496,12 +2653,14 @@ class MT5AutonomousTradingService:
                         "confirmation_confidence": evidence.get("confirmation_confidence"),
                         "execution_confidence": evidence.get("execution_confidence"),
                         "execution_confidence_band": evidence.get("execution_confidence_band"),
+                        "entry_window": entry_window,
                     },
                 )
                 return {
                     "account_id": self.account_id,
-                    "status": "FAST_WATCHER_QUALITY_REJECTED",
+                    "status": "ENTRY_WINDOW_BLOCKED" if quality_blockers == ["ENTRY_WINDOW_BLOCKED"] else "FAST_WATCHER_QUALITY_REJECTED",
                     "blockers": quality_blockers,
+                    "entry_window": entry_window,
                     "cycle_id": cycle_id,
                     "selected_symbol": best.get("broker_symbol"),
                     "selected_strategy": evidence.get("v3_strategy_id"),

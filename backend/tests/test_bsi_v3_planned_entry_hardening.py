@@ -6,7 +6,7 @@ import json
 from types import SimpleNamespace
 
 import backend.brokers.mt5.autonomous as autonomous_mod
-from backend.brokers.mt5.autonomous import MT5AutonomousTradingService, _env_float, _env_int, _v3_execution_confidence_blockers, _v3_m5_direct_execution_enabled, _v3_planned_entry_live
+from backend.brokers.mt5.autonomous import MT5AutonomousTradingService, _env_float, _env_int, _v3_entry_window_decision, _v3_execution_confidence_blockers, _v3_m5_direct_execution_enabled, _v3_planned_entry_live
 from backend.brokers.mt5.config import MT5Config
 from backend.brokers.mt5.ownership import is_bensim_owned_position, is_bensim_owned_order
 from backend.adaptive_management.service import _v3_trade_horizon
@@ -143,6 +143,84 @@ def test_fast_watcher_daily_cap_is_disabled_by_default(monkeypatch) -> None:
     blockers = service._fast_watcher_trade_frequency_blockers({"canonical_pair": "EURUSD"})
 
     assert "BSI_V3_FAST_DAILY_ACCOUNT_CAP" not in blockers
+
+
+def _v3_window_candidate(confirmation_at: datetime) -> dict:
+    return {
+        "context": {
+            "strategy_evidence": {
+                "v3_strategy_id": "bsi_v3_mmxm",
+                "confirmation_bar_close_at": confirmation_at.isoformat(),
+            }
+        }
+    }
+
+
+def test_bucharest_entry_window_exact_boundaries(monkeypatch) -> None:
+    monkeypatch.setenv("BSI_V3_GLOBAL_ENTRY_WINDOW_ENABLED", "true")
+    monkeypatch.setenv("BSI_V3_ENTRY_TIMEZONE", "Europe/Bucharest")
+
+    cases = [
+        (datetime(2026, 1, 15, 7, 49, 59, tzinfo=timezone.utc), False),  # 09:49:59 winter
+        (datetime(2026, 1, 15, 7, 50, 0, tzinfo=timezone.utc), True),  # 09:50:00 winter
+        (datetime(2026, 1, 15, 10, 59, 59, tzinfo=timezone.utc), True),  # 12:59:59 winter
+        (datetime(2026, 1, 15, 11, 0, 0, tzinfo=timezone.utc), False),  # 13:00:00 winter
+        (datetime(2026, 7, 15, 12, 29, 59, tzinfo=timezone.utc), False),  # 15:29:59 summer
+        (datetime(2026, 7, 15, 12, 30, 0, tzinfo=timezone.utc), True),  # 15:30:00 summer
+        (datetime(2026, 7, 15, 14, 59, 59, tzinfo=timezone.utc), True),  # 17:59:59 summer
+        (datetime(2026, 7, 15, 15, 0, 0, tzinfo=timezone.utc), False),  # 18:00:00 summer
+    ]
+
+    for confirmation_at, expected in cases:
+        decision = _v3_entry_window_decision(_v3_window_candidate(confirmation_at))
+        assert decision["allowed"] is expected
+
+
+def test_bucharest_entry_window_uses_confirmation_close_not_plan_time(monkeypatch) -> None:
+    monkeypatch.setenv("BSI_V3_GLOBAL_ENTRY_WINDOW_ENABLED", "true")
+    candidate = _v3_window_candidate(datetime(2026, 1, 15, 11, 3, tzinfo=timezone.utc))
+    candidate["context"]["strategy_evidence"]["v3_plan_created_at"] = datetime(2026, 1, 15, 7, 30, tzinfo=timezone.utc).isoformat()
+
+    decision = _v3_entry_window_decision(candidate)
+
+    assert decision["allowed"] is False
+    assert decision["reason"] == "ENTRY_WINDOW_BLOCKED"
+    assert decision["entry_window_source"] == "BENSIM_USER_POLICY"
+
+
+def test_strategy_time_exceptions_are_disabled_unless_authorized(monkeypatch) -> None:
+    candidate = _v3_window_candidate(datetime(2026, 1, 15, 11, 3, tzinfo=timezone.utc))
+    candidate["context"]["strategy_evidence"]["session_window"] = "ASIAN_LONDON_NY"
+    candidate["context"]["strategy_evidence"]["v3_strategy_id"] = "bsi_v3_asian_v2"
+    monkeypatch.setenv("BSI_V3_ALLOW_STRATEGY_TIME_EXCEPTIONS", "false")
+    monkeypatch.setenv("BSI_V3_ENTRY_WINDOW_EXCEPTION_STRATEGIES", "bsi_v3_asian_v2")
+
+    blocked = _v3_entry_window_decision(candidate)
+
+    assert blocked["allowed"] is False
+    assert blocked["conflict"] == "TIME_WINDOW_CONFLICT"
+
+    monkeypatch.setenv("BSI_V3_ALLOW_STRATEGY_TIME_EXCEPTIONS", "true")
+    allowed = _v3_entry_window_decision(candidate)
+
+    assert allowed["allowed"] is True
+    assert allowed["policy_exception"] is True
+
+
+def test_bucharest_entry_window_handles_dst_transition(monkeypatch) -> None:
+    monkeypatch.setenv("BSI_V3_GLOBAL_ENTRY_WINDOW_ENABLED", "true")
+    monkeypatch.setenv("BSI_V3_ENTRY_TIMEZONE", "Europe/Bucharest")
+
+    winter = _v3_entry_window_decision(_v3_window_candidate(datetime(2026, 1, 15, 7, 50, tzinfo=timezone.utc)))
+    summer = _v3_entry_window_decision(_v3_window_candidate(datetime(2026, 7, 15, 6, 50, tzinfo=timezone.utc)))
+    transition = _v3_entry_window_decision(_v3_window_candidate(datetime(2026, 3, 29, 6, 50, tzinfo=timezone.utc)))
+
+    assert winter["allowed"] is True
+    assert winter["local_bucharest_time"].endswith("+02:00")
+    assert summer["allowed"] is True
+    assert summer["local_bucharest_time"].endswith("+03:00")
+    assert transition["allowed"] is True
+    assert transition["local_bucharest_time"].endswith("+03:00")
 
 
 def test_new_plan_persists_strategy_clock_metadata() -> None:
