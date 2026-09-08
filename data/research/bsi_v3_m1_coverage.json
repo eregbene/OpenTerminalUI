@@ -1,0 +1,1319 @@
+{
+  "window": {
+    "start": "2026-01-01T00:00:00+00:00",
+    "end": "2026-09-01T00:00:00+00:00"
+  },
+  "symbol_day_strategy": [
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_order_flow",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_order_flow",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_order_flow",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_order_flow",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_order_flow",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_order_flow",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_order_flow",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_order_flow",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_order_flow",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_order_flow",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_smt_divergence",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_smt_divergence",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_smt_divergence",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_smt_divergence",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_smt_divergence",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_smt_divergence",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_smt_divergence",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_smt_divergence",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_smt_divergence",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_smt_divergence",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_abc",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_abc",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_abc",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_abc",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_abc",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_abc",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_abc",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_abc",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_abc",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_abc",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_abcd",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_abcd",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_abcd",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_abcd",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_abcd",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_abcd",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_abcd",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_abcd",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_abcd",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_abcd",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_asian_v2",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_asian_v2",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_asian_v2",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_asian_v2",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_asian_v2",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_asian_v2",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_asian_v2",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_asian_v2",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_asian_v2",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_asian_v2",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_0930",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_0930",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_0930",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_0930",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_0930",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_0930",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_0930",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_0930",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_0930",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_0930",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_reactionary_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_reactionary_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_reactionary_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_reactionary_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_reactionary_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_reactionary_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_reactionary_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_reactionary_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_reactionary_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_reactionary_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_ict_silver_bullet",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_ict_silver_bullet",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_ict_silver_bullet",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_ict_silver_bullet",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_ict_silver_bullet",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_ict_silver_bullet",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_ict_silver_bullet",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_ict_silver_bullet",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_ict_silver_bullet",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_ict_silver_bullet",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_silver_bullet_with_bias",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_silver_bullet_with_bias",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_silver_bullet_with_bias",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_silver_bullet_with_bias",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_silver_bullet_with_bias",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_silver_bullet_with_bias",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_silver_bullet_with_bias",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_silver_bullet_with_bias",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_silver_bullet_with_bias",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_silver_bullet_with_bias",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_4h_order_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_4h_order_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_4h_order_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_4h_order_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_4h_order_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_4h_order_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_4h_order_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_4h_order_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_4h_order_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_4h_order_block",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_mmxm",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_mmxm",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_mmxm",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_mmxm",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_mmxm",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_mmxm",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_mmxm",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_mmxm",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_mmxm",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_mmxm",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_holy_grail",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_holy_grail",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_holy_grail",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_holy_grail",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_holy_grail",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_holy_grail",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_holy_grail",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_holy_grail",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_holy_grail",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_holy_grail",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_juggernaut",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_juggernaut",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_juggernaut",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_juggernaut",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_juggernaut",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_juggernaut",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_juggernaut",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_juggernaut",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_juggernaut",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_juggernaut",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_spectre",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_spectre",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_spectre",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_spectre",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_spectre",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_spectre",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_spectre",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_spectre",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_spectre",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_spectre",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_monday_range",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_monday_range",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_monday_range",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_monday_range",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_monday_range",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_monday_range",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_monday_range",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_monday_range",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_monday_range",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_monday_range",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_weaver",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_weaver",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_weaver",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_weaver",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_weaver",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_weaver",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_weaver",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_weaver",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_weaver",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_weaver",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_ar50",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_ar50",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_ar50",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_ar50",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_ar50",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_ar50",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_ar50",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_ar50",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_ar50",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_ar50",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_ifvg_po3",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_ifvg_po3",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_ifvg_po3",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_ifvg_po3",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_ifvg_po3",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_ifvg_po3",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_ifvg_po3",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_ifvg_po3",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_ifvg_po3",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_ifvg_po3",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_turtle_soups_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_turtle_soups_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_turtle_soups_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_turtle_soups_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_turtle_soups_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_turtle_soups_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_turtle_soups_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_turtle_soups_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_turtle_soups_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_turtle_soups_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_yin_yang",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_yin_yang",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_yin_yang",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_yin_yang",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_yin_yang",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_yin_yang",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_yin_yang",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_yin_yang",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_yin_yang",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_yin_yang",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_4h_candle_ranges",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_4h_candle_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_4h_candle_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_4h_candle_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_4h_candle_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_4h_candle_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_4h_candle_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_4h_candle_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_4h_candle_ranges",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_4h_candle_ranges",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_smt_session_hl",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_smt_session_hl",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_smt_session_hl",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_smt_session_hl",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_smt_session_hl",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_smt_session_hl",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_smt_session_hl",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_smt_session_hl",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_smt_session_hl",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_smt_session_hl",
+      "state": "OUT_OF_INSTRUMENT_SCOPE"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_1h_candle_ranges",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_1h_candle_ranges",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_1h_candle_ranges",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_1h_candle_ranges",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_1h_candle_ranges",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_1h_candle_ranges",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_1h_candle_ranges",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_1h_candle_ranges",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_1h_candle_ranges",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_1h_candle_ranges",
+      "state": "DATA_GAP_M1"
+    },
+    {
+      "symbol": "EURUSD",
+      "strategy_id": "bsi_v3_enigma_range",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPUSD",
+      "strategy_id": "bsi_v3_enigma_range",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDJPY",
+      "strategy_id": "bsi_v3_enigma_range",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "AUDUSD",
+      "strategy_id": "bsi_v3_enigma_range",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCAD",
+      "strategy_id": "bsi_v3_enigma_range",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "USDCHF",
+      "strategy_id": "bsi_v3_enigma_range",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "NZDUSD",
+      "strategy_id": "bsi_v3_enigma_range",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "EURJPY",
+      "strategy_id": "bsi_v3_enigma_range",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "GBPJPY",
+      "strategy_id": "bsi_v3_enigma_range",
+      "state": "DATA_AVAILABLE"
+    },
+    {
+      "symbol": "XAUUSD",
+      "strategy_id": "bsi_v3_enigma_range",
+      "state": "DATA_AVAILABLE"
+    }
+  ],
+  "summary": {
+    "rows": 260,
+    "states": {
+      "DATA_AVAILABLE": 155,
+      "DATA_GAP_M1": 29,
+      "OUT_OF_INSTRUMENT_SCOPE": 76
+    },
+    "m1_required_strategy_days_data_gap_m1": 29,
+    "data_gap_m1_counted_as_no_setup": 0,
+    "m1_coverage_percent": 59.6154
+  }
+}

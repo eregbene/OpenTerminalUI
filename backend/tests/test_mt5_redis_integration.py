@@ -662,7 +662,18 @@ def test_prewarm_populates_candles_and_symbol_metadata_but_never_ticks(monkeypat
 
     assert adapter.tick_calls == []  # never prewarmed -- TTL too short to survive until a real cycle
     assert set(adapter.symbol_info_calls) == {"EURUSD", "GBPUSD"}
-    assert set(adapter.candle_calls) == {("EURUSD", "M15"), ("EURUSD", "H1"), ("EURUSD", "H4"), ("GBPUSD", "M15"), ("GBPUSD", "H1"), ("GBPUSD", "H4")}
+    assert set(adapter.candle_calls) == {
+        ("EURUSD", "M1"),
+        ("EURUSD", "M5"),
+        ("EURUSD", "M15"),
+        ("EURUSD", "H1"),
+        ("EURUSD", "H4"),
+        ("GBPUSD", "M1"),
+        ("GBPUSD", "M5"),
+        ("GBPUSD", "M15"),
+        ("GBPUSD", "H1"),
+        ("GBPUSD", "H4"),
+    }
     # And it actually populated Redis -- a subsequent cached_candles call should hit, not fetch.
     adapter.candle_calls.clear()
     asyncio.run(redis_layer.cached_candles(adapter, "EURUSD", "M15", count=100))

@@ -2391,7 +2391,7 @@ class MT5AutonomousTradingService:
                             "model": "BSI_V3_FAST_WATCHER",
                             "raw": {"blockers": submission.get("reasons") or []},
                         },
-                        "openai_calls": 0,
+                        "openai_calls": _NO_OPENAI_CALLS,
                         "order_send_calls": submission.get("order_send_calls", 0),
                     }
                 )

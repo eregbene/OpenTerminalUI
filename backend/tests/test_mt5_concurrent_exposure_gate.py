@@ -15,6 +15,13 @@ import backend.brokers.mt5.autonomous as autonomous_module
 from backend.brokers.mt5 import account_registry
 from backend.brokers.mt5.autonomous import MT5AutonomousTradingService
 from backend.tests.test_mt5_adapter import fake_adapter
+import pytest
+
+
+@pytest.fixture(autouse=True)
+def _default_concurrent_exposure_env(monkeypatch):
+    monkeypatch.setenv("MT5_CONCURRENT_EXPOSURE_CONFIRMATION_REQUIRED", "true")
+    monkeypatch.delenv("MT5_CONCURRENT_EXPOSURE_MAX_ACCOUNTS", raising=False)
 
 
 def _other_account_ids(exclude: str, count: int) -> list[str]:
