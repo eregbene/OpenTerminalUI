@@ -49,7 +49,7 @@ from backend.mt5_strategies.families.bsi_v2_scaffold import BSI_BASELINE_V2_AUDI
 from backend.brokers.mt5.execution import MT5ExecutionService
 from backend.brokers.mt5.market_data import candle_quality
 from backend.brokers.mt5.models import MT5ForexInstrument, MT5TradeIntent
-from backend.brokers.mt5.orm import MT5CandidateEvaluationORM
+from backend.brokers.mt5.orm import MT5CandidateEvaluationORM, MT5OrderRecordORM
 from backend.brokers.mt5.persistence import confidence_memory_for_symbol, persist_cycle_result, trade_performance_summary, update_trade_history, update_trade_reconciliation
 from backend.brokers.mt5.prop_risk import risk_status
 from backend.brokers.mt5.prop_state import evaluate_entry_protection, remaining_safety_budget_usd
@@ -118,6 +118,20 @@ def _bsi_v2_submission_blockers(candidate: dict[str, Any]) -> list[str]:
     if not evidence.get("bsi_entry_opportunity_id"):
         blockers.append("BSI_V2_OPPORTUNITY_ID_MISSING")
     return blockers
+
+
+def _env_float(name: str, default: float) -> float:
+    try:
+        return float(os.getenv(name, str(default)))
+    except (TypeError, ValueError):
+        return default
+
+
+def _env_int(name: str, default: int) -> int:
+    try:
+        return int(os.getenv(name, str(default)))
+    except (TypeError, ValueError):
+        return default
 
 # DEMO-only MTFAI1 entry-quality experiment: a standalone MTFAI1 candidate (no other signal
 # family agreeing on the same symbol+direction this cycle) may not execute unless at least one
@@ -1042,7 +1056,7 @@ class MT5AutonomousTradingService:
         except MT5UnavailableError as exc:
             blockers.append(f"BROKER_NOT_READY:{exc.__class__.__name__}")
             return blockers
-        owned = [p for p in positions if p.magic == self.config.bensim_magic or str(p.comment or "").startswith("BENSIM_AUTO")]
+        owned = [p for p in positions if p.magic == self.config.bensim_magic or str(p.comment or "").startswith(("BENSIM_AUTO", "BSM|"))]
         if len(owned) >= self.config.max_open_positions:
             blockers.append("MAX_OPEN_POSITIONS")
         if any(p.sl in {None, Decimal("0")} or p.tp in {None, Decimal("0")} for p in owned):
@@ -2028,6 +2042,40 @@ class MT5AutonomousTradingService:
         except Exception as exc:
             logger.warning("BSI V3 fast watcher could not mark plan submission account_id=%s plan_ids=%s: %s", self.account_id, sorted(target_ids), exc.__class__.__name__)
 
+    def _fast_watcher_trade_frequency_blockers(self, candidate: dict[str, Any]) -> list[str]:
+        blockers: list[str] = []
+        now = utcnow()
+        max_per_day = _env_int("BSI_V3_FAST_ENTRY_MAX_ACCEPTED_PER_ACCOUNT_DAY", 3)
+        cooldown_minutes = _env_int("BSI_V3_FAST_ENTRY_SYMBOL_COOLDOWN_MINUTES", 60)
+        symbol = str(candidate.get("canonical_pair") or candidate.get("symbol") or "").upper()
+        since_day = now - timedelta(hours=24)
+        since_symbol = now - timedelta(minutes=max(1, cooldown_minutes))
+        with SessionLocal() as db:
+            accepted_today = (
+                db.query(MT5OrderRecordORM)
+                .filter(
+                    MT5OrderRecordORM.account_id == self.account_id,
+                    MT5OrderRecordORM.status == "ACCEPTED",
+                    MT5OrderRecordORM.created_at >= since_day,
+                )
+                .count()
+            )
+            if accepted_today >= max_per_day:
+                blockers.append("BSI_V3_FAST_DAILY_ACCOUNT_CAP")
+            recent_same_symbol = (
+                db.query(MT5OrderRecordORM)
+                .filter(
+                    MT5OrderRecordORM.account_id == self.account_id,
+                    MT5OrderRecordORM.status == "ACCEPTED",
+                    MT5OrderRecordORM.symbol == symbol,
+                    MT5OrderRecordORM.created_at >= since_symbol,
+                )
+                .count()
+            )
+            if recent_same_symbol:
+                blockers.append("BSI_V3_FAST_SYMBOL_COOLDOWN")
+        return blockers
+
     async def run_fast_planned_entry_watch(self) -> dict[str, Any]:
         """Fast V3 queue consumer.
 
@@ -2157,6 +2205,32 @@ class MT5AutonomousTradingService:
             evidence = ((best.get("context") or {}).get("strategy_evidence") or {})
             plan_id = evidence.get("v3_plan_id")
             plan_ids = evidence.get("v3_confluence_plan_ids") or ([plan_id] if plan_id else [])
+            min_fast_confidence = _env_float("BSI_V3_FAST_ENTRY_MIN_CONFIDENCE", 75.0)
+            confluence_count = int(evidence.get("v3_confluence_count") or 0)
+            require_confluence = os.getenv("BSI_V3_FAST_ENTRY_REQUIRE_CONFLUENCE", "true").strip().lower() not in {"false", "0", "off", "no"}
+            quality_blockers: list[str] = []
+            if float(confidence["overall_score"]) < min_fast_confidence:
+                quality_blockers.append("BSI_V3_FAST_CONFIDENCE_BELOW_MIN")
+            if require_confluence and confluence_count < 2:
+                quality_blockers.append("BSI_V3_FAST_CONFLUENCE_REQUIRED")
+            quality_blockers.extend(self._fast_watcher_trade_frequency_blockers(best))
+            if quality_blockers:
+                self._mark_planned_entry_submission(
+                    plan_ids,
+                    "BROKER_SUBMISSION_REJECTED",
+                    {"status": "FAST_WATCHER_QUALITY_REJECTED", "blockers": quality_blockers, "cycle_id": cycle_id},
+                )
+                return {
+                    "account_id": self.account_id,
+                    "status": "FAST_WATCHER_QUALITY_REJECTED",
+                    "blockers": quality_blockers,
+                    "cycle_id": cycle_id,
+                    "selected_symbol": best.get("broker_symbol"),
+                    "selected_strategy": evidence.get("v3_strategy_id"),
+                    "confluence": evidence.get("v3_confluence_strategy_ids"),
+                    "confidence": confidence.get("overall_score"),
+                    "order_send_calls": 0,
+                }
             logger.warning(
                 "BSI V3 fast watcher selected plan: account_id=%s symbol=%s direction=%s strategy=%s confluence=%s confidence=%s",
                 self.account_id,
