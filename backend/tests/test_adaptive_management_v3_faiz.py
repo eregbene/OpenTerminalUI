@@ -6,6 +6,8 @@ from backend.adaptive_management.v3_faiz import (
     V3NextSessionProfile,
     V3AdaptiveBucketStats,
     V3AdaptiveState,
+    V3AdaptiveDecision,
+    apply_v3_hold_guard_research,
     allow_v3_demo_entry_from_bucket,
     allow_v3_demo_entry_from_profile,
     load_v3_next_session_profile,
@@ -83,6 +85,42 @@ def test_v3_unknown_management_model_holds():
     )
 
     assert decision.action == "HOLD"
+
+
+def test_v3_research_hold_guard_blocks_arbitrary_early_full_close():
+    guarded = apply_v3_hold_guard_research(
+        V3AdaptiveState(
+            strategy_id="bsi_v3_spectre",
+            management_model="MENTOR_FINAL_TARGET_LIQUIDITY",
+            entry=100.0,
+            stop=99.0,
+            target=103.0,
+            current_price=100.4,
+            direction="LONG",
+        ),
+        V3AdaptiveDecision("CLOSE", "generic_early_profit_take"),
+    )
+
+    assert guarded.action == "HOLD"
+    assert guarded.reason == "v3_research_hold_guard_blocked_arbitrary_early_close"
+
+
+def test_v3_research_hold_guard_allows_mentor_invalidation_before_08r():
+    guarded = apply_v3_hold_guard_research(
+        V3AdaptiveState(
+            strategy_id="bsi_v3_spectre",
+            management_model="MENTOR_FINAL_TARGET_LIQUIDITY",
+            entry=100.0,
+            stop=99.0,
+            target=103.0,
+            current_price=100.2,
+            direction="LONG",
+        ),
+        V3AdaptiveDecision("CLOSE", "mentor_invalidation"),
+    )
+
+    assert guarded.action == "CLOSE"
+    assert guarded.reason == "mentor_invalidation"
 
 
 def test_v3_adaptive_bucket_gate_allows_positive_evidence():

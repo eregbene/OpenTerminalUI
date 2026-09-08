@@ -553,7 +553,10 @@ def _order_row(cycle_id: str, winner: dict[str, Any], decision: dict[str, Any], 
     row.requested_volume = _float(submission.get("requested_volume") or intent.get("volume"))
     row.filled_volume = _float(submission.get("filled_volume"))
     row.fill_price = _float(submission.get("fill_price"))
-    row.raw_request = sanitize(submission.get("request") or {})
+    raw_request = sanitize(submission.get("request") or {})
+    if isinstance(raw_request, dict) and trade.get("v3_execution_identity"):
+        raw_request = {**raw_request, "bsi_v3": sanitize(trade.get("v3_execution_identity") or {})}
+    row.raw_request = raw_request
     row.raw_response = sanitize(submission.get("raw") or submission)
     row.updated_at = utcnow()
     return row

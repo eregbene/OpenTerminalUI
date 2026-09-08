@@ -203,6 +203,43 @@ def _r_multiple(state: V3AdaptiveState) -> float:
     return sign * (state.current_price - state.entry) / risk
 
 
+def _target_progress(state: V3AdaptiveState) -> float | None:
+    distance = abs(state.target - state.entry)
+    if distance <= 0:
+        return None
+    sign = 1 if state.direction == "LONG" else -1
+    return sign * (state.current_price - state.entry) / distance
+
+
+def apply_v3_hold_guard_research(
+    state: V3AdaptiveState,
+    decision: V3AdaptiveDecision,
+    *,
+    min_r: float = 0.8,
+    min_target_progress: float = 0.8,
+) -> V3AdaptiveDecision:
+    """Research-only challenger: block arbitrary healthy full closes before 0.8R/80% target.
+
+    This is intentionally not called by live management. Protective/mentor exits keep priority.
+    """
+    if decision.action != "CLOSE":
+        return decision
+    protective_reasons = {
+        "mentor_invalidation",
+        "hard_protective_risk",
+        "broker_emergency",
+        "prop_risk_emergency",
+        "strategy_early_exit",
+    }
+    if decision.reason in protective_reasons or "invalidation" in decision.reason or "emergency" in decision.reason:
+        return decision
+    r_now = _r_multiple(state)
+    progress = _target_progress(state)
+    if r_now >= min_r or (progress is not None and progress >= min_target_progress):
+        return decision
+    return V3AdaptiveDecision("HOLD", "v3_research_hold_guard_blocked_arbitrary_early_close")
+
+
 def select_v3_demo_management_action(state: V3AdaptiveState) -> V3AdaptiveDecision:
     """Strategy-aware Faiz V3 demo policy.
 

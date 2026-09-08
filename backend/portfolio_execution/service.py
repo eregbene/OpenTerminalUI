@@ -719,6 +719,11 @@ def _lineage(comment: Any, key: str) -> str:
     marker = f"{key}="
     if marker in text:
         return text.split(marker, 1)[1].split()[0].strip(",;")
+    if text.startswith("BSM|"):
+        parts = text.split("|")
+        strategy = parts[1] if len(parts) > 1 and parts[1] else "BSI_V3"
+        mapping = {"strategy": strategy, "strategy_version": "v3", "setup": "MT5_AUTONOMOUS_ENTRY", "timeframe": "M15"}
+        return mapping.get(key, "UNKNOWN")
     return "BENSIM_AUTO" if "BENSIM" in text.upper() else "UNKNOWN"
 
 

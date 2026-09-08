@@ -33,6 +33,7 @@ from typing import Any
 
 from backend.adaptive_management.orm import AdaptivePositionStateORM
 from backend.brokers.mt5.multi_account import adapter_for_account
+from backend.brokers.mt5.ownership import is_bensim_owned_position
 from backend.shared.db import SessionLocal
 
 logger = logging.getLogger(__name__)
@@ -92,7 +93,7 @@ async def reconcile_account(account_id: str) -> dict[str, Any]:
         _persist(account_id=account_id, findings=findings, trustworthy=False)
         return {"account_id": account_id, "trustworthy": False, "findings": findings, "reason": "BROKER_UNREACHABLE"}
 
-    owned_broker = [p for p in broker_positions if p.magic == config.bensim_magic or str(p.comment or "").startswith(("BENSIM_AUTO", "BSM|"))]
+    owned_broker = [p for p in broker_positions if is_bensim_owned_position(p, bensim_magic=config.bensim_magic)]
     foreign_broker = [p for p in broker_positions if p not in owned_broker]
     broker_by_id = {_position_id(p.model_dump(mode="json"), account_id): p for p in owned_broker}
 

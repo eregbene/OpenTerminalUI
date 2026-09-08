@@ -33,6 +33,14 @@ from backend.brokers.mt5.config import MT5Config
 from backend.brokers.mt5.config import mt5_config
 from backend.brokers.mt5.exceptions import MT5UnavailableError
 from backend.brokers.mt5.multi_account import adapter_for_account
+from backend.brokers.mt5.ownership import (
+    bsi_v3_evidence,
+    bsi_v3_execution_id,
+    bsi_v3_identity_from_candidate,
+    is_bensim_owned_order,
+    is_bensim_owned_position,
+    position_direction,
+)
 from backend.brokers.mt5.reconciliation_watchdog import is_account_state_trustworthy, reconcile_account
 from backend.brokers.mt5.candidate_evaluation import capture_cycle_candidate_evaluations
 from backend.brokers.mt5.confidence import compute_trade_confidence, is_autonomous_eligible, rank_candidates
@@ -82,6 +90,42 @@ _NO_OPENAI_CALLS = 0
 MT5_DEMO_MTF_AI1_MAX_TRADES = int(os.getenv("MT5_DEMO_MTF_AI1_MAX_TRADES", "3"))
 MT5_DEMO_MTF_AI1_WINDOW = int(os.getenv("MT5_DEMO_MTF_AI1_WINDOW", "10"))
 MTFAI1_STRATEGY_ID = "mtfai1"
+
+
+def _v3_min_execution_confidence() -> float:
+    return _env_float("BSI_V3_MIN_EXECUTION_CONFIDENCE", 80.0)
+
+
+def _v3_is_candidate(candidate: dict[str, Any]) -> bool:
+    evidence = bsi_v3_evidence(candidate)
+    strategy_id = str((candidate.get("context") or {}).get("strategy_id") or evidence.get("v3_strategy_id") or "")
+    return strategy_id.startswith("bsi_v3_") or any(str(key).startswith("bsi_v3_") for key in evidence)
+
+
+def _v3_execution_confidence_blockers(confidence: float | None) -> list[str]:
+    if confidence is None:
+        return ["BSI_V3_EXECUTION_CONFIDENCE_MISSING"]
+    if float(confidence) < _v3_min_execution_confidence():
+        return ["BSI_V3_EXECUTION_CONFIDENCE_BELOW_MIN"]
+    return []
+
+
+def _v3_confidence_band(value: float | None) -> str:
+    if value is None:
+        return "UNKNOWN"
+    if value >= 90:
+        return ">=90"
+    if value >= 85:
+        return "85-89.99"
+    if value >= 80:
+        return "80-84.99"
+    if value >= 75:
+        return "75-79.99"
+    if value >= 70:
+        return "70-74.99"
+    if value >= 60:
+        return "60-69.99"
+    return "<60"
 
 
 def _candidate_min_reward_multiple(candidate: dict[str, Any]) -> Decimal:
@@ -1056,7 +1100,7 @@ class MT5AutonomousTradingService:
         except MT5UnavailableError as exc:
             blockers.append(f"BROKER_NOT_READY:{exc.__class__.__name__}")
             return blockers
-        owned = [p for p in positions if p.magic == self.config.bensim_magic or str(p.comment or "").startswith(("BENSIM_AUTO", "BSM|"))]
+        owned = [p for p in positions if is_bensim_owned_position(p, bensim_magic=self.config.bensim_magic)]
         if len(owned) >= self.config.max_open_positions:
             blockers.append("MAX_OPEN_POSITIONS")
         if any(p.sl in {None, Decimal("0")} or p.tp in {None, Decimal("0")} for p in owned):
@@ -1558,6 +1602,28 @@ class MT5AutonomousTradingService:
         # change should accidentally enable real-money execution").
         if self.config.live_trading_enabled or self.config.account_mode != "DEMO":
             return {"status": "REJECTED", "reasons": ["LIVE_TRADING_BLOCKED"], "order_send_calls": 0}
+        if _v3_is_candidate(candidate):
+            context = candidate.setdefault("context", {})
+            evidence = context.setdefault("strategy_evidence", {})
+            evidence["execution_confidence"] = confidence
+            evidence["execution_confidence_band"] = _v3_confidence_band(float(confidence) if confidence is not None else None)
+            evidence["bsi_v3_execution_id"] = bsi_v3_execution_id(self.account_id, candidate)
+            blockers = _v3_execution_confidence_blockers(confidence)
+            if blockers:
+                return {
+                    "status": "REJECTED",
+                    "reasons": blockers,
+                    "v3_execution_identity": bsi_v3_identity_from_candidate(candidate) | {"execution_id": evidence["bsi_v3_execution_id"]},
+                    "order_send_calls": 0,
+                }
+            exposure_blockers = await self._v3_duplicate_exposure_blockers(candidate)
+            if exposure_blockers:
+                return {
+                    "status": "REJECTED",
+                    "reasons": exposure_blockers,
+                    "v3_execution_identity": bsi_v3_identity_from_candidate(candidate) | {"execution_id": evidence["bsi_v3_execution_id"]},
+                    "order_send_calls": 0,
+                }
         account = await self.adapter.mt5_account()
         # symbol_info (contract spec: stops_level/point/tick_value/...) changes on the order of
         # minutes to never, so it's cached (Part 11) -- but the entry-price quote right before
@@ -1727,6 +1793,7 @@ class MT5AutonomousTradingService:
             # rolling last-N-executed window from self.state.trades without re-deriving it from
             # anywhere else.
             "strategy_id": normalize_strategy_id((candidate.get("context") or {}).get("strategy_id")),
+            "v3_execution_identity": bsi_v3_identity_from_candidate(candidate) | {"execution_id": bsi_v3_evidence(candidate).get("bsi_v3_execution_id")},
         }
         self.state.trades.insert(0, trade | {"created_at": utcnow().isoformat()})
         if result.status == "ACCEPTED":
@@ -2076,6 +2143,53 @@ class MT5AutonomousTradingService:
                 blockers.append("BSI_V3_FAST_SYMBOL_COOLDOWN")
         return blockers
 
+    async def _v3_duplicate_exposure_blockers(self, candidate: dict[str, Any]) -> list[str]:
+        identity = bsi_v3_identity_from_candidate(candidate)
+        symbol = str(identity.get("broker_symbol") or identity.get("symbol") or "").upper()
+        direction = str(identity.get("direction") or "").upper()
+        opportunity_id = identity.get("entry_opportunity_id")
+        thesis_id = identity.get("market_thesis_id")
+        blockers: list[str] = []
+
+        if opportunity_id:
+            with SessionLocal() as db:
+                rows = (
+                    db.query(MT5OrderRecordORM)
+                    .filter(
+                        MT5OrderRecordORM.account_id == self.account_id,
+                        MT5OrderRecordORM.status == "ACCEPTED",
+                    )
+                    .order_by(MT5OrderRecordORM.created_at.desc())
+                    .limit(250)
+                    .all()
+                )
+                for row in rows:
+                    raw_request = row.raw_request or {}
+                    v3 = raw_request.get("bsi_v3") if isinstance(raw_request, dict) else None
+                    if isinstance(v3, dict) and v3.get("entry_opportunity_id") == opportunity_id:
+                        blockers.append("BSI_V3_ACCOUNT_OPPORTUNITY_ALREADY_ACCEPTED")
+                        break
+
+        try:
+            positions = await self.adapter.mt5_positions()
+        except MT5UnavailableError as exc:
+            return [f"BROKER_NOT_READY:{exc.__class__.__name__}"]
+        for position in positions:
+            if not is_bensim_owned_position(position, bensim_magic=self.config.bensim_magic):
+                continue
+            pos_symbol = str(getattr(position, "symbol", "") or "").upper()
+            if symbol and pos_symbol != symbol:
+                continue
+            pos_direction = position_direction(position)
+            if direction and pos_direction == direction:
+                blockers.append("BSI_V3_EXISTING_SYMBOL_DIRECTION_EXPOSURE")
+            elif direction and pos_direction in {"LONG", "SHORT"}:
+                blockers.append("BSI_V3_OPPOSITE_SYMBOL_EXPOSURE")
+            if thesis_id and str(getattr(position, "comment", "") or "").startswith("BSM|"):
+                blockers.append("BSI_V3_EXISTING_BENSIM_SYMBOL_EXPOSURE")
+            break
+        return sorted(set(blockers))
+
     async def run_fast_planned_entry_watch(self) -> dict[str, Any]:
         """Fast V3 queue consumer.
 
@@ -2202,23 +2316,40 @@ class MT5AutonomousTradingService:
             )
             best["trade_confidence"] = confidence
             best["ranking_score"] = confidence["overall_score"]
-            evidence = ((best.get("context") or {}).get("strategy_evidence") or {})
+            context = best.setdefault("context", {})
+            evidence = context.setdefault("strategy_evidence", {})
+            evidence.setdefault("plan_confidence", float(best.get("raw_trend_score") or best.get("ranking_score") or 0.0))
+            evidence.setdefault("touch_confidence", float(evidence.get("plan_confidence") or 0.0))
+            evidence.setdefault("confirmation_confidence", float(evidence.get("confirmation_score") or confidence.get("overall_score") or 0.0))
+            evidence["execution_confidence"] = float(confidence["overall_score"])
+            evidence["execution_confidence_band"] = _v3_confidence_band(float(confidence["overall_score"]))
+            evidence["bsi_v3_execution_id"] = bsi_v3_execution_id(self.account_id, best)
             plan_id = evidence.get("v3_plan_id")
             plan_ids = evidence.get("v3_confluence_plan_ids") or ([plan_id] if plan_id else [])
-            min_fast_confidence = _env_float("BSI_V3_FAST_ENTRY_MIN_CONFIDENCE", 75.0)
+            min_fast_confidence = _v3_min_execution_confidence()
             confluence_count = int(evidence.get("v3_confluence_count") or 0)
             require_confluence = os.getenv("BSI_V3_FAST_ENTRY_REQUIRE_CONFLUENCE", "true").strip().lower() not in {"false", "0", "off", "no"}
             quality_blockers: list[str] = []
             if float(confidence["overall_score"]) < min_fast_confidence:
-                quality_blockers.append("BSI_V3_FAST_CONFIDENCE_BELOW_MIN")
+                quality_blockers.append("BSI_V3_EXECUTION_CONFIDENCE_BELOW_MIN")
             if require_confluence and confluence_count < 2:
                 quality_blockers.append("BSI_V3_FAST_CONFLUENCE_REQUIRED")
             quality_blockers.extend(self._fast_watcher_trade_frequency_blockers(best))
+            quality_blockers.extend(await self._v3_duplicate_exposure_blockers(best))
             if quality_blockers:
                 self._mark_planned_entry_submission(
                     plan_ids,
                     "BROKER_SUBMISSION_REJECTED",
-                    {"status": "FAST_WATCHER_QUALITY_REJECTED", "blockers": quality_blockers, "cycle_id": cycle_id},
+                    {
+                        "status": "FAST_WATCHER_QUALITY_REJECTED",
+                        "blockers": quality_blockers,
+                        "cycle_id": cycle_id,
+                        "plan_confidence": evidence.get("plan_confidence"),
+                        "touch_confidence": evidence.get("touch_confidence"),
+                        "confirmation_confidence": evidence.get("confirmation_confidence"),
+                        "execution_confidence": evidence.get("execution_confidence"),
+                        "execution_confidence_band": evidence.get("execution_confidence_band"),
+                    },
                 )
                 return {
                     "account_id": self.account_id,
@@ -2229,6 +2360,7 @@ class MT5AutonomousTradingService:
                     "selected_strategy": evidence.get("v3_strategy_id"),
                     "confluence": evidence.get("v3_confluence_strategy_ids"),
                     "confidence": confidence.get("overall_score"),
+                    "execution_confidence_band": evidence.get("execution_confidence_band"),
                     "order_send_calls": 0,
                 }
             logger.warning(
@@ -2244,6 +2376,27 @@ class MT5AutonomousTradingService:
             submission = await self._submit(best, confidence=float(confidence["overall_score"]))
             terminal_status = "CONSUMED" if submission.get("status") == "ACCEPTED" else "BROKER_SUBMISSION_REJECTED"
             self._mark_planned_entry_submission(plan_ids, terminal_status, {"status": submission.get("status"), "trade_id": submission.get("trade_id")})
+            try:
+                persist_cycle_result(
+                    {
+                        "cycle_id": cycle_id,
+                        "account_id": self.account_id,
+                        "status": submission.get("status"),
+                        "candidates": [best],
+                        "winner": best,
+                        "trade": submission,
+                        "ai_decision": {
+                            "decision": "ENTER" if submission.get("status") == "ACCEPTED" else "REJECT",
+                            "confidence": confidence.get("overall_score"),
+                            "model": "BSI_V3_FAST_WATCHER",
+                            "raw": {"blockers": submission.get("reasons") or []},
+                        },
+                        "openai_calls": 0,
+                        "order_send_calls": submission.get("order_send_calls", 0),
+                    }
+                )
+            except Exception as exc:
+                logger.warning("BSI V3 fast watcher persistence failed account_id=%s: %s", self.account_id, exc.__class__.__name__)
             return {
                 "account_id": self.account_id,
                 "status": submission.get("status"),
@@ -2280,8 +2433,8 @@ class MT5AutonomousTradingService:
     async def reconciliation(self) -> dict[str, Any]:
         positions = await self.adapter.mt5_positions()
         orders = await self.adapter.mt5_orders()
-        owned_positions = [p.model_dump(mode="json") for p in positions if p.magic == self.config.bensim_magic or str(p.comment or "").startswith(("BENSIM_AUTO", "BSM|"))]
-        owned_orders = [o.model_dump(mode="json") for o in orders if o.magic == self.config.bensim_magic or str(o.comment or "").startswith(("BENSIM_AUTO", "BSM|"))]
+        owned_positions = [p.model_dump(mode="json") for p in positions if is_bensim_owned_position(p, bensim_magic=self.config.bensim_magic)]
+        owned_orders = [o.model_dump(mode="json") for o in orders if is_bensim_owned_order(o, bensim_magic=self.config.bensim_magic)]
         status = "MATCHED_EMPTY" if not owned_positions and not owned_orders else "MATCHED_OPEN"
         if any(p.get("sl") in {None, "0"} or p.get("tp") in {None, "0"} for p in owned_positions):
             status = "PROTECTION_MISMATCH"
