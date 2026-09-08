@@ -97,6 +97,21 @@ def _v3_min_execution_confidence() -> float:
     return _env_float("BSI_V3_MIN_EXECUTION_CONFIDENCE", 80.0)
 
 
+def _env_bool(name: str, default: bool = False) -> bool:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    return raw.strip().lower() not in {"false", "0", "off", "no"}
+
+
+def _v3_m5_direct_execution_enabled() -> bool:
+    return _env_bool("BSI_V3_M5_DIRECT_EXECUTION_ENABLED", False)
+
+
+def _v3_planned_entry_live() -> bool:
+    return _env_bool("BSI_V3_PLANNED_ENTRY_LIVE", False)
+
+
 def _v3_is_candidate(candidate: dict[str, Any]) -> bool:
     evidence = bsi_v3_evidence(candidate)
     strategy_id = str((candidate.get("context") or {}).get("strategy_id") or evidence.get("v3_strategy_id") or "")
@@ -741,6 +756,12 @@ class MT5AutonomousTradingService:
                 return result
 
             best["candidate_id"] = f"{cycle_id}:{best['broker_symbol']}:{best['context_hash'][:16]}"
+            if _v3_planned_entry_live() and not _v3_m5_direct_execution_enabled():
+                blockers = ["BSI_V3_PLANNED_ENTRY_WATCHER_REQUIRED"]
+                best["rejection_reasons"] = sorted(set((best.get("rejection_reasons") or []) + blockers))
+                result = await _finalize({"cycle_id": cycle_id, "status": "BSI_V3_PLANNED_ENTRY_ONLY", "winner": best, "candidates": ranked, "blockers": blockers, "diversity_cap": diversity_cap, "confirmation_gate": confirmation_gate, "order_send_calls": 0})
+                self._record_cycle(result, mark_processed=False, dry_run=dry_run)
+                return result
             context_risk = await decision_context_service.context_risk(best["canonical_pair"])
             best["decision_context"] = context_risk
             context_blockers = self._context_blockers(context_risk)
@@ -2131,7 +2152,7 @@ class MT5AutonomousTradingService:
         max_per_day = _env_int("BSI_V3_FAST_ENTRY_MAX_ACCEPTED_PER_ACCOUNT_DAY", 3)
         cooldown_minutes = _env_int("BSI_V3_FAST_ENTRY_SYMBOL_COOLDOWN_MINUTES", 60)
         symbol = str(candidate.get("canonical_pair") or candidate.get("symbol") or "").upper()
-        since_day = now - timedelta(hours=24)
+        since_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
         since_symbol = now - timedelta(minutes=max(1, cooldown_minutes))
         with SessionLocal() as db:
             accepted_today = (
@@ -2172,7 +2193,6 @@ class MT5AutonomousTradingService:
                 rows = (
                     db.query(MT5OrderRecordORM)
                     .filter(
-                        MT5OrderRecordORM.account_id == self.account_id,
                         MT5OrderRecordORM.status == "ACCEPTED",
                     )
                     .order_by(MT5OrderRecordORM.created_at.desc())
@@ -2183,7 +2203,10 @@ class MT5AutonomousTradingService:
                     raw_request = row.raw_request or {}
                     v3 = raw_request.get("bsi_v3") if isinstance(raw_request, dict) else None
                     if isinstance(v3, dict) and v3.get("entry_opportunity_id") == opportunity_id:
-                        blockers.append("BSI_V3_ACCOUNT_OPPORTUNITY_ALREADY_ACCEPTED")
+                        if row.account_id == self.account_id:
+                            blockers.append("BSI_V3_ACCOUNT_OPPORTUNITY_ALREADY_ACCEPTED")
+                        else:
+                            blockers.append("BSI_V3_CROSS_ACCOUNT_OPPORTUNITY_ALREADY_ACCEPTED")
                         break
 
         try:
@@ -2359,6 +2382,10 @@ class MT5AutonomousTradingService:
                 quality_blockers.append("BSI_V3_EXECUTION_CONFIDENCE_BELOW_MIN")
             if require_confluence and confluence_count < 2:
                 quality_blockers.append("BSI_V3_FAST_CONFLUENCE_REQUIRED")
+            high_confidence = _env_float("BSI_V3_FAST_ENTRY_HIGH_CONFIDENCE", 87.0)
+            strong_confluence_count = _env_int("BSI_V3_FAST_ENTRY_STRONG_CONFLUENCE_COUNT", 3)
+            if float(confidence["overall_score"]) < high_confidence and confluence_count < strong_confluence_count:
+                quality_blockers.append("BSI_V3_FAST_HIGH_CONF_OR_STRONG_CONFLUENCE_REQUIRED")
             quality_blockers.extend(self._fast_watcher_trade_frequency_blockers(best))
             quality_blockers.extend(await self._v3_duplicate_exposure_blockers(best))
             if quality_blockers:

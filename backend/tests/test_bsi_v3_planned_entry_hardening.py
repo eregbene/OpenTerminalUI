@@ -5,7 +5,7 @@ from decimal import Decimal
 import json
 from types import SimpleNamespace
 
-from backend.brokers.mt5.autonomous import MT5AutonomousTradingService, _v3_execution_confidence_blockers
+from backend.brokers.mt5.autonomous import MT5AutonomousTradingService, _env_float, _env_int, _v3_execution_confidence_blockers, _v3_m5_direct_execution_enabled, _v3_planned_entry_live
 from backend.brokers.mt5.config import MT5Config
 from backend.brokers.mt5.ownership import is_bensim_owned_position, is_bensim_owned_order
 from backend.adaptive_management.v3_faiz import V3AdaptiveRoutingBucket, V3NextSessionProfile
@@ -274,6 +274,36 @@ def test_v3_confidence_7999_rejected_and_80_eligible(monkeypatch) -> None:
 
     assert _v3_execution_confidence_blockers(79.99) == ["BSI_V3_EXECUTION_CONFIDENCE_BELOW_MIN"]
     assert _v3_execution_confidence_blockers(80.0) == []
+
+
+def test_v3_m5_direct_execution_is_disabled_by_default(monkeypatch) -> None:
+    monkeypatch.delenv("BSI_V3_M5_DIRECT_EXECUTION_ENABLED", raising=False)
+
+    assert _v3_m5_direct_execution_enabled() is False
+
+
+def test_v3_m5_direct_execution_can_be_explicitly_enabled(monkeypatch) -> None:
+    monkeypatch.setenv("BSI_V3_M5_DIRECT_EXECUTION_ENABLED", "true")
+
+    assert _v3_m5_direct_execution_enabled() is True
+
+
+def test_v3_planned_entry_live_flag_controls_m5_submission_guard(monkeypatch) -> None:
+    monkeypatch.setenv("BSI_V3_PLANNED_ENTRY_LIVE", "true")
+
+    assert _v3_planned_entry_live() is True
+
+
+def test_fast_watcher_requires_high_confidence_or_strong_confluence(monkeypatch) -> None:
+    monkeypatch.setenv("BSI_V3_FAST_ENTRY_HIGH_CONFIDENCE", "87")
+    monkeypatch.setenv("BSI_V3_FAST_ENTRY_STRONG_CONFLUENCE_COUNT", "3")
+
+    def blocked(confidence: float, confluence_count: int) -> bool:
+        return confidence < _env_float("BSI_V3_FAST_ENTRY_HIGH_CONFIDENCE", 87.0) and confluence_count < _env_int("BSI_V3_FAST_ENTRY_STRONG_CONFLUENCE_COUNT", 3)
+
+    assert blocked(86.99, 2)
+    assert not blocked(87.0, 1)
+    assert not blocked(82.0, 3)
 
 
 def test_confluence_cannot_bypass_execution_confidence_floor(monkeypatch) -> None:
