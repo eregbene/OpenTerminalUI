@@ -249,6 +249,88 @@ def test_confluence_reject_does_not_mark_consumed(monkeypatch, tmp_path) -> None
     assert rows[0]["status"] == "BROKER_SUBMISSION_REJECTED"
 
 
+def _v3_candidate(symbol: str, direction: str, opportunity_id: str, confidence: float) -> dict:
+    return {
+        "canonical_pair": symbol,
+        "broker_symbol": symbol,
+        "direction": direction,
+        "ranking_score": confidence,
+        "raw_trend_score": confidence,
+        "risk_reward": 1.8,
+        "trade_confidence": {"overall_score": confidence},
+        "context": {
+            "strategy_id": "bsi_v3_reactionary_block",
+            "strategy_evidence": {
+                "v3_strategy_id": "bsi_v3_reactionary_block",
+                "v3_confluence_strategy_ids": ["bsi_v3_reactionary_block", "bsi_v3_spectre"],
+                "bsi_v3_market_context_id": f"context:{symbol}:{direction}:H1",
+                "bsi_v3_market_thesis_id": f"thesis:{symbol}:{direction}:H1",
+                "bsi_v3_poi_id": f"poi:{symbol}:{direction}:zone",
+                "bsi_v3_entry_opportunity_id": opportunity_id,
+                "bsi_v3_confirmation_id": f"confirm:{opportunity_id}:M1",
+                "v3_poi_touch_status": "CONFIRMED_FOR_ENTRY",
+                "plan_confidence": confidence,
+            },
+        },
+    }
+
+
+def test_global_opportunity_book_defers_weaker_shared_usd_exposure(monkeypatch, tmp_path) -> None:
+    monkeypatch.setenv("BSI_V3_PLANNED_ENTRY_QUEUE_PATH", str(tmp_path / "queue.json"))
+    service = MT5AutonomousTradingService(_FakeAdapter("demo_10k"))
+    stronger_path = planned_entry_queue_path("ftmo_demo_100k")
+    stronger_path.write_text(
+        json.dumps(
+            [
+                {
+                    "account_id": "ftmo_demo_100k",
+                    "symbol": "EURUSD",
+                    "direction": "LONG",
+                    "status": "CONFIRMED_FOR_ENTRY",
+                    "strategy_id": "bsi_v3_reactionary_block",
+                    "confluence_strategy_ids": ["bsi_v3_reactionary_block", "bsi_v3_spectre"],
+                    "bsi_v3_market_context_id": "context:EURUSD:LONG:H1",
+                    "bsi_v3_market_thesis_id": "thesis:EURUSD:LONG:H1",
+                    "bsi_v3_poi_id": "poi:EURUSD:LONG:zone",
+                    "bsi_v3_entry_opportunity_id": "entry:eurusd:long:strong",
+                    "current_plan_confidence": 90.0,
+                    "rr": 1.8,
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    blockers = service._v3_global_portfolio_blockers(_v3_candidate("GBPUSD", "LONG", "entry:gbpusd:long:weak", 84.0))
+
+    assert "BSI_V3_PORTFOLIO_DEFERRED_CORRELATED_EXPOSURE" in blockers
+
+
+def test_global_opportunity_book_allows_independent_selected_opportunity(monkeypatch, tmp_path) -> None:
+    monkeypatch.setenv("BSI_V3_PLANNED_ENTRY_QUEUE_PATH", str(tmp_path / "queue.json"))
+    service = MT5AutonomousTradingService(_FakeAdapter("demo_10k"))
+    planned_entry_queue_path("ftmo_demo_100k").write_text(
+        json.dumps(
+            [
+                {
+                    "symbol": "EURUSD",
+                    "direction": "LONG",
+                    "status": "CONFIRMED_FOR_ENTRY",
+                    "strategy_id": "bsi_v3_reactionary_block",
+                    "bsi_v3_entry_opportunity_id": "entry:eurusd:long:strong",
+                    "current_plan_confidence": 90.0,
+                    "rr": 1.8,
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    blockers = service._v3_global_portfolio_blockers(_v3_candidate("USDJPY", "LONG", "entry:usdjpy:long:ok", 86.0))
+
+    assert blockers == []
+
+
 def test_bsm_position_and_order_are_bensim_owned() -> None:
     position = SimpleNamespace(magic=0, comment="BSM|v3react+v3spec|0559")
     order = SimpleNamespace(magic=0, comment="BSM|v3mmxm|0915")

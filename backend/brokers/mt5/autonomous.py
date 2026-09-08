@@ -10,6 +10,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
+from pathlib import Path
 from typing import Any
 
 from backend.adaptive_management.tp_protection import classify_stop_quality_v2, construct_dynamic_stop
@@ -44,6 +45,12 @@ from backend.brokers.mt5.ownership import (
 from backend.brokers.mt5.reconciliation_watchdog import is_account_state_trustworthy, reconcile_account
 from backend.brokers.mt5.candidate_evaluation import capture_cycle_candidate_evaluations
 from backend.brokers.mt5.confidence import compute_trade_confidence, is_autonomous_eligible, rank_candidates
+from backend.brokers.mt5.v3_opportunity_book import (
+    canonicalize_opportunities,
+    load_queue_rows,
+    opportunity_identity,
+    select_portfolio_opportunities,
+)
 from backend.mt5_strategies.context import build_strategy_context, cheap_prefilter, quick_regime, summarize_smc_evidence
 from backend.mt5_strategies.families import evaluate_all
 from backend.mt5_strategies.families.bsi_v3_runtime_detectors import (
@@ -2229,6 +2236,49 @@ class MT5AutonomousTradingService:
             break
         return sorted(set(blockers))
 
+    def _v3_candidate_opportunity_book_row(self, candidate: dict[str, Any]) -> dict[str, Any]:
+        identity = bsi_v3_identity_from_candidate(candidate)
+        evidence = bsi_v3_evidence(candidate)
+        context = candidate.get("context") or {}
+        return {
+            "account_id": self.account_id,
+            "symbol": identity.get("symbol"),
+            "broker_symbol": identity.get("broker_symbol"),
+            "direction": identity.get("direction"),
+            "status": evidence.get("v3_poi_touch_status") or "CONFIRMED_FOR_ENTRY",
+            "strategy_id": identity.get("strategy_id"),
+            "confluence_strategy_ids": evidence.get("v3_confluence_strategy_ids") or context.get("contributing_strategies") or [],
+            "bsi_v3_market_context_id": evidence.get("bsi_v3_market_context_id"),
+            "bsi_v3_market_thesis_id": identity.get("market_thesis_id"),
+            "bsi_v3_poi_id": identity.get("poi_id"),
+            "bsi_v3_entry_opportunity_id": identity.get("entry_opportunity_id"),
+            "bsi_v3_confirmation_id": identity.get("confirmation_id"),
+            "current_plan_confidence": evidence.get("plan_confidence") or candidate.get("raw_trend_score") or candidate.get("ranking_score"),
+            "execution_confidence": evidence.get("execution_confidence") or (candidate.get("trade_confidence") or {}).get("overall_score"),
+            "rr": candidate.get("risk_reward") or evidence.get("risk_reward"),
+            "created_at": evidence.get("v3_plan_created_at") or candidate.get("generated_at"),
+        }
+
+    def _v3_global_portfolio_blockers(self, candidate: dict[str, Any]) -> list[str]:
+        if os.getenv("BSI_V3_GLOBAL_OPPORTUNITY_BOOK_ENABLED", "true").strip().lower() in {"false", "0", "off", "no"}:
+            return []
+        base_path = Path(os.getenv("BSI_V3_PLANNED_ENTRY_QUEUE_PATH", "/data/research/bsi_v3_live_pending_entry_queue.json"))
+        paths = sorted(base_path.parent.glob(f"{base_path.stem}_*{base_path.suffix}"))
+        if base_path.exists():
+            paths.append(base_path)
+        rows = load_queue_rows(paths, base_stem=base_path.stem)
+        candidate_row = self._v3_candidate_opportunity_book_row(candidate)
+        rows.append(candidate_row)
+        selected = select_portfolio_opportunities(canonicalize_opportunities(rows))
+        candidate_id = opportunity_identity(candidate_row).get("entry_opportunity_id")
+        match = next((row for row in selected if row.get("entry_opportunity_id") == candidate_id), None)
+        if match is None:
+            return ["BSI_V3_GLOBAL_OPPORTUNITY_ID_MISSING"]
+        decision = str(match.get("portfolio_decision") or "")
+        if decision not in {"SELECTED", "SELECTED_STRONGER_SAME_THEME"}:
+            return [f"BSI_V3_PORTFOLIO_{decision or 'DEFERRED'}"]
+        return []
+
     async def run_fast_planned_entry_watch(self) -> dict[str, Any]:
         """Fast V3 queue consumer.
 
@@ -2386,6 +2436,7 @@ class MT5AutonomousTradingService:
             strong_confluence_count = _env_int("BSI_V3_FAST_ENTRY_STRONG_CONFLUENCE_COUNT", 3)
             if float(confidence["overall_score"]) < high_confidence and confluence_count < strong_confluence_count:
                 quality_blockers.append("BSI_V3_FAST_HIGH_CONF_OR_STRONG_CONFLUENCE_REQUIRED")
+            quality_blockers.extend(self._v3_global_portfolio_blockers(best))
             quality_blockers.extend(self._fast_watcher_trade_frequency_blockers(best))
             quality_blockers.extend(await self._v3_duplicate_exposure_blockers(best))
             if quality_blockers:
