@@ -81,6 +81,7 @@ from backend.portfolio_execution.service import correlation_engine, portfolio_ma
 from backend.shared.db import SessionLocal
 
 logger = logging.getLogger(__name__)
+operator_logger = logging.getLogger("bensim.operator")
 
 # Part 5: bounded concurrency for the pure in-memory (no MT5/adapter calls) multi-strategy
 # analysis phase only. Candle/quote fetching always stays fully serial -- see _screen()'s
@@ -90,6 +91,7 @@ _MULTI_STRATEGY_CONCURRENCY = int(os.getenv("MT5_MULTI_STRATEGY_CONCURRENCY", "6
 # real ~6/day, comfortably covering weekend/holiday gaps) x 60 target daily bars.
 _H4_COUNT_FOR_DAILY_AGGREGATION = int(os.getenv("MT5_BSI_DAILY_H4_FETCH_COUNT", "480"))
 _NO_OPENAI_CALLS = 0
+_BUCHAREST_TZ = ZoneInfo("Europe/Bucharest")
 
 # DEMO-only rolling execution diversity cap: MTFAI1 may account for at most
 # MT5_DEMO_MTF_AI1_MAX_TRADES of the last MT5_DEMO_MTF_AI1_WINDOW executed (ACCEPTED) entries
@@ -119,6 +121,254 @@ def _v3_m5_direct_execution_enabled() -> bool:
 
 def _v3_planned_entry_live() -> bool:
     return _env_bool("BSI_V3_PLANNED_ENTRY_LIVE", False)
+
+
+_STRATEGY_DISPLAY_NAMES = {
+    "bsi_v3_order_flow": "Order Flow",
+    "bsi_v3_smt_divergence": "SMT",
+    "bsi_v3_abc": "ABC",
+    "bsi_v3_abcd": "ABCD",
+    "bsi_v3_asian_v2": "Asian V2",
+    "bsi_v3_0930": "9:30",
+    "bsi_v3_reactionary_block": "Reactionary",
+    "bsi_v3_ict_silver_bullet": "Silver Bullet",
+    "bsi_v3_silver_bullet_with_bias": "Silver Bullet Bias",
+    "bsi_v3_4h_order_block": "4H OB",
+    "bsi_v3_mmxm": "MMXM",
+    "bsi_v3_mmxm_second_distribution": "MMXM 2D",
+    "bsi_v3_holy_grail": "Holy Grail",
+    "bsi_v3_juggernaut": "Juggernaut",
+    "bsi_v3_spectre": "Spectre",
+    "bsi_v3_monday_range": "Monday Range",
+    "bsi_v3_weaver": "Weaver",
+    "bsi_v3_standard_deviation_po3": "SD/PO3",
+    "bsi_v3_ar50": "AR50",
+    "bsi_v3_ifvg_po3": "IFVG",
+    "bsi_v3_turtle_soups_ranges": "Turtle Soup",
+    "bsi_v3_yin_yang": "Yin Yang",
+    "bsi_v3_4h_candle_ranges": "4H Ranges",
+    "bsi_v3_smt_session_hl": "SMT Session",
+    "bsi_v3_1h_candle_ranges": "1H Ranges",
+    "bsi_v3_enigma_range": "Enigma",
+}
+
+
+def _operator_log_enabled() -> bool:
+    return _env_bool("BSI_OPERATOR_LOG_ENABLED", True)
+
+
+def _operator_status_interval_seconds() -> int:
+    return max(30, _env_int("BSI_OPERATOR_STATUS_INTERVAL_SECONDS", 300))
+
+
+def _operator_short_opportunity_id(symbol: Any, direction: Any, canonical_id: Any = None) -> str:
+    side = "L" if str(direction or "").upper().startswith("L") else "S" if str(direction or "").upper().startswith("S") else "X"
+    seed = str(canonical_id or f"{symbol}:{direction}").encode("utf-8", errors="ignore")
+    return f"OPP-{str(symbol or 'UNKNOWN').upper()}-{side}-{hashlib.sha1(seed).hexdigest()[:4].upper()}"
+
+
+def _operator_strategy_name(strategy_id: Any) -> str:
+    value = str(strategy_id or "").strip()
+    return _STRATEGY_DISPLAY_NAMES.get(value, value.replace("bsi_v3_", "").replace("_", " ").title() or "Unknown")
+
+
+def _operator_confluence_label(primary: Any, confluence: Any) -> str:
+    primary_name = _operator_strategy_name(primary)
+    ids = [str(item) for item in (confluence or []) if item]
+    others = [item for item in ids if item != str(primary or "")]
+    if not others:
+        return primary_name
+    named = [_operator_strategy_name(item) for item in others[:3]]
+    if len(others) < 3:
+        return f"{primary_name} + {' + '.join(named)}"
+    return f"{primary_name} +{len(others)} confluence"
+
+
+def _operator_digits(symbol: Any) -> int:
+    value = str(symbol or "").upper()
+    if "JPY" in value:
+        return 3
+    if value.startswith("XAU") or value.startswith("GOLD"):
+        return 2
+    return 5
+
+
+def _operator_price(value: Any, symbol: Any) -> str:
+    if value in {None, ""}:
+        return "-"
+    try:
+        return f"{float(value):.{_operator_digits(symbol)}f}"
+    except (TypeError, ValueError):
+        return str(value)
+
+
+def _operator_number(value: Any, digits: int = 2) -> str:
+    if value in {None, ""}:
+        return "-"
+    try:
+        return f"{float(value):.{digits}f}"
+    except (TypeError, ValueError):
+        return str(value)
+
+
+def _operator_bucharest_time(value: Any = None) -> datetime:
+    if isinstance(value, datetime):
+        dt = value
+    elif value:
+        try:
+            dt = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        except ValueError:
+            dt = utcnow()
+    else:
+        dt = utcnow()
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(_BUCHAREST_TZ)
+
+
+class BSIV3OperatorLog:
+    def __init__(self) -> None:
+        self._last_states: dict[tuple[Any, ...], str] = {}
+        self._last_summary_at: datetime | None = None
+
+    def _json_path(self) -> Path:
+        return Path(os.getenv("BSI_OPERATOR_JSON_LOG_PATH", "/data/logs/bsi_v3_operator_events.jsonl"))
+
+    def _emit_json(self, event: dict[str, Any]) -> None:
+        payload = {
+            "timestamp_utc": utcnow().isoformat(),
+            "timestamp_bucharest": _operator_bucharest_time().isoformat(),
+            **event,
+        }
+        try:
+            path = self._json_path()
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with path.open("a", encoding="utf-8") as handle:
+                handle.write(json.dumps(payload, default=str, sort_keys=True) + "\n")
+        except Exception as exc:
+            logger.debug("BSI V3 operator JSON log unavailable: %s", exc.__class__.__name__)
+
+    def _state_changed(self, key: tuple[Any, ...], state: str) -> bool:
+        previous = self._last_states.get(key)
+        self._last_states[key] = state
+        return previous != state
+
+    def _summary_due(self) -> bool:
+        now = utcnow()
+        if self._last_summary_at is None or (now - self._last_summary_at).total_seconds() >= _operator_status_interval_seconds():
+            self._last_summary_at = now
+            return True
+        return False
+
+    def format_result_line(self, result: dict[str, Any]) -> str:
+        symbol = result.get("selected_symbol") or "-"
+        direction = result.get("selected_direction") or "-"
+        strategy = result.get("selected_strategy")
+        confluence = result.get("confluence") or []
+        confidence = _operator_number(result.get("confidence"))
+        status = str(result.get("status") or "UNKNOWN")
+        entry_window = result.get("entry_window") if isinstance(result.get("entry_window"), dict) else {}
+        local = _operator_bucharest_time(entry_window.get("confirmation_completed_at") or None)
+        next_window = entry_window.get("next_entry_window")
+        next_ro = _operator_bucharest_time(next_window).strftime("%H:%M RO") if next_window else "-"
+        reason = " | ".join(str(item) for item in (result.get("blockers") or [])) or status
+        label = _operator_confluence_label(strategy, confluence)
+        short_id = _operator_short_opportunity_id(symbol, direction, f"{symbol}:{direction}:{strategy}:{confluence}")
+        if status == "ENTRY_WINDOW_BLOCKED" or "ENTRY_WINDOW_BLOCKED" in (result.get("blockers") or []):
+            state = f"{local.strftime('%H:%M:%S')} RO | {symbol} {direction} | {short_id} | BLOCKED: ENTRY WINDOW | {label} | CONF {confidence} | next {next_ro} | no order sent"
+        elif status in {"ACCEPTED", "ORDER_ACCEPTED"}:
+            state = f"{local.strftime('%H:%M:%S')} RO | {symbol} {direction} | {short_id} | ORDER_ACCEPTED | {label} | CONF {confidence} | order_send_calls={result.get('order_send_calls', 0)}"
+        elif status in {"REJECTED", "RISK_REJECTED"} or "RISK" in reason:
+            state = f"{local.strftime('%H:%M:%S')} RO | {symbol} {direction} | {short_id} | RISK_BLOCKED | {label} | CONF {confidence} | {reason}"
+        else:
+            state = f"{local.strftime('%H:%M:%S')} RO | {symbol} {direction} | {short_id} | {status} | {label} | CONF {confidence} | orders={result.get('order_send_calls', 0)}"
+        return state
+
+    def log_fast_watch_results(self, results: list[dict[str, Any]]) -> None:
+        if not results:
+            return
+        for result in results:
+            logger.debug("BSI V3 fast watcher raw result account_id=%s result=%s", result.get("account_id"), result)
+            self._emit_json(
+                {
+                    "event_type": "FAST_WATCHER_RESULT",
+                    "symbol": result.get("selected_symbol"),
+                    "strategy": result.get("selected_strategy"),
+                    "confluence": result.get("confluence"),
+                    "account_id": result.get("account_id"),
+                    "confidence": result.get("confidence"),
+                    "state": result.get("status"),
+                    "blocker": result.get("blockers"),
+                    "order_send_calls": result.get("order_send_calls", 0),
+                    "raw_result": result,
+                }
+            )
+
+        if not _operator_log_enabled():
+            return
+
+        visible = [
+            row
+            for row in results
+            if row.get("status") not in {"NO_ACTIVE_PLANS", "NO_CONFIRMED_ENTRY", "SKIPPED_CYCLE_BUSY", "DISABLED"}
+        ]
+        if visible:
+            collapsed: dict[tuple[Any, ...], list[dict[str, Any]]] = {}
+            for row in visible:
+                key = (
+                    row.get("selected_symbol"),
+                    row.get("selected_strategy"),
+                    tuple(row.get("confluence") or []),
+                    row.get("status"),
+                    tuple(row.get("blockers") or []),
+                    (row.get("entry_window") or {}).get("next_entry_window") if isinstance(row.get("entry_window"), dict) else None,
+                )
+                collapsed.setdefault(key, []).append(row)
+            for key, rows in collapsed.items():
+                accounts = sorted(str(row.get("account_id") or "") for row in rows)
+                state_key = ("fast_watcher", *key, tuple(accounts))
+                if not self._state_changed(state_key, "|".join(accounts)):
+                    continue
+                line = self.format_result_line(rows[0])
+                if len(accounts) > 1:
+                    line = f"{line} | ALL ACCOUNTS: {', '.join(accounts)}"
+                else:
+                    line = f"{line} | account={accounts[0]}"
+                level = operator_logger.warning if "BLOCKED" in line or "REJECTED" in line else operator_logger.info
+                level(line)
+
+        if self._summary_due():
+            self.log_summary(results)
+
+    def log_summary(self, results: list[dict[str, Any]]) -> None:
+        totals: dict[str, int] = {}
+        horizons: dict[str, int] = {}
+        observed = {"FAST_WATCHER_POLLS": 0, "NEW_THESES_CREATED": 0, "NEW_OPPORTUNITIES_CREATED": 0, "CONFIRMATIONS_CREATED": 0, "ORDERS_SUBMITTED": 0}
+        for result in results:
+            for key, value in (result.get("monitoring_counts") or {}).items():
+                totals[key] = totals.get(key, 0) + int(value or 0)
+            for key, value in (result.get("horizon_counts") or {}).items():
+                horizons[key] = horizons.get(key, 0) + int(value or 0)
+            for key, value in (result.get("observability") or {}).items():
+                if key in observed:
+                    observed[key] += int(value or 0)
+        now = _operator_bucharest_time()
+        operator_logger.info(
+            "=== BSI V3 STATUS %s RO === Dormant %s | Approaching %s | POI Active %s | Confirmations %s | Orders %s | Polls %s | Swing %s | Intraday %s | Session %s",
+            now.strftime("%H:%M"),
+            totals.get("DORMANT_PLAN", 0),
+            totals.get("APPROACHING_POI", 0),
+            totals.get("POI_ACTIVE", 0),
+            observed.get("CONFIRMATIONS_CREATED", 0),
+            observed.get("ORDERS_SUBMITTED", 0),
+            observed.get("FAST_WATCHER_POLLS", 0),
+            horizons.get("SWING", 0),
+            horizons.get("INTRADAY", 0),
+            horizons.get("SESSION", 0),
+        )
+
+
+_bsi_v3_operator_log = BSIV3OperatorLog()
 
 
 def _v3_is_candidate(candidate: dict[str, Any]) -> bool:
@@ -2663,6 +2913,7 @@ class MT5AutonomousTradingService:
                     "entry_window": entry_window,
                     "cycle_id": cycle_id,
                     "selected_symbol": best.get("broker_symbol"),
+                    "selected_direction": best.get("direction"),
                     "selected_strategy": evidence.get("v3_strategy_id"),
                     "confluence": evidence.get("v3_confluence_strategy_ids"),
                     "confidence": confidence.get("overall_score"),
@@ -2717,6 +2968,7 @@ class MT5AutonomousTradingService:
                 "status": submission.get("status"),
                 "cycle_id": cycle_id,
                 "selected_symbol": best.get("broker_symbol"),
+                "selected_direction": best.get("direction"),
                 "selected_strategy": evidence.get("v3_strategy_id"),
                 "confluence": evidence.get("v3_confluence_strategy_ids"),
                 "confidence": confidence.get("overall_score"),
@@ -2938,11 +3190,11 @@ class MT5MultiAccountAutonomousOrchestrator:
         while not self._fast_watcher_stop_event.is_set():
             try:
                 services = self._enabled_services()
+                results: list[dict[str, Any]] = []
                 for account_id, service in services.items():
                     result = await service.run_fast_planned_entry_watch()
-                    status = result.get("status")
-                    if status not in {"NO_ACTIVE_PLANS", "NO_CONFIRMED_ENTRY", "SKIPPED_CYCLE_BUSY", "DISABLED"}:
-                        logger.warning("BSI V3 fast watcher account_id=%s result=%s", account_id, result)
+                    results.append(result)
+                _bsi_v3_operator_log.log_fast_watch_results(results)
             except Exception as exc:
                 logger.exception("BSI V3 fast planned-entry watcher failed: %s", exc.__class__.__name__)
             try:

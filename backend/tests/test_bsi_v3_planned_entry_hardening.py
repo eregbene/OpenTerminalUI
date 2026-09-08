@@ -6,7 +6,18 @@ import json
 from types import SimpleNamespace
 
 import backend.brokers.mt5.autonomous as autonomous_mod
-from backend.brokers.mt5.autonomous import MT5AutonomousTradingService, _env_float, _env_int, _v3_entry_window_decision, _v3_execution_confidence_blockers, _v3_m5_direct_execution_enabled, _v3_planned_entry_live
+from backend.brokers.mt5.autonomous import (
+    BSIV3OperatorLog,
+    MT5AutonomousTradingService,
+    _env_float,
+    _env_int,
+    _operator_price,
+    _operator_short_opportunity_id,
+    _v3_entry_window_decision,
+    _v3_execution_confidence_blockers,
+    _v3_m5_direct_execution_enabled,
+    _v3_planned_entry_live,
+)
 from backend.brokers.mt5.config import MT5Config
 from backend.brokers.mt5.ownership import is_bensim_owned_position, is_bensim_owned_order
 from backend.adaptive_management.service import _v3_trade_horizon
@@ -221,6 +232,81 @@ def test_bucharest_entry_window_handles_dst_transition(monkeypatch) -> None:
     assert summer["local_bucharest_time"].endswith("+03:00")
     assert transition["allowed"] is True
     assert transition["local_bucharest_time"].endswith("+03:00")
+
+
+def _operator_result(account_id: str = "demo_10k", *, status: str = "ENTRY_WINDOW_BLOCKED") -> dict:
+    return {
+        "account_id": account_id,
+        "status": status,
+        "blockers": ["ENTRY_WINDOW_BLOCKED"] if status == "ENTRY_WINDOW_BLOCKED" else [],
+        "entry_window": {
+            "allowed": False,
+            "reason": "ENTRY_WINDOW_BLOCKED",
+            "confirmation_completed_at": "2026-09-08T12:00:00+00:00",
+            "local_bucharest_time": "2026-09-08T15:00:00+03:00",
+            "next_entry_window": "2026-09-08T15:30:00+03:00",
+            "entry_timezone": "Europe/Bucharest",
+        },
+        "cycle_id": "MT5_FAST_TEST",
+        "selected_symbol": "XAUUSD",
+        "selected_direction": "SHORT",
+        "selected_strategy": "bsi_v3_mmxm",
+        "confluence": ["bsi_v3_holy_grail", "bsi_v3_juggernaut", "bsi_v3_mmxm", "bsi_v3_standard_deviation_po3"],
+        "confidence": 84.28123,
+        "order_send_calls": 0,
+        "monitoring_counts": {"DORMANT_PLAN": 10, "APPROACHING_POI": 2, "POI_ACTIVE": 1},
+        "horizon_counts": {"SWING": 4, "INTRADAY": 2, "SESSION": 1},
+        "observability": {"FAST_WATCHER_POLLS": 1, "CONFIRMATIONS_CREATED": 3, "ORDERS_SUBMITTED": 0},
+    }
+
+
+def test_operator_log_hides_full_ids_formats_bucharest_and_prices() -> None:
+    op = BSIV3OperatorLog()
+    full_id = "bsi_v3_order_flow:entry:GBPJPY:M15:SHORT:2026-09-07T21:00:00+00:00:208.97200000"
+
+    line = op.format_result_line(_operator_result())
+
+    assert "15:00:00 RO" in line
+    assert "BLOCKED: ENTRY WINDOW" in line
+    assert "MMXM +3 confluence" in line
+    assert "bsi_v3_" not in line
+    assert full_id not in line
+    assert _operator_short_opportunity_id("GBPJPY", "SHORT", full_id).startswith("OPP-GBPJPY-S-")
+    assert _operator_price(208.80899999999997, "GBPJPY") == "208.809"
+    assert _operator_price(1.3815699999999995, "GBPUSD") == "1.38157"
+
+
+def test_operator_log_dedupes_repeated_fast_watcher_polls_but_logs_transition(monkeypatch, tmp_path, caplog) -> None:
+    monkeypatch.setenv("BSI_OPERATOR_JSON_LOG_PATH", str(tmp_path / "operator.jsonl"))
+    monkeypatch.setenv("BSI_OPERATOR_STATUS_INTERVAL_SECONDS", "300")
+    op = BSIV3OperatorLog()
+    first = _operator_result()
+
+    with caplog.at_level("INFO", logger="bensim.operator"):
+        op.log_fast_watch_results([first])
+        op.log_fast_watch_results([first])
+        changed = _operator_result(status="ACCEPTED")
+        changed["blockers"] = []
+        op.log_fast_watch_results([changed])
+
+    messages = [row.getMessage() for row in caplog.records if row.name == "bensim.operator"]
+    assert sum("BLOCKED: ENTRY WINDOW" in msg for msg in messages) == 1
+    assert any("ORDER_ACCEPTED" in msg for msg in messages)
+    raw_lines = (tmp_path / "operator.jsonl").read_text(encoding="utf-8").splitlines()
+    assert len(raw_lines) == 3
+    assert all("raw_result" in json.loads(line) for line in raw_lines)
+
+
+def test_operator_log_collapses_identical_account_blockers(monkeypatch, tmp_path, caplog) -> None:
+    monkeypatch.setenv("BSI_OPERATOR_JSON_LOG_PATH", str(tmp_path / "operator.jsonl"))
+    op = BSIV3OperatorLog()
+    results = [_operator_result(account_id) for account_id in ["demo_10k", "ftmo_demo_25k", "ftmo_demo_50k", "ftmo_demo_100k"]]
+
+    with caplog.at_level("INFO", logger="bensim.operator"):
+        op.log_fast_watch_results(results)
+
+    messages = [row.getMessage() for row in caplog.records if row.name == "bensim.operator"]
+    assert any("ALL ACCOUNTS" in msg for msg in messages)
 
 
 def test_new_plan_persists_strategy_clock_metadata() -> None:

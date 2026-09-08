@@ -1067,7 +1067,7 @@ def _evaluate_bsi_v3_planned_runtime_detectors(ctx: StrategyContext, allowed_str
             continue
         if not plan.get("alerted_touch_at"):
             plan["alerted_touch_at"] = now.isoformat()
-            logger.warning(
+            logger.debug(
                 "BSI V3 planned-entry POI touched: plan_id=%s symbol=%s strategy=%s direction=%s price_bid=%s price_ask=%s poi=[%s,%s]",
                 plan.get("plan_id"),
                 plan.get("symbol"),
@@ -1098,7 +1098,7 @@ def _evaluate_bsi_v3_planned_runtime_detectors(ctx: StrategyContext, allowed_str
         plan["confirmed_cycle_key"] = confirmation_bar_key
         if not plan.get("alerted_confirmed_at"):
             plan["alerted_confirmed_at"] = now.isoformat()
-            logger.warning(
+            logger.debug(
                 "BSI V3 planned-entry confirmed for entry: plan_id=%s symbol=%s strategy=%s direction=%s confirmation_tf=%s entry=%s stop=%s target=%s rr=%.2f",
                 plan.get("plan_id"),
                 plan.get("symbol"),
