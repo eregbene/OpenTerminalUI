@@ -12,7 +12,9 @@ from backend.mt5_strategies.context import REGIME_NEUTRAL, StrategyContext
 from backend.mt5_strategies.families.bsi_v3_runtime_detectors import (
     RUNTIME_SPECS,
     _lower_tf_confirms,
+    _make_plan_from_fvg,
     _same_poi_group,
+    _upsert_new_plans,
     planned_entry_queue_path,
 )
 
@@ -22,11 +24,11 @@ class _FakeAdapter:
         self.config = MT5Config(account_id=account_id, enabled=True, autonomous_submission_enabled=True)
 
 
-def _rows_with_recent_fvg(*, timeframe_seconds: int = 60) -> list[dict]:
+def _rows_with_recent_fvg(*, timeframe_seconds: int = 60, count: int = 10) -> list[dict]:
     start = datetime(2026, 9, 7, 12, 0, tzinfo=timezone.utc)
     rows = []
     price = Decimal("1.1000")
-    for idx in range(10):
+    for idx in range(count):
         rows.append(
             {
                 "time": (start + timedelta(seconds=timeframe_seconds * idx)).isoformat(),
@@ -170,3 +172,52 @@ def test_confluence_cannot_bypass_execution_confidence_floor(monkeypatch) -> Non
     blockers = _v3_execution_confidence_blockers(69.0)
 
     assert "BSI_V3_EXECUTION_CONFIDENCE_BELOW_MIN" in blockers
+
+
+def test_plan_confidence_6499_not_active_but_65_active(monkeypatch) -> None:
+    spec = next(row for row in RUNTIME_SPECS if row.strategy_id == "bsi_v3_spectre")
+    rows = _rows_with_recent_fvg(timeframe_seconds=900)
+    fvg = {"direction": "LONG", "index": len(rows) - 1, "low": 1.1000, "high": 1.1010, "confirmed_at": datetime(2026, 9, 7, 12, 9, tzinfo=timezone.utc), "timeframe": "M15"}
+    monkeypatch.setenv("BSI_V3_MIN_PLAN_CONFIDENCE", "65")
+    ctx = _ctx()
+
+    plan = _make_plan_from_fvg(ctx, spec, fvg, rows)
+    assert plan is not None
+    plan["current_plan_confidence"] = 64.99
+    queue = []
+    assert float(plan["current_plan_confidence"]) < 65
+
+    plan["current_plan_confidence"] = 65.0
+    assert float(plan["current_plan_confidence"]) >= 65
+
+
+def test_same_h4_context_repeated_scan_updates_one_plan(monkeypatch) -> None:
+    monkeypatch.setenv("BSI_V3_MIN_PLAN_CONFIDENCE", "65")
+    monkeypatch.setenv("BSI_V3_PLANNED_SETUP_LOOKBACK_BARS", "12")
+    spec = next(row for row in RUNTIME_SPECS if row.strategy_id == "bsi_v3_4h_order_block")
+    ctx = _ctx(m5_rows=_rows_with_recent_fvg(timeframe_seconds=300))
+    ctx.m15_rows[:] = _rows_with_recent_fvg(timeframe_seconds=900, count=60)
+    ctx.h4_rows[:] = _rows_with_recent_fvg(timeframe_seconds=14400, count=60)
+    queue: list[dict] = []
+
+    for _ in range(20):
+        _upsert_new_plans(ctx, [spec], queue)
+
+    active = [row for row in queue if row["status"] == "PENDING_POI_TOUCH"]
+    opportunity_ids = {row["bsi_v3_entry_opportunity_id"] for row in active}
+    assert len(active) == len(opportunity_ids)
+
+
+def test_same_reactionary_spectre_thesis_becomes_confluence(monkeypatch) -> None:
+    monkeypatch.setenv("BSI_V3_MIN_PLAN_CONFIDENCE", "65")
+    monkeypatch.setenv("BSI_V3_PLANNED_SETUP_LOOKBACK_BARS", "12")
+    ctx = _ctx()
+    ctx.m15_rows[:] = _rows_with_recent_fvg(timeframe_seconds=900, count=60)
+    specs = [row for row in RUNTIME_SPECS if row.strategy_id in {"bsi_v3_reactionary_block", "bsi_v3_spectre"}]
+    queue: list[dict] = []
+
+    _upsert_new_plans(ctx, specs, queue)
+
+    assert queue
+    assert len(queue) == len({row["bsi_v3_entry_opportunity_id"] for row in queue})
+    assert all(set(row["confluence_strategy_ids"]) == {"bsi_v3_reactionary_block", "bsi_v3_spectre"} for row in queue)

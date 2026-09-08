@@ -124,7 +124,10 @@ TERMINAL_PLAN_STATUSES = {
     "BROKER_ACCEPTED",
     "CONSUMED",
     "BROKER_SUBMISSION_REJECTED",
+    "IGNORED_BELOW_PLAN_CONFIDENCE_FLOOR",
 }
+
+ACTIVE_PLAN_STATUSES = {"PENDING_POI_TOUCH", "TOUCHED_WAITING_CONFIRMATION", "CONFIRMED_FOR_ENTRY"}
 
 
 def _env_float(name: str, default: float) -> float:
@@ -139,6 +142,35 @@ def _env_int(name: str, default: int) -> int:
         return int(os.getenv(name, str(default)))
     except (TypeError, ValueError):
         return default
+
+
+def _plan_confidence_band(value: float) -> str:
+    if value >= 80:
+        return "WATCH_PREMIUM"
+    if value >= 75:
+        return "WATCH_HIGH"
+    if value >= 70:
+        return "WATCH_MEDIUM"
+    if value >= 65:
+        return "WATCH_LOW"
+    return "IGNORE_NOT_ACTIVE_PLAN"
+
+
+def _plan_confidence(*, ctx: StrategyContext, spec: RuntimeSpec, direction: str, rr: float, timeframe: str, entry_time: datetime) -> float:
+    score = 58.0
+    score += min(14.0, max(0.0, rr - _env_float("MT5_BSI_V3_MIN_RISK_REWARD", 1.25)) * 5.0)
+    if timeframe in {"H4", "H1"}:
+        score += 5.0
+    elif timeframe in {"M15", "M5"}:
+        score += 3.0
+    bias = _simple_bias(ctx.h4_rows) or _simple_bias(ctx.h1_rows) or ctx.htf_trend_h4
+    if bias == direction:
+        score += 7.0
+    if _in_any_ny_window(entry_time, ((2.0, 6.0), (8.5, 12.0), (14.0, 15.0))):
+        score += 4.0
+    if spec.strategy_id in CONFIRMATION_TIMEFRAME_POLICY:
+        score += 2.0
+    return round(max(0.0, min(100.0, score)), 2)
 
 
 def _row_time(row: dict[str, Any]) -> datetime:
@@ -347,23 +379,37 @@ def _make_plan_from_fvg(ctx: StrategyContext, spec: RuntimeSpec, fvg: dict[str, 
             return None
         target = entry - (stop - entry) * _planned_target_multiple(spec)
     created_at = fvg["confirmed_at"]
+    risk = abs(entry - stop)
+    rr = abs(target - entry) / risk if risk else 0.0
+    plan_confidence = _plan_confidence(ctx=ctx, spec=spec, direction=direction, rr=rr, timeframe=str(fvg["timeframe"]), entry_time=created_at)
     structural_key = f"{ctx.symbol.upper()}:{fvg['timeframe']}:{direction}:{created_at.isoformat()}:{float(fvg['low']):.8f}:{float(fvg['high']):.8f}"
+    context_id = f"context:{ctx.symbol.upper()}:{direction}:{fvg['timeframe']}:{created_at.date().isoformat()}"
     thesis_id = f"thesis:{ctx.symbol.upper()}:{direction}:{fvg['timeframe']}:{created_at.date().isoformat()}:{created_at.hour:02d}"
     poi_id = f"poi:{structural_key}"
     opportunity_id = f"entry:{structural_key}:{entry:.8f}:{stop:.8f}:{target:.8f}"
     plan_id = f"{spec.strategy_id}:{opportunity_id}"
     return {
         "plan_id": plan_id,
+        "bsi_v3_market_context_id": context_id,
         "bsi_v3_market_thesis_id": thesis_id,
         "bsi_v3_poi_id": poi_id,
         "bsi_v3_entry_opportunity_id": opportunity_id,
+        "canonical_plan_id": f"canonical:{opportunity_id}",
         "status": "PENDING_POI_TOUCH",
         "strategy_id": spec.strategy_id,
+        "primary_strategy_id": spec.strategy_id,
+        "confluence_strategy_ids": [spec.strategy_id],
+        "confluence_source_videos": list(spec.source_videos),
         "symbol": ctx.symbol.upper(),
         "broker_symbol": ctx.broker_symbol,
         "direction": direction,
         "created_at": created_at.isoformat(),
+        "last_updated_at": ctx.generated_at.astimezone(timezone.utc).isoformat(),
         "expires_at": (created_at + timedelta(hours=_env_float("BSI_V3_PLANNED_ENTRY_MAX_PENDING_HOURS", 24.0))).isoformat(),
+        "initial_plan_confidence": plan_confidence,
+        "current_plan_confidence": plan_confidence,
+        "max_plan_confidence": plan_confidence,
+        "plan_confidence_band": _plan_confidence_band(plan_confidence),
         "entry": entry,
         "stop": stop,
         "target": target,
@@ -380,7 +426,9 @@ def _make_plan_from_fvg(ctx: StrategyContext, spec: RuntimeSpec, fvg: dict[str, 
 
 
 def _upsert_new_plans(ctx: StrategyContext, allowed_specs: list[RuntimeSpec], queue: list[dict[str, Any]]) -> None:
-    existing = {str(row.get("plan_id")) for row in queue if row.get("status") in {"PENDING_POI_TOUCH", "TOUCHED_WAITING_CONFIRMATION"}}
+    min_plan_confidence = _env_float("BSI_V3_MIN_PLAN_CONFIDENCE", 65.0)
+    active_rows = [row for row in queue if row.get("status") in ACTIVE_PLAN_STATUSES]
+    existing = {str(row.get("plan_id")) for row in active_rows}
     lookback = _env_int("BSI_V3_PLANNED_SETUP_LOOKBACK_BARS", 96)
     for spec in allowed_specs:
         if ctx.symbol.upper() not in spec.eligible_symbols:
@@ -392,8 +440,43 @@ def _upsert_new_plans(ctx: StrategyContext, allowed_specs: list[RuntimeSpec], qu
         for fvg in _recent_fvgs(rows, lookback_bars=lookback):
             fvg["timeframe"] = tf
             plan = _make_plan_from_fvg(ctx, spec, fvg, rows)
-            if plan and plan["plan_id"] not in existing:
+            if not plan:
+                continue
+            if float(plan.get("current_plan_confidence") or 0.0) < min_plan_confidence:
+                logger.info(
+                    "BSI V3 planned-entry plan ignored below floor: symbol=%s strategy=%s direction=%s confidence=%s floor=%s",
+                    plan["symbol"],
+                    plan["strategy_id"],
+                    plan["direction"],
+                    plan.get("current_plan_confidence"),
+                    min_plan_confidence,
+                )
+                continue
+            same = next((row for row in active_rows if _same_poi_group(row, plan)), None)
+            if same is not None:
+                current = float(plan.get("current_plan_confidence") or 0.0)
+                previous_current = float(same.get("current_plan_confidence") or same.get("initial_plan_confidence") or 0.0)
+                previous_max = float(same.get("max_plan_confidence") or previous_current)
+                same["last_updated_at"] = ctx.generated_at.astimezone(timezone.utc).isoformat()
+                same["current_plan_confidence"] = max(previous_current, current)
+                same["max_plan_confidence"] = max(previous_max, current)
+                same["plan_confidence_band"] = _plan_confidence_band(float(same["current_plan_confidence"]))
+                strategies = sorted(set((same.get("confluence_strategy_ids") or [same.get("strategy_id")]) + [spec.strategy_id]))
+                same["confluence_strategy_ids"] = strategies
+                videos = sorted(set((same.get("confluence_source_videos") or same.get("source_videos") or []) + list(spec.source_videos)))
+                same["confluence_source_videos"] = videos
+                if current > previous_current:
+                    same["primary_strategy_id"] = spec.strategy_id
+                    same["strategy_id"] = spec.strategy_id
+                    same["source_rule_ids"] = list(spec.source_rule_ids)
+                    same["source_videos"] = list(spec.source_videos)
+                    same["management_model"] = spec.management_model
+                    same["stop_model"] = spec.stop_model
+                    same["target_model"] = spec.target_model
+                continue
+            if plan["plan_id"] not in existing:
                 queue.append(plan)
+                active_rows.append(plan)
                 existing.add(plan["plan_id"])
                 logger.info(
                     "BSI V3 planned-entry plan created: plan_id=%s symbol=%s strategy=%s direction=%s timeframe=%s poi=[%s,%s] expires_at=%s",
@@ -753,6 +836,7 @@ def _evaluate_bsi_v3_planned_runtime_detectors(ctx: StrategyContext, allowed_str
     queue = _load_queue(ctx)
     now = ctx.generated_at.astimezone(timezone.utc)
     cycle_key = _live_cycle_key(ctx)
+    min_plan_confidence = _env_float("BSI_V3_MIN_PLAN_CONFIDENCE", 65.0)
     active: list[dict[str, Any]] = []
     best: tuple[RuntimeOpportunity, dict[str, Any], str] | None = None
     spec_by_id = {spec.strategy_id: spec for spec in allowed_specs}
@@ -770,6 +854,10 @@ def _evaluate_bsi_v3_planned_runtime_detectors(ctx: StrategyContext, allowed_str
         spec = spec_by_id.get(str(plan.get("strategy_id") or ""))
         if spec is None:
             active.append(plan)
+            continue
+        if float(plan.get("current_plan_confidence") or plan.get("initial_plan_confidence") or 100.0) < min_plan_confidence:
+            plan["status"] = "IGNORED_BELOW_PLAN_CONFIDENCE_FLOOR"
+            plan["last_updated_at"] = now.isoformat()
             continue
         try:
             expires_at = datetime.fromisoformat(str(plan["expires_at"]).replace("Z", "+00:00")).astimezone(timezone.utc)
@@ -840,8 +928,15 @@ def _evaluate_bsi_v3_planned_runtime_detectors(ctx: StrategyContext, allowed_str
     spec = op.spec
     confluent = _confluent_plans(active, plan)
     confluent_plan_ids = sorted({str(row.get("plan_id") or "") for row in confluent if row.get("plan_id")})
-    confluent_strategy_ids = sorted({str(row.get("strategy_id") or "") for row in confluent if row.get("strategy_id")})
-    confluent_source_videos = sorted({video for row in confluent for video in (row.get("source_videos") or [])})
+    confluent_strategy_ids = sorted(
+        set(
+            str(strategy)
+            for row in confluent
+            for strategy in (row.get("confluence_strategy_ids") or [row.get("strategy_id")])
+            if strategy
+        )
+    )
+    confluent_source_videos = sorted({video for row in confluent for video in (row.get("confluence_source_videos") or row.get("source_videos") or [])})
     strength = min(100.0, 74.0 + min(20.0, max(0.0, op.rr - min_rr) * 6.0))
     if len(confluent_strategy_ids) > 1:
         strength = min(100.0, strength + min(8.0, (len(confluent_strategy_ids) - 1) * 4.0))
@@ -856,7 +951,9 @@ def _evaluate_bsi_v3_planned_runtime_detectors(ctx: StrategyContext, allowed_str
         "v3_detector_registry_size": len(RUNTIME_DETECTOR_REGISTRY),
         "v3_detector_available_strategy_count": len(RUNTIME_DETECTOR_REGISTRY),
         "v3_plan_id": plan.get("plan_id"),
+        "v3_canonical_plan_id": plan.get("canonical_plan_id"),
         "v3_confluence_plan_ids": confluent_plan_ids,
+        "bsi_v3_market_context_id": plan.get("bsi_v3_market_context_id"),
         "bsi_v3_market_thesis_id": plan.get("bsi_v3_market_thesis_id"),
         "bsi_v3_poi_id": plan.get("bsi_v3_poi_id"),
         "bsi_v3_entry_opportunity_id": plan.get("bsi_v3_entry_opportunity_id"),
@@ -870,6 +967,11 @@ def _evaluate_bsi_v3_planned_runtime_detectors(ctx: StrategyContext, allowed_str
         "confirmation_bar_close_at": plan.get("confirmation_bar_close_at"),
         "v3_confluence_strategy_ids": confluent_strategy_ids,
         "v3_confluence_count": len(confluent_strategy_ids),
+        "plan_confidence": plan.get("current_plan_confidence"),
+        "initial_plan_confidence": plan.get("initial_plan_confidence"),
+        "max_plan_confidence": plan.get("max_plan_confidence"),
+        "plan_confidence_band": plan.get("plan_confidence_band"),
+        "plan_watch_floor": min_plan_confidence,
         "source_rule_ids": list(spec.source_rule_ids),
         "source_videos": confluent_source_videos or list(spec.source_videos),
         "management_model": spec.management_model,

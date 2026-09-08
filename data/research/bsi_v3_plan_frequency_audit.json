@@ -1,0 +1,716 @@
+{
+  "status": "PLAN_FREQUENCY_AUDIT_FROM_EXISTING_COMPACT_REPLAY_PLUS_LIVE_STATE",
+  "limitation": "Jan-Aug artifact has full aggregate totals but only sampled examples per strategy; exact full canonical opportunity median/P90 needs instrumented full-entry replay.",
+  "strategy_count": 26,
+  "h4_or_hybrid_strategy_count": 12,
+  "session_intraday_strategy_count": 8,
+  "plan_floor": 65,
+  "execution_floor": 80,
+  "sample_frequency": {
+    "contexts_per_pair_day": {
+      "mean": 3.0957,
+      "median": 2.0,
+      "p75": 3.0,
+      "p90": 7.0,
+      "max": 16.0
+    },
+    "theses_per_pair_day": {
+      "mean": 3.0957,
+      "median": 2.0,
+      "p75": 3.0,
+      "p90": 7.0,
+      "max": 16.0
+    },
+    "pois_per_pair_day": {
+      "mean": 1.6957,
+      "median": 1.0,
+      "p75": 2.0,
+      "p90": 3.0,
+      "max": 7.0
+    },
+    "opportunities_per_pair_day": {
+      "mean": 3.0957,
+      "median": 2.0,
+      "p75": 3.0,
+      "p90": 7.0,
+      "max": 16.0
+    }
+  },
+  "current_queue": {
+    "raw_plans": 0,
+    "active_plans": 0,
+    "plans_ge_65": 0,
+    "plans_ge_70": 0,
+    "plans_ge_75": 0,
+    "plans_ge_80": 0,
+    "bands": {},
+    "best_by_symbol_direction": {}
+  },
+  "existing_positions": {
+    "account_executions": 24,
+    "unique_symbol_direction_strategy_groups": 9,
+    "positions": [
+      {
+        "account_id": "ftmo_demo_100k",
+        "symbol": "EURJPY",
+        "direction": "SHORT",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915356860",
+        "mfe_r": 0.06,
+        "tp_progress": -0.27,
+        "current_volume": 0.09
+      },
+      {
+        "account_id": "ftmo_demo_100k",
+        "symbol": "EURJPY",
+        "direction": "SHORT",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915391624",
+        "mfe_r": 0.006,
+        "tp_progress": -0.301,
+        "current_volume": 0.35
+      },
+      {
+        "account_id": "ftmo_demo_100k",
+        "symbol": "EURJPY",
+        "direction": "SHORT",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915397672",
+        "mfe_r": 0.002,
+        "tp_progress": -0.23,
+        "current_volume": 0.21
+      },
+      {
+        "account_id": "ftmo_demo_100k",
+        "symbol": "EURUSD",
+        "direction": "LONG",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1914730384",
+        "mfe_r": 0.488,
+        "tp_progress": -0.199,
+        "current_volume": 0.38
+      },
+      {
+        "account_id": "ftmo_demo_100k",
+        "symbol": "GBPJPY",
+        "direction": "SHORT",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915336750",
+        "mfe_r": 0.168,
+        "tp_progress": -0.238,
+        "current_volume": 0.01
+      },
+      {
+        "account_id": "ftmo_demo_100k",
+        "symbol": "USDJPY",
+        "direction": "SHORT",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915395082",
+        "mfe_r": 0.03,
+        "tp_progress": -0.364,
+        "current_volume": 0.34
+      },
+      {
+        "account_id": "ftmo_demo_25k",
+        "symbol": "AUDUSD",
+        "direction": "LONG",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1914910887",
+        "mfe_r": 0.581,
+        "tp_progress": -0.045,
+        "current_volume": 0.4
+      },
+      {
+        "account_id": "ftmo_demo_25k",
+        "symbol": "AUDUSD",
+        "direction": "LONG",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1914917244",
+        "mfe_r": 0.632,
+        "tp_progress": -0.038,
+        "current_volume": 0.4
+      },
+      {
+        "account_id": "ftmo_demo_25k",
+        "symbol": "EURJPY",
+        "direction": "SHORT",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915134702",
+        "mfe_r": 0.201,
+        "tp_progress": -0.323,
+        "current_volume": 0.15
+      },
+      {
+        "account_id": "ftmo_demo_25k",
+        "symbol": "EURUSD",
+        "direction": "LONG",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1914765955",
+        "mfe_r": 0.383,
+        "tp_progress": -0.261,
+        "current_volume": 0.4
+      },
+      {
+        "account_id": "ftmo_demo_25k",
+        "symbol": "GBPJPY",
+        "direction": "SHORT",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915201705",
+        "mfe_r": 0.224,
+        "tp_progress": -0.261,
+        "current_volume": 0.09
+      },
+      {
+        "account_id": "ftmo_demo_25k",
+        "symbol": "GBPUSD",
+        "direction": "LONG",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1914635758",
+        "mfe_r": 0.57,
+        "tp_progress": -0.234,
+        "current_volume": 0.36
+      },
+      {
+        "account_id": "ftmo_demo_25k",
+        "symbol": "NZDUSD",
+        "direction": "SHORT",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915221222",
+        "mfe_r": 0.167,
+        "tp_progress": 0.025,
+        "current_volume": 0.32
+      },
+      {
+        "account_id": "ftmo_demo_25k",
+        "symbol": "USDCHF",
+        "direction": "LONG",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915336423",
+        "mfe_r": 0.713,
+        "tp_progress": 0.344,
+        "current_volume": 0.12
+      },
+      {
+        "account_id": "ftmo_demo_25k",
+        "symbol": "USDJPY",
+        "direction": "SHORT",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915110191",
+        "mfe_r": 0.038,
+        "tp_progress": -0.413,
+        "current_volume": 0.15
+      },
+      {
+        "account_id": "ftmo_demo_25k",
+        "symbol": "USDJPY",
+        "direction": "SHORT",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915197362",
+        "mfe_r": 0.446,
+        "tp_progress": -0.29,
+        "current_volume": 0.08
+      },
+      {
+        "account_id": "ftmo_demo_50k",
+        "symbol": "EURJPY",
+        "direction": "SHORT",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915133544",
+        "mfe_r": 0.268,
+        "tp_progress": -0.283,
+        "current_volume": 0.29
+      },
+      {
+        "account_id": "ftmo_demo_50k",
+        "symbol": "EURJPY",
+        "direction": "SHORT",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915134835",
+        "mfe_r": 0.196,
+        "tp_progress": -0.319,
+        "current_volume": 0.27
+      },
+      {
+        "account_id": "ftmo_demo_50k",
+        "symbol": "EURJPY",
+        "direction": "SHORT",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915171215",
+        "mfe_r": 0.283,
+        "tp_progress": -0.261,
+        "current_volume": 0.28
+      },
+      {
+        "account_id": "ftmo_demo_50k",
+        "symbol": "EURUSD",
+        "direction": "LONG",
+        "strategy_id": "bsi_v3_spectre",
+        "broker_ticket": "1914389057",
+        "mfe_r": 0.664,
+        "tp_progress": -0.131,
+        "current_volume": 0.81
+      },
+      {
+        "account_id": "ftmo_demo_50k",
+        "symbol": "GBPJPY",
+        "direction": "SHORT",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915366382",
+        "mfe_r": 0.0,
+        "tp_progress": -0.313,
+        "current_volume": 0.21
+      },
+      {
+        "account_id": "ftmo_demo_50k",
+        "symbol": "USDCHF",
+        "direction": "LONG",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1914449735",
+        "mfe_r": 0.81,
+        "tp_progress": 0.358,
+        "current_volume": 0.65
+      },
+      {
+        "account_id": "ftmo_demo_50k",
+        "symbol": "USDJPY",
+        "direction": "SHORT",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915125315",
+        "mfe_r": 0.133,
+        "tp_progress": -0.352,
+        "current_volume": 0.28
+      },
+      {
+        "account_id": "ftmo_demo_50k",
+        "symbol": "USDJPY",
+        "direction": "SHORT",
+        "strategy_id": "v3react+v3spec",
+        "broker_ticket": "1915182263",
+        "mfe_r": 0.436,
+        "tp_progress": -0.297,
+        "current_volume": 0.31
+      }
+    ],
+    "adaptive_actions_since_v3": [
+      {
+        "action_type": "HOLD",
+        "status": "hold",
+        "count": 10821
+      },
+      {
+        "action_type": "MFE_PROTECTION_CLOSE",
+        "status": "selected",
+        "count": 1832
+      },
+      {
+        "action_type": "PARTIAL_PROFIT",
+        "status": "selected",
+        "count": 786
+      },
+      {
+        "action_type": "TIME_EXIT",
+        "status": "selected",
+        "count": 572
+      },
+      {
+        "action_type": "MOVE_SL_BREAKEVEN",
+        "status": "selected",
+        "count": 157
+      },
+      {
+        "action_type": "TP_PROGRESS_STRUCTURE_STOP",
+        "status": "selected",
+        "count": 106
+      },
+      {
+        "action_type": "HOLD_WITH_GIVEBACK_RISK",
+        "status": "selected",
+        "count": 98
+      },
+      {
+        "action_type": "TP_PROGRESS_PROFIT_LOCK",
+        "status": "selected",
+        "count": 85
+      },
+      {
+        "action_type": "MFE_PROTECTION_CLOSE",
+        "status": "submitted",
+        "count": 56
+      },
+      {
+        "action_type": "TP_PROGRESS_PARTIAL_PROTECT",
+        "status": "selected",
+        "count": 55
+      },
+      {
+        "action_type": "TRAIL_STOP",
+        "status": "selected",
+        "count": 50
+      },
+      {
+        "action_type": "PARTIAL_PROFIT",
+        "status": "submitted",
+        "count": 43
+      },
+      {
+        "action_type": "TIME_EXIT",
+        "status": "submitted",
+        "count": 24
+      },
+      {
+        "action_type": "ECONOMIC_REDUCE_SIZE",
+        "status": "selected",
+        "count": 15
+      },
+      {
+        "action_type": "ACCOUNT_PROFIT_LOCK",
+        "status": "selected",
+        "count": 10
+      },
+      {
+        "action_type": "MOVE_SL_BREAKEVEN",
+        "status": "submitted",
+        "count": 9
+      },
+      {
+        "action_type": "TP_PROGRESS_STRUCTURE_STOP",
+        "status": "submitted",
+        "count": 4
+      },
+      {
+        "action_type": "PARTIAL_PROFIT",
+        "status": "noop",
+        "count": 2
+      },
+      {
+        "action_type": "TP_PROGRESS_PROFIT_LOCK",
+        "status": "submitted",
+        "count": 1
+      },
+      {
+        "action_type": "TRAIL_STOP",
+        "status": "rejected",
+        "count": 1
+      },
+      {
+        "action_type": "TP_PROGRESS_PARTIAL_PROTECT",
+        "status": "submitted",
+        "count": 1
+      },
+      {
+        "action_type": "MFE_PROTECTION_CLOSE",
+        "status": "rejected",
+        "count": 1
+      },
+      {
+        "action_type": "MOVE_SL_BREAKEVEN",
+        "status": "rejected",
+        "count": 1
+      }
+    ]
+  },
+  "suspicious_strategy_frequencies": [
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "raw_opportunities_per_day_window": 10.66,
+      "reason": "high raw detector frequency before canonical live dedup"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "raw_opportunities_per_day_window": 21.3,
+      "reason": "high raw detector frequency before canonical live dedup"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm",
+      "raw_opportunities_per_day_window": 10.51,
+      "reason": "high raw detector frequency before canonical live dedup"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "raw_opportunities_per_day_window": 14.43,
+      "reason": "high raw detector frequency before canonical live dedup"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "raw_opportunities_per_day_window": 10.52,
+      "reason": "high raw detector frequency before canonical live dedup"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "raw_opportunities_per_day_window": 21.31,
+      "reason": "high raw detector frequency before canonical live dedup"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "raw_opportunities_per_day_window": 20.99,
+      "reason": "high raw detector frequency before canonical live dedup"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "raw_opportunities_per_day_window": 15.7,
+      "reason": "high raw detector frequency before canonical live dedup"
+    }
+  ],
+  "strategy_table": [
+    [
+      "bsi_v3_order_flow",
+      "htf_or_hybrid",
+      "H4,M15",
+      "M1_OR_M5_ALLOWED",
+      1823,
+      831,
+      992,
+      10.66
+    ],
+    [
+      "bsi_v3_smt_divergence",
+      "htf_or_hybrid",
+      "M15,M1",
+      "M1_REQUIRED",
+      0,
+      0,
+      0,
+      0.0
+    ],
+    [
+      "bsi_v3_abc",
+      "htf_or_hybrid",
+      "H4,M15",
+      "M1_OR_M5_ALLOWED",
+      133,
+      51,
+      82,
+      0.78
+    ],
+    [
+      "bsi_v3_abcd",
+      "htf_or_hybrid",
+      "H4,M15",
+      "M1_OR_M5_ALLOWED",
+      73,
+      32,
+      41,
+      0.43
+    ],
+    [
+      "bsi_v3_asian_v2",
+      "session/intraday",
+      "M15,M1",
+      "M1_REQUIRED",
+      0,
+      0,
+      0,
+      0.0
+    ],
+    [
+      "bsi_v3_0930",
+      "session/intraday",
+      "M15,M1",
+      "M1_REQUIRED",
+      0,
+      0,
+      0,
+      0.0
+    ],
+    [
+      "bsi_v3_reactionary_block",
+      "htf_or_hybrid",
+      "M15",
+      "M1_OR_M5_ALLOWED",
+      3643,
+      1577,
+      2066,
+      21.3
+    ],
+    [
+      "bsi_v3_ict_silver_bullet",
+      "session/intraday",
+      "M1",
+      "M1_REQUIRED",
+      0,
+      0,
+      0,
+      0.0
+    ],
+    [
+      "bsi_v3_silver_bullet_with_bias",
+      "session/intraday",
+      "H1,M15,M5,M1",
+      "M1_OR_M5_ALLOWED",
+      0,
+      0,
+      0,
+      0.0
+    ],
+    [
+      "bsi_v3_4h_order_block",
+      "htf_or_hybrid",
+      "H4,M15",
+      "M1_OR_M5_ALLOWED",
+      73,
+      32,
+      41,
+      0.43
+    ],
+    [
+      "bsi_v3_mmxm",
+      "htf_or_hybrid",
+      "H4,H1,M15,M5",
+      "M5_REQUIRED",
+      1797,
+      817,
+      980,
+      10.51
+    ],
+    [
+      "bsi_v3_mmxm_second_distribution",
+      "htf_or_hybrid",
+      "H1,M15",
+      "M1_OR_M5_ALLOWED",
+      2467,
+      1322,
+      1145,
+      14.43
+    ],
+    [
+      "bsi_v3_holy_grail",
+      "htf_or_hybrid",
+      "H1,M5",
+      "M5_REQUIRED",
+      1799,
+      813,
+      986,
+      10.52
+    ],
+    [
+      "bsi_v3_juggernaut",
+      "htf_or_hybrid",
+      "M1,M5",
+      "M1_OR_M5_ALLOWED",
+      4,
+      1,
+      3,
+      0.02
+    ],
+    [
+      "bsi_v3_spectre",
+      "htf_or_hybrid",
+      "M15",
+      "M1_OR_M5_ALLOWED",
+      3644,
+      1578,
+      2066,
+      21.31
+    ],
+    [
+      "bsi_v3_monday_range",
+      "session/intraday",
+      "M15",
+      "M1_OR_M5_ALLOWED",
+      129,
+      60,
+      69,
+      0.75
+    ],
+    [
+      "bsi_v3_weaver",
+      "htf_or_hybrid",
+      "H1,M15",
+      "M1_OR_M5_ALLOWED",
+      1043,
+      456,
+      587,
+      6.1
+    ],
+    [
+      "bsi_v3_standard_deviation_po3",
+      "htf_or_hybrid",
+      "M5",
+      "M1_OR_M5_ALLOWED",
+      3590,
+      1527,
+      2063,
+      20.99
+    ],
+    [
+      "bsi_v3_ar50",
+      "session/intraday",
+      "M15",
+      "M1_OR_M5_ALLOWED",
+      2684,
+      1171,
+      1513,
+      15.7
+    ],
+    [
+      "bsi_v3_ifvg_po3",
+      "htf_or_hybrid",
+      "M1",
+      "M1_REQUIRED",
+      0,
+      0,
+      0,
+      0.0
+    ],
+    [
+      "bsi_v3_turtle_soups_ranges",
+      "session/intraday",
+      "M1",
+      "M1_REQUIRED",
+      0,
+      0,
+      0,
+      0.0
+    ],
+    [
+      "bsi_v3_yin_yang",
+      "htf_or_hybrid",
+      "M15",
+      "M1_OR_M5_ALLOWED",
+      16,
+      5,
+      11,
+      0.09
+    ],
+    [
+      "bsi_v3_4h_candle_ranges",
+      "htf_or_hybrid",
+      "H4,M15",
+      "M1_OR_M5_ALLOWED",
+      0,
+      0,
+      0,
+      0.0
+    ],
+    [
+      "bsi_v3_smt_session_hl",
+      "session/intraday",
+      "M15,M1",
+      "M1_REQUIRED",
+      0,
+      0,
+      0,
+      0.0
+    ],
+    [
+      "bsi_v3_1h_candle_ranges",
+      "htf_or_hybrid",
+      "H1,M1",
+      "M1_REQUIRED",
+      0,
+      0,
+      0,
+      0.0
+    ],
+    [
+      "bsi_v3_enigma_range",
+      "htf_or_hybrid",
+      "H4,H1,M15",
+      "M1_OR_M5_ALLOWED",
+      1115,
+      348,
+      767,
+      6.52
+    ]
+  ]
+}
