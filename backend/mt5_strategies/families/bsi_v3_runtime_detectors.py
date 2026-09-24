@@ -625,11 +625,11 @@ def _opportunity_from_plan(ctx: StrategyContext, spec: RuntimeSpec, plan: dict[s
     if direction == "SHORT" and stop <= entry:
         return None
     risk = abs(entry - stop)
-    target = float(plan["target"])
-    min_rr = _env_float("MT5_BSI_V3_MIN_RISK_REWARD", 1.25)
-    if abs(target - entry) / risk < min_rr:
-        sign = 1 if direction == "LONG" else -1
-        target = entry + sign * risk * max(min_rr, _planned_target_multiple(spec))
+    # Planned targets are fixed R multiples of the plan's own entry (3R for 9:30, 2R otherwise --
+    # _make_plan_from_fvg). Re-anchor to the actual fill so the trade keeps that R instead of
+    # silently shrinking toward the minimum when price drifted toward the target.
+    sign = 1 if direction == "LONG" else -1
+    target = entry + sign * risk * _planned_target_multiple(spec)
     return RuntimeOpportunity(
         spec,
         direction,

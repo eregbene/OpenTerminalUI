@@ -244,6 +244,16 @@ def _target_progress(state: V3AdaptiveState) -> float | None:
     return sign * (state.current_price - state.entry) / distance
 
 
+def _env_float(name: str, default: float) -> float:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    try:
+        return float(raw)
+    except ValueError:
+        return default
+
+
 def apply_v3_hold_guard_research(
     state: V3AdaptiveState,
     decision: V3AdaptiveDecision,
@@ -282,19 +292,30 @@ def select_v3_demo_management_action(state: V3AdaptiveState) -> V3AdaptiveDecisi
 
     r_now = _r_multiple(state)
     model = state.management_model
+    breakeven_r = _env_float("BSI_V3_ADAPTIVE_BREAKEVEN_R", 1.0)
+    partial_r = _env_float("BSI_V3_ADAPTIVE_PARTIAL_R", 2.0)
+    partial_fraction = _env_float("BSI_V3_ADAPTIVE_PARTIAL_FRACTION", 0.5)
+    range_partial_fraction = _env_float("BSI_V3_ADAPTIVE_RANGE_PARTIAL_FRACTION", 0.5)
 
     if r_now <= -1.0:
         return V3AdaptiveDecision("HOLD", "v3_stop_should_be_broker_side_not_adaptive_close")
 
-    if model in {"MENTOR_FIXED_1R_BE_2R_TARGET", "MENTOR_BE_AT_1R"}:
-        if r_now >= 1.0 and not state.stop_at_breakeven:
+    # Order Flow / SMT / 9:30 / Reactionary videos give a fixed or liquidity target and no
+    # in-trade BE or partial rule -- hold to the broker-side SL/TP.
+    if model in {"MENTOR_BE_ON_STRUCTURE_BREAK", "MENTOR_FIXED_R_3_TO_5", "MENTOR_FIXED_2R_5R"}:
+        return V3AdaptiveDecision("HOLD", "v3_hold_to_fixed_or_liquidity_target")
+
+    # 4H OB, Silver Bullet, Yin Yang ("at 1:1 move SL to break even"), Monday Range ("go break
+    # even after one to one").
+    if model in {"MENTOR_FIXED_1R_BE_2R_TARGET", "MENTOR_BE_AT_1R", "MENTOR_RANGE_TARGET"}:
+        if r_now >= breakeven_r and not state.stop_at_breakeven:
             return V3AdaptiveDecision("MOVE_SL_BREAKEVEN", "v3_fixed_r_be_at_1r", requested_sl=state.entry)
         return V3AdaptiveDecision("HOLD", "v3_fixed_r_wait_for_1r_or_target")
 
     if model in {"MENTOR_PARTIAL_AT_POI_OR_2R", "MENTOR_FINAL_TARGET_LIQUIDITY"}:
-        if r_now >= 2.0 and state.partials_taken == 0:
-            return V3AdaptiveDecision("PARTIAL_CLOSE", "v3_partial_at_2r_or_poi", partial_fraction=0.5)
-        if r_now >= 1.0 and not state.stop_at_breakeven:
+        if r_now >= partial_r and state.partials_taken == 0:
+            return V3AdaptiveDecision("PARTIAL_CLOSE", "v3_partial_at_2r_or_poi", partial_fraction=partial_fraction)
+        if r_now >= breakeven_r and not state.stop_at_breakeven:
             return V3AdaptiveDecision("MOVE_SL_BREAKEVEN", "v3_protect_after_1r", requested_sl=state.entry)
         return V3AdaptiveDecision("HOLD", "v3_wait_for_poi_or_liquidity_target")
 
@@ -303,20 +324,32 @@ def select_v3_demo_management_action(state: V3AdaptiveState) -> V3AdaptiveDecisi
             return V3AdaptiveDecision("MOVE_SL_BREAKEVEN", "v3_ifvg_closest_liquidity_taken", requested_sl=state.entry)
         return V3AdaptiveDecision("HOLD", "v3_ifvg_wait_for_closest_liquidity")
 
+    # IFVG Model video / 4H Candle Ranges video: "at one to one take 50% off and go break even".
+    if model in {"MENTOR_IFVG_50_PERCENT_AT_1R", "MENTOR_CANDLE_RANGE_PARTIAL_BE_TARGET_OPPOSITE_SIDE"}:
+        if r_now >= 1.0 and state.partials_taken == 0:
+            return V3AdaptiveDecision("PARTIAL_CLOSE", "v3_partial_50_at_1r", partial_fraction=range_partial_fraction)
+        if r_now >= 1.0 and not state.stop_at_breakeven:
+            return V3AdaptiveDecision("MOVE_SL_BREAKEVEN", "v3_be_at_1r_after_partial", requested_sl=state.entry)
+        return V3AdaptiveDecision("HOLD", "v3_wait_for_1r")
+
+    # 1H CRD / Enigma / Turtle Soup: one partial + BE at the 0.5 level of the range, then hold to
+    # the opposite range side (the target).
+    # ponytail: the range itself is not tracked, so 50% of entry->target stands in for the range
+    # 0.5 fib; store range_high/low on the plan if detectors ever mark real ranges.
     if model in {
         "MENTOR_TURTLE_RANGE_PARTIAL_BE_AT_0_5",
-        "MENTOR_CANDLE_RANGE_PARTIAL_BE_TARGET_OPPOSITE_SIDE",
         "MENTOR_1H_CRD_PARTIAL_AT_50_PERCENT_RANGE",
         "MENTOR_ENIGMA_PARTIAL_BE_0_5_TARGET_0_79_OR_1_0",
     }:
-        if r_now >= 0.5 and state.partials_taken == 0:
-            return V3AdaptiveDecision("PARTIAL_CLOSE", "v3_range_partial_at_half_range", partial_fraction=0.4)
-        if r_now >= 0.5 and not state.stop_at_breakeven:
+        progress = _target_progress(state) or 0.0
+        if progress >= 0.5 and state.partials_taken == 0:
+            return V3AdaptiveDecision("PARTIAL_CLOSE", "v3_range_partial_at_half_range", partial_fraction=range_partial_fraction)
+        if progress >= 0.5 and not state.stop_at_breakeven:
             return V3AdaptiveDecision("MOVE_SL_BREAKEVEN", "v3_range_be_after_half_range", requested_sl=state.entry)
         return V3AdaptiveDecision("HOLD", "v3_range_wait_for_half_range")
 
     if model == "MENTOR_SESSION_SMT_BE_1R_OR_STRONG_BIAS_1_5R":
-        if r_now >= 1.0 and not state.stop_at_breakeven:
+        if r_now >= breakeven_r and not state.stop_at_breakeven:
             return V3AdaptiveDecision("MOVE_SL_BREAKEVEN", "v3_smt_session_be_at_1r", requested_sl=state.entry)
         return V3AdaptiveDecision("HOLD", "v3_smt_session_wait_for_1r")
 

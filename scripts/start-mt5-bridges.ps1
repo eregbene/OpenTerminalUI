@@ -25,6 +25,15 @@ if (-not $ApiKey) {
     $ApiKey = "bensim-local-mt5-bridge"
 }
 
+$SelectedAccountIds = @()
+foreach ($raw in $AccountIds) {
+    if (-not $raw) { continue }
+    foreach ($part in ($raw -split ",")) {
+        $id = $part.Trim().Trim('"').Trim("'")
+        if ($id) { $SelectedAccountIds += $id }
+    }
+}
+
 function Get-EnvFirst([string[]]$Names, [string]$Default = "") {
     foreach ($name in $Names) {
         $value = [Environment]::GetEnvironmentVariable($name)
@@ -51,7 +60,7 @@ $accounts = @(
 )
 
 foreach ($account in $accounts) {
-    if ($AccountIds.Count -gt 0 -and $AccountIds -notcontains $account.Id) {
+    if ($SelectedAccountIds.Count -gt 0 -and $SelectedAccountIds -notcontains $account.Id) {
         continue
     }
     if (-not $account.Enabled) {

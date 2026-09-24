@@ -3,8 +3,10 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+from functools import lru_cache
 import asyncio
 import logging
+import re
 from dataclasses import dataclass
 from decimal import Decimal, ROUND_FLOOR
 from datetime import datetime, timedelta, timezone
@@ -64,32 +66,16 @@ ACTIVE_POLICY_ID = "conservative_demo_manager_v1"
 ACTIVE_POLICY_VERSION = "v2"
 logger = logging.getLogger(__name__)
 
-V3_MANAGEMENT_MODEL_BY_STRATEGY = {
-    "bsi_v3_order_flow": "MENTOR_FINAL_TARGET_LIQUIDITY",
-    "bsi_v3_asian_session": "MENTOR_SESSION_SMT_BE_1R_OR_STRONG_BIAS_1_5R",
-    "bsi_v3_new_york_session": "MENTOR_SESSION_SMT_BE_1R_OR_STRONG_BIAS_1_5R",
-    "bsi_v3_abc": "MENTOR_PARTIAL_AT_POI_OR_2R",
-    "bsi_v3_abcd": "MENTOR_PARTIAL_AT_POI_OR_2R",
-    "bsi_v3_under_over": "MENTOR_FIXED_1R_BE_2R_TARGET",
-    "bsi_v3_reactionary_block": "MENTOR_FINAL_TARGET_LIQUIDITY",
-    "bsi_v3_ob_liquidity": "MENTOR_FINAL_TARGET_LIQUIDITY",
-    "bsi_v3_0930": "MENTOR_SESSION_SMT_BE_1R_OR_STRONG_BIAS_1_5R",
-    "bsi_v3_silver_bullet": "MENTOR_SESSION_SMT_BE_1R_OR_STRONG_BIAS_1_5R",
-    "bsi_v3_holy_grail": "MENTOR_PARTIAL_AT_POI_OR_2R",
-    "bsi_v3_ifvg": "MENTOR_IFVG_CLOSEST_LIQUIDITY_BE",
-    "bsi_v3_turtle_soup": "MENTOR_TURTLE_RANGE_PARTIAL_BE_AT_0_5",
-    "bsi_v3_4h_ob": "MENTOR_FINAL_TARGET_LIQUIDITY",
-    "bsi_v3_4h_order_block": "MENTOR_FIXED_1R_BE_2R_TARGET",
-    "bsi_v3_mmxm_second_distribution": "MENTOR_FINAL_TARGET_LIQUIDITY",
-    "bsi_v3_spectre": "MENTOR_FINAL_TARGET_LIQUIDITY",
-    "bsi_v3_monday_range": "MENTOR_RANGE_TARGET",
-    "bsi_v3_weaver": "MENTOR_FINAL_TARGET_LIQUIDITY",
-    "bsi_v3_ar50": "MENTOR_FINAL_TARGET_LIQUIDITY",
-    "bsi_v3_yin_yang": "MENTOR_FIXED_1R_BE_2R_TARGET",
-    "bsi_v3_4h_candle_ranges": "MENTOR_CANDLE_RANGE_PARTIAL_BE_TARGET_OPPOSITE_SIDE",
-    "bsi_v3_enigma_range": "MENTOR_ENIGMA_PARTIAL_BE_0_5_TARGET_0_79_OR_1_0",
-    "bsi_v3_1h_candle_range": "MENTOR_1H_CRD_PARTIAL_AT_50_PERCENT_RANGE",
-}
+# Single source of truth: every V3 runtime spec already carries the mentor management model it
+# was built from. The hand-kept copy that used to live here had drifted -- 11 live strategy ids
+# (e.g. bsi_v3_ict_silver_bullet, bsi_v3_1h_candle_ranges) never matched and silently fell back to
+# the generic liquidity model, and 4 more mapped to a different model than their spec.
+@lru_cache(maxsize=1)
+def _v3_management_models() -> dict[str, str]:
+    # Lazy import: bsi_v3_runtime_detectors -> mt5_strategies.context imports this module.
+    from backend.mt5_strategies.families.bsi_v3_runtime_detectors import RUNTIME_SPECS
+
+    return {spec.strategy_id: spec.management_model for spec in RUNTIME_SPECS}
 
 V3_COMMENT_STRATEGY_CODES = {
     "v3flow": "bsi_v3_order_flow",
@@ -1708,6 +1694,7 @@ class AdaptiveManagementService:
     def _auto_recover_breaker(self, db: Any, breaker: Any) -> None:
         reason = str(breaker.reason or "")
         recoverable_broker_ready = reason.startswith("BROKER_NOT_READY")
+        recoverable_terminal_trading_allowed = reason == "MT5_TERMINAL_TRADING_NOT_ALLOWED"
         rejection_recovery_seconds = _env_int(
             "ADAPTIVE_BREAKER_REJECTION_AUTO_RECOVER_SECONDS",
             900,
@@ -1720,7 +1707,7 @@ class AdaptiveManagementService:
             and opened_at
             and (utcnow() - opened_at).total_seconds() >= rejection_recovery_seconds
         )
-        if breaker.state != "open" or not (recoverable_broker_ready or recoverable_no_retcode_rejection):
+        if breaker.state != "open" or not (recoverable_broker_ready or recoverable_terminal_trading_allowed or recoverable_no_retcode_rejection):
             return
         previous_reason = breaker.reason
         breaker.state = "closed"
@@ -2218,9 +2205,13 @@ class AdaptiveManagementService:
             candidates.append(ManagementCandidate("ECONOMIC_MANAGE_EXISTING_ONLY", 95, reason="forex_factory_calendar_manage_existing_only", evidence={"r": r_now, "economic_guard": economic_result}))
 
         normalized_strategy_id = normalize_strategy_id(state.strategy_id)
-        is_bsi_v3_position = normalized_strategy_id.startswith("bsi_v3")
+        # Live V3 positions carry the MT5 comment code (e.g. "v3flow+9", "v3react+v3spec"), not
+        # "bsi_v3_*" -- canonicalize or they silently fall through to the generic manager.
+        v3_strategy_id = _canonical_v3_strategy_id(normalized_strategy_id)
+        is_bsi_v3_position = v3_strategy_id is not None
         if is_bsi_v3_position:
-            model = V3_MANAGEMENT_MODEL_BY_STRATEGY.get(normalized_strategy_id, "MENTOR_FINAL_TARGET_LIQUIDITY")
+            normalized_strategy_id = v3_strategy_id
+            model = _v3_management_models().get(normalized_strategy_id, "MENTOR_FINAL_TARGET_LIQUIDITY")
             direction = "LONG" if str(state.direction or "").upper() in {"BUY", "LONG"} else "SHORT"
             current_sl = float(state.current_sl) if state.current_sl is not None else None
             stop_at_breakeven = bool(
@@ -2574,6 +2565,47 @@ class AdaptiveManagementService:
             return []
         profit_usd = float(payload.get("profit") or 0)
         equity_profit_pct = (profit_usd / account_equity) * 100.0
+        target_usd = _account_env_float("ADAPTIVE_ACCOUNT_PROFIT_LOCK_USD", self.account_id, 0.0)
+        if target_usd > 0:
+            reassess_usd = _account_env_float("ADAPTIVE_ACCOUNT_PROFIT_REASSESS_USD", self.account_id, max(target_usd * 0.60, 1.0))
+            if profit_usd < reassess_usd:
+                return []
+            stronger_protection_selected = any(candidate.priority < 90 and candidate.action_type != "HOLD" for candidate in candidates)
+            if stronger_protection_selected:
+                return []
+            tier = "target_usd_lock" if profit_usd >= target_usd else "reassess"
+            common_evidence = {
+                "profit_usd": profit_usd,
+                "account_equity": account_equity,
+                "equity_profit_pct": equity_profit_pct,
+                "reassess_usd": reassess_usd,
+                "target_usd": target_usd,
+                "tier": tier,
+                "r": r_now,
+                "max_r": max_r,
+                "giveback_r": max(0.0, max_r - r_now),
+                "winner_classification": state.winner_classification,
+                "regime": regime,
+                "tp_progress": state.tp_progress,
+            }
+            if tier != "reassess":
+                return [
+                    ManagementCandidate(
+                        "ACCOUNT_PROFIT_LOCK",
+                        55,
+                        requested_volume=float(state.current_volume) * _env_float("ADAPTIVE_ACCOUNT_PROFIT_LOCK_FRACTION", 0.30),
+                        reason="account_absolute_usd_profit_lock",
+                        evidence=common_evidence,
+                    )
+                ]
+            return [
+                ManagementCandidate(
+                    "HOLD_WITH_GIVEBACK_RISK",
+                    90,
+                    reason="account_absolute_usd_profit_reassess",
+                    evidence={**common_evidence, "next_evaluation_seconds": _env_int("ADAPTIVE_INTERVAL_PROFIT_SECONDS", 15, minimum=5, maximum=60)},
+                )
+            ]
         reassess_pct = _env_float("ADAPTIVE_PROFIT_REASSESS_EQUITY_PCT", 0.50)
         if equity_profit_pct < reassess_pct:
             return []
@@ -2853,7 +2885,9 @@ class AdaptiveManagementService:
             retcode = data.get("retcode")
             ok = retcode in {getattr(mt5, "TRADE_RETCODE_DONE", None), getattr(mt5, "TRADE_RETCODE_DONE_PARTIAL", None), getattr(mt5, "TRADE_RETCODE_PLACED", None)}
             if not ok:
-                self._record_action_failure(f"MT5_REJECTED:{retcode}")
+                comment = str(data.get("comment") or data.get("reason") or "")
+                failure_reason = "MT5_TERMINAL_TRADING_NOT_ALLOWED" if comment == "TERMINAL_TRADING_NOT_ALLOWED" else f"MT5_REJECTED:{retcode}"
+                self._record_action_failure(failure_reason)
             return {"status": "ACCEPTED" if ok else "REJECTED", "broker_mutation_attempted": True, "retcode": retcode, "broker_ticket": data.get("order") or data.get("deal"), "fill_price": data.get("price"), "filled_volume": data.get("volume"), "raw_request": sanitize(request), "raw_response": sanitize(data)}
         except Exception as exc:
             self._record_action_failure(exc.__class__.__name__)
@@ -4070,6 +4104,17 @@ def _env_int(name: str, default: int, *, minimum: int, maximum: int) -> int:
 def _env_float(name: str, default: float) -> float:
     try:
         return float(os.getenv(name, str(default)))
+    except Exception:
+        return default
+
+
+def _account_env_float(base_name: str, account_id: str, default: float) -> float:
+    suffix = re.sub(r"[^A-Z0-9]+", "_", str(account_id).upper()).strip("_")
+    raw = os.getenv(f"{base_name}_{suffix}") or os.getenv(base_name)
+    if raw is None or not str(raw).strip():
+        return default
+    try:
+        return float(raw)
     except Exception:
         return default
 

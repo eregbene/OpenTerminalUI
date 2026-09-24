@@ -48,6 +48,7 @@ def utcnow() -> datetime:
 class CandidateOutcomeResolver:
     def __init__(self, adapter: MT5Adapter | None = None) -> None:
         self.adapter = adapter or mt5_adapter
+        self._account_adapters: dict[str, MT5Adapter] = {}
         self._task: asyncio.Task | None = None
         self._stop_event: asyncio.Event | None = None
 
@@ -103,6 +104,18 @@ class CandidateOutcomeResolver:
             resolved += 1
         return resolved
 
+    def _adapter_for(self, candidate: dict[str, Any]) -> MT5Adapter:
+        # The global adapter is the legacy demo_10k config; with that account disabled every
+        # shadow outcome failed with MT5UnavailableError. Read candles from the candidate's account.
+        account_id = candidate.get("account_id")
+        if self.adapter is not mt5_adapter or not account_id:
+            return self.adapter
+        if account_id not in self._account_adapters:
+            from backend.brokers.mt5.multi_account import adapter_for_account
+
+            self._account_adapters[account_id] = adapter_for_account(str(account_id))
+        return self._account_adapters[account_id]
+
     async def _evaluate_shadow_candidate(self, candidate: dict[str, Any]) -> dict[str, Any] | None:
         entry = candidate.get("proposed_entry")
         stop_loss = candidate.get("proposed_stop_loss")
@@ -118,8 +131,12 @@ class CandidateOutcomeResolver:
         if created_at.tzinfo is None:
             created_at = created_at.replace(tzinfo=timezone.utc)
         elapsed = utcnow() - created_at
+        # One fetch returns at most 2000 M5 bars (~6.9 days). Older candidates can never resolve and
+        # would re-fetch 2000 bars from the shared bridge every poll forever -- retire them.
+        if elapsed > timedelta(minutes=5 * 2000):
+            return {"outcome_status": "EXPIRED_NO_DATA"}
         bars_needed = min(2000, max(20, int(elapsed.total_seconds() // 300) + 10))
-        candles = await self.adapter.candles(candidate["broker_symbol"], RESOLUTION_TIMEFRAME, count=bars_needed, completed_only=True)
+        candles = await self._adapter_for(candidate).candles(candidate["broker_symbol"], RESOLUTION_TIMEFRAME, count=bars_needed, completed_only=True)
         relevant = sorted((c for c in candles if c.time >= created_at), key=lambda c: c.time)
         if not relevant:
             return None

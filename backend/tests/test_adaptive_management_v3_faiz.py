@@ -35,7 +35,8 @@ def test_v3_fixed_r_moves_to_breakeven_at_1r():
     assert decision.reason == "v3_fixed_r_be_at_1r"
 
 
-def test_v3_abc_takes_partial_at_2r_or_poi():
+def test_v3_abc_takes_partial_at_2r_or_poi(monkeypatch):
+    monkeypatch.delenv("BSI_V3_ADAPTIVE_PARTIAL_FRACTION", raising=False)
     decision = select_v3_demo_management_action(
         V3AdaptiveState(
             strategy_id="bsi_v3_abc",
@@ -53,7 +54,8 @@ def test_v3_abc_takes_partial_at_2r_or_poi():
     assert decision.reason == "v3_partial_at_2r_or_poi"
 
 
-def test_v3_range_models_partial_at_half_range():
+def test_v3_range_models_partial_at_half_range(monkeypatch):
+    monkeypatch.delenv("BSI_V3_ADAPTIVE_RANGE_PARTIAL_FRACTION", raising=False)
     decision = select_v3_demo_management_action(
         V3AdaptiveState(
             strategy_id="bsi_v3_enigma_range",
@@ -61,13 +63,13 @@ def test_v3_range_models_partial_at_half_range():
             entry=100.0,
             stop=98.0,
             target=104.0,
-            current_price=101.0,
+            current_price=102.0,
             direction="LONG",
         )
     )
 
     assert decision.action == "PARTIAL_CLOSE"
-    assert decision.partial_fraction == 0.4
+    assert decision.partial_fraction == 0.5
     assert decision.reason == "v3_range_partial_at_half_range"
 
 
@@ -308,3 +310,43 @@ def test_v3_next_session_profile_blocks_reliable_hard_block_bucket():
 
     assert decision.allow_entry is False
     assert decision.reason == "v3_profile_reliable_hard_block"
+
+
+def test_v3_every_runtime_strategy_has_a_known_management_model():
+    from backend.adaptive_management.service import _v3_management_models
+    from backend.adaptive_management.v3_faiz import V3AdaptiveState, select_v3_demo_management_action
+
+    models = _v3_management_models()
+    assert "bsi_v3_ict_silver_bullet" in models and "bsi_v3_1h_candle_ranges" in models
+    for model in set(models.values()):
+        decision = select_v3_demo_management_action(V3AdaptiveState("x", model, 1.0, 0.99, 1.02, 1.0, "LONG"))
+        assert decision.reason != "v3_unknown_management_model_hold", model
+
+
+def test_v3_mentor_video_management_rules(monkeypatch):
+    from backend.adaptive_management.v3_faiz import V3AdaptiveState, select_v3_demo_management_action
+
+    monkeypatch.delenv("BSI_V3_ADAPTIVE_RANGE_PARTIAL_FRACTION", raising=False)
+
+    def act(model, price, **kw):
+        return select_v3_demo_management_action(V3AdaptiveState("x", model, 1.0, 0.99, 1.02, price, "LONG", **kw))
+
+    # 9:30 / Reactionary / Order Flow: hold to target, even well in profit.
+    assert act("MENTOR_FIXED_R_3_TO_5", 1.015).action == "HOLD"
+    # IFVG + 4H CRD: 50% off at 1:1, then BE.
+    first = act("MENTOR_IFVG_50_PERCENT_AT_1R", 1.01)
+    assert (first.action, first.partial_fraction) == ("PARTIAL_CLOSE", 0.5)
+    assert act("MENTOR_CANDLE_RANGE_PARTIAL_BE_TARGET_OPPOSITE_SIDE", 1.01, partials_taken=1).action == "MOVE_SL_BREAKEVEN"
+    # Enigma: nothing before the 0.5 level, partial at it (target 1.02 -> half at 1.01).
+    assert act("MENTOR_ENIGMA_PARTIAL_BE_0_5_TARGET_0_79_OR_1_0", 1.009).action == "HOLD"
+    assert act("MENTOR_ENIGMA_PARTIAL_BE_0_5_TARGET_0_79_OR_1_0", 1.0101).action == "PARTIAL_CLOSE"
+    # Monday Range: BE after 1:1.
+    assert act("MENTOR_RANGE_TARGET", 1.0101).action == "MOVE_SL_BREAKEVEN"
+
+
+def test_v3_comment_codes_route_to_v3_manager():
+    from backend.adaptive_management.service import _canonical_v3_strategy_id
+
+    assert _canonical_v3_strategy_id("v3flow+9") == "bsi_v3_order_flow"
+    assert _canonical_v3_strategy_id("v3react+v3spec") == "bsi_v3_reactionary_block"
+    assert _canonical_v3_strategy_id("bsi") is None
