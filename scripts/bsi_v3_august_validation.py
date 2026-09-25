@@ -5,10 +5,10 @@ import math
 import os
 import sqlite3
 from bisect import bisect_right
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, replace
 from datetime import datetime, timezone
 from pathlib import Path
-from statistics import median
+from statistics import median, stdev
 from typing import Any, Iterable
 from zoneinfo import ZoneInfo
 
@@ -21,6 +21,18 @@ except ImportError:  # pragma: no cover - optional outside Docker/dev envs.
 METHODOLOGY = "BSI_BASELINE_V3_UPDATED_FAIZ"
 START = datetime.fromisoformat(os.getenv("BSI_V3_START", "2026-08-01T00:00:00+00:00"))
 END = datetime.fromisoformat(os.getenv("BSI_V3_END", "2026-09-01T00:00:00+00:00"))
+MIN_ENTRY_RR = float(os.getenv("BSI_V3_MIN_ENTRY_RR", "0") or 0)
+# Realistic fills: charge round-trip costs in R and count same-bar stop+target as a loss.
+REALISTIC_FILLS = os.getenv("BSI_V3_REALISTIC_FILLS", "").lower() in {"1", "true", "yes"}
+# ponytail: static cost estimates (spread + commission, round trip, in pips; XAUUSD in $); pull
+# live spreads from MT5 symbol_info if these ever decide a go/no-go on the margin.
+COST_PIPS = {"EURUSD": 0.9, "GBPUSD": 1.2, "USDJPY": 1.0, "AUDUSD": 1.0, "USDCAD": 1.1, "USDCHF": 1.1, "NZDUSD": 1.2, "EURJPY": 1.2, "GBPJPY": 1.6, "XAUUSD": 0.30}
+
+
+def cost_in_price(symbol: str) -> float:
+    if symbol == "XAUUSD":
+        return COST_PIPS[symbol]
+    return COST_PIPS.get(symbol, 0.0) * (0.01 if symbol.endswith("JPY") else 0.0001)
 DB_PATH = Path("data/openterminalui.db")
 DEFAULT_POSTGRES_URL = "postgresql://openterminalui:openterminalui@localhost:5432/openterminalui"
 DOC_DIR = Path("docs/bsi_updated_faiz")
@@ -133,15 +145,19 @@ class CandleStore:
         key = (symbol, timeframe, start, end)
         if key in self._bar_cache:
             return self._bar_cache[key]
+        # The table mixes providers (MT5 MetaQuotes, YAHOO, FOREXSB, ICMarkets) for the same bar at
+        # prices up to ~4 pips apart; without a filter they interleave into fake gaps/extremes.
+        provider = os.getenv("BSI_V3_CANDLE_PROVIDER")
         if self._pg is not None:
             rows = self._pg.execute(
                 """
                 select timestamp, open, high, low, close, tick_volume
                 from mt5_canonical_candles
                 where broker_symbol=%s and timeframe=%s and timestamp >= %s and timestamp < %s
+                  and (%s::text is null or provider = %s::text)
                 order by timestamp asc
                 """,
-                (symbol, timeframe, start, end),
+                (symbol, timeframe, start, end, provider, provider),
             ).fetchall()
         else:
             assert self._sqlite is not None
@@ -229,19 +245,19 @@ def strategy_registry() -> list[StrategySpec]:
     crypto = CRYPTO_SYMBOLS
     all_assets = CORE_SYMBOLS + INDEX_SYMBOLS + CRYPTO_SYMBOLS
     return [
-        StrategySpec("bsi_v3_order_flow", "Order Flow", "INDEPENDENT_STRATEGY", ["FAIZ_V3_ORDERFLOW_001"], ["1. Order Flow Trading Strategy.mp4", "20. ORDERFLOW 101.mp4"], ["D1", "H4", "M15"], fx, "MENTOR_BE_ON_STRUCTURE_BREAK", "STRUCTURE_OB", "LIQUIDITY_OR_FIXED_R"),
+        StrategySpec("bsi_v3_order_flow", "Order Flow", "INDEPENDENT_STRATEGY", ["FAIZ_V3_ORDERFLOW_001"], ["1. Order Flow Trading Strategy.mp4", "2. Order Flow Example For Market Structure Shift (1).mp4", "3. Order Flow Example For Market Structure Shift (2).mp4", "4. Order Flow Example For Market Structure Break (1).mp4", "5. Order Flow Example For Market Structure Break (2).mp4", "20. ORDERFLOW 101.mp4", "21. ORDERFLOW 101 EXAMPLE 1.mp4", "22. ORDERFLOW 101 EXAMPLE 2.mp4"], ["D1", "H4", "M15"], fx, "MENTOR_BE_ON_STRUCTURE_BREAK", "STRUCTURE_OB", "LIQUIDITY_OR_FIXED_R"),
         StrategySpec("bsi_v3_smt_divergence", "SMT Divergence", "INDEPENDENT_STRATEGY", ["FAIZ_V3_SMT_001"], ["1. SMT Divergence.mp4"], ["M15", "M1"], ["EURUSD", "GBPUSD", "AUDUSD", "NAS100", "US500", "US30", "BTCUSD", "ETHUSD"], "MENTOR_BE_ON_STRUCTURE_BREAK", "SMT_SWEEP_MSS_STRUCTURE", "OPPOSING_LIQUIDITY_OR_ABC_TARGET", "Candidate independent strategy; also used as confluence. Reference-market data gaps must be treated as DATA_GAP_SMT_REFERENCE before demo activation."),
-        StrategySpec("bsi_v3_abc", "ABC", "INDEPENDENT_STRATEGY", ["FAIZ_V3_ABC_001", "FAIZ_V3_ABC_003", "FAIZ_V3_ABC_004"], ["10. ABC Trading Strategy.mp4", "19. ABC 101.mp4"], ["D1", "H4", "M15"], fx, "MENTOR_PARTIAL_AT_POI_OR_2R", "ABC_STRUCTURE", "B_LEG_HIGH_LOW"),
-        StrategySpec("bsi_v3_abcd", "ABCD", "INDEPENDENT_STRATEGY", ["FAIZ_V3_ABCD_001"], ["16. ABCD 101.mp4"], ["D1", "H4", "M15"], fx, "MENTOR_PARTIAL_AT_POI_OR_2R", "D_LEG_STRUCTURE", "FVG_SUPPLY_DEMAND_OB"),
-        StrategySpec("bsi_v3_asian_v2", "Asian Session V2", "INDEPENDENT_STRATEGY", ["FAIZ_V3_ASIAN_V2_001"], ["23. ASIAN SESSION STRATEGY V2.0.mp4"], ["M15", "M1"], fx, "MENTOR_FINAL_TARGET_LIQUIDITY", "M1_SWEEP_STRUCTURE", "ASIAN_OPPOSITE_SIDE_OR_POI"),
-        StrategySpec("bsi_v3_0930", "9:30 Updated", "INDEPENDENT_STRATEGY", ["FAIZ_V3_0930_001"], ["13. 930AM Trading Strategy (Updated).mp4"], ["M15", "M1"], indices, "MENTOR_FIXED_R_3_TO_5", "M1_SWEEP_STRUCTURE", "FVG_OR_3R_5R"),
+        StrategySpec("bsi_v3_abc", "ABC", "INDEPENDENT_STRATEGY", ["FAIZ_V3_ABC_001", "FAIZ_V3_ABC_003", "FAIZ_V3_ABC_004"], ["10. ABC Trading Strategy.mp4", "11. ABC Trading Strategy Example 1.mp4", "12. ABC Trading Strategy Example 2.mp4", "19. ABC 101.mp4", "10. Things To Avoid In ABC Strategy.mp4", "5. ABC POI Combination.mp4", "6. ABC POI Combination Example.mp4"], ["D1", "H4", "M15"], fx, "MENTOR_PARTIAL_AT_POI_OR_2R", "ABC_STRUCTURE", "B_LEG_HIGH_LOW"),
+        StrategySpec("bsi_v3_abcd", "ABCD", "INDEPENDENT_STRATEGY", ["FAIZ_V3_ABCD_001"], ["16. ABCD 101.mp4", "17. ABCD 101 EXAMPLE 1.mp4", "18. ABCD 101 EXAMPLE 2.mp4", "19. ABCD Trading Strategy.mp4", "20. ABCD Trading Strategy Example.mp4"], ["D1", "H4", "M15"], fx, "MENTOR_PARTIAL_AT_POI_OR_2R", "D_LEG_STRUCTURE", "FVG_SUPPLY_DEMAND_OB"),
+        StrategySpec("bsi_v3_asian_v2", "Asian Session V2", "INDEPENDENT_STRATEGY", ["FAIZ_V3_ASIAN_V2_001"], ["23. ASIAN SESSION STRATEGY V2.0.mp4", "24. ASIAN SESSION STRATEGY V2.0 EXAMPLE 1.mp4", "25. ASIAN SESSION STRATEGY V2.0 EXAMPLE 2.mp4"], ["M15", "M1"], fx, "MENTOR_FINAL_TARGET_LIQUIDITY", "M1_SWEEP_STRUCTURE", "ASIAN_OPPOSITE_SIDE_OR_POI"),
+        StrategySpec("bsi_v3_0930", "9:30 Updated", "INDEPENDENT_STRATEGY", ["FAIZ_V3_0930_001"], ["13. 930AM Trading Strategy (Updated).mp4", "14. 930AM Trading Strategy Example.mp4", "15. 930AM Trading Strategy Example 2.mp4", "16. 930AM Trading Strategy Example 3.mp4"], ["M15", "M1"], indices, "MENTOR_FIXED_R_3_TO_5", "M1_SWEEP_STRUCTURE", "FVG_OR_3R_5R"),
         StrategySpec("bsi_v3_reactionary_block", "Reactionary Block", "INDEPENDENT_STRATEGY", ["FAIZ_V3_REACTIONARY_001"], ["17. Reactionary Block Trading Strategy.mp4"], ["M15"], fx, "MENTOR_FIXED_2R_5R", "REACTION_OR_ORIGINAL_ZONE", "NEXT_HIGH_LOW_OR_2R_5R"),
-        StrategySpec("bsi_v3_ict_silver_bullet", "ICT Silver Bullet", "INDEPENDENT_STRATEGY", ["FAIZ_V3_SB_001"], ["30. ICT Silver Bullet.mp4"], ["M1"], indices, "MENTOR_BE_AT_1R", "M1_SWEEP_STRUCTURE", "1R_OR_2R"),
-        StrategySpec("bsi_v3_silver_bullet_with_bias", "Silver Bullet With Bias", "INDEPENDENT_STRATEGY", ["FAIZ_V3_SB_BIAS_001"], ["24. Silver Bullet With Bias.mp4"], ["H1", "M15", "M5", "M1"], fx + indices, "MENTOR_BE_AT_1R", "STRUCTURE", "1_TO_2_OR_INTERNAL_LIQUIDITY"),
+        StrategySpec("bsi_v3_ict_silver_bullet", "ICT Silver Bullet", "INDEPENDENT_STRATEGY", ["FAIZ_V3_SB_001"], ["30. ICT Silver Bullet.mp4", "31. ICT Silver Bullet Example 1.mp4", "32. ICT Silver Bullet Example 2.mp4", "33. ICT Silver Bullet Example 3.mp4"], ["M1"], indices, "MENTOR_BE_AT_1R", "M1_SWEEP_STRUCTURE", "1R_OR_2R"),
+        StrategySpec("bsi_v3_silver_bullet_with_bias", "Silver Bullet With Bias", "INDEPENDENT_STRATEGY", ["FAIZ_V3_SB_BIAS_001"], ["24. Silver Bullet With Bias.mp4", "25. Silver Bullet With Bias Example 1.mp4", "26. Silver Bullet With Bias Example 2.mp4"], ["H1", "M15", "M5", "M1"], fx + indices, "MENTOR_BE_AT_1R", "STRUCTURE", "1_TO_2_OR_INTERNAL_LIQUIDITY"),
         StrategySpec("bsi_v3_4h_order_block", "4 Hour OB", "INDEPENDENT_STRATEGY", ["FAIZ_V3_4H_OB_001"], ["34. 4 Hour OB Trading Strategy.mp4", "35. 4 Hour OB Trading Strategy.mp4", "36. 4 Hour OB Trading Strategy Example 2.mp4", "37. 4 Hour OB Trading Strategy Example 3.mp4"], ["H4", "M15"], fx, "MENTOR_FIXED_1R_BE_2R_TARGET", "H4_OB_M15_STRUCTURE", "2R"),
-        StrategySpec("bsi_v3_mmxm", "MMXM", "INDEPENDENT_STRATEGY", ["FAIZ_V3_MMXM_001"], ["8. THE MMXM.mp4", "9. THE MMXM 2.mp4"], ["MN1", "W1", "D1", "H4", "H1", "M15", "M5"], fx + indices, "MENTOR_FINAL_TARGET_LIQUIDITY", "MMXM_STRUCTURE", "ORIGINAL_CONSOLIDATION_LIQUIDITY"),
+        StrategySpec("bsi_v3_mmxm", "MMXM", "INDEPENDENT_STRATEGY", ["FAIZ_V3_MMXM_001"], ["8. THE MMXM.mp4", "9. THE MMXM 2.mp4", "10. THE MMXM EXAMPLE 1.mp4", "11. THE MMXM EXAMPLE 2.mp4", "12. THE MMXM EXAMPLE 3.mp4"], ["MN1", "W1", "D1", "H4", "H1", "M15", "M5"], fx + indices, "MENTOR_FINAL_TARGET_LIQUIDITY", "MMXM_STRUCTURE", "ORIGINAL_CONSOLIDATION_LIQUIDITY"),
         StrategySpec("bsi_v3_mmxm_second_distribution", "MMXM Second Distribution", "INDEPENDENT_STRATEGY", ["FAIZ_V3_MMXM2_001"], ["13. MMXM 2ND DISTRIBUTION ENTRY.mp4"], ["D1", "H1"], fx + indices, "MENTOR_FINAL_TARGET_LIQUIDITY", "FINAL_FRACTAL_BOS", "INTERNAL_LIQUIDITY_FVG"),
-        StrategySpec("bsi_v3_holy_grail", "Holy Grail", "INDEPENDENT_STRATEGY", ["FAIZ_V3_HOLY_GRAIL_001"], ["17. The Holy Grail.mp4"], ["D1", "H1", "M5"], fx + indices, "MENTOR_FINAL_TARGET_LIQUIDITY", "M5_MMXM_STRUCTURE", "DAILY_INTERNAL_LIQUIDITY"),
+        StrategySpec("bsi_v3_holy_grail", "Holy Grail", "INDEPENDENT_STRATEGY", ["FAIZ_V3_HOLY_GRAIL_001"], ["17. The Holy Grail.mp4", "18. The Holy Grail 2.mp4", "19. The Holy Grail Example 1.mp4", "20. The Holy Grail Example 2.mp4", "21. The Holy Grail Example 3.mp4", "22. The Holy Grail Example 4.mp4"], ["D1", "H1", "M5"], fx + indices, "MENTOR_FINAL_TARGET_LIQUIDITY", "M5_MMXM_STRUCTURE", "DAILY_INTERNAL_LIQUIDITY"),
         StrategySpec("bsi_v3_juggernaut", "Juggernaut", "INDEPENDENT_STRATEGY", ["FAIZ_V3_JUGGERNAUT_001"], ["21. The Juggernaut Model.mp4"], ["M1", "M5"], fx + indices, "MENTOR_IFVG_CLOSEST_LIQUIDITY_BE", "IFVG_STRUCTURE", "CLOSEST_LIQUIDITY"),
         StrategySpec("bsi_v3_spectre", "Spectre", "INDEPENDENT_STRATEGY", ["FAIZ_V3_SPECTRE_001"], ["25. The Spectre Model.mp4"], ["M15"], fx, "MENTOR_FINAL_TARGET_LIQUIDITY", "INVERSE_OB", "NEARBY_LIQUIDITY_OR_FVG"),
         StrategySpec("bsi_v3_monday_range", "Monday Range", "INDEPENDENT_STRATEGY", ["FAIZ_V3_MONDAY_RANGE_001"], ["37. Utilizing Monday Range.mp4"], ["D1", "M15"], ["EURUSD", "XAUUSD"] + indices, "MENTOR_RANGE_TARGET", "M15_REVERSAL_STRUCTURE", "OPPOSITE_MONDAY_SIDE_OR_50_PERCENT"),
@@ -314,6 +330,16 @@ def detect_fvgs(bars: list[Bar]) -> list[dict[str, Any]]:
 
 
 def simulate_outcome(op: Opportunity, future: list[Bar], max_bars: int = 96) -> Outcome:
+    outcome = _simulate_outcome_gross(op, future, max_bars)
+    if not REALISTIC_FILLS or outcome.baseline_r is None:
+        return outcome
+    cost_r = cost_in_price(op.symbol) / op.risk_distance
+    if outcome.same_bar_ambiguous:
+        return replace(outcome, status="sl_same_bar", baseline_r=round(-1.0 - cost_r, 4), managed_r=round(-1.0 - cost_r, 4))
+    return replace(outcome, baseline_r=round(outcome.baseline_r - cost_r, 4), managed_r=round(outcome.managed_r - cost_r, 4))
+
+
+def _simulate_outcome_gross(op: Opportunity, future: list[Bar], max_bars: int = 96) -> Outcome:
     if not future:
         return Outcome(op.opportunity_id, op.strategy_id, op.symbol, op.direction, op.entry_time.isoformat(), None, "open_timeout", None, None)
     risk = op.risk_distance
@@ -466,6 +492,18 @@ def detect_order_flow(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, lis
     return [], ["order_flow_no_h4_daily_bias"]
 
 
+def detect_smt_divergence(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
+    opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="smt_no_sweep_mss_fvg")
+    if not opps:
+        return [], reasons
+    filtered, reject = _filter_or_reject(
+        opps,
+        lambda op: _in_any_ny_window(op.entry_time, [(3.0, 6.0), (8.5, 11.5)]) and op.rr >= 1.25,
+        "smt_no_session_or_rr_room",
+    )
+    return filtered, reject
+
+
 def detect_abc(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
     opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="abc_no_reclaim_mss_fvg")
     if not opps:
@@ -491,6 +529,33 @@ def detect_abcd(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]
     return filtered, reject
 
 
+def detect_asian_v2(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
+    opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="asian_v2_no_m1_sweep_mss_fvg")
+    if not opps:
+        return [], reasons
+    m15 = bars_by_tf.get("M15", [])
+
+    def asian_sweep(op: Opportunity) -> bool:
+        if not _in_any_ny_window(op.entry_time, [(2.0, 6.0), (8.0, 11.5)]):
+            return False
+        rng = _range_for_day(m15, op.entry_time.date(), 18.0, 24.0)
+        if rng is None:
+            return False
+        high, low = rng
+        return (op.direction == "LONG" and op.entry <= low) or (op.direction == "SHORT" and op.entry >= high)
+
+    filtered, reject = _filter_or_reject(opps, asian_sweep, "asian_v2_no_asian_sweep_poi_retest")
+    return filtered, reject
+
+
+def detect_0930(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
+    opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="0930_no_liquidity_sweep_mss_fvg")
+    if not opps:
+        return [], reasons
+    filtered, reject = _filter_or_reject(opps, lambda op: _in_any_ny_window(op.entry_time, [(9.5, 11.99)]), "0930_not_in_930_1159_ny")
+    return [_set_fixed_r(op, 3.0) for op in filtered], reject
+
+
 def detect_reactionary_block(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
     opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="reactionary_no_original_ob_fvg_reaction")
     if not opps:
@@ -512,6 +577,36 @@ def detect_4h_order_block(spec: StrategySpec, symbol: str, bars_by_tf: dict[str,
     return [_set_fixed_r(op, 2.0) for op in filtered], reject
 
 
+def detect_ict_silver_bullet(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
+    opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="silver_bullet_no_m1_sweep_displacement_fvg")
+    if not opps:
+        return [], reasons
+    filtered, reject = _filter_or_reject(opps, lambda op: _in_any_ny_window(op.entry_time, [(10.0, 11.0), (14.0, 15.0)]), "silver_bullet_not_in_killzone")
+    return [_set_fixed_r(op, 2.0) for op in filtered], reject
+
+
+def detect_silver_bullet_with_bias(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
+    opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="silver_bullet_bias_no_structure_fvg")
+    if not opps:
+        return [], reasons
+    bias = _simple_bias(bars_by_tf.get("H1", [])) or _simple_bias(bars_by_tf.get("D1", []))
+    filtered, reject = _filter_or_reject(
+        opps,
+        lambda op: (bias is None or op.direction == bias) and _in_any_ny_window(op.entry_time, [(10.0, 11.0), (14.0, 15.0)]),
+        "silver_bullet_bias_mismatch_or_outside_killzone",
+    )
+    return [_set_fixed_r(op, 2.0) for op in filtered], reject
+
+
+def detect_mmxm(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
+    opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="mmxm_no_accumulation_poi_mss_fvg")
+    if not opps:
+        return [], reasons
+    bias = _simple_bias(bars_by_tf.get("D1", [])) or _simple_bias(bars_by_tf.get("H4", []))
+    filtered, reject = _filter_or_reject(opps, lambda op: (bias is None or op.direction == bias) and op.rr >= 1.5, "mmxm_no_htf_bias_or_liquidity_room")
+    return filtered, reject
+
+
 def detect_mmxm_second_distribution(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
     opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="mmxm2_no_final_fractal_bos_fvg")
     if not opps:
@@ -526,6 +621,14 @@ def detect_holy_grail(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, lis
         return [], reasons
     h1_bias = _simple_bias(bars_by_tf.get("H1", []))
     filtered, reject = _filter_or_reject(opps, lambda op: h1_bias is None or op.direction == h1_bias, "holy_grail_h1_confirmation_mismatch")
+    return filtered, reject
+
+
+def detect_juggernaut(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
+    opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="juggernaut_no_ifvg_structure")
+    if not opps:
+        return [], reasons
+    filtered, reject = _filter_or_reject(opps, lambda op: 1.0 <= op.rr <= 3.0 and _in_any_ny_window(op.entry_time, [(3.0, 6.0), (8.5, 12.0)]), "juggernaut_no_session_or_close_liquidity")
     return filtered, reject
 
 
@@ -594,6 +697,26 @@ def detect_ar50(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]
     return filtered, reject
 
 
+def detect_ifvg_po3(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
+    opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="ifvg_po3_no_manipulation_extreme_reclaim")
+    if not opps:
+        return [], reasons
+    filtered, reject = _filter_or_reject(opps, lambda op: op.rr >= 1.0 and _in_any_ny_window(op.entry_time, [(3.0, 6.0), (8.5, 12.0)]), "ifvg_po3_no_killzone_or_target_room")
+    return filtered, reject
+
+
+def detect_turtle_soups_ranges(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
+    opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="turtle_no_range_sweep_mss")
+    if not opps:
+        return [], reasons
+
+    def range_reentry(op: Opportunity) -> bool:
+        return _in_any_ny_window(op.entry_time, [(3.0, 6.0), (8.5, 12.0)]) and op.rr >= 1.0
+
+    filtered, reject = _filter_or_reject(opps, range_reentry, "turtle_no_london_ny_range_reentry")
+    return filtered, reject
+
+
 def detect_yin_yang(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
     if symbol != "XAUUSD":
         return [], ["yin_yang_gold_only"]
@@ -612,6 +735,22 @@ def detect_4h_candle_ranges(spec: StrategySpec, symbol: str, bars_by_tf: dict[st
     return filtered, reject
 
 
+def detect_smt_session_hl(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
+    opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="smt_session_no_session_high_low_mss")
+    if not opps:
+        return [], reasons
+    filtered, reject = _filter_or_reject(opps, lambda op: op.rr >= 1.25 and _in_any_ny_window(op.entry_time, [(3.0, 6.0), (8.5, 11.5)]), "smt_session_no_session_sweep_or_rr_room")
+    return filtered, reject
+
+
+def detect_1h_candle_ranges(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
+    opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="1h_crd_no_hourly_raid_mss")
+    if not opps:
+        return [], reasons
+    filtered, reject = _filter_or_reject(opps, lambda op: _in_any_ny_window(op.entry_time, [(3.0, 6.0), (8.5, 12.0)]), "1h_crd_no_london_or_ny_raid")
+    return filtered, reject
+
+
 def detect_enigma_range(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
     opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="enigma_no_engineered_range_reentry")
     if not opps:
@@ -622,19 +761,30 @@ def detect_enigma_range(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, l
 
 DETECTOR_REGISTRY = {
     "bsi_v3_order_flow": detect_order_flow,
+    "bsi_v3_smt_divergence": detect_smt_divergence,
     "bsi_v3_abc": detect_abc,
     "bsi_v3_abcd": detect_abcd,
+    "bsi_v3_asian_v2": detect_asian_v2,
+    "bsi_v3_0930": detect_0930,
     "bsi_v3_reactionary_block": detect_reactionary_block,
+    "bsi_v3_ict_silver_bullet": detect_ict_silver_bullet,
+    "bsi_v3_silver_bullet_with_bias": detect_silver_bullet_with_bias,
     "bsi_v3_4h_order_block": detect_4h_order_block,
+    "bsi_v3_mmxm": detect_mmxm,
     "bsi_v3_mmxm_second_distribution": detect_mmxm_second_distribution,
     "bsi_v3_holy_grail": detect_holy_grail,
+    "bsi_v3_juggernaut": detect_juggernaut,
     "bsi_v3_spectre": detect_spectre,
     "bsi_v3_monday_range": detect_monday_range,
     "bsi_v3_weaver": detect_weaver,
     "bsi_v3_standard_deviation_po3": detect_standard_deviation_po3,
     "bsi_v3_ar50": detect_ar50,
+    "bsi_v3_ifvg_po3": detect_ifvg_po3,
+    "bsi_v3_turtle_soups_ranges": detect_turtle_soups_ranges,
     "bsi_v3_yin_yang": detect_yin_yang,
     "bsi_v3_4h_candle_ranges": detect_4h_candle_ranges,
+    "bsi_v3_smt_session_hl": detect_smt_session_hl,
+    "bsi_v3_1h_candle_ranges": detect_1h_candle_ranges,
     "bsi_v3_enigma_range": detect_enigma_range,
 }
 
@@ -642,7 +792,7 @@ DETECTOR_REGISTRY = {
 def summarize_outcomes(outcomes: list[Outcome], field: str = "baseline_r") -> dict[str, Any]:
     vals = [getattr(o, field) for o in outcomes if getattr(o, field) is not None]
     if not vals:
-        return {"trades": 0, "wins": 0, "losses": 0, "win_rate": None, "net_r": 0.0, "expectancy": None, "profit_factor": None, "average_winner_r": None, "average_loser_r": None, "median_r": None, "max_winning_streak": 0, "max_losing_streak": 0, "max_drawdown_r": 0.0}
+        return {"trades": 0, "wins": 0, "losses": 0, "win_rate": None, "net_r": 0.0, "expectancy": None, "t_stat": None, "profit_factor": None, "average_winner_r": None, "average_loser_r": None, "median_r": None, "max_winning_streak": 0, "max_losing_streak": 0, "max_drawdown_r": 0.0}
     wins = [v for v in vals if v > 0]
     losses = [v for v in vals if v <= 0]
     gp = sum(wins)
@@ -668,6 +818,9 @@ def summarize_outcomes(outcomes: list[Outcome], field: str = "baseline_r") -> di
         "win_rate": round(len(wins) / len(vals) * 100, 2),
         "net_r": round(sum(vals), 4),
         "expectancy": round(sum(vals) / len(vals), 4),
+        # Mean R / standard error. |t| < 1.96 = indistinguishable from zero edge on this sample
+        # (paperswithbacktest: ~half of published strategies fail this on their own data).
+        "t_stat": round((sum(vals) / len(vals)) / (stdev(vals) / math.sqrt(len(vals))), 2) if len(vals) > 1 and stdev(vals) > 0 else None,
         "profit_factor": round(gp / gl, 4) if gl else (math.inf if gp else None),
         "average_winner_r": round(gp / len(wins), 4) if wins else None,
         "average_loser_r": round(-gl / len(losses), 4) if losses else None,
@@ -1000,6 +1153,12 @@ def main() -> None:
                 found, reasons = [], [f"{spec.strategy_id}_no_strategy_specific_detector"]
             else:
                 found, reasons = detector(spec, symbol, bars_by_tf)
+            if MIN_ENTRY_RR > 0:
+                rr_pass = [op for op in found if op.rr >= MIN_ENTRY_RR]
+                rr_rejected = len(found) - len(rr_pass)
+                if rr_rejected:
+                    rejections[f"global_min_entry_rr_{MIN_ENTRY_RR:g}"] = rejections.get(f"global_min_entry_rr_{MIN_ENTRY_RR:g}", 0) + rr_rejected
+                found = rr_pass
             for reason in reasons:
                 rejections[reason] = rejections.get(reason, 0) + 1
             for op in found:
@@ -1083,6 +1242,7 @@ def main() -> None:
     result = {
         "methodology": METHODOLOGY,
         "window": {"start": START.isoformat(), "end": END.isoformat()},
+        "global_min_entry_rr": MIN_ENTRY_RR,
         "extraction": extraction,
         "independent_strategy_count": len(registry),
         "registry": [asdict(s) for s in registry],
