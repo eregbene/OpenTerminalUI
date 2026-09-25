@@ -151,10 +151,11 @@ class CandleStore:
         server = os.getenv("BSI_V3_BROKER_SERVER")
         resample_step = {"H1": 3600, "H4": 14400, "D1": 86400}.get(timeframe)
         if (provider or server) and resample_step:
-            # Clean-source runs build HTF bars from M5: stored MT5 H1/H4/D1 have gaps and test-fixture rows.
+            # Clean-source runs build HTF bars from M5 (else M15): stored MT5 H1/H4/D1 have gaps and test-fixture rows.
             # ponytail: UTC-grid buckets (broker H4/D1 open 2-3h earlier); switch to broker-time grid if HTF bias matters.
             buckets: dict[int, list[Bar]] = {}
-            for b in self.candles(symbol, "M5", start, end):
+            base = self.candles(symbol, "M5", start, end) or self.candles(symbol, "M15", start, end)  # FOREXSB has no M5
+            for b in base:
                 buckets.setdefault(int(b.time.timestamp()) // resample_step * resample_step, []).append(b)
             bars = [
                 Bar(datetime.fromtimestamp(t, timezone.utc), g[0].open, max(x.high for x in g), min(x.low for x in g), g[-1].close, sum(x.volume for x in g))
