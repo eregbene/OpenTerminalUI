@@ -148,6 +148,20 @@ class CandleStore:
         # The table mixes providers (MT5 MetaQuotes, YAHOO, FOREXSB, ICMarkets) for the same bar at
         # prices up to ~4 pips apart; without a filter they interleave into fake gaps/extremes.
         provider = os.getenv("BSI_V3_CANDLE_PROVIDER")
+        server = os.getenv("BSI_V3_BROKER_SERVER")
+        resample_step = {"H1": 3600, "H4": 14400, "D1": 86400}.get(timeframe)
+        if (provider or server) and resample_step:
+            # Clean-source runs build HTF bars from M5: stored MT5 H1/H4/D1 have gaps and test-fixture rows.
+            # ponytail: UTC-grid buckets (broker H4/D1 open 2-3h earlier); switch to broker-time grid if HTF bias matters.
+            buckets: dict[int, list[Bar]] = {}
+            for b in self.candles(symbol, "M5", start, end):
+                buckets.setdefault(int(b.time.timestamp()) // resample_step * resample_step, []).append(b)
+            bars = [
+                Bar(datetime.fromtimestamp(t, timezone.utc), g[0].open, max(x.high for x in g), min(x.low for x in g), g[-1].close, sum(x.volume for x in g))
+                for t, g in sorted(buckets.items())
+            ]
+            self._bar_cache[key] = bars
+            return bars
         if self._pg is not None:
             rows = self._pg.execute(
                 """
@@ -155,9 +169,10 @@ class CandleStore:
                 from mt5_canonical_candles
                 where broker_symbol=%s and timeframe=%s and timestamp >= %s and timestamp < %s
                   and (%s::text is null or provider = %s::text)
+                  and (%s::text is null or broker_server = %s::text)
                 order by timestamp asc
                 """,
-                (symbol, timeframe, start, end, provider, provider),
+                (symbol, timeframe, start, end, provider, provider, server, server),
             ).fetchall()
         else:
             assert self._sqlite is not None
@@ -176,6 +191,12 @@ class CandleStore:
                 ),
             ).fetchall()
         bars = [Bar(utc(ts), float(o), float(h), float(l), float(c), float(v or 0)) for ts, o, h, l, c, v in rows]
+        if provider or server:
+            # Clean-source runs also drop off-grid rows (e.g. minute-stamped test fixtures filed as H1).
+            # H4/D1 are left alone: broker-time sessions don't sit on the UTC epoch grid.
+            step = {"M1": 60, "M5": 300, "M15": 900, "M30": 1800, "H1": 3600}.get(timeframe)
+            if step:
+                bars = [b for b in bars if int(b.time.timestamp()) % step == 0]
         self._bar_cache[key] = bars
         return bars
 
@@ -401,6 +422,18 @@ def _simple_bias(bars: list[Bar]) -> str | None:
         return "SHORT"
     return _bar_direction(recent[-1])
 
+_TF_SECONDS = {"M1": 60, "M5": 300, "M15": 900, "M30": 1800, "H1": 3600, "H4": 14400, "D1": 86400, "W1": 604800, "MN1": 2678400}
+
+
+def _bias_at(bars_by_tf: dict[str, list[Bar]], tfs: tuple[str, ...], at: datetime) -> str | None:
+    """HTF bias from bars fully closed by `at` (no lookahead); first timeframe with a bias wins."""
+    for tf in tfs:
+        bars = bars_by_tf.get(tf, [])
+        i = bisect_right(bars, at.timestamp() - _TF_SECONDS[tf], key=lambda b: b.time.timestamp())
+        bias = _simple_bias(bars[max(0, i - 6) : i])
+        if bias:
+            return bias
+    return None
 
 def _range_for_day(bars: list[Bar], day, start_hour: float, end_hour: float) -> tuple[float, float] | None:
     scoped = [bar for bar in bars if bar.time.date() == day and start_hour <= _ny_hour(bar.time) < end_hour]
@@ -453,7 +486,7 @@ def _raw_fvg_structure_candidates(
             continue
         idx = fvg["index"]
         left = bisect_right(swing_indices, idx - 30)
-        right = bisect_right(swing_indices, idx - 1)
+        right = bisect_right(swing_indices, idx - 2)  # swing i needs bars up to i+2 to be confirmed
         if right - left < 2:
             continue
         direction = "LONG" if fvg["direction"] == "BULLISH" else "SHORT"
@@ -486,10 +519,7 @@ def detect_order_flow(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, lis
     opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="order_flow_no_mss_fvg_ob_sequence")
     if not opps:
         return [], reasons
-    htf_bias = _simple_bias(bars_by_tf.get("H4", [])) or _simple_bias(bars_by_tf.get("D1", []))
-    if htf_bias:
-        return _filter_or_reject(opps, lambda op: op.direction == htf_bias, "order_flow_htf_bias_mismatch")
-    return [], ["order_flow_no_h4_daily_bias"]
+    return _filter_or_reject(opps, lambda op: op.direction == _bias_at(bars_by_tf, ("H4", "D1"), op.entry_time), "order_flow_htf_bias_mismatch")
 
 
 def detect_smt_divergence(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]]) -> tuple[list[Opportunity], list[str]]:
@@ -520,10 +550,9 @@ def detect_abcd(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]
     opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="abcd_no_d_leg_m15_mss")
     if not opps:
         return [], reasons
-    bias = _simple_bias(bars_by_tf.get("H4", []))
     filtered, reject = _filter_or_reject(
         opps,
-        lambda op: (bias is None or op.direction == bias) and _in_any_ny_window(op.entry_time, [(3.0, 6.0), (8.5, 11.25)]),
+        lambda op: (_bias_at(bars_by_tf, ('H4',), op.entry_time) in (None, op.direction)) and _in_any_ny_window(op.entry_time, [(3.0, 6.0), (8.5, 11.25)]),
         "abcd_no_h4_bias_or_killzone",
     )
     return filtered, reject
@@ -568,10 +597,9 @@ def detect_4h_order_block(spec: StrategySpec, symbol: str, bars_by_tf: dict[str,
     opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="4h_ob_no_m15_mss_from_h4_ob")
     if not opps:
         return [], reasons
-    bias = _simple_bias(bars_by_tf.get("H4", []))
     filtered, reject = _filter_or_reject(
         opps,
-        lambda op: (bias is None or op.direction == bias) and _in_any_ny_window(op.entry_time, [(3.0, 6.0), (8.5, 11.25)]),
+        lambda op: (_bias_at(bars_by_tf, ('H4',), op.entry_time) in (None, op.direction)) and _in_any_ny_window(op.entry_time, [(3.0, 6.0), (8.5, 11.25)]),
         "4h_ob_no_h4_orderflow_or_killzone",
     )
     return [_set_fixed_r(op, 2.0) for op in filtered], reject
@@ -589,10 +617,9 @@ def detect_silver_bullet_with_bias(spec: StrategySpec, symbol: str, bars_by_tf: 
     opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="silver_bullet_bias_no_structure_fvg")
     if not opps:
         return [], reasons
-    bias = _simple_bias(bars_by_tf.get("H1", [])) or _simple_bias(bars_by_tf.get("D1", []))
     filtered, reject = _filter_or_reject(
         opps,
-        lambda op: (bias is None or op.direction == bias) and _in_any_ny_window(op.entry_time, [(10.0, 11.0), (14.0, 15.0)]),
+        lambda op: (_bias_at(bars_by_tf, ('H1', 'D1'), op.entry_time) in (None, op.direction)) and _in_any_ny_window(op.entry_time, [(10.0, 11.0), (14.0, 15.0)]),
         "silver_bullet_bias_mismatch_or_outside_killzone",
     )
     return [_set_fixed_r(op, 2.0) for op in filtered], reject
@@ -602,8 +629,7 @@ def detect_mmxm(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, list[Bar]
     opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="mmxm_no_accumulation_poi_mss_fvg")
     if not opps:
         return [], reasons
-    bias = _simple_bias(bars_by_tf.get("D1", [])) or _simple_bias(bars_by_tf.get("H4", []))
-    filtered, reject = _filter_or_reject(opps, lambda op: (bias is None or op.direction == bias) and op.rr >= 1.5, "mmxm_no_htf_bias_or_liquidity_room")
+    filtered, reject = _filter_or_reject(opps, lambda op: (_bias_at(bars_by_tf, ('D1', 'H4'), op.entry_time) in (None, op.direction)) and op.rr >= 1.5, "mmxm_no_htf_bias_or_liquidity_room")
     return filtered, reject
 
 
@@ -619,8 +645,7 @@ def detect_holy_grail(spec: StrategySpec, symbol: str, bars_by_tf: dict[str, lis
     opps, reasons = _raw_fvg_structure_candidates(spec, symbol, bars_by_tf, rejection_code="holy_grail_no_daily_h1_m5_sequence")
     if not opps:
         return [], reasons
-    h1_bias = _simple_bias(bars_by_tf.get("H1", []))
-    filtered, reject = _filter_or_reject(opps, lambda op: h1_bias is None or op.direction == h1_bias, "holy_grail_h1_confirmation_mismatch")
+    filtered, reject = _filter_or_reject(opps, lambda op: _bias_at(bars_by_tf, ('H1',), op.entry_time) in (None, op.direction), "holy_grail_h1_confirmation_mismatch")
     return filtered, reject
 
 

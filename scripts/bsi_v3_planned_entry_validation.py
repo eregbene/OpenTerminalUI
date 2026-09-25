@@ -161,20 +161,24 @@ def _find_confirmed_planned_entry(
             break
     if confirm_bar is None:
         return None
-    entry = op.entry
+    # Live (bsi_v3_runtime_detectors._opportunity_from_plan) fills at market on confirmation with a
+    # fixed-R target from that fill; the stale FVG-mid fill here was a free edge live never gets.
+    entry = confirm_bar.close
+    multiple = 3.0 if op.strategy_id == "bsi_v3_0930" else 2.0
     if op.direction == "LONG":
         stop = min(op.stop, min(b.low for b in scoped[: max(1, scoped.index(confirm_bar) + 1)]))
         if not (stop < entry):
             return None
-        target = max(op.target, entry + 2.0 * (entry - stop))
+        target = entry + multiple * (entry - stop)
     else:
         stop = max(op.stop, max(b.high for b in scoped[: max(1, scoped.index(confirm_bar) + 1)]))
         if not (stop > entry):
             return None
-        target = min(op.target, entry - 2.0 * (stop - entry))
+        target = entry - multiple * (stop - entry)
     planned = replace(
         op,
-        entry_time=confirm_bar.time,
+        # Stamped at the confirmation bar's close so the outcome only sees bars after the fill.
+        entry_time=confirm_bar.time + timedelta(seconds=v3._TF_SECONDS[lower_tf]) - timedelta(microseconds=1),
         entry=float(entry),
         stop=float(stop),
         target=float(target),
