@@ -13,6 +13,11 @@ repo_root_str = str(REPO_ROOT)
 if repo_root_str not in sys.path:
     sys.path.insert(0, repo_root_str)
 
+# Test sessions assert the current operational MT5 confidence threshold. Keep
+# that deterministic even when a developer shell has an unsafe local override.
+if os.environ.get("MT5_MIN_TRADE_CONFIDENCE") in {None, "", "0", "0.0"}:
+    os.environ["MT5_MIN_TRADE_CONFIDENCE"] = "55.0"
+
 
 def _sanitize_db_url(url_str: str) -> str:
     from sqlalchemy.engine import make_url
@@ -128,3 +133,15 @@ def ensure_mock_adapter_registered():
     registry = get_adapter_registry()
     if "mock" not in registry._factory:  # noqa: SLF001
         registry._factory["mock"] = lambda: MockDataAdapter(seed=42)  # type: ignore[assignment] # noqa: SLF001
+
+
+@pytest.fixture(autouse=True)
+def no_live_candle_writes(monkeypatch):
+    """Fake MT5 adapters (FakeMT5 et al.) return synthetic candles (open 1.0/high 1.2/low 0.9/close
+    1.1), and MT5Adapter persists every fetch through persistence.SessionLocal -- i.e. into the real
+    mt5_canonical_candles table when tests run inside the backend container. Thousands of those rows
+    reached the shared DB (2026-08-17 onward and 2027-01-15). No test relies on that write;
+    test_mt5_persistence.py exercises persist_candles directly against its own sqlite session."""
+    import backend.brokers.mt5.adapter as mt5_adapter_module
+
+    monkeypatch.setattr(mt5_adapter_module, "_persist_mt5_candles", lambda candles, *, symbol: None)
