@@ -31,7 +31,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
 from backend.brokers.mt5.orm import MT5CanonicalCandleORM
-from backend.historical_intelligence import ingestion, replay, snapshot_capture
+from backend.historical_intelligence import ingestion, outcomes, replay, snapshot_capture
 from backend.historical_intelligence.orm import MT5CandleRevisionORM, MT5DecisionSnapshotORM
 from backend.historical_intelligence.providers.base import HistoricalBar, HistoricalDataProvider
 from backend.shared.db import Base
@@ -162,46 +162,50 @@ def test_bars_as_of_selects_revision_known_at_decision_time(monkeypatch):
 
 
 def test_bars_as_of_corrects_legacy_rows_lacking_timestamp_utc(monkeypatch):
-    """Reproduces the exact residual gap found empirically against this deployment's real data
-    (2026-08-12): the LIVE trading path's own persist_candles() writes directly to
-    mt5_canonical_candles and NEVER sets timestamp_utc/broker_utc_offset_minutes/finalized
-    (confirmed: 100% of production's EURUSD M15 canonical rows had timestamp_utc IS NULL). Tier-3
-    fallback must still correct these rows using a resolved broker offset -- not silently treat
-    the raw, broker-labeled timestamp as if it were already UTC (which would reproduce the
-    original +3h broker-clock-vs-UTC bug for the vast majority of real bar history)."""
+    """The LIVE trading path's persist_candles() writes mt5_canonical_candles in MT5 server time and
+    never sets timestamp_utc (100% of production's EURUSD M15 rows, 2026-08-12). Tier-3 fallback must
+    convert them to UTC per bar -- server time is UTC+2 in winter and UTC+3 in summer (measured
+    against FOREXSB UTC bars 2021-2026) -- not treat the raw label as UTC or apply one fixed offset."""
     SessionLocal = _session_factory(monkeypatch)
-
-    async def _offset_180(provider):
-        return 180  # UTC+3, matching this deployment's confirmed real broker offset
-
-    monkeypatch.setattr(replay, "_resolve_broker_offset_minutes", _offset_180)
-
-    # Bar labeled in BROKER time (UTC+3): true UTC instant is 09:00, but the raw `timestamp`
-    # column (as legacy/live-written rows store it) reads 12:00 with no timestamp_utc set.
-    broker_labeled_time = datetime(2026, 1, 5, 12, 0, tzinfo=timezone.utc)
-    true_utc_bar_time = datetime(2026, 1, 5, 9, 0, tzinfo=timezone.utc)
+    cases = [  # (raw server-time label, true UTC bar time)
+        (datetime(2026, 1, 5, 12, 0, tzinfo=timezone.utc), datetime(2026, 1, 5, 10, 0, tzinfo=timezone.utc)),  # winter, UTC+2
+        (datetime(2026, 7, 6, 12, 0, tzinfo=timezone.utc), datetime(2026, 7, 6, 9, 0, tzinfo=timezone.utc)),  # summer, UTC+3
+    ]
     with SessionLocal() as db:
-        db.add(MT5CanonicalCandleORM(
-            candle_id="MT5:EURUSD:M15:legacy", provider="MT5", canonical_symbol="EURUSD", broker_symbol="EURUSD",
-            timeframe="M15", timestamp=broker_labeled_time, timestamp_utc=None,
-            open=1.1000, high=1.1005, low=1.0995, close=1.1000, quality="VALID", finalized=False,
-        ))
+        for i, (server_time, _) in enumerate(cases):
+            db.add(MT5CanonicalCandleORM(
+                candle_id=f"MT5:EURUSD:M15:legacy{i}", provider="MT5", canonical_symbol="EURUSD", broker_symbol="EURUSD",
+                timeframe="M15", timestamp=server_time, timestamp_utc=None,
+                open=1.1000, high=1.1005, low=1.0995, close=1.1000, quality="VALID", finalized=False,
+            ))
         db.commit()
 
-    # Replaying well after the TRUE UTC close (09:15) and past the M15 finalization window must
-    # include this bar -- if the offset correction were skipped, the raw label (12:00) would
-    # make the bar look 3 hours in the future and it would be wrongly excluded.
-    at = true_utc_bar_time + timedelta(minutes=50)
-    bars = asyncio.run(replay.bars_as_of(canonical_symbol="EURUSD", broker_symbol="EURUSD", timeframe="M15", at=at, count=1, provider="MT5"))
-    assert len(bars) == 1
-    assert bars[0].time == true_utc_bar_time
+    for _, true_utc in cases:
+        # Past the true UTC close and the M15 finalization window: included, at its UTC time.
+        bars = asyncio.run(replay.bars_as_of(canonical_symbol="EURUSD", broker_symbol="EURUSD", timeframe="M15", at=true_utc + timedelta(minutes=50), count=1, provider="MT5"))
+        assert [b.time for b in bars] == [true_utc]
+        # Before the true UTC close: excluded, even though the raw label already looks past.
+        bars = asyncio.run(replay.bars_as_of(canonical_symbol="EURUSD", broker_symbol="EURUSD", timeframe="M15", at=true_utc + timedelta(minutes=5), count=1, provider="MT5"))
+        assert all(b.time < true_utc for b in bars)
 
-    # And replaying at an instant BEFORE the true UTC close must correctly exclude this bar, even
-    # though the raw broker-labeled timestamp (12:00) would appear to already be safely in the
-    # past relative to a naive (uncorrected) comparison against `at`.
-    at_too_early = true_utc_bar_time + timedelta(minutes=5)
-    bars = asyncio.run(replay.bars_as_of(canonical_symbol="EURUSD", broker_symbol="EURUSD", timeframe="M15", at=at_too_early, count=1, provider="MT5"))
-    assert bars == []
+
+def test_outcome_labels_start_after_entry_for_legacy_mt5_rows(monkeypatch):
+    """outcomes._future_candles_with_quality used the raw server-time label as UTC, so MT5 labels
+    began 2-3h BEFORE the entry (2026-09-26 audit: mean_reversion "won" +0.49R on every setup)."""
+    SessionLocal = _session_factory(monkeypatch)
+    monkeypatch.setattr(outcomes, "SessionLocal", SessionLocal)
+    entry_utc = datetime(2026, 7, 6, 9, 0, tzinfo=timezone.utc)  # summer: server = UTC+3
+    with SessionLocal() as db:
+        for k in range(-16, 8):  # bars from 4h before to 2h after the entry, stored in server time
+            utc = entry_utc + timedelta(minutes=15 * k)
+            db.add(MT5CanonicalCandleORM(
+                candle_id=f"MT5:EURUSD:M15:{k}", provider="MT5", canonical_symbol="EURUSD", broker_symbol="EURUSD",
+                timeframe="M15", timestamp=utc + timedelta(hours=3), timestamp_utc=None,
+                open=1.1, high=1.1, low=1.1, close=1.1, quality="VALID", finalized=False,
+            ))
+        db.commit()
+    candles = outcomes._future_candles_with_quality(provider="MT5", broker_symbol="EURUSD", timeframe="M15", after=entry_utc, limit=50)
+    assert [c.timestamp for c in candles] == [entry_utc + timedelta(minutes=15 * k) for k in range(1, 8)]
 
 
 # --- Item 8: broad replay cannot accidentally use future revisions --------------------------

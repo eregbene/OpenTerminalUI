@@ -41,7 +41,8 @@ def _session_factory(monkeypatch):
 def _seed_candle(db, *, symbol: str, t: datetime, o: float, h: float, l: float, c: float) -> None:
     db.add(MT5CanonicalCandleORM(
         candle_id=f"C_{symbol}_{t.isoformat()}", provider="MT5", canonical_symbol=symbol, broker_symbol=symbol,
-        timeframe="M15", timestamp=t, open=o, high=h, low=l, close=c, quality="VALID",
+        # `t` is UTC; raw MT5 `timestamp` alone is server time (UTC+2/+3), so pin the UTC instant.
+        timeframe="M15", timestamp=t, timestamp_utc=t, open=o, high=h, low=l, close=c, quality="VALID",
     ))
 
 

@@ -50,7 +50,7 @@ from typing import Any
 from backend.brokers.mt5.orm import MT5CanonicalCandleORM
 from backend.historical_intelligence import execution_costs
 from backend.historical_intelligence.orm import HistoricalSetupOutcomeORM, MT5CandleRevisionORM
-from backend.historical_intelligence.quality import is_finalized
+from backend.historical_intelligence.quality import is_finalized, mt5_server_time_to_utc
 from backend.shared.db import SessionLocal
 
 # Reached-adverse-excursion threshold (as a fraction of planned risk) that, if hit BEFORE the
@@ -148,9 +148,16 @@ def _future_candles_with_quality(*, provider: str, broker_symbol: str, timeframe
                 .all()
             )
             for row in canonical_rows:
-                raw_utc = row.timestamp_utc or row.timestamp
-                bar_time = _ensure_utc(raw_utc)
-                if bar_time in resolved:
+                # Legacy MT5 rows (timestamp_utc NULL) are server time, 2-3h ahead of UTC. Using the raw
+                # value started every MT5 label 2-3h BEFORE the entry (2026-09-26 audit). The SQL bound
+                # on the raw column over-fetches those early bars; the precise cut is here, in UTC.
+                if row.timestamp_utc is not None:
+                    bar_time = _ensure_utc(row.timestamp_utc)
+                elif provider.upper() == "MT5":
+                    bar_time = mt5_server_time_to_utc(row.timestamp)
+                else:
+                    bar_time = _ensure_utc(row.timestamp)
+                if bar_time <= after or bar_time in resolved:
                     continue
                 if not is_finalized(bar_time, tf, now=now):
                     tier = QUALITY_UNTRUSTED  # not yet settled, no revision confirms it -- never trusted as authoritative

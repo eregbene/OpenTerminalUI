@@ -72,7 +72,7 @@ from typing import Any
 from backend.brokers.mt5.models import MT5Candle
 from backend.brokers.mt5.orm import MT5CandidateEvaluationORM, MT5CanonicalCandleORM
 from backend.historical_intelligence.orm import MT5CandleRevisionORM, MT5DecisionSnapshotORM
-from backend.historical_intelligence.quality import is_finalized
+from backend.historical_intelligence.quality import MT5_SERVER_MAX_OFFSET, is_finalized, mt5_server_time_to_utc
 from backend.mt5_strategies.context import build_strategy_context, summarize_smc_evidence
 from backend.mt5_strategies.families import evaluate_all
 from backend.mt5_strategies.fusion import build_candidates
@@ -229,8 +229,14 @@ async def bars_as_of(*, canonical_symbol: str, broker_symbol: str, timeframe: st
     tf = timeframe.upper()
     delta = _TIMEFRAME_DELTAS.get(tf, timedelta(minutes=15))
     cutoff_utc = at - delta
-    legacy_offset_minutes = await _resolve_broker_offset_minutes(provider)
-    legacy_offset = timedelta(minutes=legacy_offset_minutes)
+    if provider.upper() == "MT5":
+        # Server clock follows DST (UTC+2 winter / +3 summer); a single resolved offset mis-shifted half
+        # the year by an hour. Convert per bar instead.
+        legacy_offset = MT5_SERVER_MAX_OFFSET
+        legacy_to_utc = mt5_server_time_to_utc
+    else:
+        legacy_offset = timedelta(minutes=await _resolve_broker_offset_minutes(provider))
+        legacy_to_utc = lambda raw: _ensure_utc(raw) - legacy_offset  # noqa: E731
 
     resolved: dict[datetime, Any] = {}
     with SessionLocal() as db:
@@ -294,7 +300,7 @@ async def bars_as_of(*, canonical_symbol: str, broker_symbol: str, timeframe: st
                 .all()
             )
             for row in canonical_rows:
-                raw_utc = row.timestamp_utc or (_ensure_utc(row.timestamp) - legacy_offset)
+                raw_utc = row.timestamp_utc or legacy_to_utc(row.timestamp)
                 bar_time_utc = _ensure_utc(raw_utc)
                 if bar_time_utc > cutoff_utc:
                     continue  # widened SQL bound can over-fetch; enforce the precise cutoff here

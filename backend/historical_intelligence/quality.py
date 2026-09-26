@@ -17,6 +17,7 @@ from __future__ import annotations
 import statistics
 from datetime import datetime, timedelta, timezone
 from typing import Any
+from zoneinfo import ZoneInfo
 
 from backend.historical_intelligence.providers.base import HistoricalBar
 
@@ -38,6 +39,19 @@ FINALIZATION_WINDOWS = {
     "H1": timedelta(hours=3),
     "H4": timedelta(hours=12),
 }
+
+# MT5 servers stamp bars in server time: UTC+2 in winter, UTC+3 in summer, switching on EU DST
+# dates. Measured 2026-09-26 by matching MetaQuotes-Demo H1 closes to FOREXSB (UTC) H1 closes,
+# Sep 2021 - Aug 2026: +3h Apr-Oct, +2h Nov-Mar, flipping late March / late October.
+# ponytail: one zone for every MT5 server; IC Markets follows US DST dates, ~3 weeks/year differ by 1h.
+MT5_SERVER_TZ = ZoneInfo("Europe/Athens")
+# Largest server-minus-UTC gap, for widening SQL bounds on raw server-time columns.
+MT5_SERVER_MAX_OFFSET = timedelta(hours=3)
+
+
+def mt5_server_time_to_utc(server_time: datetime) -> datetime:
+    """A raw MT5 `timestamp` (server wall clock, stored with a meaningless UTC label) -> true UTC."""
+    return server_time.replace(tzinfo=MT5_SERVER_TZ).astimezone(timezone.utc)
 
 
 def is_finalized(bar_timestamp_utc: datetime, timeframe: str, *, now: datetime | None = None) -> bool:
