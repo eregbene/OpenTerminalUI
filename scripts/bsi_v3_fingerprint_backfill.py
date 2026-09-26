@@ -136,6 +136,9 @@ def persist(symbol: str, setups: list[tuple[str, v3.Opportunity]], bars: dict[st
     t0 = time.perf_counter()
     try:
         for n, (at, items) in enumerate(sorted(by_instant.items()), 1):
+            # One row per (instant, strategy): a strategy can confirm two setups on the same bar; keep the first.
+            first = {sid: op for sid, op in reversed(items)}
+            items = list(first.items())
             todo = [(sid, op) for sid, op in items if db.get(HistoricalPatternFingerprintORM, fingerprint_id(symbol, at, sid)) is None]
             counts["existing"] += len(items) - len(todo)
             if not todo:
