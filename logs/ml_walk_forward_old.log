@@ -1,0 +1,144 @@
+all setups after costs, by strategy and year (FOREXSB):
+  breakout                     2021  n=  16305  avg=-0.307R
+  breakout                     2022  n=  13679  avg=-0.203R
+  breakout                     2023  n=  13541  avg=-0.251R
+  breakout                     2024  n=   6669  avg=-0.304R
+  ema_trend                    2021  n=  17094  avg=-0.330R
+  ema_trend                    2022  n=  13687  avg=-0.259R
+  ema_trend                    2023  n=  10182  avg=-0.193R
+  ema_trend                    2024  n=   8427  avg=-0.185R
+  liquidity_sweep_reversal     2021  n=   1887  avg=-0.288R
+  liquidity_sweep_reversal     2022  n=   1341  avg=+0.108R
+  liquidity_sweep_reversal     2023  n=   1048  avg=-0.284R
+  liquidity_sweep_reversal     2024  n=    663  avg=-0.402R
+  mean_reversion               2021  n=   8053  avg=-0.041R
+  mean_reversion               2022  n=   7846  avg=+0.110R
+  mean_reversion               2023  n=   7970  avg=+0.075R
+  mean_reversion               2024  n=   4036  avg=+0.040R
+  momentum                     2021  n=  36966  avg=-0.255R
+  momentum                     2022  n=  31918  avg=-0.149R
+  momentum                     2023  n=  29662  avg=-0.174R
+  momentum                     2024  n=  17514  avg=-0.217R
+  mtfai1                       2021  n= 148098  avg=-0.146R
+  mtfai1                       2022  n= 133459  avg=-0.076R
+  mtfai1                       2023  n= 122262  avg=-0.168R
+  mtfai1                       2024  n=  73014  avg=-0.209R
+  session_breakout             2021  n=  15025  avg=-0.295R
+  session_breakout             2022  n=  14570  avg=-0.046R
+  session_breakout             2023  n=  14163  avg=-0.148R
+  session_breakout             2024  n=   8145  avg=-0.211R
+  smc_continuation             2021  n=   7575  avg=+0.073R
+  smc_continuation             2022  n=   7285  avg=-0.006R
+  smc_continuation             2023  n=   5530  avg=+0.021R
+  smc_continuation             2024  n=   2953  avg=-0.128R
+  support_resistance_bounce    2021  n=  40177  avg=-0.135R
+  support_resistance_bounce    2022  n=  42537  avg=-0.078R
+  support_resistance_bounce    2023  n=  42254  avg=+0.027R
+  support_resistance_bounce    2024  n=  24488  avg=-0.045R
+  trend_pullback               2021  n=   4112  avg=-0.354R
+  trend_pullback               2022  n=   4000  avg=+0.279R
+  trend_pullback               2023  n=   3954  avg=-0.104R
+  trend_pullback               2024  n=   1296  avg=-0.082R
+  vwap_reversion               2021  n=  17704  avg=-0.438R
+  vwap_reversion               2022  n=   9593  avg=-0.241R
+  vwap_reversion               2023  n=  13655  avg=-0.020R
+  vwap_reversion               2024  n=  10736  avg=-0.268R
+
+=== mtfai1: 238854 setups (1 in 2)
+  [walk-forward] train 2021..2022, test 2023
+    take ALL setups : n=  61151  avg=-0.163R  win=35.5%  t=-32.10  unique_bets=61151 t_unique=-32.10
+    take model TOP20: n=  12231  avg=-0.148R  win=35.9%  t=-13.22  unique_bets=12231 t_unique=-13.22
+  [walk-forward] train 2021..2023, test 2024
+    take ALL setups : n=  36622  avg=-0.212R  win=34.4%  t=-32.77  unique_bets=36622 t_unique=-32.77
+    take model TOP20: n=   7325  avg=-0.187R  win=35.3%  t=-13.23  unique_bets=7325 t_unique=-13.23
+  TOP20 both test years: n=  19556  avg=-0.163R  win=35.7%  t=-18.52  unique_bets=19556 t_unique=-18.52
+
+=== support_resistance_bounce: 149456 setups (1 in 1)
+  [walk-forward] train 2021..2022, test 2023
+    take ALL setups : n=  42254  avg=+0.027R  win=42.1%  t=+4.01  unique_bets=42254 t_unique=+4.01
+    take model TOP20: n=   8451  avg=+0.473R  win=58.3%  t=+31.19  unique_bets=8451 t_unique=+31.19
+  [walk-forward] train 2021..2023, test 2024
+    take ALL setups : n=  24488  avg=-0.045R  win=41.1%  t=-5.05  unique_bets=24488 t_unique=-5.05
+    take model TOP20: n=   4898  avg=+0.038R  win=45.5%  t=+1.91  unique_bets=4898 t_unique=+1.91
+  TOP20 both test years: n=  13349  avg=+0.313R  win=53.6%  t=+25.67  unique_bets=13349 t_unique=+25.67
+
+=== momentum: 116060 setups (1 in 1)
+  [walk-forward] train 2021..2022, test 2023
+    take ALL setups : n=  29662  avg=-0.174R  win=34.9%  t=-23.54  unique_bets=29662 t_unique=-23.54
+    take model TOP20: n=   5933  avg=-0.005R  win=41.2%  t=-0.30  unique_bets=5933 t_unique=-0.30
+  [walk-forward] train 2021..2023, test 2024
+    take ALL setups : n=  17514  avg=-0.217R  win=34.3%  t=-22.53  unique_bets=17514 t_unique=-22.53
+    take model TOP20: n=   3503  avg=-0.089R  win=39.2%  t=-4.01  unique_bets=3503 t_unique=-4.01
+  TOP20 both test years: n=   9436  avg=-0.036R  win=40.5%  t=-2.68  unique_bets=9436 t_unique=-2.68
+
+=== session_breakout: 51903 setups (1 in 1)
+  [walk-forward] train 2021..2022, test 2023
+    take ALL setups : n=  14163  avg=-0.148R  win=29.5%  t=-11.46  unique_bets=14163 t_unique=-11.46
+    take model TOP20: n=   2833  avg=-0.194R  win=29.3%  t=-6.90  unique_bets=2833 t_unique=-6.90
+  [walk-forward] train 2021..2023, test 2024
+    take ALL setups : n=   8145  avg=-0.211R  win=28.5%  t=-12.50  unique_bets=8145 t_unique=-12.50
+    take model TOP20: n=   1629  avg=+0.039R  win=36.8%  t=+1.01  unique_bets=1629 t_unique=+1.01
+  TOP20 both test years: n=   4462  avg=-0.109R  win=32.0%  t=-4.80  unique_bets=4462 t_unique=-4.80
+
+=== vwap_reversion: 51688 setups (1 in 1)
+  [walk-forward] train 2021..2022, test 2023
+    take ALL setups : n=  13655  avg=-0.020R  win=21.9%  t=-0.97  unique_bets=13655 t_unique=-0.97
+    take model TOP20: n=   2731  avg=-0.103R  win=29.1%  t=-3.08  unique_bets=2731 t_unique=-3.08
+  [walk-forward] train 2021..2023, test 2024
+    take ALL setups : n=  10736  avg=-0.268R  win=17.9%  t=-12.48  unique_bets=10736 t_unique=-12.48
+    take model TOP20: n=   2167  avg=-0.450R  win=21.3%  t=-13.96  unique_bets=2167 t_unique=-13.96
+  TOP20 both test years: n=   4898  avg=-0.257R  win=25.7%  t=-10.88  unique_bets=4898 t_unique=-10.88
+
+=== breakout: 50194 setups (1 in 1)
+  [walk-forward] train 2021..2022, test 2023
+    take ALL setups : n=  13541  avg=-0.251R  win=27.5%  t=-19.72  unique_bets=13541 t_unique=-19.72
+    take model TOP20: n=   2709  avg=+0.053R  win=36.9%  t=+1.77  unique_bets=2709 t_unique=+1.77
+  [walk-forward] train 2021..2023, test 2024
+    take ALL setups : n=   6669  avg=-0.304R  win=26.8%  t=-16.65  unique_bets=6669 t_unique=-16.65
+    take model TOP20: n=   1334  avg=-0.188R  win=30.7%  t=-4.71  unique_bets=1334 t_unique=-4.71
+  TOP20 both test years: n=   4043  avg=-0.026R  win=34.8%  t=-1.10  unique_bets=4043 t_unique=-1.10
+
+=== ema_trend: 49390 setups (1 in 1)
+  [walk-forward] train 2021..2022, test 2023
+    take ALL setups : n=  10182  avg=-0.193R  win=30.3%  t=-14.11  unique_bets=10182 t_unique=-14.11
+    take model TOP20: n=   2037  avg=-0.033R  win=35.4%  t=-1.02  unique_bets=2037 t_unique=-1.02
+  [walk-forward] train 2021..2023, test 2024
+    take ALL setups : n=   8427  avg=-0.185R  win=31.4%  t=-12.17  unique_bets=8427 t_unique=-12.17
+    take model TOP20: n=   1686  avg=-0.036R  win=36.2%  t=-1.01  unique_bets=1686 t_unique=-1.01
+  TOP20 both test years: n=   3723  avg=-0.034R  win=35.8%  t=-1.44  unique_bets=3723 t_unique=-1.44
+
+=== mean_reversion: 27905 setups (1 in 1)
+  [walk-forward] train 2021..2022, test 2023
+    take ALL setups : n=   7970  avg=+0.075R  win=49.6%  t=+5.29  unique_bets=7970 t_unique=+5.29
+    take model TOP20: n=   1594  avg=+0.523R  win=67.3%  t=+17.56  unique_bets=1594 t_unique=+17.56
+  [walk-forward] train 2021..2023, test 2024
+    take ALL setups : n=   4036  avg=+0.040R  win=50.1%  t=+1.99  unique_bets=4036 t_unique=+1.99
+    take model TOP20: n=    808  avg=+0.912R  win=83.5%  t=+27.06  unique_bets=808 t_unique=+27.06
+  TOP20 both test years: n=   2402  avg=+0.654R  win=72.8%  t=+28.32  unique_bets=2402 t_unique=+28.32
+
+=== smc_continuation: 23343 setups (1 in 1)
+  [walk-forward] train 2021..2022, test 2023
+    take ALL setups : n=   5530  avg=+0.021R  win=37.6%  t=+1.09  unique_bets=5530 t_unique=+1.09
+    take model TOP20: n=   1106  avg=+0.050R  win=39.3%  t=+1.12  unique_bets=1106 t_unique=+1.12
+  [walk-forward] train 2021..2023, test 2024
+    take ALL setups : n=   2953  avg=-0.128R  win=33.3%  t=-4.90  unique_bets=2953 t_unique=-4.90
+    take model TOP20: n=    591  avg=-0.289R  win=29.1%  t=-5.06  unique_bets=591 t_unique=-5.06
+  TOP20 both test years: n=   1697  avg=-0.068R  win=35.8%  t=-1.94  unique_bets=1697 t_unique=-1.94
+
+=== trend_pullback: 13362 setups (1 in 1)
+  [walk-forward] train 2021..2022, test 2023
+    take ALL setups : n=   3954  avg=-0.104R  win=34.3%  t=-4.44  unique_bets=3954 t_unique=-4.44
+    take model TOP20: n=    798  avg=-0.549R  win=21.3%  t=-12.22  unique_bets=798 t_unique=-12.22
+  [walk-forward] train 2021..2023, test 2024
+    take ALL setups : n=   1296  avg=-0.082R  win=35.2%  t=-2.01  unique_bets=1296 t_unique=-2.01
+    take model TOP20: n=    260  avg=+0.084R  win=41.2%  t=+0.88  unique_bets=260 t_unique=+0.88
+  TOP20 both test years: n=   1058  avg=-0.394R  win=26.2%  t=-9.39  unique_bets=1058 t_unique=-9.39
+
+=== liquidity_sweep_reversal: 4939 setups (1 in 1)
+  [walk-forward] train 2021..2022, test 2023
+    take ALL setups : n=   1048  avg=-0.284R  win=27.6%  t=-6.26  unique_bets=1048 t_unique=-6.26
+    take model TOP20: n=    210  avg=-0.595R  win=19.5%  t=-6.48  unique_bets=210 t_unique=-6.48
+  [walk-forward] train 2021..2023, test 2024
+    take ALL setups : n=    663  avg=-0.402R  win=25.3%  t=-7.38  unique_bets=663 t_unique=-7.38
+    take model TOP20: n=    133  avg=+0.019R  win=38.3%  t=+0.14  unique_bets=133 t_unique=+0.14
+  TOP20 both test years: n=    343  avg=-0.357R  win=26.8%  t=-4.57  unique_bets=343 t_unique=-4.57

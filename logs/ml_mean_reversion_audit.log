@@ -1,0 +1,30 @@
+mean_reversion: 27905 FOREXSB 2021-2024 setups, 4217 MT5 2025-2026 setups
+
+A. entry == close of last CLOSED bar (at-15m): 155/27905   entry == close of bar opening AT `at` (future): 127/27905
+
+B. strict relabel status: {'sl': 14621, 'tp': 12808, 'sl_same_bar': 475, 'timeout': 1}
+   stored vs strict win/loss agreement: 49.6%   stored avg net=+0.046R   strict avg net=-0.031R
+   2021: stored -0.041R  strict -0.026R  n=8053
+   2022: stored +0.110R  strict +0.024R  n=7846
+   2023: stored +0.075R  strict -0.070R  n=7970
+   2024: stored +0.040R  strict -0.073R  n=4036
+
+C. walk-forward on STRICT labels:
+  train 2021..2022, test 2023
+    take ALL setups : n=   7970  avg=-0.070R  win=43.8%  t=-5.03  unique_bets=7970 t_unique=-5.03
+    take model TOP20: n=   1613  avg=-0.261R  win=36.5%  t=-8.73  unique_bets=1613 t_unique=-8.73
+  train 2021..2023, test 2024
+    take ALL setups : n=   4036  avg=-0.073R  win=45.6%  t=-3.67  unique_bets=4036 t_unique=-3.67
+    take model TOP20: n=    808  avg=-0.286R  win=38.9%  t=-6.52  unique_bets=808 t_unique=-6.52
+  TOP20 both years (strict): n=   2421  avg=-0.269R  win=37.3%  t=-10.90  unique_bets=2421 t_unique=-10.90
+  2024 model permutation importance (AUC drop): order_block_state=0.011, support_resistance_context=0.006, fvg_state=0.002, regime=0.002, planned_rr_bucket=0.002, atr_regime=0.002, choch_present=0.002, volatility_regime=0.001
+
+D. strict TOP20 by cost/risk quartile (high cost_r = tiny stop):
+  Q1 low cost  cost_r~0.114  n=    650  avg=-0.260R  win=33.8%  t=-5.59  unique_bets=650 t_unique=-5.59
+  Q2           cost_r~0.168  n=    719  avg=-0.080R  win=43.5%  t=-1.73  unique_bets=719 t_unique=-1.73
+  Q3           cost_r~0.203  n=    458  avg=-0.303R  win=36.5%  t=-5.43  unique_bets=458 t_unique=-5.43
+  Q4 high cost cost_r~0.346  n=    594  avg=-0.482R  win=34.2%  t=-9.83  unique_bets=594 t_unique=-9.83
+
+E. train FOREXSB 2021-2024 (strict), test MT5 2025-2026 (stored labels, costs charged):
+    take ALL setups : n=   4217  avg=+0.491R  win=65.7%  t=+26.72  unique_bets=4217 t_unique=+26.72
+    take model TOP20: n=    844  avg=+0.019R  win=47.5%  t=+0.43  unique_bets=844 t_unique=+0.43

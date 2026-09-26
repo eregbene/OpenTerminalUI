@@ -6,6 +6,7 @@ Then train on all FOREXSB years and test on MT5 2025-2026 as a different-source 
 
 Run:  python scripts/ml_walk_forward_hgb.py          # old strategies (FOREXSB walk-forward + MT5 check)
       python scripts/ml_walk_forward_hgb.py --v3     # V3 fingerprints (bsi-v3-planned-m15conf-v1), 2023+ test years
+      python scripts/ml_walk_forward_hgb.py --old    # old strategies, FOREXSB 2021-2024, one model per strategy
 """
 from __future__ import annotations
 
@@ -32,15 +33,15 @@ TOP_FRACTION = 0.2  # "take" only the model's top 20% of setups
 V3_VERSION = "bsi-v3-planned-m15conf-v1"
 
 
-def load(v3_only: bool) -> pd.DataFrame:
+def load(v3_only: bool, extra_where: str = "", params: tuple = ()) -> pd.DataFrame:
     store = v3.CandleStore()
     cols = ", ".join(f"f.{c}" for c in CATEGORICAL + BOOLEAN + NUMERIC)
     rows = store._pg.execute(
         f"""select f.provider, f.entry_time, f.entry, f.stop_loss, o.outcome_r, {cols}
         from historical_pattern_fingerprints f join historical_setup_outcomes o using (fingerprint_id)
         where o.outcome_r is not null and f.provider in ('FOREXSB', 'MT5')
-          and (f.strategy_version = %s) = %s""",
-        (V3_VERSION, v3_only),
+          and (f.strategy_version = %s) = %s {extra_where}""",
+        (V3_VERSION, v3_only, *params),
     ).fetchall()
     df = pd.DataFrame(rows, columns=["provider", "entry_time", "entry", "stop_loss", "outcome_r"] + CATEGORICAL + BOOLEAN + NUMERIC)
     risk = (df["entry"].astype(float) - df["stop_loss"].astype(float)).abs()
@@ -104,7 +105,44 @@ def main_v3() -> None:
                 print(f"    {str(key):<34} {stats(g)}")
 
 
+OLD_WINDOW = "and f.provider = 'FOREXSB' and f.entry_time >= '2021-01-01' and f.entry_time < '2025-01-01'"
+OLD_MAX_ROWS = 200_000  # ponytail: per-strategy row cap to fit ~3 GB free RAM; drop it when memory allows
+
+
+def main_old() -> None:
+    store = v3.CandleStore()
+    cost_case = " ".join(f"when '{sym}' then {v3.cost_in_price(sym)}" for sym in v3.COST_PIPS)
+    rows = store._pg.execute(
+        f"""select f.anchor_strategy, extract(year from f.entry_time)::int y, count(*),
+              avg(o.outcome_r - (case f.canonical_symbol {cost_case} else 0 end) / nullif(abs(f.entry - f.stop_loss), 0))
+            from historical_pattern_fingerprints f join historical_setup_outcomes o using (fingerprint_id)
+            where o.outcome_r is not null and f.strategy_version <> %s {OLD_WINDOW}
+            group by 1, 2 order by 1, 2""",
+        (V3_VERSION,),
+    ).fetchall()
+    counts: dict[str, int] = {}
+    print("all setups after costs, by strategy and year (FOREXSB):")
+    for sid, year, n, avg in rows:
+        counts[sid] = counts.get(sid, 0) + n
+        print(f"  {sid:<28} {year}  n={n:>7}  avg={float(avg or 0):+.3f}R")
+    for sid, n in sorted(counts.items(), key=lambda kv: -kv[1]):
+        if n < 2000:
+            continue
+        k = max(1, n // OLD_MAX_ROWS)
+        df = load(False, f"{OLD_WINDOW} and f.anchor_strategy = %s and abs(hashtext(f.fingerprint_id)) %% {k} = 0", (sid,))
+        print(f"\n=== {sid}: {len(df)} setups (1 in {k})")
+        tops = []
+        for year in (2023, 2024):
+            print(f"  [walk-forward] train 2021..{year - 1}, test {year}")
+            _, top = fit_and_score(df[df["year"] < year], df[df["year"] == year])
+            tops.append(top)
+        print(f"  TOP20 both test years: {stats(pd.concat(tops))}")
+        del df
+
+
 def main() -> None:
+    if "--old" in sys.argv:
+        return main_old()
     if "--v3" in sys.argv:
         return main_v3()
     df = load(v3_only=False)
