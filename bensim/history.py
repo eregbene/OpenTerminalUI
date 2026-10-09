@@ -62,14 +62,24 @@ def download(symbol: str, tf: str = "M5", years: float = 5.0) -> int:
     return n
 
 
-def audit(symbol: str, tf: str = "M5") -> dict:
-    from bensim_research import data as D  # hole rule shared with the research engine
+TF_SECONDS = {"M1": 60, "M5": 300, "M15": 900, "M30": 1800, "H1": 3600, "H4": 14400, "D1": 86400}
 
+
+def holes(t: np.ndarray, step: int, max_gap: int = 2 * 3600) -> list[tuple[int, int]]:
+    """Missing-data spans (start, end) in UTC seconds: gaps between consecutive bars longer than `max_gap`
+    that are not the normal FX weekend (Friday after 20:00 UTC -> Sunday, <= 54h)."""
+    g = np.diff(t)
+    dow = ((t[:-1] // 86400) + 3) % 7
+    weekend = (dow == 4) & ((t[:-1] % 86400) >= 20 * 3600) & (g <= 54 * 3600)
+    idx = np.flatnonzero((g > max_gap) & ~weekend)
+    return [(int(t[i] + step), int(t[i + 1])) for i in idx]
+
+
+def audit(symbol: str, tf: str = "M5") -> dict:
     with db.connect() as c:
         rows = c.execute("select extract(epoch from ts)::bigint from candles where symbol=%s and tf=%s order by ts", (symbol, tf)).fetchall()
     t = np.array([r[0] for r in rows], dtype=np.int64)
-    one = np.ones(len(t))
-    spans = D.holes(D.Bars(tf, t, one, one, one, one, one)) if len(t) > 1 else []
+    spans = holes(t, TF_SECONDS[tf]) if len(t) > 1 else []
     out = {"bars": len(t), "first": datetime.fromtimestamp(int(t[0]), timezone.utc) if len(t) else None,
            "last": datetime.fromtimestamp(int(t[-1]), timezone.utc) if len(t) else None,
            "holes": len(spans), "missing_days": round(sum(b - a for a, b in spans) / 86400, 1)}
