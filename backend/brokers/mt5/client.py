@@ -63,6 +63,16 @@ class MT5Client:
             if self.config.server:
                 init_kwargs["server"] = self.config.server
         ok = bool(mt5.initialize(**init_kwargs))
+        if not ok and credentials_passed_to_initialize:
+            last_error = self.last_error()
+            if last_error and "Authorization failed" in str(last_error):
+                try:
+                    mt5.shutdown()
+                except Exception:
+                    pass
+                attach_kwargs = {key: value for key, value in init_kwargs.items() if key not in {"login", "password", "server"}}
+                logger.warning("MT5 initialize rejected credentials; retrying attach to already-authenticated terminal")
+                ok = bool(mt5.initialize(**attach_kwargs))
         self.initialized = ok
         if not ok:
             raise MT5UnavailableError(f"MT5 initialize failed: {self.last_error()}")

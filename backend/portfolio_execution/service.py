@@ -28,6 +28,30 @@ SUCCESS_RETCODES = {"TRADE_RETCODE_DONE", "TRADE_RETCODE_DONE_PARTIAL", "TRADE_R
 REJECT_RETCODES = {"TRADE_RETCODE_REQUOTE", "TRADE_RETCODE_PRICE_CHANGED", "TRADE_RETCODE_INVALID_FILL"}
 
 
+async def _mt5_account_with_retries(adapter: Any, *, attempts: int | None = None, delay_seconds: float | None = None) -> Any:
+    """Retry transient MT5/bridge account reads without bypassing identity checks."""
+    if attempts is None:
+        try:
+            attempts = int(os.getenv("MT5_ACCOUNT_LOOKUP_RETRY_ATTEMPTS", "5"))
+        except Exception:
+            attempts = 5
+    if delay_seconds is None:
+        try:
+            delay_seconds = float(os.getenv("MT5_ACCOUNT_LOOKUP_RETRY_DELAY_SECONDS", "0.5"))
+        except Exception:
+            delay_seconds = 0.5
+    last_exc: Exception | None = None
+    for attempt in range(max(1, attempts)):
+        try:
+            return await adapter.mt5_account()
+        except Exception as exc:
+            last_exc = exc
+            if attempt < attempts - 1:
+                await asyncio.sleep(delay_seconds)
+    assert last_exc is not None
+    raise last_exc
+
+
 class PortfolioManager:
     def __init__(self, adapter: Any | None = None, account_id: str = "demo_10k") -> None:
         # `_explicit_adapter` is stored, not resolved once, so `adapter`/`config` stay
@@ -85,7 +109,7 @@ class PortfolioManager:
             except asyncio.CancelledError:
                 raise
             except Exception as exc:
-                logger.warning("Portfolio manager refresh failed: %s", exc.__class__.__name__)
+                logger.warning("Portfolio manager refresh failed account_id=%s: %s", self.account_id, exc.__class__.__name__)
             try:
                 await asyncio.wait_for(self._stop_event.wait(), timeout=interval)
             except asyncio.TimeoutError:
@@ -107,7 +131,7 @@ class PortfolioManager:
 
     async def build_snapshot(self) -> dict[str, Any]:
         adapter = self.adapter
-        account = await adapter.mt5_account()
+        account = await _mt5_account_with_retries(adapter)
         positions = await adapter.mt5_positions()
         history = await adapter.history(days=7)
         # Canonical gross/commission/swap/fee/net breakdown (backend/brokers/mt5/
@@ -332,7 +356,7 @@ class ExecutionManager:
             # calls) shares, so switching MT5 accounts (e.g. onto the new 10K demo account)
             # can never silently inherit a previous account's approval or risk state.
             try:
-                account = await adapter.mt5_account()
+                account = await _mt5_account_with_retries(adapter)
                 account_blockers = account_registry.account_blockers(account, account_mode=cfg.account_mode)
                 account_context = account_id or str(request.get("account_id") or getattr(cfg, "account_id", "") or account_context)
                 profile = account_registry.profile_by_id(account_context)
@@ -438,7 +462,7 @@ class ExecutionManager:
 
     async def _pre_mutation_account_blocker(self, adapter: Any, account_id: str) -> str | None:
         try:
-            account = await adapter.mt5_account()
+            account = await _mt5_account_with_retries(adapter)
             profile = account_registry.profile_by_id(account_id)
             blockers = account_registry.validate_profile_account(profile, account) if profile is not None else []
         except Exception as exc:

@@ -557,7 +557,7 @@ def _order_row(cycle_id: str, winner: dict[str, Any], decision: dict[str, Any], 
     if isinstance(raw_request, dict) and trade.get("v3_execution_identity"):
         raw_request = {**raw_request, "bsi_v3": sanitize(trade.get("v3_execution_identity") or {})}
     row.raw_request = raw_request
-    row.raw_response = sanitize(submission.get("raw") or submission)
+    row.raw_response = sanitize(submission.get("raw") or submission or trade)
     row.updated_at = utcnow()
     return row
 

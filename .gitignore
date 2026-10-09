@@ -97,3 +97,4 @@ backups/
 .claude-history/
 graphify-out/
 backend/graphify-out/
+data/db_archive/

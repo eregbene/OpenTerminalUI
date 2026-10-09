@@ -18,6 +18,7 @@ import pytest
 
 import backend.brokers.mt5.autonomous as autonomous_module
 from backend.brokers.mt5.autonomous import MT5AutonomousTradingService
+from backend.brokers.mt5.exceptions import MT5UnavailableError
 from backend.shared.test_db_safety import redirect_shared_db_to_isolated_sqlite
 from backend.tests.test_mt5_adapter import fake_adapter
 
@@ -186,6 +187,24 @@ def test_global_blockers_yield_trading_disabled(monkeypatch: pytest.MonkeyPatch)
 
     assert result["status"] == "TRADING_DISABLED"
     assert "EMERGENCY_DISABLED" in result["blockers"]
+
+
+def test_unreachable_mt5_blocks_cycle_without_order_send(monkeypatch: pytest.MonkeyPatch):
+    redirect_shared_db_to_isolated_sqlite(monkeypatch)
+    adapter = fake_adapter()
+    service = MT5AutonomousTradingService(adapter)
+
+    async def _unavailable_account():
+        raise MT5UnavailableError("MT5 bridge request failed: urlopen error [Errno 101] Network is unreachable")
+
+    monkeypatch.setattr(adapter, "mt5_account", _unavailable_account)
+
+    result = asyncio.run(service.run_cycle(owner="local"))
+
+    assert result["status"] == "TRADING_DISABLED"
+    assert "BROKER_NOT_READY:MT5UnavailableError" in result["blockers"]
+    assert result["order_send_calls"] == 0
+    assert adapter.client.mt5.order_send_calls == 0
 
 
 # 13. Existing execution-manager journaling still works -- _submit still routes through

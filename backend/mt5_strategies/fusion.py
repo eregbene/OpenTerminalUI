@@ -21,7 +21,7 @@ import os
 from datetime import datetime
 from typing import Any
 
-from backend.mt5_strategies.models import ACTIVE_MT5, SHADOW_MT5, activation_status
+from backend.mt5_strategies.models import ACTIVE_MT5, DISABLED, SHADOW_MT5, activation_status
 from backend.mt5_strategies.models import StrategySignal
 
 # Minimum strength gap for one side of a conflict to unambiguously dominate the other,
@@ -164,7 +164,27 @@ def build_candidates(
     if "trend_quality_score" in anchor.evidence:
         context["trend_quality_score"] = anchor.evidence["trend_quality_score"]
         context["trend_quality_breakdown"] = anchor.evidence.get("trend_quality_breakdown")
-    activation = activation_status(anchor.strategy_id)
+    # BSI intelligence migration (2026-09-01): every BSI subtype signal shares the SAME
+    # strategy_id ("bsi"), so activation_status("bsi") alone cannot distinguish a subtype
+    # gated to SHADOW_MT5 from one gated to ACTIVE_MT5 -- it only ever sees the family-level
+    # switch. evaluate_bsi() already stamps the WINNING subtype's own resolved
+    # bsi_subtype_activation_status() onto signal.evidence["subtype_activation_status"]
+    # (families/bsi_engine.py::evaluate_bsi); a subtype gated to DISABLED never reaches this
+    # point at all (it's filtered before producing a valid signal), so any BSI anchor here
+    # already passed its own subtype gate and its evidence carries the real per-subtype
+    # status. Prefer that over the family-level fallback so a SHADOW_MT5 subtype's candidate
+    # is still scored/tracked (Section 7/9 of the intelligence-migration directive -- shadow
+    # data collection from day one) but can NEVER become execution-eligible merely because
+    # the "bsi" family switch itself is ACTIVE_MT5 for a DIFFERENT, validated subtype (e.g.
+    # bsi_under_over). Fails closed: if a bsi-family signal is somehow missing the stamp
+    # (should not happen via the real evaluator), treat as DISABLED rather than trusting the
+    # coarser family-level status, which could be ACTIVE_MT5 for an unrelated subtype.
+    if anchor.strategy_id == "bsi":
+        activation = anchor.evidence.get("subtype_activation_status") if anchor.evidence else None
+        if activation not in (ACTIVE_MT5, SHADOW_MT5, DISABLED):
+            activation = DISABLED
+    else:
+        activation = activation_status(anchor.strategy_id)
     candidate = {
         "canonical_pair": symbol,
         "broker_symbol": broker_symbol,

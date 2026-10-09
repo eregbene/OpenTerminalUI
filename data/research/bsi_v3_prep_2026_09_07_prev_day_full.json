@@ -4,6 +4,7 @@
     "start": "2026-09-04T00:00:00+00:00",
     "end": "2026-09-05T00:00:00+00:00"
   },
+  "global_min_entry_rr": 0.0,
   "extraction": {
     "source_folder": "F:\\new faiz",
     "source_video_count": 125,
@@ -2188,7 +2189,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -2349,7 +2350,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -2706,7 +2707,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -3060,7 +3061,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -3363,7 +3364,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -3463,7 +3464,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -4246,7 +4247,7 @@
       ],
       "full_opportunity_count": 20,
       "full_outcome_count": 20,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 20,
         "wins": 6,
@@ -4543,7 +4544,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -4956,7 +4957,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -5193,7 +5194,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -5780,7 +5781,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -6091,7 +6092,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -6453,7 +6454,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -6764,7 +6765,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -7547,7 +7548,7 @@
       ],
       "full_opportunity_count": 20,
       "full_outcome_count": 20,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 20,
         "wins": 6,
@@ -7888,7 +7889,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -8254,7 +8255,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -8557,7 +8558,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -8863,7 +8864,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -8990,7 +8991,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -9093,7 +9094,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -9195,7 +9196,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -9325,7 +9326,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -9510,7 +9511,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -9821,7 +9822,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,
@@ -10118,7 +10119,7 @@
       "outcomes": [],
       "full_opportunity_count": 0,
       "full_outcome_count": 0,
-      "compact_output": true,
+      "compact_output": false,
       "baseline": {
         "trades": 0,
         "wins": 0,

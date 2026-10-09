@@ -32,6 +32,7 @@ from backend.core.service_status import service_status_registry
 from backend.config.env import load_local_env
 from backend.config.security import validate_runtime_secrets
 from backend.config.settings import get_settings
+from backend.brokers.errors import BrokerError
 from backend.core.contracts.api import APIErrorEnvelope, APIErrorPayload, BensimAPIError
 from backend.core.observability import configure_logging, get_request_id, request_context_middleware
 from backend.shared.cache import cache as cache_instance
@@ -201,6 +202,18 @@ async def bensim_api_error_handler(request: Request, exc: BensimAPIError) -> JSO
             code=exc.code,
             message=exc.message,
             details=exc.details,
+            request_id=get_request_id(request),
+        )
+    )
+    return JSONResponse(status_code=exc.status_code, content=envelope.model_dump(mode="json"))
+
+
+@app.exception_handler(BrokerError)
+async def broker_error_handler(request: Request, exc: BrokerError) -> JSONResponse:
+    envelope = APIErrorEnvelope(
+        error=APIErrorPayload(
+            code=exc.code,
+            message=exc.message,
             request_id=get_request_id(request),
         )
     )

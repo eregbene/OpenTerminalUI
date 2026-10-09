@@ -349,6 +349,9 @@ services:
       # BSI-only DEMO migration -- family-level switch plus per-subtype gate (fusion.py's own
       # subtype-aware execution check, see backend/mt5_strategies/fusion.py::build_candidates).
       MT5_STRATEGY_ACTIVATION_BSI: "${MT5_STRATEGY_ACTIVATION_BSI:-}"
+      MT5_STRATEGY_ACTIVATION_DONCHIAN_IMBALANCE: "${MT5_STRATEGY_ACTIVATION_DONCHIAN_IMBALANCE:-}"
+      MT5_CONTEXT_M15_BARS: "${MT5_CONTEXT_M15_BARS:-100}"
+      MT5_CONTEXT_H1_BARS: "${MT5_CONTEXT_H1_BARS:-100}"
       BSI_SUBTYPE_ACTIVATION_ORDER_FLOW: "${BSI_SUBTYPE_ACTIVATION_ORDER_FLOW:-}"
       BSI_SUBTYPE_ACTIVATION_ABC: "${BSI_SUBTYPE_ACTIVATION_ABC:-}"
       BSI_SUBTYPE_ACTIVATION_ABCD: "${BSI_SUBTYPE_ACTIVATION_ABCD:-}"

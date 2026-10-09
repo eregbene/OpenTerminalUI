@@ -683,6 +683,7 @@ def test_mtfai1_v2_mfe_partial_close_overrides_full_close(monkeypatch):
 def test_mtfai1_v2_mfe_partial_flag_does_not_affect_other_strategies(monkeypatch):
     SessionLocal = _session_factory(monkeypatch)
     monkeypatch.delenv("ADAPTIVE_MFE_MIN_R", raising=False)
+    monkeypatch.setenv("ADAPTIVE_MFE_FULL_CLOSE_R", "0")
     monkeypatch.setenv("MT5_MTFAI1_V2_MFE_PARTIAL_ENABLED", "true")
     state = AdaptivePositionStateORM(position_id="OTHER_1")
     state.symbol = "XAUUSD"
@@ -710,6 +711,7 @@ def test_mtfai1_v2_mfe_partial_flag_does_not_affect_other_strategies(monkeypatch
 def test_mtfai1_v2_mfe_partial_inert_when_flag_disabled(monkeypatch):
     SessionLocal = _session_factory(monkeypatch)
     monkeypatch.delenv("ADAPTIVE_MFE_MIN_R", raising=False)
+    monkeypatch.setenv("ADAPTIVE_MFE_FULL_CLOSE_R", "0")
     monkeypatch.delenv("MT5_MTFAI1_V2_MFE_PARTIAL_ENABLED", raising=False)
     state = AdaptivePositionStateORM(position_id="MTFAI1_2")
     state.symbol = "XAUUSD"
@@ -1241,6 +1243,8 @@ def test_equity_profit_strong_tier_generates_account_profit_lock(monkeypatch):
     monkeypatch.setenv("ADAPTIVE_PROFIT_PROTECT_EQUITY_PCT", "0.75")
     monkeypatch.setenv("ADAPTIVE_STRONG_PROFIT_EQUITY_PCT", "1.00")
     monkeypatch.setenv("ADAPTIVE_ACCOUNT_PROFIT_LOCK_FRACTION", "0.30")
+    monkeypatch.delenv("ADAPTIVE_ACCOUNT_PROFIT_LOCK_USD_DEMO_10K", raising=False)
+    monkeypatch.delenv("ADAPTIVE_ACCOUNT_PROFIT_LOCK_USD", raising=False)
     SessionLocal = _session_factory(monkeypatch)
     state = _managed_state("EQ1")
     state.max_achieved_r = 0.3
@@ -1259,6 +1263,23 @@ def test_equity_profit_strong_tier_generates_account_profit_lock(monkeypatch):
     assert evidence["tier"] == "strong_profit_no_explicit_protection"
     assert evidence["profit_usd"] == 100.0
     assert lock.requested_volume == pytest.approx(float(state.current_volume) * 0.30)
+
+
+def test_account_profit_lock_uses_account_specific_usd_target(monkeypatch):
+    monkeypatch.setenv("ADAPTIVE_ACCOUNT_PROFIT_LOCK_USD_FTMO_DEMO_50K", "50")
+    monkeypatch.setenv("ADAPTIVE_ACCOUNT_PROFIT_REASSESS_USD_FTMO_DEMO_50K", "30")
+    monkeypatch.setenv("ADAPTIVE_ACCOUNT_PROFIT_LOCK_FRACTION", "0.60")
+    manager = service.AdaptiveManagementService(account_id="ftmo_demo_50k")
+    state = _managed_state("USD_TARGET")
+    state.current_volume = 2.0
+
+    watch = manager._account_scaled_profit_protection(state, {"profit": 40.0}, [], 0.3, 0.4, "ranging", 50000.0)
+    lock = manager._account_scaled_profit_protection(state, {"profit": 55.0}, [], 0.3, 0.4, "ranging", 50000.0)
+
+    assert [candidate.action_type for candidate in watch] == ["HOLD_WITH_GIVEBACK_RISK"]
+    assert [candidate.action_type for candidate in lock] == ["ACCOUNT_PROFIT_LOCK"]
+    assert lock[0].requested_volume == pytest.approx(1.2)
+    assert lock[0].evidence["target_usd"] == 50.0
 
 
 def test_equity_profit_below_reassess_threshold_does_not_trigger(monkeypatch):
@@ -1724,6 +1745,26 @@ def test_auto_recover_breaker_closes_after_broker_not_ready(monkeypatch):
         breaker = service._breaker(db)
         breaker.state = "open"
         breaker.reason = "BROKER_NOT_READY:MT5UnavailableError"
+        breaker.failed_actions = 3
+        breaker.rejected_actions = 2
+        db.merge(breaker)
+        db.commit()
+
+        adaptive_management_service._auto_recover_breaker(db, breaker)
+
+        refreshed = db.get(AdaptiveCircuitBreakerORM, "adaptive_demo_manager")
+        assert refreshed.state == "closed"
+        assert refreshed.failed_actions == 0
+        assert refreshed.rejected_actions == 0
+        assert refreshed.reason == "auto_recovered_broker_reachable"
+
+
+def test_auto_recover_breaker_closes_after_terminal_trading_allowed(monkeypatch):
+    SessionLocal = _session_factory(monkeypatch)
+    with SessionLocal() as db:
+        breaker = service._breaker(db)
+        breaker.state = "open"
+        breaker.reason = "MT5_TERMINAL_TRADING_NOT_ALLOWED"
         breaker.failed_actions = 3
         breaker.rejected_actions = 2
         db.merge(breaker)

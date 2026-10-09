@@ -238,6 +238,24 @@ def test_bridge_worker_rejects_wrong_requested_account_before_mutation(monkeypat
     assert _BridgeClient.native.order_send_calls == 0
 
 
+def test_bridge_worker_connect_empty_payload_uses_worker_account(monkeypatch):
+    monkeypatch.delenv("MT5_BRIDGE_API_KEY", raising=False)
+    monkeypatch.delenv("MT5_25K_BRIDGE_API_KEY", raising=False)
+    monkeypatch.delenv("MT5_ACCOUNT_25K_BRIDGE_API_KEY", raising=False)
+    monkeypatch.setenv("MT5_ACCOUNT_25K_ENABLED", "true")
+    monkeypatch.setenv("MT5_ACCOUNT_25K_LOGIN", "250001")
+    monkeypatch.setenv("MT5_ACCOUNT_25K_SERVER", "FTMO-Demo")
+    _BridgeClient.native = _BridgeMT5({"login": 250001, "server": "FTMO-Demo", "trade_mode": 0, "balance": 25000, "equity": 25000})
+    monkeypatch.setattr("backend.brokers.mt5.client.MT5Client", _BridgeClient)
+
+    app = mt5_bridge.create_app("ftmo_demo_25k")
+    response = TestClient(app).post("/connect", json={})
+
+    assert response.status_code == 200
+    assert response.json()["account_id"] == "ftmo_demo_25k"
+    assert response.json()["initialized"] is True
+
+
 def test_bridge_worker_revalidates_actual_login_before_mutation(monkeypatch):
     monkeypatch.delenv("MT5_BRIDGE_API_KEY", raising=False)
     monkeypatch.delenv("MT5_25K_BRIDGE_API_KEY", raising=False)

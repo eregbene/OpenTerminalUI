@@ -1,0 +1,2389 @@
+{
+ "rules": "see bensim_research/imb_zone.py docstring",
+ "no_trade_reasons": {
+  "EURUSD": {
+   "M30|video rules": {
+    "no opposite imbalance zone to target": 21,
+    "not the extreme zone": 5522,
+    "zone never retested": 561,
+    "target nearer than 1R": 60,
+    "gapped through stop at entry": 16
+   },
+   "M30|diag: no extreme rule": {
+    "no opposite imbalance zone to target": 1189,
+    "zone never retested": 561,
+    "target nearer than 1R": 210,
+    "gapped through stop at entry": 24
+   },
+   "M30|diag: + current-trend filter": {
+    "no opposite imbalance zone to target": 17,
+    "not the extreme zone": 3753,
+    "TF trend disagrees at retest": 2328,
+    "zone never retested": 561,
+    "target nearer than 1R": 27,
+    "gapped through stop at entry": 14
+   },
+   "H2|video rules": {
+    "not the extreme zone": 1446,
+    "zone never retested": 163,
+    "target nearer than 1R": 10,
+    "gapped through stop at entry": 1
+   },
+   "H2|diag: no extreme rule": {
+    "no opposite imbalance zone to target": 274,
+    "zone never retested": 163,
+    "target nearer than 1R": 47,
+    "gapped through stop at entry": 6
+   },
+   "H2|diag: + current-trend filter": {
+    "TF trend disagrees at retest": 637,
+    "not the extreme zone": 938,
+    "zone never retested": 163,
+    "target nearer than 1R": 2,
+    "gapped through stop at entry": 1
+   },
+   "D1|video rules": {
+    "not the extreme zone": 123,
+    "no opposite imbalance zone to target": 2,
+    "target nearer than 1R": 1,
+    "zone never retested": 9,
+    "gapped through stop at entry": 1
+   },
+   "D1|diag: no extreme rule": {
+    "no opposite imbalance zone to target": 35,
+    "target nearer than 1R": 5,
+    "zone never retested": 9,
+    "gapped through stop at entry": 1
+   },
+   "D1|diag: + current-trend filter": {
+    "TF trend disagrees at retest": 63,
+    "not the extreme zone": 76,
+    "no opposite imbalance zone to target": 2,
+    "target nearer than 1R": 1,
+    "zone never retested": 9,
+    "gapped through stop at entry": 1
+   }
+  },
+  "XAUUSD": {
+   "M30|video rules": {
+    "zone never retested": 650,
+    "not the extreme zone": 5532,
+    "target nearer than 1R": 43,
+    "no opposite imbalance zone to target": 15,
+    "gapped through stop at entry": 2
+   },
+   "M30|diag: no extreme rule": {
+    "zone never retested": 650,
+    "no opposite imbalance zone to target": 1088,
+    "target nearer than 1R": 159,
+    "gapped through stop at entry": 9
+   },
+   "M30|diag: + current-trend filter": {
+    "zone never retested": 650,
+    "not the extreme zone": 3677,
+    "TF trend disagrees at retest": 2397,
+    "target nearer than 1R": 18,
+    "no opposite imbalance zone to target": 11,
+    "gapped through stop at entry": 1
+   },
+   "H2|video rules": {
+    "not the extreme zone": 1503,
+    "zone never retested": 216,
+    "target nearer than 1R": 11
+   },
+   "H2|diag: no extreme rule": {
+    "no opposite imbalance zone to target": 310,
+    "zone never retested": 216,
+    "target nearer than 1R": 33,
+    "gapped through stop at entry": 1
+   },
+   "H2|diag: + current-trend filter": {
+    "TF trend disagrees at retest": 680,
+    "not the extreme zone": 955,
+    "zone never retested": 216,
+    "target nearer than 1R": 5
+   },
+   "D1|video rules": {
+    "not the extreme zone": 129,
+    "zone never retested": 35
+   },
+   "D1|diag: no extreme rule": {
+    "no opposite imbalance zone to target": 34,
+    "zone never retested": 35,
+    "target nearer than 1R": 2
+   },
+   "D1|diag: + current-trend filter": {
+    "TF trend disagrees at retest": 53,
+    "not the extreme zone": 86,
+    "zone never retested": 35
+   }
+  },
+  "GBPUSD": {
+   "M30|video rules": {
+    "no opposite imbalance zone to target": 18,
+    "zone never retested": 552,
+    "not the extreme zone": 5433,
+    "target nearer than 1R": 52,
+    "gapped through stop at entry": 3
+   },
+   "M30|diag: no extreme rule": {
+    "no opposite imbalance zone to target": 1171,
+    "zone never retested": 552,
+    "target nearer than 1R": 213,
+    "gapped through stop at entry": 18
+   },
+   "M30|diag: + current-trend filter": {
+    "no opposite imbalance zone to target": 9,
+    "zone never retested": 552,
+    "not the extreme zone": 3680,
+    "TF trend disagrees at retest": 2346,
+    "target nearer than 1R": 16,
+    "gapped through stop at entry": 1
+   },
+   "H2|video rules": {
+    "zone never retested": 189,
+    "not the extreme zone": 1386,
+    "target nearer than 1R": 10,
+    "gapped through stop at entry": 1
+   },
+   "H2|diag: no extreme rule": {
+    "zone never retested": 189,
+    "no opposite imbalance zone to target": 262,
+    "target nearer than 1R": 48,
+    "gapped through stop at entry": 6
+   },
+   "H2|diag: + current-trend filter": {
+    "TF trend disagrees at retest": 659,
+    "zone never retested": 189,
+    "not the extreme zone": 856,
+    "target nearer than 1R": 3
+   },
+   "D1|video rules": {
+    "no opposite imbalance zone to target": 1,
+    "not the extreme zone": 139,
+    "zone never retested": 13
+   },
+   "D1|diag: no extreme rule": {
+    "no opposite imbalance zone to target": 17,
+    "target nearer than 1R": 4,
+    "zone never retested": 13
+   },
+   "D1|diag: + current-trend filter": {
+    "TF trend disagrees at retest": 69,
+    "no opposite imbalance zone to target": 1,
+    "not the extreme zone": 85,
+    "zone never retested": 13
+   }
+  },
+  "USDJPY": {
+   "M30|video rules": {
+    "no opposite imbalance zone to target": 12,
+    "not the extreme zone": 5648,
+    "zone never retested": 636,
+    "target nearer than 1R": 42,
+    "gapped through stop at entry": 4
+   },
+   "M30|diag: no extreme rule": {
+    "no opposite imbalance zone to target": 1235,
+    "zone never retested": 636,
+    "target nearer than 1R": 174,
+    "gapped through stop at entry": 24
+   },
+   "M30|diag: + current-trend filter": {
+    "no opposite imbalance zone to target": 9,
+    "TF trend disagrees at retest": 2388,
+    "not the extreme zone": 3792,
+    "zone never retested": 636,
+    "target nearer than 1R": 19,
+    "gapped through stop at entry": 2
+   },
+   "H2|video rules": {
+    "no opposite imbalance zone to target": 3,
+    "not the extreme zone": 1518,
+    "zone never retested": 172,
+    "target nearer than 1R": 14,
+    "gapped through stop at entry": 2
+   },
+   "H2|diag: no extreme rule": {
+    "no opposite imbalance zone to target": 295,
+    "zone never retested": 172,
+    "target nearer than 1R": 34,
+    "gapped through stop at entry": 8
+   },
+   "H2|diag: + current-trend filter": {
+    "no opposite imbalance zone to target": 1,
+    "TF trend disagrees at retest": 730,
+    "not the extreme zone": 921,
+    "zone never retested": 172,
+    "target nearer than 1R": 9
+   },
+   "D1|video rules": {
+    "no opposite imbalance zone to target": 3,
+    "zone never retested": 19,
+    "not the extreme zone": 114
+   },
+   "D1|diag: no extreme rule": {
+    "no opposite imbalance zone to target": 35,
+    "zone never retested": 19,
+    "target nearer than 1R": 1
+   },
+   "D1|diag: + current-trend filter": {
+    "no opposite imbalance zone to target": 3,
+    "zone never retested": 19,
+    "TF trend disagrees at retest": 50,
+    "not the extreme zone": 71
+   }
+  },
+  "AUDUSD": {
+   "M30|video rules": {
+    "target nearer than 1R": 47,
+    "not the extreme zone": 5512,
+    "zone never retested": 587,
+    "no opposite imbalance zone to target": 16,
+    "gapped through stop at entry": 9
+   },
+   "M30|diag: no extreme rule": {
+    "target nearer than 1R": 181,
+    "no opposite imbalance zone to target": 1169,
+    "zone never retested": 587,
+    "gapped through stop at entry": 28
+   },
+   "M30|diag: + current-trend filter": {
+    "TF trend disagrees at retest": 2470,
+    "not the extreme zone": 3625,
+    "zone never retested": 587,
+    "target nearer than 1R": 20,
+    "no opposite imbalance zone to target": 12,
+    "gapped through stop at entry": 8
+   },
+   "H2|video rules": {
+    "no opposite imbalance zone to target": 5,
+    "not the extreme zone": 1534,
+    "zone never retested": 152,
+    "target nearer than 1R": 7,
+    "gapped through stop at entry": 3
+   },
+   "H2|diag: no extreme rule": {
+    "no opposite imbalance zone to target": 255,
+    "zone never retested": 152,
+    "target nearer than 1R": 38,
+    "gapped through stop at entry": 7
+   },
+   "H2|diag: + current-trend filter": {
+    "no opposite imbalance zone to target": 4,
+    "TF trend disagrees at retest": 725,
+    "not the extreme zone": 958,
+    "zone never retested": 152,
+    "gapped through stop at entry": 3,
+    "target nearer than 1R": 3
+   },
+   "D1|video rules": {
+    "not the extreme zone": 130,
+    "target nearer than 1R": 1,
+    "zone never retested": 19
+   },
+   "D1|diag: no extreme rule": {
+    "no opposite imbalance zone to target": 29,
+    "target nearer than 1R": 4,
+    "zone never retested": 19
+   },
+   "D1|diag: + current-trend filter": {
+    "TF trend disagrees at retest": 51,
+    "not the extreme zone": 92,
+    "zone never retested": 19
+   }
+  },
+  "USDCHF": {
+   "M30|video rules": {
+    "target nearer than 1R": 42,
+    "not the extreme zone": 5417,
+    "no opposite imbalance zone to target": 37,
+    "zone never retested": 541,
+    "gapped through stop at entry": 13
+   },
+   "M30|diag: no extreme rule": {
+    "target nearer than 1R": 191,
+    "no opposite imbalance zone to target": 1208,
+    "zone never retested": 541,
+    "gapped through stop at entry": 38
+   },
+   "M30|diag: + current-trend filter": {
+    "target nearer than 1R": 18,
+    "TF trend disagrees at retest": 2211,
+    "not the extreme zone": 3730,
+    "no opposite imbalance zone to target": 27,
+    "zone never retested": 541,
+    "gapped through stop at entry": 9
+   },
+   "H2|video rules": {
+    "target nearer than 1R": 12,
+    "not the extreme zone": 1345,
+    "no opposite imbalance zone to target": 4,
+    "zone never retested": 147,
+    "gapped through stop at entry": 1
+   },
+   "H2|diag: no extreme rule": {
+    "target nearer than 1R": 43,
+    "no opposite imbalance zone to target": 296,
+    "zone never retested": 147,
+    "gapped through stop at entry": 3
+   },
+   "H2|diag: + current-trend filter": {
+    "TF trend disagrees at retest": 636,
+    "not the extreme zone": 864,
+    "zone never retested": 147,
+    "target nearer than 1R": 5,
+    "no opposite imbalance zone to target": 1,
+    "gapped through stop at entry": 1
+   },
+   "D1|video rules": {
+    "not the extreme zone": 117,
+    "zone never retested": 11
+   },
+   "D1|diag: no extreme rule": {
+    "no opposite imbalance zone to target": 20,
+    "target nearer than 1R": 4,
+    "zone never retested": 11
+   },
+   "D1|diag: + current-trend filter": {
+    "TF trend disagrees at retest": 57,
+    "not the extreme zone": 73,
+    "zone never retested": 11
+   }
+  },
+  "USDCAD": {
+   "M30|video rules": {
+    "no opposite imbalance zone to target": 21,
+    "not the extreme zone": 5495,
+    "target nearer than 1R": 44,
+    "zone never retested": 555,
+    "gapped through stop at entry": 3
+   },
+   "M30|diag: no extreme rule": {
+    "no opposite imbalance zone to target": 1256,
+    "target nearer than 1R": 183,
+    "zone never retested": 555,
+    "gapped through stop at entry": 14
+   },
+   "M30|diag: + current-trend filter": {
+    "no opposite imbalance zone to target": 15,
+    "TF trend disagrees at retest": 2388,
+    "not the extreme zone": 3717,
+    "target nearer than 1R": 16,
+    "zone never retested": 555,
+    "gapped through stop at entry": 3
+   },
+   "H2|video rules": {
+    "not the extreme zone": 1410,
+    "no opposite imbalance zone to target": 2,
+    "target nearer than 1R": 9,
+    "zone never retested": 145
+   },
+   "H2|diag: no extreme rule": {
+    "no opposite imbalance zone to target": 261,
+    "target nearer than 1R": 52,
+    "zone never retested": 145,
+    "gapped through stop at entry": 1
+   },
+   "H2|diag: + current-trend filter": {
+    "not the extreme zone": 875,
+    "no opposite imbalance zone to target": 2,
+    "TF trend disagrees at retest": 661,
+    "zone never retested": 145,
+    "target nearer than 1R": 5
+   },
+   "D1|video rules": {
+    "no opposite imbalance zone to target": 3,
+    "not the extreme zone": 112,
+    "zone never retested": 12,
+    "target nearer than 1R": 2
+   },
+   "D1|diag: no extreme rule": {
+    "no opposite imbalance zone to target": 28,
+    "target nearer than 1R": 7,
+    "zone never retested": 12
+   },
+   "D1|diag: + current-trend filter": {
+    "no opposite imbalance zone to target": 3,
+    "TF trend disagrees at retest": 51,
+    "not the extreme zone": 73,
+    "zone never retested": 12
+   }
+  }
+ },
+ "diag: + current-trend filter": {
+  "D1": {
+   "all": {
+    "trades": 104,
+    "win_rate": 21.2,
+    "expectancy_r": -0.2479,
+    "net_r": -25.78,
+    "profit_factor": 0.691,
+    "t_stat": -1.56,
+    "max_dd_r": 38.7,
+    "trades_per_week": 0.269,
+    "expectancy_gross_r": -0.2304,
+    "avg_cost_r": 0.0175,
+    "avg_rr": 3.39,
+    "exits": {
+     "stop": 82,
+     "target": 22
+    }
+   },
+   "dev": {
+    "trades": 75,
+    "win_rate": 20.0,
+    "expectancy_r": -0.3588,
+    "net_r": -26.91,
+    "profit_factor": 0.56,
+    "t_stat": -2.25,
+    "max_dd_r": 36.18,
+    "trades_per_week": 0.282,
+    "expectancy_gross_r": -0.34,
+    "avg_cost_r": 0.0188,
+    "avg_rr": 3.37,
+    "exits": {
+     "stop": 60,
+     "target": 15
+    }
+   },
+   "holdout": {
+    "trades": 29,
+    "win_rate": 24.1,
+    "expectancy_r": 0.039,
+    "net_r": 1.13,
+    "profit_factor": 1.051,
+    "t_stat": 0.1,
+    "max_dd_r": 9.86,
+    "trades_per_week": 0.256,
+    "expectancy_gross_r": 0.053,
+    "avg_cost_r": 0.014,
+    "avg_rr": 3.43,
+    "exits": {
+     "stop": 22,
+     "target": 7
+    }
+   },
+   "by_symbol": {
+    "AUDUSD": {
+     "trades": 7,
+     "win_rate": 42.9,
+     "expectancy_r": 0.2035,
+     "net_r": 1.42,
+     "profit_factor": 1.35,
+     "t_stat": 0.35,
+     "max_dd_r": 2.4,
+     "trades_per_week": 0.02,
+     "expectancy_gross_r": 0.224,
+     "avg_cost_r": 0.0205,
+     "avg_rr": 2.83,
+     "exits": {
+      "stop": 4,
+      "target": 3
+     }
+    },
+    "EURUSD": {
+     "trades": 15,
+     "win_rate": 33.3,
+     "expectancy_r": 0.5868,
+     "net_r": 8.8,
+     "profit_factor": 1.864,
+     "t_stat": 0.93,
+     "max_dd_r": 9.15,
+     "trades_per_week": 0.041,
+     "expectancy_gross_r": 0.6034,
+     "avg_cost_r": 0.0166,
+     "avg_rr": 3.42,
+     "exits": {
+      "stop": 10,
+      "target": 5
+     }
+    },
+    "GBPUSD": {
+     "trades": 15,
+     "win_rate": 26.7,
+     "expectancy_r": -0.2004,
+     "net_r": -3.01,
+     "profit_factor": 0.73,
+     "t_stat": -0.54,
+     "max_dd_r": 9.83,
+     "trades_per_week": 0.04,
+     "expectancy_gross_r": -0.1876,
+     "avg_cost_r": 0.0128,
+     "avg_rr": 2.83,
+     "exits": {
+      "stop": 11,
+      "target": 4
+     }
+    },
+    "USDCAD": {
+     "trades": 15,
+     "win_rate": 20.0,
+     "expectancy_r": -0.4112,
+     "net_r": -6.17,
+     "profit_factor": 0.495,
+     "t_stat": -1.22,
+     "max_dd_r": 6.17,
+     "trades_per_week": 0.048,
+     "expectancy_gross_r": -0.3931,
+     "avg_cost_r": 0.0182,
+     "avg_rr": 3.54,
+     "exits": {
+      "stop": 12,
+      "target": 3
+     }
+    },
+    "USDCHF": {
+     "trades": 17,
+     "win_rate": 0.0,
+     "expectancy_r": -1.0237,
+     "net_r": -17.4,
+     "profit_factor": 0.0,
+     "t_stat": -519.62,
+     "max_dd_r": 17.4,
+     "trades_per_week": 0.05,
+     "expectancy_gross_r": -1.0,
+     "avg_cost_r": 0.0237,
+     "avg_rr": 3.55,
+     "exits": {
+      "stop": 17
+     }
+    },
+    "USDJPY": {
+     "trades": 17,
+     "win_rate": 23.5,
+     "expectancy_r": 0.0228,
+     "net_r": 0.39,
+     "profit_factor": 1.029,
+     "t_stat": 0.04,
+     "max_dd_r": 8.52,
+     "trades_per_week": 0.056,
+     "expectancy_gross_r": 0.041,
+     "avg_cost_r": 0.0181,
+     "avg_rr": 3.79,
+     "exits": {
+      "stop": 13,
+      "target": 4
+     }
+    },
+    "XAUUSD": {
+     "trades": 18,
+     "win_rate": 16.7,
+     "expectancy_r": -0.5454,
+     "net_r": -9.82,
+     "profit_factor": 0.355,
+     "t_stat": -2.04,
+     "max_dd_r": 13.93,
+     "trades_per_week": 0.057,
+     "expectancy_gross_r": -0.5316,
+     "avg_cost_r": 0.0138,
+     "avg_rr": 3.39,
+     "exits": {
+      "stop": 15,
+      "target": 3
+     }
+    }
+   },
+   "by_dir": {
+    "-1": {
+     "trades": 50,
+     "win_rate": 20.0,
+     "expectancy_r": -0.3315,
+     "net_r": -16.58,
+     "profit_factor": 0.592,
+     "t_stat": -1.6,
+     "max_dd_r": 23.01,
+     "trades_per_week": 0.13,
+     "expectancy_gross_r": -0.316,
+     "avg_cost_r": 0.0156,
+     "avg_rr": 3.27,
+     "exits": {
+      "stop": 40,
+      "target": 10
+     }
+    },
+    "1": {
+     "trades": 54,
+     "win_rate": 22.2,
+     "expectancy_r": -0.1705,
+     "net_r": -9.21,
+     "profit_factor": 0.785,
+     "t_stat": -0.71,
+     "max_dd_r": 19.82,
+     "trades_per_week": 0.147,
+     "expectancy_gross_r": -0.1512,
+     "avg_cost_r": 0.0192,
+     "avg_rr": 3.5,
+     "exits": {
+      "stop": 42,
+      "target": 12
+     }
+    }
+   }
+  },
+  "H2": {
+   "all": {
+    "trades": 1154,
+    "win_rate": 21.7,
+    "expectancy_r": -0.0576,
+    "net_r": -66.43,
+    "profit_factor": 0.933,
+    "t_stat": -0.85,
+    "max_dd_r": 126.97,
+    "trades_per_week": 2.622,
+    "expectancy_gross_r": 0.0273,
+    "avg_cost_r": 0.0849,
+    "avg_rr": 5.27,
+    "exits": {
+     "stop": 904,
+     "target": 246,
+     "time": 4
+    }
+   },
+   "dev": {
+    "trades": 790,
+    "win_rate": 21.8,
+    "expectancy_r": -0.0074,
+    "net_r": -5.87,
+    "profit_factor": 0.991,
+    "t_stat": -0.09,
+    "max_dd_r": 87.64,
+    "trades_per_week": 2.605,
+    "expectancy_gross_r": 0.0796,
+    "avg_cost_r": 0.0871,
+    "avg_rr": 5.25,
+    "exits": {
+     "stop": 618,
+     "target": 171,
+     "time": 1
+    }
+   },
+   "holdout": {
+    "trades": 364,
+    "win_rate": 21.4,
+    "expectancy_r": -0.1664,
+    "net_r": -60.56,
+    "profit_factor": 0.805,
+    "t_stat": -1.59,
+    "max_dd_r": 89.78,
+    "trades_per_week": 2.718,
+    "expectancy_gross_r": -0.0862,
+    "avg_cost_r": 0.0802,
+    "avg_rr": 5.31,
+    "exits": {
+     "stop": 286,
+     "target": 75,
+     "time": 3
+    }
+   },
+   "by_symbol": {
+    "AUDUSD": {
+     "trades": 162,
+     "win_rate": 19.8,
+     "expectancy_r": -0.2529,
+     "net_r": -40.97,
+     "profit_factor": 0.712,
+     "t_stat": -1.71,
+     "max_dd_r": 45.96,
+     "trades_per_week": 0.391,
+     "expectancy_gross_r": -0.1635,
+     "avg_cost_r": 0.0894,
+     "avg_rr": 5.04,
+     "exits": {
+      "stop": 130,
+      "target": 32
+     }
+    },
+    "EURUSD": {
+     "trades": 165,
+     "win_rate": 25.5,
+     "expectancy_r": 0.1303,
+     "net_r": 21.5,
+     "profit_factor": 1.162,
+     "t_stat": 0.7,
+     "max_dd_r": 23.71,
+     "trades_per_week": 0.398,
+     "expectancy_gross_r": 0.2029,
+     "avg_cost_r": 0.0725,
+     "avg_rr": 4.91,
+     "exits": {
+      "stop": 123,
+      "target": 42
+     }
+    },
+    "GBPUSD": {
+     "trades": 166,
+     "win_rate": 20.5,
+     "expectancy_r": -0.1107,
+     "net_r": -18.38,
+     "profit_factor": 0.871,
+     "t_stat": -0.62,
+     "max_dd_r": 57.79,
+     "trades_per_week": 0.398,
+     "expectancy_gross_r": -0.0353,
+     "avg_cost_r": 0.0754,
+     "avg_rr": 5.54,
+     "exits": {
+      "stop": 132,
+      "target": 33,
+      "time": 1
+     }
+    },
+    "USDCAD": {
+     "trades": 166,
+     "win_rate": 24.1,
+     "expectancy_r": 0.1373,
+     "net_r": 22.79,
+     "profit_factor": 1.166,
+     "t_stat": 0.66,
+     "max_dd_r": 41.86,
+     "trades_per_week": 0.403,
+     "expectancy_gross_r": 0.2194,
+     "avg_cost_r": 0.0821,
+     "avg_rr": 5.47,
+     "exits": {
+      "stop": 126,
+      "target": 40
+     }
+    },
+    "USDCHF": {
+     "trades": 173,
+     "win_rate": 20.2,
+     "expectancy_r": -0.0608,
+     "net_r": -10.52,
+     "profit_factor": 0.932,
+     "t_stat": -0.32,
+     "max_dd_r": 41.43,
+     "trades_per_week": 0.418,
+     "expectancy_gross_r": 0.0439,
+     "avg_cost_r": 0.1047,
+     "avg_rr": 5.26,
+     "exits": {
+      "stop": 138,
+      "target": 34,
+      "time": 1
+     }
+    },
+    "USDJPY": {
+     "trades": 166,
+     "win_rate": 20.5,
+     "expectancy_r": -0.031,
+     "net_r": -5.15,
+     "profit_factor": 0.964,
+     "t_stat": -0.18,
+     "max_dd_r": 30.98,
+     "trades_per_week": 0.4,
+     "expectancy_gross_r": 0.0445,
+     "avg_cost_r": 0.0755,
+     "avg_rr": 5.45,
+     "exits": {
+      "stop": 132,
+      "target": 33,
+      "time": 1
+     }
+    },
+    "XAUUSD": {
+     "trades": 156,
+     "win_rate": 21.2,
+     "expectancy_r": -0.2289,
+     "net_r": -35.71,
+     "profit_factor": 0.737,
+     "t_stat": -1.48,
+     "max_dd_r": 53.67,
+     "trades_per_week": 0.354,
+     "expectancy_gross_r": -0.1346,
+     "avg_cost_r": 0.0943,
+     "avg_rr": 5.21,
+     "exits": {
+      "stop": 123,
+      "target": 32,
+      "time": 1
+     }
+    }
+   },
+   "by_dir": {
+    "-1": {
+     "trades": 610,
+     "win_rate": 22.3,
+     "expectancy_r": -0.0152,
+     "net_r": -9.27,
+     "profit_factor": 0.982,
+     "t_stat": -0.16,
+     "max_dd_r": 64.17,
+     "trades_per_week": 1.404,
+     "expectancy_gross_r": 0.0694,
+     "avg_cost_r": 0.0846,
+     "avg_rr": 5.1,
+     "exits": {
+      "stop": 474,
+      "target": 133,
+      "time": 3
+     }
+    },
+    "1": {
+     "trades": 544,
+     "win_rate": 21.0,
+     "expectancy_r": -0.1051,
+     "net_r": -57.16,
+     "profit_factor": 0.878,
+     "t_stat": -1.09,
+     "max_dd_r": 127.67,
+     "trades_per_week": 1.238,
+     "expectancy_gross_r": -0.0198,
+     "avg_cost_r": 0.0853,
+     "avg_rr": 5.46,
+     "exits": {
+      "stop": 430,
+      "target": 113,
+      "time": 1
+     }
+    }
+   }
+  },
+  "M30": {
+   "all": {
+    "trades": 5493,
+    "win_rate": 21.0,
+    "expectancy_r": -0.1674,
+    "net_r": -919.59,
+    "profit_factor": 0.824,
+    "t_stat": -4.36,
+    "max_dd_r": 1078.64,
+    "trades_per_week": 12.465,
+    "expectancy_gross_r": 0.0223,
+    "avg_cost_r": 0.1897,
+    "avg_rr": 5.92,
+    "exits": {
+     "stop": 4339,
+     "target": 1112,
+     "time": 42
+    }
+   },
+   "dev": {
+    "trades": 3815,
+    "win_rate": 21.3,
+    "expectancy_r": -0.1784,
+    "net_r": -680.73,
+    "profit_factor": 0.812,
+    "t_stat": -4.79,
+    "max_dd_r": 701.42,
+    "trades_per_week": 12.556,
+    "expectancy_gross_r": 0.0123,
+    "avg_cost_r": 0.1907,
+    "avg_rr": 5.84,
+    "exits": {
+     "stop": 2999,
+     "target": 783,
+     "time": 33
+    }
+   },
+   "holdout": {
+    "trades": 1678,
+    "win_rate": 20.1,
+    "expectancy_r": -0.1423,
+    "net_r": -238.86,
+    "profit_factor": 0.851,
+    "t_stat": -1.53,
+    "max_dd_r": 398.62,
+    "trades_per_week": 12.322,
+    "expectancy_gross_r": 0.045,
+    "avg_cost_r": 0.1874,
+    "avg_rr": 6.1,
+    "exits": {
+     "stop": 1340,
+     "target": 329,
+     "time": 9
+    }
+   },
+   "by_symbol": {
+    "AUDUSD": {
+     "trades": 797,
+     "win_rate": 22.3,
+     "expectancy_r": -0.1225,
+     "net_r": -97.62,
+     "profit_factor": 0.87,
+     "t_stat": -1.41,
+     "max_dd_r": 110.72,
+     "trades_per_week": 1.925,
+     "expectancy_gross_r": 0.0735,
+     "avg_cost_r": 0.196,
+     "avg_rr": 5.49,
+     "exits": {
+      "stop": 619,
+      "target": 170,
+      "time": 8
+     }
+    },
+    "EURUSD": {
+     "trades": 784,
+     "win_rate": 21.9,
+     "expectancy_r": -0.1499,
+     "net_r": -117.54,
+     "profit_factor": 0.839,
+     "t_stat": -1.79,
+     "max_dd_r": 144.15,
+     "trades_per_week": 1.879,
+     "expectancy_gross_r": 0.025,
+     "avg_cost_r": 0.1749,
+     "avg_rr": 5.85,
+     "exits": {
+      "stop": 612,
+      "target": 165,
+      "time": 7
+     }
+    },
+    "GBPUSD": {
+     "trades": 821,
+     "win_rate": 21.2,
+     "expectancy_r": -0.1491,
+     "net_r": -122.41,
+     "profit_factor": 0.84,
+     "t_stat": -1.87,
+     "max_dd_r": 144.03,
+     "trades_per_week": 1.969,
+     "expectancy_gross_r": 0.0175,
+     "avg_cost_r": 0.1666,
+     "avg_rr": 6.0,
+     "exits": {
+      "stop": 646,
+      "target": 162,
+      "time": 13
+     }
+    },
+    "USDCAD": {
+     "trades": 820,
+     "win_rate": 17.9,
+     "expectancy_r": -0.2034,
+     "net_r": -166.81,
+     "profit_factor": 0.793,
+     "t_stat": -1.21,
+     "max_dd_r": 322.78,
+     "trades_per_week": 1.969,
+     "expectancy_gross_r": -0.0132,
+     "avg_cost_r": 0.1902,
+     "avg_rr": 5.74,
+     "exits": {
+      "stop": 672,
+      "target": 146,
+      "time": 2
+     }
+    },
+    "USDCHF": {
+     "trades": 805,
+     "win_rate": 19.8,
+     "expectancy_r": -0.344,
+     "net_r": -276.88,
+     "profit_factor": 0.66,
+     "t_stat": -4.65,
+     "max_dd_r": 282.4,
+     "trades_per_week": 1.935,
+     "expectancy_gross_r": -0.1011,
+     "avg_cost_r": 0.2429,
+     "avg_rr": 6.13,
+     "exits": {
+      "stop": 646,
+      "target": 157,
+      "time": 2
+     }
+    },
+    "USDJPY": {
+     "trades": 713,
+     "win_rate": 22.6,
+     "expectancy_r": -0.0667,
+     "net_r": -47.53,
+     "profit_factor": 0.926,
+     "t_stat": -0.76,
+     "max_dd_r": 91.57,
+     "trades_per_week": 1.708,
+     "expectancy_gross_r": 0.093,
+     "avg_cost_r": 0.1596,
+     "avg_rr": 6.17,
+     "exits": {
+      "stop": 551,
+      "target": 157,
+      "time": 5
+     }
+    },
+    "XAUUSD": {
+     "trades": 753,
+     "win_rate": 21.2,
+     "expectancy_r": -0.1206,
+     "net_r": -90.8,
+     "profit_factor": 0.873,
+     "t_stat": -1.33,
+     "max_dd_r": 125.11,
+     "trades_per_week": 1.72,
+     "expectancy_gross_r": 0.074,
+     "avg_cost_r": 0.1946,
+     "avg_rr": 6.11,
+     "exits": {
+      "stop": 593,
+      "target": 155,
+      "time": 5
+     }
+    }
+   },
+   "by_dir": {
+    "-1": {
+     "trades": 2873,
+     "win_rate": 20.7,
+     "expectancy_r": -0.2088,
+     "net_r": -599.76,
+     "profit_factor": 0.781,
+     "t_stat": -5.03,
+     "max_dd_r": 605.07,
+     "trades_per_week": 6.519,
+     "expectancy_gross_r": -0.0219,
+     "avg_cost_r": 0.1868,
+     "avg_rr": 5.87,
+     "exits": {
+      "stop": 2277,
+      "target": 574,
+      "time": 22
+     }
+    },
+    "1": {
+     "trades": 2620,
+     "win_rate": 21.3,
+     "expectancy_r": -0.1221,
+     "net_r": -319.84,
+     "profit_factor": 0.872,
+     "t_stat": -1.84,
+     "max_dd_r": 486.3,
+     "trades_per_week": 5.982,
+     "expectancy_gross_r": 0.0707,
+     "avg_cost_r": 0.1928,
+     "avg_rr": 5.98,
+     "exits": {
+      "stop": 2062,
+      "target": 538,
+      "time": 20
+     }
+    }
+   }
+  }
+ },
+ "diag: no extreme rule": {
+  "D1": {
+   "all": {
+    "trades": 839,
+    "win_rate": 23.7,
+    "expectancy_r": -0.1568,
+    "net_r": -131.58,
+    "profit_factor": 0.799,
+    "t_stat": -2.68,
+    "max_dd_r": 151.81,
+    "trades_per_week": 2.018,
+    "expectancy_gross_r": -0.1368,
+    "avg_cost_r": 0.02,
+    "avg_rr": 4.07,
+    "exits": {
+     "stop": 640,
+     "target": 193,
+     "time": 6
+    }
+   },
+   "dev": {
+    "trades": 537,
+    "win_rate": 22.2,
+    "expectancy_r": -0.2141,
+    "net_r": -114.96,
+    "profit_factor": 0.731,
+    "t_stat": -3.0,
+    "max_dd_r": 127.42,
+    "trades_per_week": 1.936,
+    "expectancy_gross_r": -0.1937,
+    "avg_cost_r": 0.0204,
+    "avg_rr": 4.06,
+    "exits": {
+     "stop": 418,
+     "target": 118,
+     "time": 1
+    }
+   },
+   "holdout": {
+    "trades": 302,
+    "win_rate": 26.5,
+    "expectancy_r": -0.055,
+    "net_r": -16.62,
+    "profit_factor": 0.927,
+    "t_stat": -0.54,
+    "max_dd_r": 40.15,
+    "trades_per_week": 2.216,
+    "expectancy_gross_r": -0.0358,
+    "avg_cost_r": 0.0193,
+    "avg_rr": 4.09,
+    "exits": {
+     "stop": 222,
+     "target": 75,
+     "time": 5
+    }
+   },
+   "by_symbol": {
+    "AUDUSD": {
+     "trades": 117,
+     "win_rate": 23.1,
+     "expectancy_r": -0.235,
+     "net_r": -27.5,
+     "profit_factor": 0.702,
+     "t_stat": -1.65,
+     "max_dd_r": 32.47,
+     "trades_per_week": 0.295,
+     "expectancy_gross_r": -0.2128,
+     "avg_cost_r": 0.0223,
+     "avg_rr": 4.09,
+     "exits": {
+      "stop": 90,
+      "target": 27
+     }
+    },
+    "EURUSD": {
+     "trades": 117,
+     "win_rate": 23.9,
+     "expectancy_r": -0.2001,
+     "net_r": -23.41,
+     "profit_factor": 0.742,
+     "t_stat": -1.39,
+     "max_dd_r": 57.82,
+     "trades_per_week": 0.294,
+     "expectancy_gross_r": -0.1809,
+     "avg_cost_r": 0.0193,
+     "avg_rr": 4.23,
+     "exits": {
+      "stop": 89,
+      "target": 26,
+      "time": 2
+     }
+    },
+    "GBPUSD": {
+     "trades": 149,
+     "win_rate": 23.5,
+     "expectancy_r": -0.1743,
+     "net_r": -25.98,
+     "profit_factor": 0.776,
+     "t_stat": -1.27,
+     "max_dd_r": 43.88,
+     "trades_per_week": 0.368,
+     "expectancy_gross_r": -0.1576,
+     "avg_cost_r": 0.0167,
+     "avg_rr": 3.91,
+     "exits": {
+      "stop": 114,
+      "target": 33,
+      "time": 2
+     }
+    },
+    "USDCAD": {
+     "trades": 107,
+     "win_rate": 22.4,
+     "expectancy_r": -0.2667,
+     "net_r": -28.53,
+     "profit_factor": 0.664,
+     "t_stat": -1.87,
+     "max_dd_r": 39.65,
+     "trades_per_week": 0.274,
+     "expectancy_gross_r": -0.2461,
+     "avg_cost_r": 0.0205,
+     "avg_rr": 3.62,
+     "exits": {
+      "stop": 83,
+      "target": 23,
+      "time": 1
+     }
+    },
+    "USDCHF": {
+     "trades": 123,
+     "win_rate": 22.8,
+     "expectancy_r": -0.126,
+     "net_r": -15.5,
+     "profit_factor": 0.841,
+     "t_stat": -0.79,
+     "max_dd_r": 29.99,
+     "trades_per_week": 0.306,
+     "expectancy_gross_r": -0.1002,
+     "avg_cost_r": 0.0258,
+     "avg_rr": 4.68,
+     "exits": {
+      "stop": 95,
+      "target": 28
+     }
+    },
+    "USDJPY": {
+     "trades": 105,
+     "win_rate": 29.5,
+     "expectancy_r": 0.142,
+     "net_r": 14.91,
+     "profit_factor": 1.198,
+     "t_stat": 0.73,
+     "max_dd_r": 10.96,
+     "trades_per_week": 0.279,
+     "expectancy_gross_r": 0.1584,
+     "avg_cost_r": 0.0164,
+     "avg_rr": 4.18,
+     "exits": {
+      "stop": 74,
+      "target": 31
+     }
+    },
+    "XAUUSD": {
+     "trades": 121,
+     "win_rate": 21.5,
+     "expectancy_r": -0.2113,
+     "net_r": -25.57,
+     "profit_factor": 0.736,
+     "t_stat": -1.29,
+     "max_dd_r": 27.78,
+     "trades_per_week": 0.291,
+     "expectancy_gross_r": -0.1919,
+     "avg_cost_r": 0.0194,
+     "avg_rr": 3.78,
+     "exits": {
+      "stop": 95,
+      "target": 25,
+      "time": 1
+     }
+    }
+   },
+   "by_dir": {
+    "-1": {
+     "trades": 413,
+     "win_rate": 24.9,
+     "expectancy_r": -0.1836,
+     "net_r": -75.83,
+     "profit_factor": 0.76,
+     "t_stat": -2.39,
+     "max_dd_r": 88.66,
+     "trades_per_week": 0.994,
+     "expectancy_gross_r": -0.164,
+     "avg_cost_r": 0.0196,
+     "avg_rr": 4.01,
+     "exits": {
+      "stop": 310,
+      "target": 98,
+      "time": 5
+     }
+    },
+    "1": {
+     "trades": 426,
+     "win_rate": 22.5,
+     "expectancy_r": -0.1309,
+     "net_r": -55.75,
+     "profit_factor": 0.835,
+     "t_stat": -1.49,
+     "max_dd_r": 66.46,
+     "trades_per_week": 1.056,
+     "expectancy_gross_r": -0.1104,
+     "avg_cost_r": 0.0204,
+     "avg_rr": 4.13,
+     "exits": {
+      "stop": 330,
+      "target": 95,
+      "time": 1
+     }
+    }
+   }
+  },
+  "H2": {
+   "all": {
+    "trades": 10014,
+    "win_rate": 21.3,
+    "expectancy_r": -0.0998,
+    "net_r": -999.25,
+    "profit_factor": 0.884,
+    "t_stat": -4.4,
+    "max_dd_r": 1166.79,
+    "trades_per_week": 22.753,
+    "expectancy_gross_r": -0.0112,
+    "avg_cost_r": 0.0886,
+    "avg_rr": 5.12,
+    "exits": {
+     "stop": 7886,
+     "target": 2109,
+     "time": 19
+    }
+   },
+   "dev": {
+    "trades": 6797,
+    "win_rate": 21.0,
+    "expectancy_r": -0.1079,
+    "net_r": -733.43,
+    "profit_factor": 0.875,
+    "t_stat": -3.89,
+    "max_dd_r": 779.22,
+    "trades_per_week": 22.411,
+    "expectancy_gross_r": -0.0174,
+    "avg_cost_r": 0.0905,
+    "avg_rr": 5.15,
+    "exits": {
+     "stop": 5368,
+     "target": 1419,
+     "time": 10
+    }
+   },
+   "holdout": {
+    "trades": 3217,
+    "win_rate": 21.7,
+    "expectancy_r": -0.0826,
+    "net_r": -265.82,
+    "profit_factor": 0.903,
+    "t_stat": -2.11,
+    "max_dd_r": 420.16,
+    "trades_per_week": 23.597,
+    "expectancy_gross_r": 0.0019,
+    "avg_cost_r": 0.0845,
+    "avg_rr": 5.06,
+    "exits": {
+     "stop": 2518,
+     "target": 690,
+     "time": 9
+    }
+   },
+   "by_symbol": {
+    "AUDUSD": {
+     "trades": 1555,
+     "win_rate": 21.2,
+     "expectancy_r": -0.2005,
+     "net_r": -311.75,
+     "profit_factor": 0.77,
+     "t_stat": -4.07,
+     "max_dd_r": 315.66,
+     "trades_per_week": 3.738,
+     "expectancy_gross_r": -0.1027,
+     "avg_cost_r": 0.0978,
+     "avg_rr": 4.66,
+     "exits": {
+      "stop": 1225,
+      "target": 329,
+      "time": 1
+     }
+    },
+    "EURUSD": {
+     "trades": 1416,
+     "win_rate": 20.2,
+     "expectancy_r": -0.0997,
+     "net_r": -141.21,
+     "profit_factor": 0.885,
+     "t_stat": -1.61,
+     "max_dd_r": 189.22,
+     "trades_per_week": 3.395,
+     "expectancy_gross_r": -0.0165,
+     "avg_cost_r": 0.0833,
+     "avg_rr": 5.12,
+     "exits": {
+      "stop": 1130,
+      "target": 283,
+      "time": 3
+     }
+    },
+    "GBPUSD": {
+     "trades": 1368,
+     "win_rate": 20.2,
+     "expectancy_r": -0.1681,
+     "net_r": -229.96,
+     "profit_factor": 0.805,
+     "t_stat": -2.99,
+     "max_dd_r": 259.15,
+     "trades_per_week": 3.28,
+     "expectancy_gross_r": -0.0912,
+     "avg_cost_r": 0.0769,
+     "avg_rr": 5.18,
+     "exits": {
+      "stop": 1091,
+      "target": 275,
+      "time": 2
+     }
+    },
+    "USDCAD": {
+     "trades": 1395,
+     "win_rate": 22.3,
+     "expectancy_r": -0.0287,
+     "net_r": -39.98,
+     "profit_factor": 0.966,
+     "t_stat": -0.45,
+     "max_dd_r": 232.21,
+     "trades_per_week": 3.344,
+     "expectancy_gross_r": 0.0582,
+     "avg_cost_r": 0.0868,
+     "avg_rr": 4.95,
+     "exits": {
+      "stop": 1084,
+      "target": 311
+     }
+    },
+    "USDCHF": {
+     "trades": 1338,
+     "win_rate": 21.3,
+     "expectancy_r": -0.1093,
+     "net_r": -146.29,
+     "profit_factor": 0.875,
+     "t_stat": -1.78,
+     "max_dd_r": 177.41,
+     "trades_per_week": 3.217,
+     "expectancy_gross_r": -0.0004,
+     "avg_cost_r": 0.109,
+     "avg_rr": 4.99,
+     "exits": {
+      "stop": 1053,
+      "target": 282,
+      "time": 3
+     }
+    },
+    "USDJPY": {
+     "trades": 1490,
+     "win_rate": 22.5,
+     "expectancy_r": 0.0036,
+     "net_r": 5.4,
+     "profit_factor": 1.004,
+     "t_stat": 0.06,
+     "max_dd_r": 74.42,
+     "trades_per_week": 3.581,
+     "expectancy_gross_r": 0.0806,
+     "avg_cost_r": 0.077,
+     "avg_rr": 5.36,
+     "exits": {
+      "stop": 1155,
+      "target": 328,
+      "time": 7
+     }
+    },
+    "XAUUSD": {
+     "trades": 1452,
+     "win_rate": 20.9,
+     "expectancy_r": -0.0933,
+     "net_r": -135.46,
+     "profit_factor": 0.893,
+     "t_stat": -1.53,
+     "max_dd_r": 248.95,
+     "trades_per_week": 3.299,
+     "expectancy_gross_r": -0.0037,
+     "avg_cost_r": 0.0896,
+     "avg_rr": 5.57,
+     "exits": {
+      "stop": 1148,
+      "target": 301,
+      "time": 3
+     }
+    }
+   },
+   "by_dir": {
+    "-1": {
+     "trades": 4984,
+     "win_rate": 20.8,
+     "expectancy_r": -0.1303,
+     "net_r": -649.55,
+     "profit_factor": 0.849,
+     "t_stat": -4.24,
+     "max_dd_r": 723.2,
+     "trades_per_week": 11.375,
+     "expectancy_gross_r": -0.0434,
+     "avg_cost_r": 0.087,
+     "avg_rr": 5.01,
+     "exits": {
+      "stop": 3947,
+      "target": 1029,
+      "time": 8
+     }
+    },
+    "1": {
+     "trades": 5030,
+     "win_rate": 21.7,
+     "expectancy_r": -0.0695,
+     "net_r": -349.7,
+     "profit_factor": 0.919,
+     "t_stat": -2.09,
+     "max_dd_r": 447.88,
+     "trades_per_week": 11.429,
+     "expectancy_gross_r": 0.0206,
+     "avg_cost_r": 0.0902,
+     "avg_rr": 5.22,
+     "exits": {
+      "stop": 3939,
+      "target": 1080,
+      "time": 11
+     }
+    }
+   }
+  },
+  "M30": {
+   "all": {
+    "trades": 38485,
+    "win_rate": 22.1,
+    "expectancy_r": -0.1566,
+    "net_r": -6025.88,
+    "profit_factor": 0.832,
+    "t_stat": -12.68,
+    "max_dd_r": 6235.48,
+    "trades_per_week": 87.291,
+    "expectancy_gross_r": 0.0266,
+    "avg_cost_r": 0.1832,
+    "avg_rr": 5.4,
+    "exits": {
+     "stop": 29954,
+     "target": 8385,
+     "time": 146
+    }
+   },
+   "dev": {
+    "trades": 25970,
+    "win_rate": 22.2,
+    "expectancy_r": -0.1601,
+    "net_r": -4157.84,
+    "profit_factor": 0.829,
+    "t_stat": -11.02,
+    "max_dd_r": 4218.06,
+    "trades_per_week": 85.425,
+    "expectancy_gross_r": 0.027,
+    "avg_cost_r": 0.1871,
+    "avg_rr": 5.41,
+    "exits": {
+     "stop": 20191,
+     "target": 5680,
+     "time": 99
+    }
+   },
+   "holdout": {
+    "trades": 12515,
+    "win_rate": 22.0,
+    "expectancy_r": -0.1493,
+    "net_r": -1868.04,
+    "profit_factor": 0.839,
+    "t_stat": -6.46,
+    "max_dd_r": 2017.41,
+    "trades_per_week": 91.749,
+    "expectancy_gross_r": 0.0259,
+    "avg_cost_r": 0.1752,
+    "avg_rr": 5.39,
+    "exits": {
+     "stop": 9763,
+     "target": 2705,
+     "time": 47
+    }
+   },
+   "by_symbol": {
+    "AUDUSD": {
+     "trades": 5554,
+     "win_rate": 22.2,
+     "expectancy_r": -0.2114,
+     "net_r": -1174.14,
+     "profit_factor": 0.774,
+     "t_stat": -7.24,
+     "max_dd_r": 1181.02,
+     "trades_per_week": 13.286,
+     "expectancy_gross_r": -0.0199,
+     "avg_cost_r": 0.1915,
+     "avg_rr": 4.86,
+     "exits": {
+      "stop": 4321,
+      "target": 1204,
+      "time": 29
+     }
+    },
+    "EURUSD": {
+     "trades": 5500,
+     "win_rate": 22.6,
+     "expectancy_r": -0.0978,
+     "net_r": -537.99,
+     "profit_factor": 0.893,
+     "t_stat": -2.94,
+     "max_dd_r": 601.41,
+     "trades_per_week": 13.173,
+     "expectancy_gross_r": 0.076,
+     "avg_cost_r": 0.1738,
+     "avg_rr": 5.41,
+     "exits": {
+      "stop": 4256,
+      "target": 1226,
+      "time": 18
+     }
+    },
+    "GBPUSD": {
+     "trades": 5471,
+     "win_rate": 21.6,
+     "expectancy_r": -0.135,
+     "net_r": -738.54,
+     "profit_factor": 0.853,
+     "t_stat": -4.19,
+     "max_dd_r": 771.78,
+     "trades_per_week": 13.088,
+     "expectancy_gross_r": 0.0241,
+     "avg_cost_r": 0.1591,
+     "avg_rr": 5.5,
+     "exits": {
+      "stop": 4286,
+      "target": 1159,
+      "time": 26
+     }
+    },
+    "USDCAD": {
+     "trades": 5506,
+     "win_rate": 22.6,
+     "expectancy_r": -0.126,
+     "net_r": -693.88,
+     "profit_factor": 0.864,
+     "t_stat": -3.25,
+     "max_dd_r": 869.03,
+     "trades_per_week": 13.172,
+     "expectancy_gross_r": 0.0566,
+     "avg_cost_r": 0.1826,
+     "avg_rr": 5.26,
+     "exits": {
+      "stop": 4259,
+      "target": 1231,
+      "time": 16
+     }
+    },
+    "USDCHF": {
+     "trades": 5363,
+     "win_rate": 21.7,
+     "expectancy_r": -0.2635,
+     "net_r": -1412.92,
+     "profit_factor": 0.732,
+     "t_stat": -8.53,
+     "max_dd_r": 1414.64,
+     "trades_per_week": 12.824,
+     "expectancy_gross_r": -0.0254,
+     "avg_cost_r": 0.238,
+     "avg_rr": 5.63,
+     "exits": {
+      "stop": 4196,
+      "target": 1153,
+      "time": 14
+     }
+    },
+    "USDJPY": {
+     "trades": 5490,
+     "win_rate": 22.8,
+     "expectancy_r": -0.0751,
+     "net_r": -412.17,
+     "profit_factor": 0.917,
+     "t_stat": -2.27,
+     "max_dd_r": 499.05,
+     "trades_per_week": 13.137,
+     "expectancy_gross_r": 0.0808,
+     "avg_cost_r": 0.1558,
+     "avg_rr": 5.61,
+     "exits": {
+      "stop": 4239,
+      "target": 1230,
+      "time": 21
+     }
+    },
+    "XAUUSD": {
+     "trades": 5601,
+     "win_rate": 21.5,
+     "expectancy_r": -0.1886,
+     "net_r": -1056.25,
+     "profit_factor": 0.799,
+     "t_stat": -6.2,
+     "max_dd_r": 1075.42,
+     "trades_per_week": 12.704,
+     "expectancy_gross_r": -0.006,
+     "avg_cost_r": 0.1826,
+     "avg_rr": 5.55,
+     "exits": {
+      "stop": 4397,
+      "target": 1182,
+      "time": 22
+     }
+    }
+   },
+   "by_dir": {
+    "-1": {
+     "trades": 19239,
+     "win_rate": 22.0,
+     "expectancy_r": -0.1786,
+     "net_r": -3435.34,
+     "profit_factor": 0.809,
+     "t_stat": -10.9,
+     "max_dd_r": 3537.84,
+     "trades_per_week": 43.638,
+     "expectancy_gross_r": 0.0041,
+     "avg_cost_r": 0.1827,
+     "avg_rr": 5.3,
+     "exits": {
+      "stop": 15010,
+      "target": 4165,
+      "time": 64
+     }
+    },
+    "1": {
+     "trades": 19246,
+     "win_rate": 22.3,
+     "expectancy_r": -0.1346,
+     "net_r": -2590.54,
+     "profit_factor": 0.855,
+     "t_stat": -7.28,
+     "max_dd_r": 2778.88,
+     "trades_per_week": 43.703,
+     "expectancy_gross_r": 0.0491,
+     "avg_cost_r": 0.1837,
+     "avg_rr": 5.5,
+     "exits": {
+      "stop": 14944,
+      "target": 4220,
+      "time": 82
+     }
+    }
+   }
+  }
+ },
+ "video rules": {
+  "D1": {
+   "all": {
+    "trades": 187,
+    "win_rate": 23.0,
+    "expectancy_r": -0.2307,
+    "net_r": -43.15,
+    "profit_factor": 0.706,
+    "t_stat": -2.03,
+    "max_dd_r": 64.89,
+    "trades_per_week": 0.471,
+    "expectancy_gross_r": -0.2128,
+    "avg_cost_r": 0.0179,
+    "avg_rr": 3.59,
+    "exits": {
+     "stop": 144,
+     "target": 41,
+     "time": 2
+    }
+   },
+   "dev": {
+    "trades": 133,
+    "win_rate": 18.8,
+    "expectancy_r": -0.4062,
+    "net_r": -54.02,
+    "profit_factor": 0.509,
+    "t_stat": -3.51,
+    "max_dd_r": 66.56,
+    "trades_per_week": 0.5,
+    "expectancy_gross_r": -0.3873,
+    "avg_cost_r": 0.0189,
+    "avg_rr": 3.6,
+    "exits": {
+     "stop": 108,
+     "target": 24,
+     "time": 1
+    }
+   },
+   "holdout": {
+    "trades": 54,
+    "win_rate": 33.3,
+    "expectancy_r": 0.2015,
+    "net_r": 10.88,
+    "profit_factor": 1.297,
+    "t_stat": 0.77,
+    "max_dd_r": 14.95,
+    "trades_per_week": 0.434,
+    "expectancy_gross_r": 0.2169,
+    "avg_cost_r": 0.0154,
+    "avg_rr": 3.57,
+    "exits": {
+     "stop": 36,
+     "target": 17,
+     "time": 1
+    }
+   },
+   "by_symbol": {
+    "AUDUSD": {
+     "trades": 19,
+     "win_rate": 26.3,
+     "expectancy_r": -0.2153,
+     "net_r": -4.09,
+     "profit_factor": 0.714,
+     "t_stat": -0.67,
+     "max_dd_r": 5.4,
+     "trades_per_week": 0.05,
+     "expectancy_gross_r": -0.1929,
+     "avg_cost_r": 0.0224,
+     "avg_rr": 3.51,
+     "exits": {
+      "stop": 14,
+      "target": 5
+     }
+    },
+    "EURUSD": {
+     "trades": 31,
+     "win_rate": 38.7,
+     "expectancy_r": 0.4325,
+     "net_r": 13.41,
+     "profit_factor": 1.693,
+     "t_stat": 1.2,
+     "max_dd_r": 11.01,
+     "trades_per_week": 0.081,
+     "expectancy_gross_r": 0.4493,
+     "avg_cost_r": 0.0169,
+     "avg_rr": 3.43,
+     "exits": {
+      "stop": 19,
+      "target": 12
+     }
+    },
+    "GBPUSD": {
+     "trades": 30,
+     "win_rate": 20.0,
+     "expectancy_r": -0.3404,
+     "net_r": -10.21,
+     "profit_factor": 0.58,
+     "t_stat": -1.27,
+     "max_dd_r": 17.31,
+     "trades_per_week": 0.079,
+     "expectancy_gross_r": -0.3273,
+     "avg_cost_r": 0.0131,
+     "avg_rr": 3.63,
+     "exits": {
+      "stop": 24,
+      "target": 5,
+      "time": 1
+     }
+    },
+    "USDCAD": {
+     "trades": 25,
+     "win_rate": 28.0,
+     "expectancy_r": -0.1528,
+     "net_r": -3.82,
+     "profit_factor": 0.791,
+     "t_stat": -0.51,
+     "max_dd_r": 10.1,
+     "trades_per_week": 0.065,
+     "expectancy_gross_r": -0.1358,
+     "avg_cost_r": 0.017,
+     "avg_rr": 3.11,
+     "exits": {
+      "stop": 18,
+      "target": 6,
+      "time": 1
+     }
+    },
+    "USDCHF": {
+     "trades": 30,
+     "win_rate": 10.0,
+     "expectancy_r": -0.6626,
+     "net_r": -19.88,
+     "profit_factor": 0.281,
+     "t_stat": -3.17,
+     "max_dd_r": 20.9,
+     "trades_per_week": 0.08,
+     "expectancy_gross_r": -0.6395,
+     "avg_cost_r": 0.0231,
+     "avg_rr": 4.37,
+     "exits": {
+      "stop": 27,
+      "target": 3
+     }
+    },
+    "USDJPY": {
+     "trades": 24,
+     "win_rate": 25.0,
+     "expectancy_r": -0.0577,
+     "net_r": -1.39,
+     "profit_factor": 0.924,
+     "t_stat": -0.15,
+     "max_dd_r": 11.58,
+     "trades_per_week": 0.076,
+     "expectancy_gross_r": -0.0401,
+     "avg_cost_r": 0.0176,
+     "avg_rr": 3.48,
+     "exits": {
+      "stop": 18,
+      "target": 6
+     }
+    },
+    "XAUUSD": {
+     "trades": 28,
+     "win_rate": 14.3,
+     "expectancy_r": -0.613,
+     "net_r": -17.16,
+     "profit_factor": 0.297,
+     "t_stat": -3.1,
+     "max_dd_r": 19.2,
+     "trades_per_week": 0.08,
+     "expectancy_gross_r": -0.5964,
+     "avg_cost_r": 0.0166,
+     "avg_rr": 3.48,
+     "exits": {
+      "stop": 24,
+      "target": 4
+     }
+    }
+   },
+   "by_dir": {
+    "-1": {
+     "trades": 96,
+     "win_rate": 22.9,
+     "expectancy_r": -0.2742,
+     "net_r": -26.32,
+     "profit_factor": 0.65,
+     "t_stat": -1.85,
+     "max_dd_r": 41.14,
+     "trades_per_week": 0.242,
+     "expectancy_gross_r": -0.2581,
+     "avg_cost_r": 0.0161,
+     "avg_rr": 3.31,
+     "exits": {
+      "stop": 74,
+      "target": 20,
+      "time": 2
+     }
+    },
+    "1": {
+     "trades": 91,
+     "win_rate": 23.1,
+     "expectancy_r": -0.1849,
+     "net_r": -16.82,
+     "profit_factor": 0.765,
+     "t_stat": -1.07,
+     "max_dd_r": 26.45,
+     "trades_per_week": 0.235,
+     "expectancy_gross_r": -0.1651,
+     "avg_cost_r": 0.0198,
+     "avg_rr": 3.88,
+     "exits": {
+      "stop": 70,
+      "target": 21
+     }
+    }
+   }
+  },
+  "H2": {
+   "all": {
+    "trades": 2057,
+    "win_rate": 20.6,
+    "expectancy_r": -0.1346,
+    "net_r": -276.89,
+    "profit_factor": 0.845,
+    "t_stat": -2.78,
+    "max_dd_r": 348.71,
+    "trades_per_week": 4.674,
+    "expectancy_gross_r": -0.0498,
+    "avg_cost_r": 0.0848,
+    "avg_rr": 5.19,
+    "exits": {
+     "stop": 1634,
+     "target": 418,
+     "time": 5
+    }
+   },
+   "dev": {
+    "trades": 1395,
+    "win_rate": 20.6,
+    "expectancy_r": -0.1249,
+    "net_r": -174.22,
+    "profit_factor": 0.856,
+    "t_stat": -2.09,
+    "max_dd_r": 238.83,
+    "trades_per_week": 4.6,
+    "expectancy_gross_r": -0.0383,
+    "avg_cost_r": 0.0866,
+    "avg_rr": 5.16,
+    "exits": {
+     "stop": 1107,
+     "target": 286,
+     "time": 2
+    }
+   },
+   "holdout": {
+    "trades": 662,
+    "win_rate": 20.4,
+    "expectancy_r": -0.1551,
+    "net_r": -102.67,
+    "profit_factor": 0.821,
+    "t_stat": -1.88,
+    "max_dd_r": 143.67,
+    "trades_per_week": 4.944,
+    "expectancy_gross_r": -0.0742,
+    "avg_cost_r": 0.0809,
+    "avg_rr": 5.25,
+    "exits": {
+     "stop": 527,
+     "target": 132,
+     "time": 3
+    }
+   },
+   "by_symbol": {
+    "AUDUSD": {
+     "trades": 306,
+     "win_rate": 19.9,
+     "expectancy_r": -0.2213,
+     "net_r": -67.72,
+     "profit_factor": 0.749,
+     "t_stat": -1.97,
+     "max_dd_r": 71.53,
+     "trades_per_week": 0.736,
+     "expectancy_gross_r": -0.1278,
+     "avg_cost_r": 0.0935,
+     "avg_rr": 5.1,
+     "exits": {
+      "stop": 245,
+      "target": 61
+     }
+    },
+    "EURUSD": {
+     "trades": 286,
+     "win_rate": 23.1,
+     "expectancy_r": -0.001,
+     "net_r": -0.28,
+     "profit_factor": 0.999,
+     "t_stat": -0.01,
+     "max_dd_r": 30.69,
+     "trades_per_week": 0.69,
+     "expectancy_gross_r": 0.0714,
+     "avg_cost_r": 0.0723,
+     "avg_rr": 4.95,
+     "exits": {
+      "stop": 220,
+      "target": 66
+     }
+    },
+    "GBPUSD": {
+     "trades": 287,
+     "win_rate": 17.1,
+     "expectancy_r": -0.2707,
+     "net_r": -77.68,
+     "profit_factor": 0.697,
+     "t_stat": -2.16,
+     "max_dd_r": 107.64,
+     "trades_per_week": 0.688,
+     "expectancy_gross_r": -0.1976,
+     "avg_cost_r": 0.0731,
+     "avg_rr": 5.16,
+     "exits": {
+      "stop": 238,
+      "target": 48,
+      "time": 1
+     }
+    },
+    "USDCAD": {
+     "trades": 288,
+     "win_rate": 24.3,
+     "expectancy_r": 0.1121,
+     "net_r": 32.27,
+     "profit_factor": 1.136,
+     "t_stat": 0.74,
+     "max_dd_r": 64.36,
+     "trades_per_week": 0.699,
+     "expectancy_gross_r": 0.1951,
+     "avg_cost_r": 0.083,
+     "avg_rr": 5.34,
+     "exits": {
+      "stop": 218,
+      "target": 70
+     }
+    },
+    "USDCHF": {
+     "trades": 318,
+     "win_rate": 18.9,
+     "expectancy_r": -0.1929,
+     "net_r": -61.35,
+     "profit_factor": 0.786,
+     "t_stat": -1.52,
+     "max_dd_r": 77.41,
+     "trades_per_week": 0.768,
+     "expectancy_gross_r": -0.089,
+     "avg_cost_r": 0.104,
+     "avg_rr": 5.33,
+     "exits": {
+      "stop": 258,
+      "target": 59,
+      "time": 1
+     }
+    },
+    "USDJPY": {
+     "trades": 290,
+     "win_rate": 20.3,
+     "expectancy_r": -0.0897,
+     "net_r": -26.01,
+     "profit_factor": 0.896,
+     "t_stat": -0.68,
+     "max_dd_r": 47.65,
+     "trades_per_week": 0.698,
+     "expectancy_gross_r": -0.0144,
+     "avg_cost_r": 0.0753,
+     "avg_rr": 5.37,
+     "exits": {
+      "stop": 231,
+      "target": 58,
+      "time": 1
+     }
+    },
+    "XAUUSD": {
+     "trades": 282,
+     "win_rate": 20.6,
+     "expectancy_r": -0.2699,
+     "net_r": -76.12,
+     "profit_factor": 0.691,
+     "t_stat": -2.41,
+     "max_dd_r": 93.25,
+     "trades_per_week": 0.641,
+     "expectancy_gross_r": -0.1802,
+     "avg_cost_r": 0.0897,
+     "avg_rr": 5.1,
+     "exits": {
+      "stop": 224,
+      "target": 56,
+      "time": 2
+     }
+    }
+   },
+   "by_dir": {
+    "-1": {
+     "trades": 1098,
+     "win_rate": 21.1,
+     "expectancy_r": -0.0901,
+     "net_r": -98.95,
+     "profit_factor": 0.895,
+     "t_stat": -1.31,
+     "max_dd_r": 166.56,
+     "trades_per_week": 2.506,
+     "expectancy_gross_r": -0.006,
+     "avg_cost_r": 0.0841,
+     "avg_rr": 5.02,
+     "exits": {
+      "stop": 866,
+      "target": 228,
+      "time": 4
+     }
+    },
+    "1": {
+     "trades": 959,
+     "win_rate": 19.9,
+     "expectancy_r": -0.1855,
+     "net_r": -177.94,
+     "profit_factor": 0.788,
+     "t_stat": -2.74,
+     "max_dd_r": 219.64,
+     "trades_per_week": 2.183,
+     "expectancy_gross_r": -0.1,
+     "avg_cost_r": 0.0855,
+     "avg_rr": 5.39,
+     "exits": {
+      "stop": 768,
+      "target": 190,
+      "time": 1
+     }
+    }
+   }
+  },
+  "M30": {
+   "all": {
+    "trades": 9188,
+    "win_rate": 22.2,
+    "expectancy_r": -0.1386,
+    "net_r": -1273.85,
+    "profit_factor": 0.85,
+    "t_stat": -4.94,
+    "max_dd_r": 1429.41,
+    "trades_per_week": 20.85,
+    "expectancy_gross_r": 0.0388,
+    "avg_cost_r": 0.1775,
+    "avg_rr": 5.61,
+    "exits": {
+     "stop": 7142,
+     "target": 1993,
+     "time": 53
+    }
+   },
+   "dev": {
+    "trades": 6295,
+    "win_rate": 22.7,
+    "expectancy_r": -0.1377,
+    "net_r": -866.62,
+    "profit_factor": 0.851,
+    "t_stat": -4.63,
+    "max_dd_r": 893.42,
+    "trades_per_week": 20.707,
+    "expectancy_gross_r": 0.0403,
+    "avg_cost_r": 0.1779,
+    "avg_rr": 5.52,
+    "exits": {
+     "stop": 4861,
+     "target": 1392,
+     "time": 42
+    }
+   },
+   "holdout": {
+    "trades": 2893,
+    "win_rate": 21.1,
+    "expectancy_r": -0.1408,
+    "net_r": -407.23,
+    "profit_factor": 0.85,
+    "t_stat": -2.3,
+    "max_dd_r": 535.99,
+    "trades_per_week": 21.243,
+    "expectancy_gross_r": 0.0357,
+    "avg_cost_r": 0.1764,
+    "avg_rr": 5.78,
+    "exits": {
+     "stop": 2281,
+     "target": 601,
+     "time": 11
+    }
+   },
+   "by_symbol": {
+    "AUDUSD": {
+     "trades": 1348,
+     "win_rate": 23.7,
+     "expectancy_r": -0.1134,
+     "net_r": -152.85,
+     "profit_factor": 0.876,
+     "t_stat": -1.78,
+     "max_dd_r": 194.75,
+     "trades_per_week": 3.232,
+     "expectancy_gross_r": 0.0729,
+     "avg_cost_r": 0.1863,
+     "avg_rr": 5.24,
+     "exits": {
+      "stop": 1029,
+      "target": 309,
+      "time": 10
+     }
+    },
+    "EURUSD": {
+     "trades": 1304,
+     "win_rate": 22.0,
+     "expectancy_r": -0.1743,
+     "net_r": -227.27,
+     "profit_factor": 0.811,
+     "t_stat": -2.81,
+     "max_dd_r": 261.13,
+     "trades_per_week": 3.125,
+     "expectancy_gross_r": -0.0066,
+     "avg_cost_r": 0.1677,
+     "avg_rr": 5.73,
+     "exits": {
+      "stop": 1017,
+      "target": 280,
+      "time": 7
+     }
+    },
+    "GBPUSD": {
+     "trades": 1367,
+     "win_rate": 22.8,
+     "expectancy_r": -0.0931,
+     "net_r": -127.3,
+     "profit_factor": 0.897,
+     "t_stat": -1.43,
+     "max_dd_r": 192.59,
+     "trades_per_week": 3.273,
+     "expectancy_gross_r": 0.0604,
+     "avg_cost_r": 0.1535,
+     "avg_rr": 5.66,
+     "exits": {
+      "stop": 1055,
+      "target": 297,
+      "time": 15
+     }
+    },
+    "USDCAD": {
+     "trades": 1396,
+     "win_rate": 20.2,
+     "expectancy_r": -0.146,
+     "net_r": -203.77,
+     "profit_factor": 0.846,
+     "t_stat": -1.33,
+     "max_dd_r": 376.06,
+     "trades_per_week": 3.342,
+     "expectancy_gross_r": 0.0326,
+     "avg_cost_r": 0.1785,
+     "avg_rr": 5.45,
+     "exits": {
+      "stop": 1113,
+      "target": 279,
+      "time": 4
+     }
+    },
+    "USDCHF": {
+     "trades": 1291,
+     "win_rate": 20.2,
+     "expectancy_r": -0.3107,
+     "net_r": -401.06,
+     "profit_factor": 0.686,
+     "t_stat": -4.89,
+     "max_dd_r": 406.59,
+     "trades_per_week": 3.102,
+     "expectancy_gross_r": -0.0846,
+     "avg_cost_r": 0.2261,
+     "avg_rr": 5.74,
+     "exits": {
+      "stop": 1030,
+      "target": 258,
+      "time": 3
+     }
+    },
+    "USDJPY": {
+     "trades": 1217,
+     "win_rate": 22.8,
+     "expectancy_r": -0.0658,
+     "net_r": -80.11,
+     "profit_factor": 0.927,
+     "t_stat": -0.93,
+     "max_dd_r": 121.09,
+     "trades_per_week": 2.916,
+     "expectancy_gross_r": 0.0864,
+     "avg_cost_r": 0.1522,
+     "avg_rr": 5.73,
+     "exits": {
+      "stop": 938,
+      "target": 272,
+      "time": 7
+     }
+    },
+    "XAUUSD": {
+     "trades": 1265,
+     "win_rate": 24.1,
+     "expectancy_r": -0.0644,
+     "net_r": -81.48,
+     "profit_factor": 0.929,
+     "t_stat": -0.97,
+     "max_dd_r": 120.13,
+     "trades_per_week": 2.871,
+     "expectancy_gross_r": 0.113,
+     "avg_cost_r": 0.1774,
+     "avg_rr": 5.72,
+     "exits": {
+      "stop": 960,
+      "target": 298,
+      "time": 7
+     }
+    }
+   },
+   "by_dir": {
+    "-1": {
+     "trades": 4802,
+     "win_rate": 22.2,
+     "expectancy_r": -0.1646,
+     "net_r": -790.2,
+     "profit_factor": 0.822,
+     "t_stat": -4.98,
+     "max_dd_r": 814.55,
+     "trades_per_week": 10.897,
+     "expectancy_gross_r": 0.0121,
+     "avg_cost_r": 0.1767,
+     "avg_rr": 5.57,
+     "exits": {
+      "stop": 3734,
+      "target": 1041,
+      "time": 27
+     }
+    },
+    "1": {
+     "trades": 4386,
+     "win_rate": 22.3,
+     "expectancy_r": -0.1103,
+     "net_r": -483.65,
+     "profit_factor": 0.881,
+     "t_stat": -2.38,
+     "max_dd_r": 637.7,
+     "trades_per_week": 10.007,
+     "expectancy_gross_r": 0.0681,
+     "avg_cost_r": 0.1784,
+     "avg_rr": 5.65,
+     "exits": {
+      "stop": 3408,
+      "target": 952,
+      "time": 26
+     }
+    }
+   }
+  }
+ }
+}

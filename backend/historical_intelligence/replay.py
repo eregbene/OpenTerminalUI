@@ -73,6 +73,8 @@ from backend.brokers.mt5.models import MT5Candle
 from backend.brokers.mt5.orm import MT5CandidateEvaluationORM, MT5CanonicalCandleORM
 from backend.historical_intelligence.orm import MT5CandleRevisionORM, MT5DecisionSnapshotORM
 from backend.historical_intelligence.quality import MT5_SERVER_MAX_OFFSET, is_finalized, mt5_server_time_to_utc
+from backend.market_structure.daily_aggregation import NY_TZ, aggregate_daily_bars_from_h4
+from backend.market_structure.daily_aggregation import _parse_time as _parse_daily_bar_time
 from backend.mt5_strategies.context import build_strategy_context, summarize_smc_evidence
 from backend.mt5_strategies.families import evaluate_all
 from backend.mt5_strategies.fusion import build_candidates
@@ -88,8 +90,19 @@ logger = logging.getLogger(__name__)
 # by design, since the whole point is parity with live).
 STRATEGY_REPLAY_VERSION = "replay-v2-point-in-time-integrity"
 
-_TIMEFRAME_DELTAS = {"M5": timedelta(minutes=5), "M15": timedelta(minutes=15), "H1": timedelta(hours=1), "H4": timedelta(hours=4)}
-_MIN_BARS = {"M15": 60, "H1": 50, "H4": 30}  # mirrors autonomous.py::_screen's own thresholds
+# BSI Daily Bias Audit (2026-09-02, BSI_DAILY_BIAS_AUDIT.md Section 4): "D1" was genuinely missing
+# from both dicts below -- a real point-in-time-safety bug caught during that audit, not a
+# hypothetical one. Without the "D1" entry, bars_as_of(timeframe="D1", ...) would silently fall
+# back to _TIMEFRAME_DELTAS.get(tf, timedelta(minutes=15))'s 15-MINUTE default finalization delta
+# for a Daily bar -- treating a Daily candle as "closed" as soon as 15 minutes after its own
+# timestamp instead of the real 24 hours, a genuine look-ahead risk. Fixed here as part of adding
+# real D1/Daily support (Section 5), not as an afterthought. In THIS deployment's own design
+# (daily_aggregation.py, Option B: synthesized from H4, not queried as raw D1-labeled rows), this
+# entry is a defensive fix for any future/other caller of bars_as_of(timeframe="D1", ...) directly
+# against raw candle tables -- not itself exercised by the synthesis path, which never calls
+# bars_as_of with timeframe="D1".
+_TIMEFRAME_DELTAS = {"M5": timedelta(minutes=5), "M15": timedelta(minutes=15), "H1": timedelta(hours=1), "H4": timedelta(hours=4), "D1": timedelta(days=1)}
+_MIN_BARS = {"M15": 60, "H1": 50, "H4": 30, "D1": 20}  # mirrors autonomous.py::_screen's own thresholds; D1=20 is this addition's own new minimum, chosen to comfortably support classify_trend()'s >=2-high/>=2-low requirement
 
 # Part 8: strategy-declared minimum history, rather than one hardcoded window fetched
 # unconditionally for every replay. Verified against the LIVE path's own fetch counts
@@ -114,6 +127,7 @@ STRATEGY_LOOKBACK: dict[str, dict[str, int]] = {
     "session_breakout": {"M15": 100, "H1": 100, "H4": 100},
     "vwap_reversion": {"M15": 100, "H1": 100, "H4": 100},
     "wyckoff": {"M15": 100, "H1": 100, "H4": 100},  # same window as every other family -- see wyckoff.py's own module docstring for the scope this implies
+    "bsi": {"M15": 100, "H1": 100, "H4": 100},  # same window as every other family -- see bsi.py's own module docstring for the scope this implies
 }
 _DEFAULT_LOOKBACK = {"M15": 100, "H1": 100, "H4": 100}
 
@@ -314,6 +328,38 @@ async def bars_as_of(*, canonical_symbol: str, broker_symbol: str, timeframe: st
     return [_row_to_candle(canonical_symbol, tf, bt, resolved[bt]) for bt in bar_times_sorted]
 
 
+# BSI Daily Bias Audit (2026-09-02) Section 5, Option B: H4-per-NY-day is ~6 bars; this is a
+# generous multiple (comfortably covers weekends/holidays where a "day" may have 0 H4 bars,
+# without over-fetching materially given H4's own deep MT5-native history).
+_H4_BARS_PER_DAILY_BAR_ESTIMATE = 8
+
+
+async def daily_bars_as_of(*, canonical_symbol: str, broker_symbol: str, at: datetime, count: int, provider: str = "MT5", include_partial_current_day: bool = True) -> list[dict[str, Any]]:
+    """Point-in-time-safe synthesized Daily bars -- see backend/market_structure/
+    daily_aggregation.py's own module docstring for the full design rationale (Option B: H4
+    aggregation, NY-calendar-day boundary, chosen because the live MT5-sourced candle table has
+    zero native D1 rows). Adds NO new point-in-time-safety logic of its own: fetches H4 bars via
+    the EXISTING, already-proven bars_as_of() (this function's own cutoff-`at` guarantee is
+    inherited unchanged), then aggregates via the pure daily_aggregation module. Returns dicts
+    (not MT5Candle objects) -- the same shape build_strategy_context()'s own h4_rows/m15_rows
+    parameters already expect after `.model_dump(mode="json")`, so callers can pass this
+    function's result straight through with no extra conversion step.
+
+    `include_partial_current_day=True` (default) keeps a still-forming NY day as the last bar,
+    matching every other timeframe's own "last bar = current, possibly still-forming" convention
+    (e.g. ctx.m15_rows[-1]) -- set False for callers that need only fully-closed daily bars."""
+    h4_count = max(30, count * _H4_BARS_PER_DAILY_BAR_ESTIMATE)
+    h4_candles = await bars_as_of(canonical_symbol=canonical_symbol, broker_symbol=broker_symbol, timeframe="H4", at=at, count=h4_count, provider=provider)
+    h4_rows = [c.model_dump(mode="json") for c in h4_candles]
+    daily_rows = aggregate_daily_bars_from_h4(h4_rows, symbol=canonical_symbol)
+    if daily_rows and not include_partial_current_day:
+        last_ny_date = _parse_daily_bar_time(daily_rows[-1]["time"]).astimezone(NY_TZ).date()
+        today_ny_date = _ensure_utc(at).astimezone(NY_TZ).date()
+        if last_ny_date >= today_ny_date:
+            daily_rows = daily_rows[:-1]
+    return daily_rows[-count:]
+
+
 def _candle_from_snapshot_row(row: dict[str, Any]) -> MT5Candle:
     return MT5Candle(**row)
 
@@ -383,10 +429,20 @@ async def replay_at(
     last_close = m15[-1].close
     resolved_quote = quote or _ReplayQuote(bid=last_close, ask=last_close, spread=Decimal("0"))
 
+    # BSI Daily Bias Audit (2026-09-02): mentor-faithful Daily HTF bias for replay, same
+    # fail-open contract as the live path (bsi_engine.py::_mentor_htf_direction falls back to
+    # ctx.htf_trend_h4 when this is None) -- a failure here must never break replay for every
+    # OTHER strategy family that doesn't read ctx.htf_trend_daily at all.
+    try:
+        daily_rows = await daily_bars_as_of(canonical_symbol=canonical_symbol, broker_symbol=broker_symbol, at=at, count=60, provider=provider)
+    except Exception:
+        daily_rows = None
+
     return _run_replay_pipeline(
         canonical_symbol=canonical_symbol, broker_symbol=broker_symbol, at=at,
         m15=m15, h1=h1, h4=h4, quote=resolved_quote, symbol_info=symbol_info,
         source=SOURCE_RECONSTRUCTED, cycle_id=f"REPLAY:{canonical_symbol}:{at.isoformat()}",
+        daily_rows=daily_rows,
     )
 
 
@@ -419,6 +475,7 @@ def _run_replay_pipeline(
     canonical_symbol: str, broker_symbol: str, at: datetime,
     m15: list[MT5Candle], h1: list[MT5Candle], h4: list[MT5Candle],
     quote: _ReplayQuote, symbol_info: Any, source: str, cycle_id: str,
+    daily_rows: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     m15_rows = [c.model_dump(mode="json") for c in m15]
     h1_rows = [c.model_dump(mode="json") for c in h1]
@@ -431,6 +488,7 @@ def _run_replay_pipeline(
         m15_rows=m15_rows, h1_rows=h1_rows, h4_rows=h4_rows,
         bid=quote.bid, ask=quote.ask, spread=quote.spread,
         now=at, symbol_info=symbol_info,
+        daily_rows=daily_rows,
     )
     if ctx is None:
         return {

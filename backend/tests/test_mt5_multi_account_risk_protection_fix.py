@@ -416,6 +416,7 @@ def test_15_commission_swap_fee_included_in_daily_breakdown(monkeypatch):
 # --------------------------------------------------------------------------------------
 
 def test_16_daily_loss_blocker_actually_blocks_new_entries(monkeypatch):
+    monkeypatch.setenv("MT5_DISABLE_DRAWDOWN_ENTRY_BLOCKS", "false")
     SessionLocal = _session_factory(monkeypatch)
     config = MT5Config(account_id="ftmo_demo_25k", prop_profile="FTMO_2_STEP")
     now = datetime(2026, 8, 12, 10, 0, 0, tzinfo=timezone.utc)
@@ -430,6 +431,7 @@ def test_16_daily_loss_blocker_actually_blocks_new_entries(monkeypatch):
 
 
 def test_17_max_loss_blocker_actually_blocks_new_entries(monkeypatch):
+    monkeypatch.setenv("MT5_DISABLE_DRAWDOWN_ENTRY_BLOCKS", "false")
     SessionLocal = _session_factory(monkeypatch)
     config = MT5Config(account_id="ftmo_demo_25k", prop_profile="FTMO_2_STEP")
     now = datetime(2026, 8, 12, 10, 0, 0, tzinfo=timezone.utc)
@@ -451,6 +453,7 @@ def test_17_max_loss_blocker_actually_blocks_new_entries(monkeypatch):
 
 
 def test_18_one_account_blocked_does_not_block_another(monkeypatch):
+    monkeypatch.setenv("MT5_DISABLE_DRAWDOWN_ENTRY_BLOCKS", "false")
     SessionLocal = _session_factory(monkeypatch)
     config_25k = MT5Config(account_id="ftmo_demo_25k", prop_profile="FTMO_2_STEP")
     config_50k = MT5Config(account_id="ftmo_demo_50k", prop_profile="FTMO_2_STEP")
@@ -542,6 +545,7 @@ def test_25_ibkr_not_part_of_mt5_execution():
 # --------------------------------------------------------------------------------------
 
 def test_remaining_safety_budget_usd_is_tightest_candidate(monkeypatch):
+    monkeypatch.setenv("MT5_DISABLE_DRAWDOWN_ENTRY_BLOCKS", "false")
     SessionLocal = _session_factory(monkeypatch)
     config = MT5Config(account_id="ftmo_demo_25k", prop_profile="FTMO_2_STEP")
     now = datetime(2026, 8, 12, 10, 0, 0, tzinfo=timezone.utc)
@@ -555,3 +559,17 @@ def test_remaining_safety_budget_usd_is_tightest_candidate(monkeypatch):
         budget = remaining_safety_budget_usd(protection)
 
     assert budget == Decimal("100.00")
+
+
+def test_remaining_safety_budget_ignores_internal_buffer_when_drawdown_blocks_disabled(monkeypatch):
+    monkeypatch.setenv("MT5_DISABLE_DRAWDOWN_ENTRY_BLOCKS", "true")
+    SessionLocal = _session_factory(monkeypatch)
+    config = MT5Config(account_id="ftmo_demo_25k", prop_profile="FTMO_2_STEP")
+    now = datetime(2026, 8, 12, 10, 0, 0, tzinfo=timezone.utc)
+
+    with SessionLocal() as db:
+        get_or_create_daily_state(db, "ftmo_demo_25k", config, balance=Decimal("25000"), equity=Decimal("25000"), now=now)
+        protection = evaluate_entry_protection(db, "ftmo_demo_25k", config, balance=Decimal("24100"), equity=Decimal("24100"), now=now + timedelta(minutes=5))
+        budget = remaining_safety_budget_usd(protection)
+
+    assert budget == Decimal("350.00")

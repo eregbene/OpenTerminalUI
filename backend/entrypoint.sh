@@ -20,4 +20,11 @@ if [ "${ENABLE_HISTORICAL_WATCHDOG:-0}" = "1" ]; then
   python watchdog_historical_workers.py >> /data/historical_intelligence/watchdog_stdout.log 2>&1 &
 fi
 
+# Optional rolling BSI V3 next-session profile prep. It writes the dated profile plus
+# /data/research/bsi_v3_next_session_profile_current.json, which the live V3 gate reads fresh.
+if [ "${ENABLE_BSI_V3_PROFILE_SCHEDULER:-0}" = "1" ]; then
+  mkdir -p /data/research
+  python scripts/bsi_v3_next_session_profile_scheduler.py >> /data/research/bsi_v3_profile_scheduler_stdout.log 2>&1 &
+fi
+
 exec python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000

@@ -10,8 +10,10 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 FORWARD = ROOT / "scripts" / "bsi_v3_forward_adaptive_validation.py"
-OUT = ROOT / "data" / "research" / "bsi_v3_rolling_walk_forward_jan_august_2026.json"
-DOC = ROOT / "docs" / "bsi_updated_faiz" / "v3_validation" / "BSI_V3_ROLLING_WALK_FORWARD_JAN_AUGUST_2026.md"
+RR_LABEL = (os.getenv("BSI_V3_MIN_ENTRY_RR", "0") or "0").replace(".", "p")
+RR_SUFFIX = "" if RR_LABEL in {"0", "0p0"} else f"_rr{RR_LABEL}"
+OUT = ROOT / "data" / "research" / f"bsi_v3_rolling_walk_forward_jan_august_2026{RR_SUFFIX}.json"
+DOC = ROOT / "docs" / "bsi_updated_faiz" / "v3_validation" / f"BSI_V3_ROLLING_WALK_FORWARD_JAN_AUGUST_2026{RR_SUFFIX.upper()}.md"
 
 MONTHS = [
     ("february", "2026-01-01T00:00:00+00:00", "2026-02-01T00:00:00+00:00", "2026-02-01T00:00:00+00:00", "2026-03-01T00:00:00+00:00"),
@@ -28,7 +30,7 @@ def _run(label: str, train_start: str, train_end: str, test_start: str, test_end
     env = os.environ.copy()
     env.update(
         {
-            "BSI_V3_FORWARD_LABEL": f"rolling_{label}_2026",
+            "BSI_V3_FORWARD_LABEL": f"rolling_{label}_2026{RR_SUFFIX}",
             "BSI_V3_FORWARD_TRAIN_START": train_start,
             "BSI_V3_FORWARD_TRAIN_END": train_end,
             "BSI_V3_FORWARD_TEST_START": test_start,
@@ -94,6 +96,7 @@ def main() -> None:
         }
     payload = {
         "methodology": "BSI_V3_ROLLING_WALK_FORWARD_EXPANDING_WINDOW",
+        "global_min_entry_rr": os.getenv("BSI_V3_MIN_ENTRY_RR", "0"),
         "periods": results,
         "combined_forward_result": combined,
         "account_estimates_20k": estimates,

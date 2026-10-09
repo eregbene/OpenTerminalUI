@@ -537,6 +537,27 @@ def test_mt5_order_check_empty_response_keeps_request_and_last_error():
     assert adapter.client.mt5.order_send_calls == 0
 
 
+def test_submit_market_order_uses_fresh_tick_price(monkeypatch):
+    adapter = fake_adapter()
+    service = MT5ExecutionService(adapter)
+    captured = {}
+
+    async def _fresh_tick(symbol):
+        return SimpleNamespace(bid=Decimal("1.1010"), ask=Decimal("1.1012"), spread=Decimal("0.0002"))
+
+    async def _submit_mt5_request(**kwargs):
+        captured["request"] = kwargs["request"]
+        return FakeRow(retcode=adapter.client.mt5.TRADE_RETCODE_DONE, comment="done", order=77, deal=88, price=kwargs["request"]["price"], volume=kwargs["request"]["volume"])
+
+    adapter.latest_tick = _fresh_tick
+    monkeypatch.setattr(portfolio_execution_service.execution_manager, "submit_mt5_request", _submit_mt5_request)
+    result = asyncio.run(service.submit_market_order(_intent(volume=Decimal("0.01"))))
+
+    assert result.status == "ACCEPTED"
+    assert captured["request"]["price"] == pytest.approx(1.1012)
+    assert adapter.client.mt5.last_order_check["price"] == pytest.approx(1.1012)
+
+
 def test_mt5_order_comment_encodes_strategy_within_mt5_limit():
     candidate = {"canonical_pair": "EUR/USD", "context": {"strategy_id": "mtfai1"}}
     comment = _mt5_order_comment(candidate, datetime(2026, 8, 3, 17, 55, 51))
@@ -941,6 +962,23 @@ def test_mt5_prop_risk_stricter_limit_wins():
     assert status["active_prop_profile"]["name"] == "GENERIC_PROP_CONSERVATIVE"
     assert Decimal(status["internal"]["daily_loss_cap_usd"]) == Decimal("1500")
     assert status["effective"]["stricter_limit_wins"] is True
+
+
+def test_mt5_prop_risk_drawdown_entry_blocks_can_be_disabled(monkeypatch):
+    monkeypatch.setenv("MT5_DISABLE_DRAWDOWN_ENTRY_BLOCKS", "true")
+    adapter = fake_adapter()
+
+    status = risk_status(
+        adapter.config,
+        equity=Decimal("90000"),
+        balance=Decimal("100000"),
+        daily_pnl=Decimal("-100000"),
+        total_pnl=Decimal("-100000"),
+    )
+
+    assert status["drawdown_entry_blocks_disabled"] is True
+    assert status["blockers"] == []
+    assert status["trading_lock_active"] is False
 
 
 def _intent(volume: Decimal):

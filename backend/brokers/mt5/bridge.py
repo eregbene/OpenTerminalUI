@@ -173,7 +173,8 @@ class MT5BridgeClient:
                 )
                 with urllib.request.urlopen(req, timeout=self.config.timeout_ms / 1000) as resp:
                     return json.loads(resp.read().decode("utf-8"))
-            raise MT5UnavailableError(f"MT5 bridge request failed: {exc}") from exc
+            detail = _http_error_detail(exc)
+            raise MT5UnavailableError(f"MT5 bridge request failed: {detail}") from exc
         except Exception as exc:
             raise MT5UnavailableError(f"MT5 bridge request failed: {exc}") from exc
 
@@ -190,7 +191,7 @@ class _Row(dict):
 
 
 def create_app(account_id: str | None = None):
-    from fastapi import Body, Depends, FastAPI, Header, HTTPException
+    from fastapi import Body, Depends, FastAPI, Header, HTTPException, Request
     from fastapi.responses import JSONResponse
     from backend.brokers.mt5.account import account_from_raw
     from backend.brokers.mt5 import account_registry
@@ -203,6 +204,10 @@ def create_app(account_id: str | None = None):
     cfg = config_for_profile(profile) if profile is not None else mt5_config()
     client = MT5Client(cfg)
     app = FastAPI(title="Bensim MT5 Bridge", version="1.0")
+
+    @app.exception_handler(MT5UnavailableError)
+    async def mt5_unavailable_handler(request: Request, exc: MT5UnavailableError) -> JSONResponse:
+        return JSONResponse(status_code=exc.status_code, content={"detail": {"code": exc.code, "message": exc.message, "account_id": cfg.account_id}})
 
     @app.middleware("http")
     async def account_header_guard(request, call_next):
@@ -218,7 +223,7 @@ def create_app(account_id: str | None = None):
         if cfg.bridge_api_key and x_mt5_bridge_key != cfg.bridge_api_key:
             raise HTTPException(status_code=403, detail="invalid bridge key")
 
-    def request_account(payload: dict[str, Any] | None = None, x_mt5_account_id: str = Header(default="")) -> str:
+    def request_account(payload: dict[str, Any] | None = None, x_mt5_account_id: str = "") -> str:
         requested = str((payload or {}).get("account_id") or x_mt5_account_id or cfg.account_id)
         if requested != cfg.account_id:
             raise HTTPException(status_code=409, detail={"code": "ACCOUNT_EXECUTION_CONTEXT_MISMATCH", "worker_account_id": cfg.account_id, "requested_account_id": requested})
@@ -448,6 +453,20 @@ def _json_safe(value: Any) -> Any:
     if hasattr(value, "item"):
         return value.item()
     return value
+
+
+def _http_error_detail(exc: urllib.error.HTTPError) -> str:
+    try:
+        body = exc.read().decode("utf-8", errors="replace")
+        parsed = json.loads(body) if body else {}
+        detail = parsed.get("detail") if isinstance(parsed, dict) else None
+        if isinstance(detail, dict) and detail.get("message"):
+            return str(detail["message"])
+        if body:
+            return body[:500]
+    except Exception:
+        pass
+    return str(exc)
 
 
 def _without_secret(payload: dict[str, Any]) -> dict[str, Any]:

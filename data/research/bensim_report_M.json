@@ -1,0 +1,3810 @@
+{
+ "stack": {
+  "name": "M",
+  "base": "M5",
+  "setup": "M15",
+  "loc": "H1",
+  "bias": "H4",
+  "ctx": "D1",
+  "k_base": 2,
+  "k_setup": 2,
+  "k_loc": 3,
+  "k_bias": 3,
+  "fvg_window": 24,
+  "confirm_window": 24,
+  "max_hold": 288,
+  "sweep_lookback": 6
+ },
+ "symbols": {
+  "EURUSD": {
+   "candidates": 3189,
+   "start": 1744644000,
+   "end": 1786532400,
+   "seconds": 13.0
+  },
+  "XAUUSD": {
+   "candidates": 3461,
+   "start": 1763683200,
+   "end": 1786665300,
+   "seconds": 15.3
+  },
+  "GBPUSD": {
+   "candidates": 3329,
+   "start": 1765385400,
+   "end": 1786665300,
+   "seconds": 13.5
+  },
+  "USDJPY": {
+   "candidates": 3489,
+   "start": 1765391700,
+   "end": 1786665300,
+   "seconds": 16.9
+  },
+  "AUDUSD": {
+   "candidates": 3290,
+   "start": 1765392300,
+   "end": 1786665300,
+   "seconds": 14.9
+  },
+  "USDCHF": {
+   "candidates": 3575,
+   "start": 1765393200,
+   "end": 1786665300,
+   "seconds": 16.8
+  },
+  "USDCAD": {
+   "candidates": 3462,
+   "start": 1765392900,
+   "end": 1786665300,
+   "seconds": 11.4
+  }
+ },
+ "holdout_start": "2024-01-01",
+ "single": {
+  "T1 FVG alone|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 11626,
+    "win_rate": 29.9,
+    "expectancy_r": -0.3127,
+    "expectancy_gross_r": -0.1203,
+    "avg_cost_r": 0.1924,
+    "profit_factor": 0.636,
+    "t_stat": -23.61,
+    "net_r": -3635.27,
+    "max_dd_r": 3635.27,
+    "trades_per_week": 306.62
+   },
+   "all": {
+    "trades": 11626,
+    "win_rate": 29.9,
+    "expectancy_r": -0.3127,
+    "expectancy_gross_r": -0.1203,
+    "avg_cost_r": 0.1924,
+    "profit_factor": 0.636,
+    "t_stat": -23.61,
+    "net_r": -3635.27,
+    "max_dd_r": 3635.27,
+    "trades_per_week": 306.62
+   }
+  },
+  "T2 FVG+HTF|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 5721,
+    "win_rate": 29.2,
+    "expectancy_r": -0.3351,
+    "expectancy_gross_r": -0.1417,
+    "avg_cost_r": 0.1933,
+    "profit_factor": 0.615,
+    "t_stat": -17.65,
+    "net_r": -1916.87,
+    "max_dd_r": 1919.6,
+    "trades_per_week": 152.892
+   },
+   "all": {
+    "trades": 5721,
+    "win_rate": 29.2,
+    "expectancy_r": -0.3351,
+    "expectancy_gross_r": -0.1417,
+    "avg_cost_r": 0.1933,
+    "profit_factor": 0.615,
+    "t_stat": -17.65,
+    "net_r": -1916.87,
+    "max_dd_r": 1919.6,
+    "trades_per_week": 152.892
+   }
+  },
+  "T3 FVG+structure|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 5540,
+    "win_rate": 29.2,
+    "expectancy_r": -0.3325,
+    "expectancy_gross_r": -0.1456,
+    "avg_cost_r": 0.1869,
+    "profit_factor": 0.615,
+    "t_stat": -17.33,
+    "net_r": -1842.3,
+    "max_dd_r": 1844.04,
+    "trades_per_week": 146.144
+   },
+   "all": {
+    "trades": 5540,
+    "win_rate": 29.2,
+    "expectancy_r": -0.3325,
+    "expectancy_gross_r": -0.1456,
+    "avg_cost_r": 0.1869,
+    "profit_factor": 0.615,
+    "t_stat": -17.33,
+    "net_r": -1842.3,
+    "max_dd_r": 1844.04,
+    "trades_per_week": 146.144
+   }
+  },
+  "T4 FVG+supply/demand|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 4531,
+    "win_rate": 29.6,
+    "expectancy_r": -0.3211,
+    "expectancy_gross_r": -0.1313,
+    "avg_cost_r": 0.1898,
+    "profit_factor": 0.627,
+    "t_stat": -15.03,
+    "net_r": -1454.88,
+    "max_dd_r": 1454.88,
+    "trades_per_week": 119.499
+   },
+   "all": {
+    "trades": 4531,
+    "win_rate": 29.6,
+    "expectancy_r": -0.3211,
+    "expectancy_gross_r": -0.1313,
+    "avg_cost_r": 0.1898,
+    "profit_factor": 0.627,
+    "t_stat": -15.03,
+    "net_r": -1454.88,
+    "max_dd_r": 1454.88,
+    "trades_per_week": 119.499
+   }
+  },
+  "T5 FVG+liquidity sweep|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 3771,
+    "win_rate": 29.5,
+    "expectancy_r": -0.3173,
+    "expectancy_gross_r": -0.127,
+    "avg_cost_r": 0.1903,
+    "profit_factor": 0.63,
+    "t_stat": -13.78,
+    "net_r": -1196.56,
+    "max_dd_r": 1198.0,
+    "trades_per_week": 99.455
+   },
+   "all": {
+    "trades": 3771,
+    "win_rate": 29.5,
+    "expectancy_r": -0.3173,
+    "expectancy_gross_r": -0.127,
+    "avg_cost_r": 0.1903,
+    "profit_factor": 0.63,
+    "t_stat": -13.78,
+    "net_r": -1196.56,
+    "max_dd_r": 1198.0,
+    "trades_per_week": 99.455
+   }
+  },
+  "T6 FVG+Wyckoff|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 3126,
+    "win_rate": 31.6,
+    "expectancy_r": -0.2557,
+    "expectancy_gross_r": -0.0677,
+    "avg_cost_r": 0.1881,
+    "profit_factor": 0.694,
+    "t_stat": -9.91,
+    "net_r": -799.46,
+    "max_dd_r": 806.53,
+    "trades_per_week": 84.616
+   },
+   "all": {
+    "trades": 3126,
+    "win_rate": 31.6,
+    "expectancy_r": -0.2557,
+    "expectancy_gross_r": -0.0677,
+    "avg_cost_r": 0.1881,
+    "profit_factor": 0.694,
+    "t_stat": -9.91,
+    "net_r": -799.46,
+    "max_dd_r": 806.53,
+    "trades_per_week": 84.616
+   }
+  },
+  "T6b FVG+displacement|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 5452,
+    "win_rate": 30.4,
+    "expectancy_r": -0.2776,
+    "expectancy_gross_r": -0.1041,
+    "avg_cost_r": 0.1735,
+    "profit_factor": 0.668,
+    "t_stat": -14.31,
+    "net_r": -1513.45,
+    "max_dd_r": 1515.66,
+    "trades_per_week": 143.789
+   },
+   "all": {
+    "trades": 5452,
+    "win_rate": 30.4,
+    "expectancy_r": -0.2776,
+    "expectancy_gross_r": -0.1041,
+    "avg_cost_r": 0.1735,
+    "profit_factor": 0.668,
+    "t_stat": -14.31,
+    "net_r": -1513.45,
+    "max_dd_r": 1515.66,
+    "trades_per_week": 143.789
+   }
+  },
+  "T6c FVG+location|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 9077,
+    "win_rate": 30.0,
+    "expectancy_r": -0.3099,
+    "expectancy_gross_r": -0.1167,
+    "avg_cost_r": 0.1932,
+    "profit_factor": 0.639,
+    "t_stat": -20.6,
+    "net_r": -2813.05,
+    "max_dd_r": 2813.05,
+    "trades_per_week": 239.393
+   },
+   "all": {
+    "trades": 9077,
+    "win_rate": 30.0,
+    "expectancy_r": -0.3099,
+    "expectancy_gross_r": -0.1167,
+    "avg_cost_r": 0.1932,
+    "profit_factor": 0.639,
+    "t_stat": -20.6,
+    "net_r": -2813.05,
+    "max_dd_r": 2813.05,
+    "trades_per_week": 239.393
+   }
+  },
+  "T6d FVG+London/NY|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 7507,
+    "win_rate": 29.6,
+    "expectancy_r": -0.3265,
+    "expectancy_gross_r": -0.1339,
+    "avg_cost_r": 0.1926,
+    "profit_factor": 0.624,
+    "t_stat": -19.65,
+    "net_r": -2451.26,
+    "max_dd_r": 2452.39,
+    "trades_per_week": 198.033
+   },
+   "all": {
+    "trades": 7507,
+    "win_rate": 29.6,
+    "expectancy_r": -0.3265,
+    "expectancy_gross_r": -0.1339,
+    "avg_cost_r": 0.1926,
+    "profit_factor": 0.624,
+    "t_stat": -19.65,
+    "net_r": -2451.26,
+    "max_dd_r": 2452.39,
+    "trades_per_week": 198.033
+   }
+  }
+ },
+ "ladder": {
+  "L1 FVG|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 11626,
+    "win_rate": 29.9,
+    "expectancy_r": -0.3127,
+    "expectancy_gross_r": -0.1203,
+    "avg_cost_r": 0.1924,
+    "profit_factor": 0.636,
+    "t_stat": -23.61,
+    "net_r": -3635.27,
+    "max_dd_r": 3635.27,
+    "trades_per_week": 306.62
+   },
+   "all": {
+    "trades": 11626,
+    "win_rate": 29.9,
+    "expectancy_r": -0.3127,
+    "expectancy_gross_r": -0.1203,
+    "avg_cost_r": 0.1924,
+    "profit_factor": 0.636,
+    "t_stat": -23.61,
+    "net_r": -3635.27,
+    "max_dd_r": 3635.27,
+    "trades_per_week": 306.62
+   }
+  },
+  "L1 FVG|C-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 1905,
+    "win_rate": 31.2,
+    "expectancy_r": -0.2343,
+    "expectancy_gross_r": -0.1064,
+    "avg_cost_r": 0.1279,
+    "profit_factor": 0.702,
+    "t_stat": -7.36,
+    "net_r": -446.3,
+    "max_dd_r": 476.51,
+    "trades_per_week": 50.772
+   },
+   "all": {
+    "trades": 1905,
+    "win_rate": 31.2,
+    "expectancy_r": -0.2343,
+    "expectancy_gross_r": -0.1064,
+    "avg_cost_r": 0.1279,
+    "profit_factor": 0.702,
+    "t_stat": -7.36,
+    "net_r": -446.3,
+    "max_dd_r": 476.51,
+    "trades_per_week": 50.772
+   }
+  },
+  "L2 +HTF|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 5721,
+    "win_rate": 29.2,
+    "expectancy_r": -0.3351,
+    "expectancy_gross_r": -0.1417,
+    "avg_cost_r": 0.1933,
+    "profit_factor": 0.615,
+    "t_stat": -17.65,
+    "net_r": -1916.87,
+    "max_dd_r": 1919.6,
+    "trades_per_week": 152.892
+   },
+   "all": {
+    "trades": 5721,
+    "win_rate": 29.2,
+    "expectancy_r": -0.3351,
+    "expectancy_gross_r": -0.1417,
+    "avg_cost_r": 0.1933,
+    "profit_factor": 0.615,
+    "t_stat": -17.65,
+    "net_r": -1916.87,
+    "max_dd_r": 1919.6,
+    "trades_per_week": 152.892
+   }
+  },
+  "L2 +HTF|C-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 955,
+    "win_rate": 28.4,
+    "expectancy_r": -0.3044,
+    "expectancy_gross_r": -0.1758,
+    "avg_cost_r": 0.1286,
+    "profit_factor": 0.626,
+    "t_stat": -6.92,
+    "net_r": -290.68,
+    "max_dd_r": 308.79,
+    "trades_per_week": 25.627
+   },
+   "all": {
+    "trades": 955,
+    "win_rate": 28.4,
+    "expectancy_r": -0.3044,
+    "expectancy_gross_r": -0.1758,
+    "avg_cost_r": 0.1286,
+    "profit_factor": 0.626,
+    "t_stat": -6.92,
+    "net_r": -290.68,
+    "max_dd_r": 308.79,
+    "trades_per_week": 25.627
+   }
+  },
+  "L3 +structure|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 2711,
+    "win_rate": 28.7,
+    "expectancy_r": -0.353,
+    "expectancy_gross_r": -0.1629,
+    "avg_cost_r": 0.1901,
+    "profit_factor": 0.598,
+    "t_stat": -12.68,
+    "net_r": -956.96,
+    "max_dd_r": 956.96,
+    "trades_per_week": 72.451
+   },
+   "all": {
+    "trades": 2711,
+    "win_rate": 28.7,
+    "expectancy_r": -0.353,
+    "expectancy_gross_r": -0.1629,
+    "avg_cost_r": 0.1901,
+    "profit_factor": 0.598,
+    "t_stat": -12.68,
+    "net_r": -956.96,
+    "max_dd_r": 956.96,
+    "trades_per_week": 72.451
+   }
+  },
+  "L3 +structure|C-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 421,
+    "win_rate": 25.4,
+    "expectancy_r": -0.3919,
+    "expectancy_gross_r": -0.2682,
+    "avg_cost_r": 0.1237,
+    "profit_factor": 0.533,
+    "t_stat": -6.26,
+    "net_r": -164.98,
+    "max_dd_r": 184.78,
+    "trades_per_week": 11.321
+   },
+   "all": {
+    "trades": 421,
+    "win_rate": 25.4,
+    "expectancy_r": -0.3919,
+    "expectancy_gross_r": -0.2682,
+    "avg_cost_r": 0.1237,
+    "profit_factor": 0.533,
+    "t_stat": -6.26,
+    "net_r": -164.98,
+    "max_dd_r": 184.78,
+    "trades_per_week": 11.321
+   }
+  },
+  "L4 +sweep|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 758,
+    "win_rate": 27.3,
+    "expectancy_r": -0.3845,
+    "expectancy_gross_r": -0.1968,
+    "avg_cost_r": 0.1877,
+    "profit_factor": 0.565,
+    "t_stat": -7.62,
+    "net_r": -291.46,
+    "max_dd_r": 295.87,
+    "trades_per_week": 20.27
+   },
+   "all": {
+    "trades": 758,
+    "win_rate": 27.3,
+    "expectancy_r": -0.3845,
+    "expectancy_gross_r": -0.1968,
+    "avg_cost_r": 0.1877,
+    "profit_factor": 0.565,
+    "t_stat": -7.62,
+    "net_r": -291.46,
+    "max_dd_r": 295.87,
+    "trades_per_week": 20.27
+   }
+  },
+  "L4 +sweep|C-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 119,
+    "win_rate": 21.0,
+    "expectancy_r": -0.5002,
+    "expectancy_gross_r": -0.365,
+    "avg_cost_r": 0.1352,
+    "profit_factor": 0.44,
+    "t_stat": -4.42,
+    "net_r": -59.52,
+    "max_dd_r": 65.69,
+    "trades_per_week": 3.479
+   },
+   "all": {
+    "trades": 119,
+    "win_rate": 21.0,
+    "expectancy_r": -0.5002,
+    "expectancy_gross_r": -0.365,
+    "avg_cost_r": 0.1352,
+    "profit_factor": 0.44,
+    "t_stat": -4.42,
+    "net_r": -59.52,
+    "max_dd_r": 65.69,
+    "trades_per_week": 3.479
+   }
+  },
+  "L5 +displacement|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 444,
+    "win_rate": 26.8,
+    "expectancy_r": -0.3816,
+    "expectancy_gross_r": -0.2033,
+    "avg_cost_r": 0.1783,
+    "profit_factor": 0.563,
+    "t_stat": -5.94,
+    "net_r": -169.45,
+    "max_dd_r": 175.61,
+    "trades_per_week": 11.885
+   },
+   "all": {
+    "trades": 444,
+    "win_rate": 26.8,
+    "expectancy_r": -0.3816,
+    "expectancy_gross_r": -0.2033,
+    "avg_cost_r": 0.1783,
+    "profit_factor": 0.563,
+    "t_stat": -5.94,
+    "net_r": -169.45,
+    "max_dd_r": 175.61,
+    "trades_per_week": 11.885
+   }
+  },
+  "L5 +displacement|C-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 60,
+    "win_rate": 20.0,
+    "expectancy_r": -0.5169,
+    "expectancy_gross_r": -0.3907,
+    "avg_cost_r": 0.1262,
+    "profit_factor": 0.416,
+    "t_stat": -3.33,
+    "net_r": -31.01,
+    "max_dd_r": 35.31,
+    "trades_per_week": 1.816
+   },
+   "all": {
+    "trades": 60,
+    "win_rate": 20.0,
+    "expectancy_r": -0.5169,
+    "expectancy_gross_r": -0.3907,
+    "avg_cost_r": 0.1262,
+    "profit_factor": 0.416,
+    "t_stat": -3.33,
+    "net_r": -31.01,
+    "max_dd_r": 35.31,
+    "trades_per_week": 1.816
+   }
+  },
+  "L6 +location(SD/HTF-FVG/PD)|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 332,
+    "win_rate": 25.6,
+    "expectancy_r": -0.4198,
+    "expectancy_gross_r": -0.2406,
+    "avg_cost_r": 0.1791,
+    "profit_factor": 0.528,
+    "t_stat": -5.73,
+    "net_r": -139.37,
+    "max_dd_r": 143.64,
+    "trades_per_week": 8.887
+   },
+   "all": {
+    "trades": 332,
+    "win_rate": 25.6,
+    "expectancy_r": -0.4198,
+    "expectancy_gross_r": -0.2406,
+    "avg_cost_r": 0.1791,
+    "profit_factor": 0.528,
+    "t_stat": -5.73,
+    "net_r": -139.37,
+    "max_dd_r": 143.64,
+    "trades_per_week": 8.887
+   }
+  },
+  "L6 +location(SD/HTF-FVG/PD)|C-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 43,
+    "win_rate": 20.9,
+    "expectancy_r": -0.4731,
+    "expectancy_gross_r": -0.3547,
+    "avg_cost_r": 0.1184,
+    "profit_factor": 0.449,
+    "t_stat": -2.54,
+    "net_r": -20.34,
+    "max_dd_r": 24.84,
+    "trades_per_week": 1.301
+   },
+   "all": {
+    "trades": 43,
+    "win_rate": 20.9,
+    "expectancy_r": -0.4731,
+    "expectancy_gross_r": -0.3547,
+    "avg_cost_r": 0.1184,
+    "profit_factor": 0.449,
+    "t_stat": -2.54,
+    "net_r": -20.34,
+    "max_dd_r": 24.84,
+    "trades_per_week": 1.301
+   }
+  },
+  "L7 +Wyckoff/ctx (FULL)|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 149,
+    "win_rate": 26.2,
+    "expectancy_r": -0.3961,
+    "expectancy_gross_r": -0.2196,
+    "avg_cost_r": 0.1765,
+    "profit_factor": 0.551,
+    "t_stat": -3.58,
+    "net_r": -59.01,
+    "max_dd_r": 65.07,
+    "trades_per_week": 3.99
+   },
+   "all": {
+    "trades": 149,
+    "win_rate": 26.2,
+    "expectancy_r": -0.3961,
+    "expectancy_gross_r": -0.2196,
+    "avg_cost_r": 0.1765,
+    "profit_factor": 0.551,
+    "t_stat": -3.58,
+    "net_r": -59.01,
+    "max_dd_r": 65.07,
+    "trades_per_week": 3.99
+   }
+  },
+  "L7 +Wyckoff/ctx (FULL)|C-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 24,
+    "win_rate": 25.0,
+    "expectancy_r": -0.3407,
+    "expectancy_gross_r": -0.23,
+    "avg_cost_r": 0.1106,
+    "profit_factor": 0.585,
+    "t_stat": -1.24,
+    "net_r": -8.18,
+    "max_dd_r": 15.04,
+    "trades_per_week": 0.726
+   },
+   "all": {
+    "trades": 24,
+    "win_rate": 25.0,
+    "expectancy_r": -0.3407,
+    "expectancy_gross_r": -0.23,
+    "avg_cost_r": 0.1106,
+    "profit_factor": 0.585,
+    "t_stat": -1.24,
+    "net_r": -8.18,
+    "max_dd_r": 15.04,
+    "trades_per_week": 0.726
+   }
+  },
+  "L8 +session|A-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 102,
+    "win_rate": 24.5,
+    "expectancy_r": -0.4516,
+    "expectancy_gross_r": -0.2717,
+    "avg_cost_r": 0.1798,
+    "profit_factor": 0.504,
+    "t_stat": -3.42,
+    "net_r": -46.06,
+    "max_dd_r": 51.68,
+    "trades_per_week": 2.892
+   },
+   "all": {
+    "trades": 102,
+    "win_rate": 24.5,
+    "expectancy_r": -0.4516,
+    "expectancy_gross_r": -0.2717,
+    "avg_cost_r": 0.1798,
+    "profit_factor": 0.504,
+    "t_stat": -3.42,
+    "net_r": -46.06,
+    "max_dd_r": 51.68,
+    "trades_per_week": 2.892
+   }
+  },
+  "L8 +session|C-2R": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 12,
+    "win_rate": 8.3,
+    "expectancy_r": -0.8196,
+    "expectancy_gross_r": -0.7101,
+    "avg_cost_r": 0.1095,
+    "profit_factor": 0.161,
+    "t_stat": -3.28,
+    "net_r": -9.84,
+    "max_dd_r": 11.72,
+    "trades_per_week": 0.363
+   },
+   "all": {
+    "trades": 12,
+    "win_rate": 8.3,
+    "expectancy_r": -0.8196,
+    "expectancy_gross_r": -0.7101,
+    "avg_cost_r": 0.1095,
+    "profit_factor": 0.161,
+    "t_stat": -3.28,
+    "net_r": -9.84,
+    "max_dd_r": 11.72,
+    "trades_per_week": 0.363
+   }
+  }
+ },
+ "dropone": {},
+ "entry": {
+  "CORE|A first-touch": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 758,
+    "win_rate": 27.3,
+    "expectancy_r": -0.3845,
+    "expectancy_gross_r": -0.1968,
+    "avg_cost_r": 0.1877,
+    "profit_factor": 0.565,
+    "t_stat": -7.62,
+    "net_r": -291.46,
+    "max_dd_r": 295.87,
+    "trades_per_week": 20.27
+   },
+   "all": {
+    "trades": 758,
+    "win_rate": 27.3,
+    "expectancy_r": -0.3845,
+    "expectancy_gross_r": -0.1968,
+    "avg_cost_r": 0.1877,
+    "profit_factor": 0.565,
+    "t_stat": -7.62,
+    "net_r": -291.46,
+    "max_dd_r": 295.87,
+    "trades_per_week": 20.27
+   }
+  },
+  "CORE|B 50%-CE": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 479,
+    "win_rate": 26.1,
+    "expectancy_r": -0.431,
+    "expectancy_gross_r": -0.2212,
+    "avg_cost_r": 0.2098,
+    "profit_factor": 0.524,
+    "t_stat": -7.02,
+    "net_r": -206.46,
+    "max_dd_r": 210.76,
+    "trades_per_week": 12.849
+   },
+   "all": {
+    "trades": 479,
+    "win_rate": 26.1,
+    "expectancy_r": -0.431,
+    "expectancy_gross_r": -0.2212,
+    "avg_cost_r": 0.2098,
+    "profit_factor": 0.524,
+    "t_stat": -7.02,
+    "net_r": -206.46,
+    "max_dd_r": 210.76,
+    "trades_per_week": 12.849
+   }
+  },
+  "CORE|C confirmed": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 119,
+    "win_rate": 21.0,
+    "expectancy_r": -0.5002,
+    "expectancy_gross_r": -0.365,
+    "avg_cost_r": 0.1352,
+    "profit_factor": 0.44,
+    "t_stat": -4.42,
+    "net_r": -59.52,
+    "max_dd_r": 65.69,
+    "trades_per_week": 3.479
+   },
+   "all": {
+    "trades": 119,
+    "win_rate": 21.0,
+    "expectancy_r": -0.5002,
+    "expectancy_gross_r": -0.365,
+    "avg_cost_r": 0.1352,
+    "profit_factor": 0.44,
+    "t_stat": -4.42,
+    "net_r": -59.52,
+    "max_dd_r": 65.69,
+    "trades_per_week": 3.479
+   }
+  },
+  "CORE|C confirmed (no LTF sweep)": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 327,
+    "win_rate": 30.3,
+    "expectancy_r": -0.2465,
+    "expectancy_gross_r": -0.1109,
+    "avg_cost_r": 0.1355,
+    "profit_factor": 0.695,
+    "t_stat": -3.15,
+    "net_r": -80.59,
+    "max_dd_r": 91.7,
+    "trades_per_week": 8.81
+   },
+   "all": {
+    "trades": 327,
+    "win_rate": 30.3,
+    "expectancy_r": -0.2465,
+    "expectancy_gross_r": -0.1109,
+    "avg_cost_r": 0.1355,
+    "profit_factor": 0.695,
+    "t_stat": -3.15,
+    "net_r": -80.59,
+    "max_dd_r": 91.7,
+    "trades_per_week": 8.81
+   }
+  },
+  "FULL|A first-touch": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 149,
+    "win_rate": 26.2,
+    "expectancy_r": -0.3961,
+    "expectancy_gross_r": -0.2196,
+    "avg_cost_r": 0.1765,
+    "profit_factor": 0.551,
+    "t_stat": -3.58,
+    "net_r": -59.01,
+    "max_dd_r": 65.07,
+    "trades_per_week": 3.99
+   },
+   "all": {
+    "trades": 149,
+    "win_rate": 26.2,
+    "expectancy_r": -0.3961,
+    "expectancy_gross_r": -0.2196,
+    "avg_cost_r": 0.1765,
+    "profit_factor": 0.551,
+    "t_stat": -3.58,
+    "net_r": -59.01,
+    "max_dd_r": 65.07,
+    "trades_per_week": 3.99
+   }
+  },
+  "FULL|B 50%-CE": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 88,
+    "win_rate": 20.5,
+    "expectancy_r": -0.5997,
+    "expectancy_gross_r": -0.3864,
+    "avg_cost_r": 0.2133,
+    "profit_factor": 0.381,
+    "t_stat": -4.57,
+    "net_r": -52.77,
+    "max_dd_r": 58.96,
+    "trades_per_week": 2.411
+   },
+   "all": {
+    "trades": 88,
+    "win_rate": 20.5,
+    "expectancy_r": -0.5997,
+    "expectancy_gross_r": -0.3864,
+    "avg_cost_r": 0.2133,
+    "profit_factor": 0.381,
+    "t_stat": -4.57,
+    "net_r": -52.77,
+    "max_dd_r": 58.96,
+    "trades_per_week": 2.411
+   }
+  },
+  "FULL|C confirmed": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 24,
+    "win_rate": 25.0,
+    "expectancy_r": -0.3407,
+    "expectancy_gross_r": -0.23,
+    "avg_cost_r": 0.1106,
+    "profit_factor": 0.585,
+    "t_stat": -1.24,
+    "net_r": -8.18,
+    "max_dd_r": 15.04,
+    "trades_per_week": 0.726
+   },
+   "all": {
+    "trades": 24,
+    "win_rate": 25.0,
+    "expectancy_r": -0.3407,
+    "expectancy_gross_r": -0.23,
+    "avg_cost_r": 0.1106,
+    "profit_factor": 0.585,
+    "t_stat": -1.24,
+    "net_r": -8.18,
+    "max_dd_r": 15.04,
+    "trades_per_week": 0.726
+   }
+  },
+  "FULL|C confirmed (no LTF sweep)": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 48,
+    "win_rate": 27.1,
+    "expectancy_r": -0.2964,
+    "expectancy_gross_r": -0.1831,
+    "avg_cost_r": 0.1133,
+    "profit_factor": 0.63,
+    "t_stat": -1.53,
+    "net_r": -14.22,
+    "max_dd_r": 20.25,
+    "trades_per_week": 1.411
+   },
+   "all": {
+    "trades": 48,
+    "win_rate": 27.1,
+    "expectancy_r": -0.2964,
+    "expectancy_gross_r": -0.1831,
+    "avg_cost_r": 0.1133,
+    "profit_factor": 0.63,
+    "t_stat": -1.53,
+    "net_r": -14.22,
+    "max_dd_r": 20.25,
+    "trades_per_week": 1.411
+   }
+  }
+ },
+ "stop": {},
+ "tp": {},
+ "mgmt": {},
+ "cost": {
+  "CORE|C-2R optimistic": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 119,
+    "win_rate": 21.0,
+    "expectancy_r": -0.4398,
+    "expectancy_gross_r": -0.365,
+    "avg_cost_r": 0.0747,
+    "profit_factor": 0.477,
+    "t_stat": -3.93,
+    "net_r": -52.33,
+    "max_dd_r": 58.83,
+    "trades_per_week": 3.479
+   },
+   "all": {
+    "trades": 119,
+    "win_rate": 21.0,
+    "expectancy_r": -0.4398,
+    "expectancy_gross_r": -0.365,
+    "avg_cost_r": 0.0747,
+    "profit_factor": 0.477,
+    "t_stat": -3.93,
+    "net_r": -52.33,
+    "max_dd_r": 58.83,
+    "trades_per_week": 3.479
+   }
+  },
+  "T1|A-2R optimistic": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 14565,
+    "win_rate": 29.9,
+    "expectancy_r": -0.2796,
+    "expectancy_gross_r": -0.121,
+    "avg_cost_r": 0.1585,
+    "profit_factor": 0.663,
+    "t_stat": -23.61,
+    "net_r": -4071.67,
+    "max_dd_r": 4071.67,
+    "trades_per_week": 384.112
+   },
+   "all": {
+    "trades": 14565,
+    "win_rate": 29.9,
+    "expectancy_r": -0.2796,
+    "expectancy_gross_r": -0.121,
+    "avg_cost_r": 0.1585,
+    "profit_factor": 0.663,
+    "t_stat": -23.61,
+    "net_r": -4071.67,
+    "max_dd_r": 4071.67,
+    "trades_per_week": 384.112
+   }
+  },
+  "CORE|C-2R base": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 119,
+    "win_rate": 21.0,
+    "expectancy_r": -0.5002,
+    "expectancy_gross_r": -0.365,
+    "avg_cost_r": 0.1352,
+    "profit_factor": 0.44,
+    "t_stat": -4.42,
+    "net_r": -59.52,
+    "max_dd_r": 65.69,
+    "trades_per_week": 3.479
+   },
+   "all": {
+    "trades": 119,
+    "win_rate": 21.0,
+    "expectancy_r": -0.5002,
+    "expectancy_gross_r": -0.365,
+    "avg_cost_r": 0.1352,
+    "profit_factor": 0.44,
+    "t_stat": -4.42,
+    "net_r": -59.52,
+    "max_dd_r": 65.69,
+    "trades_per_week": 3.479
+   }
+  },
+  "T1|A-2R base": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 11626,
+    "win_rate": 29.9,
+    "expectancy_r": -0.3127,
+    "expectancy_gross_r": -0.1203,
+    "avg_cost_r": 0.1924,
+    "profit_factor": 0.636,
+    "t_stat": -23.61,
+    "net_r": -3635.27,
+    "max_dd_r": 3635.27,
+    "trades_per_week": 306.62
+   },
+   "all": {
+    "trades": 11626,
+    "win_rate": 29.9,
+    "expectancy_r": -0.3127,
+    "expectancy_gross_r": -0.1203,
+    "avg_cost_r": 0.1924,
+    "profit_factor": 0.636,
+    "t_stat": -23.61,
+    "net_r": -3635.27,
+    "max_dd_r": 3635.27,
+    "trades_per_week": 306.62
+   }
+  },
+  "CORE|C-2R conservative": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 112,
+    "win_rate": 22.3,
+    "expectancy_r": -0.5409,
+    "expectancy_gross_r": -0.3254,
+    "avg_cost_r": 0.2156,
+    "profit_factor": 0.426,
+    "t_stat": -4.5,
+    "net_r": -60.58,
+    "max_dd_r": 66.17,
+    "trades_per_week": 3.275
+   },
+   "all": {
+    "trades": 112,
+    "win_rate": 22.3,
+    "expectancy_r": -0.5409,
+    "expectancy_gross_r": -0.3254,
+    "avg_cost_r": 0.2156,
+    "profit_factor": 0.426,
+    "t_stat": -4.5,
+    "net_r": -60.58,
+    "max_dd_r": 66.17,
+    "trades_per_week": 3.275
+   }
+  },
+  "T1|A-2R conservative": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 7819,
+    "win_rate": 29.9,
+    "expectancy_r": -0.3432,
+    "expectancy_gross_r": -0.1192,
+    "avg_cost_r": 0.2239,
+    "profit_factor": 0.612,
+    "t_stat": -21.24,
+    "net_r": -2683.25,
+    "max_dd_r": 2685.36,
+    "trades_per_week": 206.215
+   },
+   "all": {
+    "trades": 7819,
+    "win_rate": 29.9,
+    "expectancy_r": -0.3432,
+    "expectancy_gross_r": -0.1192,
+    "avg_cost_r": 0.2239,
+    "profit_factor": 0.612,
+    "t_stat": -21.24,
+    "net_r": -2683.25,
+    "max_dd_r": 2685.36,
+    "trades_per_week": 206.215
+   }
+  },
+  "FULL|v1 optimistic": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 2,
+    "win_rate": 50.0,
+    "expectancy_r": 0.3959,
+    "expectancy_gross_r": 0.4349,
+    "avg_cost_r": 0.0389,
+    "profit_factor": 1.743,
+    "t_stat": null,
+    "net_r": 0.79,
+    "max_dd_r": 1.07,
+    "trades_per_week": 0.287
+   },
+   "all": {
+    "trades": 2,
+    "win_rate": 50.0,
+    "expectancy_r": 0.3959,
+    "expectancy_gross_r": 0.4349,
+    "avg_cost_r": 0.0389,
+    "profit_factor": 1.743,
+    "t_stat": null,
+    "net_r": 0.79,
+    "max_dd_r": 1.07,
+    "trades_per_week": 0.287
+   }
+  },
+  "FULL|v1 base": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 2,
+    "win_rate": 50.0,
+    "expectancy_r": 0.3656,
+    "expectancy_gross_r": 0.4349,
+    "avg_cost_r": 0.0692,
+    "profit_factor": 1.655,
+    "t_stat": null,
+    "net_r": 0.73,
+    "max_dd_r": 1.12,
+    "trades_per_week": 0.287
+   },
+   "all": {
+    "trades": 2,
+    "win_rate": 50.0,
+    "expectancy_r": 0.3656,
+    "expectancy_gross_r": 0.4349,
+    "avg_cost_r": 0.0692,
+    "profit_factor": 1.655,
+    "t_stat": null,
+    "net_r": 0.73,
+    "max_dd_r": 1.12,
+    "trades_per_week": 0.287
+   }
+  },
+  "FULL|v1 conservative": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 2,
+    "win_rate": 50.0,
+    "expectancy_r": 0.3123,
+    "expectancy_gross_r": 0.4349,
+    "avg_cost_r": 0.1225,
+    "profit_factor": 1.519,
+    "t_stat": null,
+    "net_r": 0.62,
+    "max_dd_r": 1.2,
+    "trades_per_week": 0.287
+   },
+   "all": {
+    "trades": 2,
+    "win_rate": 50.0,
+    "expectancy_r": 0.3123,
+    "expectancy_gross_r": 0.4349,
+    "avg_cost_r": 0.1225,
+    "profit_factor": 1.519,
+    "t_stat": null,
+    "net_r": 0.62,
+    "max_dd_r": 1.2,
+    "trades_per_week": 0.287
+   }
+  }
+ },
+ "mode": {},
+ "stability": {},
+ "baseline": {
+  "Bensim v1 CORE|C-CONF-LIQ1.5": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 23,
+    "win_rate": 8.7,
+    "expectancy_r": -0.9271,
+    "expectancy_gross_r": -0.7479,
+    "avg_cost_r": 0.1793,
+    "profit_factor": 0.146,
+    "t_stat": -5.08,
+    "net_r": -21.32,
+    "max_dd_r": 21.32,
+    "trades_per_week": 0.697
+   },
+   "all": {
+    "trades": 23,
+    "win_rate": 8.7,
+    "expectancy_r": -0.9271,
+    "expectancy_gross_r": -0.7479,
+    "avg_cost_r": 0.1793,
+    "profit_factor": 0.146,
+    "t_stat": -5.08,
+    "net_r": -21.32,
+    "max_dd_r": 21.32,
+    "trades_per_week": 0.697
+   }
+  },
+  "Bensim Baseline v1|C-CONF-LIQ1.5": {
+   "dev": {
+    "trades": 0,
+    "win_rate": null,
+    "expectancy_r": null,
+    "expectancy_gross_r": null,
+    "avg_cost_r": null,
+    "profit_factor": null,
+    "t_stat": null,
+    "net_r": null,
+    "max_dd_r": null,
+    "trades_per_week": null
+   },
+   "holdout": {
+    "trades": 2,
+    "win_rate": 50.0,
+    "expectancy_r": 0.3656,
+    "expectancy_gross_r": 0.4349,
+    "avg_cost_r": 0.0692,
+    "profit_factor": 1.655,
+    "t_stat": null,
+    "net_r": 0.73,
+    "max_dd_r": 1.12,
+    "trades_per_week": 0.287
+   },
+   "all": {
+    "trades": 2,
+    "win_rate": 50.0,
+    "expectancy_r": 0.3656,
+    "expectancy_gross_r": 0.4349,
+    "avg_cost_r": 0.0692,
+    "profit_factor": 1.655,
+    "t_stat": null,
+    "net_r": 0.73,
+    "max_dd_r": 1.12,
+    "trades_per_week": 0.287
+   }
+  }
+ },
+ "selection": {
+  "pool": [
+   "entry|CORE|A first-touch",
+   "entry|CORE|B 50%-CE",
+   "entry|CORE|C confirmed",
+   "entry|CORE|C confirmed (no LTF sweep)",
+   "entry|FULL|A first-touch",
+   "entry|FULL|B 50%-CE",
+   "entry|FULL|C confirmed",
+   "entry|FULL|C confirmed (no LTF sweep)",
+   "tp|CORE|C fixed 1.5R",
+   "tp|CORE|C fixed 2.5R",
+   "tp|CORE|C fixed 3.0R",
+   "tp|CORE|A fixed 1.5R",
+   "stop|CORE|C-entry stop A",
+   "stop|CORE|A-entry stop B",
+   "mode|CORE|CONTINUATION C-2R",
+   "mode|CORE|CONTINUATION A-2R",
+   "ladder|L5 +displacement|C-2R",
+   "ladder|L6 +location(SD/HTF-FVG/PD)|C-2R",
+   "ladder|L2 +HTF|C-2R",
+   "ladder|L3 +structure|C-2R",
+   "baseline|Bensim Baseline v1|C-CONF-LIQ1.5",
+   "baseline|Bensim v1 CORE|C-CONF-LIQ1.5"
+  ],
+  "rule": "highest DEV expectancy with >=100 DEV trades",
+  "picked": null,
+  "dev": null,
+  "holdout": null
+ },
+ "walk_forward": {
+  "folds": [],
+  "mean_is_expectancy_r": null,
+  "oos": {
+   "trades": 0
+  }
+ },
+ "focus": {
+  "baseline|Bensim Baseline v1|C-CONF-LIQ1.5": {
+   "by_symbol": {
+    "GBPUSD": {
+     "dev": {
+      "trades": 0,
+      "win_rate": null,
+      "expectancy_r": null,
+      "expectancy_gross_r": null,
+      "avg_cost_r": null,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": null,
+      "max_dd_r": null,
+      "trades_per_week": null
+     },
+     "holdout": {
+      "trades": 1,
+      "win_rate": 0.0,
+      "expectancy_r": -1.1159,
+      "expectancy_gross_r": -1.0,
+      "avg_cost_r": 0.1159,
+      "profit_factor": 0.0,
+      "t_stat": null,
+      "net_r": -1.12,
+      "max_dd_r": 1.12,
+      "trades_per_week": 1.0
+     },
+     "all": {
+      "trades": 1,
+      "win_rate": 0.0,
+      "expectancy_r": -1.1159,
+      "expectancy_gross_r": -1.0,
+      "avg_cost_r": 0.1159,
+      "profit_factor": 0.0,
+      "t_stat": null,
+      "net_r": -1.12,
+      "max_dd_r": 1.12,
+      "trades_per_week": 1.0
+     }
+    },
+    "XAUUSD": {
+     "dev": {
+      "trades": 0,
+      "win_rate": null,
+      "expectancy_r": null,
+      "expectancy_gross_r": null,
+      "avg_cost_r": null,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": null,
+      "max_dd_r": null,
+      "trades_per_week": null
+     },
+     "holdout": {
+      "trades": 1,
+      "win_rate": 100.0,
+      "expectancy_r": 1.8472,
+      "expectancy_gross_r": 1.8697,
+      "avg_cost_r": 0.0225,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": 1.85,
+      "max_dd_r": 0.0,
+      "trades_per_week": 1.0
+     },
+     "all": {
+      "trades": 1,
+      "win_rate": 100.0,
+      "expectancy_r": 1.8472,
+      "expectancy_gross_r": 1.8697,
+      "avg_cost_r": 0.0225,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": 1.85,
+      "max_dd_r": 0.0,
+      "trades_per_week": 1.0
+     }
+    }
+   },
+   "by_session": {
+    "OFF": {
+     "trades": 1,
+     "win_rate": 100.0,
+     "expectancy_r": 1.8472,
+     "net_r": 1.85,
+     "profit_factor": null,
+     "t_stat": null,
+     "max_dd_r": 0.0
+    },
+    "OVERLAP": {
+     "trades": 1,
+     "win_rate": 0.0,
+     "expectancy_r": -1.1159,
+     "net_r": -1.12,
+     "profit_factor": 0.0,
+     "t_stat": null,
+     "max_dd_r": 1.12
+    }
+   },
+   "by_regime": {
+    "TRANSITION": {
+     "trades": 1,
+     "win_rate": 0.0,
+     "expectancy_r": -1.1159,
+     "net_r": -1.12,
+     "profit_factor": 0.0,
+     "t_stat": null,
+     "max_dd_r": 1.12
+    },
+    "TREND_UP": {
+     "trades": 1,
+     "win_rate": 100.0,
+     "expectancy_r": 1.8472,
+     "net_r": 1.85,
+     "profit_factor": null,
+     "t_stat": null,
+     "max_dd_r": 0.0
+    }
+   },
+   "by_phase": {
+    "ACCUMULATION": {
+     "trades": 1,
+     "win_rate": 100.0,
+     "expectancy_r": 1.8472,
+     "net_r": 1.85,
+     "profit_factor": null,
+     "t_stat": null,
+     "max_dd_r": 0.0
+    },
+    "RANGE": {
+     "trades": 1,
+     "win_rate": 0.0,
+     "expectancy_r": -1.1159,
+     "net_r": -1.12,
+     "profit_factor": 0.0,
+     "t_stat": null,
+     "max_dd_r": 1.12
+    }
+   },
+   "by_mode": {
+    "REVERSAL": {
+     "trades": 2,
+     "win_rate": 50.0,
+     "expectancy_r": 0.3656,
+     "net_r": 0.73,
+     "profit_factor": 1.655,
+     "t_stat": null,
+     "max_dd_r": 1.12
+    }
+   },
+   "by_dir": {
+    "-1": {
+     "trades": 1,
+     "win_rate": 0.0,
+     "expectancy_r": -1.1159,
+     "net_r": -1.12,
+     "profit_factor": 0.0,
+     "t_stat": null,
+     "max_dd_r": 1.12
+    },
+    "1": {
+     "trades": 1,
+     "win_rate": 100.0,
+     "expectancy_r": 1.8472,
+     "net_r": 1.85,
+     "profit_factor": null,
+     "t_stat": null,
+     "max_dd_r": 0.0
+    }
+   },
+   "by_vol": {
+    "NORMAL": {
+     "trades": 2,
+     "win_rate": 50.0,
+     "expectancy_r": 0.3656,
+     "net_r": 0.73,
+     "profit_factor": 1.655,
+     "t_stat": null,
+     "max_dd_r": 1.12
+    }
+   },
+   "by_exit_reason": {
+    "stop": {
+     "trades": 1,
+     "win_rate": 0.0,
+     "expectancy_r": -1.1159,
+     "net_r": -1.12,
+     "profit_factor": 0.0,
+     "t_stat": null,
+     "max_dd_r": 1.12
+    },
+    "target": {
+     "trades": 1,
+     "win_rate": 100.0,
+     "expectancy_r": 1.8472,
+     "net_r": 1.85,
+     "profit_factor": null,
+     "t_stat": null,
+     "max_dd_r": 0.0
+    }
+   },
+   "by_year": {
+    "2026": {
+     "trades": 2,
+     "win_rate": 50.0,
+     "expectancy_r": 0.3656,
+     "net_r": 0.73,
+     "profit_factor": 1.655,
+     "t_stat": null,
+     "max_dd_r": 1.12
+    }
+   },
+   "news": {
+    "A no filter": {
+     "trades": 2,
+     "win_rate": 50.0,
+     "expectancy_r": 0.3656,
+     "expectancy_gross_r": 0.4349,
+     "avg_cost_r": 0.0692,
+     "profit_factor": 1.655,
+     "t_stat": null,
+     "net_r": 0.73,
+     "max_dd_r": 1.12,
+     "trades_per_week": 0.287
+    },
+    "B avoid 08:30 ET window/NFP + news-displacement setups": {
+     "trades": 2,
+     "win_rate": 50.0,
+     "expectancy_r": 0.3656,
+     "expectancy_gross_r": 0.4349,
+     "avg_cost_r": 0.0692,
+     "profit_factor": 1.655,
+     "t_stat": null,
+     "net_r": 0.73,
+     "max_dd_r": 1.12,
+     "trades_per_week": 0.287
+    },
+    "C avoid window but allow news-displacement setups": {
+     "trades": 2,
+     "win_rate": 50.0,
+     "expectancy_r": 0.3656,
+     "expectancy_gross_r": 0.4349,
+     "avg_cost_r": 0.0692,
+     "profit_factor": 1.655,
+     "t_stat": null,
+     "net_r": 0.73,
+     "max_dd_r": 1.12,
+     "trades_per_week": 0.287
+    }
+   },
+   "trades_per_week_by_symbol": {
+    "GBPUSD": 0.026,
+    "XAUUSD": 0.026
+   },
+   "portfolio_fixed_0.5pct": {
+    "all": {
+     "trades": 2,
+     "win_rate": 50.0,
+     "expectancy_r": 0.3656,
+     "median_r": 0.366,
+     "net_r": 0.73,
+     "profit_factor": 1.655,
+     "t_stat": null,
+     "avg_win_r": 1.847,
+     "avg_loss_r": -1.116,
+     "max_dd_r": 1.12,
+     "max_consec_losses": 1,
+     "trades_per_week": 0.287,
+     "trades_per_month": 1.25,
+     "avg_mfe_r": 2.21,
+     "avg_mae_r": 1.053,
+     "avg_hold_bars": 98.0,
+     "expectancy_gross_r": 0.4349,
+     "avg_cost_r": 0.0692,
+     "net_pct": 0.37,
+     "annual_pct": 2.56,
+     "max_dd_pct": 0.56,
+     "avg_dd_pct": 0.56,
+     "sharpe": 0.89,
+     "sortino": null,
+     "calmar": 4.59,
+     "recovery_factor": 0.66,
+     "worst_day_pct": -0.56,
+     "worst_week_pct": -0.56,
+     "worst_month_pct": -0.56
+    },
+    "holdout": {
+     "trades": 2,
+     "win_rate": 50.0,
+     "expectancy_r": 0.3656,
+     "median_r": 0.366,
+     "net_r": 0.73,
+     "profit_factor": 1.655,
+     "t_stat": null,
+     "avg_win_r": 1.847,
+     "avg_loss_r": -1.116,
+     "max_dd_r": 1.12,
+     "max_consec_losses": 1,
+     "trades_per_week": 0.287,
+     "trades_per_month": 1.25,
+     "avg_mfe_r": 2.21,
+     "avg_mae_r": 1.053,
+     "avg_hold_bars": 98.0,
+     "expectancy_gross_r": 0.4349,
+     "avg_cost_r": 0.0692,
+     "net_pct": 0.37,
+     "annual_pct": 2.56,
+     "max_dd_pct": 0.56,
+     "avg_dd_pct": 0.56,
+     "sharpe": 0.89,
+     "sortino": null,
+     "calmar": 4.59,
+     "recovery_factor": 0.66,
+     "worst_day_pct": -0.56,
+     "worst_week_pct": -0.56,
+     "worst_month_pct": -0.56
+    },
+    "states": {
+     "NORMAL": 2
+    },
+    "skipped_by_risk_rules": 0
+   },
+   "monthly_pct": {
+    "2026-02": {
+     "sum": 0.92,
+     "trades": 1
+    },
+    "2026-04": {
+     "sum": -0.56,
+     "trades": 1
+    }
+   },
+   "yearly_pct": {
+    "2026": {
+     "sum": 0.37,
+     "trades": 2
+    }
+   },
+   "monte_carlo": {},
+   "portfolio_adaptive": {
+    "all": {
+     "trades": 2,
+     "win_rate": 50.0,
+     "expectancy_r": 0.3656,
+     "median_r": 0.366,
+     "net_r": 0.73,
+     "profit_factor": 1.655,
+     "t_stat": null,
+     "avg_win_r": 1.847,
+     "avg_loss_r": -1.116,
+     "max_dd_r": 1.12,
+     "max_consec_losses": 1,
+     "trades_per_week": 0.287,
+     "trades_per_month": 1.25,
+     "avg_mfe_r": 2.21,
+     "avg_mae_r": 1.053,
+     "avg_hold_bars": 98.0,
+     "expectancy_gross_r": 0.4349,
+     "avg_cost_r": 0.0692,
+     "net_pct": 0.37,
+     "annual_pct": 2.56,
+     "max_dd_pct": 0.56,
+     "avg_dd_pct": 0.56,
+     "sharpe": 0.89,
+     "sortino": null,
+     "calmar": 4.59,
+     "recovery_factor": 0.66,
+     "worst_day_pct": -0.56,
+     "worst_week_pct": -0.56,
+     "worst_month_pct": -0.56
+    },
+    "holdout": {
+     "trades": 2,
+     "win_rate": 50.0,
+     "expectancy_r": 0.3656,
+     "median_r": 0.366,
+     "net_r": 0.73,
+     "profit_factor": 1.655,
+     "t_stat": null,
+     "avg_win_r": 1.847,
+     "avg_loss_r": -1.116,
+     "max_dd_r": 1.12,
+     "max_consec_losses": 1,
+     "trades_per_week": 0.287,
+     "trades_per_month": 1.25,
+     "avg_mfe_r": 2.21,
+     "avg_mae_r": 1.053,
+     "avg_hold_bars": 98.0,
+     "expectancy_gross_r": 0.4349,
+     "avg_cost_r": 0.0692,
+     "net_pct": 0.37,
+     "annual_pct": 2.56,
+     "max_dd_pct": 0.56,
+     "avg_dd_pct": 0.56,
+     "sharpe": 0.89,
+     "sortino": null,
+     "calmar": 4.59,
+     "recovery_factor": 0.66,
+     "worst_day_pct": -0.56,
+     "worst_week_pct": -0.56,
+     "worst_month_pct": -0.56
+    },
+    "states": {
+     "NORMAL": 2
+    },
+    "skipped_by_risk_rules": 0
+   },
+   "no_trade_reasons": {
+    "FVG invalidated before confirmation": 83,
+    "FVG never retraced": 58,
+    "no confirmation MSS+displacement+FVG": 46,
+    "no confirmation sweep": 33,
+    "poor RR to liquidity": 17,
+    "no liquidity target": 5,
+    "no data after setup": 1
+   }
+  },
+  "entry|CORE|C confirmed": {
+   "by_symbol": {
+    "AUDUSD": {
+     "dev": {
+      "trades": 0,
+      "win_rate": null,
+      "expectancy_r": null,
+      "expectancy_gross_r": null,
+      "avg_cost_r": null,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": null,
+      "max_dd_r": null,
+      "trades_per_week": null
+     },
+     "holdout": {
+      "trades": 14,
+      "win_rate": 7.1,
+      "expectancy_r": -0.9985,
+      "expectancy_gross_r": -0.7857,
+      "avg_cost_r": 0.2128,
+      "profit_factor": 0.12,
+      "t_stat": -4.43,
+      "net_r": -13.98,
+      "max_dd_r": 13.98,
+      "trades_per_week": 0.455
+     },
+     "all": {
+      "trades": 14,
+      "win_rate": 7.1,
+      "expectancy_r": -0.9985,
+      "expectancy_gross_r": -0.7857,
+      "avg_cost_r": 0.2128,
+      "profit_factor": 0.12,
+      "t_stat": -4.43,
+      "net_r": -13.98,
+      "max_dd_r": 13.98,
+      "trades_per_week": 0.455
+     }
+    },
+    "EURUSD": {
+     "dev": {
+      "trades": 0,
+      "win_rate": null,
+      "expectancy_r": null,
+      "expectancy_gross_r": null,
+      "avg_cost_r": null,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": null,
+      "max_dd_r": null,
+      "trades_per_week": null
+     },
+     "holdout": {
+      "trades": 23,
+      "win_rate": 13.0,
+      "expectancy_r": -0.6942,
+      "expectancy_gross_r": -0.5453,
+      "avg_cost_r": 0.1489,
+      "profit_factor": 0.264,
+      "t_stat": -3.14,
+      "net_r": -15.97,
+      "max_dd_r": 15.97,
+      "trades_per_week": 0.752
+     },
+     "all": {
+      "trades": 23,
+      "win_rate": 13.0,
+      "expectancy_r": -0.6942,
+      "expectancy_gross_r": -0.5453,
+      "avg_cost_r": 0.1489,
+      "profit_factor": 0.264,
+      "t_stat": -3.14,
+      "net_r": -15.97,
+      "max_dd_r": 15.97,
+      "trades_per_week": 0.752
+     }
+    },
+    "GBPUSD": {
+     "dev": {
+      "trades": 0,
+      "win_rate": null,
+      "expectancy_r": null,
+      "expectancy_gross_r": null,
+      "avg_cost_r": null,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": null,
+      "max_dd_r": null,
+      "trades_per_week": null
+     },
+     "holdout": {
+      "trades": 18,
+      "win_rate": 16.7,
+      "expectancy_r": -0.6416,
+      "expectancy_gross_r": -0.5,
+      "avg_cost_r": 0.1416,
+      "profit_factor": 0.326,
+      "t_stat": -2.36,
+      "net_r": -11.55,
+      "max_dd_r": 13.38,
+      "trades_per_week": 0.543
+     },
+     "all": {
+      "trades": 18,
+      "win_rate": 16.7,
+      "expectancy_r": -0.6416,
+      "expectancy_gross_r": -0.5,
+      "avg_cost_r": 0.1416,
+      "profit_factor": 0.326,
+      "t_stat": -2.36,
+      "net_r": -11.55,
+      "max_dd_r": 13.38,
+      "trades_per_week": 0.543
+     }
+    },
+    "USDCAD": {
+     "dev": {
+      "trades": 0,
+      "win_rate": null,
+      "expectancy_r": null,
+      "expectancy_gross_r": null,
+      "avg_cost_r": null,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": null,
+      "max_dd_r": null,
+      "trades_per_week": null
+     },
+     "holdout": {
+      "trades": 15,
+      "win_rate": 46.7,
+      "expectancy_r": 0.248,
+      "expectancy_gross_r": 0.4,
+      "avg_cost_r": 0.152,
+      "profit_factor": 1.399,
+      "t_stat": 0.61,
+      "net_r": 3.72,
+      "max_dd_r": 4.58,
+      "trades_per_week": 0.525
+     },
+     "all": {
+      "trades": 15,
+      "win_rate": 46.7,
+      "expectancy_r": 0.248,
+      "expectancy_gross_r": 0.4,
+      "avg_cost_r": 0.152,
+      "profit_factor": 1.399,
+      "t_stat": 0.61,
+      "net_r": 3.72,
+      "max_dd_r": 4.58,
+      "trades_per_week": 0.525
+     }
+    },
+    "USDCHF": {
+     "dev": {
+      "trades": 0,
+      "win_rate": null,
+      "expectancy_r": null,
+      "expectancy_gross_r": null,
+      "avg_cost_r": null,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": null,
+      "max_dd_r": null,
+      "trades_per_week": null
+     },
+     "holdout": {
+      "trades": 14,
+      "win_rate": 28.6,
+      "expectancy_r": -0.3205,
+      "expectancy_gross_r": -0.1564,
+      "avg_cost_r": 0.1641,
+      "profit_factor": 0.623,
+      "t_stat": -0.84,
+      "net_r": -4.49,
+      "max_dd_r": 5.23,
+      "trades_per_week": 0.437
+     },
+     "all": {
+      "trades": 14,
+      "win_rate": 28.6,
+      "expectancy_r": -0.3205,
+      "expectancy_gross_r": -0.1564,
+      "avg_cost_r": 0.1641,
+      "profit_factor": 0.623,
+      "t_stat": -0.84,
+      "net_r": -4.49,
+      "max_dd_r": 5.23,
+      "trades_per_week": 0.437
+     }
+    },
+    "USDJPY": {
+     "dev": {
+      "trades": 0,
+      "win_rate": null,
+      "expectancy_r": null,
+      "expectancy_gross_r": null,
+      "avg_cost_r": null,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": null,
+      "max_dd_r": null,
+      "trades_per_week": null
+     },
+     "holdout": {
+      "trades": 22,
+      "win_rate": 13.6,
+      "expectancy_r": -0.7188,
+      "expectancy_gross_r": -0.6231,
+      "avg_cost_r": 0.0957,
+      "profit_factor": 0.244,
+      "t_stat": -3.39,
+      "net_r": -15.81,
+      "max_dd_r": 17.76,
+      "trades_per_week": 0.648
+     },
+     "all": {
+      "trades": 22,
+      "win_rate": 13.6,
+      "expectancy_r": -0.7188,
+      "expectancy_gross_r": -0.6231,
+      "avg_cost_r": 0.0957,
+      "profit_factor": 0.244,
+      "t_stat": -3.39,
+      "net_r": -15.81,
+      "max_dd_r": 17.76,
+      "trades_per_week": 0.648
+     }
+    },
+    "XAUUSD": {
+     "dev": {
+      "trades": 0,
+      "win_rate": null,
+      "expectancy_r": null,
+      "expectancy_gross_r": null,
+      "avg_cost_r": null,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": null,
+      "max_dd_r": null,
+      "trades_per_week": null
+     },
+     "holdout": {
+      "trades": 13,
+      "win_rate": 30.8,
+      "expectancy_r": -0.1114,
+      "expectancy_gross_r": -0.0769,
+      "avg_cost_r": 0.0345,
+      "profit_factor": 0.845,
+      "t_stat": -0.28,
+      "net_r": -1.45,
+      "max_dd_r": 5.4,
+      "trades_per_week": 0.42
+     },
+     "all": {
+      "trades": 13,
+      "win_rate": 30.8,
+      "expectancy_r": -0.1114,
+      "expectancy_gross_r": -0.0769,
+      "avg_cost_r": 0.0345,
+      "profit_factor": 0.845,
+      "t_stat": -0.28,
+      "net_r": -1.45,
+      "max_dd_r": 5.4,
+      "trades_per_week": 0.42
+     }
+    }
+   },
+   "by_session": {
+    "ASIA": {
+     "trades": 35,
+     "win_rate": 34.3,
+     "expectancy_r": -0.1131,
+     "net_r": -3.96,
+     "profit_factor": 0.851,
+     "t_stat": -0.46,
+     "max_dd_r": 12.78
+    },
+    "LONDON": {
+     "trades": 23,
+     "win_rate": 13.0,
+     "expectancy_r": -0.669,
+     "net_r": -15.39,
+     "profit_factor": 0.264,
+     "t_stat": -3.13,
+     "max_dd_r": 18.42
+    },
+    "NEWYORK": {
+     "trades": 21,
+     "win_rate": 9.5,
+     "expectancy_r": -0.8753,
+     "net_r": -18.38,
+     "profit_factor": 0.172,
+     "t_stat": -4.3,
+     "max_dd_r": 18.38
+    },
+    "OFF": {
+     "trades": 13,
+     "win_rate": 30.8,
+     "expectancy_r": -0.2591,
+     "net_r": -3.37,
+     "profit_factor": 0.694,
+     "t_stat": -0.62,
+     "max_dd_r": 5.23
+    },
+    "OVERLAP": {
+     "trades": 27,
+     "win_rate": 14.8,
+     "expectancy_r": -0.6826,
+     "net_r": -18.43,
+     "profit_factor": 0.277,
+     "t_stat": -3.39,
+     "max_dd_r": 22.03
+    }
+   },
+   "by_regime": {
+    "RANGE": {
+     "trades": 57,
+     "win_rate": 19.3,
+     "expectancy_r": -0.5791,
+     "net_r": -33.01,
+     "profit_factor": 0.387,
+     "t_stat": -3.58,
+     "max_dd_r": 38.29
+    },
+    "TRANSITION": {
+     "trades": 17,
+     "win_rate": 23.5,
+     "expectancy_r": -0.3644,
+     "net_r": -6.19,
+     "profit_factor": 0.549,
+     "t_stat": -1.14,
+     "max_dd_r": 9.18
+    },
+    "TREND_DOWN": {
+     "trades": 13,
+     "win_rate": 23.1,
+     "expectancy_r": -0.4344,
+     "net_r": -5.65,
+     "profit_factor": 0.505,
+     "t_stat": -1.17,
+     "max_dd_r": 7.0
+    },
+    "TREND_UP": {
+     "trades": 32,
+     "win_rate": 21.9,
+     "expectancy_r": -0.4585,
+     "net_r": -14.67,
+     "profit_factor": 0.461,
+     "t_stat": -2.12,
+     "max_dd_r": 17.57
+    }
+   },
+   "by_phase": {
+    "ACCUMULATION": {
+     "trades": 19,
+     "win_rate": 31.6,
+     "expectancy_r": -0.2154,
+     "net_r": -4.09,
+     "profit_factor": 0.726,
+     "t_stat": -0.66,
+     "max_dd_r": 6.06
+    },
+    "DISTRIBUTION": {
+     "trades": 14,
+     "win_rate": 35.7,
+     "expectancy_r": 0.0241,
+     "net_r": 0.34,
+     "profit_factor": 1.037,
+     "t_stat": 0.06,
+     "max_dd_r": 4.84
+    },
+    "MARKDOWN": {
+     "trades": 11,
+     "win_rate": 18.2,
+     "expectancy_r": -0.5722,
+     "net_r": -6.29,
+     "profit_factor": 0.375,
+     "t_stat": -1.56,
+     "max_dd_r": 7.65
+    },
+    "MARKUP": {
+     "trades": 19,
+     "win_rate": 10.5,
+     "expectancy_r": -0.7842,
+     "net_r": -14.9,
+     "profit_factor": 0.198,
+     "t_stat": -3.66,
+     "max_dd_r": 16.77
+    },
+    "RANGE": {
+     "trades": 55,
+     "win_rate": 16.4,
+     "expectancy_r": -0.664,
+     "net_r": -36.52,
+     "profit_factor": 0.318,
+     "t_stat": -4.3,
+     "max_dd_r": 43.96
+    },
+    "TRANSITION": {
+     "trades": 1,
+     "win_rate": 100.0,
+     "expectancy_r": 1.9419,
+     "net_r": 1.94,
+     "profit_factor": null,
+     "t_stat": null,
+     "max_dd_r": 0.0
+    }
+   },
+   "by_mode": {
+    "CONTINUATION": {
+     "trades": 43,
+     "win_rate": 16.3,
+     "expectancy_r": -0.6074,
+     "net_r": -26.12,
+     "profit_factor": 0.337,
+     "t_stat": -3.52,
+     "max_dd_r": 30.67
+    },
+    "REVERSAL": {
+     "trades": 76,
+     "win_rate": 23.7,
+     "expectancy_r": -0.4395,
+     "net_r": -33.4,
+     "profit_factor": 0.5,
+     "t_stat": -2.96,
+     "max_dd_r": 35.87
+    }
+   },
+   "by_dir": {
+    "-1": {
+     "trades": 41,
+     "win_rate": 17.1,
+     "expectancy_r": -0.6077,
+     "net_r": -24.91,
+     "profit_factor": 0.349,
+     "t_stat": -3.32,
+     "max_dd_r": 27.42
+    },
+    "1": {
+     "trades": 78,
+     "win_rate": 23.1,
+     "expectancy_r": -0.4437,
+     "net_r": -34.61,
+     "profit_factor": 0.49,
+     "t_stat": -3.08,
+     "max_dd_r": 40.76
+    }
+   },
+   "by_vol": {
+    "HIGH": {
+     "trades": 17,
+     "win_rate": 17.6,
+     "expectancy_r": -0.613,
+     "net_r": -10.42,
+     "profit_factor": 0.327,
+     "t_stat": -2.28,
+     "max_dd_r": 14.22
+    },
+    "LOW": {
+     "trades": 35,
+     "win_rate": 14.3,
+     "expectancy_r": -0.7187,
+     "net_r": -25.15,
+     "profit_factor": 0.275,
+     "t_stat": -3.9,
+     "max_dd_r": 26.99
+    },
+    "NORMAL": {
+     "trades": 67,
+     "win_rate": 25.4,
+     "expectancy_r": -0.3575,
+     "net_r": -23.95,
+     "profit_factor": 0.573,
+     "t_stat": -2.2,
+     "max_dd_r": 30.49
+    }
+   },
+   "by_exit_reason": {
+    "stop": {
+     "trades": 92,
+     "win_rate": 0.0,
+     "expectancy_r": -1.1469,
+     "net_r": -105.52,
+     "profit_factor": 0.0,
+     "t_stat": -115.08,
+     "max_dd_r": 105.52
+    },
+    "target": {
+     "trades": 24,
+     "win_rate": 100.0,
+     "expectancy_r": 1.8921,
+     "net_r": 45.41,
+     "profit_factor": null,
+     "t_stat": 180.72,
+     "max_dd_r": 0.0
+    },
+    "time": {
+     "trades": 3,
+     "win_rate": 33.3,
+     "expectancy_r": 0.1946,
+     "net_r": 0.58,
+     "profit_factor": 1.855,
+     "t_stat": 0.35,
+     "max_dd_r": 0.68
+    }
+   },
+   "by_year": {
+    "2025": {
+     "trades": 10,
+     "win_rate": 20.0,
+     "expectancy_r": -0.5412,
+     "net_r": -5.41,
+     "profit_factor": 0.42,
+     "t_stat": -1.3,
+     "max_dd_r": 5.41
+    },
+    "2026": {
+     "trades": 109,
+     "win_rate": 21.1,
+     "expectancy_r": -0.4964,
+     "net_r": -54.11,
+     "profit_factor": 0.441,
+     "t_stat": -4.2,
+     "max_dd_r": 60.28
+    }
+   },
+   "news": {
+    "A no filter": {
+     "trades": 119,
+     "win_rate": 21.0,
+     "expectancy_r": -0.5002,
+     "expectancy_gross_r": -0.365,
+     "avg_cost_r": 0.1352,
+     "profit_factor": 0.44,
+     "t_stat": -4.42,
+     "net_r": -59.52,
+     "max_dd_r": 65.69,
+     "trades_per_week": 3.479
+    },
+    "B avoid 08:30 ET window/NFP + news-displacement setups": {
+     "trades": 104,
+     "win_rate": 22.1,
+     "expectancy_r": -0.4702,
+     "expectancy_gross_r": -0.3312,
+     "avg_cost_r": 0.139,
+     "profit_factor": 0.467,
+     "t_stat": -3.81,
+     "net_r": -48.9,
+     "max_dd_r": 54.47,
+     "trades_per_week": 3.041
+    },
+    "C avoid window but allow news-displacement setups": {
+     "trades": 113,
+     "win_rate": 22.1,
+     "expectancy_r": -0.4674,
+     "expectancy_gross_r": -0.3313,
+     "avg_cost_r": 0.1361,
+     "profit_factor": 0.469,
+     "t_stat": -3.95,
+     "net_r": -52.81,
+     "max_dd_r": 60.28,
+     "trades_per_week": 3.304
+    }
+   },
+   "trades_per_week_by_symbol": {
+    "AUDUSD": 0.369,
+    "EURUSD": 0.607,
+    "GBPUSD": 0.475,
+    "USDCAD": 0.396,
+    "USDCHF": 0.369,
+    "USDJPY": 0.58,
+    "XAUUSD": 0.343
+   },
+   "portfolio_fixed_0.5pct": {
+    "all": {
+     "trades": 106,
+     "win_rate": 22.6,
+     "expectancy_r": -0.4469,
+     "median_r": -1.088,
+     "net_r": -47.37,
+     "profit_factor": 0.486,
+     "t_stat": -3.63,
+     "avg_win_r": 1.867,
+     "avg_loss_r": -1.124,
+     "max_dd_r": 51.14,
+     "max_consec_losses": 10,
+     "trades_per_week": 3.099,
+     "trades_per_month": 13.47,
+     "avg_mfe_r": 1.034,
+     "avg_mae_r": 1.079,
+     "avg_hold_bars": 57.7,
+     "expectancy_gross_r": -0.3155,
+     "avg_cost_r": 0.1314,
+     "net_pct": -22.6,
+     "annual_pct": -33.11,
+     "max_dd_pct": 24.49,
+     "avg_dd_pct": 12.7,
+     "sharpe": -3.83,
+     "sortino": -7.33,
+     "calmar": -1.35,
+     "recovery_factor": -0.92,
+     "worst_day_pct": -1.64,
+     "worst_week_pct": -2.92,
+     "worst_month_pct": -5.62
+    },
+    "holdout": {
+     "trades": 106,
+     "win_rate": 22.6,
+     "expectancy_r": -0.4469,
+     "median_r": -1.088,
+     "net_r": -47.37,
+     "profit_factor": 0.486,
+     "t_stat": -3.63,
+     "avg_win_r": 1.867,
+     "avg_loss_r": -1.124,
+     "max_dd_r": 51.14,
+     "max_consec_losses": 10,
+     "trades_per_week": 3.099,
+     "trades_per_month": 13.47,
+     "avg_mfe_r": 1.034,
+     "avg_mae_r": 1.079,
+     "avg_hold_bars": 57.7,
+     "expectancy_gross_r": -0.3155,
+     "avg_cost_r": 0.1314,
+     "net_pct": -22.6,
+     "annual_pct": -33.11,
+     "max_dd_pct": 24.49,
+     "avg_dd_pct": 12.7,
+     "sharpe": -3.83,
+     "sortino": -7.33,
+     "calmar": -1.35,
+     "recovery_factor": -0.92,
+     "worst_day_pct": -1.64,
+     "worst_week_pct": -2.92,
+     "worst_month_pct": -5.62
+    },
+    "states": {
+     "NORMAL": 106
+    },
+    "skipped_by_risk_rules": 13
+   },
+   "monthly_pct": {
+    "2025-12": {
+     "sum": -1.49,
+     "trades": 8
+    },
+    "2026-01": {
+     "sum": -5.14,
+     "trades": 12
+    },
+    "2026-02": {
+     "sum": -1.54,
+     "trades": 11
+    },
+    "2026-03": {
+     "sum": -1.39,
+     "trades": 16
+    },
+    "2026-04": {
+     "sum": -5.62,
+     "trades": 13
+    },
+    "2026-05": {
+     "sum": -3.79,
+     "trades": 12
+    },
+    "2026-06": {
+     "sum": 0.7,
+     "trades": 12
+    },
+    "2026-07": {
+     "sum": -3.34,
+     "trades": 16
+    },
+    "2026-08": {
+     "sum": -2.08,
+     "trades": 6
+    }
+   },
+   "yearly_pct": {
+    "2025": {
+     "sum": -1.49,
+     "trades": 8
+    },
+    "2026": {
+     "sum": -22.19,
+     "trades": 98
+    }
+   },
+   "monte_carlo": {
+    "shuffle": {
+     "dd_pct_p50": 24.68,
+     "dd_pct_p95": 27.32,
+     "dd_pct_p99": 28.71,
+     "p_dd_ge_10pct": 1.0,
+     "p_dd_ge_20pct_ruin": 1.0,
+     "losing_streak_p50": 13,
+     "losing_streak_p95": 21,
+     "p_losing_streak_ge_10": 0.9252,
+     "final_pct_p5": -23.69,
+     "p_final_negative": 1.0
+    },
+    "shuffle+slippage+10%_failed_winners": {
+     "dd_pct_p50": 29.31,
+     "dd_pct_p95": 33.57,
+     "dd_pct_p99": 35.28,
+     "p_dd_ge_10pct": 1.0,
+     "p_dd_ge_20pct_ruin": 1.0,
+     "losing_streak_p50": 14,
+     "losing_streak_p95": 23,
+     "p_losing_streak_ge_10": 0.9672,
+     "final_pct_p5": -32.21,
+     "p_final_negative": 1.0
+    }
+   },
+   "portfolio_adaptive": {
+    "all": {
+     "trades": 103,
+     "win_rate": 23.3,
+     "expectancy_r": -0.4241,
+     "median_r": -1.086,
+     "net_r": -43.68,
+     "profit_factor": 0.506,
+     "t_stat": -3.37,
+     "avg_win_r": 1.867,
+     "avg_loss_r": -1.12,
+     "max_dd_r": 47.45,
+     "max_consec_losses": 10,
+     "trades_per_week": 3.011,
+     "trades_per_month": 13.08,
+     "avg_mfe_r": 1.047,
+     "avg_mae_r": 1.036,
+     "avg_hold_bars": 58.8,
+     "expectancy_gross_r": -0.2955,
+     "avg_cost_r": 0.1285,
+     "net_pct": -14.75,
+     "annual_pct": -21.61,
+     "max_dd_pct": 16.18,
+     "avg_dd_pct": 9.07,
+     "sharpe": -3.51,
+     "sortino": -5.98,
+     "calmar": -1.34,
+     "recovery_factor": -0.91,
+     "worst_day_pct": -1.25,
+     "worst_week_pct": -2.32,
+     "worst_month_pct": -4.04
+    },
+    "holdout": {
+     "trades": 103,
+     "win_rate": 23.3,
+     "expectancy_r": -0.4241,
+     "median_r": -1.086,
+     "net_r": -43.68,
+     "profit_factor": 0.506,
+     "t_stat": -3.37,
+     "avg_win_r": 1.867,
+     "avg_loss_r": -1.12,
+     "max_dd_r": 47.45,
+     "max_consec_losses": 10,
+     "trades_per_week": 3.011,
+     "trades_per_month": 13.08,
+     "avg_mfe_r": 1.047,
+     "avg_mae_r": 1.036,
+     "avg_hold_bars": 58.8,
+     "expectancy_gross_r": -0.2955,
+     "avg_cost_r": 0.1285,
+     "net_pct": -14.75,
+     "annual_pct": -21.61,
+     "max_dd_pct": 16.18,
+     "avg_dd_pct": 9.07,
+     "sharpe": -3.51,
+     "sortino": -5.98,
+     "calmar": -1.34,
+     "recovery_factor": -0.91,
+     "worst_day_pct": -1.25,
+     "worst_week_pct": -2.32,
+     "worst_month_pct": -4.04
+    },
+    "states": {
+     "REDUCED": 44,
+     "CAUTION": 39,
+     "NORMAL": 20
+    },
+    "skipped_by_risk_rules": 16
+   },
+   "no_trade_reasons": {
+    "FVG invalidated before confirmation": 621,
+    "FVG never retraced": 267,
+    "no confirmation MSS+displacement+FVG": 255,
+    "no confirmation sweep": 213,
+    "no data after setup": 3,
+    "stop too tight / beyond entry": 1
+   }
+  },
+  "single|T1 FVG alone|A-2R": {
+   "by_symbol": {
+    "AUDUSD": {
+     "dev": {
+      "trades": 0,
+      "win_rate": null,
+      "expectancy_r": null,
+      "expectancy_gross_r": null,
+      "avg_cost_r": null,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": null,
+      "max_dd_r": null,
+      "trades_per_week": null
+     },
+     "holdout": {
+      "trades": 1256,
+      "win_rate": 29.4,
+      "expectancy_r": -0.3889,
+      "expectancy_gross_r": -0.1502,
+      "avg_cost_r": 0.2387,
+      "profit_factor": 0.572,
+      "t_stat": -9.2,
+      "net_r": -488.43,
+      "max_dd_r": 495.98,
+      "trades_per_week": 35.862
+     },
+     "all": {
+      "trades": 1256,
+      "win_rate": 29.4,
+      "expectancy_r": -0.3889,
+      "expectancy_gross_r": -0.1502,
+      "avg_cost_r": 0.2387,
+      "profit_factor": 0.572,
+      "t_stat": -9.2,
+      "net_r": -488.43,
+      "max_dd_r": 495.98,
+      "trades_per_week": 35.862
+     }
+    },
+    "EURUSD": {
+     "dev": {
+      "trades": 0,
+      "win_rate": null,
+      "expectancy_r": null,
+      "expectancy_gross_r": null,
+      "avg_cost_r": null,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": null,
+      "max_dd_r": null,
+      "trades_per_week": null
+     },
+     "holdout": {
+      "trades": 1519,
+      "win_rate": 31.0,
+      "expectancy_r": -0.3098,
+      "expectancy_gross_r": -0.077,
+      "avg_cost_r": 0.2329,
+      "profit_factor": 0.641,
+      "t_stat": -8.52,
+      "net_r": -470.6,
+      "max_dd_r": 473.08,
+      "trades_per_week": 43.488
+     },
+     "all": {
+      "trades": 1519,
+      "win_rate": 31.0,
+      "expectancy_r": -0.3098,
+      "expectancy_gross_r": -0.077,
+      "avg_cost_r": 0.2329,
+      "profit_factor": 0.641,
+      "t_stat": -8.52,
+      "net_r": -470.6,
+      "max_dd_r": 473.08,
+      "trades_per_week": 43.488
+     }
+    },
+    "GBPUSD": {
+     "dev": {
+      "trades": 0,
+      "win_rate": null,
+      "expectancy_r": null,
+      "expectancy_gross_r": null,
+      "avg_cost_r": null,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": null,
+      "max_dd_r": null,
+      "trades_per_week": null
+     },
+     "holdout": {
+      "trades": 1528,
+      "win_rate": 28.9,
+      "expectancy_r": -0.3702,
+      "expectancy_gross_r": -0.1456,
+      "avg_cost_r": 0.2246,
+      "profit_factor": 0.582,
+      "t_stat": -10.41,
+      "net_r": -565.6,
+      "max_dd_r": 567.96,
+      "trades_per_week": 43.571
+     },
+     "all": {
+      "trades": 1528,
+      "win_rate": 28.9,
+      "expectancy_r": -0.3702,
+      "expectancy_gross_r": -0.1456,
+      "avg_cost_r": 0.2246,
+      "profit_factor": 0.582,
+      "t_stat": -10.41,
+      "net_r": -565.6,
+      "max_dd_r": 567.96,
+      "trades_per_week": 43.571
+     }
+    },
+    "USDCAD": {
+     "dev": {
+      "trades": 0,
+      "win_rate": null,
+      "expectancy_r": null,
+      "expectancy_gross_r": null,
+      "avg_cost_r": null,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": null,
+      "max_dd_r": null,
+      "trades_per_week": null
+     },
+     "holdout": {
+      "trades": 1244,
+      "win_rate": 27.4,
+      "expectancy_r": -0.4357,
+      "expectancy_gross_r": -0.1897,
+      "avg_cost_r": 0.246,
+      "profit_factor": 0.528,
+      "t_stat": -11.21,
+      "net_r": -542.01,
+      "max_dd_r": 546.04,
+      "trades_per_week": 35.528
+     },
+     "all": {
+      "trades": 1244,
+      "win_rate": 27.4,
+      "expectancy_r": -0.4357,
+      "expectancy_gross_r": -0.1897,
+      "avg_cost_r": 0.246,
+      "profit_factor": 0.528,
+      "t_stat": -11.21,
+      "net_r": -542.01,
+      "max_dd_r": 546.04,
+      "trades_per_week": 35.528
+     }
+    },
+    "USDCHF": {
+     "dev": {
+      "trades": 0,
+      "win_rate": null,
+      "expectancy_r": null,
+      "expectancy_gross_r": null,
+      "avg_cost_r": null,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": null,
+      "max_dd_r": null,
+      "trades_per_week": null
+     },
+     "holdout": {
+      "trades": 1058,
+      "win_rate": 29.3,
+      "expectancy_r": -0.3882,
+      "expectancy_gross_r": -0.1408,
+      "avg_cost_r": 0.2474,
+      "profit_factor": 0.574,
+      "t_stat": -8.88,
+      "net_r": -410.71,
+      "max_dd_r": 411.17,
+      "trades_per_week": 30.205
+     },
+     "all": {
+      "trades": 1058,
+      "win_rate": 29.3,
+      "expectancy_r": -0.3882,
+      "expectancy_gross_r": -0.1408,
+      "avg_cost_r": 0.2474,
+      "profit_factor": 0.574,
+      "t_stat": -8.88,
+      "net_r": -410.71,
+      "max_dd_r": 411.17,
+      "trades_per_week": 30.205
+     }
+    },
+    "USDJPY": {
+     "dev": {
+      "trades": 0,
+      "win_rate": null,
+      "expectancy_r": null,
+      "expectancy_gross_r": null,
+      "avg_cost_r": null,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": null,
+      "max_dd_r": null,
+      "trades_per_week": null
+     },
+     "holdout": {
+      "trades": 2136,
+      "win_rate": 27.9,
+      "expectancy_r": -0.3835,
+      "expectancy_gross_r": -0.1794,
+      "avg_cost_r": 0.2041,
+      "profit_factor": 0.57,
+      "t_stat": -12.66,
+      "net_r": -819.22,
+      "max_dd_r": 824.99,
+      "trades_per_week": 60.901
+     },
+     "all": {
+      "trades": 2136,
+      "win_rate": 27.9,
+      "expectancy_r": -0.3835,
+      "expectancy_gross_r": -0.1794,
+      "avg_cost_r": 0.2041,
+      "profit_factor": 0.57,
+      "t_stat": -12.66,
+      "net_r": -819.22,
+      "max_dd_r": 824.99,
+      "trades_per_week": 60.901
+     }
+    },
+    "XAUUSD": {
+     "dev": {
+      "trades": 0,
+      "win_rate": null,
+      "expectancy_r": null,
+      "expectancy_gross_r": null,
+      "avg_cost_r": null,
+      "profit_factor": null,
+      "t_stat": null,
+      "net_r": null,
+      "max_dd_r": null,
+      "trades_per_week": null
+     },
+     "holdout": {
+      "trades": 2885,
+      "win_rate": 32.8,
+      "expectancy_r": -0.1174,
+      "expectancy_gross_r": -0.0355,
+      "avg_cost_r": 0.0819,
+      "profit_factor": 0.843,
+      "t_stat": -4.35,
+      "net_r": -338.69,
+      "max_dd_r": 346.06,
+      "trades_per_week": 76.088
+     },
+     "all": {
+      "trades": 2885,
+      "win_rate": 32.8,
+      "expectancy_r": -0.1174,
+      "expectancy_gross_r": -0.0355,
+      "avg_cost_r": 0.0819,
+      "profit_factor": 0.843,
+      "t_stat": -4.35,
+      "net_r": -338.69,
+      "max_dd_r": 346.06,
+      "trades_per_week": 76.088
+     }
+    }
+   },
+   "by_session": {
+    "ASIA": {
+     "trades": 2956,
+     "win_rate": 31.6,
+     "expectancy_r": -0.2424,
+     "net_r": -716.47,
+     "profit_factor": 0.706,
+     "t_stat": -9.28,
+     "max_dd_r": 716.47
+    },
+    "LONDON": {
+     "trades": 2519,
+     "win_rate": 29.5,
+     "expectancy_r": -0.3186,
+     "net_r": -802.64,
+     "profit_factor": 0.628,
+     "t_stat": -11.52,
+     "max_dd_r": 804.98
+    },
+    "NEWYORK": {
+     "trades": 2503,
+     "win_rate": 29.2,
+     "expectancy_r": -0.3721,
+     "net_r": -931.46,
+     "profit_factor": 0.589,
+     "t_stat": -12.58,
+     "max_dd_r": 936.26
+    },
+    "OFF": {
+     "trades": 1163,
+     "win_rate": 27.2,
+     "expectancy_r": -0.402,
+     "net_r": -467.53,
+     "profit_factor": 0.548,
+     "t_stat": -10.03,
+     "max_dd_r": 467.53
+    },
+    "OVERLAP": {
+     "trades": 2485,
+     "win_rate": 30.1,
+     "expectancy_r": -0.2886,
+     "net_r": -717.16,
+     "profit_factor": 0.657,
+     "t_stat": -9.93,
+     "max_dd_r": 717.16
+    }
+   },
+   "by_regime": {
+    "RANGE": {
+     "trades": 5427,
+     "win_rate": 30.2,
+     "expectancy_r": -0.307,
+     "net_r": -1665.82,
+     "profit_factor": 0.641,
+     "t_stat": -15.89,
+     "max_dd_r": 1667.12
+    },
+    "TRANSITION": {
+     "trades": 2134,
+     "win_rate": 29.4,
+     "expectancy_r": -0.3369,
+     "net_r": -718.89,
+     "profit_factor": 0.614,
+     "t_stat": -10.63,
+     "max_dd_r": 721.61
+    },
+    "TREND_DOWN": {
+     "trades": 1772,
+     "win_rate": 29.7,
+     "expectancy_r": -0.3064,
+     "net_r": -542.87,
+     "profit_factor": 0.641,
+     "t_stat": -9.12,
+     "max_dd_r": 548.89
+    },
+    "TREND_UP": {
+     "trades": 2293,
+     "win_rate": 29.8,
+     "expectancy_r": -0.3086,
+     "net_r": -707.68,
+     "profit_factor": 0.639,
+     "t_stat": -10.42,
+     "max_dd_r": 709.01
+    }
+   },
+   "by_phase": {
+    "ACCUMULATION": {
+     "trades": 1645,
+     "win_rate": 31.3,
+     "expectancy_r": -0.2679,
+     "net_r": -440.78,
+     "profit_factor": 0.68,
+     "t_stat": -7.53,
+     "max_dd_r": 443.73
+    },
+    "DISTRIBUTION": {
+     "trades": 1838,
+     "win_rate": 29.5,
+     "expectancy_r": -0.3288,
+     "net_r": -604.41,
+     "profit_factor": 0.62,
+     "t_stat": -10.05,
+     "max_dd_r": 604.74
+    },
+    "MARKDOWN": {
+     "trades": 1309,
+     "win_rate": 28.2,
+     "expectancy_r": -0.3584,
+     "net_r": -469.2,
+     "profit_factor": 0.59,
+     "t_stat": -9.31,
+     "max_dd_r": 473.93
+    },
+    "MARKUP": {
+     "trades": 1608,
+     "win_rate": 29.9,
+     "expectancy_r": -0.3072,
+     "net_r": -493.91,
+     "profit_factor": 0.641,
+     "t_stat": -8.66,
+     "max_dd_r": 502.07
+    },
+    "RANGE": {
+     "trades": 4915,
+     "win_rate": 30.3,
+     "expectancy_r": -0.303,
+     "net_r": -1489.08,
+     "profit_factor": 0.646,
+     "t_stat": -14.67,
+     "max_dd_r": 1490.18
+    },
+    "TRANSITION": {
+     "trades": 311,
+     "win_rate": 25.7,
+     "expectancy_r": -0.4434,
+     "net_r": -137.89,
+     "profit_factor": 0.514,
+     "t_stat": -5.84,
+     "max_dd_r": 139.17
+    }
+   },
+   "by_mode": {
+    "CONTINUATION": {
+     "trades": 5620,
+     "win_rate": 28.9,
+     "expectancy_r": -0.3413,
+     "net_r": -1918.1,
+     "profit_factor": 0.608,
+     "t_stat": -18.11,
+     "max_dd_r": 1920.34
+    },
+    "NONE": {
+     "trades": 3142,
+     "win_rate": 31.5,
+     "expectancy_r": -0.2634,
+     "net_r": -827.48,
+     "profit_factor": 0.686,
+     "t_stat": -10.32,
+     "max_dd_r": 828.03
+    },
+    "REVERSAL": {
+     "trades": 2864,
+     "win_rate": 30.0,
+     "expectancy_r": -0.3106,
+     "net_r": -889.69,
+     "profit_factor": 0.637,
+     "t_stat": -11.44,
+     "max_dd_r": 892.05
+    }
+   },
+   "by_dir": {
+    "-1": {
+     "trades": 5711,
+     "win_rate": 30.4,
+     "expectancy_r": -0.2859,
+     "net_r": -1632.82,
+     "profit_factor": 0.661,
+     "t_stat": -15.32,
+     "max_dd_r": 1633.63
+    },
+    "1": {
+     "trades": 5915,
+     "win_rate": 29.4,
+     "expectancy_r": -0.3385,
+     "net_r": -2002.44,
+     "profit_factor": 0.613,
+     "t_stat": -18.02,
+     "max_dd_r": 2002.44
+    }
+   },
+   "by_vol": {
+    "HIGH": {
+     "trades": 2696,
+     "win_rate": 30.4,
+     "expectancy_r": -0.2793,
+     "net_r": -753.07,
+     "profit_factor": 0.667,
+     "t_stat": -10.23,
+     "max_dd_r": 761.69
+    },
+    "LOW": {
+     "trades": 2781,
+     "win_rate": 29.5,
+     "expectancy_r": -0.3326,
+     "net_r": -925.01,
+     "profit_factor": 0.617,
+     "t_stat": -12.37,
+     "max_dd_r": 925.67
+    },
+    "NORMAL": {
+     "trades": 6149,
+     "win_rate": 29.8,
+     "expectancy_r": -0.3183,
+     "net_r": -1957.19,
+     "profit_factor": 0.631,
+     "t_stat": -17.37,
+     "max_dd_r": 1957.19
+    }
+   },
+   "by_exit_reason": {
+    "stop": {
+     "trades": 8128,
+     "win_rate": 0.0,
+     "expectancy_r": -1.227,
+     "net_r": -9973.13,
+     "profit_factor": 0.0,
+     "t_stat": -326.54,
+     "max_dd_r": 9973.13
+    },
+    "target": {
+     "trades": 3444,
+     "win_rate": 100.0,
+     "expectancy_r": 1.8367,
+     "net_r": 6325.68,
+     "profit_factor": null,
+     "t_stat": 1180.49,
+     "max_dd_r": 0.0
+    },
+    "time": {
+     "trades": 54,
+     "win_rate": 55.6,
+     "expectancy_r": 0.2257,
+     "net_r": 12.19,
+     "profit_factor": 2.419,
+     "t_stat": 2.55,
+     "max_dd_r": 2.39
+    }
+   },
+   "by_year": {
+    "2025": {
+     "trades": 1095,
+     "win_rate": 29.5,
+     "expectancy_r": -0.3138,
+     "net_r": -343.58,
+     "profit_factor": 0.632,
+     "t_stat": -7.44,
+     "max_dd_r": 343.58
+    },
+    "2026": {
+     "trades": 10531,
+     "win_rate": 29.9,
+     "expectancy_r": -0.3126,
+     "net_r": -3291.68,
+     "profit_factor": 0.636,
+     "t_stat": -22.41,
+     "max_dd_r": 3302.54
+    }
+   },
+   "news": {
+    "A no filter": {
+     "trades": 11626,
+     "win_rate": 29.9,
+     "expectancy_r": -0.3127,
+     "expectancy_gross_r": -0.1203,
+     "avg_cost_r": 0.1924,
+     "profit_factor": 0.636,
+     "t_stat": -23.61,
+     "net_r": -3635.27,
+     "max_dd_r": 3635.27,
+     "trades_per_week": 306.62
+    },
+    "B avoid 08:30 ET window/NFP + news-displacement setups": {
+     "trades": 9946,
+     "win_rate": 29.8,
+     "expectancy_r": -0.32,
+     "expectancy_gross_r": -0.1266,
+     "avg_cost_r": 0.1933,
+     "profit_factor": 0.63,
+     "t_stat": -22.27,
+     "net_r": -3182.31,
+     "max_dd_r": 3183.85,
+     "trades_per_week": 262.487
+    },
+    "C avoid window but allow news-displacement setups": {
+     "trades": 10892,
+     "win_rate": 30.0,
+     "expectancy_r": -0.3092,
+     "expectancy_gross_r": -0.1176,
+     "avg_cost_r": 0.1916,
+     "profit_factor": 0.639,
+     "t_stat": -22.54,
+     "net_r": -3367.61,
+     "max_dd_r": 3367.61,
+     "trades_per_week": 287.314
+    }
+   },
+   "trades_per_week_by_symbol": {
+    "AUDUSD": 33.124,
+    "EURUSD": 40.059,
+    "GBPUSD": 40.297,
+    "USDCAD": 32.807,
+    "USDCHF": 27.902,
+    "USDJPY": 56.331,
+    "XAUUSD": 76.084
+   },
+   "portfolio_fixed_0.5pct": {
+    "all": {
+     "trades": 1036,
+     "win_rate": 29.1,
+     "expectancy_r": -0.3181,
+     "median_r": -1.125,
+     "net_r": -329.59,
+     "profit_factor": 0.626,
+     "t_stat": -7.41,
+     "avg_win_r": 1.83,
+     "avg_loss_r": -1.198,
+     "max_dd_r": 334.52,
+     "max_consec_losses": 16,
+     "trades_per_week": 27.357,
+     "trades_per_month": 118.87,
+     "avg_mfe_r": 1.375,
+     "avg_mae_r": 1.128,
+     "avg_hold_bars": 17.7,
+     "expectancy_gross_r": -0.13,
+     "avg_cost_r": 0.1882,
+     "net_pct": -133.28,
+     "annual_pct": -176.78,
+     "max_dd_pct": 135.35,
+     "avg_dd_pct": 70.17,
+     "sharpe": -7.72,
+     "sortino": -13.03,
+     "calmar": -1.31,
+     "recovery_factor": -0.98,
+     "worst_day_pct": -3.84,
+     "worst_week_pct": -7.03,
+     "worst_month_pct": -22.66
+    },
+    "holdout": {
+     "trades": 1036,
+     "win_rate": 29.1,
+     "expectancy_r": -0.3181,
+     "median_r": -1.125,
+     "net_r": -329.59,
+     "profit_factor": 0.626,
+     "t_stat": -7.41,
+     "avg_win_r": 1.83,
+     "avg_loss_r": -1.198,
+     "max_dd_r": 334.52,
+     "max_consec_losses": 16,
+     "trades_per_week": 27.357,
+     "trades_per_month": 118.87,
+     "avg_mfe_r": 1.375,
+     "avg_mae_r": 1.128,
+     "avg_hold_bars": 17.7,
+     "expectancy_gross_r": -0.13,
+     "avg_cost_r": 0.1882,
+     "net_pct": -133.28,
+     "annual_pct": -176.78,
+     "max_dd_pct": 135.35,
+     "avg_dd_pct": 70.17,
+     "sharpe": -7.72,
+     "sortino": -13.03,
+     "calmar": -1.31,
+     "recovery_factor": -0.98,
+     "worst_day_pct": -3.84,
+     "worst_week_pct": -7.03,
+     "worst_month_pct": -22.66
+    },
+    "states": {
+     "NORMAL": 1036
+    },
+    "skipped_by_risk_rules": 10590
+   },
+   "monthly_pct": {
+    "2025-11": {
+     "sum": -4.3,
+     "trades": 40
+    },
+    "2025-12": {
+     "sum": -22.66,
+     "trades": 154
+    },
+    "2026-01": {
+     "sum": -18.07,
+     "trades": 110
+    },
+    "2026-02": {
+     "sum": -17.93,
+     "trades": 84
+    },
+    "2026-03": {
+     "sum": -22.22,
+     "trades": 114
+    },
+    "2026-04": {
+     "sum": -18.39,
+     "trades": 79
+    },
+    "2026-05": {
+     "sum": -10.75,
+     "trades": 138
+    },
+    "2026-06": {
+     "sum": -22.6,
+     "trades": 85
+    },
+    "2026-07": {
+     "sum": -19.05,
+     "trades": 127
+    },
+    "2026-08": {
+     "sum": -8.84,
+     "trades": 105
+    }
+   },
+   "yearly_pct": {
+    "2025": {
+     "sum": -26.95,
+     "trades": 194
+    },
+    "2026": {
+     "sum": -137.84,
+     "trades": 842
+    }
+   },
+   "monte_carlo": {
+    "shuffle": {
+     "dd_pct_p50": 166.83,
+     "dd_pct_p95": 171.52,
+     "dd_pct_p99": 174.07,
+     "p_dd_ge_10pct": 1.0,
+     "p_dd_ge_20pct_ruin": 1.0,
+     "losing_streak_p50": 17,
+     "losing_streak_p95": 25,
+     "p_losing_streak_ge_10": 0.9999,
+     "final_pct_p5": -164.8,
+     "p_final_negative": 1.0
+    },
+    "shuffle+slippage+10%_failed_winners": {
+     "dd_pct_p50": 221.55,
+     "dd_pct_p95": 234.37,
+     "dd_pct_p99": 240.43,
+     "p_dd_ge_10pct": 1.0,
+     "p_dd_ge_20pct_ruin": 1.0,
+     "losing_streak_p50": 19,
+     "losing_streak_p95": 27,
+     "p_losing_streak_ge_10": 1.0,
+     "final_pct_p5": -232.6,
+     "p_final_negative": 1.0
+    }
+   },
+   "portfolio_adaptive": {
+    "all": {
+     "trades": 1148,
+     "win_rate": 28.1,
+     "expectancy_r": -0.3541,
+     "median_r": -1.125,
+     "net_r": -406.52,
+     "profit_factor": 0.593,
+     "t_stat": -8.57,
+     "avg_win_r": 1.831,
+     "avg_loss_r": -1.21,
+     "max_dd_r": 411.45,
+     "max_consec_losses": 21,
+     "trades_per_week": 30.452,
+     "trades_per_month": 132.31,
+     "avg_mfe_r": 1.381,
+     "avg_mae_r": 1.167,
+     "avg_hold_bars": 16.6,
+     "expectancy_gross_r": -0.1706,
+     "avg_cost_r": 0.1835,
+     "net_pct": -127.14,
+     "annual_pct": -169.52,
+     "max_dd_pct": 129.21,
+     "avg_dd_pct": 62.2,
+     "sharpe": -9.38,
+     "sortino": -11.15,
+     "calmar": -1.31,
+     "recovery_factor": -0.98,
+     "worst_day_pct": -6.17,
+     "worst_week_pct": -6.75,
+     "worst_month_pct": -17.21
+    },
+    "holdout": {
+     "trades": 1148,
+     "win_rate": 28.1,
+     "expectancy_r": -0.3541,
+     "median_r": -1.125,
+     "net_r": -406.52,
+     "profit_factor": 0.593,
+     "t_stat": -8.57,
+     "avg_win_r": 1.831,
+     "avg_loss_r": -1.21,
+     "max_dd_r": 411.45,
+     "max_consec_losses": 21,
+     "trades_per_week": 30.452,
+     "trades_per_month": 132.31,
+     "avg_mfe_r": 1.381,
+     "avg_mae_r": 1.167,
+     "avg_hold_bars": 16.6,
+     "expectancy_gross_r": -0.1706,
+     "avg_cost_r": 0.1835,
+     "net_pct": -127.14,
+     "annual_pct": -169.52,
+     "max_dd_pct": 129.21,
+     "avg_dd_pct": 62.2,
+     "sharpe": -9.38,
+     "sortino": -11.15,
+     "calmar": -1.31,
+     "recovery_factor": -0.98,
+     "worst_day_pct": -6.17,
+     "worst_week_pct": -6.75,
+     "worst_month_pct": -17.21
+    },
+    "states": {
+     "REDUCED": 545,
+     "CAUTION": 317,
+     "NORMAL": 286
+    },
+    "skipped_by_risk_rules": 10478
+   },
+   "no_trade_reasons": {
+    "stop too tight / beyond entry": 8363,
+    "FVG never retraced": 3296,
+    "limit not filled": 474,
+    "no data after setup": 36
+   }
+  }
+ }
+}

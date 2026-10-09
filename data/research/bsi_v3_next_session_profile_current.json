@@ -1,0 +1,7188 @@
+{
+  "profile_id": "BSI_V3_NEXT_SESSION_PROFILE_2026-09-08",
+  "methodology": "BSI_BASELINE_V3_UPDATED_FAIZ_ROLLING_INTELLIGENCE",
+  "as_of_utc_date": "2026-09-07",
+  "next_trading_day_utc_date": "2026-09-08",
+  "symbols": [
+    "EURUSD",
+    "GBPUSD",
+    "USDJPY",
+    "AUDUSD",
+    "USDCAD",
+    "USDCHF",
+    "NZDUSD",
+    "EURJPY",
+    "GBPJPY",
+    "XAUUSD"
+  ],
+  "windows": {
+    "year_to_date": {
+      "start": "2026-01-01T00:00:00+00:00",
+      "end": "2026-09-08T00:00:00+00:00",
+      "allowed_bucket_count": 99,
+      "adaptive_filtered": {
+        "trades": 20281,
+        "wins": 13233,
+        "losses": 7048,
+        "win_rate": 65.25,
+        "net_r": 5627.0998,
+        "expectancy": 0.2775,
+        "profit_factor": 1.8337,
+        "average_winner_r": 0.9353,
+        "average_loser_r": -0.9577,
+        "median_r": 0.5,
+        "max_winning_streak": 27,
+        "max_losing_streak": 8,
+        "max_drawdown_r": 26.3165
+      }
+    },
+    "previous_month": {
+      "start": "2026-08-01T00:00:00+00:00",
+      "end": "2026-09-01T00:00:00+00:00",
+      "allowed_bucket_count": 61,
+      "adaptive_filtered": {
+        "trades": 2307,
+        "wins": 1462,
+        "losses": 845,
+        "win_rate": 63.37,
+        "net_r": 519.8467,
+        "expectancy": 0.2253,
+        "profit_factor": 1.6499,
+        "average_winner_r": 0.9027,
+        "average_loser_r": -0.9466,
+        "median_r": 0.5,
+        "max_winning_streak": 16,
+        "max_losing_streak": 7,
+        "max_drawdown_r": 13.0
+      }
+    },
+    "month_to_date": {
+      "start": "2026-09-01T00:00:00+00:00",
+      "end": "2026-09-08T00:00:00+00:00",
+      "allowed_bucket_count": 20,
+      "adaptive_filtered": {
+        "trades": 264,
+        "wins": 182,
+        "losses": 82,
+        "win_rate": 68.94,
+        "net_r": 109.9982,
+        "expectancy": 0.4167,
+        "profit_factor": 2.5712,
+        "average_winner_r": 0.9891,
+        "average_loser_r": -0.8538,
+        "median_r": 0.5,
+        "max_winning_streak": 11,
+        "max_losing_streak": 3,
+        "max_drawdown_r": 2.5
+      }
+    },
+    "week_to_date": {
+      "start": "2026-09-07T00:00:00+00:00",
+      "end": "2026-09-08T00:00:00+00:00",
+      "allowed_bucket_count": 0,
+      "adaptive_filtered": {
+        "trades": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_rate": null,
+        "net_r": 0.0,
+        "expectancy": null,
+        "profit_factor": null,
+        "average_winner_r": null,
+        "average_loser_r": null,
+        "median_r": null,
+        "max_winning_streak": 0,
+        "max_losing_streak": 0,
+        "max_drawdown_r": 0.0
+      }
+    },
+    "previous_trading_day": {
+      "start": "2026-09-04T00:00:00+00:00",
+      "end": "2026-09-05T00:00:00+00:00",
+      "allowed_bucket_count": 0,
+      "adaptive_filtered": {
+        "trades": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_rate": null,
+        "net_r": 0.0,
+        "expectancy": null,
+        "profit_factor": null,
+        "average_winner_r": null,
+        "average_loser_r": null,
+        "median_r": null,
+        "max_winning_streak": 0,
+        "max_losing_streak": 0,
+        "max_drawdown_r": 0.0
+      }
+    }
+  },
+  "allowed_buckets": [
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "AUDUSD",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:OTHER",
+            "trades": 14,
+            "wins": 11,
+            "losses": 3,
+            "win_rate": 78.57,
+            "net_r": 8.5,
+            "expectancy": 0.6071,
+            "profit_factor": 3.8333
+          },
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 9,
+            "wins": 7,
+            "losses": 2,
+            "win_rate": 77.78,
+            "net_r": 4.5,
+            "expectancy": 0.5,
+            "profit_factor": 3.25
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 45,
+            "losses": 27,
+            "win_rate": 62.5,
+            "net_r": 23.5478,
+            "expectancy": 0.3271,
+            "profit_factor": 1.907
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 189,
+            "wins": 122,
+            "losses": 67,
+            "win_rate": 64.55,
+            "net_r": 59.0371,
+            "expectancy": 0.3124,
+            "profit_factor": 1.9088
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 72,
+            "wins": 48,
+            "losses": 24,
+            "win_rate": 66.67,
+            "net_r": 20.2944,
+            "expectancy": 0.2819,
+            "profit_factor": 1.8456
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "EURJPY",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 25,
+            "wins": 20,
+            "losses": 5,
+            "win_rate": 80.0,
+            "net_r": 17.0,
+            "expectancy": 0.68,
+            "profit_factor": 4.4
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 53,
+            "losses": 19,
+            "win_rate": 73.61,
+            "net_r": 37.7621,
+            "expectancy": 0.5245,
+            "profit_factor": 3.0979
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 187,
+            "wins": 137,
+            "losses": 50,
+            "win_rate": 73.26,
+            "net_r": 83.6563,
+            "expectancy": 0.4474,
+            "profit_factor": 2.7413
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 70,
+            "wins": 48,
+            "losses": 22,
+            "win_rate": 68.57,
+            "net_r": 27.5092,
+            "expectancy": 0.393,
+            "profit_factor": 2.2504
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 70,
+            "wins": 48,
+            "losses": 22,
+            "win_rate": 68.57,
+            "net_r": 27.5092,
+            "expectancy": 0.393,
+            "profit_factor": 2.2504
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "EURUSD",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:OTHER",
+            "trades": 16,
+            "wins": 10,
+            "losses": 6,
+            "win_rate": 62.5,
+            "net_r": 5.9198,
+            "expectancy": 0.37,
+            "profit_factor": 2.0011
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 72,
+            "wins": 45,
+            "losses": 27,
+            "win_rate": 62.5,
+            "net_r": 16.5,
+            "expectancy": 0.2292,
+            "profit_factor": 1.6346
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 46,
+            "losses": 26,
+            "win_rate": 63.89,
+            "net_r": 15.1177,
+            "expectancy": 0.21,
+            "profit_factor": 1.6097
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 189,
+            "wins": 116,
+            "losses": 73,
+            "win_rate": 61.38,
+            "net_r": 35.0394,
+            "expectancy": 0.1854,
+            "profit_factor": 1.502
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 345,
+            "wins": 210,
+            "losses": 135,
+            "win_rate": 60.87,
+            "net_r": 60.4094,
+            "expectancy": 0.1751,
+            "profit_factor": 1.4654
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 15,
+            "wins": 8,
+            "losses": 7,
+            "win_rate": 53.33,
+            "net_r": -0.4961,
+            "expectancy": -0.0331,
+            "profit_factor": 0.9173
+          }
+        ]
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "GBPJPY",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 19,
+            "wins": 13,
+            "losses": 6,
+            "win_rate": 68.42,
+            "net_r": 7.5,
+            "expectancy": 0.3947,
+            "profit_factor": 2.25
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 19,
+            "wins": 13,
+            "losses": 6,
+            "win_rate": 68.42,
+            "net_r": 7.5,
+            "expectancy": 0.3947,
+            "profit_factor": 2.25
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 70,
+            "wins": 49,
+            "losses": 21,
+            "win_rate": 70.0,
+            "net_r": 23.512,
+            "expectancy": 0.3359,
+            "profit_factor": 2.1756
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 70,
+            "wins": 49,
+            "losses": 21,
+            "win_rate": 70.0,
+            "net_r": 23.512,
+            "expectancy": 0.3359,
+            "profit_factor": 2.1756
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 189,
+            "wins": 124,
+            "losses": 65,
+            "win_rate": 65.61,
+            "net_r": 61.8287,
+            "expectancy": 0.3271,
+            "profit_factor": 1.9809
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "GBPUSD",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 18,
+            "wins": 15,
+            "losses": 3,
+            "win_rate": 83.33,
+            "net_r": 14.5,
+            "expectancy": 0.8056,
+            "profit_factor": 5.8333
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 52,
+            "losses": 20,
+            "win_rate": 72.22,
+            "net_r": 29.4686,
+            "expectancy": 0.4093,
+            "profit_factor": 2.5081
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 187,
+            "wins": 126,
+            "losses": 61,
+            "win_rate": 67.38,
+            "net_r": 60.4603,
+            "expectancy": 0.3233,
+            "profit_factor": 2.0328
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 70,
+            "wins": 45,
+            "losses": 25,
+            "win_rate": 64.29,
+            "net_r": 21.272,
+            "expectancy": 0.3039,
+            "profit_factor": 1.8754
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 70,
+            "wins": 44,
+            "losses": 26,
+            "win_rate": 62.86,
+            "net_r": 18.0,
+            "expectancy": 0.2571,
+            "profit_factor": 1.72
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 15,
+            "wins": 6,
+            "losses": 9,
+            "win_rate": 40.0,
+            "net_r": -3.0,
+            "expectancy": -0.2,
+            "profit_factor": 0.625
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 9,
+            "wins": 5,
+            "losses": 4,
+            "win_rate": 55.56,
+            "net_r": -0.5,
+            "expectancy": -0.0556,
+            "profit_factor": 0.875
+          }
+        ]
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "NZDUSD",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 12,
+            "wins": 10,
+            "losses": 2,
+            "win_rate": 83.33,
+            "net_r": 10.0,
+            "expectancy": 0.8333,
+            "profit_factor": 6.0
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 20,
+            "wins": 13,
+            "losses": 7,
+            "win_rate": 65.0,
+            "net_r": 8.5,
+            "expectancy": 0.425,
+            "profit_factor": 2.2143
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 52,
+            "losses": 20,
+            "win_rate": 72.22,
+            "net_r": 24.2723,
+            "expectancy": 0.3371,
+            "profit_factor": 2.28
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 72,
+            "wins": 44,
+            "losses": 28,
+            "win_rate": 61.11,
+            "net_r": 20.0401,
+            "expectancy": 0.2783,
+            "profit_factor": 1.7422
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 191,
+            "wins": 122,
+            "losses": 69,
+            "win_rate": 63.87,
+            "net_r": 50.8174,
+            "expectancy": 0.2661,
+            "profit_factor": 1.7658
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 22,
+            "wins": 9,
+            "losses": 13,
+            "win_rate": 40.91,
+            "net_r": -3.8062,
+            "expectancy": -0.173,
+            "profit_factor": 0.654
+          }
+        ]
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "USDCHF",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 13,
+            "wins": 12,
+            "losses": 1,
+            "win_rate": 92.31,
+            "net_r": 10.0,
+            "expectancy": 0.7692,
+            "profit_factor": 11.0
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 15,
+            "wins": 12,
+            "losses": 3,
+            "win_rate": 80.0,
+            "net_r": 7.0,
+            "expectancy": 0.4667,
+            "profit_factor": 3.3333
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 70,
+            "wins": 49,
+            "losses": 21,
+            "win_rate": 70.0,
+            "net_r": 25.6645,
+            "expectancy": 0.3666,
+            "profit_factor": 2.3319
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 70,
+            "wins": 49,
+            "losses": 21,
+            "win_rate": 70.0,
+            "net_r": 25.6645,
+            "expectancy": 0.3666,
+            "profit_factor": 2.3319
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 70,
+            "wins": 49,
+            "losses": 21,
+            "win_rate": 70.0,
+            "net_r": 22.9204,
+            "expectancy": 0.3274,
+            "profit_factor": 2.146
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "USDJPY",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 17,
+            "wins": 13,
+            "losses": 4,
+            "win_rate": 76.47,
+            "net_r": 10.5,
+            "expectancy": 0.6176,
+            "profit_factor": 3.625
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 54,
+            "losses": 18,
+            "win_rate": 75.0,
+            "net_r": 42.0,
+            "expectancy": 0.5833,
+            "profit_factor": 3.4706
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 70,
+            "wins": 50,
+            "losses": 20,
+            "win_rate": 71.43,
+            "net_r": 30.3377,
+            "expectancy": 0.4334,
+            "profit_factor": 2.5169
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 187,
+            "wins": 130,
+            "losses": 57,
+            "win_rate": 69.52,
+            "net_r": 79.0546,
+            "expectancy": 0.4228,
+            "profit_factor": 2.4117
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 12,
+            "wins": 9,
+            "losses": 3,
+            "win_rate": 75.0,
+            "net_r": 4.5,
+            "expectancy": 0.375,
+            "profit_factor": 2.5
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "XAUUSD",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 22,
+            "wins": 19,
+            "losses": 3,
+            "win_rate": 86.36,
+            "net_r": 12.5,
+            "expectancy": 0.5682,
+            "profit_factor": 5.1667
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 71,
+            "wins": 54,
+            "losses": 17,
+            "win_rate": 76.06,
+            "net_r": 39.4646,
+            "expectancy": 0.5558,
+            "profit_factor": 3.4643
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 70,
+            "wins": 53,
+            "losses": 17,
+            "win_rate": 75.71,
+            "net_r": 33.5363,
+            "expectancy": 0.4791,
+            "profit_factor": 3.096
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 189,
+            "wins": 135,
+            "losses": 54,
+            "win_rate": 71.43,
+            "net_r": 81.4574,
+            "expectancy": 0.431,
+            "profit_factor": 2.5972
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 70,
+            "wins": 51,
+            "losses": 19,
+            "win_rate": 72.86,
+            "net_r": 29.5,
+            "expectancy": 0.4214,
+            "profit_factor": 2.6389
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "AUDUSD",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:OTHER",
+            "trades": 14,
+            "wins": 11,
+            "losses": 3,
+            "win_rate": 78.57,
+            "net_r": 8.5,
+            "expectancy": 0.6071,
+            "profit_factor": 3.8333
+          },
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 9,
+            "wins": 7,
+            "losses": 2,
+            "win_rate": 77.78,
+            "net_r": 4.5,
+            "expectancy": 0.5,
+            "profit_factor": 3.25
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 45,
+            "losses": 27,
+            "win_rate": 62.5,
+            "net_r": 23.5478,
+            "expectancy": 0.3271,
+            "profit_factor": 1.907
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 189,
+            "wins": 122,
+            "losses": 67,
+            "win_rate": 64.55,
+            "net_r": 59.0371,
+            "expectancy": 0.3124,
+            "profit_factor": 1.9088
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 72,
+            "wins": 48,
+            "losses": 24,
+            "win_rate": 66.67,
+            "net_r": 20.2944,
+            "expectancy": 0.2819,
+            "profit_factor": 1.8456
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "EURJPY",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 25,
+            "wins": 20,
+            "losses": 5,
+            "win_rate": 80.0,
+            "net_r": 17.0,
+            "expectancy": 0.68,
+            "profit_factor": 4.4
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 53,
+            "losses": 19,
+            "win_rate": 73.61,
+            "net_r": 37.7621,
+            "expectancy": 0.5245,
+            "profit_factor": 3.0979
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 187,
+            "wins": 137,
+            "losses": 50,
+            "win_rate": 73.26,
+            "net_r": 83.6563,
+            "expectancy": 0.4474,
+            "profit_factor": 2.7413
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 70,
+            "wins": 48,
+            "losses": 22,
+            "win_rate": 68.57,
+            "net_r": 27.5092,
+            "expectancy": 0.393,
+            "profit_factor": 2.2504
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 70,
+            "wins": 48,
+            "losses": 22,
+            "win_rate": 68.57,
+            "net_r": 27.5092,
+            "expectancy": 0.393,
+            "profit_factor": 2.2504
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "EURUSD",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:OTHER",
+            "trades": 16,
+            "wins": 10,
+            "losses": 6,
+            "win_rate": 62.5,
+            "net_r": 5.9198,
+            "expectancy": 0.37,
+            "profit_factor": 2.0011
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 72,
+            "wins": 45,
+            "losses": 27,
+            "win_rate": 62.5,
+            "net_r": 16.5,
+            "expectancy": 0.2292,
+            "profit_factor": 1.6346
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 46,
+            "losses": 26,
+            "win_rate": 63.89,
+            "net_r": 15.1177,
+            "expectancy": 0.21,
+            "profit_factor": 1.6097
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 189,
+            "wins": 116,
+            "losses": 73,
+            "win_rate": 61.38,
+            "net_r": 35.0394,
+            "expectancy": 0.1854,
+            "profit_factor": 1.502
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 345,
+            "wins": 210,
+            "losses": 135,
+            "win_rate": 60.87,
+            "net_r": 60.4094,
+            "expectancy": 0.1751,
+            "profit_factor": 1.4654
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 15,
+            "wins": 8,
+            "losses": 7,
+            "win_rate": 53.33,
+            "net_r": -0.4961,
+            "expectancy": -0.0331,
+            "profit_factor": 0.9173
+          }
+        ]
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "GBPJPY",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 19,
+            "wins": 13,
+            "losses": 6,
+            "win_rate": 68.42,
+            "net_r": 7.5,
+            "expectancy": 0.3947,
+            "profit_factor": 2.25
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 19,
+            "wins": 13,
+            "losses": 6,
+            "win_rate": 68.42,
+            "net_r": 7.5,
+            "expectancy": 0.3947,
+            "profit_factor": 2.25
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 70,
+            "wins": 49,
+            "losses": 21,
+            "win_rate": 70.0,
+            "net_r": 23.512,
+            "expectancy": 0.3359,
+            "profit_factor": 2.1756
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 70,
+            "wins": 49,
+            "losses": 21,
+            "win_rate": 70.0,
+            "net_r": 23.512,
+            "expectancy": 0.3359,
+            "profit_factor": 2.1756
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 189,
+            "wins": 124,
+            "losses": 65,
+            "win_rate": 65.61,
+            "net_r": 61.8287,
+            "expectancy": 0.3271,
+            "profit_factor": 1.9809
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "GBPUSD",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 18,
+            "wins": 15,
+            "losses": 3,
+            "win_rate": 83.33,
+            "net_r": 14.5,
+            "expectancy": 0.8056,
+            "profit_factor": 5.8333
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 52,
+            "losses": 20,
+            "win_rate": 72.22,
+            "net_r": 29.4686,
+            "expectancy": 0.4093,
+            "profit_factor": 2.5081
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 187,
+            "wins": 126,
+            "losses": 61,
+            "win_rate": 67.38,
+            "net_r": 60.4603,
+            "expectancy": 0.3233,
+            "profit_factor": 2.0328
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 70,
+            "wins": 45,
+            "losses": 25,
+            "win_rate": 64.29,
+            "net_r": 21.272,
+            "expectancy": 0.3039,
+            "profit_factor": 1.8754
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 70,
+            "wins": 44,
+            "losses": 26,
+            "win_rate": 62.86,
+            "net_r": 18.0,
+            "expectancy": 0.2571,
+            "profit_factor": 1.72
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 15,
+            "wins": 6,
+            "losses": 9,
+            "win_rate": 40.0,
+            "net_r": -3.0,
+            "expectancy": -0.2,
+            "profit_factor": 0.625
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 9,
+            "wins": 5,
+            "losses": 4,
+            "win_rate": 55.56,
+            "net_r": -0.5,
+            "expectancy": -0.0556,
+            "profit_factor": 0.875
+          }
+        ]
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "NZDUSD",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 12,
+            "wins": 10,
+            "losses": 2,
+            "win_rate": 83.33,
+            "net_r": 10.0,
+            "expectancy": 0.8333,
+            "profit_factor": 6.0
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 20,
+            "wins": 13,
+            "losses": 7,
+            "win_rate": 65.0,
+            "net_r": 8.5,
+            "expectancy": 0.425,
+            "profit_factor": 2.2143
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 52,
+            "losses": 20,
+            "win_rate": 72.22,
+            "net_r": 24.2723,
+            "expectancy": 0.3371,
+            "profit_factor": 2.28
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 72,
+            "wins": 44,
+            "losses": 28,
+            "win_rate": 61.11,
+            "net_r": 20.0401,
+            "expectancy": 0.2783,
+            "profit_factor": 1.7422
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 191,
+            "wins": 122,
+            "losses": 69,
+            "win_rate": 63.87,
+            "net_r": 50.8174,
+            "expectancy": 0.2661,
+            "profit_factor": 1.7658
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 22,
+            "wins": 9,
+            "losses": 13,
+            "win_rate": 40.91,
+            "net_r": -3.8062,
+            "expectancy": -0.173,
+            "profit_factor": 0.654
+          }
+        ]
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "USDCHF",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 13,
+            "wins": 12,
+            "losses": 1,
+            "win_rate": 92.31,
+            "net_r": 10.0,
+            "expectancy": 0.7692,
+            "profit_factor": 11.0
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 15,
+            "wins": 12,
+            "losses": 3,
+            "win_rate": 80.0,
+            "net_r": 7.0,
+            "expectancy": 0.4667,
+            "profit_factor": 3.3333
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 70,
+            "wins": 49,
+            "losses": 21,
+            "win_rate": 70.0,
+            "net_r": 25.6645,
+            "expectancy": 0.3666,
+            "profit_factor": 2.3319
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 70,
+            "wins": 49,
+            "losses": 21,
+            "win_rate": 70.0,
+            "net_r": 25.6645,
+            "expectancy": 0.3666,
+            "profit_factor": 2.3319
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 70,
+            "wins": 49,
+            "losses": 21,
+            "win_rate": 70.0,
+            "net_r": 22.9204,
+            "expectancy": 0.3274,
+            "profit_factor": 2.146
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "USDJPY",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 17,
+            "wins": 13,
+            "losses": 4,
+            "win_rate": 76.47,
+            "net_r": 10.5,
+            "expectancy": 0.6176,
+            "profit_factor": 3.625
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 54,
+            "losses": 18,
+            "win_rate": 75.0,
+            "net_r": 42.0,
+            "expectancy": 0.5833,
+            "profit_factor": 3.4706
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 70,
+            "wins": 50,
+            "losses": 20,
+            "win_rate": 71.43,
+            "net_r": 30.3377,
+            "expectancy": 0.4334,
+            "profit_factor": 2.5169
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 187,
+            "wins": 130,
+            "losses": 57,
+            "win_rate": 69.52,
+            "net_r": 79.0546,
+            "expectancy": 0.4228,
+            "profit_factor": 2.4117
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 12,
+            "wins": 9,
+            "losses": 3,
+            "win_rate": 75.0,
+            "net_r": 4.5,
+            "expectancy": 0.375,
+            "profit_factor": 2.5
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "XAUUSD",
+      "score": 5.5,
+      "windows": [
+        "year_to_date",
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 22,
+            "wins": 19,
+            "losses": 3,
+            "win_rate": 86.36,
+            "net_r": 12.5,
+            "expectancy": 0.5682,
+            "profit_factor": 5.1667
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 54,
+            "losses": 18,
+            "win_rate": 75.0,
+            "net_r": 38.4646,
+            "expectancy": 0.5342,
+            "profit_factor": 3.2607
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 70,
+            "wins": 53,
+            "losses": 17,
+            "win_rate": 75.71,
+            "net_r": 33.5363,
+            "expectancy": 0.4791,
+            "profit_factor": 3.096
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 189,
+            "wins": 135,
+            "losses": 54,
+            "win_rate": 71.43,
+            "net_r": 81.4574,
+            "expectancy": 0.431,
+            "profit_factor": 2.5972
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 70,
+            "wins": 51,
+            "losses": 19,
+            "win_rate": 72.86,
+            "net_r": 29.5,
+            "expectancy": 0.4214,
+            "profit_factor": 2.6389
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "ALLOW_NEXT_TRADING_DAY"
+    }
+  ],
+  "watchlist_buckets": [
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "AUDUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:1",
+            "trades": 44,
+            "wins": 33,
+            "losses": 11,
+            "win_rate": 75.0,
+            "net_r": 17.5,
+            "expectancy": 0.3977,
+            "profit_factor": 2.75
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 44,
+            "wins": 33,
+            "losses": 11,
+            "win_rate": 75.0,
+            "net_r": 17.5,
+            "expectancy": 0.3977,
+            "profit_factor": 2.75
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 53,
+            "wins": 34,
+            "losses": 19,
+            "win_rate": 64.15,
+            "net_r": 15.7023,
+            "expectancy": 0.2963,
+            "profit_factor": 1.8582
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 142,
+            "wins": 90,
+            "losses": 52,
+            "win_rate": 63.38,
+            "net_r": 37.0371,
+            "expectancy": 0.2608,
+            "profit_factor": 1.7413
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 60,
+            "wins": 36,
+            "losses": 24,
+            "win_rate": 60.0,
+            "net_r": 14.2493,
+            "expectancy": 0.2375,
+            "profit_factor": 1.6205
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 16,
+            "wins": 6,
+            "losses": 10,
+            "win_rate": 37.5,
+            "net_r": -4.6062,
+            "expectancy": -0.2879,
+            "profit_factor": 0.5205
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "GBPJPY",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:0",
+            "trades": 50,
+            "wins": 34,
+            "losses": 16,
+            "win_rate": 68.0,
+            "net_r": 16.1939,
+            "expectancy": 0.3239,
+            "profit_factor": 2.0121
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 146,
+            "wins": 97,
+            "losses": 49,
+            "win_rate": 66.44,
+            "net_r": 46.1193,
+            "expectancy": 0.3159,
+            "profit_factor": 1.9806
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 61,
+            "wins": 42,
+            "losses": 19,
+            "win_rate": 68.85,
+            "net_r": 18.012,
+            "expectancy": 0.2953,
+            "profit_factor": 2.0007
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 61,
+            "wins": 42,
+            "losses": 19,
+            "win_rate": 68.85,
+            "net_r": 18.012,
+            "expectancy": 0.2953,
+            "profit_factor": 2.0007
+          },
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 14,
+            "wins": 9,
+            "losses": 5,
+            "win_rate": 64.29,
+            "net_r": 3.5,
+            "expectancy": 0.25,
+            "profit_factor": 1.7
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "session:OTHER",
+            "trades": 9,
+            "wins": 4,
+            "losses": 5,
+            "win_rate": 44.44,
+            "net_r": -2.0,
+            "expectancy": -0.2222,
+            "profit_factor": 0.6
+          },
+          {
+            "pattern": "weekday:6",
+            "trades": 13,
+            "wins": 7,
+            "losses": 6,
+            "win_rate": 53.85,
+            "net_r": -1.5,
+            "expectancy": -0.1154,
+            "profit_factor": 0.75
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "GBPUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 11,
+            "wins": 8,
+            "losses": 3,
+            "win_rate": 72.73,
+            "net_r": 6.0,
+            "expectancy": 0.5455,
+            "profit_factor": 3.0
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 47,
+            "wins": 32,
+            "losses": 15,
+            "win_rate": 68.09,
+            "net_r": 16.772,
+            "expectancy": 0.3569,
+            "profit_factor": 2.173
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 56,
+            "wins": 38,
+            "losses": 18,
+            "win_rate": 67.86,
+            "net_r": 16.4686,
+            "expectancy": 0.2941,
+            "profit_factor": 1.9389
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 36,
+            "wins": 23,
+            "losses": 13,
+            "win_rate": 63.89,
+            "net_r": 9.5,
+            "expectancy": 0.2639,
+            "profit_factor": 1.7308
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 127,
+            "wins": 85,
+            "losses": 42,
+            "win_rate": 66.93,
+            "net_r": 32.9603,
+            "expectancy": 0.2595,
+            "profit_factor": 1.813
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 14,
+            "wins": 5,
+            "losses": 9,
+            "win_rate": 35.71,
+            "net_r": -4.5,
+            "expectancy": -0.3214,
+            "profit_factor": 0.4375
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "NZDUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 10,
+            "wins": 8,
+            "losses": 2,
+            "win_rate": 80.0,
+            "net_r": 7.0,
+            "expectancy": 0.7,
+            "profit_factor": 4.5
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 62,
+            "wins": 46,
+            "losses": 16,
+            "win_rate": 74.19,
+            "net_r": 22.2723,
+            "expectancy": 0.3592,
+            "profit_factor": 2.4885
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 53,
+            "wins": 33,
+            "losses": 20,
+            "win_rate": 62.26,
+            "net_r": 13.5401,
+            "expectancy": 0.2555,
+            "profit_factor": 1.7126
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 57,
+            "wins": 35,
+            "losses": 22,
+            "win_rate": 61.4,
+            "net_r": 14.1407,
+            "expectancy": 0.2481,
+            "profit_factor": 1.6875
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 57,
+            "wins": 35,
+            "losses": 22,
+            "win_rate": 61.4,
+            "net_r": 14.1407,
+            "expectancy": 0.2481,
+            "profit_factor": 1.6875
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 21,
+            "wins": 8,
+            "losses": 13,
+            "win_rate": 38.1,
+            "net_r": -5.3062,
+            "expectancy": -0.2527,
+            "profit_factor": 0.5176
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "USDCAD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 11,
+            "wins": 9,
+            "losses": 2,
+            "win_rate": 81.82,
+            "net_r": 7.5,
+            "expectancy": 0.6818,
+            "profit_factor": 4.75
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 58,
+            "wins": 40,
+            "losses": 18,
+            "win_rate": 68.97,
+            "net_r": 17.6039,
+            "expectancy": 0.3035,
+            "profit_factor": 2.0119
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 58,
+            "wins": 40,
+            "losses": 18,
+            "win_rate": 68.97,
+            "net_r": 17.6039,
+            "expectancy": 0.3035,
+            "profit_factor": 2.0119
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 145,
+            "wins": 98,
+            "losses": 47,
+            "win_rate": 67.59,
+            "net_r": 37.4825,
+            "expectancy": 0.2585,
+            "profit_factor": 1.8198
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 50,
+            "wins": 35,
+            "losses": 15,
+            "win_rate": 70.0,
+            "net_r": 12.5,
+            "expectancy": 0.25,
+            "profit_factor": 1.8333
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "USDCHF",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:3",
+            "trades": 43,
+            "wins": 31,
+            "losses": 12,
+            "win_rate": 72.09,
+            "net_r": 16.9204,
+            "expectancy": 0.3935,
+            "profit_factor": 2.5382
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 146,
+            "wins": 99,
+            "losses": 47,
+            "win_rate": 67.81,
+            "net_r": 46.4761,
+            "expectancy": 0.3183,
+            "profit_factor": 2.085
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 51,
+            "wins": 35,
+            "losses": 16,
+            "win_rate": 68.63,
+            "net_r": 15.6645,
+            "expectancy": 0.3071,
+            "profit_factor": 2.0259
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 51,
+            "wins": 35,
+            "losses": 16,
+            "win_rate": 68.63,
+            "net_r": 15.6645,
+            "expectancy": 0.3071,
+            "profit_factor": 2.0259
+          },
+          {
+            "pattern": "all",
+            "trades": 277,
+            "wins": 172,
+            "losses": 105,
+            "win_rate": 62.09,
+            "net_r": 48.7255,
+            "expectancy": 0.1759,
+            "profit_factor": 1.4917
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "USDJPY",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:OTHER",
+            "trades": 9,
+            "wins": 8,
+            "losses": 1,
+            "win_rate": 88.89,
+            "net_r": 5.0,
+            "expectancy": 0.5556,
+            "profit_factor": 6.0
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 54,
+            "wins": 41,
+            "losses": 13,
+            "win_rate": 75.93,
+            "net_r": 29.5,
+            "expectancy": 0.5463,
+            "profit_factor": 3.2692
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 45,
+            "wins": 32,
+            "losses": 13,
+            "win_rate": 71.11,
+            "net_r": 20.0,
+            "expectancy": 0.4444,
+            "profit_factor": 2.5385
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 133,
+            "wins": 96,
+            "losses": 37,
+            "win_rate": 72.18,
+            "net_r": 56.7169,
+            "expectancy": 0.4264,
+            "profit_factor": 2.5755
+          },
+          {
+            "pattern": "weekday:6",
+            "trades": 12,
+            "wins": 10,
+            "losses": 2,
+            "win_rate": 83.33,
+            "net_r": 5.0,
+            "expectancy": 0.4167,
+            "profit_factor": 3.5
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "XAUUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 15,
+            "wins": 12,
+            "losses": 3,
+            "win_rate": 80.0,
+            "net_r": 6.0,
+            "expectancy": 0.4,
+            "profit_factor": 3.0
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 50,
+            "wins": 36,
+            "losses": 14,
+            "win_rate": 72.0,
+            "net_r": 19.4623,
+            "expectancy": 0.3892,
+            "profit_factor": 2.3902
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 46,
+            "wins": 33,
+            "losses": 13,
+            "win_rate": 71.74,
+            "net_r": 16.5363,
+            "expectancy": 0.3595,
+            "profit_factor": 2.378
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 61,
+            "wins": 43,
+            "losses": 18,
+            "win_rate": 70.49,
+            "net_r": 21.5,
+            "expectancy": 0.3525,
+            "profit_factor": 2.2647
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 54,
+            "wins": 37,
+            "losses": 17,
+            "win_rate": 68.52,
+            "net_r": 15.9646,
+            "expectancy": 0.2956,
+            "profit_factor": 1.9969
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "AUDUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:0",
+            "trades": 36,
+            "wins": 28,
+            "losses": 8,
+            "win_rate": 77.78,
+            "net_r": 22.567,
+            "expectancy": 0.6269,
+            "profit_factor": 4.5774
+          },
+          {
+            "pattern": "weekday:6",
+            "trades": 10,
+            "wins": 7,
+            "losses": 3,
+            "win_rate": 70.0,
+            "net_r": 5.0355,
+            "expectancy": 0.5035,
+            "profit_factor": 3.0432
+          },
+          {
+            "pattern": "all",
+            "trades": 190,
+            "wins": 132,
+            "losses": 58,
+            "win_rate": 69.47,
+            "net_r": 70.1873,
+            "expectancy": 0.3694,
+            "profit_factor": 2.3075
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 190,
+            "wins": 132,
+            "losses": 58,
+            "win_rate": 69.47,
+            "net_r": 70.1873,
+            "expectancy": 0.3694,
+            "profit_factor": 2.3075
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 189,
+            "wins": 131,
+            "losses": 58,
+            "win_rate": 69.31,
+            "net_r": 68.6873,
+            "expectancy": 0.3634,
+            "profit_factor": 2.2795
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "EURJPY",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:3",
+            "trades": 34,
+            "wins": 29,
+            "losses": 5,
+            "win_rate": 85.29,
+            "net_r": 22.6291,
+            "expectancy": 0.6656,
+            "profit_factor": 5.5258
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 34,
+            "wins": 27,
+            "losses": 7,
+            "win_rate": 79.41,
+            "net_r": 15.5,
+            "expectancy": 0.4559,
+            "profit_factor": 3.2143
+          },
+          {
+            "pattern": "all",
+            "trades": 183,
+            "wins": 127,
+            "losses": 56,
+            "win_rate": 69.4,
+            "net_r": 45.3841,
+            "expectancy": 0.248,
+            "profit_factor": 1.8215
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 183,
+            "wins": 127,
+            "losses": 56,
+            "win_rate": 69.4,
+            "net_r": 45.3841,
+            "expectancy": 0.248,
+            "profit_factor": 1.8215
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 182,
+            "wins": 126,
+            "losses": 56,
+            "win_rate": 69.23,
+            "net_r": 44.8841,
+            "expectancy": 0.2466,
+            "profit_factor": 1.8125
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 8,
+            "wins": 5,
+            "losses": 3,
+            "win_rate": 62.5,
+            "net_r": -0.5,
+            "expectancy": -0.0625,
+            "profit_factor": 0.8333
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "EURUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:3",
+            "trades": 35,
+            "wins": 26,
+            "losses": 9,
+            "win_rate": 74.29,
+            "net_r": 14.4604,
+            "expectancy": 0.4132,
+            "profit_factor": 2.6067
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 36,
+            "wins": 21,
+            "losses": 15,
+            "win_rate": 58.33,
+            "net_r": 9.6193,
+            "expectancy": 0.2672,
+            "profit_factor": 1.7162
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 188,
+            "wins": 123,
+            "losses": 65,
+            "win_rate": 65.43,
+            "net_r": 48.6499,
+            "expectancy": 0.2588,
+            "profit_factor": 1.7708
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 35,
+            "wins": 24,
+            "losses": 11,
+            "win_rate": 68.57,
+            "net_r": 9.0,
+            "expectancy": 0.2571,
+            "profit_factor": 1.8182
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 35,
+            "wins": 24,
+            "losses": 11,
+            "win_rate": 68.57,
+            "net_r": 9.0,
+            "expectancy": 0.2571,
+            "profit_factor": 1.8182
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "GBPJPY",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:2",
+            "trades": 34,
+            "wins": 23,
+            "losses": 11,
+            "win_rate": 67.65,
+            "net_r": 17.6391,
+            "expectancy": 0.5188,
+            "profit_factor": 2.8035
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 35,
+            "wins": 28,
+            "losses": 7,
+            "win_rate": 80.0,
+            "net_r": 18.0617,
+            "expectancy": 0.516,
+            "profit_factor": 3.5802
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 35,
+            "wins": 28,
+            "losses": 7,
+            "win_rate": 80.0,
+            "net_r": 17.4715,
+            "expectancy": 0.4992,
+            "profit_factor": 3.4959
+          },
+          {
+            "pattern": "weekday:6",
+            "trades": 9,
+            "wins": 7,
+            "losses": 2,
+            "win_rate": 77.78,
+            "net_r": 3.5,
+            "expectancy": 0.3889,
+            "profit_factor": 2.75
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 182,
+            "wins": 128,
+            "losses": 54,
+            "win_rate": 70.33,
+            "net_r": 65.5944,
+            "expectancy": 0.3604,
+            "profit_factor": 2.3128
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "GBPUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:0",
+            "trades": 36,
+            "wins": 25,
+            "losses": 11,
+            "win_rate": 69.44,
+            "net_r": 16.5,
+            "expectancy": 0.4583,
+            "profit_factor": 2.5
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 35,
+            "wins": 26,
+            "losses": 9,
+            "win_rate": 74.29,
+            "net_r": 15.894,
+            "expectancy": 0.4541,
+            "profit_factor": 3.3743
+          },
+          {
+            "pattern": "all",
+            "trades": 189,
+            "wins": 132,
+            "losses": 57,
+            "win_rate": 69.84,
+            "net_r": 60.7005,
+            "expectancy": 0.3212,
+            "profit_factor": 2.1349
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 189,
+            "wins": 132,
+            "losses": 57,
+            "win_rate": 69.84,
+            "net_r": 60.7005,
+            "expectancy": 0.3212,
+            "profit_factor": 2.1349
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 188,
+            "wins": 131,
+            "losses": 57,
+            "win_rate": 69.68,
+            "net_r": 59.2005,
+            "expectancy": 0.3149,
+            "profit_factor": 2.1069
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "NZDUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 11,
+            "wins": 9,
+            "losses": 2,
+            "win_rate": 81.82,
+            "net_r": 9.6929,
+            "expectancy": 0.8812,
+            "profit_factor": 6.3638
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 36,
+            "wins": 26,
+            "losses": 10,
+            "win_rate": 72.22,
+            "net_r": 18.708,
+            "expectancy": 0.5197,
+            "profit_factor": 2.8708
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 35,
+            "wins": 28,
+            "losses": 7,
+            "win_rate": 80.0,
+            "net_r": 17.1872,
+            "expectancy": 0.4911,
+            "profit_factor": 3.8099
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 35,
+            "wins": 25,
+            "losses": 10,
+            "win_rate": 71.43,
+            "net_r": 12.7146,
+            "expectancy": 0.3633,
+            "profit_factor": 2.7287
+          },
+          {
+            "pattern": "all",
+            "trades": 191,
+            "wins": 124,
+            "losses": 67,
+            "win_rate": 64.92,
+            "net_r": 62.1425,
+            "expectancy": 0.3254,
+            "profit_factor": 2.09
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:1",
+            "trades": 35,
+            "wins": 16,
+            "losses": 19,
+            "win_rate": 45.71,
+            "net_r": -1.231,
+            "expectancy": -0.0352,
+            "profit_factor": 0.9242
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 35,
+            "wins": 16,
+            "losses": 19,
+            "win_rate": 45.71,
+            "net_r": -1.231,
+            "expectancy": -0.0352,
+            "profit_factor": 0.9242
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "USDCAD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:3",
+            "trades": 35,
+            "wins": 24,
+            "losses": 11,
+            "win_rate": 68.57,
+            "net_r": 16.0,
+            "expectancy": 0.4571,
+            "profit_factor": 2.4545
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 36,
+            "wins": 23,
+            "losses": 13,
+            "win_rate": 63.89,
+            "net_r": 8.3161,
+            "expectancy": 0.231,
+            "profit_factor": 1.6397
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 35,
+            "wins": 22,
+            "losses": 13,
+            "win_rate": 62.86,
+            "net_r": 8.0,
+            "expectancy": 0.2286,
+            "profit_factor": 1.6154
+          },
+          {
+            "pattern": "all",
+            "trades": 185,
+            "wins": 113,
+            "losses": 72,
+            "win_rate": 61.08,
+            "net_r": 39.976,
+            "expectancy": 0.2161,
+            "profit_factor": 1.5711
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 185,
+            "wins": 113,
+            "losses": 72,
+            "win_rate": 61.08,
+            "net_r": 39.976,
+            "expectancy": 0.2161,
+            "profit_factor": 1.5711
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:1",
+            "trades": 35,
+            "wins": 18,
+            "losses": 17,
+            "win_rate": 51.43,
+            "net_r": -3.0,
+            "expectancy": -0.0857,
+            "profit_factor": 0.8125
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 35,
+            "wins": 18,
+            "losses": 17,
+            "win_rate": 51.43,
+            "net_r": -3.0,
+            "expectancy": -0.0857,
+            "profit_factor": 0.8125
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "USDCHF",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:3",
+            "trades": 34,
+            "wins": 26,
+            "losses": 8,
+            "win_rate": 76.47,
+            "net_r": 16.6102,
+            "expectancy": 0.4885,
+            "profit_factor": 4.0818
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 35,
+            "wins": 24,
+            "losses": 11,
+            "win_rate": 68.57,
+            "net_r": 14.5365,
+            "expectancy": 0.4153,
+            "profit_factor": 2.3215
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 35,
+            "wins": 24,
+            "losses": 11,
+            "win_rate": 68.57,
+            "net_r": 14.5365,
+            "expectancy": 0.4153,
+            "profit_factor": 2.3215
+          },
+          {
+            "pattern": "all",
+            "trades": 181,
+            "wins": 120,
+            "losses": 61,
+            "win_rate": 66.3,
+            "net_r": 56.3858,
+            "expectancy": 0.3115,
+            "profit_factor": 2.0293
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 181,
+            "wins": 120,
+            "losses": 61,
+            "win_rate": 66.3,
+            "net_r": 56.3858,
+            "expectancy": 0.3115,
+            "profit_factor": 2.0293
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "USDJPY",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:1",
+            "trades": 35,
+            "wins": 29,
+            "losses": 6,
+            "win_rate": 82.86,
+            "net_r": 22.8448,
+            "expectancy": 0.6527,
+            "profit_factor": 5.569
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 35,
+            "wins": 29,
+            "losses": 6,
+            "win_rate": 82.86,
+            "net_r": 22.8448,
+            "expectancy": 0.6527,
+            "profit_factor": 5.569
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 35,
+            "wins": 26,
+            "losses": 9,
+            "win_rate": 74.29,
+            "net_r": 18.9842,
+            "expectancy": 0.5424,
+            "profit_factor": 3.1094
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 34,
+            "wins": 26,
+            "losses": 8,
+            "win_rate": 76.47,
+            "net_r": 15.6418,
+            "expectancy": 0.4601,
+            "profit_factor": 2.9552
+          },
+          {
+            "pattern": "all",
+            "trades": 183,
+            "wins": 128,
+            "losses": 55,
+            "win_rate": 69.95,
+            "net_r": 70.2459,
+            "expectancy": 0.3839,
+            "profit_factor": 2.3009
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_holy_grail",
+      "symbol": "XAUUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:3",
+            "trades": 35,
+            "wins": 31,
+            "losses": 4,
+            "win_rate": 88.57,
+            "net_r": 29.6352,
+            "expectancy": 0.8467,
+            "profit_factor": 8.4088
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 35,
+            "wins": 27,
+            "losses": 8,
+            "win_rate": 77.14,
+            "net_r": 23.5,
+            "expectancy": 0.6714,
+            "profit_factor": 3.9375
+          },
+          {
+            "pattern": "all",
+            "trades": 189,
+            "wins": 144,
+            "losses": 45,
+            "win_rate": 76.19,
+            "net_r": 100.8988,
+            "expectancy": 0.5339,
+            "profit_factor": 3.2564
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 189,
+            "wins": 144,
+            "losses": 45,
+            "win_rate": 76.19,
+            "net_r": 100.8988,
+            "expectancy": 0.5339,
+            "profit_factor": 3.2564
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 189,
+            "wins": 144,
+            "losses": 45,
+            "win_rate": 76.19,
+            "net_r": 100.8988,
+            "expectancy": 0.5339,
+            "profit_factor": 3.2564
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "AUDUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:3",
+            "trades": 35,
+            "wins": 25,
+            "losses": 10,
+            "win_rate": 71.43,
+            "net_r": 18.5,
+            "expectancy": 0.5286,
+            "profit_factor": 2.85
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 10,
+            "wins": 7,
+            "losses": 3,
+            "win_rate": 70.0,
+            "net_r": 4.5,
+            "expectancy": 0.45,
+            "profit_factor": 2.5
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 36,
+            "wins": 25,
+            "losses": 11,
+            "win_rate": 69.44,
+            "net_r": 14.5,
+            "expectancy": 0.4028,
+            "profit_factor": 2.3182
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 35,
+            "wins": 25,
+            "losses": 10,
+            "win_rate": 71.43,
+            "net_r": 12.5,
+            "expectancy": 0.3571,
+            "profit_factor": 2.3889
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 35,
+            "wins": 25,
+            "losses": 10,
+            "win_rate": 71.43,
+            "net_r": 12.5,
+            "expectancy": 0.3571,
+            "profit_factor": 2.3889
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 9,
+            "wins": 4,
+            "losses": 5,
+            "win_rate": 44.44,
+            "net_r": -1.0,
+            "expectancy": -0.1111,
+            "profit_factor": 0.8
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "EURJPY",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 8,
+            "wins": 7,
+            "losses": 1,
+            "win_rate": 87.5,
+            "net_r": 6.5,
+            "expectancy": 0.8125,
+            "profit_factor": 7.5
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 36,
+            "wins": 26,
+            "losses": 10,
+            "win_rate": 72.22,
+            "net_r": 14.0,
+            "expectancy": 0.3889,
+            "profit_factor": 2.5556
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 35,
+            "wins": 25,
+            "losses": 10,
+            "win_rate": 71.43,
+            "net_r": 12.3655,
+            "expectancy": 0.3533,
+            "profit_factor": 2.2366
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 35,
+            "wins": 25,
+            "losses": 10,
+            "win_rate": 71.43,
+            "net_r": 10.5,
+            "expectancy": 0.3,
+            "profit_factor": 2.05
+          },
+          {
+            "pattern": "all",
+            "trades": 188,
+            "wins": 116,
+            "losses": 72,
+            "win_rate": 61.7,
+            "net_r": 32.8655,
+            "expectancy": 0.1748,
+            "profit_factor": 1.4629
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:4",
+            "trades": 36,
+            "wins": 15,
+            "losses": 21,
+            "win_rate": 41.67,
+            "net_r": -8.5,
+            "expectancy": -0.2361,
+            "profit_factor": 0.5952
+          },
+          {
+            "pattern": "weekday:6",
+            "trades": 9,
+            "wins": 4,
+            "losses": 5,
+            "win_rate": 44.44,
+            "net_r": -2.0,
+            "expectancy": -0.2222,
+            "profit_factor": 0.6
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 9,
+            "wins": 5,
+            "losses": 4,
+            "win_rate": 55.56,
+            "net_r": -0.5,
+            "expectancy": -0.0556,
+            "profit_factor": 0.875
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "GBPJPY",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 11,
+            "wins": 10,
+            "losses": 1,
+            "win_rate": 90.91,
+            "net_r": 10.0,
+            "expectancy": 0.9091,
+            "profit_factor": 11.0
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 35,
+            "wins": 26,
+            "losses": 9,
+            "win_rate": 74.29,
+            "net_r": 12.0,
+            "expectancy": 0.3429,
+            "profit_factor": 2.3333
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 35,
+            "wins": 26,
+            "losses": 9,
+            "win_rate": 74.29,
+            "net_r": 12.0,
+            "expectancy": 0.3429,
+            "profit_factor": 2.3333
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 35,
+            "wins": 23,
+            "losses": 12,
+            "win_rate": 65.71,
+            "net_r": 10.5,
+            "expectancy": 0.3,
+            "profit_factor": 1.875
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 35,
+            "wins": 24,
+            "losses": 11,
+            "win_rate": 68.57,
+            "net_r": 10.4427,
+            "expectancy": 0.2984,
+            "profit_factor": 1.9493
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 9,
+            "wins": 5,
+            "losses": 4,
+            "win_rate": 55.56,
+            "net_r": -1.5,
+            "expectancy": -0.1667,
+            "profit_factor": 0.625
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 12,
+            "wins": 6,
+            "losses": 6,
+            "win_rate": 50.0,
+            "net_r": -1.0,
+            "expectancy": -0.0833,
+            "profit_factor": 0.8333
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 36,
+            "wins": 17,
+            "losses": 19,
+            "win_rate": 47.22,
+            "net_r": -1.5,
+            "expectancy": -0.0417,
+            "profit_factor": 0.9118
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 36,
+            "wins": 19,
+            "losses": 17,
+            "win_rate": 52.78,
+            "net_r": -0.5,
+            "expectancy": -0.0139,
+            "profit_factor": 0.9706
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "NZDUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:1",
+            "trades": 35,
+            "wins": 29,
+            "losses": 6,
+            "win_rate": 82.86,
+            "net_r": 21.7099,
+            "expectancy": 0.6203,
+            "profit_factor": 4.6183
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 35,
+            "wins": 29,
+            "losses": 6,
+            "win_rate": 82.86,
+            "net_r": 21.7099,
+            "expectancy": 0.6203,
+            "profit_factor": 4.6183
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 36,
+            "wins": 25,
+            "losses": 11,
+            "win_rate": 69.44,
+            "net_r": 16.5,
+            "expectancy": 0.4583,
+            "profit_factor": 2.5
+          },
+          {
+            "pattern": "all",
+            "trades": 191,
+            "wins": 122,
+            "losses": 69,
+            "win_rate": 63.87,
+            "net_r": 50.8174,
+            "expectancy": 0.2661,
+            "profit_factor": 1.7658
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 191,
+            "wins": 122,
+            "losses": 69,
+            "win_rate": 63.87,
+            "net_r": 50.8174,
+            "expectancy": 0.2661,
+            "profit_factor": 1.7658
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 11,
+            "wins": 4,
+            "losses": 7,
+            "win_rate": 36.36,
+            "net_r": -3.7195,
+            "expectancy": -0.3381,
+            "profit_factor": 0.4686
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "USDCAD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:4",
+            "trades": 36,
+            "wins": 26,
+            "losses": 10,
+            "win_rate": 72.22,
+            "net_r": 13.0,
+            "expectancy": 0.3611,
+            "profit_factor": 2.3
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 11,
+            "wins": 6,
+            "losses": 5,
+            "win_rate": 54.55,
+            "net_r": 3.0,
+            "expectancy": 0.2727,
+            "profit_factor": 1.6
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 35,
+            "wins": 23,
+            "losses": 12,
+            "win_rate": 65.71,
+            "net_r": 7.5,
+            "expectancy": 0.2143,
+            "profit_factor": 1.625
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 35,
+            "wins": 23,
+            "losses": 12,
+            "win_rate": 65.71,
+            "net_r": 7.5,
+            "expectancy": 0.2143,
+            "profit_factor": 1.625
+          },
+          {
+            "pattern": "all",
+            "trades": 190,
+            "wins": 116,
+            "losses": 74,
+            "win_rate": 61.05,
+            "net_r": 36.0988,
+            "expectancy": 0.19,
+            "profit_factor": 1.4945
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "USDJPY",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 8,
+            "wins": 7,
+            "losses": 1,
+            "win_rate": 87.5,
+            "net_r": 7.5,
+            "expectancy": 0.9375,
+            "profit_factor": 8.5
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 35,
+            "wins": 28,
+            "losses": 7,
+            "win_rate": 80.0,
+            "net_r": 19.0,
+            "expectancy": 0.5429,
+            "profit_factor": 3.7143
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 36,
+            "wins": 25,
+            "losses": 11,
+            "win_rate": 69.44,
+            "net_r": 19.5,
+            "expectancy": 0.5417,
+            "profit_factor": 2.95
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 10,
+            "wins": 7,
+            "losses": 3,
+            "win_rate": 70.0,
+            "net_r": 2.5,
+            "expectancy": 0.25,
+            "profit_factor": 1.8333
+          },
+          {
+            "pattern": "weekday:6",
+            "trades": 8,
+            "wins": 6,
+            "losses": 2,
+            "win_rate": 75.0,
+            "net_r": 2.0,
+            "expectancy": 0.25,
+            "profit_factor": 2.0
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "XAUUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:1",
+            "trades": 35,
+            "wins": 26,
+            "losses": 9,
+            "win_rate": 74.29,
+            "net_r": 20.5266,
+            "expectancy": 0.5865,
+            "profit_factor": 3.2807
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 35,
+            "wins": 26,
+            "losses": 9,
+            "win_rate": 74.29,
+            "net_r": 20.5266,
+            "expectancy": 0.5865,
+            "profit_factor": 3.2807
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 36,
+            "wins": 28,
+            "losses": 8,
+            "win_rate": 77.78,
+            "net_r": 17.6222,
+            "expectancy": 0.4895,
+            "profit_factor": 3.2028
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 35,
+            "wins": 26,
+            "losses": 9,
+            "win_rate": 74.29,
+            "net_r": 17.0,
+            "expectancy": 0.4857,
+            "profit_factor": 2.8889
+          },
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 12,
+            "wins": 9,
+            "losses": 3,
+            "win_rate": 75.0,
+            "net_r": 5.5,
+            "expectancy": 0.4583,
+            "profit_factor": 2.8333
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "AUDUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 51,
+            "losses": 21,
+            "win_rate": 70.83,
+            "net_r": 32.2621,
+            "expectancy": 0.4481,
+            "profit_factor": 2.8553
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 190,
+            "wins": 132,
+            "losses": 58,
+            "win_rate": 69.47,
+            "net_r": 70.1873,
+            "expectancy": 0.3694,
+            "profit_factor": 2.3075
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 70,
+            "wins": 51,
+            "losses": 19,
+            "win_rate": 72.86,
+            "net_r": 22.351,
+            "expectancy": 0.3193,
+            "profit_factor": 2.2264
+          },
+          {
+            "pattern": "all",
+            "trades": 381,
+            "wins": 255,
+            "losses": 126,
+            "win_rate": 66.93,
+            "net_r": 110.8824,
+            "expectancy": 0.291,
+            "profit_factor": 1.9336
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 378,
+            "wins": 253,
+            "losses": 125,
+            "win_rate": 66.93,
+            "net_r": 108.8824,
+            "expectancy": 0.288,
+            "profit_factor": 1.9246
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "EURJPY",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:3",
+            "trades": 68,
+            "wins": 53,
+            "losses": 15,
+            "win_rate": 77.94,
+            "net_r": 34.5624,
+            "expectancy": 0.5083,
+            "profit_factor": 3.4179
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 183,
+            "wins": 128,
+            "losses": 55,
+            "win_rate": 69.95,
+            "net_r": 63.9939,
+            "expectancy": 0.3497,
+            "profit_factor": 2.2359
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 68,
+            "wins": 48,
+            "losses": 20,
+            "win_rate": 70.59,
+            "net_r": 21.1328,
+            "expectancy": 0.3108,
+            "profit_factor": 2.1749
+          },
+          {
+            "pattern": "all",
+            "trades": 366,
+            "wins": 255,
+            "losses": 111,
+            "win_rate": 69.67,
+            "net_r": 109.378,
+            "expectancy": 0.2988,
+            "profit_factor": 2.022
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 363,
+            "wins": 252,
+            "losses": 111,
+            "win_rate": 69.42,
+            "net_r": 105.878,
+            "expectancy": 0.2917,
+            "profit_factor": 1.9893
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "EURUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:4",
+            "trades": 72,
+            "wins": 53,
+            "losses": 19,
+            "win_rate": 73.61,
+            "net_r": 29.7568,
+            "expectancy": 0.4133,
+            "profit_factor": 2.5661
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 70,
+            "wins": 48,
+            "losses": 22,
+            "win_rate": 68.57,
+            "net_r": 25.4604,
+            "expectancy": 0.3637,
+            "profit_factor": 2.1573
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 190,
+            "wins": 127,
+            "losses": 63,
+            "win_rate": 66.84,
+            "net_r": 64.8076,
+            "expectancy": 0.3411,
+            "profit_factor": 2.0502
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 376,
+            "wins": 249,
+            "losses": 127,
+            "win_rate": 66.22,
+            "net_r": 112.9575,
+            "expectancy": 0.3004,
+            "profit_factor": 1.9122
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 48,
+            "losses": 24,
+            "win_rate": 66.67,
+            "net_r": 21.1388,
+            "expectancy": 0.2936,
+            "profit_factor": 1.9424
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "GBPJPY",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:2",
+            "trades": 68,
+            "wins": 55,
+            "losses": 13,
+            "win_rate": 80.88,
+            "net_r": 40.6391,
+            "expectancy": 0.5976,
+            "profit_factor": 4.4497
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 70,
+            "wins": 51,
+            "losses": 19,
+            "win_rate": 72.86,
+            "net_r": 26.3849,
+            "expectancy": 0.3769,
+            "profit_factor": 2.5003
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 182,
+            "wins": 134,
+            "losses": 48,
+            "win_rate": 73.63,
+            "net_r": 68.3016,
+            "expectancy": 0.3753,
+            "profit_factor": 2.5058
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 360,
+            "wins": 259,
+            "losses": 101,
+            "win_rate": 71.94,
+            "net_r": 132.7536,
+            "expectancy": 0.3688,
+            "profit_factor": 2.4075
+          },
+          {
+            "pattern": "all",
+            "trades": 366,
+            "wins": 263,
+            "losses": 103,
+            "win_rate": 71.86,
+            "net_r": 134.396,
+            "expectancy": 0.3672,
+            "profit_factor": 2.3953
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "NZDUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 22,
+            "wins": 15,
+            "losses": 7,
+            "win_rate": 68.18,
+            "net_r": 10.6929,
+            "expectancy": 0.486,
+            "profit_factor": 2.5708
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 70,
+            "wins": 51,
+            "losses": 19,
+            "win_rate": 72.86,
+            "net_r": 29.6872,
+            "expectancy": 0.4241,
+            "profit_factor": 2.9639
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 70,
+            "wins": 48,
+            "losses": 22,
+            "win_rate": 68.57,
+            "net_r": 23.7983,
+            "expectancy": 0.34,
+            "profit_factor": 2.2296
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 191,
+            "wins": 124,
+            "losses": 67,
+            "win_rate": 64.92,
+            "net_r": 62.1425,
+            "expectancy": 0.3254,
+            "profit_factor": 2.09
+          },
+          {
+            "pattern": "all",
+            "trades": 382,
+            "wins": 249,
+            "losses": 133,
+            "win_rate": 65.18,
+            "net_r": 121.601,
+            "expectancy": 0.3183,
+            "profit_factor": 2.045
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "USDCAD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "direction:LONG",
+            "trades": 185,
+            "wins": 131,
+            "losses": 54,
+            "win_rate": 70.81,
+            "net_r": 79.2623,
+            "expectancy": 0.4284,
+            "profit_factor": 2.5754
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 70,
+            "wins": 47,
+            "losses": 23,
+            "win_rate": 67.14,
+            "net_r": 27.8848,
+            "expectancy": 0.3984,
+            "profit_factor": 2.4348
+          },
+          {
+            "pattern": "all",
+            "trades": 370,
+            "wins": 244,
+            "losses": 126,
+            "win_rate": 65.95,
+            "net_r": 119.2383,
+            "expectancy": 0.3223,
+            "profit_factor": 1.9911
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 368,
+            "wins": 242,
+            "losses": 126,
+            "win_rate": 65.76,
+            "net_r": 117.2383,
+            "expectancy": 0.3186,
+            "profit_factor": 1.9744
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 72,
+            "wins": 47,
+            "losses": 25,
+            "win_rate": 65.28,
+            "net_r": 22.0203,
+            "expectancy": 0.3058,
+            "profit_factor": 1.8808
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "USDCHF",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:3",
+            "trades": 68,
+            "wins": 52,
+            "losses": 16,
+            "win_rate": 76.47,
+            "net_r": 29.8842,
+            "expectancy": 0.4395,
+            "profit_factor": 3.2319
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 70,
+            "wins": 49,
+            "losses": 21,
+            "win_rate": 70.0,
+            "net_r": 29.8167,
+            "expectancy": 0.426,
+            "profit_factor": 2.6004
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 70,
+            "wins": 48,
+            "losses": 22,
+            "win_rate": 68.57,
+            "net_r": 29.6319,
+            "expectancy": 0.4233,
+            "profit_factor": 2.4695
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 70,
+            "wins": 48,
+            "losses": 22,
+            "win_rate": 68.57,
+            "net_r": 29.6319,
+            "expectancy": 0.4233,
+            "profit_factor": 2.4695
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 183,
+            "wins": 129,
+            "losses": 54,
+            "win_rate": 70.49,
+            "net_r": 68.8084,
+            "expectancy": 0.376,
+            "profit_factor": 2.3975
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "USDJPY",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:3",
+            "trades": 68,
+            "wins": 55,
+            "losses": 13,
+            "win_rate": 80.88,
+            "net_r": 40.1418,
+            "expectancy": 0.5903,
+            "profit_factor": 4.0878
+          },
+          {
+            "pattern": "weekday:6",
+            "trades": 13,
+            "wins": 10,
+            "losses": 3,
+            "win_rate": 76.92,
+            "net_r": 7.0,
+            "expectancy": 0.5385,
+            "profit_factor": 3.3333
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 70,
+            "wins": 49,
+            "losses": 21,
+            "win_rate": 70.0,
+            "net_r": 30.5566,
+            "expectancy": 0.4365,
+            "profit_factor": 2.4551
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 183,
+            "wins": 128,
+            "losses": 55,
+            "win_rate": 69.95,
+            "net_r": 70.2459,
+            "expectancy": 0.3839,
+            "profit_factor": 2.3009
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 70,
+            "wins": 49,
+            "losses": 21,
+            "win_rate": 70.0,
+            "net_r": 26.8448,
+            "expectancy": 0.3835,
+            "profit_factor": 2.3422
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "XAUUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:3",
+            "trades": 70,
+            "wins": 55,
+            "losses": 15,
+            "win_rate": 78.57,
+            "net_r": 47.2172,
+            "expectancy": 0.6745,
+            "profit_factor": 4.2749
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 187,
+            "wins": 144,
+            "losses": 43,
+            "win_rate": 77.01,
+            "net_r": 102.6158,
+            "expectancy": 0.5487,
+            "profit_factor": 3.3864
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 51,
+            "losses": 21,
+            "win_rate": 70.83,
+            "net_r": 38.2117,
+            "expectancy": 0.5307,
+            "profit_factor": 2.8196
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 70,
+            "wins": 55,
+            "losses": 15,
+            "win_rate": 78.57,
+            "net_r": 36.9133,
+            "expectancy": 0.5273,
+            "profit_factor": 3.4609
+          },
+          {
+            "pattern": "weekday:6",
+            "trades": 19,
+            "wins": 16,
+            "losses": 3,
+            "win_rate": 84.21,
+            "net_r": 10.0,
+            "expectancy": 0.5263,
+            "profit_factor": 4.3333
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "AUDUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:2",
+            "trades": 15,
+            "wins": 13,
+            "losses": 2,
+            "win_rate": 86.67,
+            "net_r": 13.5,
+            "expectancy": 0.9,
+            "profit_factor": 7.75
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 55,
+            "wins": 38,
+            "losses": 17,
+            "win_rate": 69.09,
+            "net_r": 25.8977,
+            "expectancy": 0.4709,
+            "profit_factor": 2.5234
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 100,
+            "wins": 64,
+            "losses": 36,
+            "win_rate": 64.0,
+            "net_r": 30.9348,
+            "expectancy": 0.3093,
+            "profit_factor": 1.9108
+          },
+          {
+            "pattern": "all",
+            "trades": 111,
+            "wins": 70,
+            "losses": 41,
+            "win_rate": 63.06,
+            "net_r": 33.9348,
+            "expectancy": 0.3057,
+            "profit_factor": 1.871
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 20,
+            "wins": 13,
+            "losses": 7,
+            "win_rate": 65.0,
+            "net_r": 5.7463,
+            "expectancy": 0.2873,
+            "profit_factor": 1.8209
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "EURJPY",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 16,
+            "wins": 13,
+            "losses": 3,
+            "win_rate": 81.25,
+            "net_r": 12.5,
+            "expectancy": 0.7812,
+            "profit_factor": 5.1667
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 13,
+            "wins": 9,
+            "losses": 4,
+            "win_rate": 69.23,
+            "net_r": 9.5,
+            "expectancy": 0.7308,
+            "profit_factor": 3.375
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 13,
+            "wins": 9,
+            "losses": 4,
+            "win_rate": 69.23,
+            "net_r": 9.5,
+            "expectancy": 0.7308,
+            "profit_factor": 3.375
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 63,
+            "wins": 46,
+            "losses": 17,
+            "win_rate": 73.02,
+            "net_r": 34.6927,
+            "expectancy": 0.5507,
+            "profit_factor": 3.0407
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 20,
+            "wins": 16,
+            "losses": 4,
+            "win_rate": 80.0,
+            "net_r": 11.0,
+            "expectancy": 0.55,
+            "profit_factor": 3.75
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "GBPJPY",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:OTHER",
+            "trades": 9,
+            "wins": 7,
+            "losses": 2,
+            "win_rate": 77.78,
+            "net_r": 4.5,
+            "expectancy": 0.5,
+            "profit_factor": 3.25
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 58,
+            "wins": 38,
+            "losses": 20,
+            "win_rate": 65.52,
+            "net_r": 21.1642,
+            "expectancy": 0.3649,
+            "profit_factor": 2.1122
+          },
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 11,
+            "wins": 7,
+            "losses": 4,
+            "win_rate": 63.64,
+            "net_r": 3.5,
+            "expectancy": 0.3182,
+            "profit_factor": 1.875
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 38,
+            "wins": 25,
+            "losses": 13,
+            "win_rate": 65.79,
+            "net_r": 11.6939,
+            "expectancy": 0.3077,
+            "profit_factor": 1.8995
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 16,
+            "wins": 10,
+            "losses": 6,
+            "win_rate": 62.5,
+            "net_r": 4.0,
+            "expectancy": 0.25,
+            "profit_factor": 1.6667
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:3",
+            "trades": 12,
+            "wins": 6,
+            "losses": 6,
+            "win_rate": 50.0,
+            "net_r": -1.0,
+            "expectancy": -0.0833,
+            "profit_factor": 0.8333
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "NZDUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:2",
+            "trades": 12,
+            "wins": 8,
+            "losses": 4,
+            "win_rate": 66.67,
+            "net_r": 4.0,
+            "expectancy": 0.3333,
+            "profit_factor": 2.0
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 22,
+            "wins": 14,
+            "losses": 8,
+            "win_rate": 63.64,
+            "net_r": 6.8936,
+            "expectancy": 0.3133,
+            "profit_factor": 1.9422
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 22,
+            "wins": 14,
+            "losses": 8,
+            "win_rate": 63.64,
+            "net_r": 6.8936,
+            "expectancy": 0.3133,
+            "profit_factor": 1.9422
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 75,
+            "wins": 48,
+            "losses": 27,
+            "win_rate": 64.0,
+            "net_r": 22.8249,
+            "expectancy": 0.3043,
+            "profit_factor": 1.8761
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 48,
+            "wins": 34,
+            "losses": 14,
+            "win_rate": 70.83,
+            "net_r": 14.2723,
+            "expectancy": 0.2973,
+            "profit_factor": 2.101
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 8,
+            "wins": 2,
+            "losses": 6,
+            "win_rate": 25.0,
+            "net_r": -4.7195,
+            "expectancy": -0.5899,
+            "profit_factor": 0.2134
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 8,
+            "wins": 3,
+            "losses": 5,
+            "win_rate": 37.5,
+            "net_r": -0.5,
+            "expectancy": -0.0625,
+            "profit_factor": 0.9
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "USDCAD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:3",
+            "trades": 18,
+            "wins": 13,
+            "losses": 5,
+            "win_rate": 72.22,
+            "net_r": 10.5,
+            "expectancy": 0.5833,
+            "profit_factor": 3.1
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 8,
+            "wins": 7,
+            "losses": 1,
+            "win_rate": 87.5,
+            "net_r": 4.5,
+            "expectancy": 0.5625,
+            "profit_factor": 5.5
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 16,
+            "wins": 10,
+            "losses": 6,
+            "win_rate": 62.5,
+            "net_r": 5.0,
+            "expectancy": 0.3125,
+            "profit_factor": 1.8333
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 50,
+            "wins": 31,
+            "losses": 19,
+            "win_rate": 62.0,
+            "net_r": 12.5,
+            "expectancy": 0.25,
+            "profit_factor": 1.6579
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 22,
+            "wins": 15,
+            "losses": 7,
+            "win_rate": 68.18,
+            "net_r": 5.5,
+            "expectancy": 0.25,
+            "profit_factor": 1.7857
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:0",
+            "trades": 29,
+            "wins": 15,
+            "losses": 14,
+            "win_rate": 51.72,
+            "net_r": -3.1351,
+            "expectancy": -0.1081,
+            "profit_factor": 0.7761
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "USDCHF",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:3",
+            "trades": 8,
+            "wins": 7,
+            "losses": 1,
+            "win_rate": 87.5,
+            "net_r": 5.5,
+            "expectancy": 0.6875,
+            "profit_factor": 6.5
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 17,
+            "wins": 11,
+            "losses": 6,
+            "win_rate": 64.71,
+            "net_r": 5.5,
+            "expectancy": 0.3235,
+            "profit_factor": 1.9167
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 17,
+            "wins": 12,
+            "losses": 5,
+            "win_rate": 70.59,
+            "net_r": 5.0495,
+            "expectancy": 0.297,
+            "profit_factor": 2.0099
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 17,
+            "wins": 12,
+            "losses": 5,
+            "win_rate": 70.59,
+            "net_r": 5.0495,
+            "expectancy": 0.297,
+            "profit_factor": 2.0099
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 49,
+            "wins": 30,
+            "losses": 19,
+            "win_rate": 61.22,
+            "net_r": 14.1186,
+            "expectancy": 0.2881,
+            "profit_factor": 1.8916
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "XAUUSD",
+      "score": 3.5,
+      "windows": [
+        "year_to_date",
+        "previous_month"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 11,
+            "wins": 10,
+            "losses": 1,
+            "win_rate": 90.91,
+            "net_r": 9.0,
+            "expectancy": 0.8182,
+            "profit_factor": 10.0
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 67,
+            "wins": 51,
+            "losses": 16,
+            "win_rate": 76.12,
+            "net_r": 38.0324,
+            "expectancy": 0.5676,
+            "profit_factor": 3.533
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 48,
+            "wins": 37,
+            "losses": 11,
+            "win_rate": 77.08,
+            "net_r": 26.9646,
+            "expectancy": 0.5618,
+            "profit_factor": 3.6926
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 28,
+            "wins": 21,
+            "losses": 7,
+            "win_rate": 75.0,
+            "net_r": 14.5363,
+            "expectancy": 0.5192,
+            "profit_factor": 3.4227
+          },
+          {
+            "pattern": "all",
+            "trades": 139,
+            "wins": 103,
+            "losses": 36,
+            "win_rate": 74.1,
+            "net_r": 69.4632,
+            "expectancy": 0.4997,
+            "profit_factor": 3.104
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_4h_order_block",
+      "symbol": "EURUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "all",
+            "trades": 14,
+            "wins": 7,
+            "losses": 7,
+            "win_rate": 50.0,
+            "net_r": 0.5,
+            "expectancy": 0.0357,
+            "profit_factor": 1.0833
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 14,
+            "wins": 7,
+            "losses": 7,
+            "win_rate": 50.0,
+            "net_r": 0.5,
+            "expectancy": 0.0357,
+            "profit_factor": 1.0833
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_4h_order_block",
+      "symbol": "GBPJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "all",
+            "trades": 10,
+            "wins": 8,
+            "losses": 2,
+            "win_rate": 80.0,
+            "net_r": 8.0,
+            "expectancy": 0.8,
+            "profit_factor": 5.0
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 10,
+            "wins": 8,
+            "losses": 2,
+            "win_rate": 80.0,
+            "net_r": 8.0,
+            "expectancy": 0.8,
+            "profit_factor": 5.0
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_4h_order_block",
+      "symbol": "GBPUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 10,
+            "wins": 8,
+            "losses": 2,
+            "win_rate": 80.0,
+            "net_r": 6.0,
+            "expectancy": 0.6,
+            "profit_factor": 4.0
+          },
+          {
+            "pattern": "all",
+            "trades": 11,
+            "wins": 9,
+            "losses": 2,
+            "win_rate": 81.82,
+            "net_r": 6.5,
+            "expectancy": 0.5909,
+            "profit_factor": 4.25
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 11,
+            "wins": 9,
+            "losses": 2,
+            "win_rate": 81.82,
+            "net_r": 6.5,
+            "expectancy": 0.5909,
+            "profit_factor": 4.25
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_4h_order_block",
+      "symbol": "USDCHF",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "all",
+            "trades": 10,
+            "wins": 8,
+            "losses": 2,
+            "win_rate": 80.0,
+            "net_r": 6.0,
+            "expectancy": 0.6,
+            "profit_factor": 4.0
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 10,
+            "wins": 8,
+            "losses": 2,
+            "win_rate": 80.0,
+            "net_r": 6.0,
+            "expectancy": 0.6,
+            "profit_factor": 4.0
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_4h_order_block",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "all",
+            "trades": 11,
+            "wins": 9,
+            "losses": 2,
+            "win_rate": 81.82,
+            "net_r": 6.5,
+            "expectancy": 0.5909,
+            "profit_factor": 4.25
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 11,
+            "wins": 9,
+            "losses": 2,
+            "win_rate": 81.82,
+            "net_r": 6.5,
+            "expectancy": 0.5909,
+            "profit_factor": 4.25
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "AUDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "all",
+            "trades": 10,
+            "wins": 9,
+            "losses": 1,
+            "win_rate": 90.0,
+            "net_r": 8.5,
+            "expectancy": 0.85,
+            "profit_factor": 9.5
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "EURJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 16,
+            "wins": 12,
+            "losses": 4,
+            "win_rate": 75.0,
+            "net_r": 11.0,
+            "expectancy": 0.6875,
+            "profit_factor": 3.75
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 8,
+            "wins": 6,
+            "losses": 2,
+            "win_rate": 75.0,
+            "net_r": 5.0,
+            "expectancy": 0.625,
+            "profit_factor": 3.5
+          },
+          {
+            "pattern": "all",
+            "trades": 21,
+            "wins": 15,
+            "losses": 6,
+            "win_rate": 71.43,
+            "net_r": 11.5,
+            "expectancy": 0.5476,
+            "profit_factor": 2.9167
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 13,
+            "wins": 9,
+            "losses": 4,
+            "win_rate": 69.23,
+            "net_r": 6.5,
+            "expectancy": 0.5,
+            "profit_factor": 2.625
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "GBPJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "direction:SHORT",
+            "trades": 10,
+            "wins": 8,
+            "losses": 2,
+            "win_rate": 80.0,
+            "net_r": 8.0,
+            "expectancy": 0.8,
+            "profit_factor": 5.0
+          },
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 9,
+            "wins": 7,
+            "losses": 2,
+            "win_rate": 77.78,
+            "net_r": 6.5,
+            "expectancy": 0.7222,
+            "profit_factor": 4.25
+          },
+          {
+            "pattern": "all",
+            "trades": 14,
+            "wins": 10,
+            "losses": 4,
+            "win_rate": 71.43,
+            "net_r": 8.0,
+            "expectancy": 0.5714,
+            "profit_factor": 3.0
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "GBPUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "all",
+            "trades": 13,
+            "wins": 11,
+            "losses": 2,
+            "win_rate": 84.62,
+            "net_r": 8.5,
+            "expectancy": 0.6538,
+            "profit_factor": 5.25
+          },
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 10,
+            "wins": 8,
+            "losses": 2,
+            "win_rate": 80.0,
+            "net_r": 6.0,
+            "expectancy": 0.6,
+            "profit_factor": 4.0
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 11,
+            "wins": 9,
+            "losses": 2,
+            "win_rate": 81.82,
+            "net_r": 6.5,
+            "expectancy": 0.5909,
+            "profit_factor": 4.25
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "NZDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_NO_SIMILAR_PATTERN_EDGE"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "USDCAD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "all",
+            "trades": 16,
+            "wins": 14,
+            "losses": 2,
+            "win_rate": 87.5,
+            "net_r": 15.0,
+            "expectancy": 0.9375,
+            "profit_factor": 8.5
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 8,
+            "wins": 6,
+            "losses": 2,
+            "win_rate": 75.0,
+            "net_r": 7.0,
+            "expectancy": 0.875,
+            "profit_factor": 4.5
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "USDCHF",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 8,
+            "wins": 7,
+            "losses": 1,
+            "win_rate": 87.5,
+            "net_r": 5.5,
+            "expectancy": 0.6875,
+            "profit_factor": 6.5
+          },
+          {
+            "pattern": "all",
+            "trades": 14,
+            "wins": 12,
+            "losses": 2,
+            "win_rate": 85.71,
+            "net_r": 9.0,
+            "expectancy": 0.6429,
+            "profit_factor": 5.5
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 10,
+            "wins": 8,
+            "losses": 2,
+            "win_rate": 80.0,
+            "net_r": 6.0,
+            "expectancy": 0.6,
+            "profit_factor": 4.0
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abc",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "all",
+            "trades": 17,
+            "wins": 15,
+            "losses": 2,
+            "win_rate": 88.24,
+            "net_r": 12.5,
+            "expectancy": 0.7353,
+            "profit_factor": 7.25
+          },
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 12,
+            "wins": 11,
+            "losses": 1,
+            "win_rate": 91.67,
+            "net_r": 8.5,
+            "expectancy": 0.7083,
+            "profit_factor": 9.5
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 11,
+            "wins": 9,
+            "losses": 2,
+            "win_rate": 81.82,
+            "net_r": 6.5,
+            "expectancy": 0.5909,
+            "profit_factor": 4.25
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 8,
+            "wins": 6,
+            "losses": 2,
+            "win_rate": 75.0,
+            "net_r": 3.0,
+            "expectancy": 0.375,
+            "profit_factor": 2.5
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abcd",
+      "symbol": "EURUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "all",
+            "trades": 14,
+            "wins": 7,
+            "losses": 7,
+            "win_rate": 50.0,
+            "net_r": 0.5,
+            "expectancy": 0.0357,
+            "profit_factor": 1.0833
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 14,
+            "wins": 7,
+            "losses": 7,
+            "win_rate": 50.0,
+            "net_r": 0.5,
+            "expectancy": 0.0357,
+            "profit_factor": 1.0833
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abcd",
+      "symbol": "GBPJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "all",
+            "trades": 10,
+            "wins": 8,
+            "losses": 2,
+            "win_rate": 80.0,
+            "net_r": 8.0,
+            "expectancy": 0.8,
+            "profit_factor": 5.0
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 10,
+            "wins": 8,
+            "losses": 2,
+            "win_rate": 80.0,
+            "net_r": 8.0,
+            "expectancy": 0.8,
+            "profit_factor": 5.0
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abcd",
+      "symbol": "GBPUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 10,
+            "wins": 8,
+            "losses": 2,
+            "win_rate": 80.0,
+            "net_r": 6.0,
+            "expectancy": 0.6,
+            "profit_factor": 4.0
+          },
+          {
+            "pattern": "all",
+            "trades": 11,
+            "wins": 9,
+            "losses": 2,
+            "win_rate": 81.82,
+            "net_r": 6.5,
+            "expectancy": 0.5909,
+            "profit_factor": 4.25
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 11,
+            "wins": 9,
+            "losses": 2,
+            "win_rate": 81.82,
+            "net_r": 6.5,
+            "expectancy": 0.5909,
+            "profit_factor": 4.25
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abcd",
+      "symbol": "USDCHF",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "all",
+            "trades": 10,
+            "wins": 8,
+            "losses": 2,
+            "win_rate": 80.0,
+            "net_r": 6.0,
+            "expectancy": 0.6,
+            "profit_factor": 4.0
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 10,
+            "wins": 8,
+            "losses": 2,
+            "win_rate": 80.0,
+            "net_r": 6.0,
+            "expectancy": 0.6,
+            "profit_factor": 4.0
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_abcd",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "all",
+            "trades": 11,
+            "wins": 9,
+            "losses": 2,
+            "win_rate": 81.82,
+            "net_r": 6.5,
+            "expectancy": 0.5909,
+            "profit_factor": 4.25
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 11,
+            "wins": 9,
+            "losses": 2,
+            "win_rate": 81.82,
+            "net_r": 6.5,
+            "expectancy": 0.5909,
+            "profit_factor": 4.25
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "EURJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 17,
+            "wins": 13,
+            "losses": 4,
+            "win_rate": 76.47,
+            "net_r": 10.5,
+            "expectancy": 0.6176,
+            "profit_factor": 3.625
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 54,
+            "wins": 38,
+            "losses": 16,
+            "win_rate": 70.37,
+            "net_r": 22.5092,
+            "expectancy": 0.4168,
+            "profit_factor": 2.4068
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 54,
+            "wins": 38,
+            "losses": 16,
+            "win_rate": 70.37,
+            "net_r": 22.5092,
+            "expectancy": 0.4168,
+            "profit_factor": 2.4068
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 55,
+            "wins": 39,
+            "losses": 16,
+            "win_rate": 70.91,
+            "net_r": 22.7621,
+            "expectancy": 0.4139,
+            "profit_factor": 2.4226
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 147,
+            "wins": 107,
+            "losses": 40,
+            "win_rate": 72.79,
+            "net_r": 57.6563,
+            "expectancy": 0.3922,
+            "profit_factor": 2.5156
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 15,
+            "wins": 9,
+            "losses": 6,
+            "win_rate": 60.0,
+            "net_r": -1.5042,
+            "expectancy": -0.1003,
+            "profit_factor": 0.7493
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_ar50",
+      "symbol": "EURUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:3",
+            "trades": 42,
+            "wins": 28,
+            "losses": 14,
+            "win_rate": 66.67,
+            "net_r": 10.7956,
+            "expectancy": 0.257,
+            "profit_factor": 1.7711
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 48,
+            "wins": 30,
+            "losses": 18,
+            "win_rate": 62.5,
+            "net_r": 8.0,
+            "expectancy": 0.1667,
+            "profit_factor": 1.4444
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 239,
+            "wins": 148,
+            "losses": 91,
+            "win_rate": 61.92,
+            "net_r": 39.4094,
+            "expectancy": 0.1649,
+            "profit_factor": 1.4489
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 46,
+            "wins": 29,
+            "losses": 17,
+            "win_rate": 63.04,
+            "net_r": 7.5,
+            "expectancy": 0.163,
+            "profit_factor": 1.4412
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 46,
+            "wins": 29,
+            "losses": 17,
+            "win_rate": 63.04,
+            "net_r": 7.5,
+            "expectancy": 0.163,
+            "profit_factor": 1.4412
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "session:OTHER",
+            "trades": 10,
+            "wins": 4,
+            "losses": 6,
+            "win_rate": 40.0,
+            "net_r": -2.0802,
+            "expectancy": -0.208,
+            "profit_factor": 0.6482
+          },
+          {
+            "pattern": "weekday:6",
+            "trades": 18,
+            "wins": 8,
+            "losses": 10,
+            "win_rate": 44.44,
+            "net_r": -2.0802,
+            "expectancy": -0.1156,
+            "profit_factor": 0.7666
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "EURJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:0",
+            "trades": 19,
+            "wins": 16,
+            "losses": 3,
+            "win_rate": 84.21,
+            "net_r": 11.8043,
+            "expectancy": 0.6213,
+            "profit_factor": 6.9021
+          },
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 15,
+            "wins": 12,
+            "losses": 3,
+            "win_rate": 80.0,
+            "net_r": 7.9687,
+            "expectancy": 0.5312,
+            "profit_factor": 4.4415
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 17,
+            "wins": 14,
+            "losses": 3,
+            "win_rate": 82.35,
+            "net_r": 7.2734,
+            "expectancy": 0.4278,
+            "profit_factor": 3.4245
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 19,
+            "wins": 11,
+            "losses": 8,
+            "win_rate": 57.89,
+            "net_r": 3.5,
+            "expectancy": 0.1842,
+            "profit_factor": 1.5
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 62,
+            "wins": 39,
+            "losses": 23,
+            "win_rate": 62.9,
+            "net_r": 9.8831,
+            "expectancy": 0.1594,
+            "profit_factor": 1.4352
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:5",
+            "trades": 8,
+            "wins": 3,
+            "losses": 5,
+            "win_rate": 37.5,
+            "net_r": -2.7583,
+            "expectancy": -0.3448,
+            "profit_factor": 0.4483
+          },
+          {
+            "pattern": "session:NY_AM_PRE_930",
+            "trades": 17,
+            "wins": 9,
+            "losses": 8,
+            "win_rate": 52.94,
+            "net_r": -1.4537,
+            "expectancy": -0.0855,
+            "profit_factor": 0.8114
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 28,
+            "wins": 14,
+            "losses": 14,
+            "win_rate": 50.0,
+            "net_r": -1.3155,
+            "expectancy": -0.047,
+            "profit_factor": 0.9012
+          },
+          {
+            "pattern": "weekday:6",
+            "trades": 10,
+            "wins": 5,
+            "losses": 5,
+            "win_rate": 50.0,
+            "net_r": -0.2158,
+            "expectancy": -0.0216,
+            "profit_factor": 0.9568
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "GBPJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:NY_AM_PRE_930",
+            "trades": 15,
+            "wins": 11,
+            "losses": 4,
+            "win_rate": 73.33,
+            "net_r": 5.0152,
+            "expectancy": 0.3343,
+            "profit_factor": 2.2538
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 25,
+            "wins": 16,
+            "losses": 9,
+            "win_rate": 64.0,
+            "net_r": 4.5152,
+            "expectancy": 0.1806,
+            "profit_factor": 1.5017
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 23,
+            "wins": 15,
+            "losses": 8,
+            "win_rate": 65.22,
+            "net_r": 3.5,
+            "expectancy": 0.1522,
+            "profit_factor": 1.4375
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 23,
+            "wins": 15,
+            "losses": 8,
+            "win_rate": 65.22,
+            "net_r": 3.5,
+            "expectancy": 0.1522,
+            "profit_factor": 1.4375
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 66,
+            "wins": 41,
+            "losses": 25,
+            "win_rate": 62.12,
+            "net_r": 9.8526,
+            "expectancy": 0.1493,
+            "profit_factor": 1.4096
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 9,
+            "wins": 2,
+            "losses": 7,
+            "win_rate": 22.22,
+            "net_r": -4.4938,
+            "expectancy": -0.4993,
+            "profit_factor": 0.251
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "GBPUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 16,
+            "wins": 13,
+            "losses": 3,
+            "win_rate": 81.25,
+            "net_r": 9.1696,
+            "expectancy": 0.5731,
+            "profit_factor": 5.3439
+          },
+          {
+            "pattern": "session:NY_AM_PRE_930",
+            "trades": 12,
+            "wins": 7,
+            "losses": 5,
+            "win_rate": 58.33,
+            "net_r": 4.0797,
+            "expectancy": 0.34,
+            "profit_factor": 1.9229
+          },
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 17,
+            "wins": 11,
+            "losses": 6,
+            "win_rate": 64.71,
+            "net_r": 4.5,
+            "expectancy": 0.2647,
+            "profit_factor": 1.9
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 62,
+            "wins": 36,
+            "losses": 26,
+            "win_rate": 58.06,
+            "net_r": 12.8844,
+            "expectancy": 0.2078,
+            "profit_factor": 1.6102
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 22,
+            "wins": 12,
+            "losses": 10,
+            "win_rate": 54.55,
+            "net_r": 2.7106,
+            "expectancy": 0.1232,
+            "profit_factor": 1.3012
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:5",
+            "trades": 8,
+            "wins": 3,
+            "losses": 5,
+            "win_rate": 37.5,
+            "net_r": -1.5,
+            "expectancy": -0.1875,
+            "profit_factor": 0.7
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 21,
+            "wins": 10,
+            "losses": 11,
+            "win_rate": 47.62,
+            "net_r": -2.7695,
+            "expectancy": -0.1319,
+            "profit_factor": 0.7165
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 62,
+            "wins": 31,
+            "losses": 31,
+            "win_rate": 50.0,
+            "net_r": -5.7784,
+            "expectancy": -0.0932,
+            "profit_factor": 0.8122
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 46,
+            "wins": 25,
+            "losses": 21,
+            "win_rate": 54.35,
+            "net_r": -1.7894,
+            "expectancy": -0.0389,
+            "profit_factor": 0.9148
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 14,
+            "wins": 7,
+            "losses": 7,
+            "win_rate": 50.0,
+            "net_r": -0.5,
+            "expectancy": -0.0357,
+            "profit_factor": 0.9286
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "NZDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:NY_AM_PRE_930",
+            "trades": 12,
+            "wins": 9,
+            "losses": 3,
+            "win_rate": 75.0,
+            "net_r": 5.5,
+            "expectancy": 0.4583,
+            "profit_factor": 2.8333
+          },
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 15,
+            "wins": 10,
+            "losses": 5,
+            "win_rate": 66.67,
+            "net_r": 3.7671,
+            "expectancy": 0.2511,
+            "profit_factor": 1.7534
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 19,
+            "wins": 13,
+            "losses": 6,
+            "win_rate": 68.42,
+            "net_r": 4.5,
+            "expectancy": 0.2368,
+            "profit_factor": 1.75
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 64,
+            "wins": 39,
+            "losses": 25,
+            "win_rate": 60.94,
+            "net_r": 10.2666,
+            "expectancy": 0.1604,
+            "profit_factor": 1.4263
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 21,
+            "wins": 13,
+            "losses": 8,
+            "win_rate": 61.9,
+            "net_r": 3.2671,
+            "expectancy": 0.1556,
+            "profit_factor": 1.4084
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "session:NY_PM",
+            "trades": 9,
+            "wins": 3,
+            "losses": 6,
+            "win_rate": 33.33,
+            "net_r": -3.5,
+            "expectancy": -0.3889,
+            "profit_factor": 0.3
+          },
+          {
+            "pattern": "weekday:5",
+            "trades": 8,
+            "wins": 4,
+            "losses": 4,
+            "win_rate": 50.0,
+            "net_r": -1.0,
+            "expectancy": -0.125,
+            "profit_factor": 0.75
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 23,
+            "wins": 10,
+            "losses": 13,
+            "win_rate": 43.48,
+            "net_r": -2.0,
+            "expectancy": -0.087,
+            "profit_factor": 0.8462
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 71,
+            "wins": 36,
+            "losses": 35,
+            "win_rate": 50.7,
+            "net_r": -4.8457,
+            "expectancy": -0.0682,
+            "profit_factor": 0.8575
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 67,
+            "wins": 34,
+            "losses": 33,
+            "win_rate": 50.75,
+            "net_r": -3.7632,
+            "expectancy": -0.0562,
+            "profit_factor": 0.886
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "USDCHF",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 13,
+            "wins": 10,
+            "losses": 3,
+            "win_rate": 76.92,
+            "net_r": 5.7824,
+            "expectancy": 0.4448,
+            "profit_factor": 3.6075
+          },
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 15,
+            "wins": 9,
+            "losses": 6,
+            "win_rate": 60.0,
+            "net_r": 6.5,
+            "expectancy": 0.4333,
+            "profit_factor": 2.625
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 13,
+            "wins": 8,
+            "losses": 5,
+            "win_rate": 61.54,
+            "net_r": 4.8261,
+            "expectancy": 0.3712,
+            "profit_factor": 2.5206
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 21,
+            "wins": 13,
+            "losses": 8,
+            "win_rate": 61.9,
+            "net_r": 6.1085,
+            "expectancy": 0.2909,
+            "profit_factor": 2.133
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 46,
+            "wins": 27,
+            "losses": 19,
+            "win_rate": 58.7,
+            "net_r": 10.933,
+            "expectancy": 0.2377,
+            "profit_factor": 1.7505
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "session:ASIA",
+            "trades": 40,
+            "wins": 20,
+            "losses": 20,
+            "win_rate": 50.0,
+            "net_r": -4.0085,
+            "expectancy": -0.1002,
+            "profit_factor": 0.791
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 14,
+            "wins": 6,
+            "losses": 8,
+            "win_rate": 42.86,
+            "net_r": -1.0,
+            "expectancy": -0.0714,
+            "profit_factor": 0.8571
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 14,
+            "wins": 6,
+            "losses": 8,
+            "win_rate": 42.86,
+            "net_r": -1.0,
+            "expectancy": -0.0714,
+            "profit_factor": 0.8571
+          },
+          {
+            "pattern": "weekday:5",
+            "trades": 8,
+            "wins": 3,
+            "losses": 5,
+            "win_rate": 37.5,
+            "net_r": -0.5,
+            "expectancy": -0.0625,
+            "profit_factor": 0.875
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 15,
+            "wins": 8,
+            "losses": 7,
+            "win_rate": 53.33,
+            "net_r": -0.9166,
+            "expectancy": -0.0611,
+            "profit_factor": 0.8691
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "USDJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:0",
+            "trades": 13,
+            "wins": 8,
+            "losses": 5,
+            "win_rate": 61.54,
+            "net_r": 5.6693,
+            "expectancy": 0.4361,
+            "profit_factor": 2.6915
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 28,
+            "wins": 20,
+            "losses": 8,
+            "win_rate": 71.43,
+            "net_r": 11.0928,
+            "expectancy": 0.3962,
+            "profit_factor": 2.7467
+          },
+          {
+            "pattern": "weekday:6",
+            "trades": 20,
+            "wins": 14,
+            "losses": 6,
+            "win_rate": 70.0,
+            "net_r": 6.056,
+            "expectancy": 0.3028,
+            "profit_factor": 2.1241
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 16,
+            "wins": 8,
+            "losses": 8,
+            "win_rate": 50.0,
+            "net_r": 2.6493,
+            "expectancy": 0.1656,
+            "profit_factor": 1.4172
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 15,
+            "wins": 11,
+            "losses": 4,
+            "win_rate": 73.33,
+            "net_r": 2.4193,
+            "expectancy": 0.1613,
+            "profit_factor": 1.6048
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:1",
+            "trades": 11,
+            "wins": 4,
+            "losses": 7,
+            "win_rate": 36.36,
+            "net_r": -5.0,
+            "expectancy": -0.4545,
+            "profit_factor": 0.2857
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 11,
+            "wins": 4,
+            "losses": 7,
+            "win_rate": 36.36,
+            "net_r": -5.0,
+            "expectancy": -0.4545,
+            "profit_factor": 0.2857
+          },
+          {
+            "pattern": "weekday:5",
+            "trades": 8,
+            "wins": 3,
+            "losses": 5,
+            "win_rate": 37.5,
+            "net_r": -2.4374,
+            "expectancy": -0.3047,
+            "profit_factor": 0.5125
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 44,
+            "wins": 23,
+            "losses": 21,
+            "win_rate": 52.27,
+            "net_r": -0.8488,
+            "expectancy": -0.0193,
+            "profit_factor": 0.9561
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_enigma_range",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:OTHER",
+            "trades": 31,
+            "wins": 26,
+            "losses": 5,
+            "win_rate": 83.87,
+            "net_r": 23.3001,
+            "expectancy": 0.7516,
+            "profit_factor": 5.66
+          },
+          {
+            "pattern": "session:NY_PM",
+            "trades": 12,
+            "wins": 9,
+            "losses": 3,
+            "win_rate": 75.0,
+            "net_r": 8.5,
+            "expectancy": 0.7083,
+            "profit_factor": 3.8333
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 23,
+            "wins": 18,
+            "losses": 5,
+            "win_rate": 78.26,
+            "net_r": 13.6099,
+            "expectancy": 0.5917,
+            "profit_factor": 3.722
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 19,
+            "wins": 14,
+            "losses": 5,
+            "win_rate": 73.68,
+            "net_r": 11.0,
+            "expectancy": 0.5789,
+            "profit_factor": 3.2
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 19,
+            "wins": 14,
+            "losses": 5,
+            "win_rate": 73.68,
+            "net_r": 11.0,
+            "expectancy": 0.5789,
+            "profit_factor": 3.2
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "symbol": "NZDUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:NY_AM_PRE_930",
+            "trades": 16,
+            "wins": 14,
+            "losses": 2,
+            "win_rate": 87.5,
+            "net_r": 12.9015,
+            "expectancy": 0.8063,
+            "profit_factor": 7.4508
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 145,
+            "wins": 97,
+            "losses": 48,
+            "win_rate": 66.9,
+            "net_r": 54.4872,
+            "expectancy": 0.3758,
+            "profit_factor": 2.1783
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 59,
+            "wins": 38,
+            "losses": 21,
+            "win_rate": 64.41,
+            "net_r": 21.659,
+            "expectancy": 0.3671,
+            "profit_factor": 2.1256
+          },
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 34,
+            "wins": 25,
+            "losses": 9,
+            "win_rate": 73.53,
+            "net_r": 11.87,
+            "expectancy": 0.3491,
+            "profit_factor": 2.4838
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 56,
+            "wins": 35,
+            "losses": 21,
+            "win_rate": 62.5,
+            "net_r": 14.2719,
+            "expectancy": 0.2549,
+            "profit_factor": 1.6796
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "session:NY_PM",
+            "trades": 19,
+            "wins": 7,
+            "losses": 12,
+            "win_rate": 36.84,
+            "net_r": -4.5,
+            "expectancy": -0.2368,
+            "profit_factor": 0.625
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "symbol": "USDJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 51,
+            "wins": 38,
+            "losses": 13,
+            "win_rate": 74.51,
+            "net_r": 23.5587,
+            "expectancy": 0.4619,
+            "profit_factor": 2.8122
+          },
+          {
+            "pattern": "session:NY_AM_PRE_930",
+            "trades": 16,
+            "wins": 10,
+            "losses": 6,
+            "win_rate": 62.5,
+            "net_r": 3.4453,
+            "expectancy": 0.2153,
+            "profit_factor": 1.6202
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 69,
+            "wins": 40,
+            "losses": 29,
+            "win_rate": 57.97,
+            "net_r": 13.0597,
+            "expectancy": 0.1893,
+            "profit_factor": 1.4658
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 67,
+            "wins": 45,
+            "losses": 22,
+            "win_rate": 67.16,
+            "net_r": 11.0206,
+            "expectancy": 0.1645,
+            "profit_factor": 1.5248
+          },
+          {
+            "pattern": "session:NY_PM",
+            "trades": 10,
+            "wins": 5,
+            "losses": 5,
+            "win_rate": 50.0,
+            "net_r": 1.5,
+            "expectancy": 0.15,
+            "profit_factor": 1.3
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:4",
+            "trades": 68,
+            "wins": 36,
+            "losses": 32,
+            "win_rate": 52.94,
+            "net_r": -5.0,
+            "expectancy": -0.0735,
+            "profit_factor": 0.8438
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 32,
+            "wins": 17,
+            "losses": 15,
+            "win_rate": 53.12,
+            "net_r": -1.6753,
+            "expectancy": -0.0524,
+            "profit_factor": 0.8883
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 69,
+            "wins": 36,
+            "losses": 33,
+            "win_rate": 52.17,
+            "net_r": -2.2563,
+            "expectancy": -0.0327,
+            "profit_factor": 0.9316
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 226,
+            "wins": 122,
+            "losses": 104,
+            "win_rate": 53.98,
+            "net_r": -5.8563,
+            "expectancy": -0.0259,
+            "profit_factor": 0.9429
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_mmxm_second_distribution",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:0",
+            "trades": 54,
+            "wins": 32,
+            "losses": 22,
+            "win_rate": 59.26,
+            "net_r": 8.8795,
+            "expectancy": 0.1644,
+            "profit_factor": 1.4067
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 137,
+            "wins": 80,
+            "losses": 57,
+            "win_rate": 58.39,
+            "net_r": 20.3865,
+            "expectancy": 0.1488,
+            "profit_factor": 1.3704
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 55,
+            "wins": 32,
+            "losses": 23,
+            "win_rate": 58.18,
+            "net_r": 7.7866,
+            "expectancy": 0.1416,
+            "profit_factor": 1.3505
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 55,
+            "wins": 32,
+            "losses": 23,
+            "win_rate": 58.18,
+            "net_r": 7.7866,
+            "expectancy": 0.1416,
+            "profit_factor": 1.3505
+          },
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 20,
+            "wins": 12,
+            "losses": 8,
+            "win_rate": 60.0,
+            "net_r": 2.0,
+            "expectancy": 0.1,
+            "profit_factor": 1.25
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:4",
+            "trades": 54,
+            "wins": 26,
+            "losses": 28,
+            "win_rate": 48.15,
+            "net_r": -5.4676,
+            "expectancy": -0.1013,
+            "profit_factor": 0.7975
+          },
+          {
+            "pattern": "session:NY_PM",
+            "trades": 9,
+            "wins": 5,
+            "losses": 4,
+            "win_rate": 55.56,
+            "net_r": -0.8467,
+            "expectancy": -0.0941,
+            "profit_factor": 0.7883
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 22,
+            "wins": 11,
+            "losses": 11,
+            "win_rate": 50.0,
+            "net_r": -1.5,
+            "expectancy": -0.0682,
+            "profit_factor": 0.8636
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 140,
+            "wins": 71,
+            "losses": 69,
+            "win_rate": 50.71,
+            "net_r": -7.617,
+            "expectancy": -0.0544,
+            "profit_factor": 0.886
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 58,
+            "wins": 30,
+            "losses": 28,
+            "win_rate": 51.72,
+            "net_r": -1.7664,
+            "expectancy": -0.0305,
+            "profit_factor": 0.934
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_monday_range",
+      "symbol": "EURUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:1",
+            "trades": 10,
+            "wins": 6,
+            "losses": 4,
+            "win_rate": 60.0,
+            "net_r": 2.0,
+            "expectancy": 0.2,
+            "profit_factor": 1.6667
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 10,
+            "wins": 6,
+            "losses": 4,
+            "win_rate": 60.0,
+            "net_r": 2.0,
+            "expectancy": 0.2,
+            "profit_factor": 1.6667
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 38,
+            "wins": 22,
+            "losses": 16,
+            "win_rate": 57.89,
+            "net_r": 6.0,
+            "expectancy": 0.1579,
+            "profit_factor": 1.4
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 63,
+            "wins": 35,
+            "losses": 28,
+            "win_rate": 55.56,
+            "net_r": 8.5,
+            "expectancy": 0.1349,
+            "profit_factor": 1.3269
+          },
+          {
+            "pattern": "all",
+            "trades": 67,
+            "wins": 38,
+            "losses": 29,
+            "win_rate": 56.72,
+            "net_r": 9.0,
+            "expectancy": 0.1343,
+            "profit_factor": 1.3333
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_monday_range",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:1",
+            "trades": 15,
+            "wins": 14,
+            "losses": 1,
+            "win_rate": 93.33,
+            "net_r": 15.0,
+            "expectancy": 1.0,
+            "profit_factor": 16.0
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 15,
+            "wins": 14,
+            "losses": 1,
+            "win_rate": 93.33,
+            "net_r": 15.0,
+            "expectancy": 1.0,
+            "profit_factor": 16.0
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 33,
+            "wins": 28,
+            "losses": 5,
+            "win_rate": 84.85,
+            "net_r": 22.2277,
+            "expectancy": 0.6736,
+            "profit_factor": 5.4455
+          },
+          {
+            "pattern": "all",
+            "trades": 64,
+            "wins": 48,
+            "losses": 16,
+            "win_rate": 75.0,
+            "net_r": 34.2277,
+            "expectancy": 0.5348,
+            "profit_factor": 3.2818
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 58,
+            "wins": 43,
+            "losses": 15,
+            "win_rate": 74.14,
+            "net_r": 30.7277,
+            "expectancy": 0.5298,
+            "profit_factor": 3.1948
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "EURUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:0",
+            "trades": 36,
+            "wins": 26,
+            "losses": 10,
+            "win_rate": 72.22,
+            "net_r": 15.9116,
+            "expectancy": 0.442,
+            "profit_factor": 2.5912
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 9,
+            "wins": 5,
+            "losses": 4,
+            "win_rate": 55.56,
+            "net_r": 1.5865,
+            "expectancy": 0.1763,
+            "profit_factor": 1.4054
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 169,
+            "wins": 102,
+            "losses": 67,
+            "win_rate": 60.36,
+            "net_r": 29.2033,
+            "expectancy": 0.1728,
+            "profit_factor": 1.4493
+          },
+          {
+            "pattern": "all",
+            "trades": 191,
+            "wins": 113,
+            "losses": 78,
+            "win_rate": 59.16,
+            "net_r": 29.2937,
+            "expectancy": 0.1534,
+            "profit_factor": 1.391
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 191,
+            "wins": 113,
+            "losses": 78,
+            "win_rate": 59.16,
+            "net_r": 29.2937,
+            "expectancy": 0.1534,
+            "profit_factor": 1.391
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 10,
+            "wins": 5,
+            "losses": 5,
+            "win_rate": 50.0,
+            "net_r": -0.9961,
+            "expectancy": -0.0996,
+            "profit_factor": 0.751
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 35,
+            "wins": 19,
+            "losses": 16,
+            "win_rate": 54.29,
+            "net_r": -1.5,
+            "expectancy": -0.0429,
+            "profit_factor": 0.9062
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 35,
+            "wins": 19,
+            "losses": 16,
+            "win_rate": 54.29,
+            "net_r": -1.5,
+            "expectancy": -0.0429,
+            "profit_factor": 0.9062
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "GBPUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 14,
+            "wins": 12,
+            "losses": 2,
+            "win_rate": 85.71,
+            "net_r": 11.0,
+            "expectancy": 0.7857,
+            "profit_factor": 6.5
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 36,
+            "wins": 29,
+            "losses": 7,
+            "win_rate": 80.56,
+            "net_r": 23.5083,
+            "expectancy": 0.653,
+            "profit_factor": 4.3583
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 35,
+            "wins": 22,
+            "losses": 13,
+            "win_rate": 62.86,
+            "net_r": 11.772,
+            "expectancy": 0.3363,
+            "profit_factor": 1.9572
+          },
+          {
+            "pattern": "all",
+            "trades": 188,
+            "wins": 115,
+            "losses": 73,
+            "win_rate": 61.17,
+            "net_r": 34.2803,
+            "expectancy": 0.1823,
+            "profit_factor": 1.4741
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 188,
+            "wins": 115,
+            "losses": 73,
+            "win_rate": 61.17,
+            "net_r": 34.2803,
+            "expectancy": 0.1823,
+            "profit_factor": 1.4741
+          }
+        ],
+        "weak_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 8,
+            "wins": 3,
+            "losses": 5,
+            "win_rate": 37.5,
+            "net_r": -2.5,
+            "expectancy": -0.3125,
+            "profit_factor": 0.5
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 35,
+            "wins": 17,
+            "losses": 18,
+            "win_rate": 48.57,
+            "net_r": -4.5,
+            "expectancy": -0.1286,
+            "profit_factor": 0.75
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 35,
+            "wins": 17,
+            "losses": 18,
+            "win_rate": 48.57,
+            "net_r": -4.5,
+            "expectancy": -0.1286,
+            "profit_factor": 0.75
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 36,
+            "wins": 20,
+            "losses": 16,
+            "win_rate": 55.56,
+            "net_r": -1.0,
+            "expectancy": -0.0278,
+            "profit_factor": 0.9375
+          }
+        ]
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_order_flow",
+      "symbol": "USDCHF",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 10,
+            "wins": 9,
+            "losses": 1,
+            "win_rate": 90.0,
+            "net_r": 7.5,
+            "expectancy": 0.75,
+            "profit_factor": 8.5
+          },
+          {
+            "pattern": "weekday:6",
+            "trades": 9,
+            "wins": 7,
+            "losses": 2,
+            "win_rate": 77.78,
+            "net_r": 3.5,
+            "expectancy": 0.3889,
+            "profit_factor": 2.75
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 35,
+            "wins": 24,
+            "losses": 11,
+            "win_rate": 68.57,
+            "net_r": 10.4204,
+            "expectancy": 0.2977,
+            "profit_factor": 2.042
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 35,
+            "wins": 22,
+            "losses": 13,
+            "win_rate": 62.86,
+            "net_r": 9.7308,
+            "expectancy": 0.278,
+            "profit_factor": 1.8635
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 35,
+            "wins": 22,
+            "losses": 13,
+            "win_rate": 62.86,
+            "net_r": 9.7308,
+            "expectancy": 0.278,
+            "profit_factor": 1.8635
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_standard_deviation_po3",
+      "symbol": "GBPUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:6",
+            "trades": 19,
+            "wins": 14,
+            "losses": 5,
+            "win_rate": 73.68,
+            "net_r": 8.9657,
+            "expectancy": 0.4719,
+            "profit_factor": 2.7931
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 72,
+            "wins": 54,
+            "losses": 18,
+            "win_rate": 75.0,
+            "net_r": 30.6789,
+            "expectancy": 0.4261,
+            "profit_factor": 2.7485
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 189,
+            "wins": 132,
+            "losses": 57,
+            "win_rate": 69.84,
+            "net_r": 60.7005,
+            "expectancy": 0.3212,
+            "profit_factor": 2.1349
+          },
+          {
+            "pattern": "weekday:1",
+            "trades": 70,
+            "wins": 51,
+            "losses": 19,
+            "win_rate": 72.86,
+            "net_r": 21.6288,
+            "expectancy": 0.309,
+            "profit_factor": 2.1911
+          },
+          {
+            "pattern": "next_weekday",
+            "trades": 70,
+            "wins": 51,
+            "losses": 19,
+            "win_rate": 72.86,
+            "net_r": 21.6288,
+            "expectancy": 0.309,
+            "profit_factor": 2.1911
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "EURUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:3",
+            "trades": 18,
+            "wins": 13,
+            "losses": 5,
+            "win_rate": 72.22,
+            "net_r": 9.5,
+            "expectancy": 0.5278,
+            "profit_factor": 2.9
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 56,
+            "wins": 37,
+            "losses": 19,
+            "win_rate": 66.07,
+            "net_r": 16.4005,
+            "expectancy": 0.2929,
+            "profit_factor": 1.9647
+          },
+          {
+            "pattern": "all",
+            "trades": 110,
+            "wins": 68,
+            "losses": 42,
+            "win_rate": 61.82,
+            "net_r": 22.1066,
+            "expectancy": 0.201,
+            "profit_factor": 1.5698
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 94,
+            "wins": 58,
+            "losses": 36,
+            "win_rate": 61.7,
+            "net_r": 18.6027,
+            "expectancy": 0.1979,
+            "profit_factor": 1.5673
+          },
+          {
+            "pattern": "weekday:0",
+            "trades": 45,
+            "wins": 28,
+            "losses": 17,
+            "win_rate": 62.22,
+            "net_r": 6.1066,
+            "expectancy": 0.1357,
+            "profit_factor": 1.3866
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "GBPUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:2",
+            "trades": 15,
+            "wins": 13,
+            "losses": 2,
+            "win_rate": 86.67,
+            "net_r": 11.5,
+            "expectancy": 0.7667,
+            "profit_factor": 6.75
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 55,
+            "wins": 43,
+            "losses": 12,
+            "win_rate": 78.18,
+            "net_r": 32.4007,
+            "expectancy": 0.5891,
+            "profit_factor": 3.7001
+          },
+          {
+            "pattern": "weekday:3",
+            "trades": 19,
+            "wins": 13,
+            "losses": 6,
+            "win_rate": 68.42,
+            "net_r": 8.5,
+            "expectancy": 0.4474,
+            "profit_factor": 2.4167
+          },
+          {
+            "pattern": "all",
+            "trades": 100,
+            "wins": 70,
+            "losses": 30,
+            "win_rate": 70.0,
+            "net_r": 41.361,
+            "expectancy": 0.4136,
+            "profit_factor": 2.4492
+          },
+          {
+            "pattern": "session:ASIA",
+            "trades": 86,
+            "wins": 58,
+            "losses": 28,
+            "win_rate": 67.44,
+            "net_r": 31.361,
+            "expectancy": 0.3647,
+            "profit_factor": 2.1817
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_weaver",
+      "symbol": "USDJPY",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "weekday:0",
+            "trades": 36,
+            "wins": 29,
+            "losses": 7,
+            "win_rate": 80.56,
+            "net_r": 26.5,
+            "expectancy": 0.7361,
+            "profit_factor": 4.7857
+          },
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 9,
+            "wins": 7,
+            "losses": 2,
+            "win_rate": 77.78,
+            "net_r": 6.5,
+            "expectancy": 0.7222,
+            "profit_factor": 4.25
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 11,
+            "wins": 8,
+            "losses": 3,
+            "win_rate": 72.73,
+            "net_r": 7.0,
+            "expectancy": 0.6364,
+            "profit_factor": 3.3333
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 42,
+            "wins": 32,
+            "losses": 10,
+            "win_rate": 76.19,
+            "net_r": 24.0,
+            "expectancy": 0.5714,
+            "profit_factor": 3.6667
+          },
+          {
+            "pattern": "all",
+            "trades": 93,
+            "wins": 70,
+            "losses": 23,
+            "win_rate": 75.27,
+            "net_r": 49.9162,
+            "expectancy": 0.5367,
+            "profit_factor": 3.2689
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    },
+    {
+      "strategy_id": "bsi_v3_yin_yang",
+      "symbol": "XAUUSD",
+      "score": 1.0,
+      "windows": [
+        "year_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 12,
+            "wins": 11,
+            "losses": 1,
+            "win_rate": 91.67,
+            "net_r": 8.5,
+            "expectancy": 0.7083,
+            "profit_factor": 9.5
+          },
+          {
+            "pattern": "all",
+            "trades": 16,
+            "wins": 14,
+            "losses": 2,
+            "win_rate": 87.5,
+            "net_r": 11.0,
+            "expectancy": 0.6875,
+            "profit_factor": 6.5
+          },
+          {
+            "pattern": "direction:SHORT",
+            "trades": 10,
+            "wins": 8,
+            "losses": 2,
+            "win_rate": 80.0,
+            "net_r": 5.0,
+            "expectancy": 0.5,
+            "profit_factor": 3.5
+          },
+          {
+            "pattern": "weekday:2",
+            "trades": 8,
+            "wins": 6,
+            "losses": 2,
+            "win_rate": 75.0,
+            "net_r": 3.0,
+            "expectancy": 0.375,
+            "profit_factor": 2.5
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "WATCHLIST_LONG_MEMORY_ONLY"
+    }
+  ],
+  "blocked_recent_only_buckets": [
+    {
+      "strategy_id": "bsi_v3_reactionary_block",
+      "symbol": "USDCAD",
+      "score": 4.5,
+      "windows": [
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 16,
+            "wins": 14,
+            "losses": 2,
+            "win_rate": 87.5,
+            "net_r": 14.0,
+            "expectancy": 0.875,
+            "profit_factor": 8.0
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 14,
+            "wins": 9,
+            "losses": 5,
+            "win_rate": 64.29,
+            "net_r": 5.5,
+            "expectancy": 0.3929,
+            "profit_factor": 2.1
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 72,
+            "wins": 52,
+            "losses": 20,
+            "win_rate": 72.22,
+            "net_r": 27.0,
+            "expectancy": 0.375,
+            "profit_factor": 2.35
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 188,
+            "wins": 132,
+            "losses": 56,
+            "win_rate": 70.21,
+            "net_r": 68.4825,
+            "expectancy": 0.3643,
+            "profit_factor": 2.2515
+          },
+          {
+            "pattern": "all",
+            "trades": 378,
+            "wins": 248,
+            "losses": 130,
+            "win_rate": 65.61,
+            "net_r": 104.5813,
+            "expectancy": 0.2767,
+            "profit_factor": 1.8188
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "BLOCK_NO_YEAR_TO_DATE_CONFIRMATION"
+    },
+    {
+      "strategy_id": "bsi_v3_spectre",
+      "symbol": "USDCAD",
+      "score": 4.5,
+      "windows": [
+        "previous_month",
+        "month_to_date"
+      ],
+      "train_trades": 0,
+      "train_net_r": 0.0,
+      "similar_patterns": {
+        "positive_patterns": [
+          {
+            "pattern": "session:LONDON_KILLZONE",
+            "trades": 16,
+            "wins": 14,
+            "losses": 2,
+            "win_rate": 87.5,
+            "net_r": 14.0,
+            "expectancy": 0.875,
+            "profit_factor": 8.0
+          },
+          {
+            "pattern": "session:OTHER",
+            "trades": 14,
+            "wins": 9,
+            "losses": 5,
+            "win_rate": 64.29,
+            "net_r": 5.5,
+            "expectancy": 0.3929,
+            "profit_factor": 2.1
+          },
+          {
+            "pattern": "weekday:4",
+            "trades": 72,
+            "wins": 52,
+            "losses": 20,
+            "win_rate": 72.22,
+            "net_r": 27.0,
+            "expectancy": 0.375,
+            "profit_factor": 2.35
+          },
+          {
+            "pattern": "direction:LONG",
+            "trades": 188,
+            "wins": 132,
+            "losses": 56,
+            "win_rate": 70.21,
+            "net_r": 68.4825,
+            "expectancy": 0.3643,
+            "profit_factor": 2.2515
+          },
+          {
+            "pattern": "all",
+            "trades": 378,
+            "wins": 248,
+            "losses": 130,
+            "win_rate": 65.61,
+            "net_r": 104.5813,
+            "expectancy": 0.2767,
+            "profit_factor": 1.8188
+          }
+        ],
+        "weak_patterns": []
+      },
+      "decision": "BLOCK_NO_YEAR_TO_DATE_CONFIRMATION"
+    }
+  ],
+  "blocked_previous_month_shock_buckets": [],
+  "risk_mode": "NORMAL",
+  "risk_rules": {
+    "pause_new_entries_if_current_month_net_r_lte": -25.0,
+    "reduce_or_pause_if_current_month_drawdown_r_gte": 25.0,
+    "previous_month_shock_requires_previous_month_bucket_confirmation": true,
+    "previous_month_shock_net_r_lte": -25.0,
+    "previous_month_shock_drawdown_r_gte": 25.0,
+    "previous_month_shock_profit_factor_lt": 1.0,
+    "similar_pattern_fields": [
+      "strategy_id",
+      "symbol",
+      "direction",
+      "weekday",
+      "new_york_session"
+    ],
+    "similar_pattern_history_scope": "current_year_only",
+    "min_similar_pattern_trades": 8,
+    "min_similar_pattern_expectancy": 0.02,
+    "min_similar_pattern_profit_factor": 1.05,
+    "use_broker_safe_sl_and_partial_volume_helpers": true,
+    "route_only_strategy_specific_detectors": true,
+    "generic_detector_routing_count": 0
+  },
+  "routing_note": "This prepares next-session V3 demo routing decisions. It does not place trades by itself."
+}

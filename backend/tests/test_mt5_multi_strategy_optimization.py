@@ -73,8 +73,8 @@ def test_multi_strategy_analysis_deterministic_for_identical_inputs():
     rows = _mk_rows(120, base=1.1000, step=0.00006)
     instrument = SimpleNamespace(canonical_pair="EURUSD", broker_symbol="EURUSD", asset_class="FOREX", symbol=None)
     regime_info = quick_regime(rows)
-    r1 = _build_multi_strategy_analysis(instrument, "C1", rows, rows, rows, Decimal("1.1080"), Decimal("1.1082"), Decimal("0.0002"), regime_info)
-    r2 = _build_multi_strategy_analysis(instrument, "C1", rows, rows, rows, Decimal("1.1080"), Decimal("1.1082"), Decimal("0.0002"), regime_info)
+    r1 = _build_multi_strategy_analysis(instrument, "demo_10k", "C1", rows, rows, rows, Decimal("1.1080"), Decimal("1.1082"), Decimal("0.0002"), regime_info)
+    r2 = _build_multi_strategy_analysis(instrument, "demo_10k", "C1", rows, rows, rows, Decimal("1.1080"), Decimal("1.1082"), Decimal("0.0002"), regime_info)
     regime1, smc1, candidates1, ctx1, count1 = r1
     regime2, smc2, candidates2, ctx2, count2 = r2
     assert regime1 == regime2
@@ -149,7 +149,9 @@ def test_all_ten_canonical_strategies_default_active_on_demo(monkeypatch):
     # defaults to DISABLED pending historical/OOS validation and explicit promotion (see its own
     # STRATEGY_FAMILIES entry's comment), unlike the 10 families this test covers, which already
     # completed that evaluation period. See test_wyckoff_defaults_to_disabled below.
-    non_mtfai1 = [sid for sid in STRATEGY_FAMILIES if sid not in {"mtfai1", "wyckoff", "donchian_trend_follow", "session_liquidity_breakout", "fx_relative_momentum"}]
+    # "bsi" (2026-08-30) is excluded for the same reason -- DISABLED pending its own
+    # historical/OOS validation, not part of this Stage-1-complete cohort.
+    non_mtfai1 = [sid for sid in STRATEGY_FAMILIES if sid not in {"mtfai1", "wyckoff", "donchian_trend_follow", "session_liquidity_breakout", "fx_relative_momentum", "bsi", "donchian_imbalance"}]
     assert len(non_mtfai1) == 10
     assert all(STRATEGY_FAMILIES[sid]["default_activation"] == ACTIVE_MT5 for sid in non_mtfai1)
     # session_breakout/support_resistance_bounce are pinned explicitly: the real container env
@@ -264,7 +266,7 @@ def test_build_multi_strategy_analysis_still_fuses_same_direction_agreement(monk
     sig_b = dataclasses.replace(sig_a, strategy_id="trend_pullback", strategy_family="trend_pullback", raw_signal_strength=75.0)
     monkeypatch.setattr("backend.brokers.mt5.autonomous.evaluate_all", lambda ctx, **kwargs: [sig_a, sig_b])
     instrument = SimpleNamespace(canonical_pair="EURUSD", broker_symbol="EURUSD", asset_class="FOREX", symbol=None)
-    regime, smc_evidence, candidates, built_ctx, count = _build_multi_strategy_analysis(instrument, "C13", ctx.m15_rows, ctx.h1_rows, ctx.h4_rows, ctx.bid, ctx.ask, ctx.spread, None)
+    regime, smc_evidence, candidates, built_ctx, count = _build_multi_strategy_analysis(instrument, "demo_10k", "C13", ctx.m15_rows, ctx.h1_rows, ctx.h4_rows, ctx.bid, ctx.ask, ctx.spread, None)
     assert len(candidates) == 1
     assert set(candidates[0]["context"]["contributing_strategies"]) == {"ema_trend", "trend_pullback"}
     assert count == 2
@@ -348,6 +350,17 @@ def test_strategy_disabled_via_env_is_skipped_entirely(monkeypatch: pytest.Monke
 # 20. The malformed-signal circuit breaker trips on repeated malformation and never lets a
 # tripped strategy contribute a signal (and therefore never an order) again.
 def test_malformed_signal_trips_circuit_breaker_and_blocks_further_evaluation(monkeypatch: pytest.MonkeyPatch):
+    # 2026-09-01: isolated from the ambient environment explicitly. This test needs ema_trend's
+    # CODED default (ACTIVE_MT5) to actually be reachable so evaluate_all() calls its evaluator
+    # and the circuit-breaker sanity-check logic under test actually runs -- if an operator has
+    # since set MT5_STRATEGY_ACTIVATION_EMA_TREND=DISABLED in the real deployed environment (true
+    # in production as of BSI's own live activation, which disabled every legacy strategy),
+    # evaluate_all() would skip calling the evaluator at all (STRATEGY_DISABLED, not the circuit-
+    # breaker path this test exists to exercise) and the test would fail for a reason that has
+    # nothing to do with the circuit breaker itself. Clearing the override makes this test
+    # deterministic regardless of which environment runs it, without changing any production
+    # behavior.
+    monkeypatch.delenv("MT5_STRATEGY_ACTIVATION_EMA_TREND", raising=False)
     ctx = _flat_context(regime="trending_up")
     # Geometrically impossible for a LONG: stop ABOVE entry.
     malformed = StrategySignal(strategy_id="ema_trend", strategy_family="ema_trend", symbol="EURUSD", broker_symbol="EURUSD", direction="LONG", timeframe="M15", generated_at=NOW, valid=True, raw_signal_strength=80.0, proposed_entry=1.1000, stop_loss=1.1050, take_profit=1.1100, reward_risk=2.0, regime="trending_up")

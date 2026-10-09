@@ -22,6 +22,7 @@ challenge_status()'s already-correct percentage-based formula.
 """
 from __future__ import annotations
 
+import os
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from zoneinfo import ZoneInfo
@@ -184,9 +185,14 @@ def remaining_safety_budget_usd(protection: dict) -> Decimal:
     candidates = [
         Decimal(status["daily_loss_remaining"]),
         Decimal(status["max_loss_remaining"]),
-        max(Decimal("0"), Decimal(status["internal_daily_entry_limit"]) - Decimal(status["daily_loss_used"])),
-        max(Decimal("0"), Decimal(status["internal_max_loss_entry_limit"]) - Decimal(status["max_loss_used"])),
     ]
+    if not protection.get("drawdown_entry_blocks_disabled"):
+        candidates.extend(
+            [
+                max(Decimal("0"), Decimal(status["internal_daily_entry_limit"]) - Decimal(status["daily_loss_used"])),
+                max(Decimal("0"), Decimal(status["internal_max_loss_entry_limit"]) - Decimal(status["max_loss_used"])),
+            ]
+        )
     return min(candidates)
 
 
@@ -225,6 +231,9 @@ def evaluate_entry_protection(
     entry_block_reasons = sorted(
         {_ENTRY_BLOCK_REASON_MAP[reason] for reason in status["entry_blockers"] if reason in _ENTRY_BLOCK_REASON_MAP}
     )
+    drawdown_entry_blocks_disabled = os.getenv("MT5_DISABLE_DRAWDOWN_ENTRY_BLOCKS", "false").strip().lower() in {"1", "true", "yes", "on"}
+    if drawdown_entry_blocks_disabled:
+        entry_block_reasons = []
     return {
         **snapshot,
         "prop_profile": config.prop_profile,
@@ -232,4 +241,5 @@ def evaluate_entry_protection(
         "challenge_status": status,
         "entry_block_reasons": entry_block_reasons,
         "new_entries_allowed": not entry_block_reasons,
+        "drawdown_entry_blocks_disabled": drawdown_entry_blocks_disabled,
     }

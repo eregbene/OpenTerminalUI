@@ -2,7 +2,7 @@
 
 Selected symbols: `EURUSD, GBPUSD, USDJPY, AUDUSD, USDCAD, USDCHF, NZDUSD, EURJPY, GBPJPY, XAUUSD`
 
-Bar reconstructions available: `3/26`
+Bar reconstructions available: `4/26`
 
 Scope: research validation only; source videos, transcripts, and contact sheets are present, but manual video timestamp overlap validation is still pending.
 
@@ -33,4 +33,4 @@ Scope: research validation only; source videos, transcripts, and contact sheets 
 | bsi_v3_4h_candle_ranges         | NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS |        |                           |                    |
 | bsi_v3_smt_session_hl           | NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS |        |                           |                    |
 | bsi_v3_1h_candle_ranges         | NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS |        |                           |                    |
-| bsi_v3_enigma_range             | NO_REPLAYED_SETUP_FOR_SELECTED_SYMBOLS |        |                           |                    |
+| bsi_v3_enigma_range             | PASS                                   | GBPUSD | 2026-09-07 09:00:00+00:00 | open_timeout       |

@@ -17,7 +17,7 @@ Reuses:
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from decimal import Decimal
 from typing import Any
@@ -88,6 +88,7 @@ def classify_market_regime(adx_value: float | None, atr_expansion_ratio: float |
 
 @dataclass(frozen=True)
 class StrategyContext:
+    account_id: str | None
     symbol: str
     broker_symbol: str
     generated_at: datetime
@@ -165,6 +166,23 @@ class StrategyContext:
     # returns NO_TRADE rather than guessing when this is None, never silently degrades to a
     # single-pair proxy.
     currency_strength: dict[str, Any] | None = None
+    # BSI Daily Bias Audit (2026-09-02, BSI_DAILY_BIAS_AUDIT.md): mentor-faithful Daily/D1 HTF
+    # bias -- see backend/market_structure/daily_aggregation.py for the synthesis design (H4
+    # aggregated to NY-calendar-day bars, since the live MT5-sourced candle table has zero native
+    # D1 rows). None when the caller doesn't supply `daily_rows` to build_strategy_context (every
+    # context built before this field existed, or any caller not yet updated) -- same "presence !=
+    # activation" additive contract as currency_strength/squeeze_state above. Read ONLY by the 4
+    # BSI subtypes that previously read ctx.htf_trend_h4 for their mentor HTF-bias gate
+    # (bsi_order_flow, bsi_abc, bsi_0930, bsi_abcd, plus their bsi_reactionary/bsi_ob_liquidity
+    # dependents) -- ctx.htf_trend_h4 itself is UNCHANGED and still computed/populated exactly as
+    # before, since fusion.py/smc_continuation.py/mean_reversion.py/trend_pullback.py and others
+    # still depend on it for their own, unrelated purposes (see BSI_DAILY_BIAS_AUDIT.md Section 3).
+    htf_trend_daily: str | None = None
+    daily_snapshot: MarketStructureSnapshot | None = None
+    # Optional lower-timeframe rows for V3 Faiz runtime detectors that need entry-confirmation
+    # candles (M1/M5). Existing strategy families remain M15/H1/H4-only and ignore these.
+    m1_rows: list[dict[str, Any]] = field(default_factory=list)
+    m5_rows: list[dict[str, Any]] = field(default_factory=list)
 
 
 def quick_regime(m15_rows: list[dict[str, Any]]) -> dict[str, Any]:
@@ -208,6 +226,7 @@ def cheap_prefilter(*, already_ineligible: bool, m15_rows: list[dict[str, Any]],
 
 def build_strategy_context(
     *,
+    account_id: str | None = None,
     symbol: str,
     broker_symbol: str,
     m15_rows: list[dict[str, Any]],
@@ -222,6 +241,10 @@ def build_strategy_context(
     m15_snapshot: MarketStructureSnapshot | None = None,
     h1_snapshot: MarketStructureSnapshot | None = None,
     h4_snapshot: MarketStructureSnapshot | None = None,
+    daily_rows: list[dict[str, Any]] | None = None,
+    daily_snapshot: MarketStructureSnapshot | None = None,
+    m1_rows: list[dict[str, Any]] | None = None,
+    m5_rows: list[dict[str, Any]] | None = None,
 ) -> StrategyContext | None:
     """Returns None (not a partial/degraded context) when there isn't enough history for the
     SMC engine's minimum swing window -- callers must skip strategy evaluation entirely rather
@@ -244,7 +267,17 @@ def build_strategy_context(
     itself makes no Redis calls (it runs inside autonomous.py's asyncio.to_thread() worker,
     which must never touch the main event loop's Redis connection -- see redis_layer.py's
     module docstring). Omitted (None, the default) callers get identical behavior to before
-    these parameters existed."""
+    these parameters existed.
+
+    `daily_rows`/`daily_snapshot` (BSI Daily Bias Audit, 2026-09-02): OPTIONAL, additive, same
+    "presence != activation" contract as every other optional parameter here -- omitted (the
+    default for every caller not yet updated) leaves `ctx.htf_trend_daily`/`ctx.daily_snapshot`
+    as None and changes NOTHING else about this function's existing behavior (h4_rows/htf_trend_h4
+    are completely untouched by this addition). `daily_rows` is expected to already be
+    point-in-time-safe and pre-aggregated (see backend/market_structure/daily_aggregation.py /
+    backend.historical_intelligence.replay.daily_bars_as_of) -- this function does not fetch or
+    aggregate anything itself, it only runs analyze_bars() on whatever it's given, identically to
+    how h4_snapshot already works."""
     if len(m15_rows) < 20 or len(h1_rows) < 10 or len(h4_rows) < 10:
         return None
     now = now or datetime.now(timezone.utc)
@@ -252,6 +285,9 @@ def build_strategy_context(
     m15_snapshot = m15_snapshot if m15_snapshot is not None else analyze_bars(m15_rows, symbol=broker_symbol, timeframe="M15")
     h1_snapshot = h1_snapshot if h1_snapshot is not None else analyze_bars(h1_rows, symbol=broker_symbol, timeframe="H1")
     h4_snapshot = h4_snapshot if h4_snapshot is not None else analyze_bars(h4_rows, symbol=broker_symbol, timeframe="H4")
+    if daily_snapshot is None and daily_rows is not None and len(daily_rows) >= 10:
+        daily_snapshot = analyze_bars(daily_rows, symbol=broker_symbol, timeframe="D1")
+    htf_trend_daily_value = str(daily_snapshot.trend.state) if daily_snapshot is not None and daily_snapshot.trend else None
 
     regime_info = regime_info if regime_info is not None else detect_regime(m15_rows)
 
@@ -319,6 +355,7 @@ def build_strategy_context(
                 broker_min_stop_distance = None
 
     return StrategyContext(
+        account_id=account_id,
         symbol=symbol,
         broker_symbol=broker_symbol,
         generated_at=now,
@@ -345,6 +382,10 @@ def build_strategy_context(
         atr_expansion_ratio=atr_expansion_ratio_current,
         market_regime=market_regime_current,
         point_value=point_value_current,
+        htf_trend_daily=htf_trend_daily_value,
+        daily_snapshot=daily_snapshot,
+        m1_rows=list(m1_rows or []),
+        m5_rows=list(m5_rows or []),
     )
 
 

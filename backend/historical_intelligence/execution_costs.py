@@ -53,7 +53,17 @@ UNKNOWN = "UNKNOWN"
 
 COMMISSION_CONFIG_ZERO = "CONFIG_ZERO"
 COMMISSION_OBSERVED_ZERO = "OBSERVED_ZERO"
-COMMISSION_UNKNOWN = "UNKNOWN_REQUIRES_LOT_SIZE"
+# 2026-08-30, discovered during the BSI six-month backfill: this value is persisted into
+# HistoricalSetupOutcomeORM.commission_cost_provenance / HistoricalAdaptiveOutcomeORM.data_quality-
+# adjacent String(24) columns (orm.py). The original 25-character value ("UNKNOWN_REQUIRES_LOT_
+# SIZE") is ONE character over that limit and raised psycopg.errors.StringDataRightTruncation on
+# every INSERT that reached this branch (trading_costs.commission_mode() == BROKER_REPORTED and
+# _empirically_zero_commission() not True -- true in this deployment's own live config, confirmed
+# via commission_mode() returning BROKER_REPORTED here) -- i.e. this was not BSI-specific or
+# backtest-only: any REAL trade outcome label hitting this same branch would have failed to
+# persist its commission-cost fields identically. Shortened to fit String(24) with the same
+# meaning; not a behavior change, purely a column-width fix.
+COMMISSION_UNKNOWN = "UNKNOWN_NEEDS_LOT_SIZE"
 
 _SPREAD_PROVENANCE_ORDER = {OBSERVED: 0, HISTORICAL_ESTIMATE: 1, CONFIG_FALLBACK: 2, UNKNOWN: 3}
 

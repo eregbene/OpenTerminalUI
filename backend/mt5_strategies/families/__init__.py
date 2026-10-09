@@ -70,6 +70,7 @@ from backend.mt5_strategies.families._legacy import (
 )
 from backend.mt5_strategies.families._shared import _dynamic_stop, _no_signal, _signal
 from backend.mt5_strategies.families.breakout import evaluate_breakout
+from backend.mt5_strategies.families.donchian_imbalance import evaluate_donchian_imbalance
 from backend.mt5_strategies.families.donchian_trend_follow import evaluate_donchian_trend_follow
 from backend.mt5_strategies.families.ema_trend import evaluate_ema_trend
 from backend.mt5_strategies.families.fx_relative_momentum import evaluate_fx_relative_momentum
@@ -100,6 +101,7 @@ EVALUATORS: dict[str, Any] = {
     "vwap_reversion": evaluate_vwap_reversion,
     "wyckoff": evaluate_wyckoff,
     "donchian_trend_follow": evaluate_donchian_trend_follow,
+    "donchian_imbalance": evaluate_donchian_imbalance,
     "session_liquidity_breakout": evaluate_session_liquidity_breakout,
     "fx_relative_momentum": evaluate_fx_relative_momentum,
     "bsi": evaluate_bsi,

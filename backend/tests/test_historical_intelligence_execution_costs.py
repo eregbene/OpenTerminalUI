@@ -319,3 +319,21 @@ def test_net_r_subtracts_both_spread_and_commission_when_both_known(monkeypatch)
     risk = abs(1.1000 - 1.0980)
     assert result["commission_cost_provenance"] == execution_costs.COMMISSION_OBSERVED_ZERO
     assert result["net_outcome_r"] == pytest.approx(result["outcome_r"] - 0.0004 / risk - 0.0, rel=1e-6)
+
+
+def test_all_provenance_constants_fit_their_orm_column_widths():
+    """Regression for a real bug found during the BSI six-month backfill (2026-08-30):
+    COMMISSION_UNKNOWN was 25 chars ("UNKNOWN_REQUIRES_LOT_SIZE"), one over
+    HistoricalSetupOutcomeORM.commission_cost_provenance's String(24) column -- every INSERT that
+    reached this provenance (trading_costs.commission_mode()==BROKER_REPORTED with commission not
+    empirically proven zero -- this deployment's own live config) raised
+    psycopg.errors.StringDataRightTruncation and silently failed to persist that outcome's
+    commission-cost fields. Not BSI-specific -- any real trade outcome label hitting the same
+    branch would fail identically. This test pins every provenance constant this module emits
+    into a String(24) column to stay within that bound, so a future edit can't reintroduce the
+    same class of bug."""
+    max_len = 24
+    for name in ("OBSERVED", "HISTORICAL_ESTIMATE", "CONFIG_FALLBACK", "UNKNOWN",
+                 "COMMISSION_CONFIG_ZERO", "COMMISSION_OBSERVED_ZERO", "COMMISSION_UNKNOWN"):
+        value = getattr(execution_costs, name)
+        assert len(value) <= max_len, f"{name}={value!r} is {len(value)} chars, exceeds the String({max_len}) column it is persisted into"

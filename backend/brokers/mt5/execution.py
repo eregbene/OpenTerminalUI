@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import os
 from decimal import Decimal, ROUND_FLOOR
 from typing import Any
 
@@ -18,6 +19,16 @@ SUCCESS_RETCODE_NAMES = {
     "TRADE_RETCODE_DONE_PARTIAL",
     "TRADE_RETCODE_PLACED",
 }
+
+
+def _min_risk_reward_floor(value: Decimal | None = None) -> Decimal:
+    if value is not None:
+        return value
+    return Decimal(os.getenv("MT5_MIN_RISK_REWARD", "1.5"))
+
+
+def _minimum_stop_distance_points() -> Decimal:
+    return Decimal(os.getenv("MT5_MIN_STOP_DISTANCE_POINTS", "15"))
 
 
 class MT5ExecutionService:
@@ -87,6 +98,7 @@ class MT5ExecutionService:
         strategy_tier_cap_multiplier: float | None = None,
         account_fingerprint: str | None = None,
         account_currency: str | None = None,
+        min_risk_reward: Decimal | None = None,
     ) -> MT5RiskSizing:
         """PART 4's required sizing sequence, using the single canonical monetary-risk
         calculator (backend/brokers/mt5/risk_calculator.py) for every loss estimate -- no other
@@ -167,10 +179,17 @@ class MT5ExecutionService:
         step = symbol.volume_step or Decimal("0.01")
         minimum = symbol.volume_min or Decimal("0.01")
         maximum = symbol.volume_max or Decimal("100")
+        if self.config.rollout_max_lots is not None:
+            maximum = min(maximum, Decimal(str(self.config.rollout_max_lots)))
         if reasons:
             return MT5RiskSizing(status="REJECTED", reasons=reasons, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, **exposure)
 
         # 2. Canonical projected loss for 1.0 lot -- most-conservative-of-every-available-method.
+        point = symbol.point or Decimal("0")
+        stop_distance = abs(entry - stop)
+        if point > 0 and stop_distance / point < _minimum_stop_distance_points():
+            reasons.append("STOP_DISTANCE_BELOW_MINIMUM_POINTS")
+            return MT5RiskSizing(status="REJECTED", reasons=reasons, effective_risk_usd=effective_risk, equity_risk_cap_usd=equity_risk_cap, trade_risk_cap_usd=trade_risk_cap, **exposure)
         mt5_client = self._native_client()
         canonical = await calculate_canonical_loss_per_lot(
             direction=direction,
@@ -245,7 +264,6 @@ class MT5ExecutionService:
         # Commission is subtracted here too -- it's charged on the winning side of the trade just
         # as much as the losing side, so the reward side of RR must be cost-adjusted as well or
         # the filter below only prices in half of what a real round-turn actually costs.
-        stop_distance = abs(entry - stop)
         rate_per_price_unit = (loss_per_lot / stop_distance) if stop_distance > 0 else None
         if rate_per_price_unit and rate_per_price_unit > 0:
             gross_profit = (abs(target - entry) * rate_per_price_unit * volume).copy_abs()
@@ -263,7 +281,7 @@ class MT5ExecutionService:
         if portfolio_available_risk_usd is not None and projected_loss > portfolio_available_risk_usd + tolerance:
             reasons.append("PROJECTED_LOSS_EXCEEDS_PORTFOLIO_AVAILABLE_RISK")
         rr = (projected_profit / projected_loss).quantize(Decimal("0.01")) if projected_loss > 0 else Decimal("0")
-        if rr < Decimal("1.5"):
+        if rr < _min_risk_reward_floor(min_risk_reward):
             reasons.append("RISK_REWARD_TOO_LOW")
         projected_loss_pct_equity = (projected_loss / account_equity * Decimal("100")).quantize(Decimal("0.0001")) if account_equity > 0 else None
         return MT5RiskSizing(
@@ -311,6 +329,17 @@ class MT5ExecutionService:
         raw = await asyncio.to_thread(mt5.order_calc_profit, order_type, intent.broker_symbol, float(intent.volume), float(intent.entry_price), float(intent.stop_loss))
         return _dec(raw)
 
+    async def _with_fresh_market_entry(self, intent: MT5TradeIntent) -> MT5TradeIntent:
+        try:
+            quote = await self.adapter.latest_tick(intent.broker_symbol)
+        except Exception:
+            return intent
+        side = intent.direction.upper()
+        fresh = quote.ask if side == "LONG" else quote.bid
+        if fresh is None:
+            return intent
+        return intent.model_copy(update={"entry_price": Decimal(str(fresh))})
+
     async def order_check(self, intent: MT5TradeIntent) -> MT5OrderCheckResult:
         mt5 = self.adapter.client.ensure_ready()
         request = self._request(mt5, intent, filling_type=await self._filling_type(mt5, intent.broker_symbol))
@@ -332,6 +361,17 @@ class MT5ExecutionService:
         if blockers:
             raise MT5ReadOnlyViolation(";".join(blockers))
         mt5 = self.adapter.client.ensure_ready()
+        intent = await self._with_fresh_market_entry(intent)
+        geometry_reasons = _geometry_reasons(intent.direction, intent.entry_price, intent.stop_loss, intent.take_profit)
+        if geometry_reasons:
+            request = self._request(mt5, intent)
+            return MT5OrderSubmissionResult(
+                status="REJECTED",
+                comment=";".join(geometry_reasons),
+                requested_volume=intent.volume,
+                request=request,
+                raw={"reason": "STALE_MARKET_PRICE_INVALIDATES_SL_TP", "reasons": geometry_reasons, "request": _sanitize(request)},
+            )
         filling_type = await self._filling_type(mt5, intent.broker_symbol)
         check = await self.order_check(intent)
         if not check.ok:

@@ -123,6 +123,23 @@ def _v3_planned_entry_live() -> bool:
     return _env_bool("BSI_V3_PLANNED_ENTRY_LIVE", False)
 
 
+def _v3_fast_entry_blocklist() -> set[tuple[str | None, str]]:
+    raw = os.getenv("BSI_V3_FAST_ENTRY_BLOCKLIST", "")
+    blocked: set[tuple[str | None, str]] = set()
+    for item in raw.split(","):
+        value = item.strip()
+        if not value:
+            continue
+        if ":" in value:
+            account_id, strategy_id = value.split(":", 1)
+            strategy = strategy_id.strip()
+            if strategy:
+                blocked.add((account_id.strip() or None, strategy))
+        else:
+            blocked.add((None, value))
+    return blocked
+
+
 _STRATEGY_DISPLAY_NAMES = {
     "bsi_v3_order_flow": "Order Flow",
     "bsi_v3_smt_divergence": "SMT",
@@ -526,6 +543,20 @@ def _candidate_min_reward_multiple(candidate: dict[str, Any]) -> Decimal:
     ):
         return Decimal(os.getenv("MT5_BSI_V3_MIN_RISK_REWARD", "1.0"))
     return MIN_REWARD_MULTIPLE
+
+
+def _context_bars(env: str) -> int:
+    """Bars fetched per symbol for the strategy context (default 100, never fewer). donchian_imbalance
+    replays the research trade sequence over its window, so it needs long history: the live .env sets
+    MT5_CONTEXT_M15_BARS / MT5_CONTEXT_H1_BARS (see docs/donchian-imbalance-combo-check.md)."""
+    try:
+        return max(100, int(os.getenv(env, "100")))
+    except ValueError:
+        return 100
+
+
+def _context_m15_bars() -> int:
+    return _context_bars("MT5_CONTEXT_M15_BARS")
 
 
 def _is_bsi_v2_candidate(candidate: dict[str, Any]) -> bool:
@@ -1095,7 +1126,11 @@ class MT5AutonomousTradingService:
             eligible_for_execution = []
             for row in ranked:
                 bsi_v2_candidate = _is_bsi_v2_candidate(row)
-                confidence_ok = bsi_v2_candidate or is_autonomous_eligible(row["trade_confidence"]["overall_score"], min_trade_confidence=self.config.min_trade_confidence)
+                # donchian_imbalance's tested rules ARE its entry gate; the generic multi-timeframe
+                # confidence score is not part of what was tested, so it must not filter it (same
+                # exemption pattern as BSI V2). Risk, news, activation and spread gates still apply.
+                rules_gated = (row.get("context") or {}).get("strategy_family") == "donchian_imbalance"
+                confidence_ok = bsi_v2_candidate or rules_gated or is_autonomous_eligible(row["trade_confidence"]["overall_score"], min_trade_confidence=self.config.min_trade_confidence)
                 if bsi_v2_candidate:
                     row["trade_confidence"]["legacy_hard_gate_applied"] = False
                 activation = row.get("strategy_activation", ACTIVE_MT5)
@@ -1573,8 +1608,8 @@ class MT5AutonomousTradingService:
                 quote = await redis_layer.cached_latest_tick(self.adapter, instrument.broker_symbol)
                 m1 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "M1", count=100)
                 m5 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "M5", count=100)
-                m15 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "M15", count=100)
-                h1 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "H1", count=100)
+                m15 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "M15", count=_context_m15_bars())
+                h1 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "H1", count=_context_bars("MT5_CONTEXT_H1_BARS"))
                 h4 = await redis_layer.cached_candles(self.adapter, instrument.broker_symbol, "H4", count=100)
             except Exception as exc:
                 market_data_ms += (time.perf_counter() - _fetch_t0) * 1000
@@ -2550,6 +2585,15 @@ class MT5AutonomousTradingService:
         max_per_day = _env_int("BSI_V3_FAST_ENTRY_MAX_ACCEPTED_PER_ACCOUNT_DAY", 0)
         cooldown_minutes = _env_int("BSI_V3_FAST_ENTRY_SYMBOL_COOLDOWN_MINUTES", 60)
         symbol = str(candidate.get("canonical_pair") or candidate.get("symbol") or "").upper()
+        evidence = (candidate.get("context") or {}).get("strategy_evidence") or {}
+        strategies = {
+            str(item)
+            for item in [evidence.get("v3_strategy_id"), *(evidence.get("v3_confluence_strategy_ids") or [])]
+            if item
+        }
+        blocked = _v3_fast_entry_blocklist()
+        if any((self.account_id, strategy) in blocked or (None, strategy) in blocked for strategy in strategies):
+            blockers.append("BSI_V3_FAST_STRATEGY_BLOCKLIST")
         since_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
         since_symbol = now - timedelta(minutes=max(1, cooldown_minutes))
         with SessionLocal() as db:
@@ -2933,7 +2977,17 @@ class MT5AutonomousTradingService:
             self._mark_planned_entry_submission(plan_ids, "SUBMITTING", {"status": "SUBMITTING", "cycle_id": cycle_id})
             submission = await self._submit(best, confidence=float(confidence["overall_score"]))
             terminal_status = "CONSUMED" if submission.get("status") == "ACCEPTED" else "BROKER_SUBMISSION_REJECTED"
-            self._mark_planned_entry_submission(plan_ids, terminal_status, {"status": submission.get("status"), "trade_id": submission.get("trade_id")})
+            self._mark_planned_entry_submission(
+                plan_ids,
+                terminal_status,
+                {
+                    "status": submission.get("status"),
+                    "trade_id": submission.get("trade_id"),
+                    "risk": submission.get("risk"),
+                    "risk_budget_adjustment": submission.get("risk_budget_adjustment"),
+                    "order_send_calls": submission.get("order_send_calls", 0),
+                },
+            )
             try:
                 persist_cycle_result(
                     {
@@ -2964,6 +3018,8 @@ class MT5AutonomousTradingService:
                 "selected_strategy": evidence.get("v3_strategy_id"),
                 "confluence": evidence.get("v3_confluence_strategy_ids"),
                 "confidence": confidence.get("overall_score"),
+                "risk": submission.get("risk"),
+                "risk_budget_adjustment": submission.get("risk_budget_adjustment"),
                 "order_send_calls": submission.get("order_send_calls", 0),
                 "monitoring_counts": monitoring_counts,
                 "horizon_counts": horizon_counts,

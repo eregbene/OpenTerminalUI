@@ -47,7 +47,7 @@ def test_mtfai1_row_reflects_shadow_override(monkeypatch: pytest.MonkeyPatch):
     assert row["strategy_activation"] == "SHADOW_MT5"
 
 
-def test_mtfai1_row_reflects_disabled_override(monkeypatch: pytest.MonkeyPatch):
+def test_mtfai1_disabled_override_removes_candidate(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.setenv("MT5_STRATEGY_ACTIVATION_MTFAI1", "DISABLED")
     redirect_shared_db_to_isolated_sqlite(monkeypatch)
     adapter = fake_adapter()
@@ -56,5 +56,4 @@ def test_mtfai1_row_reflects_disabled_override(monkeypatch: pytest.MonkeyPatch):
     eurusd = next(item for item in universe.items if item.broker_symbol == "EURUSD")
 
     candidates = asyncio.run(service._screen([eurusd], cycle_id="TEST_CYCLE"))
-    row = _mtfai1_row(candidates)
-    assert row["strategy_activation"] == "DISABLED"
+    assert all(c["context"]["strategy_id"] != "mtfai1" for c in candidates)

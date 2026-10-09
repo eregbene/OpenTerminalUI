@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 from decimal import Decimal
 from typing import Any
@@ -174,9 +175,10 @@ def risk_status(config: MT5Config, *, equity: Decimal, balance: Decimal, daily_p
     daily_cap = min(internal_daily_cap, prop_daily_cap)
     total_cap = min(internal_total_cap, prop_total_cap)
     blockers: list[str] = []
-    if daily_pnl <= -daily_cap:
+    drawdown_entry_blocks_disabled = os.getenv("MT5_DISABLE_DRAWDOWN_ENTRY_BLOCKS", "false").strip().lower() in {"1", "true", "yes", "on"}
+    if not drawdown_entry_blocks_disabled and daily_pnl <= -daily_cap:
         blockers.append("DAILY_LOSS_LIMIT")
-    if total_pnl <= -total_cap:
+    if not drawdown_entry_blocks_disabled and total_pnl <= -total_cap:
         blockers.append("TOTAL_DRAWDOWN_LIMIT")
     return {
         "active_prop_profile": profile.model_dump(),
@@ -200,4 +202,5 @@ def risk_status(config: MT5Config, *, equity: Decimal, balance: Decimal, daily_p
         },
         "blockers": blockers,
         "trading_lock_active": bool(blockers),
+        "drawdown_entry_blocks_disabled": drawdown_entry_blocks_disabled,
     }
