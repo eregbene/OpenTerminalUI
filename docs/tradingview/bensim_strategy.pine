@@ -22,6 +22,7 @@ planBars  = input.int(48, "Order valid (candles)")
 maxHold   = input.int(200, "Max hold (candles)")
 riskPct   = input.float(0.5, "Risk per trade (% of equity)")
 confNeed  = input.int(2, "Confirmations needed (of killzone, POI, sweep)", minval = 0, maxval = 3)
+weakRisk  = input.float(50, "Risk when not all 3 agree (% of normal)", minval = 0, maxval = 100)
 
 // killzones (UTC)
 h = hour(time, "UTC")
@@ -193,16 +194,16 @@ var int sigBar = na
 var int entryBar = na
 flat = strategy.position_size == 0
 usdRate = request.currency_rate(syminfo.currency, "USD")  // quote currency -> USD, every bar
-qtyFor(float en, float st) =>
-    math.floor(strategy.equity * riskPct / 100 / (math.abs(en - st) * usdRate))  // units (FX: 100,000 = 1 lot)
+qtyFor(float en, float st, int nConf) =>  // full risk with all 3 confirmations, weakRisk % of it with fewer
+    math.floor(strategy.equity * riskPct / 100 * (nConf >= 3 ? 1.0 : weakRisk / 100) / (math.abs(en - st) * usdRate))  // units (FX: 100,000 = 1 lot)
 if flat and longSig
     strategy.cancel_all()
-    strategy.entry("BUY", strategy.long, qty = qtyFor(enL, stL), limit = enL, comment = "BUY @0.618")
+    strategy.entry("BUY", strategy.long, qty = qtyFor(enL, stL, confL), limit = enL, comment = "BUY @0.618")
     strategy.exit("BUY exit", "BUY", stop = stL, limit = tpL, comment_loss = "SL", comment_profit = "TP")
     sigBar := bar_index
 if flat and shortSig
     strategy.cancel_all()
-    strategy.entry("SELL", strategy.short, qty = qtyFor(enS, stS), limit = enS, comment = "SELL @0.618")
+    strategy.entry("SELL", strategy.short, qty = qtyFor(enS, stS, confS), limit = enS, comment = "SELL @0.618")
     strategy.exit("SELL exit", "SELL", stop = stS, limit = tpS, comment_loss = "SL", comment_profit = "TP")
     sigBar := bar_index
 if flat and not na(sigBar) and bar_index - sigBar >= planBars

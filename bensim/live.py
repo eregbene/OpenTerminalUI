@@ -26,7 +26,7 @@ from zoneinfo import ZoneInfo
 
 import numpy as np
 
-from . import bridge, db, guard
+from . import bridge, db, guard, indicators
 from .backtest import _win, resample
 from .config import ROOT, SYMBOLS, env
 from .mt5_time import server_to_utc
@@ -35,6 +35,7 @@ from .strategy import Params, order_for, plan
 MAGIC = 770101
 PARAMS = Params(zone_mode="fib", confirm_any=("killzone", "poi", "sweep"), confirm_min=2)  # fib 61.8% + any 2 of (killzone, POI, sweep), fixed SL/TP
 RISK_PCT = float(env("BENSIM_RISK_PCT", "0.5"))
+WEAK_SETUP_RISK = float(env("BENSIM_WEAK_SETUP_RISK", "0.5"))  # risk multiplier when fewer than all confirmations agree
 LIVE_FROM = int(datetime.fromisoformat(env("BENSIM_LIVE_FROM", "2026-10-12T06:00:00+00:00")).timestamp())  # dry-run before this (UTC)
 STOP_FILE = ROOT / "bensim.STOP"
 PRAGUE = ZoneInfo("Europe/Prague")
@@ -160,14 +161,17 @@ def decide(sym: str, pl: dict, initial: float, day_start: float, equity: float, 
     spec, why = order_for(pl, q["bid"], q["ask"], PARAMS)
     if spec is None:
         return f"SKIP_{why}", {"bid": q["bid"], "ask": q["ask"]}
-    scale = guard.risk_scale(initial, equity)
+    n_conf = sum(indicators.passes(pl["checks"], (k,)) for k in PARAMS.confirm_any)
+    confidence = 1.0 if n_conf >= len(PARAMS.confirm_any) else WEAK_SETUP_RISK  # 3 of 3: full risk, 2 of 3: half
+    scale = guard.risk_scale(initial, equity) * confidence
     risk_target = initial * RISK_PCT / 100 * scale
     lots = lots_for(q, spec["price"], spec["sl"], risk_target)
     if lots < q["volume_min"]:
         return "SKIP_LOTS_BELOW_MIN", {"lots": lots}
     risk_usd = loss_per_lot(q, spec["price"], spec["sl"]) * lots
     ok, why = guard.check(initial, day_start, equity, opens, sym, pl["dir"], risk_usd)
-    detail = {"price": spec["price"], "sl": spec["sl"], "tp": spec["tp"], "rr": round(spec["rr"], 2), "lots": lots, "risk_usd": round(risk_usd, 2), "scale": scale}
+    detail = {"price": spec["price"], "sl": spec["sl"], "tp": spec["tp"], "rr": round(spec["rr"], 2), "lots": lots, "risk_usd": round(risk_usd, 2), "scale": scale,
+              "confirmations": n_conf}
     if not ok:
         return f"SKIP_GUARD_{why}", detail
     if dry:
