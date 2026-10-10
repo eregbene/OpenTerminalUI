@@ -138,7 +138,7 @@ var float swPrevLo = na
 var float swAsiaHi = na
 var float swAsiaLo = na
 swUtcH = hour(time, "UTC")
-swNewDay = dayofmonth(time, "UTC") != dayofmonth(time[1], "UTC")
+swNewDay = ta.change(dayofmonth(time, "UTC")) != 0  // not dayofmonth(time[1]): that raised "-1 bars back" on bar 26
 if swNewDay
     swPrevHi := swDayHi
     swPrevLo := swDayLo
