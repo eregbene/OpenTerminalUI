@@ -1,0 +1,115 @@
+//@version=5
+// bensim -- fib 61.8% + POI + killzone (visual twin of the Python engine; the engine is the source of truth)
+// Use on an M15 chart. How to add: TradingView -> Pine Editor -> paste -> Save -> Add to chart.
+// Draws: killzone background, setup signal (green = buy, red = sell), fib 0.5/0.618/0.786 of the breakout leg,
+// TradingView-style position boxes (green = entry->TP, red = entry->SL) and the POI FVG the entry sits in.
+// Approximations vs the engine: POI uses LuxAlgo-style FVGs only (the engine also accepts order blocks), and the
+// order is shown at fib 0.618 (the engine enters at market on the first M5 close that touches it).
+indicator("bensim fib+POI+killzone", overlay = true, max_boxes_count = 300, max_lines_count = 300, max_labels_count = 200)
+
+channel   = input.int(20, "Donchian channel")
+minBreak  = input.float(0.3, "Min break (x ATR)")
+minExp    = input.float(1.1, "Min ATR expansion")
+fibLevel  = input.float(0.618, "Entry fib")
+stopBuf   = input.float(0.1, "Stop buffer (x ATR)")
+targetAtr = input.float(4.0, "Target (x ATR)")
+planBars  = input.int(48, "Order valid (bars)")
+needPoi   = input.bool(true, "Require POI (FVG)")
+needKz    = input.bool(true, "Require killzone")
+
+// ---- killzones (UTC): London 07-10, New York 12-15
+h = hour(time, "UTC")
+inKz = (h >= 7 and h < 10) or (h >= 12 and h < 15)
+bgcolor(inKz ? color.new(color.yellow, 88) : na, title = "Killzone")
+
+// ---- H1 swing trend (pivot 2/2; a close beyond the last live pivot flips it) -- completed H1 bars only
+f_trend() =>
+    var int t = 0
+    var float lastH = na
+    var float lastL = na
+    var bool hLive = false
+    var bool lLive = false
+    ph = ta.pivothigh(high, 2, 2)
+    pl = ta.pivotlow(low, 2, 2)
+    if not na(ph)
+        lastH := ph
+        hLive := true
+    if not na(pl)
+        lastL := pl
+        lLive := true
+    if hLive and close > lastH
+        t := 1
+        hLive := false
+    else if lLive and close < lastL
+        t := -1
+        lLive := false
+    t
+h1Trend = request.security(syminfo.tickerid, "60", f_trend()[1], lookahead = barmerge.lookahead_on)
+
+// ---- LuxAlgo-style FVGs (auto threshold) with mitigation
+delta = (close[1] - open[1]) / open[1] * 100
+var float cum = 0.0
+cum += math.abs(nz(delta))
+thr = cum / bar_index * 2
+var array<float> fTop = array.new<float>()
+var array<float> fBot = array.new<float>()
+var array<int>   fDir = array.new<int>()
+if low > high[2] and close[1] > high[2] and delta > thr
+    array.push(fTop, low), array.push(fBot, high[2]), array.push(fDir, 1)
+if high < low[2] and close[1] < low[2] and -delta > thr
+    array.push(fTop, low[2]), array.push(fBot, high), array.push(fDir, -1)
+if array.size(fTop) > 0
+    for i = array.size(fTop) - 1 to 0
+        gone = array.get(fDir, i) == 1 ? low < array.get(fBot, i) : high > array.get(fTop, i)
+        if gone or array.size(fTop) > 200
+            array.remove(fTop, i), array.remove(fBot, i), array.remove(fDir, i)
+f_poi(int d, float px) =>
+    bool hit = false
+    if array.size(fTop) > 0
+        for i = 0 to array.size(fTop) - 1
+            if array.get(fDir, i) == d and px >= array.get(fBot, i) and px <= array.get(fTop, i)
+                hit := true
+    hit
+
+// ---- the signal: Donchian break with expansion, in the H1 trend direction
+a = ta.atr(14)
+expn = a / ta.sma(a, 50)
+hi = ta.highest(high, channel)[1]
+lo = ta.lowest(low, channel)[1]
+longBreak  = close - hi >= minBreak * a and expn >= minExp and h1Trend == 1
+shortBreak = lo - close >= minBreak * a and expn >= minExp and h1Trend == -1
+
+f_setup(int d) =>
+    off = d == 1 ? -ta.lowestbars(low, channel + 1) : -ta.highestbars(high, channel + 1)
+    leg0 = d == 1 ? low[off] : high[off]
+    leg1 = d == 1 ? ta.highest(high, off + 1) : ta.lowest(low, off + 1)
+    entry = leg1 - d * fibLevel * math.abs(leg1 - leg0)
+    stop = leg0 - d * stopBuf * a
+    target = close + d * targetAtr * a
+    [off, leg0, leg1, entry, stop, target]
+
+[offL, l0L, l1L, enL, stL, tpL] = f_setup(1)
+[offS, l0S, l1S, enS, stS, tpS] = f_setup(-1)
+okL = longBreak and (not needKz or inKz) and (not needPoi or f_poi(1, enL))
+okS = shortBreak and (not needKz or inKz) and (not needPoi or f_poi(-1, enS))
+
+f_draw(int d, int off, float l0, float l1, float en, float st, float tp) =>
+    col = d == 1 ? color.green : color.red
+    x0 = bar_index - off
+    x1 = bar_index + planBars
+    line.new(x0, l0, bar_index, l1, color = color.purple, width = 2)
+    for f in array.from(0.5, 0.618, 0.786)
+        lvl = l1 - d * f * math.abs(l1 - l0)
+        line.new(x0, lvl, x1, lvl, color = color.new(color.purple, f == 0.618 ? 0 : 50), style = f == 0.618 ? line.style_solid : line.style_dashed)
+    box.new(bar_index, math.max(en, tp), x1, math.min(en, tp), border_color = color.green, bgcolor = color.new(color.green, 85))
+    box.new(bar_index, math.max(en, st), x1, math.min(en, st), border_color = color.red, bgcolor = color.new(color.red, 85))
+    label.new(bar_index, d == 1 ? low : high, (d == 1 ? "BUY" : "SELL") + " setup\nentry " + str.tostring(en, format.mintick) + "\nSL " + str.tostring(st, format.mintick) + "\nTP " + str.tostring(tp, format.mintick),
+              style = d == 1 ? label.style_label_up : label.style_label_down, color = col, textcolor = color.white, size = size.small)
+
+if okL
+    f_draw(1, offL, l0L, l1L, enL, stL, tpL)
+if okS
+    f_draw(-1, offS, l0S, l1S, enS, stS, tpS)
+barcolor(okL ? color.lime : okS ? color.fuchsia : na)
+alertcondition(okL, "bensim BUY setup", "bensim BUY setup on {{ticker}}: limit at fib 0.618")
+alertcondition(okS, "bensim SELL setup", "bensim SELL setup on {{ticker}}: limit at fib 0.618")
