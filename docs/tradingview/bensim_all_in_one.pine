@@ -1478,9 +1478,7 @@ else if bsState == "FILLED"
 // the moment to enter: the first candle that touches fib 0.618 of a WAITING setup (the engine buys/sells at market then)
 bsEnterNow = bsState == "FILLED" and bsState[1] == "WAITING"
 if bsEnterNow
-    label.new(bar_index, bsEn, (bsDir == 1 ? "ENTER BUY NOW" : "ENTER SELL NOW") + "
-@ " + str.tostring(bsEn, format.mintick) + "
-SL " + str.tostring(bsSl, format.mintick) + "  TP " + str.tostring(bsTp, format.mintick),
+    label.new(bar_index, bsEn, (bsDir == 1 ? "ENTER BUY NOW" : "ENTER SELL NOW") + "\n@ " + str.tostring(bsEn, format.mintick) + "\nSL " + str.tostring(bsSl, format.mintick) + "  TP " + str.tostring(bsTp, format.mintick),
               style = bsDir == 1 ? label.style_label_up : label.style_label_down, color = bsDir == 1 ? color.lime : color.fuchsia, textcolor = color.black, size = size.normal)
 alertcondition(bsEnterNow and bsDir == 1, "bensim ENTER BUY now", "ENTER BUY now on {{ticker}}: price reached fib 0.618 of the setup")
 alertcondition(bsEnterNow and bsDir == -1, "bensim ENTER SELL now", "ENTER SELL now on {{ticker}}: price reached fib 0.618 of the setup")
