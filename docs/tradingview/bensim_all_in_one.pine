@@ -1447,7 +1447,20 @@ bsNextKz() =>
         s := (nxt % 1440 == 420 ? "London" : "New York") + " in " + str.tostring(math.floor(mins / 60)) + "h " + str.tostring(mins % 60) + "m"
     s
 
-var table bsTab = table.new(position.top_right, 2, 9, bgcolor = color.new(color.black, 15), border_color = color.new(color.gray, 60), border_width = 1)
+// helpers (information only -- tested as entry filters on the last 3 months, none improved results)
+hSqzBasis = ta.sma(close, 20)
+hSqzDev   = 1.5 * ta.stdev(close, 20)  // LazyBear SQZMOM_LB uses the KC multiplier for the BB too
+hSqzRange = ta.sma(ta.tr(true), 20)
+hSqzOn    = hSqzBasis - hSqzDev > hSqzBasis - hSqzRange * 1.5 and hSqzBasis + hSqzDev < hSqzBasis + hSqzRange * 1.5
+hSqzRel   = not hSqzOn and hSqzOn[1]
+hMom      = ta.linreg(close - math.avg(math.avg(ta.highest(high, 20), ta.lowest(low, 20)), ta.sma(close, 20)), 20, 0)
+[hStVal, hStDir] = ta.supertrend(3, 10)   // direction < 0 = uptrend in Pine
+hStH1     = request.security(syminfo.tickerid, "60", hStDir[1], lookahead = barmerge.lookahead_on)
+hVolEma10 = ta.ema(volume, 10)
+hVolOsc   = hVolEma10 > 0 ? 100 * (ta.ema(volume, 5) - hVolEma10) / hVolEma10 : 0.0
+hStTxt(float dir) => dir < 0 ? "UP" : dir > 0 ? "DOWN" : "-"
+
+var table bsTab = table.new(position.top_right, 2, 13, bgcolor = color.new(color.black, 15), border_color = color.new(color.gray, 60), border_width = 1)
 nextBuy  = ta.highest(high, bsChannel) + bsMinBreak * bsAtr  // the level the NEXT M15 close must reach (channel incl. this bar)
 nextSell = ta.lowest(low, bsChannel) - bsMinBreak * bsAtr
 if bsShowDash and barstate.islast
@@ -1470,3 +1483,12 @@ if bsShowDash and barstate.islast
     table.cell(bsTab, 1, 7, bsH1 == 1 ? "close >= " + str.tostring(nextBuy, format.mintick) + " in KZ + POI" : "no (H1 not UP)", text_color = color.white, text_size = size.small)
     table.cell(bsTab, 0, 8, "Next SELL", text_color = color.white, text_size = size.small)
     table.cell(bsTab, 1, 8, bsH1 == -1 ? "close <= " + str.tostring(nextSell, format.mintick) + " in KZ + POI" : "no (H1 not DOWN)", text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 0, 9, "Squeeze", text_color = color.gray, text_size = size.small)
+    table.cell(bsTab, 1, 9, hSqzOn ? "ON (coiling)" : hSqzRel ? "RELEASED now" : "off", text_color = color.white, bgcolor = hSqzOn ? color.new(color.gray, 50) : na, text_size = size.small)
+    table.cell(bsTab, 0, 10, "Sqz momentum", text_color = color.gray, text_size = size.small)
+    table.cell(bsTab, 1, 10, (hMom > 0 ? "bull " : "bear ") + (hMom > nz(hMom[1]) ? "rising" : "falling"), text_color = color.white,
+               bgcolor = hMom > 0 ? color.new(color.green, hMom > nz(hMom[1]) ? 40 : 70) : color.new(color.red, hMom < nz(hMom[1]) ? 40 : 70), text_size = size.small)
+    table.cell(bsTab, 0, 11, "Supertrend M15 / H1", text_color = color.gray, text_size = size.small)
+    table.cell(bsTab, 1, 11, hStTxt(hStDir) + " / " + hStTxt(hStH1), text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 0, 12, "Volume osc", text_color = color.gray, text_size = size.small)
+    table.cell(bsTab, 1, 12, str.tostring(hVolOsc, "#") + "%" + (hVolOsc > 20 ? "  SURGE" : ""), text_color = color.white, bgcolor = hVolOsc > 20 ? color.new(color.orange, 50) : na, text_size = size.small)
