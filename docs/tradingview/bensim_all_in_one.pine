@@ -1396,6 +1396,41 @@ bsDraw(int d, int off, float l0, float l1, float en, float st, float tp) =>
     label.new(bar_index, d == 1 ? low : high, (d == 1 ? "BUY setup" : "SELL setup") + "\nentry " + str.tostring(en, format.mintick) + "\nSL " + str.tostring(st, format.mintick) + "\nTP " + str.tostring(tp, format.mintick),
               style = d == 1 ? label.style_label_up : label.style_label_down, color = d == 1 ? color.green : color.red, textcolor = color.white, size = size.small)
 
+// always-on fib (like TradingView's fib tool) on the LATEST breakout leg the engine would measure:
+// 1 = where the leg started (stop side), 0 = the leg extreme at the breakout, entry at 0.618
+bsShowFib = input.bool(true, "Always show fib of the latest breakout", group = BS_GROUP)
+var int   fDir = 0
+var int   fX0  = na
+var int   fX1  = na
+var float fL0  = na
+var float fL1  = na
+if bsLongBreak or bsShortBreak
+    fDir := bsLongBreak ? 1 : -1
+    fX0  := bar_index - (bsLongBreak ? bsOffL : bsOffS)
+    fX1  := bar_index
+    fL0  := bsLongBreak ? bsL0L : bsL0S
+    fL1  := bsLongBreak ? bsL1L : bsL1S
+var array<line>  fLines = array.new<line>()
+var array<label> fLabs  = array.new<label>()
+if bsShowFib and barstate.islast and fDir != 0
+    for l in fLines
+        line.delete(l)
+    for lb in fLabs
+        label.delete(lb)
+    array.clear(fLines)
+    array.clear(fLabs)
+    xr = bar_index + 15
+    array.push(fLines, line.new(fX0, fL0, fX1, fL1, color = color.purple, width = 2, style = line.style_dotted))
+    for f in array.from(0.0, 0.382, 0.5, 0.618, 0.786, 1.0)
+        lvl = fL1 - fDir * f * math.abs(fL1 - fL0)
+        key = f == 0.618
+        col = key ? color.purple : f == 1.0 ? color.red : f == 0.0 ? color.green : color.new(color.purple, 40)
+        array.push(fLines, line.new(fX0, lvl, xr, lvl, color = col, width = key ? 2 : 1, style = key or f == 0.0 or f == 1.0 ? line.style_solid : line.style_dashed))
+        txt = str.tostring(f) + "  " + str.tostring(lvl, format.mintick) + (key ? "  ENTRY" : f == 1.0 ? "  (stop beyond)" : "")
+        array.push(fLabs, label.new(xr, lvl, txt, style = label.style_label_left, color = color(na), textcolor = col, size = size.small))
+    array.push(fLabs, label.new(fX1, fL1, (fDir == 1 ? "latest BUY breakout leg" : "latest SELL breakout leg"), style = fDir == 1 ? label.style_label_down : label.style_label_up,
+                                color = color(na), textcolor = color.purple, size = size.small))
+
 if bsOkL
     bsDraw(1, bsOffL, bsL0L, bsL1L, bsEnL, bsStL, bsTpL)
 if bsOkS
