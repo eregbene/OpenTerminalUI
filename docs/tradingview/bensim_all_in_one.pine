@@ -599,7 +599,7 @@ drawPremiumDiscountZones() =>
 //---------------------------------------------------------------------------------------------------------------------{
 parsedOpen  = showTrendInput ? open : na
 candleColor = internalTrend.bias == BULLISH ? swingBullishColor : swingBearishColor
-plotcandle(parsedOpen,high,low,close,color = candleColor, wickcolor = candleColor, bordercolor = candleColor)
+plotcandle(parsedOpen,high,low,close,color = candleColor, wickcolor = candleColor, bordercolor = candleColor, display = display.pane)
 
 if showHighLowSwingsInput or showPremiumDiscountZonesInput
     updateTrailingExtremes()
@@ -919,14 +919,14 @@ if i_showMMM2 and hour == i_MMM2hour and minute == i_MMM2minute and f_tfShow(i_h
 if i_showMMM3 and hour == i_MMM3hour and minute == i_MMM3minute and f_tfShow(i_hideMMMtf)
     f_drawVertical(i_MMM3color, i_MMM3width)
 
-plot(i_showHighLow and not na(pricehigh_daily) ? pricehigh_daily : na, "Previous Daily High", style=plot.style_linebr, color=color.white)
-plot(i_showHighLow and not na(pricelow_daily) ? pricelow_daily : na, "Previous Daily Low", style=plot.style_linebr, color=color.white)
-plot(i_showHighLow and not na(pricehigh_weekly) ? pricehigh_weekly : na, "Previous Weekly High", style=plot.style_linebr, color=color.white)
-plot(i_showHighLow and not na(pricelow_weekly) ? pricelow_weekly : na, "Previous Weekly Low", style=plot.style_linebr, color=color.white)
-plot(i_showHighLow and not na(pricehigh_monthly) ? pricehigh_monthly : na, "Previous Monthly High", style=plot.style_linebr, color=color.white)
-plot(i_showHighLow and not na(pricelow_monthly) ? pricelow_monthly : na, "Previous Monthly Low", style=plot.style_linebr, color=color.white)
-plot(i_showHighLow and not na(pricehigh_yearly) ? pricehigh_yearly : na, "Previous Yearly High", style=plot.style_linebr, color=color.white)
-plot(i_showHighLow and not na(pricelow_yearly) ? pricelow_yearly : na, "Previous Yearly Low", style=plot.style_linebr, color=color.white)
+plot(i_showHighLow and not na(pricehigh_daily) ? pricehigh_daily : na, "Previous Daily High", style=plot.style_linebr, color=color.white, display = display.pane)
+plot(i_showHighLow and not na(pricelow_daily) ? pricelow_daily : na, "Previous Daily Low", style=plot.style_linebr, color=color.white, display = display.pane)
+plot(i_showHighLow and not na(pricehigh_weekly) ? pricehigh_weekly : na, "Previous Weekly High", style=plot.style_linebr, color=color.white, display = display.pane)
+plot(i_showHighLow and not na(pricelow_weekly) ? pricelow_weekly : na, "Previous Weekly Low", style=plot.style_linebr, color=color.white, display = display.pane)
+plot(i_showHighLow and not na(pricehigh_monthly) ? pricehigh_monthly : na, "Previous Monthly High", style=plot.style_linebr, color=color.white, display = display.pane)
+plot(i_showHighLow and not na(pricelow_monthly) ? pricelow_monthly : na, "Previous Monthly Low", style=plot.style_linebr, color=color.white, display = display.pane)
+plot(i_showHighLow and not na(pricehigh_yearly) ? pricehigh_yearly : na, "Previous Yearly High", style=plot.style_linebr, color=color.white, display = display.pane)
+plot(i_showHighLow and not na(pricelow_yearly) ? pricelow_yearly : na, "Previous Yearly Low", style=plot.style_linebr, color=color.white, display = display.pane)
 
 //=====================================================================================================================
 // 3. MULTI TIMEFRAME BOS & MSS (© Eregbene, MPL 2.0)
@@ -1282,8 +1282,8 @@ liqDnWick = math.abs(low  - math.min(open, close))
 liqBody   = math.abs(close - open)
 liqUp     = close > open and liqUpWick > liq_thresh * liqBody and liqVol
 liqDn     = close <= open and liqDnWick > liq_thresh * liqBody and liqVol
-plotcandle(liqUp ? close : na, liqUp ? high : na, liqUp ? open : na, liqUp ? high : na, wickcolor = color(na), color = color(na), bordercolor = show_liq ? liq_up_css : color(na), title = "Liquidity wick up")
-plotcandle(liqDn ? close : na, liqDn ? close : na, liqDn ? low : na, liqDn ? low : na, wickcolor = color(na), color = color(na), bordercolor = show_liq ? liq_dn_css : color(na), title = "Liquidity wick down")
+plotcandle(liqUp ? close : na, liqUp ? high : na, liqUp ? open : na, liqUp ? high : na, wickcolor = color(na), color = color(na), bordercolor = show_liq ? liq_up_css : color(na), title = "Liquidity wick up", display = display.pane)
+plotcandle(liqDn ? close : na, liqDn ? close : na, liqDn ? low : na, liqDn ? low : na, wickcolor = color(na), color = color(na), bordercolor = show_liq ? liq_dn_css : color(na), title = "Liquidity wick down", display = display.pane)
 
 //=====================================================================================================================
 // 5. BENSIM SETUP: fib 61.8% + POI + killzone, with a live dashboard
@@ -1423,15 +1423,20 @@ if bsShowFib and barstate.islast and fDir != 0
         label.delete(lb)
     array.clear(fLines)
     array.clear(fLabs)
-    xr = bar_index + 15
+    xr = bar_index + 3
     array.push(fLines, line.new(fX0, fL0, fX1, fL1, color = color.purple, width = 2, style = line.style_dotted))
+    zTop = fL1 - fDir * 0.5 * math.abs(fL1 - fL0)
+    zBot = fL1 - fDir * 0.786 * math.abs(fL1 - fL0)
+    var box fZone = na
+    box.delete(fZone)
+    fZone := box.new(fX0, math.max(zTop, zBot), xr, math.min(zTop, zBot), border_color = color.new(color.purple, 70), bgcolor = color.new(color.purple, 85))
     for f in array.from(0.0, 0.382, 0.5, 0.618, 0.786, 1.0)
         lvl = fL1 - fDir * f * math.abs(fL1 - fL0)
         key = f == 0.618
-        col = key ? color.purple : f == 1.0 ? color.red : f == 0.0 ? color.green : color.new(color.purple, 40)
-        array.push(fLines, line.new(fX0, lvl, xr, lvl, color = col, width = key ? 2 : 1, style = key or f == 0.0 or f == 1.0 ? line.style_solid : line.style_dashed))
+        col = key ? color.fuchsia : f == 1.0 ? color.red : f == 0.0 ? color.lime : color.new(color.fuchsia, 30)
+        array.push(fLines, line.new(fX0, lvl, xr, lvl, color = col, width = key ? 3 : 2, style = key or f == 0.0 or f == 1.0 ? line.style_solid : line.style_dashed))
         txt = str.tostring(f) + "  " + str.tostring(lvl, format.mintick) + (key ? "  ENTRY" : f == 1.0 ? "  (stop beyond)" : "")
-        array.push(fLabs, label.new(xr, lvl, txt, style = label.style_label_left, color = color(na), textcolor = col, size = size.small))
+        array.push(fLabs, label.new(xr, lvl, txt, style = label.style_label_left, color = color.new(color.black, 30), textcolor = col, size = size.normal))
     array.push(fLabs, label.new(fX1, fL1, (fDir == 1 ? "latest BUY breakout leg" : "latest SELL breakout leg"), style = fDir == 1 ? label.style_label_down : label.style_label_up,
                                  color = color(na), textcolor = color.purple, size = size.small))
 
@@ -1486,8 +1491,11 @@ bsTxt(int t) => t == 1 ? "UP" : t == -1 ? "DOWN" : "-"
 bsCol(int t) => t == 1 ? color.new(color.green, 30) : t == -1 ? color.new(color.red, 30) : color.new(color.gray, 50)
 bsNextKz() =>
     nowMin = hour(timenow, "UTC") * 60 + minute(timenow, "UTC")
+    dow = dayofweek(timenow, "UTC")
     string s = ""
-    if nowMin >= 420 and nowMin < 600
+    if dow == dayofweek.saturday or (dow == dayofweek.sunday and nowMin < 1260) or (dow == dayofweek.friday and nowMin >= 1260)
+        s := "MARKET CLOSED (next: London Mon 07:00 UTC)"
+    else if nowMin >= 420 and nowMin < 600
         s := "IN London (to 10:00 UTC)"
     else if nowMin >= 720 and nowMin < 900
         s := "IN New York (to 15:00 UTC)"
