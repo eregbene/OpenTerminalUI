@@ -68,38 +68,52 @@ if high < low[2] and close[1] < low[2] and -delta > thr
 // POI part 2: LuxAlgo internal order blocks (5-bar structure): on a break of the last internal swing, the extreme candle
 // between that swing and the break (skipping candles wider than 2 x ATR(200)) becomes the block
 atr200 = ta.atr(200)
+// running candidates instead of a look-back loop: since the last internal swing high, the lowest-low candle narrower than
+// 2 x ATR(200) (bullish block); since the last internal swing low, the highest-high such candle (bearish block)
 var float iHigh = na
-var int   iHighBar = na
 var bool  iHighLive = false
 var float iLow = na
-var int   iLowBar = na
 var bool  iLowLive = false
+var float bullTop = na
+var float bullBot = na
+var float bearTop = na
+var float bearBot = na
 ph5 = ta.pivothigh(high, 5, 5)
 pl5 = ta.pivotlow(low, 5, 5)
-if not na(ph5)
-    iHigh := ph5, iHighBar := bar_index - 5, iHighLive := true
+narrow = high - low < 2 * atr200
+if not na(ph5)  // new swing high (5 bars ago): restart the bullish candidate over the 4 candles after it
+    iHigh := ph5
+    iHighLive := true
+    bullTop := na
+    bullBot := na
+    for k = 4 to 1
+        if high[k] - low[k] < 2 * atr200[k] and (na(bullBot) or low[k] <= bullBot)
+            bullTop := high[k]
+            bullBot := low[k]
 if not na(pl5)
-    iLow := pl5, iLowBar := bar_index - 5, iLowLive := true
-if iHighLive and close > iHigh and bar_index - iHighBar >= 2  // >= 1 candle between the swing and the break
+    iLow := pl5
+    iLowLive := true
+    bearTop := na
+    bearBot := na
+    for k = 4 to 1
+        if high[k] - low[k] < 2 * atr200[k] and (na(bearTop) or high[k] >= bearTop)
+            bearTop := high[k]
+            bearBot := low[k]
+if iHighLive and close > iHigh
     iHighLive := false
-    float bTop = na  // Pine v5 evaluates both sides of `or`, so keep values, never index with an unset offset
-    float bBot = na
-    for j = 1 to math.min(bar_index - iHighBar - 1, 200)
-        if high[j] - low[j] < 2 * atr200 and (na(bBot) or low[j] <= bBot)
-            bTop := high[j]
-            bBot := low[j]
-    if not na(bBot)
-        array.push(zTop, bTop), array.push(zBot, bBot), array.push(zDir, 1)
-if iLowLive and close < iLow and bar_index - iLowBar >= 2
+    if not na(bullBot)
+        array.push(zTop, bullTop), array.push(zBot, bullBot), array.push(zDir, 1)
+if iLowLive and close < iLow
     iLowLive := false
-    float bTop = na
-    float bBot = na
-    for j = 1 to math.min(bar_index - iLowBar - 1, 200)
-        if high[j] - low[j] < 2 * atr200 and (na(bTop) or high[j] >= bTop)
-            bTop := high[j]
-            bBot := low[j]
-    if not na(bTop)
-        array.push(zTop, bTop), array.push(zBot, bBot), array.push(zDir, -1)
+    if not na(bearTop)
+        array.push(zTop, bearTop), array.push(zBot, bearBot), array.push(zDir, -1)
+// this candle becomes a candidate for the NEXT break (the break candle itself never counts)
+if iHighLive and narrow and (na(bullBot) or low <= bullBot)
+    bullTop := high
+    bullBot := low
+if iLowLive and narrow and (na(bearTop) or high >= bearTop)
+    bearTop := high
+    bearBot := low
 if array.size(zTop) > 0
     for i = array.size(zTop) - 1 to 0
         gone = array.get(zDir, i) == 1 ? low < array.get(zBot, i) : high > array.get(zTop, i)
@@ -157,15 +171,17 @@ a = ta.atr(14)
 expn = a / ta.sma(a, 50)
 hi = ta.highest(high, channel)[1]
 lo = ta.lowest(low, channel)[1]
-lowOff  = nz(-ta.lowestbars(low, channel + 1), 0)
-highOff = nz(-ta.highestbars(high, channel + 1), 0)
+lowOff  = math.max(0, nz(-ta.lowestbars(low, channel + 1), 0))
+highOff = math.max(0, nz(-ta.highestbars(high, channel + 1), 0))
 upLeg = ta.highest(high, math.max(1, lowOff + 1))
 dnLeg = ta.lowest(low, math.max(1, highOff + 1))
-enL = upLeg - fibLevel * (upLeg - low[lowOff])
-stL = low[lowOff] - stopBuf * a
+legLo = ta.lowest(low, channel + 1)  // = low[lowOff], without indexing
+legHi = ta.highest(high, channel + 1)
+enL = upLeg - fibLevel * (upLeg - legLo)
+stL = legLo - stopBuf * a
 tpL = close + targetAtr * a
-enS = dnLeg + fibLevel * (high[highOff] - dnLeg)
-stS = high[highOff] + stopBuf * a
+enS = dnLeg + fibLevel * (legHi - dnLeg)
+stS = legHi + stopBuf * a
 tpS = close - targetAtr * a
 confL = (inKz ? 1 : 0) + (f_poi(1, enL) ? 1 : 0) + (sweepBuy ? 1 : 0)
 confS = (inKz ? 1 : 0) + (f_poi(-1, enS) ? 1 : 0) + (sweepSell ? 1 : 0)
