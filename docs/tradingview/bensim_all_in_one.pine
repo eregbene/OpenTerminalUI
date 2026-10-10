@@ -1,0 +1,1472 @@
+// bensim All-in-One -- one script instead of five:
+//   1. Smart Money Concepts [LuxAlgo]  (CC BY-NC-SA 4.0, https://creativecommons.org/licenses/by-nc-sa/4.0/, © LuxAlgo) -- unchanged
+//   2. Sessions and High/Low                      -- sessions boxes, mid lines, MMM lines, previous D/W/M/Y high/low
+//   3. MTF Break of Structure & MSS (© Eregbene)  -- higher-timeframe BOS / MSS
+//   4. Liquidity wicks from Price Action Concepts [eregbene] (its structure/OB/HH-LL parts are covered by #1)
+//   5. bensim setup: fib 61.8% + POI + killzone, the live engine's strategy, with a LIVE DASHBOARD on the last bar:
+//      H1/H4/D1 trend, killzone now / next, the setup waiting for its fill (entry/SL/TP/expiry), next BUY/SELL trigger prices.
+// Use on an M15 chart. TradingView -> Pine Editor -> paste -> Save -> Add to chart (remove the 4 separate scripts).
+// The Python engine is the source of truth; this is its visual twin.
+
+//@version=5
+indicator('bensim All-in-One (SMC + Sessions + MTF + fib/POI/killzone)', 'bensim AIO', overlay = true, max_labels_count = 500, max_lines_count = 500, max_boxes_count = 500, max_bars_back = 500)
+
+//=====================================================================================================================
+// 1. SMART MONEY CONCEPTS [LuxAlgo]
+//=====================================================================================================================
+//---------------------------------------------------------------------------------------------------------------------}
+//CONSTANTS & STRINGS & INPUTS
+//---------------------------------------------------------------------------------------------------------------------{
+BULLISH_LEG                     = 1
+BEARISH_LEG                     = 0
+
+BULLISH                         = +1
+BEARISH                         = -1
+
+GREEN                           = #089981
+RED                             = #F23645
+BLUE                            = #2157f3
+GRAY                            = #878b94
+MONO_BULLISH                    = #b2b5be
+MONO_BEARISH                    = #5d606b
+
+HISTORICAL                      = 'Historical'
+PRESENT                         = 'Present'
+
+COLORED                         = 'Colored'
+MONOCHROME                      = 'Monochrome'
+
+ALL                             = 'All'
+BOS                             = 'BOS'
+CHOCH                           = 'CHoCH'
+
+TINY                            = size.tiny
+SMALL                           = size.small
+NORMAL                          = size.normal
+
+ATR                             = 'Atr'
+RANGE                           = 'Cumulative Mean Range'
+
+CLOSE                           = 'Close'
+HIGHLOW                         = 'High/Low'
+
+SOLID                           = '⎯⎯⎯'
+DASHED                          = '----'
+DOTTED                          = '····'
+
+SMART_GROUP                     = 'Smart Money Concepts'
+INTERNAL_GROUP                  = 'Real Time Internal Structure'
+SWING_GROUP                     = 'Real Time Swing Structure'
+BLOCKS_GROUP                    = 'Order Blocks'
+EQUAL_GROUP                     = 'EQH/EQL'
+GAPS_GROUP                      = 'Fair Value Gaps'
+LEVELS_GROUP                    = 'Highs & Lows MTF'
+ZONES_GROUP                     = 'Premium & Discount Zones'
+
+modeTooltip                     = 'Allows to display historical Structure or only the recent ones'
+styleTooltip                    = 'Indicator color theme'
+showTrendTooltip                = 'Display additional candles with a color reflecting the current trend detected by structure'
+showInternalsTooltip            = 'Display internal market structure'
+internalFilterConfluenceTooltip = 'Filter non significant internal structure breakouts'
+showStructureTooltip            = 'Display swing market Structure'
+showSwingsTooltip               = 'Display swing point as labels on the chart'
+showHighLowSwingsTooltip        = 'Highlight most recent strong and weak high/low points on the chart'
+showInternalOrderBlocksTooltip  = 'Display internal order blocks on the chart\n\nNumber of internal order blocks to display on the chart'
+showSwingOrderBlocksTooltip     = 'Display swing order blocks on the chart\n\nNumber of internal swing blocks to display on the chart'
+orderBlockFilterTooltip         = 'Method used to filter out volatile order blocks \n\nIt is recommended to use the cumulative mean range method when a low amount of data is available'
+orderBlockMitigationTooltip     = 'Select what values to use for order block mitigation'
+showEqualHighsLowsTooltip       = 'Display equal highs and equal lows on the chart'
+equalHighsLowsLengthTooltip     = 'Number of bars used to confirm equal highs and equal lows'
+equalHighsLowsThresholdTooltip  = 'Sensitivity threshold in a range (0, 1) used for the detection of equal highs & lows\n\nLower values will return fewer but more pertinent results'
+showFairValueGapsTooltip        = 'Display fair values gaps on the chart'
+fairValueGapsThresholdTooltip   = 'Filter out non significant fair value gaps'
+fairValueGapsTimeframeTooltip   = 'Fair value gaps timeframe'
+fairValueGapsExtendTooltip      = 'Determine how many bars to extend the Fair Value Gap boxes on chart'
+showPremiumDiscountZonesTooltip = 'Display premium, discount, and equilibrium zones on chart'
+
+modeInput                       = input.string( HISTORICAL, 'Mode',                     group = SMART_GROUP,    tooltip = modeTooltip, options = [HISTORICAL, PRESENT])
+styleInput                      = input.string( COLORED,    'Style',                    group = SMART_GROUP,    tooltip = styleTooltip,options = [COLORED, MONOCHROME])
+showTrendInput                  = input(        false,      'Color Candles',            group = SMART_GROUP,    tooltip = showTrendTooltip)
+
+showInternalsInput              = input(        true,       'Show Internal Structure',  group = INTERNAL_GROUP, tooltip = showInternalsTooltip)
+showInternalBullInput           = input.string( ALL,        'Bullish Structure',        group = INTERNAL_GROUP, inline = 'ibull', options = [ALL,BOS,CHOCH])
+internalBullColorInput          = input(        GREEN,      '',                         group = INTERNAL_GROUP, inline = 'ibull')
+showInternalBearInput           = input.string( ALL,        'Bearish Structure' ,       group = INTERNAL_GROUP, inline = 'ibear', options = [ALL,BOS,CHOCH])
+internalBearColorInput          = input(        RED,        '',                         group = INTERNAL_GROUP, inline = 'ibear')
+internalFilterConfluenceInput   = input(        false,      'Confluence Filter',        group = INTERNAL_GROUP, tooltip = internalFilterConfluenceTooltip)
+internalStructureSize           = input.string( TINY,       'Internal Label Size',      group = INTERNAL_GROUP, options = [TINY,SMALL,NORMAL])
+
+showStructureInput              = input(        true,       'Show Swing Structure',     group = SWING_GROUP,    tooltip = showStructureTooltip)
+showSwingBullInput              = input.string( ALL,        'Bullish Structure',        group = SWING_GROUP,    inline = 'bull',    options = [ALL,BOS,CHOCH])
+swingBullColorInput             = input(        GREEN,      '',                         group = SWING_GROUP,    inline = 'bull')
+showSwingBearInput              = input.string( ALL,        'Bearish Structure',        group = SWING_GROUP,    inline = 'bear',    options = [ALL,BOS,CHOCH])
+swingBearColorInput             = input(        RED,        '',                         group = SWING_GROUP,    inline = 'bear')
+swingStructureSize              = input.string( SMALL,      'Swing Label Size',         group = SWING_GROUP,    options = [TINY,SMALL,NORMAL])
+showSwingsInput                 = input(        false,      'Show Swings Points',       group = SWING_GROUP,    tooltip = showSwingsTooltip,inline = 'swings')
+swingsLengthInput               = input.int(    50,         '',                         group = SWING_GROUP,    minval = 10,                inline = 'swings')
+showHighLowSwingsInput          = input(        true,       'Show Strong/Weak High/Low',group = SWING_GROUP,    tooltip = showHighLowSwingsTooltip)
+
+showInternalOrderBlocksInput    = input(        true,       'Internal Order Blocks' ,   group = BLOCKS_GROUP,   tooltip = showInternalOrderBlocksTooltip,   inline = 'iob')
+internalOrderBlocksSizeInput    = input.int(    5,          '',                         group = BLOCKS_GROUP,   minval = 1, maxval = 20,                    inline = 'iob')
+showSwingOrderBlocksInput       = input(        false,      'Swing Order Blocks',       group = BLOCKS_GROUP,   tooltip = showSwingOrderBlocksTooltip,      inline = 'ob')
+swingOrderBlocksSizeInput       = input.int(    5,          '',                         group = BLOCKS_GROUP,   minval = 1, maxval = 20,                    inline = 'ob')
+orderBlockFilterInput           = input.string( 'Atr',      'Order Block Filter',       group = BLOCKS_GROUP,   tooltip = orderBlockFilterTooltip,          options = [ATR, RANGE])
+orderBlockMitigationInput       = input.string( HIGHLOW,    'Order Block Mitigation',   group = BLOCKS_GROUP,   tooltip = orderBlockMitigationTooltip,      options = [CLOSE,HIGHLOW])
+internalBullishOrderBlockColor  = input.color(color.new(#3179f5, 80), 'Internal Bullish OB',    group = BLOCKS_GROUP)
+internalBearishOrderBlockColor  = input.color(color.new(#f77c80, 80), 'Internal Bearish OB',    group = BLOCKS_GROUP)
+swingBullishOrderBlockColor     = input.color(color.new(#1848cc, 80), 'Bullish OB',             group = BLOCKS_GROUP)
+swingBearishOrderBlockColor     = input.color(color.new(#b22833, 80), 'Bearish OB',             group = BLOCKS_GROUP)
+
+showEqualHighsLowsInput         = input(        true,       'Equal High/Low',           group = EQUAL_GROUP,    tooltip = showEqualHighsLowsTooltip)
+equalHighsLowsLengthInput       = input.int(    3,          'Bars Confirmation',        group = EQUAL_GROUP,    tooltip = equalHighsLowsLengthTooltip,      minval = 1)
+equalHighsLowsThresholdInput    = input.float(  0.1,        'Threshold',                group = EQUAL_GROUP,    tooltip = equalHighsLowsThresholdTooltip,   minval = 0, maxval = 0.5, step = 0.1)
+equalHighsLowsSizeInput         = input.string( TINY,       'Label Size',               group = EQUAL_GROUP,    options = [TINY,SMALL,NORMAL])
+
+showFairValueGapsInput          = input(        false,      'Fair Value Gaps',          group = GAPS_GROUP,     tooltip = showFairValueGapsTooltip)
+fairValueGapsThresholdInput     = input(        true,       'Auto Threshold',           group = GAPS_GROUP,     tooltip = fairValueGapsThresholdTooltip)
+fairValueGapsTimeframeInput     = input.timeframe('',       'Timeframe',                group = GAPS_GROUP,     tooltip = fairValueGapsTimeframeTooltip)
+fairValueGapsBullColorInput     = input.color(color.new(#00ff68, 70), 'Bullish FVG' , group = GAPS_GROUP)
+fairValueGapsBearColorInput     = input.color(color.new(#ff0008, 70), 'Bearish FVG' , group = GAPS_GROUP)
+fairValueGapsExtendInput        = input.int(    1,          'Extend FVG',               group = GAPS_GROUP,     tooltip = fairValueGapsExtendTooltip,       minval = 0)
+
+showDailyLevelsInput            = input(        false,      'Daily',    group = LEVELS_GROUP,   inline = 'daily')
+dailyLevelsStyleInput           = input.string( SOLID,      '',         group = LEVELS_GROUP,   inline = 'daily',   options = [SOLID,DASHED,DOTTED])
+dailyLevelsColorInput           = input(        BLUE,       '',         group = LEVELS_GROUP,   inline = 'daily')
+showWeeklyLevelsInput           = input(        false,      'Weekly',   group = LEVELS_GROUP,   inline = 'weekly')
+weeklyLevelsStyleInput          = input.string( SOLID,      '',         group = LEVELS_GROUP,   inline = 'weekly',  options = [SOLID,DASHED,DOTTED])
+weeklyLevelsColorInput          = input(        BLUE,       '',         group = LEVELS_GROUP,   inline = 'weekly')
+showMonthlyLevelsInput          = input(        false,      'Monthly',   group = LEVELS_GROUP,   inline = 'monthly')
+monthlyLevelsStyleInput         = input.string( SOLID,      '',         group = LEVELS_GROUP,   inline = 'monthly', options = [SOLID,DASHED,DOTTED])
+monthlyLevelsColorInput         = input(        BLUE,       '',         group = LEVELS_GROUP,   inline = 'monthly')
+
+showPremiumDiscountZonesInput   = input(        false,      'Premium/Discount Zones',   group = ZONES_GROUP , tooltip = showPremiumDiscountZonesTooltip)
+premiumZoneColorInput           = input.color(  RED,        'Premium Zone',             group = ZONES_GROUP)
+equilibriumZoneColorInput       = input.color(  GRAY,       'Equilibrium Zone',         group = ZONES_GROUP)
+discountZoneColorInput          = input.color(  GREEN,      'Discount Zone',            group = ZONES_GROUP)
+
+//---------------------------------------------------------------------------------------------------------------------}
+//DATA STRUCTURES & VARIABLES
+//---------------------------------------------------------------------------------------------------------------------{
+type alerts
+    bool internalBullishBOS         = false
+    bool internalBearishBOS         = false
+    bool internalBullishCHoCH       = false
+    bool internalBearishCHoCH       = false
+    bool swingBullishBOS            = false
+    bool swingBearishBOS            = false
+    bool swingBullishCHoCH          = false
+    bool swingBearishCHoCH          = false
+    bool internalBullishOrderBlock  = false
+    bool internalBearishOrderBlock  = false
+    bool swingBullishOrderBlock     = false
+    bool swingBearishOrderBlock     = false
+    bool equalHighs                 = false
+    bool equalLows                  = false
+    bool bullishFairValueGap        = false
+    bool bearishFairValueGap        = false
+
+type trailingExtremes
+    float top
+    float bottom
+    int barTime
+    int barIndex
+    int lastTopTime
+    int lastBottomTime
+
+type fairValueGap
+    float top
+    float bottom
+    int bias
+    box topBox
+    box bottomBox
+
+type trend
+    int bias
+
+type equalDisplay
+    line l_ine      = na
+    label l_abel    = na
+
+type pivot
+    float currentLevel
+    float lastLevel
+    bool crossed
+    int barTime     = time
+    int barIndex    = bar_index
+
+type orderBlock
+    float barHigh
+    float barLow
+    int barTime
+    int bias
+
+var pivot swingHigh                 = pivot.new(na,na,false)
+var pivot swingLow                  = pivot.new(na,na,false)
+var pivot internalHigh              = pivot.new(na,na,false)
+var pivot internalLow               = pivot.new(na,na,false)
+var pivot equalHigh                 = pivot.new(na,na,false)
+var pivot equalLow                  = pivot.new(na,na,false)
+var trend swingTrend                = trend.new(0)
+var trend internalTrend             = trend.new(0)
+var equalDisplay equalHighDisplay   = equalDisplay.new()
+var equalDisplay equalLowDisplay    = equalDisplay.new()
+var array<fairValueGap> fairValueGaps = array.new<fairValueGap>()
+var array<float> parsedHighs        = array.new<float>()
+var array<float> parsedLows         = array.new<float>()
+var array<float> highs              = array.new<float>()
+var array<float> lows               = array.new<float>()
+var array<int> times                = array.new<int>()
+var trailingExtremes trailing       = trailingExtremes.new()
+var array<orderBlock> swingOrderBlocks      = array.new<orderBlock>()
+var array<orderBlock> internalOrderBlocks   = array.new<orderBlock>()
+var array<box> swingOrderBlocksBoxes        = array.new<box>()
+var array<box> internalOrderBlocksBoxes     = array.new<box>()
+var swingBullishColor               = styleInput == MONOCHROME ? MONO_BULLISH : swingBullColorInput
+var swingBearishColor               = styleInput == MONOCHROME ? MONO_BEARISH : swingBearColorInput
+var fairValueGapBullishColor        = styleInput == MONOCHROME ? color.new(MONO_BULLISH,70) : fairValueGapsBullColorInput
+var fairValueGapBearishColor        = styleInput == MONOCHROME ? color.new(MONO_BEARISH,70) : fairValueGapsBearColorInput
+var premiumZoneColor                = styleInput == MONOCHROME ? MONO_BEARISH : premiumZoneColorInput
+var discountZoneColor               = styleInput == MONOCHROME ? MONO_BULLISH : discountZoneColorInput
+varip int currentBarIndex           = bar_index
+varip int lastBarIndex              = bar_index
+alerts currentAlerts                = alerts.new()
+var initialTime                     = time
+
+if barstate.isfirst
+    if showSwingOrderBlocksInput
+        for index = 1 to swingOrderBlocksSizeInput
+            swingOrderBlocksBoxes.push(box.new(na,na,na,na,xloc = xloc.bar_time,extend = extend.right))
+    if showInternalOrderBlocksInput
+        for index = 1 to internalOrderBlocksSizeInput
+            internalOrderBlocksBoxes.push(box.new(na,na,na,na,xloc = xloc.bar_time,extend = extend.right))
+
+bearishOrderBlockMitigationSource   = orderBlockMitigationInput == CLOSE ? close : high
+bullishOrderBlockMitigationSource   = orderBlockMitigationInput == CLOSE ? close : low
+atrMeasure                          = ta.atr(200)
+volatilityMeasure                   = orderBlockFilterInput == ATR ? atrMeasure : ta.cum(ta.tr)/bar_index
+highVolatilityBar                   = (high - low) >= (2 * volatilityMeasure)
+parsedHigh                          = highVolatilityBar ? low : high
+parsedLow                           = highVolatilityBar ? high : low
+
+parsedHighs.push(parsedHigh)
+parsedLows.push(parsedLow)
+highs.push(high)
+lows.push(low)
+times.push(time)
+
+//---------------------------------------------------------------------------------------------------------------------}
+//USER-DEFINED FUNCTIONS
+//---------------------------------------------------------------------------------------------------------------------{
+leg(int size) =>
+    var leg     = 0
+    newLegHigh  = high[size] > ta.highest( size)
+    newLegLow   = low[size]  < ta.lowest(  size)
+
+    if newLegHigh
+        leg := BEARISH_LEG
+    else if newLegLow
+        leg := BULLISH_LEG
+    leg
+
+startOfNewLeg(int leg)      => ta.change(leg) != 0
+startOfBearishLeg(int leg)  => ta.change(leg) == -1
+startOfBullishLeg(int leg)  => ta.change(leg) == +1
+
+drawLabel(int labelTime, float labelPrice, string tag, color labelColor, string labelStyle) =>
+    var label l_abel = na
+
+    if modeInput == PRESENT
+        l_abel.delete()
+
+    l_abel := label.new(chart.point.new(labelTime,na,labelPrice),tag,xloc.bar_time,color=color(na),textcolor=labelColor,style = labelStyle,size = size.small)
+
+drawEqualHighLow(pivot p_ivot, float level, int size, bool equalHigh) =>
+    equalDisplay e_qualDisplay = equalHigh ? equalHighDisplay : equalLowDisplay
+
+    string tag          = 'EQL'
+    color equalColor    = swingBullishColor
+    string labelStyle   = label.style_label_up
+
+    if equalHigh
+        tag         := 'EQH'
+        equalColor  := swingBearishColor
+        labelStyle  := label.style_label_down
+
+    if modeInput == PRESENT
+        line.delete(    e_qualDisplay.l_ine)
+        label.delete(   e_qualDisplay.l_abel)
+
+    e_qualDisplay.l_ine     := line.new(chart.point.new(p_ivot.barTime,na,p_ivot.currentLevel), chart.point.new(time[size],na,level), xloc = xloc.bar_time, color = equalColor, style = line.style_dotted)
+    labelPosition           = math.round(0.5*(p_ivot.barIndex + bar_index - size))
+    e_qualDisplay.l_abel    := label.new(chart.point.new(na,labelPosition,level), tag, xloc.bar_index, color = color(na), textcolor = equalColor, style = labelStyle, size = equalHighsLowsSizeInput)
+
+getCurrentStructure(int size,bool equalHighLow = false, bool internal = false) =>
+    currentLeg              = leg(size)
+    newPivot                = startOfNewLeg(currentLeg)
+    pivotLow                = startOfBullishLeg(currentLeg)
+    pivotHigh               = startOfBearishLeg(currentLeg)
+
+    if newPivot
+        if pivotLow
+            pivot p_ivot    = equalHighLow ? equalLow : internal ? internalLow : swingLow
+
+            if equalHighLow and math.abs(p_ivot.currentLevel - low[size]) < equalHighsLowsThresholdInput * atrMeasure
+                drawEqualHighLow(p_ivot, low[size], size, false)
+                currentAlerts.equalLows := true
+
+            p_ivot.lastLevel    := p_ivot.currentLevel
+            p_ivot.currentLevel := low[size]
+            p_ivot.crossed      := false
+            p_ivot.barTime      := time[size]
+            p_ivot.barIndex     := bar_index[size]
+
+            if not equalHighLow and not internal
+                trailing.bottom         := p_ivot.currentLevel
+                trailing.barTime        := p_ivot.barTime
+                trailing.barIndex       := p_ivot.barIndex
+                trailing.lastBottomTime := p_ivot.barTime
+
+            if showSwingsInput and not internal and not equalHighLow
+                drawLabel(time[size], p_ivot.currentLevel, p_ivot.currentLevel < p_ivot.lastLevel ? 'LL' : 'HL', swingBullishColor, label.style_label_up)
+        else
+            pivot p_ivot = equalHighLow ? equalHigh : internal ? internalHigh : swingHigh
+
+            if equalHighLow and math.abs(p_ivot.currentLevel - high[size]) < equalHighsLowsThresholdInput * atrMeasure
+                drawEqualHighLow(p_ivot,high[size],size,true)
+                currentAlerts.equalHighs := true
+
+            p_ivot.lastLevel    := p_ivot.currentLevel
+            p_ivot.currentLevel := high[size]
+            p_ivot.crossed      := false
+            p_ivot.barTime      := time[size]
+            p_ivot.barIndex     := bar_index[size]
+
+            if not equalHighLow and not internal
+                trailing.top            := p_ivot.currentLevel
+                trailing.barTime        := p_ivot.barTime
+                trailing.barIndex       := p_ivot.barIndex
+                trailing.lastTopTime    := p_ivot.barTime
+
+            if showSwingsInput and not internal and not equalHighLow
+                drawLabel(time[size], p_ivot.currentLevel, p_ivot.currentLevel > p_ivot.lastLevel ? 'HH' : 'LH', swingBearishColor, label.style_label_down)
+
+drawStructure(pivot p_ivot, string tag, color structureColor, string lineStyle, string labelStyle, string labelSize) =>
+    var line l_ine      = line.new(na,na,na,na,xloc = xloc.bar_time)
+    var label l_abel    = label.new(na,na)
+
+    if modeInput == PRESENT
+        l_ine.delete()
+        l_abel.delete()
+
+    l_ine   := line.new(chart.point.new(p_ivot.barTime,na,p_ivot.currentLevel), chart.point.new(time,na,p_ivot.currentLevel), xloc.bar_time, color=structureColor, style=lineStyle)
+    l_abel  := label.new(chart.point.new(na,math.round(0.5*(p_ivot.barIndex+bar_index)),p_ivot.currentLevel), tag, xloc.bar_index, color=color(na), textcolor=structureColor, style=labelStyle, size = labelSize)
+
+deleteOrderBlocks(bool internal = false) =>
+    array<orderBlock> orderBlocks = internal ? internalOrderBlocks : swingOrderBlocks
+
+    for [index,eachOrderBlock] in orderBlocks
+        bool crossedOderBlock = false
+
+        if bearishOrderBlockMitigationSource > eachOrderBlock.barHigh and eachOrderBlock.bias == BEARISH
+            crossedOderBlock := true
+            if internal
+                currentAlerts.internalBearishOrderBlock := true
+            else
+                currentAlerts.swingBearishOrderBlock    := true
+        else if bullishOrderBlockMitigationSource < eachOrderBlock.barLow and eachOrderBlock.bias == BULLISH
+            crossedOderBlock := true
+            if internal
+                currentAlerts.internalBullishOrderBlock := true
+            else
+                currentAlerts.swingBullishOrderBlock    := true
+        if crossedOderBlock
+            orderBlocks.remove(index)
+
+storeOrdeBlock(pivot p_ivot,bool internal = false,int bias) =>
+    if (not internal and showSwingOrderBlocksInput) or (internal and showInternalOrderBlocksInput)
+
+        array<float> a_rray = na
+        int parsedIndex = na
+
+        if bias == BEARISH
+            a_rray      := parsedHighs.slice(p_ivot.barIndex,bar_index)
+            parsedIndex := p_ivot.barIndex + a_rray.indexof(a_rray.max())
+        else
+            a_rray      := parsedLows.slice(p_ivot.barIndex,bar_index)
+            parsedIndex := p_ivot.barIndex + a_rray.indexof(a_rray.min())
+
+        orderBlock o_rderBlock          = orderBlock.new(parsedHighs.get(parsedIndex), parsedLows.get(parsedIndex), times.get(parsedIndex),bias)
+        array<orderBlock> orderBlocks   = internal ? internalOrderBlocks : swingOrderBlocks
+
+        if orderBlocks.size() >= 100
+            orderBlocks.pop()
+        orderBlocks.unshift(o_rderBlock)
+
+drawOrderBlocks(bool internal = false) =>
+    array<orderBlock> orderBlocks = internal ? internalOrderBlocks : swingOrderBlocks
+    orderBlocksSize = orderBlocks.size()
+
+    if orderBlocksSize > 0
+        maxOrderBlocks                      = internal ? internalOrderBlocksSizeInput : swingOrderBlocksSizeInput
+        array<orderBlock> parsedOrdeBlocks  = orderBlocks.slice(0, math.min(maxOrderBlocks,orderBlocksSize))
+        array<box> b_oxes                   = internal ? internalOrderBlocksBoxes : swingOrderBlocksBoxes
+
+        for [index,eachOrderBlock] in parsedOrdeBlocks
+            orderBlockColor = styleInput == MONOCHROME ? (eachOrderBlock.bias == BEARISH ? color.new(MONO_BEARISH,80) : color.new(MONO_BULLISH,80)) : internal ? (eachOrderBlock.bias == BEARISH ? internalBearishOrderBlockColor : internalBullishOrderBlockColor) : (eachOrderBlock.bias == BEARISH ? swingBearishOrderBlockColor : swingBullishOrderBlockColor)
+
+            box b_ox        = b_oxes.get(index)
+            b_ox.set_top_left_point(    chart.point.new(eachOrderBlock.barTime,na,eachOrderBlock.barHigh))
+            b_ox.set_bottom_right_point(chart.point.new(last_bar_time,na,eachOrderBlock.barLow))
+            b_ox.set_border_color(      internal ? na : orderBlockColor)
+            b_ox.set_bgcolor(           orderBlockColor)
+
+displayStructure(bool internal = false) =>
+    var bullishBar = true
+    var bearishBar = true
+
+    if internalFilterConfluenceInput
+        bullishBar := high - math.max(close, open) > math.min(close, open - low)
+        bearishBar := high - math.max(close, open) < math.min(close, open - low)
+
+    pivot p_ivot    = internal ? internalHigh : swingHigh
+    trend t_rend    = internal ? internalTrend : swingTrend
+
+    lineStyle       = internal ? line.style_dashed : line.style_solid
+    labelSize       = internal ? internalStructureSize : swingStructureSize
+
+    extraCondition  = internal ? internalHigh.currentLevel != swingHigh.currentLevel and bullishBar : true
+    bullishColor    = styleInput == MONOCHROME ? MONO_BULLISH : internal ? internalBullColorInput : swingBullColorInput
+
+    if ta.crossover(close,p_ivot.currentLevel) and not p_ivot.crossed and extraCondition
+        string tag = t_rend.bias == BEARISH ? CHOCH : BOS
+
+        if internal
+            currentAlerts.internalBullishCHoCH  := tag == CHOCH
+            currentAlerts.internalBullishBOS    := tag == BOS
+        else
+            currentAlerts.swingBullishCHoCH     := tag == CHOCH
+            currentAlerts.swingBullishBOS       := tag == BOS
+
+        p_ivot.crossed  := true
+        t_rend.bias     := BULLISH
+
+        displayCondition = internal ? showInternalsInput and (showInternalBullInput == ALL or (showInternalBullInput == BOS and tag != CHOCH) or (showInternalBullInput == CHOCH and tag == CHOCH)) : showStructureInput and (showSwingBullInput == ALL or (showSwingBullInput == BOS and tag != CHOCH) or (showSwingBullInput == CHOCH and tag == CHOCH))
+
+        if displayCondition
+            drawStructure(p_ivot,tag,bullishColor,lineStyle,label.style_label_down,labelSize)
+
+        if (internal and showInternalOrderBlocksInput) or (not internal and showSwingOrderBlocksInput)
+            storeOrdeBlock(p_ivot,internal,BULLISH)
+
+    p_ivot          := internal ? internalLow : swingLow
+    extraCondition  := internal ? internalLow.currentLevel != swingLow.currentLevel and bearishBar : true
+    bearishColor    = styleInput == MONOCHROME ? MONO_BEARISH : internal ? internalBearColorInput : swingBearColorInput
+
+    if ta.crossunder(close,p_ivot.currentLevel) and not p_ivot.crossed and extraCondition
+        string tag = t_rend.bias == BULLISH ? CHOCH : BOS
+
+        if internal
+            currentAlerts.internalBearishCHoCH  := tag == CHOCH
+            currentAlerts.internalBearishBOS    := tag == BOS
+        else
+            currentAlerts.swingBearishCHoCH     := tag == CHOCH
+            currentAlerts.swingBearishBOS       := tag == BOS
+
+        p_ivot.crossed := true
+        t_rend.bias := BEARISH
+
+        displayCondition = internal ? showInternalsInput and (showInternalBearInput == ALL or (showInternalBearInput == BOS and tag != CHOCH) or (showInternalBearInput == CHOCH and tag == CHOCH)) : showStructureInput and (showSwingBearInput == ALL or (showSwingBearInput == BOS and tag != CHOCH) or (showSwingBearInput == CHOCH and tag == CHOCH))
+
+        if displayCondition
+            drawStructure(p_ivot,tag,bearishColor,lineStyle,label.style_label_up,labelSize)
+
+        if (internal and showInternalOrderBlocksInput) or (not internal and showSwingOrderBlocksInput)
+            storeOrdeBlock(p_ivot,internal,BEARISH)
+
+fairValueGapBox(leftTime,rightTime,topPrice,bottomPrice,boxColor) => box.new(chart.point.new(leftTime,na,topPrice),chart.point.new(rightTime + fairValueGapsExtendInput * (time-time[1]),na,bottomPrice), xloc=xloc.bar_time, border_color = boxColor, bgcolor = boxColor)
+
+deleteFairValueGaps() =>
+    for [index,eachFairValueGap] in fairValueGaps
+        if (low < eachFairValueGap.bottom and eachFairValueGap.bias == BULLISH) or (high > eachFairValueGap.top and eachFairValueGap.bias == BEARISH)
+            eachFairValueGap.topBox.delete()
+            eachFairValueGap.bottomBox.delete()
+            fairValueGaps.remove(index)
+
+drawFairValueGaps() =>
+    [lastClose, lastOpen, lastTime, currentHigh, currentLow, currentTime, last2High, last2Low] = request.security(syminfo.tickerid, fairValueGapsTimeframeInput, [close[1], open[1], time[1], high[0], low[0], time[0], high[2], low[2]],lookahead = barmerge.lookahead_on)
+
+    barDeltaPercent     = (lastClose - lastOpen) / (lastOpen * 100)
+    newTimeframe        = timeframe.change(fairValueGapsTimeframeInput)
+    threshold           = fairValueGapsThresholdInput ? ta.cum(math.abs(newTimeframe ? barDeltaPercent : 0)) / bar_index * 2 : 0
+
+    bullishFairValueGap = currentLow > last2High and lastClose > last2High and barDeltaPercent > threshold and newTimeframe
+    bearishFairValueGap = currentHigh < last2Low and lastClose < last2Low and -barDeltaPercent > threshold and newTimeframe
+
+    if bullishFairValueGap
+        currentAlerts.bullishFairValueGap := true
+        fairValueGaps.unshift(fairValueGap.new(currentLow,last2High,BULLISH,fairValueGapBox(lastTime,currentTime,currentLow,math.avg(currentLow,last2High),fairValueGapBullishColor),fairValueGapBox(lastTime,currentTime,math.avg(currentLow,last2High),last2High,fairValueGapBullishColor)))
+    if bearishFairValueGap
+        currentAlerts.bearishFairValueGap := true
+        fairValueGaps.unshift(fairValueGap.new(currentHigh,last2Low,BEARISH,fairValueGapBox(lastTime,currentTime,currentHigh,math.avg(currentHigh,last2Low),fairValueGapBearishColor),fairValueGapBox(lastTime,currentTime,math.avg(currentHigh,last2Low),last2Low,fairValueGapBearishColor)))
+
+getStyle(string style) =>
+    switch style
+        SOLID => line.style_solid
+        DASHED => line.style_dashed
+        DOTTED => line.style_dotted
+
+drawLevels(string timeframe, bool sameTimeframe, string style, color levelColor) =>
+    [topLevel, bottomLevel, leftTime, rightTime] = request.security(syminfo.tickerid, timeframe, [high[1], low[1], time[1], time],lookahead = barmerge.lookahead_on)
+
+    float parsedTop         = sameTimeframe ? high : topLevel
+    float parsedBottom      = sameTimeframe ? low : bottomLevel
+
+    int parsedLeftTime      = sameTimeframe ? time : leftTime
+    int parsedRightTime     = sameTimeframe ? time : rightTime
+
+    int parsedTopTime       = time
+    int parsedBottomTime    = time
+
+    if not sameTimeframe
+        int leftIndex               = times.binary_search_rightmost(parsedLeftTime)
+        int rightIndex              = times.binary_search_rightmost(parsedRightTime)
+
+        array<int> timeArray        = times.slice(leftIndex,rightIndex)
+        array<float> topArray       = highs.slice(leftIndex,rightIndex)
+        array<float> bottomArray    = lows.slice(leftIndex,rightIndex)
+
+        parsedTopTime               := timeArray.size() > 0 ? timeArray.get(topArray.indexof(topArray.max())) : initialTime
+        parsedBottomTime            := timeArray.size() > 0 ? timeArray.get(bottomArray.indexof(bottomArray.min())) : initialTime
+
+    var line topLine        = line.new(na, na, na, na, xloc = xloc.bar_time, color = levelColor, style = getStyle(style))
+    var line bottomLine     = line.new(na, na, na, na, xloc = xloc.bar_time, color = levelColor, style = getStyle(style))
+    var label topLabel      = label.new(na, na, xloc = xloc.bar_time, text = str.format('P{0}H',timeframe), color=color(na), textcolor = levelColor, size = size.small, style = label.style_label_left)
+    var label bottomLabel   = label.new(na, na, xloc = xloc.bar_time, text = str.format('P{0}L',timeframe), color=color(na), textcolor = levelColor, size = size.small, style = label.style_label_left)
+
+    topLine.set_first_point(    chart.point.new(parsedTopTime,na,parsedTop))
+    topLine.set_second_point(   chart.point.new(last_bar_time + 20 * (time-time[1]),na,parsedTop))
+    topLabel.set_point(         chart.point.new(last_bar_time + 20 * (time-time[1]),na,parsedTop))
+
+    bottomLine.set_first_point( chart.point.new(parsedBottomTime,na,parsedBottom))
+    bottomLine.set_second_point(chart.point.new(last_bar_time + 20 * (time-time[1]),na,parsedBottom))
+    bottomLabel.set_point(      chart.point.new(last_bar_time + 20 * (time-time[1]),na,parsedBottom))
+
+higherTimeframe(string timeframe) => timeframe.in_seconds() > timeframe.in_seconds(timeframe)
+
+updateTrailingExtremes() =>
+    trailing.top            := math.max(high,trailing.top)
+    trailing.lastTopTime    := trailing.top == high ? time : trailing.lastTopTime
+    trailing.bottom         := math.min(low,trailing.bottom)
+    trailing.lastBottomTime := trailing.bottom == low ? time : trailing.lastBottomTime
+
+drawHighLowSwings() =>
+    var line topLine        = line.new(na, na, na, na, color = swingBearishColor, xloc = xloc.bar_time)
+    var line bottomLine     = line.new(na, na, na, na, color = swingBullishColor, xloc = xloc.bar_time)
+    var label topLabel      = label.new(na, na, color=color(na), textcolor = swingBearishColor, xloc = xloc.bar_time, style = label.style_label_down, size = size.tiny)
+    var label bottomLabel   = label.new(na, na, color=color(na), textcolor = swingBullishColor, xloc = xloc.bar_time, style = label.style_label_up, size = size.tiny)
+
+    rightTimeBar            = last_bar_time + 20 * (time - time[1])
+
+    topLine.set_first_point(    chart.point.new(trailing.lastTopTime, na, trailing.top))
+    topLine.set_second_point(   chart.point.new(rightTimeBar, na, trailing.top))
+    topLabel.set_point(         chart.point.new(rightTimeBar, na, trailing.top))
+    topLabel.set_text(          swingTrend.bias == BEARISH ? 'Strong High' : 'Weak High')
+
+    bottomLine.set_first_point( chart.point.new(trailing.lastBottomTime, na, trailing.bottom))
+    bottomLine.set_second_point(chart.point.new(rightTimeBar, na, trailing.bottom))
+    bottomLabel.set_point(      chart.point.new(rightTimeBar, na, trailing.bottom))
+    bottomLabel.set_text(       swingTrend.bias == BULLISH ? 'Strong Low' : 'Weak Low')
+
+drawZone(float labelLevel, int labelIndex, float top, float bottom, string tag, color zoneColor, string style) =>
+    var label l_abel    = label.new(na,na,text = tag, color=color(na),textcolor = zoneColor, style = style, size = size.small)
+    var box b_ox        = box.new(na,na,na,na,bgcolor = color.new(zoneColor,80),border_color = color(na), xloc = xloc.bar_time)
+
+    b_ox.set_top_left_point(    chart.point.new(trailing.barTime,na,top))
+    b_ox.set_bottom_right_point(chart.point.new(last_bar_time,na,bottom))
+
+    l_abel.set_point(           chart.point.new(na,labelIndex,labelLevel))
+
+drawPremiumDiscountZones() =>
+    drawZone(trailing.top, math.round(0.5*(trailing.barIndex + last_bar_index)), trailing.top, 0.95*trailing.top + 0.05*trailing.bottom, 'Premium', premiumZoneColor, label.style_label_down)
+
+    equilibriumLevel = math.avg(trailing.top, trailing.bottom)
+    drawZone(equilibriumLevel, last_bar_index, 0.525*trailing.top + 0.475*trailing.bottom, 0.525*trailing.bottom + 0.475*trailing.top, 'Equilibrium', equilibriumZoneColorInput, label.style_label_left)
+
+    drawZone(trailing.bottom, math.round(0.5*(trailing.barIndex + last_bar_index)), 0.95*trailing.bottom + 0.05*trailing.top, trailing.bottom, 'Discount', discountZoneColor, label.style_label_up)
+
+//---------------------------------------------------------------------------------------------------------------------}
+//MUTABLE VARIABLES & EXECUTION
+//---------------------------------------------------------------------------------------------------------------------{
+parsedOpen  = showTrendInput ? open : na
+candleColor = internalTrend.bias == BULLISH ? swingBullishColor : swingBearishColor
+plotcandle(parsedOpen,high,low,close,color = candleColor, wickcolor = candleColor, bordercolor = candleColor)
+
+if showHighLowSwingsInput or showPremiumDiscountZonesInput
+    updateTrailingExtremes()
+
+    if showHighLowSwingsInput
+        drawHighLowSwings()
+
+    if showPremiumDiscountZonesInput
+        drawPremiumDiscountZones()
+
+if showFairValueGapsInput
+    deleteFairValueGaps()
+
+getCurrentStructure(swingsLengthInput,false)
+getCurrentStructure(5,false,true)
+
+if showEqualHighsLowsInput
+    getCurrentStructure(equalHighsLowsLengthInput,true)
+
+if showInternalsInput or showInternalOrderBlocksInput or showTrendInput
+    displayStructure(true)
+
+if showStructureInput or showSwingOrderBlocksInput or showHighLowSwingsInput
+    displayStructure()
+
+if showInternalOrderBlocksInput
+    deleteOrderBlocks(true)
+
+if showSwingOrderBlocksInput
+    deleteOrderBlocks()
+
+if showFairValueGapsInput
+    drawFairValueGaps()
+
+if barstate.islastconfirmedhistory or barstate.islast
+    if showInternalOrderBlocksInput
+        drawOrderBlocks(true)
+
+    if showSwingOrderBlocksInput
+        drawOrderBlocks()
+
+lastBarIndex    := currentBarIndex
+currentBarIndex := bar_index
+newBar          = currentBarIndex != lastBarIndex
+
+if barstate.islastconfirmedhistory or (barstate.isrealtime and newBar)
+    if showDailyLevelsInput and not higherTimeframe('D')
+        drawLevels('D',timeframe.isdaily,dailyLevelsStyleInput,dailyLevelsColorInput)
+
+    if showWeeklyLevelsInput and not higherTimeframe('W')
+        drawLevels('W',timeframe.isweekly,weeklyLevelsStyleInput,weeklyLevelsColorInput)
+
+    if showMonthlyLevelsInput and not higherTimeframe('M')
+        drawLevels('M',timeframe.ismonthly,monthlyLevelsStyleInput,monthlyLevelsColorInput)
+
+alertcondition(currentAlerts.internalBullishBOS,        'Internal Bullish BOS',         'Internal Bullish BOS formed')
+alertcondition(currentAlerts.internalBullishCHoCH,      'Internal Bullish CHoCH',       'Internal Bullish CHoCH formed')
+alertcondition(currentAlerts.internalBearishBOS,        'Internal Bearish BOS',         'Internal Bearish BOS formed')
+alertcondition(currentAlerts.internalBearishCHoCH,      'Internal Bearish CHoCH',       'Internal Bearish CHoCH formed')
+alertcondition(currentAlerts.swingBullishBOS,           'Bullish BOS',                  'Internal Bullish BOS formed')
+alertcondition(currentAlerts.swingBullishCHoCH,         'Bullish CHoCH',                'Internal Bullish CHoCH formed')
+alertcondition(currentAlerts.swingBearishBOS,           'Bearish BOS',                  'Bearish BOS formed')
+alertcondition(currentAlerts.swingBearishCHoCH,         'Bearish CHoCH',                'Bearish CHoCH formed')
+alertcondition(currentAlerts.internalBullishOrderBlock, 'Bullish Internal OB Breakout', 'Price broke bullish internal OB')
+alertcondition(currentAlerts.internalBearishOrderBlock, 'Bearish Internal OB Breakout', 'Price broke bearish internal OB')
+alertcondition(currentAlerts.swingBullishOrderBlock,    'Bullish Swing OB Breakout',    'Price broke bullish swing OB')
+alertcondition(currentAlerts.swingBearishOrderBlock,    'Bearish Swing OB Breakout',    'Price broke bearish swing OB')
+alertcondition(currentAlerts.equalHighs,                'Equal Highs',                  'Equal highs detected')
+alertcondition(currentAlerts.equalLows,                 'Equal Lows',                   'Equal lows detected')
+alertcondition(currentAlerts.bullishFairValueGap,       'Bullish FVG',                  'Bullish FVG formed')
+alertcondition(currentAlerts.bearishFairValueGap,       'Bearish FVG',                  'Bearish FVG formed')
+
+//=====================================================================================================================
+// 2. SESSIONS AND HIGH/LOW
+//=====================================================================================================================
+transpLine = 0
+transpFill = 90
+
+var bar_time = 0
+if bar_index == 3
+    timeDiff1 = (time - time[1]) / 60000
+    timeDiff2 = (time[2] - time[3]) / 60000
+    bar_time := math.min(timeDiff1, timeDiff2)
+
+i_showHighLow = input(false, "Show Highs/Lows", group = "Sessions")
+i_hideSessiontf = input.int(59, "Hide Session on TF above (Minutes)", 1, group = "Sessions")
+i_showMidLine = input.bool(true, "Show Session Mid Lines", group = "Sessions")
+
+grpAsia = "Asia Session"
+i_showAsiaSession = input.bool(true, "Session", inline="asia session", group=grpAsia)
+i_asiaSession = input.session("1700-0100", "", inline="asia session", group=grpAsia)
+i_useAsiaLineCl = input.bool(true, "Border Color", inline="asia line", group=grpAsia)
+i_asiaLineCl = i_useAsiaLineCl ? input.color(color.new(color.blue, transpLine), "", inline="asia line", group=grpAsia) : na
+i_useAsiaFill = input.bool(false, "Fill Color", inline="asia fill", group=grpAsia)
+i_asiaFillCl = i_useAsiaFill ? input.color(color.new(color.blue, transpFill), "", inline="asia fill", group=grpAsia) : na
+
+grpFrankfurt = "Frankfurt Session"
+i_showFrankfurtSession = input.bool(true, "Session", inline="frankfurt session", group=grpFrankfurt)
+i_frankfurtSession = input.session("0200-0300", "", inline="frankfurt session", group=grpFrankfurt)
+i_useFrankfurtLineCl = input.bool(true, "Border Color", inline="frankfurt line", group=grpFrankfurt)
+i_frankfurtLineCl = i_useFrankfurtLineCl ? input.color(color.new(color.orange, transpLine), "", inline="frankfurt line", group=grpFrankfurt) : na
+i_useFrankfurtFillCl = input.bool(false, "Fill Color", inline="frankfurt fill", group=grpFrankfurt)
+i_frankfurtFillCl = i_useFrankfurtFillCl ? input.color(color.new(color.orange, transpFill), "", inline="frankfurt fill", group=grpFrankfurt) : na
+
+grpLondon = "London Session"
+i_showLondonSession = input.bool(true, "Session", inline="london session", group=grpLondon)
+i_londonSession = input.session("0300-0400", "", inline="london session", group=grpLondon)
+i_useLondonLineCl = input.bool(true, "Border Color", inline="london line", group=grpLondon)
+i_londonLineCl = i_useLondonLineCl ? input.color(color.new(color.green, transpLine), "", inline="london line", group=grpLondon) : na
+i_useLondonFillCl = input.bool(false, "Fill Color", inline="london fill", group=grpLondon)
+i_londonFillCl = i_useLondonFillCl ? input.color(color.new(color.green, transpFill), "", inline="london fill", group=grpLondon) : na
+
+grpNewYork = "New York Session"
+i_showNewYorkSession = input.bool(true, "Session", inline="newyork session", group=grpNewYork)
+i_newYorkSession = input.session("0900-1000", "", inline="newyork session", group=grpNewYork)
+i_useNewYorkLineCl = input.bool(true, "Border Color", inline="newyork line", group=grpNewYork)
+i_newYorkLineCl = i_useNewYorkLineCl ? input.color(color.new(color.white, transpLine), "", inline="newyork line", group=grpNewYork) : na
+i_useNewYorkFillCl = input.bool(false, "Fill Color", inline="newyork fill", group=grpNewYork)
+i_newYorkFillCl = i_useNewYorkFillCl ? input.color(color.new(color.white, transpFill), "", inline="newyork fill", group=grpNewYork) : na
+
+grpMMM = "MMM"
+i_MMMlength = input.int(200, "MMM Lenght", 0, group=grpMMM)
+i_hideMMMtf = input.int(59, "Hide MMM on TF above (Minutes)", 1, group=grpMMM)
+i_showMMM1 = input.bool(true, "MMM 1", inline="mmm1", group=grpMMM)
+i_MMM1color = input.color(color.red, "", inline="mmm1", group=grpMMM)
+i_MMM1hour = input.int(4, "", 0, 23, inline="mmm1", group=grpMMM)
+i_MMM1minute = input.int(30, ":", 0, 59, inline="mmm1", group=grpMMM)
+i_MMM1width = input.int(1, "MMM 1 Width", 1, 10, group=grpMMM)
+i_showMMM2 = input.bool(true, "MMM 2", inline="mmm2", group=grpMMM)
+i_MMM2color = input.color(color.red, "", inline="mmm2", group=grpMMM)
+i_MMM2hour = input.int(6, "", 0, 23, inline="mmm2", group=grpMMM)
+i_MMM2minute = input.int(30, ":", 0, 59, inline="mmm2", group=grpMMM)
+i_MMM2width = input.int(1, "MMM 2 Width", 1, 10, group=grpMMM)
+i_showMMM3 = input.bool(true, "MMM 3", inline="mmm3", group=grpMMM)
+i_MMM3color = input.color(color.red, "", inline="mmm3", group=grpMMM)
+i_MMM3hour = input.int(11, "", 0, 23, inline="mmm3", group=grpMMM)
+i_MMM3minute = input.int(00, ":", 0, 59, inline="mmm3", group=grpMMM)
+i_MMM3width = input.int(1, "MMM 3 Width", 1, 10, group=grpMMM)
+
+isNewBar(sess) =>
+    t = time("D", sess)
+    na(t[1]) and not na(t) or t[1] < t
+
+isSession(sess) =>
+    not na(time("D", sess))
+
+f_getSession(newbar, session, currentLow, currentHigh, currentStart, currentEnd) =>
+    newLow = currentLow
+    newHigh = currentHigh
+    newStart = currentStart
+    newEnd = currentEnd
+    newLow := if session
+        if newbar
+            low
+        else
+            math.min(newLow[1],low)
+    else
+        newLow[1]
+    newHigh := if session
+        if newbar
+            high
+        else
+            math.max(newHigh[1],high)
+    else
+        newHigh[1]
+    newStart := if session
+        if newbar
+            time
+        else
+            math.min(newStart[1],time)
+    else
+        na
+    newEnd := if session
+        if newbar
+            time_close
+        else
+            math.max(newEnd[1],time_close)
+    else
+        na
+    [newLow, newHigh, newStart, newEnd]
+
+f_newBox(left, top, right, bottom, borderCl, backgroundCl) =>
+    box.new(left, top, right, bottom, borderCl, xloc=xloc.bar_time, bgcolor=backgroundCl )
+
+f_changeBox(box_, low_, high_, end) =>
+    box.set_right(box_, end)
+    box.set_top(box_, high_)
+    box.set_bottom(box_, low_)
+
+f_drawVertical(cl, width_) =>
+    low_ = hl2 - (syminfo.mintick) * i_MMMlength
+    high_ = hl2 + (syminfo.mintick) * i_MMMlength
+    line.new(time, low_, time, high_, xloc.bar_time, extend.none, cl, width=width_)
+
+f_tfShow(hideValue) =>
+    hide = bar_time <= hideValue
+    hide
+
+f_newMidLine(start, yVal, end) =>
+    line.new(start, yVal, end, yVal, xloc.bar_time, color=color.orange, style=line.style_dotted)
+
+f_changeMidLine(midLine, yVal, end) =>
+    line.set_y1(midLine, yVal)
+    line.set_y2(midLine, yVal)
+    line.set_x2(midLine, end)
+
+pricehigh_daily = request.security(syminfo.tickerid, 'D', high[1])
+pricelow_daily = request.security(syminfo.tickerid, 'D', low[1])
+pricehigh_weekly = request.security(syminfo.tickerid, 'W', high[1])
+pricelow_weekly = request.security(syminfo.tickerid, 'W', low[1])
+pricehigh_monthly = request.security(syminfo.tickerid, 'M', high[1])
+pricelow_monthly = request.security(syminfo.tickerid, 'M', low[1])
+pricehigh_yearly = request.security(syminfo.tickerid, '12M', high[1])
+pricelow_yearly = request.security(syminfo.tickerid, '12M', low[1])
+
+// Asia
+asiaLow  = float(na)
+asiaHigh = float(na)
+asiaStart  = int(na)
+asiaEnd    = int(na)
+asiaNewbar = isNewBar(i_asiaSession)
+asiaSession = isSession(i_asiaSession)
+[asiaLow_, asiaHigh_, asiaStart_, asiaEnd_] = f_getSession(asiaNewbar, asiaSession, asiaLow, asiaHigh, asiaStart, asiaEnd)
+asiaLow := asiaLow_
+asiaHigh := asiaHigh_
+asiaStart := asiaStart_
+asiaEnd := asiaEnd_
+if i_showAsiaSession and asiaSession and f_tfShow(i_hideSessiontf)
+    asiaBox = if asiaNewbar
+        f_newBox(asiaStart, asiaHigh, asiaEnd, asiaLow, i_asiaLineCl, i_asiaFillCl)
+    asiaMidLine = if asiaNewbar and i_showMidLine
+        yValue = math.avg(asiaHigh, asiaLow)
+        f_newMidLine(asiaStart, yValue, asiaEnd)
+    if not asiaNewbar
+        f_changeBox(asiaBox[1], asiaLow, asiaHigh, asiaEnd)
+        if i_showMidLine
+            yValue = math.avg(asiaHigh, asiaLow)
+            f_changeMidLine(asiaMidLine[1], yValue, asiaEnd)
+
+// Frankfurt
+frankfurtLow  = float(na)
+frankfurtHigh = float(na)
+frankfurtStart  = int(na)
+frankfurtEnd    = int(na)
+frankfurtNewbar = isNewBar(i_frankfurtSession)
+frankfurtSession = isSession(i_frankfurtSession)
+[frankfurtLow_, frankfurtHigh_, frankfurtStart_, frankfurtEnd_] = f_getSession(frankfurtNewbar, frankfurtSession, frankfurtLow, frankfurtHigh, frankfurtStart, frankfurtEnd)
+frankfurtLow := frankfurtLow_
+frankfurtHigh := frankfurtHigh_
+frankfurtStart := frankfurtStart_
+frankfurtEnd := frankfurtEnd_
+if i_showFrankfurtSession and frankfurtSession and f_tfShow(i_hideSessiontf)
+    frankfurtBox = if frankfurtNewbar
+        f_newBox(frankfurtStart, frankfurtHigh, frankfurtEnd, frankfurtLow, i_frankfurtLineCl, i_frankfurtFillCl)
+    frankfurtMidLine = if frankfurtNewbar and i_showMidLine
+        yValue = math.avg(frankfurtHigh, frankfurtLow)
+        f_newMidLine(frankfurtStart, yValue, frankfurtEnd)
+    if not frankfurtNewbar
+        f_changeBox(frankfurtBox[1], frankfurtLow, frankfurtHigh, frankfurtEnd)
+        if i_showMidLine
+            yValue = math.avg(frankfurtHigh, frankfurtLow)
+            f_changeMidLine(frankfurtMidLine[1], yValue, frankfurtEnd)
+
+// London
+londonLow  = float(na)
+londonHigh = float(na)
+londonStart  = int(na)
+londonEnd    = int(na)
+londonNewbar = isNewBar(i_londonSession)
+londonSession = isSession(i_londonSession)
+[londonLow_, londonHigh_, londonStart_, londonEnd_] = f_getSession(londonNewbar, londonSession, londonLow, londonHigh, londonStart, londonEnd)
+londonLow := londonLow_
+londonHigh := londonHigh_
+londonStart := londonStart_
+londonEnd := londonEnd_
+if i_showLondonSession and londonSession and f_tfShow(i_hideSessiontf)
+    londonBox = if londonNewbar
+        f_newBox(londonStart, londonHigh, londonEnd, londonLow, i_londonLineCl, i_londonFillCl)
+    londonMidLine = if londonNewbar and i_showMidLine
+        yValue = math.avg(londonHigh, londonLow)
+        f_newMidLine(londonStart, yValue, londonEnd)
+    if not londonNewbar
+        f_changeBox(londonBox[1], londonLow, londonHigh, londonEnd)
+        if i_showMidLine
+            yValue = math.avg(londonHigh, londonLow)
+            f_changeMidLine(londonMidLine[1], yValue, londonEnd)
+
+// New York
+newYorkLow  = float(na)
+newYorkHigh = float(na)
+newYorkStart  = int(na)
+newYorkEnd    = int(na)
+newYorkNewbar = isNewBar(i_newYorkSession)
+newYorkSession = isSession(i_newYorkSession)
+[newYorkLow_, newYorkHigh_, newYorkStart_, newYorkEnd_] = f_getSession(newYorkNewbar, newYorkSession, newYorkLow, newYorkHigh, newYorkStart, newYorkEnd)
+newYorkLow := newYorkLow_
+newYorkHigh := newYorkHigh_
+newYorkStart := newYorkStart_
+newYorkEnd := newYorkEnd_
+if i_showNewYorkSession and newYorkSession and f_tfShow(i_hideSessiontf)
+    newYorkBox = if newYorkNewbar
+        f_newBox(newYorkStart, newYorkHigh, newYorkEnd, newYorkLow, i_newYorkLineCl, i_newYorkFillCl)
+    newYorkMidLine = if newYorkNewbar and i_showMidLine
+        yValue = math.avg(newYorkHigh, newYorkLow)
+        f_newMidLine(newYorkStart, yValue, newYorkEnd)
+    if not newYorkNewbar
+        f_changeBox(newYorkBox[1], newYorkLow, newYorkHigh, newYorkEnd)
+        if i_showMidLine
+            yValue = math.avg(newYorkHigh, newYorkLow)
+            f_changeMidLine(newYorkMidLine[1], yValue, newYorkEnd)
+
+// MMMs
+if i_showMMM1 and hour == i_MMM1hour and minute == i_MMM1minute and f_tfShow(i_hideMMMtf)
+    f_drawVertical(i_MMM1color, i_MMM1width)
+if i_showMMM2 and hour == i_MMM2hour and minute == i_MMM2minute and f_tfShow(i_hideMMMtf)
+    f_drawVertical(i_MMM2color, i_MMM2width)
+if i_showMMM3 and hour == i_MMM3hour and minute == i_MMM3minute and f_tfShow(i_hideMMMtf)
+    f_drawVertical(i_MMM3color, i_MMM3width)
+
+plot(i_showHighLow and pricehigh_daily ? pricehigh_daily : na, "Previous Daily High", style=plot.style_linebr, color=color.white)
+plot(i_showHighLow and pricelow_daily ? pricelow_daily : na, "Previous Daily Low", style=plot.style_linebr, color=color.white)
+plot(i_showHighLow and pricehigh_weekly ? pricehigh_weekly : na, "Previous Weekly High", style=plot.style_linebr, color=color.white)
+plot(i_showHighLow and pricelow_weekly ? pricelow_weekly : na, "Previous Weekly Low", style=plot.style_linebr, color=color.white)
+plot(i_showHighLow and pricehigh_monthly ? pricehigh_monthly : na, "Previous Monthly High", style=plot.style_linebr, color=color.white)
+plot(i_showHighLow and pricelow_monthly ? pricelow_monthly : na, "Previous Monthly Low", style=plot.style_linebr, color=color.white)
+plot(i_showHighLow and pricehigh_yearly ? pricehigh_yearly : na, "Previous Yearly High", style=plot.style_linebr, color=color.white)
+plot(i_showHighLow and pricelow_yearly ? pricelow_yearly : na, "Previous Yearly Low", style=plot.style_linebr, color=color.white)
+
+//=====================================================================================================================
+// 3. MULTI TIMEFRAME BOS & MSS (© Eregbene, MPL 2.0)
+//=====================================================================================================================
+Transparent_Color = color.new(color.white, 100)
+
+General_Settings_group = "-------MTF General Settings-------"
+Timeframe_1_Group  = "-------MTF Timeframe 1 Settings--------"
+Timeframe_2_Group  = "-------MTF Timeframe 2 Settings--------"
+Timeframe_3_Group  = "-------MTF Timeframe 3 Settings--------"
+
+Hide_MS_Tooltip = "If true will hide all MS plots such as \"HH 2H\" or \"HH 15min\""
+Hide_Breaks_Tooltip = "If true will hide all MS breaks such as \"BOS 1H\" or \"MSS 15min\""
+Timeframe_Tooltip = "If set to chart is true no need to alter these two inputs."
+Set_To_Chart_Tooltip = "If set to chart is set to true, there is no need to alter the Timeframe inputs, it will automatically configure itself to the charts timeframe."
+Lower_Timeframe_Tooltip = "If set to true and chart timeframe is higher than the choosen timeframe, structure will not display. Note plotting ltf structure on a htf will provide inaccurate plots."
+Use_High_Low_Tooltip = "If set to true high and low values will be used to confirm market structure else if set to false close will be used."
+Display_TF_Pivots = "If true the script will display the timeframe declared in the TF inputs"
+Display_TF_MS = "If true the script will display the timeframe's market structure declared in the TF inputs if Hide all Market Structure is false in general settings."
+BOS_Alert_Tooltip = "Set to true to activate BOS alerts then proceed to set the any alert function specifically on this script."
+MSS_Alert_Tooltip = "Set to true to activate MSS alerts then proceed to set the any alert function specifically on this script."
+BOS_Plot_Tooltip = "If set to true the TF BOS plots will be plotted else if false they will be hidden."
+MSS_Plot_Tooltip = "If set to true the TF MSS plots will be plotted else if false they will be hidden."
+
+Hide_All_MS = input.bool(defval = true, title = "Hide all Market Structure", group = General_Settings_group, tooltip = Hide_MS_Tooltip)
+Hide_All_Breaks = input.bool(defval = false, title = "Hide all Structure Breaks", group = General_Settings_group, tooltip = Hide_Breaks_Tooltip)
+Show_Only_On_Lower_Timeframes = input.bool(defval = true, title = "Show Structure only on a lower Timeframe", group = General_Settings_group, tooltip = Lower_Timeframe_Tooltip)
+
+TF_1_Use_Bos_Plot = input.bool(defval = true, title = "Show TF 1 BOS Plots", group = Timeframe_1_Group, tooltip = BOS_Plot_Tooltip)
+TF_1_Use_MSS_Plot = input.bool(defval = true, title = "Show TF 1 MSS Plots", group = Timeframe_1_Group, tooltip = MSS_Plot_Tooltip)
+TF_1_Chart_Feature = input.bool(defval = false, title = "Set Timeframe to Chart", group = Timeframe_1_Group, tooltip = Set_To_Chart_Tooltip)
+TF_1_Use_High_Low = input.bool(defval = false, title = "Use High/Low for Bos & Mss", group = Timeframe_1_Group, tooltip = Use_High_Low_Tooltip)
+TF_1_Display_Pivots = input.bool(defval = true, title = "Display Market Structure", group = Timeframe_1_Group, tooltip = Display_TF_MS)
+TF_1_Display_Timeframe = input.bool(defval = true, title = "Display Timeframe", group = Timeframe_1_Group, tooltip = Display_TF_Pivots)
+TF_1_BOS_Alert = input.bool(defval = true, title = "Use TF 1 BOS Alert", group = Timeframe_1_Group, tooltip = BOS_Alert_Tooltip)
+TF_1_MSS_Alert = input.bool(defval = true, title = "Use TF 1 MSS Alert", group = Timeframe_1_Group, tooltip = MSS_Alert_Tooltip)
+TF_1_Multip = input.int(defval=2, minval=1, maxval=1440, title="Timeframe 1", group=Timeframe_1_Group, inline="T1")
+TF_1_Period = input.string(defval="Hour", title="", options=["Minute", "Hour", "Day", "Week", "Month"], group=Timeframe_1_Group, inline="T1", tooltip=Timeframe_Tooltip)
+TF_1_Swing_Length = input.int(defval = 7, title = "Swing Length", minval = 1, group = Timeframe_1_Group)
+TF_1_Line_Type = input.string(defval = "Solid", title = "Border Type", options = ["Solid", "Dashed", "Dotted"], group = Timeframe_1_Group)
+TF_1_Line_Width = input.int(defval = 2, title = "Line Width", group = Timeframe_1_Group)
+TF_1_Text_Size = input.string(defval = "Small", title = "Text Size", options = ["Normal", "Tiny", "Small", "Large", "Huge", "Auto"], group = Timeframe_1_Group)
+TF_1_Bul_Bos_Col = input.color(defval = color.green, title = "Bullish Bos/Mss Color", group = Timeframe_1_Group, inline = "TF 1 Color")
+TF_1_Bear_Bos_Col = input.color(defval = color.red, title = "Bearish Bos/Mss Color", group = Timeframe_1_Group, inline = "TF 1 Color")
+TF_1_Bul_MS_Col = input.color(defval = color.white, title = "Bullish Text MS Color", group = Timeframe_1_Group, inline = "TF 1 Ms Color")
+TF_1_Bear_MS_Col = input.color(defval = color.white, title = "Bearish Text MS Color", group = Timeframe_1_Group, inline = "TF 1 Ms Color")
+
+TF_2_Use_Bos_Plot = input.bool(defval = true, title = "Show TF 2 BOS Plots", group = Timeframe_2_Group, tooltip = BOS_Plot_Tooltip)
+TF_2_Use_MSS_Plot = input.bool(defval = true, title = "Show TF 2 MSS Plots", group = Timeframe_2_Group, tooltip = MSS_Plot_Tooltip)
+TF_2_Chart_Feature = input.bool(defval = true, title = "Set Timeframe to Chart", group = Timeframe_2_Group, tooltip = Set_To_Chart_Tooltip)
+TF_2_Use_High_Low = input.bool(defval = false, title = "Use High/Low for Bos & Mss", group = Timeframe_2_Group, tooltip = Use_High_Low_Tooltip)
+TF_2_Display_Pivots = input.bool(defval = true, title = "Display Market Structure", group = Timeframe_2_Group, tooltip = Display_TF_MS)
+TF_2_Display_Timeframe = input.bool(defval = true, title = "Display Timeframe", group = Timeframe_2_Group, tooltip = Display_TF_Pivots)
+TF_2_BOS_Alert = input.bool(defval = true, title = "Use TF 2 BOS Alert", group = Timeframe_2_Group, tooltip = BOS_Alert_Tooltip)
+TF_2_MSS_Alert = input.bool(defval = true, title = "Use TF 2 MSS Alert", group = Timeframe_2_Group, tooltip = MSS_Alert_Tooltip)
+TF_2_Multip = input.int(defval=2, minval=1, maxval=1440, title="Timeframe 2", group=Timeframe_2_Group, inline="T2")
+TF_2_Period = input.string(defval="Hour", title="", options=["Minute", "Hour", "Day", "Week", "Month"], group=Timeframe_2_Group, inline="T2", tooltip=Timeframe_Tooltip)
+TF_2_Swing_Length = input.int(defval = 7, title = "Swing Length", minval = 1, group = Timeframe_2_Group)
+TF_2_Line_Type = input.string(defval = "Dashed", title = "Border Type", options = ["Solid", "Dashed", "Dotted"], group = Timeframe_2_Group)
+TF_2_Line_Width = input.int(defval = 1, title = "Line Width", group = Timeframe_2_Group)
+TF_2_Text_Size = input.string(defval = "Small", title = "Text Size", options = ["Normal", "Tiny", "Small", "Large", "Huge", "Auto"], group = Timeframe_2_Group)
+TF_2_Bul_Bos_Col = input.color(defval = color.green, title = "Bullish Bos/Mss Color", group = Timeframe_2_Group, inline = "TF 2 Color")
+TF_2_Bear_Bos_Col = input.color(defval = color.red, title = "Bearish Bos/Mss Color", group = Timeframe_2_Group, inline = "TF 2 Color")
+TF_2_Bul_MS_Col = input.color(defval = color.white, title = "Bullish MS Color", group = Timeframe_2_Group, inline = "TF 2 Ms Color")
+TF_2_Bear_MS_Col = input.color(defval = color.white, title = "Bearish MS Color", group = Timeframe_2_Group, inline = "TF 2 Ms Color")
+
+TF_3_Use_Bos_Plot = input.bool(defval = true, title = "Show TF 3 BOS Plots", group = Timeframe_3_Group, tooltip = BOS_Plot_Tooltip)
+TF_3_Use_MSS_Plot = input.bool(defval = true, title = "Show TF 3 MSS Plots", group = Timeframe_3_Group, tooltip = MSS_Plot_Tooltip)
+TF_3_Chart_Feature = input.bool(defval = false, title = "Set Timeframe to Chart", group = Timeframe_3_Group, tooltip = Set_To_Chart_Tooltip)
+TF_3_Use_High_Low = input.bool(defval = false, title = "Use High/Low for Bos & Mss", group = Timeframe_3_Group, tooltip = Use_High_Low_Tooltip)
+TF_3_Display_Pivots = input.bool(defval = false, title = "Display Market Structure", group = Timeframe_3_Group, tooltip = Display_TF_MS)
+TF_3_Display_Timeframe = input.bool(defval = false, title = "Display Timeframe", group = Timeframe_3_Group, tooltip = Display_TF_Pivots)
+TF_3_BOS_Alert = input.bool(defval = true, title = "Use TF 3 BOS Alert", group = Timeframe_3_Group, tooltip = BOS_Alert_Tooltip)
+TF_3_MSS_Alert = input.bool(defval = true, title = "Use TF 3 MSS Alert", group = Timeframe_3_Group, tooltip = MSS_Alert_Tooltip)
+TF_3_Multip = input.int(defval=1, minval=1, maxval=1440, title="Timeframe 3", group=Timeframe_3_Group, inline="T3")
+TF_3_Period = input.string(defval="Hour", title="", options=["Minute", "Hour", "Day", "Week", "Month"], group=Timeframe_3_Group, inline="T3", tooltip=Timeframe_Tooltip)
+TF_3_Swing_Length = input.int(defval = 7, title = "Swing Length", minval = 1, group = Timeframe_3_Group)
+TF_3_Line_Type = input.string(defval = "Dotted", title = "Border Type", options = ["Solid", "Dashed", "Dotted"], group = Timeframe_3_Group)
+TF_3_Line_Width = input.int(defval = 1, title = "Line Width", group = Timeframe_3_Group)
+TF_3_Text_Size = input.string(defval = "Small", title = "Text Size", options = ["Normal", "Tiny", "Small", "Large", "Huge", "Auto"], group = Timeframe_3_Group)
+TF_3_Bul_Bos_Col = input.color(defval = color.green, title = "Bullish Bos/Mss Color", group = Timeframe_3_Group, inline = "TF 3 Color")
+TF_3_Bear_Bos_Col = input.color(defval = color.red, title = "Bearish Bos/Mss Color", group = Timeframe_3_Group, inline = "TF 3 Color")
+TF_3_Bul_MS_Col = input.color(defval = color.white, title = "Bullish MS Color", group = Timeframe_3_Group, inline = "TF 3 Ms Color")
+TF_3_Bear_MS_Col = input.color(defval = color.white, title = "Bearish MS Color", group = Timeframe_3_Group, inline = "TF 3 Ms Color")
+
+Line_Type_Control(Type) =>
+    Line_Functionality = switch Type
+        "Solid" => line.style_solid
+        "Dashed" => line.style_dashed
+        "Dotted" => line.style_dotted
+    Line_Functionality
+
+Text_Size_Switch(Text_Size) =>
+    Text_Type = switch Text_Size
+        "Normal" => size.normal
+        "Tiny" => size.tiny
+        "Small" => size.small
+        "Large" => size.large
+        "Huge" => size.huge
+        "Auto" => size.auto
+    Text_Type
+
+TF(TF_Period, TF_Multip) =>
+    switch TF_Period
+        "Minute" => str.tostring(TF_Multip)
+        "Hour"   => str.tostring(TF_Multip*60)
+        "Day"    => str.tostring(TF_Multip) + "D"
+        "Week"   => str.tostring(TF_Multip) + "W"
+        "Month"  => str.tostring(TF_Multip) + "M"
+        => timeframe.period
+
+TF_Display(Chart_as_Timeframe, TF_Period, TF_Multip) =>
+    if Chart_as_Timeframe == false
+        switch TF_Period
+            "Minute" => str.tostring(TF_Multip)  + "Min"
+            "Hour"   => str.tostring(TF_Multip)  + "H"
+            "Day"    => str.tostring(TF_Multip)  + "D"
+            "Week"   => str.tostring(TF_Multip)  + "W"
+            "Month"  => str.tostring(TF_Multip)  + "M"
+    else if Chart_as_Timeframe == true
+        switch
+            timeframe.isminutes and  timeframe.multiplier % 60 != 0
+                                 => str.tostring(timeframe.multiplier)    + "Min"
+            timeframe.isminutes and  timeframe.multiplier % 60 == 0
+                                 => str.tostring(timeframe.multiplier/60) + "H"
+            timeframe.isdaily    => str.tostring(timeframe.multiplier)    + "D"
+            timeframe.isweekly   => str.tostring(timeframe.multiplier)    + "W"
+            timeframe.ismonthly  => str.tostring(timeframe.multiplier)    + "M"
+
+MTF_MS_Display(Chart_as_Timeframe, TF_Period, TF_Multip, Swing_Length) =>
+    if Chart_as_Timeframe == true
+        Swing_Length
+    else
+        switch
+            TF_Period == "Month" and timeframe.isminutes and timeframe.multiplier % 60 == 0 and
+              (24*5*5/((TF_Multip * 1440*5*5)/timeframe.multiplier)) * 60 == timeframe.multiplier => ((TF_Multip * 1440)*5*5/ timeframe.multiplier)*Swing_Length
+            TF_Period == "Month" and timeframe.isweekly and
+              (5/((TF_Multip * 1440 * 5)/timeframe.multiplier)) * 1440 == timeframe.multiplier => ((TF_Multip * 1440)*5/ 1440)*Swing_Length
+            TF_Period == "Month" and timeframe.isdaily and
+              (5*5/((TF_Multip * 1440 * 5*5)/timeframe.multiplier)) * 1440 == timeframe.multiplier => ((TF_Multip * 1440)*5*5/ 1440)*Swing_Length
+            timeframe.ismonthly  and timeframe.multiplier == TF_Multip and
+              TF_Period == "Month" => Swing_Length
+            TF_Period == "Week" and timeframe.isminutes and timeframe.multiplier % 60 == 0 and
+              (24*5/((TF_Multip * 1440*5)/timeframe.multiplier)) * 60 == timeframe.multiplier => ((TF_Multip * 1440)*5/ timeframe.multiplier)*Swing_Length
+            TF_Period == "Week" and timeframe.isdaily and
+              (5/((TF_Multip * 1440 * 5)/timeframe.multiplier)) * 1440 == timeframe.multiplier => ((TF_Multip * 1440)*5/ 1440)*Swing_Length
+            timeframe.isweekly  and timeframe.multiplier == TF_Multip and
+              TF_Period == "Week" => Swing_Length
+            TF_Period == "Day" and timeframe.isminutes and timeframe.multiplier % 60 == 0 and
+              (24/((TF_Multip * 1440)/timeframe.multiplier)) * 60 == timeframe.multiplier => (TF_Multip * 1440/ timeframe.multiplier)*Swing_Length
+            timeframe.isdaily  and timeframe.multiplier == TF_Multip and
+              TF_Period == "Day" => Swing_Length
+            timeframe.isminutes and timeframe.multiplier % 60 != 0 and
+              TF_Period == "Minute" and TF_Multip == timeframe.multiplier => Swing_Length
+            timeframe.isminutes and timeframe.multiplier % 60 != 0 and
+              TF_Period == "Minute" and TF_Multip != timeframe.multiplier => ((TF_Multip/60) * 60/timeframe.multiplier)*Swing_Length
+            timeframe.isminutes and timeframe.multiplier % 60 != 0 and
+              TF_Period == "Hour" and TF_Multip != timeframe.multiplier => ((TF_Multip * 60 /60) * 60/timeframe.multiplier)*Swing_Length
+            timeframe.isminutes and timeframe.multiplier % 60 != 0 and
+              TF_Period == "Hour" and TF_Multip == timeframe.multiplier and timeframe.multiplier * 60 == 60 => ((TF_Multip * 60 /60) * 60/timeframe.multiplier)*Swing_Length
+            timeframe.isminutes and timeframe.multiplier % 60 != 0 and
+              TF_Period == "Day" and TF_Multip != timeframe.multiplier => ((TF_Multip * 1440 /60) * 60/timeframe.multiplier)*Swing_Length
+            timeframe.isminutes and timeframe.multiplier % 60 == 0 and
+              TF_Period == "Hour" and TF_Multip * 60 == timeframe.multiplier => Swing_Length
+            timeframe.isminutes and timeframe.multiplier % 60 == 0 and
+              TF_Period == "Hour" and TF_Multip * 60 != timeframe.multiplier => (TF_Multip * 60/timeframe.multiplier)*Swing_Length
+
+HTF_Structure_Control(Chart_as_Timeframe, TF_Period, TF_Multip) =>
+    if Chart_as_Timeframe == true
+        true
+    else if Show_Only_On_Lower_Timeframes == false
+        true
+    else
+        switch
+            TF_Period == "Minute" and TF_Multip < timeframe.multiplier and timeframe.isminutes
+              => false
+            TF_Period == "Minute" and TF_Multip >= timeframe.multiplier and timeframe.isminutes
+              => true
+            TF_Period == "Minute" and timeframe.isdaily
+              => false
+            TF_Period == "Minute" and timeframe.isweekly
+              => false
+            TF_Period == "Minute" and timeframe.ismonthly
+              => false
+            TF_Period == "Hour" and TF_Multip * 60 < timeframe.multiplier and timeframe.isminutes
+              => false
+            TF_Period == "Hour" and TF_Multip * 60 >= timeframe.multiplier and timeframe.isminutes
+              => true
+            TF_Period == "Hour" and timeframe.isdaily
+              => false
+            TF_Period == "Hour" and timeframe.isweekly
+              => false
+            TF_Period == "Hour" and timeframe.ismonthly
+              => false
+            TF_Period == "Day" and timeframe.isdaily or timeframe.isminutes
+              => true
+            TF_Period == "Week" and timeframe.isweekly or timeframe.isdaily or timeframe.isminutes
+              => true
+            TF_Period == "Month" and timeframe.ismonthly or timeframe.isweekly or timeframe.isdaily or timeframe.isminutes
+              => true
+
+[TF_1_SH, TF_1_SL] = request.security(symbol = syminfo.tickerid, timeframe = (TF_1_Chart_Feature ? timeframe.period : TF(TF_1_Period, TF_1_Multip))
+  , expression = [ta.pivothigh(high, TF_1_Swing_Length, TF_1_Swing_Length), ta.pivotlow(low, TF_1_Swing_Length, TF_1_Swing_Length)], gaps = barmerge.gaps_on)
+[TF_2_SH, TF_2_SL] = request.security(symbol = syminfo.tickerid, timeframe = (TF_2_Chart_Feature ? timeframe.period : TF(TF_2_Period, TF_2_Multip))
+  , expression = [ta.pivothigh(high, TF_2_Swing_Length, TF_2_Swing_Length), ta.pivotlow(low, TF_2_Swing_Length, TF_2_Swing_Length)], gaps = barmerge.gaps_on)
+[TF_3_SH, TF_3_SL] = request.security(symbol = syminfo.tickerid, timeframe = (TF_3_Chart_Feature ? timeframe.period : TF(TF_3_Period, TF_3_Multip))
+  , expression = [ta.pivothigh(high, TF_3_Swing_Length, TF_3_Swing_Length), ta.pivotlow(low, TF_3_Swing_Length, TF_3_Swing_Length)], gaps = barmerge.gaps_on)
+
+Count_Candles_For_Structure(Direction, Condition) =>
+    var int High_Count = 0
+    var int Low_Count = 0
+    if Direction == "Bullish"
+        for i = 0 to Condition
+            High_Count := i
+        High_Count
+    else if Direction == "Bearish"
+        for i = 0 to Condition
+            Low_Count := i
+        Low_Count
+
+Market_Structure(TF_SH, TF_SL, Swing_Length, Chart_as_Timeframe, TF_Period, TF_Multip
+  , Line_Type, Line_Width, Display_Timeframe, Display_Structure, Bul_Bos_Col, Bear_Bos_Col
+  , Bul_Ms_Col, Bear_Ms_Col, TF_Text_Size, Use_High_Low, Use_BOS_Alert, Use_MSS_Alert
+  , Use_Bos_Plot, Use_MSS_Plot) =>
+    var float TF_Prev_High = na
+    var float TF_Prev_Low = na
+    TF_Prev_High_Time = 0
+    TF_Prev_Low_Time = 0
+    High_Count = 0
+    Low_Count = 0
+    var bool TF_High_Present = false
+    var bool TF_Low_Present = false
+    var int Prev_Breakout_Type = 0
+    bool High_Broken = false
+    bool Low_Broken = false
+    End_High_Time = 0
+    End_Low_Time = 0
+    bool HH = false
+    bool LH = false
+    bool HL = false
+    bool LL = false
+
+    TF_High_Close_Price = request.security(symbol = syminfo.tickerid, timeframe = (Chart_as_Timeframe ? timeframe.period : TF(TF_Period, TF_Multip)), expression = (Use_High_Low ? high : close))
+    TF_Low_Close_Price = request.security(symbol = syminfo.tickerid, timeframe = (Chart_as_Timeframe ? timeframe.period : TF(TF_Period, TF_Multip)), expression = (Use_High_Low ? low : close))
+
+    if not na(TF_SH)
+        if TF_SH >= TF_Prev_High
+            HH := true
+        else
+            LH := true
+        TF_Prev_High := TF_SH
+        TF_Prev_High_Time := TF_Prev_High != TF_Prev_High[1] ? time[MTF_MS_Display(Chart_as_Timeframe, TF_Period, TF_Multip, Swing_Length)] : TF_Prev_High_Time[1]
+        TF_High_Present := true
+
+    if not na(TF_SL)
+        if TF_SL >= TF_Prev_Low
+            HL := true
+        else
+            LL := true
+        TF_Prev_Low := TF_SL
+        TF_Prev_Low_Time := TF_Prev_Low != TF_Prev_Low[1] ? time[MTF_MS_Display(Chart_as_Timeframe, TF_Period, TF_Multip, Swing_Length)] : TF_Prev_Low_Time[1]
+        TF_Low_Present := true
+
+    if TF_High_Close_Price > TF_Prev_High and TF_High_Present
+        High_Broken := true
+        TF_High_Present := false
+        End_High_Time := time
+
+    if TF_Low_Close_Price < TF_Prev_Low and TF_Low_Present
+        Low_Broken := true
+        TF_Low_Present := false
+        End_Low_Time := time
+
+    if HH and Display_Timeframe and Display_Structure and not Hide_All_MS
+        label.new(TF_Prev_High_Time, TF_Prev_High, "HH \n" + TF_Display(Chart_as_Timeframe, TF_Period, TF_Multip)
+          , xloc = xloc.bar_time, color=Transparent_Color, style=label.style_label_down, textcolor=Bul_Ms_Col, size = Text_Size_Switch(TF_Text_Size))
+    if HL and Display_Timeframe and Display_Structure and not Hide_All_MS
+        label.new(TF_Prev_Low_Time, TF_Prev_Low, "HL \n" + TF_Display(Chart_as_Timeframe, TF_Period, TF_Multip)
+          , xloc = xloc.bar_time, color=Transparent_Color, style=label.style_label_up, textcolor=Bul_Ms_Col, size = Text_Size_Switch(TF_Text_Size))
+    if LH and Display_Timeframe and Display_Structure and not Hide_All_MS
+        label.new(TF_Prev_High_Time, TF_Prev_High, "LH \n" + TF_Display(Chart_as_Timeframe, TF_Period, TF_Multip)
+          , xloc = xloc.bar_time, color=Transparent_Color, style=label.style_label_down, textcolor=Bear_Ms_Col, size = Text_Size_Switch(TF_Text_Size))
+    if LL and Display_Timeframe and Display_Structure and not Hide_All_MS
+        label.new(TF_Prev_Low_Time, TF_Prev_Low, "LL \n" + TF_Display(Chart_as_Timeframe, TF_Period, TF_Multip)
+          , xloc = xloc.bar_time, color=Transparent_Color, style=label.style_label_up, textcolor=Bear_Ms_Col, size = Text_Size_Switch(TF_Text_Size))
+
+    High_Count := ta.barssince(HH == true or LH == true) + MTF_MS_Display(Chart_as_Timeframe, TF_Period, TF_Multip, Swing_Length)
+    Low_Count := ta.barssince(HL == true or LL == true) + MTF_MS_Display(Chart_as_Timeframe, TF_Period, TF_Multip, Swing_Length)
+
+    High_Count_Function = Count_Candles_For_Structure("Bullish", High_Count)
+    Low_Count_Function = Count_Candles_For_Structure("Bearish", Low_Count)
+
+    if High_Broken and Display_Timeframe and not Hide_All_Breaks and HTF_Structure_Control(Chart_as_Timeframe, TF_Period, TF_Multip)
+        if Prev_Breakout_Type == 1 and Use_Bos_Plot
+            line.new(x1 = time[High_Count_Function] , y1 = TF_Prev_High, x2 =End_High_Time , y2 = TF_Prev_High
+              , xloc = xloc.bar_time, color = Bul_Bos_Col, style=Line_Type_Control(Line_Type), width= Line_Width)
+            label.new(x = time[High_Count_Function/2], y = TF_Prev_High
+              , xloc = xloc.bar_time, text = 'BOS \n' + TF_Display(Chart_as_Timeframe, TF_Period, TF_Multip)
+              , color=Transparent_Color, style=label.style_label_down, textcolor=Bul_Bos_Col, size = Text_Size_Switch(TF_Text_Size))
+        else if Prev_Breakout_Type == -1 and Use_MSS_Plot
+            line.new(x1 = time[High_Count_Function] , y1 = TF_Prev_High, x2 =End_High_Time , y2 = TF_Prev_High
+              , xloc = xloc.bar_time, color = Bul_Bos_Col, style=Line_Type_Control(Line_Type), width= Line_Width)
+            label.new(x = time[High_Count_Function/2], y = TF_Prev_High
+              , xloc = xloc.bar_time, text = 'MSS \n' + TF_Display(Chart_as_Timeframe, TF_Period, TF_Multip)
+              , color=Transparent_Color, style=label.style_label_down, textcolor=Bul_Bos_Col, size = Text_Size_Switch(TF_Text_Size))
+        if Prev_Breakout_Type == -1 and Use_MSS_Alert
+            alert(message = "New bullish MSS formed on " + TF_Display(Chart_as_Timeframe, TF_Period, TF_Multip), freq = alert.freq_once_per_bar_close)
+        else if Prev_Breakout_Type == 1 and Use_BOS_Alert
+            alert(message = "New bullish BOS formed on " + TF_Display(Chart_as_Timeframe, TF_Period, TF_Multip), freq = alert.freq_once_per_bar_close)
+        Prev_Breakout_Type := 1
+
+    if Low_Broken and Display_Timeframe and not Hide_All_Breaks and HTF_Structure_Control(Chart_as_Timeframe, TF_Period, TF_Multip)
+        if Prev_Breakout_Type == -1 and Use_Bos_Plot
+            line.new(x1 = time[Low_Count_Function] , y1 = TF_Prev_Low, x2 = End_Low_Time, y2 = TF_Prev_Low
+              , xloc = xloc.bar_time, color= Bear_Bos_Col, style=Line_Type_Control(Line_Type), width= Line_Width)
+            label.new(x = time[Low_Count_Function/2], y = TF_Prev_Low
+              , xloc = xloc.bar_time, text = 'BOS \n' + TF_Display(Chart_as_Timeframe, TF_Period, TF_Multip)
+              , color=Transparent_Color, textcolor=Bear_Bos_Col, style=label.style_label_up, size = Text_Size_Switch(TF_Text_Size))
+        else if Prev_Breakout_Type == 1 and Use_MSS_Plot
+            line.new(x1 = time[Low_Count_Function] , y1 = TF_Prev_Low, x2 = End_Low_Time, y2 = TF_Prev_Low
+              , xloc = xloc.bar_time, color= Bear_Bos_Col, style=Line_Type_Control(Line_Type), width= Line_Width)
+            label.new(x = time[Low_Count_Function/2], y = TF_Prev_Low
+              , xloc = xloc.bar_time, text = 'MSS \n' + TF_Display(Chart_as_Timeframe, TF_Period, TF_Multip)
+              , color=Transparent_Color, textcolor=Bear_Bos_Col, style=label.style_label_up, size = Text_Size_Switch(TF_Text_Size))
+        if Prev_Breakout_Type == 1 and Use_MSS_Alert
+            alert(message = "New bearish MSS formed on " + TF_Display(Chart_as_Timeframe, TF_Period, TF_Multip), freq = alert.freq_once_per_bar_close)
+        else if Prev_Breakout_Type == -1 and Use_BOS_Alert
+            alert(message = "New bearish BOS formed on " + TF_Display(Chart_as_Timeframe, TF_Period, TF_Multip), freq = alert.freq_once_per_bar_close)
+        Prev_Breakout_Type := -1
+
+Market_Structure(TF_1_SH, TF_1_SL, TF_1_Swing_Length, TF_1_Chart_Feature, TF_1_Period, TF_1_Multip, TF_1_Line_Type, TF_1_Line_Width
+  , TF_1_Display_Timeframe, TF_1_Display_Pivots, TF_1_Bul_Bos_Col, TF_1_Bear_Bos_Col, TF_1_Bul_MS_Col, TF_1_Bear_MS_Col, TF_1_Text_Size
+  , TF_1_Use_High_Low, TF_1_BOS_Alert, TF_1_MSS_Alert, TF_1_Use_Bos_Plot, TF_1_Use_MSS_Plot)
+Market_Structure(TF_2_SH, TF_2_SL, TF_2_Swing_Length, TF_2_Chart_Feature, TF_2_Period, TF_2_Multip, TF_2_Line_Type, TF_2_Line_Width
+  , TF_2_Display_Timeframe, TF_2_Display_Pivots, TF_2_Bul_Bos_Col, TF_2_Bear_Bos_Col, TF_2_Bul_MS_Col, TF_2_Bear_MS_Col, TF_2_Text_Size
+  , TF_2_Use_High_Low, TF_2_BOS_Alert, TF_2_MSS_Alert, TF_2_Use_Bos_Plot, TF_2_Use_MSS_Plot)
+Market_Structure(TF_3_SH, TF_3_SL, TF_3_Swing_Length, TF_3_Chart_Feature, TF_3_Period, TF_3_Multip, TF_3_Line_Type, TF_3_Line_Width
+  , TF_3_Display_Timeframe, TF_3_Display_Pivots, TF_3_Bul_Bos_Col, TF_3_Bear_Bos_Col, TF_3_Bul_MS_Col, TF_3_Bear_MS_Col, TF_3_Text_Size
+  , TF_3_Use_High_Low, TF_3_BOS_Alert, TF_3_MSS_Alert, TF_3_Use_Bos_Plot, TF_3_Use_MSS_Plot)
+
+//=====================================================================================================================
+// 4. LIQUIDITY WICKS (from Price Action Concepts [eregbene])
+//=====================================================================================================================
+show_liq   = input.bool(false, "Liquidity Wicks", inline = "1", group = "LIQUIDITY WICKS")
+liq_up_css = input.color(color.yellow, "", inline = "1", group = "LIQUIDITY WICKS")
+liq_dn_css = input.color(color.orange, "", inline = "1", group = "LIQUIDITY WICKS")
+volMA      = input.int  (200, "MA Volume threshold", group = "LIQUIDITY WICKS", tooltip = "MA on volume to be above", minval = 2)
+liq_thresh = input.float(10  , "Threshold"          , group = "LIQUIDITY WICKS", tooltip = "Wick bigger than body"   , minval = 2, step = 0.1)
+
+liqVol    = volume > ta.sma(volume, volMA)
+liqUpWick = math.abs(high - math.max(open, close))
+liqDnWick = math.abs(low  - math.min(open, close))
+liqBody   = math.abs(close - open)
+liqUp     = close > open and liqUpWick > liq_thresh * liqBody and liqVol
+liqDn     = close <= open and liqDnWick > liq_thresh * liqBody and liqVol
+plotcandle(liqUp ? close : na, liqUp ? high : na, liqUp ? open : na, liqUp ? high : na, wickcolor = color(na), color = color(na), bordercolor = show_liq ? liq_up_css : color(na), title = "Liquidity wick up")
+plotcandle(liqDn ? close : na, liqDn ? close : na, liqDn ? low : na, liqDn ? low : na, wickcolor = color(na), color = color(na), bordercolor = show_liq ? liq_dn_css : color(na), title = "Liquidity wick down")
+
+//=====================================================================================================================
+// 5. BENSIM SETUP: fib 61.8% + POI + killzone, with a live dashboard
+//=====================================================================================================================
+BS_GROUP     = "bensim setup (fib + POI + killzone)"
+bsChannel    = input.int(20, "Donchian channel", group = BS_GROUP)
+bsMinBreak   = input.float(0.3, "Min break (x ATR)", group = BS_GROUP)
+bsMinExp     = input.float(1.1, "Min ATR expansion", group = BS_GROUP)
+bsFib        = input.float(0.618, "Entry fib", group = BS_GROUP)
+bsStopBuf    = input.float(0.1, "Stop buffer (x ATR)", group = BS_GROUP)
+bsTargetAtr  = input.float(4.0, "Target (x ATR)", group = BS_GROUP)
+bsPlanBars   = input.int(48, "Order valid (bars)", group = BS_GROUP)
+bsNeedPoi    = input.bool(true, "Require POI (FVG or OB)", group = BS_GROUP)
+bsNeedKz     = input.bool(true, "Require killzone", group = BS_GROUP)
+bsShowKz     = input.bool(true, "Shade killzones", group = BS_GROUP)
+bsShowDash   = input.bool(true, "Show dashboard", group = BS_GROUP)
+
+bsHour = hour(time, "UTC")
+bsInKz = (bsHour >= 7 and bsHour < 10) or (bsHour >= 12 and bsHour < 15)
+bgcolor(bsShowKz and bsInKz ? color.new(color.yellow, 90) : na, title = "Killzone")
+
+// swing trend (pivot 2/2; a close beyond the last live pivot flips it) -- same rule as the engine's H1 bias
+bsTrend() =>
+    var int t = 0
+    var float lastH = na
+    var float lastL = na
+    var bool hLive = false
+    var bool lLive = false
+    ph = ta.pivothigh(high, 2, 2)
+    pl = ta.pivotlow(low, 2, 2)
+    if not na(ph)
+        lastH := ph
+        hLive := true
+    if not na(pl)
+        lastL := pl
+        lLive := true
+    if hLive and close > lastH
+        t := 1
+        hLive := false
+    else if lLive and close < lastL
+        t := -1
+        lLive := false
+    t
+bsH1 = request.security(syminfo.tickerid, "60", bsTrend()[1], lookahead = barmerge.lookahead_on)
+bsH4 = request.security(syminfo.tickerid, "240", bsTrend()[1], lookahead = barmerge.lookahead_on)
+bsD1 = request.security(syminfo.tickerid, "D", bsTrend()[1], lookahead = barmerge.lookahead_on)
+
+// LuxAlgo-style FVGs (auto threshold) kept for the POI check, whatever the FVG display setting is
+bsDelta = (close[1] - open[1]) / open[1] * 100
+var float bsCum = 0.0
+bsCum += math.abs(nz(bsDelta))
+bsThr = bsCum / math.max(bar_index, 1) * 2
+var array<float> bsFTop = array.new<float>()
+var array<float> bsFBot = array.new<float>()
+var array<int>   bsFDir = array.new<int>()
+if low > high[2] and close[1] > high[2] and bsDelta > bsThr
+    array.push(bsFTop, low), array.push(bsFBot, high[2]), array.push(bsFDir, 1)
+if high < low[2] and close[1] < low[2] and -bsDelta > bsThr
+    array.push(bsFTop, low[2]), array.push(bsFBot, high), array.push(bsFDir, -1)
+if array.size(bsFTop) > 0
+    for i = array.size(bsFTop) - 1 to 0
+        gone = array.get(bsFDir, i) == 1 ? low < array.get(bsFBot, i) : high > array.get(bsFTop, i)
+        if gone or array.size(bsFTop) > 200
+            array.remove(bsFTop, i), array.remove(bsFBot, i), array.remove(bsFDir, i)
+
+bsPoi(int d, float px) =>
+    bool hit = false
+    if array.size(bsFTop) > 0
+        for i = 0 to array.size(bsFTop) - 1
+            if array.get(bsFDir, i) == d and px >= array.get(bsFBot, i) and px <= array.get(bsFTop, i)
+                hit := true
+    for ob in internalOrderBlocks  // LuxAlgo order blocks from section 1 (unmitigated ones)
+        if ob.bias == d and px >= ob.barLow and px <= ob.barHigh
+            hit := true
+    for ob in swingOrderBlocks
+        if ob.bias == d and px >= ob.barLow and px <= ob.barHigh
+            hit := true
+    hit
+
+bsAtr = ta.atr(14)
+bsExp = bsAtr / ta.sma(bsAtr, 50)
+bsHi = ta.highest(high, bsChannel)[1]
+bsLo = ta.lowest(low, bsChannel)[1]
+bsLongBreak  = close - bsHi >= bsMinBreak * bsAtr and bsExp >= bsMinExp and bsH1 == 1
+bsShortBreak = bsLo - close >= bsMinBreak * bsAtr and bsExp >= bsMinExp and bsH1 == -1
+
+bsSetup(int d) =>
+    off = nz(d == 1 ? -ta.lowestbars(low, bsChannel + 1) : -ta.highestbars(high, bsChannel + 1), 0)
+    leg0 = d == 1 ? low[off] : high[off]
+    leg1 = d == 1 ? ta.highest(high, math.max(1, off + 1)) : ta.lowest(low, math.max(1, off + 1))
+    entry = leg1 - d * bsFib * math.abs(leg1 - leg0)
+    stop = leg0 - d * bsStopBuf * bsAtr
+    target = close + d * bsTargetAtr * bsAtr
+    [off, leg0, leg1, entry, stop, target]
+
+[bsOffL, bsL0L, bsL1L, bsEnL, bsStL, bsTpL] = bsSetup(1)
+[bsOffS, bsL0S, bsL1S, bsEnS, bsStS, bsTpS] = bsSetup(-1)
+bsOkL = bsLongBreak and (not bsNeedKz or bsInKz) and (not bsNeedPoi or bsPoi(1, bsEnL))
+bsOkS = bsShortBreak and (not bsNeedKz or bsInKz) and (not bsNeedPoi or bsPoi(-1, bsEnS))
+
+bsDraw(int d, int off, float l0, float l1, float en, float st, float tp) =>
+    x0 = bar_index - off
+    x1 = bar_index + bsPlanBars
+    line.new(x0, l0, bar_index, l1, color = color.purple, width = 2)
+    for f in array.from(0.5, 0.618, 0.786)
+        lvl = l1 - d * f * math.abs(l1 - l0)
+        line.new(x0, lvl, x1, lvl, color = color.new(color.purple, f == 0.618 ? 0 : 50), style = f == 0.618 ? line.style_solid : line.style_dashed)
+    box.new(bar_index, math.max(en, tp), x1, math.min(en, tp), border_color = color.green, bgcolor = color.new(color.green, 85))
+    box.new(bar_index, math.max(en, st), x1, math.min(en, st), border_color = color.red, bgcolor = color.new(color.red, 85))
+    label.new(bar_index, d == 1 ? low : high, (d == 1 ? "BUY setup" : "SELL setup") + "\nentry " + str.tostring(en, format.mintick) + "\nSL " + str.tostring(st, format.mintick) + "\nTP " + str.tostring(tp, format.mintick),
+              style = d == 1 ? label.style_label_up : label.style_label_down, color = d == 1 ? color.green : color.red, textcolor = color.white, size = size.small)
+
+if bsOkL
+    bsDraw(1, bsOffL, bsL0L, bsL1L, bsEnL, bsStL, bsTpL)
+if bsOkS
+    bsDraw(-1, bsOffS, bsL0S, bsL1S, bsEnS, bsStS, bsTpS)
+barcolor(bsOkL ? color.lime : bsOkS ? color.fuchsia : na)
+alertcondition(bsOkL, "bensim BUY setup", "bensim BUY setup on {{ticker}}: entry at fib 0.618")
+alertcondition(bsOkS, "bensim SELL setup", "bensim SELL setup on {{ticker}}: entry at fib 0.618")
+
+// the current setup's life: WAITING -> FILLED -> TARGET / STOPPED, or EXPIRED (one setup at a time, like the engine)
+var int    bsDir   = 0
+var float  bsEn    = na
+var float  bsSl    = na
+var float  bsTp    = na
+var int    bsSig   = na
+var int    bsSigT  = na
+var string bsState = "none yet"
+if (bsOkL or bsOkS) and bsState != "FILLED"
+    bsDir   := bsOkL ? 1 : -1
+    bsEn    := bsOkL ? bsEnL : bsEnS
+    bsSl    := bsOkL ? bsStL : bsStS
+    bsTp    := bsOkL ? bsTpL : bsTpS
+    bsSig   := bar_index
+    bsSigT  := time
+    bsState := "WAITING"
+else if bsState == "WAITING"
+    if (bsDir == 1 ? low <= bsEn : high >= bsEn)
+        bsState := "FILLED"
+    else if bar_index - bsSig >= bsPlanBars
+        bsState := "EXPIRED"
+else if bsState == "FILLED"
+    if (bsDir == 1 ? low <= bsSl : high >= bsSl)
+        bsState := "STOPPED"
+    else if (bsDir == 1 ? high >= bsTp : low <= bsTp)
+        bsState := "TARGET HIT"
+
+// dashboard on the last bar: always the current state, whatever day it is
+bsTxt(int t) => t == 1 ? "UP" : t == -1 ? "DOWN" : "-"
+bsCol(int t) => t == 1 ? color.new(color.green, 30) : t == -1 ? color.new(color.red, 30) : color.new(color.gray, 50)
+bsNextKz() =>
+    nowMin = hour(timenow, "UTC") * 60 + minute(timenow, "UTC")
+    string s = ""
+    if nowMin >= 420 and nowMin < 600
+        s := "IN London (to 10:00 UTC)"
+    else if nowMin >= 720 and nowMin < 900
+        s := "IN New York (to 15:00 UTC)"
+    else
+        nxt = nowMin < 420 ? 420 : nowMin < 720 ? 720 : 420 + 1440
+        mins = nxt - nowMin
+        s := (nxt % 1440 == 420 ? "London" : "New York") + " in " + str.tostring(math.floor(mins / 60)) + "h " + str.tostring(mins % 60) + "m"
+    s
+
+var table bsTab = table.new(position.top_right, 2, 9, bgcolor = color.new(color.black, 15), border_color = color.new(color.gray, 60), border_width = 1)
+nextBuy  = ta.highest(high, bsChannel) + bsMinBreak * bsAtr  // the level the NEXT M15 close must reach (channel incl. this bar)
+nextSell = ta.lowest(low, bsChannel) - bsMinBreak * bsAtr
+if bsShowDash and barstate.islast
+    table.cell(bsTab, 0, 0, "bensim  " + syminfo.ticker, text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 1, 0, "fib 0.618 + POI + KZ", text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 0, 1, "H1 / H4 / D1", text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 1, 1, bsTxt(bsH1) + " / " + bsTxt(bsH4) + " / " + bsTxt(bsD1), text_color = color.white, bgcolor = bsCol(bsH1), text_size = size.small)
+    table.cell(bsTab, 0, 2, "Killzone", text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 1, 2, bsNextKz(), text_color = color.white, bgcolor = bsInKz ? color.new(color.yellow, 60) : na, text_size = size.small)
+    table.cell(bsTab, 0, 3, "ATR expansion", text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 1, 3, str.tostring(bsExp, "#.##") + (bsExp >= bsMinExp ? "  OK" : "  (need " + str.tostring(bsMinExp) + ")"), text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 0, 4, "Last setup", text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 1, 4, na(bsSigT) ? "none on this chart" : (bsDir == 1 ? "BUY " : "SELL ") + bsState + "  " + str.format_time(bsSigT, "MM-dd HH:mm", "UTC") + "Z",
+               text_color = color.white, bgcolor = bsState == "WAITING" or bsState == "FILLED" ? (bsDir == 1 ? color.new(color.green, 40) : color.new(color.red, 40)) : na, text_size = size.small)
+    table.cell(bsTab, 0, 5, "Entry / SL / TP", text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 1, 5, na(bsEn) ? "-" : str.tostring(bsEn, format.mintick) + " / " + str.tostring(bsSl, format.mintick) + " / " + str.tostring(bsTp, format.mintick), text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 0, 6, "Order valid until", text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 1, 6, bsState == "WAITING" ? str.format_time(bsSigT + bsPlanBars * timeframe.in_seconds() * 1000, "MM-dd HH:mm", "UTC") + "Z" : "-", text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 0, 7, "Next BUY", text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 1, 7, bsH1 == 1 ? "close >= " + str.tostring(nextBuy, format.mintick) + " in KZ + POI" : "no (H1 not UP)", text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 0, 8, "Next SELL", text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 1, 8, bsH1 == -1 ? "close <= " + str.tostring(nextSell, format.mintick) + " in KZ + POI" : "no (H1 not DOWN)", text_color = color.white, text_size = size.small)

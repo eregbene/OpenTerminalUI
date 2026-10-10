@@ -177,6 +177,32 @@ def decide(sym: str, pl: dict, initial: float, day_start: float, equity: float, 
     return ("SENT" if res.get("ok") else "ORDER_REJECTED"), detail
 
 
+def setups() -> None:
+    """For every symbol, from the newest MT5 bars: H1 trend, any setup waiting for its fill (entry/SL), and the
+    exact prices the next M15 close must beat for a new BUY / SELL signal (plus the other conditions)."""
+    from .strategy import atr, trend
+
+    for sym in SYMBOLS:
+        try:
+            m15, h1, m5 = windows(bars(sym))
+            waiting: list = []
+            pl = plan(m15, h1, m5, sym, PARAMS, waiting=waiting)
+            a = atr(m15)
+            exp = a[-1] / np.mean(a[-50:])
+            hi, lo = m15["high"][-PARAMS.channel:].max(), m15["low"][-PARAMS.channel:].min()
+            h1t = {1: "UP", -1: "DOWN", 0: "-"}[int(trend(h1)[-1])]
+            last = datetime.fromtimestamp(int(m15["t"][-1]) + 900, timezone.utc)
+            print(f"{sym:7} H1 {h1t:4} | ATR exp {exp:.2f} (need >= {PARAMS.min_atr_expansion}) | data to {last:%a %H:%M}Z | state {(pl or {}).get('status', 'none')}")
+            for d, e, s in waiting:
+                print(f"        WAITING {'BUY' if d == 1 else 'SELL'}: entry {e:.5g}  SL {s:.5g}  (market entry on the first M5 close touching it)")
+            if h1t == "UP":
+                print(f"        next BUY  signal: M15 close >= {hi + PARAMS.min_break_atr * a[-1]:.5g} in a killzone (07-10 / 12-15 UTC), POI at fib 0.618")
+            if h1t == "DOWN":
+                print(f"        next SELL signal: M15 close <= {lo - PARAMS.min_break_atr * a[-1]:.5g} in a killzone (07-10 / 12-15 UTC), POI at fib 0.618")
+        except Exception as exc:
+            print(f"{sym:7} error: {exc!r}")
+
+
 def status() -> None:
     hb = state("heartbeat") or {}
     age = int(time.time()) - int(hb.get("utc", 0))
@@ -194,9 +220,12 @@ def main() -> None:
     ap.add_argument("--dry-run", action="store_true", help="never send orders (also automatic before BENSIM_LIVE_FROM)")
     ap.add_argument("--once", action="store_true")
     ap.add_argument("--status", action="store_true")
+    ap.add_argument("--setups", action="store_true", help="print waiting setups and next trigger prices per symbol")
     a = ap.parse_args()
     if a.status:
         return status()
+    if a.setups:
+        return setups()
     with db.connect(autocommit=True) as c:
         c.execute(SCHEMA)
     log("INFO", f"live engine start: dry={a.dry_run} live_from={datetime.fromtimestamp(LIVE_FROM, timezone.utc):%Y-%m-%d %H:%M}Z risk={RISK_PCT}% "
