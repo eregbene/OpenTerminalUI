@@ -57,6 +57,11 @@ class Exec:
     be_r: float = 0.0  # 0 = off; move SL to entry once price reaches +be_r R
     partial_r: float = 0.0  # 0 = off; close partial_frac at +partial_r R
     partial_frac: float = 0.5
+    # TP ladder (off when empty): close tp_frac[i] of the position at +tp_r[i] R, then move the stop to tp_stop_r[i] R;
+    # whatever is left runs to the strategy's own target. E.g. tp_r=(1, 2), tp_frac=(0.5, 0.25), tp_stop_r=(0, 1).
+    tp_r: tuple = ()
+    tp_frac: tuple = ()
+    tp_stop_r: tuple = ()
 
 
 def _spread(sym: str, t: int, ex: Exec) -> float:
@@ -158,7 +163,7 @@ def _simulate(sym: str, m5: dict[str, np.ndarray], k: int, o: dict, p, ex: Exec,
     usd_move = _usd_per_unit_move(sym, entry)
     risk_usd_target = ex.start_balance * ex.risk_pct / 100  # equity compounding applied later in summaries
     lots = max(0.01, np.floor(risk_usd_target / (risk * usd_move * units_per_lot) * 100) / 100)
-    size, realized, be_done, part_done = 1.0, 0.0, False, False
+    size, realized, be_done, part_done, ladder = 1.0, 0.0, False, False, 0
     end = min(len(m5["t"]) - 1, k + p.max_hold_bars * 3)
     reason, xi, exit_px = "time", end, None
     for j in range(k + 1, end + 1):
@@ -170,7 +175,7 @@ def _simulate(sym: str, m5: dict[str, np.ndarray], k: int, o: dict, p, ex: Exec,
         if adv_hit:
             gap_open = o_ if d == 1 else o_ + s
             exit_px = (min(gap_open, sl) if d == 1 else max(gap_open, sl)) - d * slip
-            reason, xi = ("stop" if (sl - entry) * d < 0 else "breakeven"), j
+            reason, xi = ("stop" if (sl - entry) * d < 0 else ("breakeven" if abs(sl - entry) < 1e-12 else "trail_stop")), j
             break
         if fav_hit:
             exit_px, reason, xi = tp, "target", j
@@ -183,6 +188,12 @@ def _simulate(sym: str, m5: dict[str, np.ndarray], k: int, o: dict, p, ex: Exec,
             part_done = True
         if ex.be_r and not be_done and r_now >= ex.be_r:
             sl, be_done = entry, True
+        while ladder < len(ex.tp_r) and r_now >= ex.tp_r[ladder]:  # TP1, TP2...: bank part, move the stop (from the next bar)
+            realized += ex.tp_frac[ladder] * ex.tp_r[ladder]
+            size -= ex.tp_frac[ladder]
+            new_sl = entry + d * ex.tp_stop_r[ladder] * risk
+            sl = max(sl, new_sl) if d == 1 else min(sl, new_sl)
+            ladder += 1
     if exit_px is None:
         exit_px = m5["close"][xi] if d == 1 else m5["close"][xi] + _spread(sym, int(m5["t"][xi]), ex)
     r_gross = realized + size * (exit_px - entry) * d / risk
@@ -244,12 +255,15 @@ def main() -> None:
     ap.add_argument("--be-r", type=float, default=0.0)
     ap.add_argument("--partial-r", type=float, default=0.0)
     ap.add_argument("--workers", type=int, default=3)
+    ap.add_argument("--tp-ladder", default="", help='TP1/TP2... as "R:fraction:stop_to_R,...", e.g. "1:0.5:0,2:0.25:1"')
     ap.add_argument("--strategy", choices=sorted(STRATEGIES), default="imbalance")
     ap.add_argument("--csv", default=None, help="also write every trade (with its SMC checks) to this CSV")
     ap.add_argument("--set", action="append", default=[], help="strategy param, e.g. --set min_body_ratio=0.6 --set 'killzones=((7,10),(12,15))'")
     a = ap.parse_args()
     p = STRATEGIES[a.strategy][0](**{k: ast.literal_eval(v) for k, v in (kv.split("=", 1) for kv in a.set)})
-    ex = Exec(news_block_min=a.news_block, be_r=a.be_r, partial_r=a.partial_r)
+    lad = [tuple(float(v) for v in step.split(":")) for step in a.tp_ladder.split(",") if step]
+    ex = Exec(news_block_min=a.news_block, be_r=a.be_r, partial_r=a.partial_r,
+              tp_r=tuple(x[0] for x in lad), tp_frac=tuple(x[1] for x in lad), tp_stop_r=tuple(x[2] for x in lad))
     syms = a.symbols.split(",")
     with ProcessPoolExecutor(a.workers) as pool:
         frames = [x for x in pool.map(run_symbol, [(s, a.start, a.end, p, ex, a.strategy) for s in syms]) if not x.empty]
