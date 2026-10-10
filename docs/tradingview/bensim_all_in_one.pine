@@ -1178,7 +1178,7 @@ Market_Structure(TF_SH, TF_SL, Swing_Length, Chart_as_Timeframe, TF_Period, TF_M
         else
             LH := true
         TF_Prev_High := TF_SH
-        TF_Prev_High_Time := TF_Prev_High != TF_Prev_High[1] ? time[MTF_MS_Display(Chart_as_Timeframe, TF_Period, TF_Multip, Swing_Length)] : TF_Prev_High_Time[1]
+        TF_Prev_High_Time := TF_Prev_High != TF_Prev_High[1] ? time[math.min(math.max(0, nz(MTF_MS_Display(Chart_as_Timeframe, TF_Period, TF_Multip, Swing_Length))), bar_index)] : TF_Prev_High_Time[1]
         TF_High_Present := true
 
     if not na(TF_SL)
@@ -1187,7 +1187,7 @@ Market_Structure(TF_SH, TF_SL, Swing_Length, Chart_as_Timeframe, TF_Period, TF_M
         else
             LL := true
         TF_Prev_Low := TF_SL
-        TF_Prev_Low_Time := TF_Prev_Low != TF_Prev_Low[1] ? time[MTF_MS_Display(Chart_as_Timeframe, TF_Period, TF_Multip, Swing_Length)] : TF_Prev_Low_Time[1]
+        TF_Prev_Low_Time := TF_Prev_Low != TF_Prev_Low[1] ? time[math.min(math.max(0, nz(MTF_MS_Display(Chart_as_Timeframe, TF_Period, TF_Multip, Swing_Length))), bar_index)] : TF_Prev_Low_Time[1]
         TF_Low_Present := true
 
     if TF_High_Close_Price > TF_Prev_High and TF_High_Present
@@ -1213,11 +1213,12 @@ Market_Structure(TF_SH, TF_SL, Swing_Length, Chart_as_Timeframe, TF_Period, TF_M
         label.new(TF_Prev_Low_Time, TF_Prev_Low, "LL \n" + TF_Display(Chart_as_Timeframe, TF_Period, TF_Multip)
           , xloc = xloc.bar_time, color=Transparent_Color, style=label.style_label_up, textcolor=Bear_Ms_Col, size = Text_Size_Switch(TF_Text_Size))
 
-    High_Count := ta.barssince(HH == true or LH == true) + MTF_MS_Display(Chart_as_Timeframe, TF_Period, TF_Multip, Swing_Length)
-    Low_Count := ta.barssince(HL == true or LL == true) + MTF_MS_Display(Chart_as_Timeframe, TF_Period, TF_Multip, Swing_Length)
+    // guarded: before the first swing barssince() is na, which made the history index -1 on the first bars
+    High_Count := nz(ta.barssince(HH == true or LH == true)) + nz(MTF_MS_Display(Chart_as_Timeframe, TF_Period, TF_Multip, Swing_Length))
+    Low_Count := nz(ta.barssince(HL == true or LL == true)) + nz(MTF_MS_Display(Chart_as_Timeframe, TF_Period, TF_Multip, Swing_Length))
 
-    High_Count_Function = Count_Candles_For_Structure("Bullish", High_Count)
-    Low_Count_Function = Count_Candles_For_Structure("Bearish", Low_Count)
+    High_Count_Function = math.min(math.max(0, nz(Count_Candles_For_Structure("Bullish", High_Count))), bar_index)
+    Low_Count_Function = math.min(math.max(0, nz(Count_Candles_For_Structure("Bearish", Low_Count))), bar_index)
 
     if High_Broken and Display_Timeframe and not Hide_All_Breaks and HTF_Structure_Control(Chart_as_Timeframe, TF_Period, TF_Multip)
         if Prev_Breakout_Type == 1 and Use_Bos_Plot
