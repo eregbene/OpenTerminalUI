@@ -33,7 +33,7 @@ from .mt5_time import server_to_utc
 from .strategy import Params, order_for, plan
 
 MAGIC = 770101
-PARAMS = Params(zone_mode="fib", confirm=("poi", "killzone"))  # the agreed strategy: fib 61.8% + POI + killzone, fixed SL/TP
+PARAMS = Params(zone_mode="fib", confirm_any=("killzone", "poi", "sweep"), confirm_min=2)  # fib 61.8% + any 2 of (killzone, POI, sweep), fixed SL/TP
 RISK_PCT = float(env("BENSIM_RISK_PCT", "0.5"))
 LIVE_FROM = int(datetime.fromisoformat(env("BENSIM_LIVE_FROM", "2026-10-12T06:00:00+00:00")).timestamp())  # dry-run before this (UTC)
 STOP_FILE = ROOT / "bensim.STOP"
@@ -196,9 +196,9 @@ def setups() -> None:
             for d, e, s in waiting:
                 print(f"        WAITING {'BUY' if d == 1 else 'SELL'}: entry {e:.5g}  SL {s:.5g}  (market entry on the first M5 close touching it)")
             if h1t == "UP":
-                print(f"        next BUY  signal: M15 close >= {hi + PARAMS.min_break_atr * a[-1]:.5g} in a killzone (07-10 / 12-15 UTC), POI at fib 0.618")
+                print(f"        next BUY  signal: M15 close >= {hi + PARAMS.min_break_atr * a[-1]:.5g} + 2 of (killzone, POI at fib 0.618, sweep)")
             if h1t == "DOWN":
-                print(f"        next SELL signal: M15 close <= {lo - PARAMS.min_break_atr * a[-1]:.5g} in a killzone (07-10 / 12-15 UTC), POI at fib 0.618")
+                print(f"        next SELL signal: M15 close <= {lo - PARAMS.min_break_atr * a[-1]:.5g} + 2 of (killzone, POI at fib 0.618, sweep)")
         except Exception as exc:
             print(f"{sym:7} error: {exc!r}")
 
@@ -229,7 +229,7 @@ def main() -> None:
     with db.connect(autocommit=True) as c:
         c.execute(SCHEMA)
     log("INFO", f"live engine start: dry={a.dry_run} live_from={datetime.fromtimestamp(LIVE_FROM, timezone.utc):%Y-%m-%d %H:%M}Z risk={RISK_PCT}% "
-                f"params={PARAMS.zone_mode}+{','.join(PARAMS.confirm)} symbols={','.join(SYMBOLS)}")
+                f"params={PARAMS.zone_mode}+{PARAMS.confirm_min}of{','.join(PARAMS.confirm_any)} symbols={','.join(SYMBOLS)}")
     failures = 0
     while True:
         try:

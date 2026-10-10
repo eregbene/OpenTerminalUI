@@ -1296,8 +1296,7 @@ bsFib        = input.float(0.618, "Entry fib", group = BS_GROUP)
 bsStopBuf    = input.float(0.1, "Stop buffer (x ATR)", group = BS_GROUP)
 bsTargetAtr  = input.float(4.0, "Target (x ATR)", group = BS_GROUP)
 bsPlanBars   = input.int(48, "Order valid (bars)", group = BS_GROUP)
-bsNeedPoi    = input.bool(true, "Require POI (FVG or OB)", group = BS_GROUP)
-bsNeedKz     = input.bool(true, "Require killzone", group = BS_GROUP)
+bsConfNeed   = input.int(2, "Confirmations needed (of killzone, POI, sweep)", minval = 0, maxval = 3, group = BS_GROUP)
 bsShowKz     = input.bool(true, "Shade killzones", group = BS_GROUP)
 bsShowDash   = input.bool(true, "Show dashboard", group = BS_GROUP)
 bsAccount    = input.float(100000, "Account size (USD)", group = BS_GROUP)
@@ -1366,6 +1365,45 @@ bsPoi(int d, float px) =>
             hit := true
     hit
 
+
+// liquidity sweep (as the engine's sweep check): within the last 20 candles a wick went through a liquidity level and the
+// candle closed back inside -- buys: previous UTC-day low, today's Asian low (00-06 UTC, after 06:00), last swing low (50);
+// sells: the matching highs. (Equal highs/lows, also used by the engine, are left out here.)
+var float swDayHi = na
+var float swDayLo = na
+var float swPrevHi = na
+var float swPrevLo = na
+var float swAsiaHi = na
+var float swAsiaLo = na
+swUtcH = hour(time, "UTC")
+swNewDay = dayofmonth(time, "UTC") != dayofmonth(time[1], "UTC")
+if swNewDay
+    swPrevHi := swDayHi
+    swPrevLo := swDayLo
+    swDayHi := high
+    swDayLo := low
+    swAsiaHi := na
+    swAsiaLo := na
+else
+    swDayHi := math.max(nz(swDayHi, high), high)
+    swDayLo := math.min(nz(swDayLo, low), low)
+if swUtcH < 6
+    swAsiaHi := math.max(nz(swAsiaHi, high), high)
+    swAsiaLo := math.min(nz(swAsiaLo, low), low)
+swAsiaDone = swUtcH >= 6
+var float swSwingHi = na
+var float swSwingLo = na
+if high[50] > ta.highest(high, 50)
+    swSwingHi := high[50]
+if low[50] < ta.lowest(low, 50)
+    swSwingLo := low[50]
+swThroughLo(float lvl) => not na(lvl) and low < lvl and close > lvl
+swThroughHi(float lvl) => not na(lvl) and high > lvl and close < lvl
+sweptForBuy  = swThroughLo(swPrevLo) or (swAsiaDone and swThroughLo(swAsiaLo)) or swThroughLo(swSwingLo[1])
+sweptForSell = swThroughHi(swPrevHi) or (swAsiaDone and swThroughHi(swAsiaHi)) or swThroughHi(swSwingHi[1])
+sweepBuy  = nz(ta.barssince(sweptForBuy), 999) <= 20
+sweepSell = nz(ta.barssince(sweptForSell), 999) <= 20
+
 bsAtr = ta.atr(14)
 bsExp = bsAtr / ta.sma(bsAtr, 50)
 bsHi = ta.highest(high, bsChannel)[1]
@@ -1388,8 +1426,10 @@ bsSetup(int d) =>
 
 [bsOffL, bsL0L, bsL1L, bsEnL, bsStL, bsTpL] = bsSetup(1)
 [bsOffS, bsL0S, bsL1S, bsEnS, bsStS, bsTpS] = bsSetup(-1)
-bsOkL = bsLongBreak and (not bsNeedKz or bsInKz) and (not bsNeedPoi or bsPoi(1, bsEnL))
-bsOkS = bsShortBreak and (not bsNeedKz or bsInKz) and (not bsNeedPoi or bsPoi(-1, bsEnS))
+bsConfL = (bsInKz ? 1 : 0) + (bsPoi(1, bsEnL) ? 1 : 0) + (sweepBuy ? 1 : 0)
+bsConfS = (bsInKz ? 1 : 0) + (bsPoi(-1, bsEnS) ? 1 : 0) + (sweepSell ? 1 : 0)
+bsOkL = bsLongBreak and bsConfL >= bsConfNeed
+bsOkS = bsShortBreak and bsConfS >= bsConfNeed
 
 bsDraw(int d, int off, float l0, float l1, float en, float st, float tp) =>
     x0 = bar_index - off
@@ -1527,7 +1567,7 @@ nextBuy  = ta.highest(high, bsChannel) + bsMinBreak * bsAtr  // the level the NE
 nextSell = ta.lowest(low, bsChannel) - bsMinBreak * bsAtr
 if bsShowDash and barstate.islast
     table.cell(bsTab, 0, 0, "bensim  " + syminfo.ticker, text_color = color.white, text_size = size.small)
-    table.cell(bsTab, 1, 0, "fib 0.618 + POI + KZ", text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 1, 0, "fib 0.618 + 2 of 3 (KZ/POI/sweep)", text_color = color.white, text_size = size.small)
     table.cell(bsTab, 0, 1, "H1 / H4 / D1", text_color = color.white, text_size = size.small)
     table.cell(bsTab, 1, 1, bsTxt(bsH1) + " / " + bsTxt(bsH4) + " / " + bsTxt(bsD1), text_color = color.white, bgcolor = bsCol(bsH1), text_size = size.small)
     table.cell(bsTab, 0, 2, "Killzone", text_color = color.white, text_size = size.small)
@@ -1542,9 +1582,9 @@ if bsShowDash and barstate.islast
     table.cell(bsTab, 0, 6, "Order valid until", text_color = color.white, text_size = size.small)
     table.cell(bsTab, 1, 6, bsState == "WAITING" ? str.format_time(bsSigT + bsPlanBars * timeframe.in_seconds() * 1000, "MM-dd HH:mm", "UTC") + "Z" : "-", text_color = color.white, text_size = size.small)
     table.cell(bsTab, 0, 7, "Next BUY", text_color = color.white, text_size = size.small)
-    table.cell(bsTab, 1, 7, bsH1 == 1 ? "close >= " + str.tostring(nextBuy, format.mintick) + " in KZ + POI" : "no (H1 not UP)", text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 1, 7, bsH1 == 1 ? "close >= " + str.tostring(nextBuy, format.mintick) + " + 2 of KZ/POI/sweep" : "no (H1 not UP)", text_color = color.white, text_size = size.small)
     table.cell(bsTab, 0, 8, "Next SELL", text_color = color.white, text_size = size.small)
-    table.cell(bsTab, 1, 8, bsH1 == -1 ? "close <= " + str.tostring(nextSell, format.mintick) + " in KZ + POI" : "no (H1 not DOWN)", text_color = color.white, text_size = size.small)
+    table.cell(bsTab, 1, 8, bsH1 == -1 ? "close <= " + str.tostring(nextSell, format.mintick) + " + 2 of KZ/POI/sweep" : "no (H1 not DOWN)", text_color = color.white, text_size = size.small)
     todo = bsState == "WAITING" ? (bsDir == 1 ? "WAIT for price to drop to " : "WAIT for price to rise to ") + str.tostring(bsEn, format.mintick) + " -> then ENTER " + (bsDir == 1 ? "BUY" : "SELL") + " (SL " + str.tostring(bsSl, format.mintick) + ", TP " + str.tostring(bsTp, format.mintick) + ")" :
            bsState == "FILLED" ? "IN TRADE: leave it, SL and TP do the work (max 50h)" :
            "NO TRADE: wait for a setup (see Next BUY / Next SELL)"
