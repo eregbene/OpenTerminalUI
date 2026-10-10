@@ -54,7 +54,13 @@ class Params:
     # SMC confirmations (bensim.indicators, LuxAlgo-style) -- always recorded on the plan, required only if named here:
     # swing_trend, internal_break, choch, fvg, ob, poi (fvg or ob), discount, sweep, killzone
     confirm: tuple = ()
+    entry_sec: int = 900  # entry/plan timeframe: 300 = M5, 900 = M15, 1800 = M30 (channel/plan_bars/hold count these bars)
+    bias_sec: int = 3600  # trend-bias timeframe: 3600 = H1, 14400 = H4, 43200 = H12, 86400 = D1
     confirm_lookback: int = 20
+    # context rules from the 2026-10-09 loss analysis -- all off by default
+    weekend_cancel: bool = False  # a pending order dies at the Friday close (no fills on the Sunday gap)
+    h4_discount: bool = False  # entry in the cheap half (buys) / expensive half (sells) of the H4 swing range (LuxAlgo 50)
+    trend_eff_min: float = 0.0  # >0: |net move| / sum of |daily moves| over the last 20 D1 bars must be >= this (trending regime)
     # round-trip cost in pips (spread + commission) used for the minimum-stop rule; ICMarkets raw-like
     cost_pips: dict[str, float] = field(default_factory=lambda: {"EURUSD": 0.9, "GBPUSD": 1.2, "USDJPY": 1.0, "AUDUSD": 1.0,
                                                                   "USDCAD": 1.1, "USDCHF": 1.1, "XAUUSD": 3.0})
@@ -132,13 +138,47 @@ def _ict_ok(m: Bars, i: int, d: int, entry: float, p: Params, h4_tr: np.ndarray 
         if (entry - mid) * d > 0:
             return False
     if h4_tr is not None:
-        k4 = int(np.searchsorted(h4_t + 14400, m["t"][i] + 900, side="right")) - 1
+        k4 = int(np.searchsorted(h4_t + 14400, m["t"][i] + p.entry_sec, side="right")) - 1
         if k4 < 0 or h4_tr[k4] != d:
             return False
     return True
 
 
-def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: Params = Params(), waiting: list | None = None) -> dict[str, Any] | None:
+def _week(t: int) -> int:
+    return (int(t) // 86400 - 2) // 7  # weeks start Saturday 00:00 UTC, so Friday and the following Sunday differ
+
+
+def _agg(b: Bars, sec: int) -> Bars:
+    key = b["t"] // sec
+    s = np.r_[0, np.flatnonzero(np.diff(key)) + 1]
+    return {"t": key[s] * sec, "open": b["open"][s], "high": np.maximum.reduceat(b["high"], s),
+            "low": np.minimum.reduceat(b["low"], s), "close": b["close"][np.r_[s[1:], len(key)] - 1]}
+
+
+def _context_ok(htf: Bars | None, known: int, d: int, entry: float, p: Params) -> bool:
+    """H4 discount / D1 trend-efficiency rules on bars completed before `known` (htf = a long H1 window)."""
+    if not (p.h4_discount or p.trend_eff_min):
+        return True
+    if htf is None or not len(htf["t"]):
+        return False
+    if p.h4_discount:
+        h4 = _agg(htf, 14400)
+        h4 = {k: v[h4["t"] + 14400 <= known] for k, v in h4.items()}
+        if len(h4["t"]) < 120:
+            return False
+        sw = indicators.structure(h4, 50, indicators.atr_n(h4, 200))
+        if (entry - (sw["trail_up"][-1] + sw["trail_dn"][-1]) / 2) * d >= 0:
+            return False
+    if p.trend_eff_min:
+        d1 = _agg(htf, 86400)
+        c = d1["close"][d1["t"] + 86400 <= known][-21:]
+        r = np.diff(np.log(c))
+        if len(r) < 20 or abs(r.sum()) / np.abs(r).sum() < p.trend_eff_min:
+            return False
+    return True
+
+
+def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: Params = Params(), waiting: list | None = None, htf: Bars | None = None) -> dict[str, Any] | None:
     """Plan state right after the newest completed M5 bar: TRIGGERED (with entry/stop/target) only when that
     M5 bar is the plan's first touch; otherwise WAITING / IN_TRADE / CONSUMED / None.
     If `waiting` is a list, every untouched plan's (dir, entry, stop) is appended (the backtester uses this
@@ -157,7 +197,7 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: Params = Params(), waiting
         h4 = {"t": key[s] * 14400, "high": np.maximum.reduceat(h1["high"], s), "low": np.minimum.reduceat(h1["low"], s),
               "close": h1["close"][np.r_[s[1:], len(key)] - 1]}
         h4_tr, h4_t = trend(h4), h4["t"]
-    cur15 = (int(m5["t"][-1]) // 900) * 900  # "now" = the M15 bar holding the newest completed M5 bar
+    cur15 = (int(m5["t"][-1]) // p.entry_sec) * p.entry_sec  # "now" = the entry-tf bar holding the newest completed M5 bar
     last = int(np.searchsorted(m["t"], cur15)) - 1
     if last < p.channel + 50:
         return None
@@ -168,8 +208,8 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: Params = Params(), waiting
     for i in range(p.channel + 50, last + 1):
         if i < busy_until:
             continue
-        known = m["t"][i] + 900
-        k1 = int(np.searchsorted(h1["t"] + 3600, known, side="right")) - 1
+        known = m["t"][i] + p.entry_sec
+        k1 = int(np.searchsorted(h1["t"] + p.bias_sec, known, side="right")) - 1
         for d, edge in ((1, hi[i]), (-1, lo[i])):
             if not ((m["close"][i] - edge) * d >= p.min_break_atr * a[i] and exp[i] >= p.min_atr_expansion and k1 >= 0 and h1_tr[k1] == d):
                 continue
@@ -218,10 +258,14 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: Params = Params(), waiting
             checks = indicators.confirm(ind, m, i, d, float(entry), float(stop), p.confirm_lookback)
             if not indicators.passes(checks, p.confirm):
                 continue
+            if not _context_ok(htf, int(known), d, float(entry), p):
+                continue
             win = slice(i + 1, min(last + 1, i + 1 + p.plan_bars))
             touch = (m["low"][win] <= entry) if d == 1 else (m["high"][win] >= entry)
             if touch.any():
                 k = i + 1 + int(np.argmax(touch))
+                if p.weekend_cancel and _week(m["t"][k]) != _week(m["t"][i]):
+                    continue
                 if (m["open"][k] - stop) * d <= 0:
                     continue
                 if liq:  # target = the impulse extreme made between the break and the pullback
@@ -232,6 +276,8 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: Params = Params(), waiting
                 status = {"dir": d, "status": "CONSUMED" if busy_until <= last else "IN_TRADE", "signal_bar": i}
                 break
             if last + 1 - (i + 1) >= p.plan_bars:
+                continue
+            if p.weekend_cancel and _week(cur15) != _week(m["t"][i]):
                 continue
             hit5 = (m5["low"][forming] <= entry) if d == 1 else (m5["high"][forming] >= entry)
             if not len(forming) or not hit5.any():

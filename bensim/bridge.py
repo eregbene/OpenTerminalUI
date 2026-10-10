@@ -34,3 +34,23 @@ def rates(symbol: str, tf: str, start: int, count: int) -> list[dict[str, Any]]:
 
 def account() -> dict[str, Any]:
     return _call("GET", "/account")
+
+
+def tick(symbol: str) -> dict[str, Any]:
+    return _call("POST", "/tick", {"symbol": symbol}, timeout=30)
+
+
+def positions() -> list[dict[str, Any]]:
+    return _call("GET", "/positions", timeout=30).get("items") or []
+
+
+def order(symbol: str, side: str, volume: float, sl: float, tp: float, magic: int, comment: str) -> dict[str, Any]:
+    return _call("POST", "/order", {"symbol": symbol, "side": side, "volume": volume, "sl": sl, "tp": tp, "magic": magic, "comment": comment}, timeout=60)
+
+
+def close(ticket: int, comment: str = "close") -> dict[str, Any]:
+    return _call("POST", "/close", {"ticket": ticket, "comment": comment}, timeout=60)
+
+
+def deals(start: int, end: int) -> list[dict[str, Any]]:
+    return _call("POST", "/deals", {"start": start, "end": end}, timeout=60).get("items") or []

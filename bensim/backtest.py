@@ -106,11 +106,14 @@ def _news_times(sym: str) -> np.ndarray:
 def run_symbol(args: tuple) -> pd.DataFrame:
     sym, start, end, p, ex, name = args
     _, plan, order_for = STRATEGIES[name]
-    t_load = (pd.Timestamp(start, tz="UTC") - pd.Timedelta(seconds=WARMUP_SEC)).isoformat() if start else None
+    long_ctx = getattr(p, "h4_discount", False) or getattr(p, "trend_eff_min", 0)
+    warm = max(WARMUP_SEC, 200 * getattr(p, "bias_sec", 3600), 1400 * 3600 if long_ctx else 0)  # bias / H4-context windows must be loaded too
+    t_load = (pd.Timestamp(start, tz="UTC") - pd.Timedelta(seconds=warm)).isoformat() if start else None
     m5 = load_m5(sym, t_load, end)
     if not len(m5["t"]):
         return pd.DataFrame()
-    m15, h1 = resample(m5, 900), resample(m5, 3600)
+    es, bs = getattr(p, "entry_sec", 900), getattr(p, "bias_sec", 3600)
+    m15, h1 = resample(m5, es), resample(m5, bs)
     t0 = int(pd.Timestamp(start, tz="UTC").timestamp()) if start else int(m5["t"][0])
     news = _news_times(sym) if ex.news_block_min else np.zeros(0, np.int64)
     trades, open_until, waiting, last15 = [], -1, [], -1
@@ -118,16 +121,17 @@ def run_symbol(args: tuple) -> pd.DataFrame:
         if k <= open_until or k < 100:
             continue
         now = int(m5["t"][k]) + 300
-        cur15 = (int(m5["t"][k]) // 900) * 900
+        cur15 = (int(m5["t"][k]) // es) * es
         new_bucket = cur15 != last15
         if not new_bucket:  # cheap pre-check: can this bar reach any waiting zone?
             lo, hi = m5["low"][k], m5["high"][k]
             if not any((lo <= e) if d == 1 else (hi >= e) for d, e, _ in waiting):
                 continue
-        i15 = int(np.searchsorted(m15["t"] + 900, now, side="right"))
-        i1 = int(np.searchsorted(h1["t"] + 3600, now, side="right"))
+        i15 = int(np.searchsorted(m15["t"] + es, now, side="right"))
+        i1 = int(np.searchsorted(h1["t"] + bs, now, side="right"))
         waiting = []
-        pl = plan(_win(m15, i15, 300), _win(h1, i1, 200), _win(m5, k + 1, 100), sym, p, waiting=waiting)
+        kw = {"htf": _win(h1, i1, 1300)} if long_ctx else {}  # ~54 days of H1 for the H4 swing range / D1 trend efficiency
+        pl = plan(_win(m15, i15, 300), _win(h1, i1, 200), _win(m5, k + 1, 100), sym, p, waiting=waiting, **kw)
         last15 = cur15
         bid = float(m5["close"][k])
         spr = _spread(sym, now, ex)
@@ -247,7 +251,11 @@ def main() -> None:
     ex = Exec(news_block_min=a.news_block, be_r=a.be_r, partial_r=a.partial_r)
     syms = a.symbols.split(",")
     with ProcessPoolExecutor(a.workers) as pool:
-        t = pd.concat([x for x in pool.map(run_symbol, [(s, a.start, a.end, p, ex, a.strategy) for s in syms]) if not x.empty], ignore_index=True)
+        frames = [x for x in pool.map(run_symbol, [(s, a.start, a.end, p, ex, a.strategy) for s in syms]) if not x.empty]
+    if not frames:
+        print(json.dumps({"run_id": None, "trades": 0}))
+        return
+    t = pd.concat(frames, ignore_index=True)
     s = summarize(t, ex)
     run_id = save(p, ex, syms, a.start, a.end, t, s)
     if a.csv:
