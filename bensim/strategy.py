@@ -57,6 +57,9 @@ class Params:
     entry_sec: int = 900  # entry/plan timeframe: 300 = M5, 900 = M15, 1800 = M30 (channel/plan_bars/hold count these bars)
     bias_sec: int = 3600  # trend-bias timeframe: 3600 = H1, 14400 = H4, 43200 = H12, 86400 = D1
     confirm_lookback: int = 20
+    # "at least N of these": e.g. confirm_any=("killzone","poi","sweep"), confirm_min=2 (on top of the required `confirm`)
+    confirm_any: tuple = ()
+    confirm_min: int = 0
     # context rules from the 2026-10-09 loss analysis -- all off by default
     weekend_cancel: bool = False  # a pending order dies at the Friday close (no fills on the Sunday gap)
     h4_discount: bool = False  # entry in the cheap half (buys) / expensive half (sells) of the H4 swing range (LuxAlgo 50)
@@ -257,6 +260,8 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: Params = Params(), waiting
             ind = ind or indicators.compute({k: v[:last + 1] for k, v in m.items()})
             checks = indicators.confirm(ind, m, i, d, float(entry), float(stop), p.confirm_lookback)
             if not indicators.passes(checks, p.confirm):
+                continue
+            if p.confirm_min and sum(indicators.passes(checks, (k,)) for k in p.confirm_any) < p.confirm_min:
                 continue
             if not _context_ok(htf, int(known), d, float(entry), p):
                 continue
