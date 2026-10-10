@@ -82,20 +82,24 @@ if not na(pl5)
     iLow := pl5, iLowBar := bar_index - 5, iLowLive := true
 if iHighLive and close > iHigh and bar_index - iHighBar >= 2  // >= 1 candle between the swing and the break
     iHighLive := false
-    best = -1
+    float bTop = na  // Pine v5 evaluates both sides of `or`, so keep values, never index with an unset offset
+    float bBot = na
     for j = 1 to math.min(bar_index - iHighBar - 1, 200)
-        if high[j] - low[j] < 2 * atr200 and (best == -1 or low[j] <= low[best])
-            best := j
-    if best >= 0
-        array.push(zTop, high[best]), array.push(zBot, low[best]), array.push(zDir, 1)
+        if high[j] - low[j] < 2 * atr200 and (na(bBot) or low[j] <= bBot)
+            bTop := high[j]
+            bBot := low[j]
+    if not na(bBot)
+        array.push(zTop, bTop), array.push(zBot, bBot), array.push(zDir, 1)
 if iLowLive and close < iLow and bar_index - iLowBar >= 2
     iLowLive := false
-    best = -1
+    float bTop = na
+    float bBot = na
     for j = 1 to math.min(bar_index - iLowBar - 1, 200)
-        if high[j] - low[j] < 2 * atr200 and (best == -1 or high[j] >= high[best])
-            best := j
-    if best >= 0
-        array.push(zTop, high[best]), array.push(zBot, low[best]), array.push(zDir, -1)
+        if high[j] - low[j] < 2 * atr200 and (na(bTop) or high[j] >= bTop)
+            bTop := high[j]
+            bBot := low[j]
+    if not na(bTop)
+        array.push(zTop, bTop), array.push(zBot, bBot), array.push(zDir, -1)
 if array.size(zTop) > 0
     for i = array.size(zTop) - 1 to 0
         gone = array.get(zDir, i) == 1 ? low < array.get(zBot, i) : high > array.get(zTop, i)
