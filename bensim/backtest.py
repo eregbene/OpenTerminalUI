@@ -31,11 +31,12 @@ import pandas as pd
 
 from . import db
 from .config import SYMBOLS
-from . import fvg_strategy, strategy
+from . import fvg_strategy, pullback_strategy, strategy
 from .strategy import pip
 
 STRATEGIES = {"imbalance": (strategy.Params, strategy.plan, strategy.order_for),
-              "htf_fvg": (fvg_strategy.FvgParams, fvg_strategy.plan, fvg_strategy.order_for)}
+              "htf_fvg": (fvg_strategy.FvgParams, fvg_strategy.plan, fvg_strategy.order_for),
+              "pullback": (pullback_strategy.PullbackParams, pullback_strategy.plan, pullback_strategy.order_for)}
 WARMUP_SEC = 30 * 86400  # covers the 300 M15 / 200 H1 bar windows plan() sees
 
 CONTRACT = {"XAUUSD": 100.0}  # units per lot; FX = 100,000
