@@ -741,7 +741,7 @@ i_MMM3width = input.int(1, "MMM 3 Width", 1, 10, group=grpMMM)
 
 isNewBar(sess) =>
     t = time("D", sess)
-    na(t[1]) and not na(t) or t[1] < t
+    (na(t[1]) and not na(t)) or (not na(t) and t[1] < t)
 
 isSession(sess) =>
     not na(time("D", sess))
@@ -919,14 +919,14 @@ if i_showMMM2 and hour == i_MMM2hour and minute == i_MMM2minute and f_tfShow(i_h
 if i_showMMM3 and hour == i_MMM3hour and minute == i_MMM3minute and f_tfShow(i_hideMMMtf)
     f_drawVertical(i_MMM3color, i_MMM3width)
 
-plot(i_showHighLow and pricehigh_daily ? pricehigh_daily : na, "Previous Daily High", style=plot.style_linebr, color=color.white)
-plot(i_showHighLow and pricelow_daily ? pricelow_daily : na, "Previous Daily Low", style=plot.style_linebr, color=color.white)
-plot(i_showHighLow and pricehigh_weekly ? pricehigh_weekly : na, "Previous Weekly High", style=plot.style_linebr, color=color.white)
-plot(i_showHighLow and pricelow_weekly ? pricelow_weekly : na, "Previous Weekly Low", style=plot.style_linebr, color=color.white)
-plot(i_showHighLow and pricehigh_monthly ? pricehigh_monthly : na, "Previous Monthly High", style=plot.style_linebr, color=color.white)
-plot(i_showHighLow and pricelow_monthly ? pricelow_monthly : na, "Previous Monthly Low", style=plot.style_linebr, color=color.white)
-plot(i_showHighLow and pricehigh_yearly ? pricehigh_yearly : na, "Previous Yearly High", style=plot.style_linebr, color=color.white)
-plot(i_showHighLow and pricelow_yearly ? pricelow_yearly : na, "Previous Yearly Low", style=plot.style_linebr, color=color.white)
+plot(i_showHighLow and not na(pricehigh_daily) ? pricehigh_daily : na, "Previous Daily High", style=plot.style_linebr, color=color.white)
+plot(i_showHighLow and not na(pricelow_daily) ? pricelow_daily : na, "Previous Daily Low", style=plot.style_linebr, color=color.white)
+plot(i_showHighLow and not na(pricehigh_weekly) ? pricehigh_weekly : na, "Previous Weekly High", style=plot.style_linebr, color=color.white)
+plot(i_showHighLow and not na(pricelow_weekly) ? pricelow_weekly : na, "Previous Weekly Low", style=plot.style_linebr, color=color.white)
+plot(i_showHighLow and not na(pricehigh_monthly) ? pricehigh_monthly : na, "Previous Monthly High", style=plot.style_linebr, color=color.white)
+plot(i_showHighLow and not na(pricelow_monthly) ? pricelow_monthly : na, "Previous Monthly Low", style=plot.style_linebr, color=color.white)
+plot(i_showHighLow and not na(pricehigh_yearly) ? pricehigh_yearly : na, "Previous Yearly High", style=plot.style_linebr, color=color.white)
+plot(i_showHighLow and not na(pricelow_yearly) ? pricelow_yearly : na, "Previous Yearly Low", style=plot.style_linebr, color=color.white)
 
 //=====================================================================================================================
 // 3. MULTI TIMEFRAME BOS & MSS (© Eregbene, MPL 2.0)
@@ -1371,9 +1371,13 @@ bsLongBreak  = close - bsHi >= bsMinBreak * bsAtr and bsExp >= bsMinExp and bsH1
 bsShortBreak = bsLo - close >= bsMinBreak * bsAtr and bsExp >= bsMinExp and bsH1 == -1
 
 bsSetup(int d) =>
-    off = nz(d == 1 ? -ta.lowestbars(low, bsChannel + 1) : -ta.highestbars(high, bsChannel + 1), 0)
+    lowOff  = nz(-ta.lowestbars(low, bsChannel + 1), 0)   // na on the first bars; both computed every bar (Pine consistency)
+    highOff = nz(-ta.highestbars(high, bsChannel + 1), 0)
+    off = d == 1 ? lowOff : highOff
+    upLeg = ta.highest(high, math.max(1, lowOff + 1))
+    dnLeg = ta.lowest(low, math.max(1, highOff + 1))
     leg0 = d == 1 ? low[off] : high[off]
-    leg1 = d == 1 ? ta.highest(high, math.max(1, off + 1)) : ta.lowest(low, math.max(1, off + 1))
+    leg1 = d == 1 ? upLeg : dnLeg
     entry = leg1 - d * bsFib * math.abs(leg1 - leg0)
     stop = leg0 - d * bsStopBuf * bsAtr
     target = close + d * bsTargetAtr * bsAtr
@@ -1429,7 +1433,7 @@ if bsShowFib and barstate.islast and fDir != 0
         txt = str.tostring(f) + "  " + str.tostring(lvl, format.mintick) + (key ? "  ENTRY" : f == 1.0 ? "  (stop beyond)" : "")
         array.push(fLabs, label.new(xr, lvl, txt, style = label.style_label_left, color = color(na), textcolor = col, size = size.small))
     array.push(fLabs, label.new(fX1, fL1, (fDir == 1 ? "latest BUY breakout leg" : "latest SELL breakout leg"), style = fDir == 1 ? label.style_label_down : label.style_label_up,
-                                color = color(na), textcolor = color.purple, size = size.small))
+                                 color = color(na), textcolor = color.purple, size = size.small))
 
 if bsOkL
     bsDraw(1, bsOffL, bsL0L, bsL1L, bsEnL, bsStL, bsTpL)
