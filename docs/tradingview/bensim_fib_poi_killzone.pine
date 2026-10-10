@@ -80,9 +80,9 @@ longBreak  = close - hi >= minBreak * a and expn >= minExp and h1Trend == 1
 shortBreak = lo - close >= minBreak * a and expn >= minExp and h1Trend == -1
 
 f_setup(int d) =>
-    off = d == 1 ? -ta.lowestbars(low, channel + 1) : -ta.highestbars(high, channel + 1)
+    off = nz(d == 1 ? -ta.lowestbars(low, channel + 1) : -ta.highestbars(high, channel + 1), 0)  // na on the first bars
     leg0 = d == 1 ? low[off] : high[off]
-    leg1 = d == 1 ? ta.highest(high, off + 1) : ta.lowest(low, off + 1)
+    leg1 = d == 1 ? ta.highest(high, math.max(1, off + 1)) : ta.lowest(low, math.max(1, off + 1))
     entry = leg1 - d * fibLevel * math.abs(leg1 - leg0)
     stop = leg0 - d * stopBuf * a
     target = close + d * targetAtr * a
