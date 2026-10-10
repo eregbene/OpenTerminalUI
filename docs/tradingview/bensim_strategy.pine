@@ -1,0 +1,155 @@
+//@version=5
+// bensim STRATEGY -- the fib 61.8% + POI + killzone rules as a TradingView strategy that places its own orders:
+//   signal  : M15 close beyond the 20-bar Donchian high/low by >= 0.3 x ATR(14), ATR expansion >= 1.1, H1 swing trend agrees,
+//             signal candle inside a killzone (07-10 / 12-15 UTC), fib 0.618 of the breakout leg inside an FVG or order block (POI)
+//   order   : LIMIT at fib 0.618, valid 48 candles (then cancelled); stop beyond the leg start (fib 1) + 0.1 ATR; target 4 x ATR
+//   exit    : stop, target, or closed after 200 candles (50 h); one trade at a time; size = risk % of the account
+// Use on an M15 chart next to "bensim AIO". Results: Strategy Tester tab. Orders fire alerts ("Create alert" -> this strategy).
+// Differences vs the Python engine (the source of truth): the engine enters at market on the first M5 close that touches 0.618
+// (here: a limit order at 0.618), and its order blocks are LuxAlgo's (here: the same LuxAlgo internal-OB rule, simplified).
+strategy("bensim STRATEGY fib+POI+killzone", "bensim STRAT", overlay = true, initial_capital = 100000, currency = currency.USD,
+     commission_type = strategy.commission.cash_per_contract, commission_value = 0.000035, slippage = 1,
+     pyramiding = 0, calc_on_every_tick = false, max_bars_back = 500, max_boxes_count = 200, max_lines_count = 200, max_labels_count = 200)
+
+channel   = input.int(20, "Donchian channel")
+minBreak  = input.float(0.3, "Min break (x ATR)")
+minExp    = input.float(1.1, "Min ATR expansion")
+fibLevel  = input.float(0.618, "Entry fib")
+stopBuf   = input.float(0.1, "Stop buffer (x ATR)")
+targetAtr = input.float(4.0, "Target (x ATR)")
+planBars  = input.int(48, "Order valid (candles)")
+maxHold   = input.int(200, "Max hold (candles)")
+riskPct   = input.float(0.5, "Risk per trade (% of equity)")
+needPoi   = input.bool(true, "Require POI (FVG or OB)")
+needKz    = input.bool(true, "Require killzone")
+
+// killzones (UTC)
+h = hour(time, "UTC")
+inKz = (h >= 7 and h < 10) or (h >= 12 and h < 15)
+bgcolor(inKz ? color.new(color.yellow, 92) : na, title = "Killzone")
+
+// H1 swing trend (pivot 2/2, a close beyond the last live pivot flips it), completed H1 candles only
+f_trend() =>
+    var int t = 0
+    var float lastH = na
+    var float lastL = na
+    var bool hLive = false
+    var bool lLive = false
+    ph = ta.pivothigh(high, 2, 2)
+    pl = ta.pivotlow(low, 2, 2)
+    if not na(ph)
+        lastH := ph
+        hLive := true
+    if not na(pl)
+        lastL := pl
+        lLive := true
+    if hLive and close > lastH
+        t := 1
+        hLive := false
+    else if lLive and close < lastL
+        t := -1
+        lLive := false
+    t
+h1Trend = request.security(syminfo.tickerid, "60", f_trend()[1], lookahead = barmerge.lookahead_on)
+
+// POI part 1: LuxAlgo-style FVGs (auto threshold), removed when filled
+delta = (close[1] - open[1]) / open[1] * 100
+var float cum = 0.0
+cum += math.abs(nz(delta))
+thr = cum / math.max(bar_index, 1) * 2
+var array<float> zTop = array.new<float>()
+var array<float> zBot = array.new<float>()
+var array<int>   zDir = array.new<int>()
+if low > high[2] and close[1] > high[2] and delta > thr
+    array.push(zTop, low), array.push(zBot, high[2]), array.push(zDir, 1)
+if high < low[2] and close[1] < low[2] and -delta > thr
+    array.push(zTop, low[2]), array.push(zBot, high), array.push(zDir, -1)
+
+// POI part 2: LuxAlgo internal order blocks (5-bar structure): on a break of the last internal swing, the extreme candle
+// between that swing and the break (skipping candles wider than 2 x ATR(200)) becomes the block
+atr200 = ta.atr(200)
+var float iHigh = na
+var int   iHighBar = na
+var bool  iHighLive = false
+var float iLow = na
+var int   iLowBar = na
+var bool  iLowLive = false
+ph5 = ta.pivothigh(high, 5, 5)
+pl5 = ta.pivotlow(low, 5, 5)
+if not na(ph5)
+    iHigh := ph5, iHighBar := bar_index - 5, iHighLive := true
+if not na(pl5)
+    iLow := pl5, iLowBar := bar_index - 5, iLowLive := true
+if iHighLive and close > iHigh and bar_index - iHighBar >= 2  // >= 1 candle between the swing and the break
+    iHighLive := false
+    best = -1
+    for j = 1 to math.min(bar_index - iHighBar - 1, 200)
+        if high[j] - low[j] < 2 * atr200 and (best == -1 or low[j] <= low[best])
+            best := j
+    if best >= 0
+        array.push(zTop, high[best]), array.push(zBot, low[best]), array.push(zDir, 1)
+if iLowLive and close < iLow and bar_index - iLowBar >= 2
+    iLowLive := false
+    best = -1
+    for j = 1 to math.min(bar_index - iLowBar - 1, 200)
+        if high[j] - low[j] < 2 * atr200 and (best == -1 or high[j] >= high[best])
+            best := j
+    if best >= 0
+        array.push(zTop, high[best]), array.push(zBot, low[best]), array.push(zDir, -1)
+if array.size(zTop) > 0
+    for i = array.size(zTop) - 1 to 0
+        gone = array.get(zDir, i) == 1 ? low < array.get(zBot, i) : high > array.get(zTop, i)
+        if gone or array.size(zTop) > 300
+            array.remove(zTop, i), array.remove(zBot, i), array.remove(zDir, i)
+f_poi(int d, float px) =>
+    bool hit = false
+    if array.size(zTop) > 0
+        for i = 0 to array.size(zTop) - 1
+            if array.get(zDir, i) == d and px >= array.get(zBot, i) and px <= array.get(zTop, i)
+                hit := true
+    hit
+
+// signal
+a = ta.atr(14)
+expn = a / ta.sma(a, 50)
+hi = ta.highest(high, channel)[1]
+lo = ta.lowest(low, channel)[1]
+lowOff  = nz(-ta.lowestbars(low, channel + 1), 0)
+highOff = nz(-ta.highestbars(high, channel + 1), 0)
+upLeg = ta.highest(high, math.max(1, lowOff + 1))
+dnLeg = ta.lowest(low, math.max(1, highOff + 1))
+enL = upLeg - fibLevel * (upLeg - low[lowOff])
+stL = low[lowOff] - stopBuf * a
+tpL = close + targetAtr * a
+enS = dnLeg + fibLevel * (high[highOff] - dnLeg)
+stS = high[highOff] + stopBuf * a
+tpS = close - targetAtr * a
+longSig  = close - hi >= minBreak * a and expn >= minExp and h1Trend == 1 and (not needKz or inKz) and (not needPoi or f_poi(1, enL))
+shortSig = lo - close >= minBreak * a and expn >= minExp and h1Trend == -1 and (not needKz or inKz) and (not needPoi or f_poi(-1, enS))
+
+// orders: one setup / trade at a time
+var int sigBar = na
+var int entryBar = na
+flat = strategy.position_size == 0
+usdRate = request.currency_rate(syminfo.currency, "USD")  // quote currency -> USD, every bar
+qtyFor(float en, float st) =>
+    math.floor(strategy.equity * riskPct / 100 / (math.abs(en - st) * usdRate))  // units (FX: 100,000 = 1 lot)
+if flat and longSig
+    strategy.cancel_all()
+    strategy.entry("BUY", strategy.long, qty = qtyFor(enL, stL), limit = enL, comment = "BUY @0.618")
+    strategy.exit("BUY exit", "BUY", stop = stL, limit = tpL, comment_loss = "SL", comment_profit = "TP")
+    sigBar := bar_index
+if flat and shortSig
+    strategy.cancel_all()
+    strategy.entry("SELL", strategy.short, qty = qtyFor(enS, stS), limit = enS, comment = "SELL @0.618")
+    strategy.exit("SELL exit", "SELL", stop = stS, limit = tpS, comment_loss = "SL", comment_profit = "TP")
+    sigBar := bar_index
+if flat and not na(sigBar) and bar_index - sigBar >= planBars
+    strategy.cancel_all()  // the order expired unfilled
+    sigBar := na
+if not flat and na(entryBar)
+    entryBar := bar_index
+if flat
+    entryBar := na
+if not flat and bar_index - entryBar >= maxHold
+    strategy.close_all(comment = "50h time exit")
