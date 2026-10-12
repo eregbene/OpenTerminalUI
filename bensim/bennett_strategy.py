@@ -63,6 +63,8 @@ class BennettParams:
     h4_fill: bool = False
     add_on: bool = False
     loss_wait_1h: bool = False
+    engine: str = "lux"  # "lux" (LuxAlgo pivots) | "bennett" (protected high/low only -- his BOS/CHoCH)
+    leg_tf: str = "H1"  # timeframe of the leg + fib + area: "H1" (base video) | "H4" (his 4H -> 15M/5M mode)
     min_rr: float = 2.75
     max_targets: int = 2  # T1, T2 -- no stretching
     stop_buffer_atr: float = 0.1
@@ -79,6 +81,8 @@ def _cut(b: Bars, n: int) -> Bars:
 
 def h1_leg(h: Bars, p: BennettParams) -> dict | None:
     """Last 1H break -> side, the displacement start (leg extreme against the trade) and the new external extreme."""
+    if p.engine == "bennett":
+        return bennett_leg(h, p)
     a1 = atr(h)
     st = indicators.structure(h, p.h1_len, indicators.atr_n(h, 200), min_break=p.break_atr * a1)
     ev = np.flatnonzero(st["event"] != 0)
@@ -152,6 +156,86 @@ def h4_filled(h4: Bars, m15: Bars, leg: dict, t0: int, t1: int) -> bool:
     return bool(m15["high"][since].max() >= z["top"]) if d == -1 else bool(m15["low"][since].min() <= z["bottom"])
 
 
+def market_structure(b: Bars, min_break: np.ndarray | None = None, seed: int = 10) -> dict[str, Any]:
+    """Justin Bennett's market structure (not LuxAlgo pivots): only the PROTECTED level can flip the trend.
+
+    Uptrend: BOS = a close above the external high (the highest high since the last BOS -- defined by the pullback);
+    on each BOS the protected low = the lowest low between the high that was broken and the BOS bar (his box);
+    CHoCH = a close below the protected low -> downtrend, whose protected high = the highest high of the up-leg.
+    Everything between external high and protected low is internal and changes nothing. Mirror for downtrends.
+    Breaks need a CLOSE at least min_break beyond the level (wicks never count).
+    Returns per bar: trend (+1/-1/0), prot (protected level), ext (running external extreme in the trend's direction),
+    and events [(bar, "BOS"|"CHoCH", dir, level, pivot_bar)] + labels [(bar, "HH"|"HL"|"LH"|"LL", price)]."""
+    h, lo, c = b["high"], b["low"], b["close"]
+    n = len(c)
+    mb = np.zeros(n) if min_break is None else min_break
+    trend = np.zeros(n, int)
+    prot, ext = np.full(n, np.nan), np.full(n, np.nan)
+    events, labels = [], []
+    if n <= seed:
+        return {"trend": trend, "prot": prot, "ext": ext, "events": events, "labels": labels}
+    hi_i = int(np.argmax(h[:seed]))
+    lo_i = int(np.argmin(lo[:seed]))
+    d = 0
+    for i in range(seed, n):
+        if d >= 0 and c[i] - mb[i] > h[hi_i]:  # close above the external high
+            kind = "BOS" if d == 1 else "CHoCH"
+            seg = slice(hi_i, i + 1)
+            p_i = hi_i + int(np.argmin(lo[seg]))  # box: lowest low between the broken high and the BOS bar
+            events.append((i, kind, 1, float(h[hi_i]), hi_i))
+            labels += [(p_i, "HL", float(lo[p_i])), (hi_i, "HH" if d == 1 else "LH", float(h[hi_i]))]
+            d, lo_i, hi_i = 1, p_i, i
+        elif d <= 0 and c[i] + mb[i] < lo[lo_i]:  # close below the external low
+            kind = "BOS" if d == -1 else "CHoCH"
+            seg = slice(lo_i, i + 1)
+            p_i = lo_i + int(np.argmax(h[seg]))
+            events.append((i, kind, -1, float(lo[lo_i]), lo_i))
+            labels += [(p_i, "LH", float(h[p_i])), (lo_i, "LL" if d == -1 else "HL", float(lo[lo_i]))]
+            d, hi_i, lo_i = -1, p_i, i
+        elif d == 1 and c[i] + mb[i] < lo[lo_i]:  # uptrend: close below the PROTECTED low = CHoCH down
+            events.append((i, "CHoCH", -1, float(lo[lo_i]), lo_i))
+            labels.append((lo_i, "HL", float(lo[lo_i])))
+            d, lo_i = -1, i  # protected high = the up-leg's external high (hi_i), unchanged
+        elif d == -1 and c[i] - mb[i] > h[hi_i]:  # downtrend: close above the PROTECTED high = CHoCH up
+            events.append((i, "CHoCH", 1, float(h[hi_i]), hi_i))
+            labels.append((hi_i, "LH", float(h[hi_i])))
+            d, hi_i = 1, i
+        else:  # extend the running external extreme of the current leg
+            if d == 1 and h[i] > h[hi_i]:
+                hi_i = i
+            if d == -1 and lo[i] < lo[lo_i]:
+                lo_i = i
+            if d == 0:
+                hi_i = hi_i if h[hi_i] >= h[i] else i
+                lo_i = lo_i if lo[lo_i] <= lo[i] else i
+        trend[i] = d
+        prot[i] = lo[lo_i] if d == 1 else h[hi_i] if d == -1 else np.nan
+        ext[i] = h[hi_i] if d == 1 else lo[lo_i] if d == -1 else np.nan
+    return {"trend": trend, "prot": prot, "ext": ext, "events": events, "labels": labels}
+
+
+def _bar_of(x: np.ndarray, value: float, upto: int) -> int:
+    """Newest bar <= upto whose value equals `value` (where a protected / external extreme was printed)."""
+    hit = np.flatnonzero(x[:upto + 1] == value)
+    return int(hit[-1]) if len(hit) else upto
+
+
+def bennett_leg(h: Bars, p: BennettParams) -> dict | None:
+    """The 1H leg from his structure: side = trend, start = the protected high (sell) / low (buy) = where the
+    displacement began, ext = the running external low/high since the last break."""
+    a1 = atr(h)
+    ms = market_structure(h, p.break_atr * a1)
+    if not ms["events"] or ms["trend"][-1] == 0:
+        return None
+    e, kind, d, _, piv = ms["events"][-1]
+    start, ext = float(ms["prot"][-1]), float(ms["ext"][-1])
+    j = len(h["t"]) - 1
+    s_bar = _bar_of(h["high"] if d == -1 else h["low"], start, j)
+    x_bar = _bar_of(h["low"] if d == -1 else h["high"], ext, j)
+    return {"d": d, "e": e, "piv": piv, "kind": kind, "start": start, "s_bar": s_bar, "ext": ext, "x_bar": x_bar,
+            "atr": float(a1[-1])}
+
+
 USD_QUOTE = {"EURUSD", "GBPUSD", "AUDUSD", "XAUUSD"}  # the dollar is the quote: pair down = dollar up
 _DXY: dict | None = None
 
@@ -196,7 +280,12 @@ def htf_trend(h1_long: Bars, sec: int, length: int, now: int) -> int:
     b = _cut(b, int(np.searchsorted(b["t"] + sec, now, side="right")))
     if len(b["t"]) < 3 * length:
         return 0
+    if ENGINE["bennett"]:
+        return int(market_structure(b, 0.25 * atr(b))["trend"][-1])
     return int(indicators.structure(b, length, indicators.atr_n(b, 200), min_break=0.25 * atr(b))["trend"][-1])
+
+
+ENGINE = {"bennett": False}  # set per plan() call so htf_trend follows the chosen engine
 
 
 def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettParams(), waiting: list | None = None,
@@ -215,13 +304,22 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
         if waiting is not None:  # the backtester only re-plans mid-M15 when a waiting zone can be hit: ask for every M5
             waiting.append((1, np.inf, None))
     now = int(m5["t"][-1]) + 300
+    ENGINE["bennett"] = p.engine == "bennett"
     h = _cut(h1, int(np.searchsorted(h1["t"] + 3600, now, side="right")))  # completed 1H bars only
-    leg = h1_leg(h, p)
+    hb, sec_b = h, 3600  # the leg's timeframe
+    if p.leg_tf == "H4":
+        if htf is None:
+            return None
+        hb, sec_b = agg(htf, 14400), 14400
+        hb = _cut(hb, int(np.searchsorted(hb["t"] + 14400, now, side="right")))
+        if len(hb["t"]) < 60:
+            return None
+    leg = h1_leg(hb, p)
     if leg is None:
         return None
     d = leg["d"]
     z_lo, z_hi = ote_band(leg, p)
-    t_ext = int(h["t"][leg["x_bar"]])
+    t_ext = int(hb["t"][leg["x_bar"]])
     m15 = _cut(m, i15 + 1)
     after = m15["t"] >= t_ext  # M15 bars since the external low/high
     if not after.any():
@@ -232,11 +330,13 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
     if (reach > leg["start"]) if d == -1 else (reach < leg["start"]):
         return None  # took the leg high/low: the idea is invalidated
     touch_t = int(m15["t"][np.flatnonzero(after & ((m15["high"] >= z_lo) if d == -1 else (m15["low"] <= z_hi)))[0]])
-    t0, t1 = int(h["t"][leg["s_bar"]]), t_ext + 3600
-    if p.swept_internal and not swept_internal(h, leg):
+    t0, t1 = int(hb["t"][leg["s_bar"]]), t_ext + sec_b
+    if p.swept_internal and not swept_internal(hb, leg):
         return None
     if p.need_fvg or p.max_area_atr:
-        zones = fvg_zones(h, d, t0, t1, len(h["t"]) - 1, z_lo, z_hi) + fvg_zones(m15, d, t0, t1, len(m15["t"]) - 1, z_lo, z_hi)
+        zones = (fvg_zones(hb, d, t0, t1, len(hb["t"]) - 1, z_lo, z_hi) + fvg_zones(h, d, t0, t1, len(h["t"]) - 1, z_lo, z_hi)
+                 + fvg_zones(m15, d, t0, t1, len(m15["t"]) - 1, z_lo, z_hi)) if hb is not h else \
+            fvg_zones(h, d, t0, t1, len(h["t"]) - 1, z_lo, z_hi) + fvg_zones(m15, d, t0, t1, len(m15["t"]) - 1, z_lo, z_hi)
         if not zones:
             return None
         a_lo, a_hi = max(min(z[0] for z in zones), z_lo), min(max(z[1] for z in zones), z_hi)  # the refined area
@@ -286,6 +386,14 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
         top = lsr_trigger(ltf, d, from_i, p.ltf_len, p.break_atr * la)
         if top is None:
             return None
+    elif p.engine == "bennett":  # LTF CHoCH = the counter-move's PROTECTED level closed through on this candle
+        ms = market_structure(ltf, p.break_atr * la, seed=6)
+        ev = ms["events"][-1] if ms["events"] else None
+        if ev is None or ev[0] != j or ev[1] != "CHoCH" or ev[2] != d:
+            return None
+        top = float(ms["prot"][j])  # the counter-move's external high (sell) = his invalidation level
+        if not np.isfinite(top):
+            return None
     else:
         lst = indicators.structure(ltf, p.ltf_len, indicators.atr_n(ltf, 200), min_break=p.break_atr * la)
         if lst["event"][j] != d or not lst["kind"][j]:
@@ -300,8 +408,8 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
     risk = (entry - stop) * d
     if risk <= 0 or risk < p.min_stop_costs * p.cost_pips.get(symbol, 1.2) * pip(symbol):
         return None
-    ind = indicators.compute(h)
-    pools = [leg["ext"]] + [lvl for _, lvl in indicators._pools(ind, len(h["t"]) - 1, -d, fresh=True)]
+    ind = indicators.compute(hb)
+    pools = [leg["ext"]] + [lvl for _, lvl in indicators._pools(ind, len(hb["t"]) - 1, -d, fresh=True)]
     ahead = sorted({x for x in pools if (x - entry) * d > 0}, key=lambda x: abs(x - entry))[:p.max_targets]
     target = next((x for x in ahead if (x - entry) * d >= p.min_rr * risk), None)
     if target is None:
@@ -317,7 +425,7 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
     checks = {"h1_break": leg["kind"], "add_on": add is not None, "after_failed_trigger": failed, "ote": [round(z_lo, 5), round(z_hi, 5)], "target_is_t1": target == leg["ext"],
               "rr_planned": round((target - entry) * d / risk, 2), "ltf": p.ltf, "trigger": p.trigger, "dxy": p.dxy}
     return {"dir": d, "status": "TRIGGERED", "entry": entry, "stop": stop, "target": float(target),
-            "signal_time": int(ltf["t"][j]), "zone_base_time": int(h["t"][leg["e"]]), "atr": float(la[j]), "checks": checks,
+            "signal_time": int(ltf["t"][j]), "zone_base_time": int(hb["t"][leg["e"]]), "atr": float(la[j]), "checks": checks,
             **({"add": add} if add else {})}
 
 
@@ -379,6 +487,16 @@ def _selfcheck() -> None:
          "plan": {"signal_time": 0, "checks": {}, "add": {"price": 1.1005, "frac": 0.5}}}
     tr = _simulate("EURUSD", bars, 0, o, SimpleNamespace(max_hold_bars=10), ex, 0.0)
     assert tr["add_filled"] and tr["exit_reason"] == "target" and abs(tr["r"] - (0.5 * 3 + 0.5 * 3.5)) < 1e-6, tr
+    # his structure: up-leg BOS, pullback to a protected low, an INTERNAL dip that does not close below it (no flip),
+    # then a close below the protected low = CHoCH down with the up-leg's high as the protected high
+    px = np.array([1.00, 1.02, 1.01, 1.03, 1.05, 1.04, 1.06, 1.08, 1.06, 1.07, 1.065, 1.075, 1.09, 1.07, 1.05, 1.03, 1.035])
+    mb = {"t": np.arange(len(px)) * 3600, "open": px, "high": px + 0.004, "low": px - 0.004, "close": px}
+    ms = market_structure(mb, None, seed=3)
+    kinds = [(e[1], e[2]) for e in ms["events"]]
+    ch = next(e for e in ms["events"] if e[1] == "CHoCH" and e[2] == -1)
+    assert ch[0] == 14 and abs(ms["prot"][14] - 1.094) < 1e-9, ch  # CHoCH at bar 14, protected high = the up-leg top
+    assert ms["trend"][-1] == -1 and abs(ms["prot"][-1] - 1.054) < 1e-9, ms["prot"][-1]  # BOS at 15 moves it to the box high
+    assert all(k != ("CHoCH", -1) for k in kinds[:kinds.index(("CHoCH", -1))]), kinds  # internal dips did not flip it
     print("bennett selfcheck ok", round(lo, 4), round(hi, 4))
 
 
