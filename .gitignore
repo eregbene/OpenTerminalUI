@@ -98,3 +98,10 @@ backups/
 graphify-out/
 backend/graphify-out/
 data/db_archive/
+
+# Generated outputs (regenerate any time; keep out of git)
+data/
+logs/
+.agents/
+docs/charts/
+docs/bensim_*.svg
