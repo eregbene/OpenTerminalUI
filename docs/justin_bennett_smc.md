@@ -365,3 +365,20 @@ EURUSD is positive in every version (+7 to +10R); AUDUSD negative in every versi
 inside the noise (t < 1): the 1-year "CHoCH plus + wide stop" finding did NOT carry over -- it was fitted on that year.
 Next: speed-up (incremental structure), then the 5-year setup database with a discover (2021-2024) / confirm
 (2025-26) split, then decide the rules. Gold excluded until a different strategy is found for it.
+
+### 7.7 Five-year setup database (2021-12 -> 2026-10, 6 pairs, no gold) -- the large-sample verdict
+`python -m bensim.setups` records every unfiltered setup (leg -> OTE -> 5M CHoCH) with which of his rules it passes
+and its outcome net of costs; `python -m bensim.setups_report <csv>` judges each rule (kept vs dropped) on the
+discovery years (< 2025). Net R per setup, tight stop, 3R target:
+| | 1H legs (3,378 discovery setups) | 4H legs (3,071) |
+|---|---|---|
+| all setups | **-0.086 (t -3.5)** | -0.015 (t -0.5) |
+| FVG in the OTE | hurts (-0.13 kept vs -0.02 dropped) | hurts (-0.05 vs +0.06) |
+| CHoCH plus | hurts slightly | hurts slightly |
+| top in OTE / premium entry | no help | hurts |
+| higher-TF trend | 4H helps (-0.05 vs -0.15) | daily HURTS (-0.05 vs +0.07) |
+| clear path / fresh 48 h / killzone 07-11 & 13-17 UTC | each helps | small |
+Best 1H combo (4H trend + clear path + killzone + fresh48): discovery +0.16R (t 2.2, 394 setups), engine 2.75R exit
++0.53R; **confirm 2025-26, looked at once: +0.04R / +0.10R (t < 1)** -- roughly break-even. 4H legs: no combo
+significant, nothing confirmed. Verdict: as mechanical rules, his method has no robust edge after costs on these
+pairs; his central FVG filter is negative in both versions. Gold excluded throughout.
