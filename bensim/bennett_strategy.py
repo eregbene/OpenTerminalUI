@@ -113,8 +113,24 @@ def context_text(p: BennettParams) -> str:
     return f"{ctx.get(p.bias, p.bias + ' + ')}{p.leg_tf[::-1]}" + (" structure" if p.bias == "off" else "")
 
 
+_MS_CACHE: dict = {}
+
+
 def structure(b: Bars, p: BennettParams, seed: int = 10, brk: float | None = None) -> dict[str, Any]:
-    return smc.market_structure(b, (p.break_atr if brk is None else brk) * smc.atr(b), seed=seed)
+    """market_structure of a window, cached: the same bars always give the same answer (callers never mutate it).
+    Key = the window's first/last time, length, a checksum of its prices, and the settings."""
+    brk = p.break_atr if brk is None else brk
+    n = len(b["t"])
+    if n == 0:
+        return smc.market_structure(b, brk * smc.atr(b), seed=seed)
+    key = (n, int(b["t"][0]), int(b["t"][-1]), float(b["close"][-1]), float(b["high"].sum()), float(b["low"].sum()),
+           seed, brk)
+    hit = _MS_CACHE.get(key)
+    if hit is None:
+        if len(_MS_CACHE) > 4000:
+            _MS_CACHE.clear()
+        hit = _MS_CACHE[key] = smc.market_structure(b, brk * smc.atr(b), seed=seed)
+    return hit
 
 
 def leg_of(b: Bars, p: BennettParams) -> dict | None:

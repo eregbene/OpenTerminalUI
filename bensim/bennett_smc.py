@@ -54,6 +54,8 @@ def market_structure(b: Bars, min_break: np.ndarray | None = None, seed: int = 1
     events, labels = [], []
     if n <= max(seed, 2 * swing + 1):
         return {"trend": trend, "prot": prot, "ext": ext, "events": events, "labels": labels}
+    H, L, C = h.tolist(), lo.tolist(), c.tolist()  # same float64 values; Python max/min on tiny slices is ~20x faster
+    MB = np.broadcast_to(mb, (n,)).tolist()
     d, last = 0, 0
     run_hi, run_lo = int(np.argmax(h[:seed])), int(np.argmin(lo[:seed]))  # running extremes of the current leg
     sw_hi = sw_lo = None  # confirmed external high / low (by a pullback) since the last break
@@ -61,52 +63,69 @@ def market_structure(b: Bars, min_break: np.ndarray | None = None, seed: int = 1
     for i in range(seed, n):
         j = i - swing  # pivot that the last `swing` bars can confirm now
         if j - swing >= 0 and j > last:
-            if h[j] > h[j - swing:j].max() and h[j] >= h[j + 1:i + 1].max() and (sw_hi is None or h[j] > h[sw_hi]):
+            if H[j] > max(H[j - swing:j]) and H[j] >= max(H[j + 1:i + 1]) and (sw_hi is None or H[j] > H[sw_hi]):
                 sw_hi = j
-            if lo[j] < lo[j - swing:j].min() and lo[j] <= lo[j + 1:i + 1].min() and (sw_lo is None or lo[j] < lo[sw_lo]):
+            if L[j] < min(L[j - swing:j]) and L[j] <= min(L[j + 1:i + 1]) and (sw_lo is None or L[j] < L[sw_lo]):
                 sw_lo = j
-        if d >= 0 and sw_hi is not None and c[i] - mb[i] > h[sw_hi]:  # close above a confirmed external high
+        if d >= 0 and sw_hi is not None and C[i] - MB[i] > H[sw_hi]:  # close above a confirmed external high
             kind = "BOS" if d == 1 else "CHoCH"
             p = sw_hi + int(np.argmin(lo[sw_hi:i + 1]))  # the box
             events.append((i, kind, 1, float(h[sw_hi]), sw_hi))
             labels += [(p, "HL", float(lo[p])), (sw_hi, "HH" if d == 1 else "LH", float(h[sw_hi]))]
             d, p_lo, run_hi, last, sw_hi, sw_lo = 1, p, i, i, None, None
-        elif d <= 0 and sw_lo is not None and c[i] + mb[i] < lo[sw_lo]:  # close below a confirmed external low
+        elif d <= 0 and sw_lo is not None and C[i] + MB[i] < L[sw_lo]:  # close below a confirmed external low
             kind = "BOS" if d == -1 else "CHoCH"
             p = sw_lo + int(np.argmax(h[sw_lo:i + 1]))
             events.append((i, kind, -1, float(lo[sw_lo]), sw_lo))
             labels += [(p, "LH", float(h[p])), (sw_lo, "LL" if d == -1 else "HL", float(lo[sw_lo]))]
             d, p_hi, run_lo, last, sw_hi, sw_lo = -1, p, i, i, None, None
-        elif d == 1 and c[i] + mb[i] < lo[p_lo]:  # close below the PROTECTED low = CHoCH (MSS) down
+        elif d == 1 and C[i] + MB[i] < L[p_lo]:  # close below the PROTECTED low = CHoCH (MSS) down
             events.append((i, "CHoCH", -1, float(lo[p_lo]), p_lo))
             labels += [(p_lo, "HL", float(lo[p_lo])), (run_hi, "HH", float(h[run_hi]))]  # the up-leg's top is external
             d, p_hi, run_lo, last, sw_hi, sw_lo = -1, run_hi, i, i, None, None  # protected high = the up-leg's top
-        elif d == -1 and c[i] - mb[i] > h[p_hi]:  # close above the PROTECTED high = CHoCH (MSS) up
+        elif d == -1 and C[i] - MB[i] > H[p_hi]:  # close above the PROTECTED high = CHoCH (MSS) up
             events.append((i, "CHoCH", 1, float(h[p_hi]), p_hi))
             labels += [(p_hi, "LH", float(h[p_hi])), (run_lo, "LL", float(lo[run_lo]))]  # the down-leg's low is external
             d, p_lo, run_hi, last, sw_hi, sw_lo = 1, run_lo, i, i, None, None
-        if h[i] > h[run_hi]:
+        if H[i] > H[run_hi]:
             run_hi = i
-        if lo[i] < lo[run_lo]:
+        if L[i] < L[run_lo]:
             run_lo = i
         trend[i] = d
-        prot[i] = lo[p_lo] if d == 1 else h[p_hi] if d == -1 else np.nan
-        ext[i] = h[run_hi] if d == 1 else lo[run_lo] if d == -1 else np.nan
+        prot[i] = L[p_lo] if d == 1 else H[p_hi] if d == -1 else np.nan
+        ext[i] = H[run_hi] if d == 1 else L[run_lo] if d == -1 else np.nan
     return {"trend": trend, "prot": prot, "ext": ext, "events": events, "labels": labels}
 
 
+_FVG_CACHE: dict = {}
+
+
 def fvgs(b: Bars) -> list[dict]:
+    """Cached _fvgs (the same window always gives the same gaps; callers only read them)."""
+    n = len(b["high"])
+    if n == 0 or "t" not in b:
+        return _fvgs(b) if n else []
+    key = (n, int(b["t"][0]), int(b["t"][-1]), float(b["high"].sum()), float(b["low"].sum()))
+    hit = _FVG_CACHE.get(key)
+    if hit is None:
+        if len(_FVG_CACHE) > 4000:
+            _FVG_CACHE.clear()
+        hit = _FVG_CACHE[key] = _fvgs(b)
+    return hit
+
+
+def _fvgs(b: Bars) -> list[dict]:
     """Every 3-candle gap. Bullish: low[c3] > high[c1], zone high[c1]..low[c3]; bearish mirror.
     formed = candle 3 (usable from its close); touched = first later bar trading into the gap (one-time use);
     filled = first later bar reaching the far edge (the candle-1 extreme)."""
     h, lo = b["high"], b["low"]
     n = len(h)
     out = []
-    for i in range(2, n):
+    up = set((np.flatnonzero(lo[2:] > h[:-2]) + 2).tolist()) if n > 2 else set()  # all gaps at once, in numpy
+    dn = set((np.flatnonzero(h[2:] < lo[:-2]) + 2).tolist()) if n > 2 else set()
+    for i in sorted(up | dn):
         for d in (1, -1):
-            if d == 1 and not lo[i] > h[i - 2]:
-                continue
-            if d == -1 and not h[i] < lo[i - 2]:
+            if (d == 1 and i not in up) or (d == -1 and i not in dn):
                 continue
             bot, top = (float(h[i - 2]), float(lo[i])) if d == 1 else (float(h[i]), float(lo[i - 2]))
             later_lo, later_hi = lo[i + 1:], h[i + 1:]
@@ -131,12 +150,12 @@ def fib_pos(price: float, start: float, ext: float) -> float:
 
 def swing_points(b: Bars, n: int = 2) -> tuple[list[tuple[int, int, float]], list[tuple[int, int, float]]]:
     """Visible swing highs/lows: (bar, confirmed_at, price) where the high is above the n highs on each side."""
-    h, lo = b["high"], b["low"]
+    h, lo = b["high"].tolist(), b["low"].tolist()  # Python lists: tiny-slice max/min without numpy overhead
     highs, lows = [], []
     for i in range(n, len(h) - n):
-        if h[i] > h[i - n:i].max() and h[i] >= h[i + 1:i + n + 1].max():
+        if h[i] > max(h[i - n:i]) and h[i] >= max(h[i + 1:i + n + 1]):
             highs.append((i, i + n, float(h[i])))
-        if lo[i] < lo[i - n:i].min() and lo[i] <= lo[i + 1:i + n + 1].min():
+        if lo[i] < min(lo[i - n:i]) and lo[i] <= min(lo[i + 1:i + n + 1]):
             lows.append((i, i + n, float(lo[i])))
     return highs, lows
 
