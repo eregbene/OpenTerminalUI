@@ -213,3 +213,32 @@ Every month negative (Apr −3.7R, May −13.0R, Jun −3.6R, Jul −3.6R). The 
 
 ### 4.2 Trade diagrams (his chart style) — `python -m bensim.bennett_chart`
 `docs/charts/bennett/`: 3 winners (EURUSD sell 13 Jul +6.49R, EURUSD buy 18 Aug +4.85R, XAUUSD sell 11 Sep +5.35R) and 2 losers (EURUSD sell 2 Sep −1.11R: the 5M CHoCH came only after price had already fallen back below the 50% line and the OTE held as support; USDJPY buy 16 Sep −1.08R: stopped by one wick, then price ran straight to T1).
+
+## 5. Why it failed — gaps vs the videos + win/loss anatomy (131 trades, no DXY, Apr–Oct 2026)
+Script: scratchpad `jb_anatomy.py` → `data/bennett_anatomy.csv`.
+
+| Check | Result | Reading |
+|---|---|---|
+| **Entry location in the leg** | 73/131 entries (56%) were already back in **discount for sells / premium for buys** (+0.19R); 0.5–0.62: −0.19R; **only 10 entries inside the OTE 0.62–0.79: 30% win, +0.59R** | **Biggest gap.** The code fired on any 5M CHoCH after the OTE was touched, even hours later far below it. His FVG + "inconsistent" videos: "I cannot short below the 50% — even a perfect FVG". |
+| Stop size | stop ≤ 1.5× M15 ATR: 42 trades **+0.89R**; > 1.5 ATR: 89 trades **−0.31R** | wide stop = late entry far from the lower high (same root cause) |
+| 4H trend agrees | yes +0.27R / no −0.08R | he starts from **daily / 4H** — the code only used 1H |
+| Daily trend agrees | yes +0.18R / no −0.02R | same gap |
+| 4H **and** daily agree | Jul–Oct +2.0R (10 tr) but Apr–Jul −0.29R (20 tr) | helps, not sufficient alone |
+| Symbols | USDCHF 0/14 wins, USDCAD 0/8 (−24R); GBPUSD +0.63R, XAUUSD +0.41R | his outlooks only cover **DXY, EURUSD, GBPUSD, AUDUSD, XAUUSD** |
+| Target | T1 +0.26R, T2 −0.20R | "don't stretch" confirmed |
+| Losers' path | **41% of losers were ≥ +1R before the stop**, 24 reached ≥ +2R; losers die in ~2.8 h, winners take ~17 h | he takes **50% off at T1**; we run one target |
+
+**Other gaps (in the videos, not in the code):** external high must have **swept internal liquidity**; area of interest **≤ 10–15 pips**; wait for **full mitigation of the 4H FVG** (no-trade zone); half-size entry + add; "after a 15M loss wait for the 1H"; distribution channels.
+
+**"Like the videos" variant** (`--symbols EURUSD,GBPUSD,AUDUSD,XAUUSD --set ltf="M5" --set htf="H4D1" --set premium_entry=True --news-block 120`): his symbols, 4H + daily agreement, entry only while still in premium/discount. Tested on Jan–Apr 2026 (**untouched**), Apr–Jul and Jul–Oct (both already seen).
+
+### 5.1 The missing video rules — now coded (options, all off by default)
+| His rule | Param | How |
+|---|---|---|
+| External high/low must have **swept internal liquidity** | `swept_internal=True` | an internal 1H swing (len 3) inside the 48 bars before the leg's start is taken out by the run into it, ≤ 3 bars before the extreme |
+| **Area of interest ≤ 10–15 pips** | `max_area_atr=1.5` | the FVGs (1H + 15M) clipped to the OTE may span at most 1.5 × 1H ATR |
+| **4H FVG fully mitigated first** (no-trade zone) | `h4_fill=True` | the nearest 4H FVG of the displacement must have been traded back to its far edge |
+| **Half size on the CHoCH, add at the imbalance** | `add_on=True` | 50% at the CHoCH close, 50% limit at the CHoCH leg's nearest 15M FVG (same stop/target); none → full size; backtester `_simulate` handles the add (R = full-size risk at the first entry) |
+| **After a 15M loss, wait for the 1H** | `loss_wait_1h=True` | if an M15 CHoCH our way since the OTE touch was later broken the other way, only a 1H CHoCH (on the 1H close) may trigger |
+| Daily / 4H baseline | `htf="H4D1"` | 4H and daily structure trends must agree |
+| "Cannot short in discount" | `premium_entry=True` | entry must still be beyond the leg's 50% |

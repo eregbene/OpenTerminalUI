@@ -114,7 +114,7 @@ def _news_times(sym: str) -> np.ndarray:
 def run_symbol(args: tuple) -> pd.DataFrame:
     sym, start, end, p, ex, name = args
     _, plan, order_for = STRATEGIES[name]
-    long_ctx = getattr(p, "h4_discount", False) or getattr(p, "trend_eff_min", 0)
+    long_ctx = getattr(p, "h4_discount", False) or getattr(p, "trend_eff_min", 0) or getattr(p, "htf", "off") != "off"
     warm = max(WARMUP_SEC, 200 * getattr(p, "bias_sec", 3600), 1400 * 3600 if long_ctx else 0)  # bias / H4-context windows must be loaded too
     t_load = (pd.Timestamp(start, tz="UTC") - pd.Timedelta(seconds=warm)).isoformat() if start else None
     m5 = load_m5(sym, t_load, end)
@@ -166,12 +166,19 @@ def _simulate(sym: str, m5: dict[str, np.ndarray], k: int, o: dict, p, ex: Exec,
     risk_usd_target = ex.start_balance * ex.risk_pct / 100  # equity compounding applied later in summaries
     lots = max(0.01, np.floor(risk_usd_target / (risk * usd_move * units_per_lot) * 100) / 100)
     size, realized, be_done, part_done, ladder = 1.0, 0.0, False, False, 0
+    add = o["plan"].get("add")  # Bennett: part size now, the rest on a limit at the imbalance (same stop / target)
+    add_px = None
+    if add:
+        assert not (ex.partial_r or ex.be_r or ex.tp_r), "add-on entries are not combined with partials / BE / ladders"
+        size = 1.0 - add["frac"]
     end = min(len(m5["t"]) - 1, k + p.max_hold_bars * 3)
     reason, xi, exit_px = "time", end, None
     for j in range(k + 1, end + 1):
         s = _spread(sym, int(m5["t"][j]), ex)
         o_, h_, l_ = m5["open"][j], m5["high"][j], m5["low"][j]
         # long exits on bid, short exits on ask (= bid + spread)
+        if add and add_px is None and ((l_ + s <= add["price"]) if d == 1 else (h_ >= add["price"])):
+            add_px = add["price"]  # the limit fills first (conservative if the stop is in the same bar)
         adv_hit = (l_ <= sl) if d == 1 else (h_ + s >= sl)
         fav_hit = (h_ >= tp) if d == 1 else (l_ + s <= tp)
         if adv_hit:
@@ -198,12 +205,15 @@ def _simulate(sym: str, m5: dict[str, np.ndarray], k: int, o: dict, p, ex: Exec,
             ladder += 1
     if exit_px is None:
         exit_px = m5["close"][xi] if d == 1 else m5["close"][xi] + _spread(sym, int(m5["t"][xi]), ex)
-    r_gross = realized + size * (exit_px - entry) * d / risk
+    r_gross = realized + size * (exit_px - entry) * d / risk  # R = the risk of a FULL position at the first entry
     commission_r = ex.commission_per_lot_rt * lots / (risk * usd_move * units_per_lot * lots)
+    if add:
+        r_gross += add["frac"] * (exit_px - add_px) * d / risk if add_px is not None else 0.0
+        commission_r *= size + (add["frac"] if add_px is not None else 0.0)
     return {"symbol": sym, "dir": d, "t_signal": o["plan"]["signal_time"], "t_entry": int(m5["t"][k]) + 300, "t_exit": int(m5["t"][xi]) + 300,
             "entry": entry, "sl": o["sl"], "tp": tp, "exit": exit_px, "exit_reason": reason, "rr_planned": o["rr"], "lots": lots,
             "risk_pips": risk / pip(sym), "spread_pips_entry": spr_entry / pip(sym), "r_gross": r_gross, "commission_r": commission_r,
-            "r": r_gross - commission_r, "exit_index": xi, **{f"chk_{k_}": v for k_, v in o["plan"].get("checks", {}).items()}}
+            "r": r_gross - commission_r, "exit_index": xi, "add_filled": add_px is not None if add else None, **{f"chk_{k_}": v for k_, v in o["plan"].get("checks", {}).items()}}
 
 
 def summarize(t: pd.DataFrame, ex: Exec) -> dict:
