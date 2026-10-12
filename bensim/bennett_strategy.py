@@ -396,7 +396,8 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
               "ote": [round(z_lo, 5), round(z_hi, 5)], "target_is_t1": target == leg["ext"],
               "rr_planned": round((target - entry) * d / risk, 2), "trigger": "1H after fail" if failed else p.trigger, "add_on": add is not None,
               "choch_plus": bool(plus) if not failed and p.trigger != "lsr" else None, "entry_mode": p.entry,
-              "t1_partial": partial is not None, "stop_kind": "wide" if len(tops) > 1 and top == tops[0] else "tight"}
+              "t1_partial": partial is not None, "t_touch": touch_t, "t_push": int(m15["t"][push_i]),
+              "stop_wide": float(tops[0]) if tops else None, "stop_tight": float(tops[-1]) if tops else None, "stop_kind": "wide" if len(tops) > 1 and top == tops[0] else "tight"}
     return {"dir": d, "status": "TRIGGERED", "entry": entry, "stop": stop, "target": float(target),
             "signal_time": int(ltf["t"][j]), "zone_base_time": int(hb["t"][leg["e"]]), "atr": float(la[j]),
             "checks": checks, "hold_bars": hold_bars, **({"add": add} if add else {}), **({"partial": partial} if partial else {})}
