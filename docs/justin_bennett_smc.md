@@ -278,3 +278,15 @@ bullish until late June — my manual "weekly bearish" A trade was eyeballing; t
 **Missing (to add):** 50% at T1 + run to T2; "CHoCH plus" (lower high before the CHoCH); limit entry at the CHoCH leg's
 15M FVG; path-to-target (no opposite imbalance in the way); adaptive time-in-trade; distribution channels / trend
 lines; DXY only for marginal breaks; holiday chop.
+
+### 7.1 Results — the authentic engine (his 4 symbols, news block; trades / avg R / total R)
+| Config | Jan–Apr (untouched) | Apr–Jul | Jul–Oct | All 9 months |
+|---|---|---|---|---|
+| baseline (D1 bias, 4H leg, 5M CHoCH) | 13 / −0.12 / −1.6 | 24 / +0.35 / +8.4 | 8 / +0.11 / +0.9 | 45 / +0.17 / +7.7 |
+| + weekly bias | 6 / −0.90 | 4 / −0.85 | 4 / +0.03 | 14 / −0.62 / −8.7 |
+| + T1 partial | 13 / −0.12 | 24 / +0.25 | 7 / +0.49 | 44 / +0.18 / +7.7 |
+| + CHoCH plus | 6 / −0.44 | 15 / +0.08 | 5 / +0.80 | 26 / +0.10 / +2.6 |
+| + 15M-FVG limit entry | 1 / 0.0 | 2 / +0.92 | 0 | 3 (limits rarely fill) |
+| **+ path to target clear** | **3 / +1.46** | **1 / +3.35** | **2 / +1.44** | **6 / +1.77 / +10.6** |
+| all four | 0 | 0 | 0 | 0 |
+Better than every LuxAlgo version, but not proven: baseline 45 trades; path-to-target positive in all 3 periods incl. the untouched one but only 6 trades. Needs a multi-year test (asked the user). Not traded.
