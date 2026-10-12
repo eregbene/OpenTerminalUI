@@ -185,3 +185,21 @@ Use when there is **no CHoCH nearby** (the protected low is far away). Catches t
 
 **Not coded yet:** weekly/daily external-structure bias (2.8), distribution channels / trend lines (2.4, 2.10), half-size entry + add, 50% partial at T1, "after a 15M loss wait for 1H", emotional state / clarity (human).
 BoS & CHoCH entry signal · FVG secrets · 9 filter rules · trend lines with SMC · inducement · liquidity-sweep reversals (no CHoCH) · most traders skip this · HTF directional bias · top-down market structure · weekly outlook DXY/EURUSD/GBPUSD/AUDUSD/XAUUSD ×2 · why trades fail · why inconsistent.
+
+---
+
+## 4. Backtest — last 3 months (2026-07-12 → 2026-10-12, 7 symbols, ICMarkets costs)
+
+| # | Variant | Trades | Win % | Avg R | t | PF | Total R | Max DD |
+|---|---|---|---|---|---|---|---|---|
+| 1 | 15M trigger | 33 | 15 | −0.37 | −1.2 | 0.59 | −12.3 | 3.3% |
+| 2 | 15M + news block 2h | 33 | 15 | −0.37 | −1.2 | 0.59 | −12.3 | 3.3% |
+| 3 | 5M trigger | 74 | 24 | +0.27 | 0.9 | 1.33 | +20.0 | 4.3% |
+| 4 | 5M + news | 71 | 24 | +0.46 | 1.2 | 1.56 | +32.4 | 4.0% |
+| 5 | 5M + news + LSR trigger | 55 | 26 | +0.42 | 1.1 | 1.53 | +23.0 | 2.5% |
+| 6 | **5M + news + DXY agree** | 51 | 29 | **+0.63** | 1.6 | 1.84 | +32.3 | 3.1% |
+| 7 | 5M + news + LSR + DXY | 41 | 22 | +0.19 | 0.5 | 1.23 | +7.8 | 2.7% |
+
+- His full rules (5M confirmation, no news, DXY barometer) score best; 15M trigger loses.
+- T1 (the leg's prior low) carries the result: 48 trades +0.67R; T2 trades ≈ 0R — supports "don't stretch".
+- **Not significant** (best t = 1.6), top-5 winners > total, and variant 4 by month: Jul +24.2R, Aug +6.6R, Sep +6.8R, Oct −5.2R (decaying). **Not traded.** Next: variant 6 unchanged on 2026-04 → 2026-07 (out of sample).
