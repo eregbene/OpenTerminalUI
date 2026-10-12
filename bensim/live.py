@@ -28,13 +28,15 @@ import numpy as np
 
 from . import bridge, db, guard, indicators
 from .backtest import _win, resample
-from .config import ROOT, SYMBOLS, env
+from .config import ROOT, env
 from .mt5_time import server_to_utc
 from .strategy import Params, order_for, plan
 
 MAGIC = 770101
 PARAMS = Params(zone_mode="fib", confirm_any=("killzone", "poi", "sweep"), confirm_min=2)  # fib 61.8% + any 2 of (killzone, POI, sweep), fixed SL/TP
 RISK_PCT = float(env("BENSIM_RISK_PCT", "0.5"))
+# 2026-10-13: AUDUSD and USDJPY dropped -- negative in 2025, 2026 and over 5 years (and under Bennett)
+LIVE_SYMBOLS = [x for x in env("BENSIM_LIVE_SYMBOLS", "EURUSD,GBPUSD,USDCHF,USDCAD,XAUUSD").split(",") if x]
 WEAK_SETUP_RISK = float(env("BENSIM_WEAK_SETUP_RISK", "0.5"))  # risk multiplier when fewer than all confirmations agree
 LIVE_FROM = int(datetime.fromisoformat(env("BENSIM_LIVE_FROM", "2026-10-12T06:00:00+00:00")).timestamp())  # dry-run before this (UTC)
 STOP_FILE = ROOT / "bensim.STOP"
@@ -129,7 +131,7 @@ def cycle(dry: bool) -> None:
     halted = STOP_FILE.exists()
     opens = [guard.Open(p["symbol"], 1 if p["type"] == 0 else -1, open_risk(p, quotes[p["symbol"]])) for p in ours]
     expected = (int(time.time()) // 300) * 300 - 300  # start time of the M5 bar that just closed
-    for sym in SYMBOLS:
+    for sym in LIVE_SYMBOLS:
         try:
             m5 = bars(sym)
             if not len(m5["t"]) or int(m5["t"][-1]) < expected:
@@ -186,7 +188,7 @@ def setups() -> None:
     exact prices the next M15 close must beat for a new BUY / SELL signal (plus the other conditions)."""
     from .strategy import atr, trend
 
-    for sym in SYMBOLS:
+    for sym in LIVE_SYMBOLS:
         try:
             m15, h1, m5 = windows(bars(sym))
             waiting: list = []
@@ -233,7 +235,7 @@ def main() -> None:
     with db.connect(autocommit=True) as c:
         c.execute(SCHEMA)
     log("INFO", f"live engine start: dry={a.dry_run} live_from={datetime.fromtimestamp(LIVE_FROM, timezone.utc):%Y-%m-%d %H:%M}Z risk={RISK_PCT}% "
-                f"params={PARAMS.zone_mode}+{PARAMS.confirm_min}of{','.join(PARAMS.confirm_any)} symbols={','.join(SYMBOLS)}")
+                f"params={PARAMS.zone_mode}+{PARAMS.confirm_min}of{','.join(PARAMS.confirm_any)} symbols={','.join(LIVE_SYMBOLS)}")
     failures = 0
     while True:
         try:
