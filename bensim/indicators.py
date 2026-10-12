@@ -111,18 +111,19 @@ def order_block(b: Bars, pivot: int, brk: int, d: int, a200: np.ndarray) -> dict
     return {"dir": d, "bar": best, "formed": brk, "top": top, "bottom": bot, "mitigated": brk + 1 + int(hit[0]) if len(hit) else len(c)}
 
 
-def fvgs(b: Bars) -> list[dict]:
-    """LuxAlgo FVGs with the auto threshold (2 x running mean of |bar i-1 body move %|)."""
+def fvgs(b: Bars, auto: bool = True) -> list[dict]:
+    """LuxAlgo FVGs with the auto threshold (2 x running mean of |bar i-1 body move %|); auto=False = every plain
+    3-candle gap (the course definition: any gap between candle 1 and candle 3 -- no size or middle-close rule)."""
     o, h, l, c = b["open"], b["high"], b["low"], b["close"]
     n = len(c)
     delta = np.r_[0.0, (c[:-1] - o[:-1]) / o[:-1] * 100]  # bar i-1's move, seen at bar i
-    thr = np.cumsum(np.abs(delta)) / np.arange(1, n + 1) * 2
+    thr = np.cumsum(np.abs(delta)) / np.arange(1, n + 1) * 2 if auto else np.full(n, -np.inf)
     out = []
     for i in range(2, n):
         for d in (1, -1):
-            if d == 1 and not (l[i] > h[i - 2] and c[i - 1] > h[i - 2] and delta[i] > thr[i]):
+            if d == 1 and not (l[i] > h[i - 2] and (c[i - 1] > h[i - 2] or not auto) and delta[i] > thr[i]):
                 continue
-            if d == -1 and not (h[i] < l[i - 2] and c[i - 1] < l[i - 2] and -delta[i] > thr[i]):
+            if d == -1 and not (h[i] < l[i - 2] and (c[i - 1] < l[i - 2] or not auto) and -delta[i] > thr[i]):
                 continue
             top, bot = (float(l[i]), float(h[i - 2])) if d == 1 else (float(l[i - 2]), float(h[i]))
             hit = np.flatnonzero(l[i + 1:] < bot) if d == 1 else np.flatnonzero(h[i + 1:] > top)
@@ -164,14 +165,23 @@ def day_levels(b: Bars) -> dict[str, np.ndarray]:
     done = hour >= ASIA[1]  # today's Asian range only once it is over
     asia_hi = np.where(done, pd.Series(day).map(ah).to_numpy(float), np.nan)
     asia_lo = np.where(done, pd.Series(day).map(al).to_numpy(float), np.nan)
-    return {"pdh": pdh, "pdl": pdl, "asia_hi": asia_hi, "asia_lo": asia_lo, "hour": hour}
+    idx = pd.Series(np.arange(len(t)))
+    day_start = idx.groupby(day).transform("min").to_numpy()
+    asia_start = pd.Series(np.where(done, idx, np.nan)).groupby(day).transform("min").to_numpy()
+    return {"pdh": pdh, "pdl": pdl, "asia_hi": asia_hi, "asia_lo": asia_lo, "hour": hour,
+            "day_start": day_start, "asia_start": asia_start}  # first bar each level is valid from (for fresh pools)
 
 
 def compute(b: Bars, swing_len: int = 50, internal_len: int = 5) -> dict[str, Any]:
     a200 = atr_n(b, 200)
     sw = structure(b, swing_len, a200)
     it = structure(b, internal_len, a200, skip_levels={1: sw["top"], -1: sw["btm"]})
-    return {"atr200": a200, "swing": sw, "internal": it, "fvgs": fvgs(b), "eq": equal_levels(b, a200), **day_levels(b)}
+    ar = np.arange(len(b["close"]))
+    for k in ("top", "btm"):  # bar each swing level started (for fresh pools)
+        x = sw[k]
+        sw[k + "_since"] = np.maximum.accumulate(np.where(np.r_[True, x[1:] != x[:-1]], ar, 0))
+    return {"atr200": a200, "swing": sw, "internal": it, "fvgs": fvgs(b), "eq": equal_levels(b, a200), **day_levels(b),
+            "high": b["high"], "low": b["low"]}
 
 
 # ---------------------------------------------------------------- confirmations for the main strategy
@@ -180,16 +190,29 @@ def _active(zones: list[dict], i: int, d: int, price: float) -> bool:
     return any(z["dir"] == d and z["formed"] <= i < z["mitigated"] and z["bottom"] <= price <= z["top"] for z in zones)
 
 
-def _pools(ind: dict, j: int, d: int) -> list[tuple[str, float]]:
-    """Liquidity on the side a long (d=1) wants swept: sell-side pools below; mirror for shorts."""
+def _pools(ind: dict, j: int, d: int, fresh: bool = False) -> list[tuple[str, float]]:
+    """Liquidity on the side a long (d=1) wants swept: sell-side pools below; mirror for shorts.
+    fresh=True drops previous-day / Asian / swing levels that price already traded through before bar j (LuxAlgo
+    removes swept levels); the default keeps the original behaviour the live strategy was validated with."""
     side = -d
     pools = [("eq", e["level"]) for e in ind["eq"] if e["dir"] == side and e["confirmed"] < j <= e["taken"]]
-    pools += [(n, float(ind[k][j])) for n, k in (("pd", "pdl" if d == 1 else "pdh"), ("asia", "asia_lo" if d == 1 else "asia_hi"))
+    pools += [(n, float(ind[k][j]), s) for n, k, s in (("pd", "pdl" if d == 1 else "pdh", "day_start"),
+                                                       ("asia", "asia_lo" if d == 1 else "asia_hi", "asia_start"))
               if np.isfinite(ind[k][j])]
     lvl = ind["swing"]["btm" if d == 1 else "top"][j - 1] if j else np.nan
     if np.isfinite(lvl):
-        pools.append(("swing", float(lvl)))
-    return pools
+        pools.append(("swing", float(lvl), "swing"))
+    out = []
+    for name, lvl, *since in pools:
+        if fresh and since:
+            k = since[0]
+            start = int(ind["swing"][("btm" if d == 1 else "top") + "_since"][j - 1]) if k == "swing" else ind[k][j]
+            if np.isfinite(start):
+                seg = ind["low"][int(start):j] if d == 1 else ind["high"][int(start):j]
+                if ((seg < lvl) if d == 1 else (seg > lvl)).any():
+                    continue  # already swept: no stops left there
+        out.append((name, lvl))
+    return out
 
 
 def confirm(ind: dict, b: Bars, i: int, d: int, entry: float, stop: float, lookback: int = 20) -> dict[str, Any]:
@@ -254,6 +277,12 @@ def _selfcheck() -> None:
     i = 450
     chk = confirm(ind, b, i, 1, float(c[i] - 0.001), float(c[i] - 0.003))
     assert set(chk) >= {"fvg", "ob", "discount", "sweep", "killzone"} and passes(chk, ())
+    # fresh pools: previous-day low 1.0 valid from bar 2; bar 3 trades below it -> swept, gone for fresh=True at bar 5
+    nan5 = np.full(6, np.nan)
+    fake = {"eq": [], "pdl": np.full(6, 1.0), "pdh": nan5, "asia_lo": nan5, "asia_hi": nan5, "day_start": np.full(6, 2),
+            "asia_start": nan5, "swing": {"btm": nan5, "top": nan5}, "low": np.array([1.1, 1.1, 1.05, 0.99, 1.05, 1.05]),
+            "high": np.full(6, 1.2)}
+    assert _pools(fake, 5, 1) == [("pd", 1.0)] and _pools(fake, 5, 1, fresh=True) == [] and _pools(fake, 3, 1, fresh=True) == [("pd", 1.0)]
     print("indicators ok:", (sw["event"] != 0).sum(), "swing breaks,", (it["event"] != 0).sum(), "internal,",
           len(ind["fvgs"]), "FVGs,", len(sw["obs"]) + len(it["obs"]), "OBs,", len(ind["eq"]), "EQH/EQL; sample", chk)
 
