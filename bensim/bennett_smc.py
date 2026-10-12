@@ -38,11 +38,13 @@ def atr(b: Bars, n: int = 14) -> np.ndarray:
     return out / np.minimum(np.arange(1, len(tr) + 1), n)
 
 
-def market_structure(b: Bars, min_break: np.ndarray | None = None, seed: int = 10) -> dict[str, Any]:
-    """Uptrend: BOS = a close above the external high (the highest high since the last BOS -- the pullback defines
-    it); on each BOS the protected low = the lowest low between the broken high and the BOS bar; CHoCH = a close below
-    the protected low -> downtrend, whose protected high = the up-leg's external high. Mirror for downtrends.
-    Returns per bar: trend (+1/-1/0), prot (protected level), ext (running external extreme of the trend),
+def market_structure(b: Bars, min_break: np.ndarray | None = None, seed: int = 10, swing: int = 2) -> dict[str, Any]:
+    """His structure. Uptrend: a BOS is a close above an EXTERNAL high -- a high CONFIRMED by a pullback ("once we get a
+    decent little pullback I mark this high"; here: a swing high with `swing` lower highs on each side, printed after
+    the last break). New highs without a pullback just extend the leg -- "this is all internal". On each BOS the
+    protected low = the lowest low between that external high and the BOS bar (his box). A CHoCH (MSS) is a close
+    below the protected low; the new downtrend's protected high = the up-leg's top. Mirror for downtrends.
+    Returns per bar: trend (+1/-1/0), prot (protected level), ext (running extreme of the current leg),
     events [(bar, "BOS"|"CHoCH", dir, level, level_bar)], labels [(bar, "HH"|"HL"|"LH"|"LL", price)]."""
     h, lo, c = b["high"], b["low"], b["close"]
     n = len(c)
@@ -50,38 +52,46 @@ def market_structure(b: Bars, min_break: np.ndarray | None = None, seed: int = 1
     trend = np.zeros(n, int)
     prot, ext = np.full(n, np.nan), np.full(n, np.nan)
     events, labels = [], []
-    if n <= seed:
+    if n <= max(seed, 2 * swing + 1):
         return {"trend": trend, "prot": prot, "ext": ext, "events": events, "labels": labels}
-    hi_i, lo_i, d = int(np.argmax(h[:seed])), int(np.argmin(lo[:seed])), 0
+    d, last = 0, 0
+    run_hi, run_lo = int(np.argmax(h[:seed])), int(np.argmin(lo[:seed]))  # running extremes of the current leg
+    sw_hi = sw_lo = None  # confirmed external high / low (by a pullback) since the last break
+    p_lo = p_hi = None  # protected low (uptrend) / high (downtrend)
     for i in range(seed, n):
-        if d >= 0 and c[i] - mb[i] > h[hi_i]:  # close above the external high
+        j = i - swing  # pivot that the last `swing` bars can confirm now
+        if j - swing >= 0 and j > last:
+            if h[j] > h[j - swing:j].max() and h[j] >= h[j + 1:i + 1].max() and (sw_hi is None or h[j] > h[sw_hi]):
+                sw_hi = j
+            if lo[j] < lo[j - swing:j].min() and lo[j] <= lo[j + 1:i + 1].min() and (sw_lo is None or lo[j] < lo[sw_lo]):
+                sw_lo = j
+        if d >= 0 and sw_hi is not None and c[i] - mb[i] > h[sw_hi]:  # close above a confirmed external high
             kind = "BOS" if d == 1 else "CHoCH"
-            p_i = hi_i + int(np.argmin(lo[hi_i:i + 1]))  # the box: lowest low between the broken high and this bar
-            events.append((i, kind, 1, float(h[hi_i]), hi_i))
-            labels += [(p_i, "HL", float(lo[p_i])), (hi_i, "HH" if d == 1 else "LH", float(h[hi_i]))]
-            d, lo_i, hi_i = 1, p_i, i
-        elif d <= 0 and c[i] + mb[i] < lo[lo_i]:  # close below the external low
+            p = sw_hi + int(np.argmin(lo[sw_hi:i + 1]))  # the box
+            events.append((i, kind, 1, float(h[sw_hi]), sw_hi))
+            labels += [(p, "HL", float(lo[p])), (sw_hi, "HH" if d == 1 else "LH", float(h[sw_hi]))]
+            d, p_lo, run_hi, last, sw_hi, sw_lo = 1, p, i, i, None, None
+        elif d <= 0 and sw_lo is not None and c[i] + mb[i] < lo[sw_lo]:  # close below a confirmed external low
             kind = "BOS" if d == -1 else "CHoCH"
-            p_i = lo_i + int(np.argmax(h[lo_i:i + 1]))
-            events.append((i, kind, -1, float(lo[lo_i]), lo_i))
-            labels += [(p_i, "LH", float(h[p_i])), (lo_i, "LL" if d == -1 else "HL", float(lo[lo_i]))]
-            d, hi_i, lo_i = -1, p_i, i
-        elif d == 1 and c[i] + mb[i] < lo[lo_i]:  # close below the PROTECTED low = CHoCH (MSS) down
-            events.append((i, "CHoCH", -1, float(lo[lo_i]), lo_i))
-            labels.append((lo_i, "HL", float(lo[lo_i])))
-            d, lo_i = -1, i  # the protected high is the up-leg's external high (hi_i)
-        elif d == -1 and c[i] - mb[i] > h[hi_i]:  # close above the PROTECTED high = CHoCH (MSS) up
-            events.append((i, "CHoCH", 1, float(h[hi_i]), hi_i))
-            labels.append((hi_i, "LH", float(h[hi_i])))
-            d, hi_i = 1, i
-        else:  # extend the leg's running external extreme
-            if d >= 0 and h[i] > h[hi_i]:
-                hi_i = i
-            if d <= 0 and lo[i] < lo[lo_i]:
-                lo_i = i
+            p = sw_lo + int(np.argmax(h[sw_lo:i + 1]))
+            events.append((i, kind, -1, float(lo[sw_lo]), sw_lo))
+            labels += [(p, "LH", float(h[p])), (sw_lo, "LL" if d == -1 else "HL", float(lo[sw_lo]))]
+            d, p_hi, run_lo, last, sw_hi, sw_lo = -1, p, i, i, None, None
+        elif d == 1 and c[i] + mb[i] < lo[p_lo]:  # close below the PROTECTED low = CHoCH (MSS) down
+            events.append((i, "CHoCH", -1, float(lo[p_lo]), p_lo))
+            labels += [(p_lo, "HL", float(lo[p_lo])), (run_hi, "HH", float(h[run_hi]))]  # the up-leg's top is external
+            d, p_hi, run_lo, last, sw_hi, sw_lo = -1, run_hi, i, i, None, None  # protected high = the up-leg's top
+        elif d == -1 and c[i] - mb[i] > h[p_hi]:  # close above the PROTECTED high = CHoCH (MSS) up
+            events.append((i, "CHoCH", 1, float(h[p_hi]), p_hi))
+            labels += [(p_hi, "LH", float(h[p_hi])), (run_lo, "LL", float(lo[run_lo]))]  # the down-leg's low is external
+            d, p_lo, run_hi, last, sw_hi, sw_lo = 1, run_lo, i, i, None, None
+        if h[i] > h[run_hi]:
+            run_hi = i
+        if lo[i] < lo[run_lo]:
+            run_lo = i
         trend[i] = d
-        prot[i] = lo[lo_i] if d == 1 else h[hi_i] if d == -1 else np.nan
-        ext[i] = h[hi_i] if d == 1 else lo[lo_i] if d == -1 else np.nan
+        prot[i] = lo[p_lo] if d == 1 else h[p_hi] if d == -1 else np.nan
+        ext[i] = h[run_hi] if d == 1 else lo[run_lo] if d == -1 else np.nan
     return {"trend": trend, "prot": prot, "ext": ext, "events": events, "labels": labels}
 
 
@@ -208,17 +218,23 @@ def pools(b: Bars, ms: dict, d: int, upto: int, eq_tol: float) -> list[float]:
 def _selfcheck() -> None:
     # structure: up-leg BOSes, internal dips that don't close below the protected low change nothing, then a close
     # below it = CHoCH down with the up-leg's top as protected high; the next BOS moves it to the box high
-    px = np.array([1.00, 1.02, 1.01, 1.03, 1.05, 1.04, 1.06, 1.08, 1.06, 1.07, 1.065, 1.075, 1.09, 1.07, 1.05, 1.03, 1.035])
+    # up-leg with pullbacks: swing high 1.044 (bar 2, confirmed bar 4) broken at bar 5; swing high 1.074 (bar 6) broken
+    # at bar 9 -> protected low = box low 1.046 (bar 8); top 1.104 (bar 10); bar 14 dips but closes 1.05 (internal);
+    # bar 15 closes 1.03 < 1.046 = CHoCH down, protected high = the top 1.104; bar 17's new low is NOT a BOS (no
+    # pullback-confirmed swing low yet)
+    px = np.array([1.00, 1.02, 1.04, 1.03, 1.02, 1.05, 1.07, 1.06, 1.05, 1.08, 1.10, 1.09, 1.08, 1.07, 1.05, 1.03, 1.04, 1.02])
     b = {"t": np.arange(len(px)) * 3600, "open": px, "high": px + 0.004, "low": px - 0.004, "close": px}
-    ms = market_structure(b, None, seed=3)
-    ch = next(e for e in ms["events"] if e[1] == "CHoCH" and e[2] == -1)
-    assert ch[0] == 14 and abs(ms["prot"][14] - 1.094) < 1e-9, ch
-    assert ms["trend"][-1] == -1 and abs(ms["prot"][-1] - 1.054) < 1e-9
-    assert all(e[2] == 1 for e in ms["events"] if e[0] < 14)  # internal dips did not flip the trend
-    # a wick alone never breaks: same series but bar 14 only wicks below the protected low and closes above it
+    ms = market_structure(b, None, seed=3, swing=2)
+    ev = [(e[0], e[1], e[2]) for e in ms["events"]]
+    assert ev == [(5, "CHoCH", 1), (9, "BOS", 1), (15, "CHoCH", -1)], ev
+    assert abs(ms["prot"][14] - 1.046) < 1e-9 and ms["trend"][14] == 1
+    assert ms["trend"][-1] == -1 and abs(ms["prot"][-1] - 1.104) < 1e-9
+    # a new high WITHOUT a pullback is not a BOS (bars 9-10 rise straight up: only one BOS at 9, none at 10)
+    assert not any(e[0] == 10 for e in ms["events"])
+    # a wick alone never breaks: bar 15 only wicks below the protected low and closes above it
     b2 = {**b, "low": b["low"].copy(), "close": b["close"].copy()}
-    b2["close"][14:], b2["low"][14] = 1.07, 1.03
-    assert market_structure(b2, None, seed=3)["trend"][14] == 1
+    b2["close"][15:], b2["low"][15] = 1.07, 1.03
+    assert market_structure(b2, None, seed=3, swing=2)["trend"][15] == 1
     # FVG: bullish gap candle-1 high 1.010, candle-3 low 1.020; touched at bar 5 (low 1.018), filled at bar 6 (1.009)
     g = {"high": np.array([1.010, 1.030, 1.035, 1.034, 1.033, 1.025, 1.015]), "low": np.array([1.000, 1.012, 1.020, 1.024, 1.026, 1.018, 1.009])}
     z = [x for x in fvgs(g) if x["dir"] == 1][0]

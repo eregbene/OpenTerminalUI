@@ -309,3 +309,59 @@ The non-Bennett symbols lose; "path to target" was small-sample noise. Not prove
 | all base-video rules (+ `ltf_swept` 5M sweep + T1 partial) | 3 | +2.11 | +6.3 | 0.5% |
 | 4H leg + `took_internal` | 12 | +0.46 | +5.5 | 1.6% |
 His liquidity rule lifts the 1H version a lot and fixes GBPUSD; the 5M sweep on top is too strict to trade. Candidates A (4H) and B (1H + liquidity) need an out-of-sample check (Oct 2023 – Oct 2025) before anything else.
+
+### 7.4 Base-video acceptance test + new-video gaps (2026-10-12)
+His base-video trade (EURUSD sell, 30 Oct 2025 06:55 New York = 10:55 UTC; entry 1.16063, stop 1.16285, T2 1.15428,
+2.86R) is now reproduced by the engine: **entry 1.16067, stop 1.16294, target 1.15421, 2.85R**, the only trigger in the
+window; the report shows it hitting T2 = +2.80R after costs. Fixes that made it match:
+- BOS only through a pullback-confirmed swing (new highs in a line are internal);
+- 5M trigger = any close beyond the 5M protected level (`ltf_break_atr=0`; his candle closed 0.3 pip through);
+- fib start of a CHoCH leg = where the displacement began; stop = beyond the 5M lower high after the relief's deepest
+  low (+ max(1 pip, 0.1 ATR)), not the last wiggle;
+- the old leg's extreme is labelled at a CHoCH (his T2 = an older external low was missing from the targets);
+  targets within the equal-level tolerance are one pool;
+- defaults = the base video: 1H leg, **no higher-timeframe bias** (the 4H was still up -- his T2 was its protected low).
+
+Gaps from the 3 new videos (not coded yet):
+- *Your Stop Loss Is Lying*: conservative stop below the leg lows; the tighter one (after the 5M CHoCH) only when the
+  conservative one cannot pay 3R; entry on the pullback into the 1H FVGs after the CHoCH.
+- *Premium & Discount 75%*: a candle CLOSE beyond the 79% = early warning the leg fails (20-24 pips / ~1 day ahead);
+  a CHoCH far (>40 pips) from the low -> wait for the pullback into the imbalance; an unvisited OTE stays a target.
+- *$13,491 USDCAD*: range market at a 4H parallel-channel bottom + mitigated 4H imbalance; in ranges wait for the 15M
+  pullback into the FVG/OTE of the CHoCH leg, stop 3-4 pips below the low; unfilled opposite imbalances = targets;
+  3R minimum; out before the weekend.
+
+### 7.5 Tools that work without Claude
+- **`bensim\bennett_report.bat`** (double-click): type a period in plain English -- `last week` (Enter), `this week`,
+  `last friday`, `yesterday`, `6 december`, `last week of december 2025`, `december 2025`,
+  `2025-12-01 to 2025-12-05` -- or `plan`. It pulls the newest bars from MT5 first (a stopped bridge only warns),
+  replays the current Bennett code bar by bar (no lookahead) and opens the report. Charts are files: run it again
+  for the same period later and still-open trades / snapshots are redrawn with the new bars.
+- **`plan`** (`python -m bensim.bennett_report --plan --update`): text only, per pair -- leg and side, OTE, FVGs in
+  it, status (waiting for the relief / in the OTE: the exact 5M close that triggers / invalid), expiry, targets, and
+  whether the last bar triggered. Saved to `docs/charts/report/plans/`.
+- Data: M5 candles in the DB from Oct 2021 (USDCAD from Feb 2024) to now for all pairs.
+- **Backup**: `bensim\db_backup.ps1`, Windows task "bensim DB backup" every Sunday 12:00 (runs late if the PC was off)
+  -> `D:\Backups\bensim\bensim_<date>.dump`, keeps 8; restore commands at the top of the script.
+
+### 7.6 Manual audit of last week + 4-month comparison (2026-10-12)
+Manual check of 5-9 Oct (6 pairs, no gold) found two **code bugs**, both fixed: (1) a wick past the fib anchor of a
+CHoCH leg killed the setup -- he only drops an idea on a CLOSE beyond the protected level (`relief()`; if the relief
+passes the displacement start the fib is redrawn from the protected level); USDJPY/GBPUSD/USDCAD were blind all week;
+(2) "after a loss wait for the 1H" counted CHoCHs the engine would never trade (now one shared `ltf_setup()`).
+Rule gaps seen on the losers: stops 1 pip beyond equal highs/lows got swept (coded: 3.5 pips beyond a pool,
+`liq_buffer_pips`, $13,491 video -- not enough for last week's sweeps); a late trigger 36 h after the push into the
+OTE (USDCAD) -- needs a "trigger soon after the top" rule, not coded (one trade). New rules: `choch_plus=True`,
+`stop_mode="auto"` (wide stop unless it cannot pay min RR), `top_in_ote=True`.
+
+4 months (2026-06-12 -> 10-12), EURUSD GBPUSD USDJPY AUDUSD USDCHF USDCAD, news block, 1R = $488:
+| Version | Trades | Win | Avg R | Total R | $ | t |
+|---|---|---|---|---|---|---|
+| A new rules | 37 | 27% | +0.15 | +5.5 | +2,692 | 0.38 |
+| B new + 4H trend | 23 | 30% | +0.35 | +8.1 | +3,947 | 0.62 |
+| C new + daily trend | 17 | 24% | +0.07 | +1.3 | +619 | 0.11 |
+| D old rules (bug fixes only) | 45 | 27% | +0.23 | +10.5 | +5,127 | 0.62 |
+EURUSD is positive in every version (+7 to +10R); AUDUSD negative in every version (-4 to -7R). All differences are
+inside the noise (t < 1): the 1-year "CHoCH plus + wide stop" finding did NOT carry over -- it was fitted on that year.
+Next: speed-up (incremental structure), then the 5-year setup database with a discover (2021-2024) / confirm
+(2025-26) split, then decide the rules. Gold excluded until a different strategy is found for it.

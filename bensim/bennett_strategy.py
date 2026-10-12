@@ -12,9 +12,10 @@ The manual process, as code (sell; buys are the mirror):
                      (one-time use)
   5. liquidity       equal highs printed in the relief = obvious buy-side liquidity (1.1620 in setup C)
   6. trigger         a CHoCH on the trigger timeframe (5M default) on the candle that just closed, after the OTE
-                     touch, with the entry still in premium (above the leg's 50%: "I cannot short in discount")
-  7. stop            above the trigger leg's protected high AND above the relief's equal highs + buffer
-                     (the 17 Jun sell was stopped 1.3 pips under 1.1620 before falling 100 pips)
+                     touch; the entry itself may be below the 50% (his base-video trade entered at fib ~0.34:
+                     "the premium area served to rebalance") -- premium_entry=True forces it above
+  7. stop            just above the trigger leg's protected (lower) high + buffer, his invalidation;
+                     stop_above_liquidity=True also clears the relief's equal highs
   8. targets         T1 = the leg's external low; T2 = untaken equal lows / older external lows beyond it; the first
                      that pays >= min_rr (he takes ~2.75-3R) -- never a far level just to reach the RR
   9. stand aside     the setup expires expire_h hours after the LATEST push into the OTE (chop = "red flag"); after a
@@ -41,19 +42,25 @@ Bars = dict[str, np.ndarray]
 @dataclass(frozen=True)
 class BennettParams:
     needs_htf = True  # (class constant, not a param) the backtester passes a ~54-day H1 window as htf
-    leg_tf: str = "H4"  # "H4" | "H1"
+    leg_tf: str = "H1"  # "H1" (his base video) | "H4" (his 4H -> 15M/5M mode)
     ltf: str = "M5"  # trigger timeframe "M5" | "M15"
-    bias: str = "D1"  # "D1" | "D1H4" | "W1D1" | "off" -- higher-timeframe structure that must agree
+    bias: str = "off"  # base video: the 1H structure alone (his sell was against the 4H uptrend, T2 = its protected low) | "H4" | "D1" | "D1H4" | "W1D1"
     htf_bars: int = 1300  # H1 bars the backtester passes as htf (~54 days); W1 bias needs ~6500 (~1 year)
     break_atr: float = 0.25  # close-through needed for BOS/CHoCH, x ATR(14) of that timeframe
+    ltf_break_atr: float = 0.0  # the 5M trigger: "a candle CLOSE below that low" -- any close beyond (base video: 0.3 pip)
     ote: tuple = (0.62, 0.79)
     need_fvg: bool = True
-    premium_entry: bool = True
-    stop_above_liquidity: bool = True
+    premium_entry: bool = False  # base video: the 5M CHoCH entry may be below the 50% -- "the premium area served to
+                                 # rebalance, the 5M CHoCH confirms" (only the RELIEF must reach the OTE)
+    stop_above_liquidity: bool = False  # base video: stop just above the 5M lower high (invalidation), not the relief top
     eq_tol_atr: float = 0.1  # equal highs/lows within 0.1 x ATR of the leg timeframe
     min_rr: float = 2.75
     max_targets: int = 2  # T1, T2
     stop_buffer_atr: float = 0.1
+    stop_buffer_pips: float = 1.0  # 9 filters video: "half a pip or one pip above that high" (whichever is larger)
+    liq_buffer_pips: float = 3.5  # $13,491 video: "3 or 4 pips below that low ... in case we come down and tag it again"
+    liq_eq_pips: float = 1.0  # a stop level with another 5M/15M swing within this = equal highs/lows = a liquidity pool
+    top_in_ote: bool = True  # the 5M CHoCH must reverse the push INTO the OTE (its top is in the OTE), not a later bounce
     expire_h: float = 48.0
     after_fail: str = "1h"  # "1h" (his rule) | "stand" (no more trades in the leg) | "off"
     hold: str = "leg"  # "leg": max hold = 1.5 x the time the leg took (his time-in-trade filter), 50 h .. 10 days | "fixed"
@@ -62,7 +69,9 @@ class BennettParams:
     add_on: bool = False
     entry: str = "close"  # "close" (market on the CHoCH close) | "fvg" (limit at the CHoCH leg's 15M FVG, else no trade)
     t1_partial: bool = False  # 50% off at T1, the rest runs to T2
-    choch_plus: bool = False  # require a lower high (sell) before the CHoCH -- "a stronger change of character"
+    choch_plus: bool = True  # require a lower high (sell) before the CHoCH -- base video; 1y: without it 7% win, -27R
+    stop_mode: str = "auto"  # "auto": his conservative stop (beyond the whole relief) unless it cannot pay min_rr, then the
+    # tighter one beyond the lower high ("Your Stop Loss Is Lying" video) | "tight": always the lower high
     clear_path: bool = False  # no untouched opposite imbalance between the entry and T1
     h4_fill: bool = False
     took_internal: bool = False
@@ -98,8 +107,14 @@ def closed(b: Bars, sec: int, now: int) -> Bars:
     return _cut(b, int(np.searchsorted(b["t"] + sec, now, side="right")))
 
 
-def structure(b: Bars, p: BennettParams, seed: int = 10) -> dict[str, Any]:
-    return smc.market_structure(b, p.break_atr * smc.atr(b), seed=seed)
+def context_text(p: BennettParams) -> str:
+    """The bias + leg in words, for charts and notes: e.g. "1H structure" or "daily trend + 4H"."""
+    ctx = {"off": "", "H4": "4H trend + ", "D1": "daily trend + ", "D1H4": "daily + 4H trend + ", "W1D1": "weekly + daily trend + "}
+    return f"{ctx.get(p.bias, p.bias + ' + ')}{p.leg_tf[::-1]}" + (" structure" if p.bias == "off" else "")
+
+
+def structure(b: Bars, p: BennettParams, seed: int = 10, brk: float | None = None) -> dict[str, Any]:
+    return smc.market_structure(b, (p.break_atr if brk is None else brk) * smc.atr(b), seed=seed)
 
 
 def leg_of(b: Bars, p: BennettParams) -> dict | None:
@@ -112,9 +127,54 @@ def leg_of(b: Bars, p: BennettParams) -> dict | None:
     start, ext = float(ms["prot"][j]), float(ms["ext"][j])
     x_s, x_e = (b["high"], b["low"]) if d == -1 else (b["low"], b["high"])
     s_bar = int(np.flatnonzero(x_s[:j + 1] == start)[-1])
+    if kind == "CHoCH":  # base video: "this high, which was the START of the displacement that gave us the CHoCH"
+        sh, sl_ = smc.swing_points({k: v[:e + 1] for k, v in b.items()}, 2)
+        cand = [(bb, pr) for bb, cf, pr in (sh if d == -1 else sl_) if s_bar <= bb < e and cf <= e]
+        if cand:
+            s_bar, start = cand[-1][0], float(cand[-1][1])
     x_bar = int(np.flatnonzero(x_e[:j + 1] == ext)[-1])
     return {"d": d, "e": e, "piv": piv, "kind": kind, "start": start, "s_bar": s_bar, "ext": ext, "x_bar": x_bar,
+            "prot": float(ms["prot"][j]),
             "atr": float(smc.atr(b)[-1]), "ms": ms}
+
+
+def relief(leg: dict, m15: Bars, t_ext: int, p: BennettParams) -> dict | None:
+    """Step 3, the relief since the leg's extreme. The idea is invalid only on a 15M CLOSE beyond the protected level
+    (wicks never count -- a wick there is a sweep). If the relief went past the displacement start (the fib anchor)
+    without that close, the fib is redrawn from the protected level: "just drag the fib"."""
+    d = leg["d"]
+    after = m15["t"] >= t_ext
+    if not after.any():
+        return None
+    reach = float(m15["high"][after].max() if d == -1 else m15["low"][after].min())
+    invalid = bool(((m15["close"][after] - leg["prot"]) * d < 0).any())
+    if (reach - leg["start"]) * d < 0:
+        leg = {**leg, "start": leg["prot"]}
+    return {"leg": leg, "after": after, "reach": reach, "ote": smc.ote_band(leg["start"], leg["ext"], d, p.ote),
+            "invalid": invalid}
+
+
+def ltf_setup(ltf: Bars, i: int, ms: dict, d: int, z_lo: float, z_hi: float, p: BennettParams) -> dict | None:
+    """The 5M CHoCH at bar i, judged like the base video: the top it reverses must be the push into the OTE; a lower
+    high must have formed before it ("CHoCH plus"); stop candidates = beyond the top (conservative) and beyond the
+    lower high after the relief's deepest low (tight). Used by the trigger AND the "wait for the 1H" loss check."""
+    top = float(ms["prot"][i])
+    top_bar = int(np.flatnonzero((ltf["high"] if d == -1 else ltf["low"])[:i + 1] == top)[-1])
+    if p.top_in_ote and ((top < z_lo) if d == -1 else (top > z_hi)):
+        return None
+    sh, sl_ = smc.swing_points({k: v[:i] for k, v in ltf.items()}, 2)
+    sw = sh if d == -1 else sl_
+    lower = [pr for b_, _, pr in sw if top_bar < b_ < i and ((pr < top) if d == -1 else (pr > top))]
+    if p.choch_plus and not lower:
+        return None
+    x = (ltf["low"] if d == -1 else -ltf["high"])[top_bar:i]
+    deep = top_bar + int(np.argmin(x)) if len(x) else top_bar
+    lh = [pr for b_, _, pr in sw if deep < b_ < i and ((pr < top) if d == -1 else (pr > top))]
+    tops = [top]
+    if lh:
+        tight = float(max(lh) if d == -1 else min(lh))
+        tops = [top, tight] if p.stop_mode == "auto" else [tight]
+    return {"tops": tops, "plus": bool(lower), "swings": [pr for _, _, pr in sw if top_bar <= _ < i]}
 
 
 def dxy_h1() -> Bars:
@@ -148,7 +208,10 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
     if leg is None:
         return None
     d = leg["d"]
-    if p.bias != "off":  # step 1
+    if p.bias == "H4":  # base video: the leg's larger context (4H structure) must agree; the daily is not used
+        if p.leg_tf == "H1" and structure(closed(agg(h, 14400), 14400, now), p)["trend"][-1] != d:
+            return None
+    elif p.bias != "off":  # step 1
         if structure(closed(agg(h, 86400), 86400, now), p, seed=5)["trend"][-1] != d:
             return None
         if "W1" in p.bias:  # weekly: UTC weeks starting Monday (epoch day 4 = Monday 5 Jan 1970)
@@ -163,17 +226,15 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
         dl = leg_of(dx, p) if len(dx["t"]) >= 100 else None
         if dl is None or dl["d"] != (-d if symbol in USD_QUOTE else d):
             return None
-    z_lo, z_hi = smc.ote_band(leg["start"], leg["ext"], d, p.ote)
     m15 = _cut(m, i15 + 1)
     t_ext = int(hb["t"][leg["x_bar"]])
-    after = m15["t"] >= t_ext
-    if not after.any():
-        return None
-    reach = m15["high"][after].max() if d == -1 else m15["low"][after].min()  # step 3
+    rl = relief(leg, m15, t_ext, p)  # step 3
+    if rl is None or rl["invalid"]:
+        return None  # a close beyond the protected level: the idea is invalid
+    leg, after, reach = rl["leg"], rl["after"], rl["reach"]
+    z_lo, z_hi = rl["ote"]
     if (reach < z_lo) if d == -1 else (reach > z_hi):
         return None  # relief has not reached the OTE
-    if (reach > leg["start"]) if d == -1 else (reach < leg["start"]):
-        return None  # took the protected level: the idea is invalid
     touch_i = int(np.flatnonzero(after & ((m15["high"] >= z_lo) if d == -1 else (m15["low"] <= z_hi)))[0])
     touch_t = int(m15["t"][touch_i])
     push_i = int(np.flatnonzero(after)[0]) + int(np.argmax(m15["high"][after]) if d == -1 else np.argmin(m15["low"][after]))
@@ -182,11 +243,11 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
     t0, t1 = int(hb["t"][leg["s_bar"]]), t_ext + sec
     if p.took_internal and not smc.took_internal(hb, leg["s_bar"], d):
         return None
-    if p.need_fvg or p.max_area_atr:  # step 4: the leg's FVGs in the OTE, untouched before this relief
+    if p.need_fvg or p.max_area_atr:  # step 4: the leg's FVGs in the OTE, not already used BEFORE this relief
         frames = [hb] + ([h] if hb is not h else []) + [m15]
         zones = []
         for b in frames:
-            touch_b = int(np.searchsorted(b["t"], touch_t))
+            touch_b = int(np.searchsorted(b["t"], t_ext))  # the relief itself tapping the FVG IS the area working
             zones += [(z["bottom"], z["top"]) for z in smc.fvgs(b)
                       if z["dir"] == d and t0 <= b["t"][z["formed"]] <= t1 and z["touched"] >= touch_b
                       and z["top"] >= z_lo and z["bottom"] <= z_hi]
@@ -208,16 +269,18 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
     if ltf["t"][j] < touch_t:
         return None
     failed = False
+    tops: list[float] = []
     if p.after_fail != "off":  # step 9: was there a real LOSS in this leg? (a valid earlier trigger, stop hit)
-        s5 = structure(m5, p, seed=6)
+        s5 = structure(m5, p, seed=6, brk=p.ltf_break_atr)
         a5 = smc.atr(m5)
         k0, last5 = int(np.searchsorted(m5["t"], touch_t)), len(m5["t"]) - 1
         for i, kind, dd, _, _ in s5["events"]:
             if i < k0 or i >= last5 or kind != "CHoCH" or dd != d:
                 continue
-            if smc.fib_pos(float(m5["close"][i]), leg["start"], leg["ext"]) < 0.5:
-                continue  # in discount: never a valid trade, so not a loss
-            stop_i = float(s5["prot"][i]) - d * p.stop_buffer_atr * a5[i]
+            st = ltf_setup(m5, i, s5, d, z_lo, z_hi, p)  # only a CHoCH the engine would have traded counts
+            if st is None or (p.premium_entry and smc.fib_pos(float(m5["close"][i]), leg["start"], leg["ext"]) < 0.5):
+                continue
+            stop_i = st["tops"][-1] - d * max(p.stop_buffer_atr * a5[i], p.stop_buffer_pips * pip(symbol))
             if ((m5["high"][i + 1:last5 + 1] >= stop_i) if d == -1 else (m5["low"][i + 1:last5 + 1] <= stop_i)).any():
                 failed = True
                 break
@@ -236,50 +299,61 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
         if top is None:
             return None
     else:  # step 6: a CHoCH on the candle that just closed
-        ms = structure(ltf, p, seed=6)
+        ms = structure(ltf, p, seed=6, brk=p.ltf_break_atr)
         ev = ms["events"][-1] if ms["events"] else None
         if ev is None or ev[0] != j or ev[1] != "CHoCH" or ev[2] != d:
             return None
         if p.ltf_swept and not smc.took_internal(ltf, ev[4], -d, look=60, near=6):
             return None  # "this is my external low -- it took out the internal lows, confirmed by a 5M BOS"
-        top = float(ms["prot"][j])  # the counter-move's external high = his invalidation level
-        top_bar = int(np.flatnonzero((ltf["high"] if d == -1 else ltf["low"])[:j + 1] == top)[-1])
-        sh, sl_ = smc.swing_points({k: v[:j] for k, v in ltf.items()}, 2)
-        plus = any(top_bar < b_ < j and ((pr < top) if d == -1 else (pr > top)) for b_, _, pr in (sh if d == -1 else sl_))
-        if p.choch_plus and not plus:
+        st = ltf_setup(ltf, j, ms, d, z_lo, z_hi, p)  # base video: the counter-move's top / lower high = invalidation
+        if st is None:
             return None
+        tops, plus, top = st["tops"], st["plus"], st["tops"][0]
     entry = float(m5["close"][-1])
     if p.premium_entry and smc.fib_pos(entry, leg["start"], leg["ext"]) < 0.5:
         return None  # "I cannot short below the 50%"
     eq_tol = p.eq_tol_atr * leg["atr"]
-    if p.stop_above_liquidity:  # step 7: above the relief's equal highs too
-        sh, sl_ = smc.swing_points({k: v[max(0, touch_i - 6):] for k, v in m15.items()}, 2)
-        lv = [e["level"] for e in smc.equal_levels(sh if d == -1 else sl_, eq_tol, high=d == -1)
-              if (e["level"] - entry) * -d > 0]
-        if lv:
-            top = max([top] + lv) if d == -1 else min([top] + lv)
-    stop = float(top) - d * p.stop_buffer_atr * la[j]
-    risk = (entry - stop) * d
-    if risk <= 0 or risk < p.min_stop_costs * p.cost_pips.get(symbol, 1.2) * pip(symbol):
-        return None
-    limit = None
-    if p.entry == "fvg":  # base video: if the CHoCH leg left a 15M FVG, wait for price to come back into it
-        lo_t = int(ltf["t"][max(0, j - 36)])
-        edges = [(z["bottom"] if d == -1 else z["top"]) for z in smc.fvgs(m15)
-                 if z["dir"] == d and m15["t"][z["formed"]] >= lo_t and z["touched"] >= len(m15["t"])]
-        edges = [x for x in edges if (x - entry) * d < 0 and (x - stop) * d > 0]
-        if not edges:
-            return None
-        limit = float(min(edges) if d == -1 else max(edges))
-        risk = (limit - stop) * d
-        if risk < p.min_stop_costs * p.cost_pips.get(symbol, 1.2) * pip(symbol):
-            return None
-    ref = limit if limit is not None else entry
     cands = [leg["ext"]] + smc.pools(hb, leg["ms"], d, len(hb["t"]) - 1, eq_tol)  # step 8
-    ahead = sorted({x for x in cands if (x - ref) * d > 0}, key=lambda x: abs(x - ref))[:p.max_targets]
-    target = next((x for x in ahead if (x - ref) * d >= p.min_rr * risk), None)
+    target = None
+    for top in (tops or [top]):  # stop candidates, conservative first
+        if p.stop_above_liquidity:  # step 7: above the relief's equal highs too
+            sh, sl_ = smc.swing_points({k: v[max(0, touch_i - 6):] for k, v in m15.items()}, 2)
+            lv = [e["level"] for e in smc.equal_levels(sh if d == -1 else sl_, eq_tol, high=d == -1)
+                  if (e["level"] - entry) * -d > 0]
+            if lv:
+                top = max([top] + lv) if d == -1 else min([top] + lv)
+        stop = float(top) - d * max(p.stop_buffer_atr * la[j], p.stop_buffer_pips * pip(symbol))
+        if not failed and p.trigger != "lsr":  # the stop level is equal highs/lows = a liquidity pool: 3-4 pips beyond it
+            pool = [x for x in st["swings"] if 0 < abs(x - top) <= p.liq_eq_pips * pip(symbol) + 1e-12]
+            if pool:
+                lvl = max(pool + [top]) if d == -1 else min(pool + [top])
+                beyond = lvl - d * p.liq_buffer_pips * pip(symbol)  # sell: above the pool, buy: below it
+                stop = max(stop, beyond) if d == -1 else min(stop, beyond)
+        risk = (entry - stop) * d
+        if risk <= 0 or risk < p.min_stop_costs * p.cost_pips.get(symbol, 1.2) * pip(symbol):
+            continue
+        limit = None
+        if p.entry == "fvg":  # base video: if the CHoCH leg left a 15M FVG, wait for price to come back into it
+            lo_t = int(ltf["t"][max(0, j - 36)])
+            edges = [(z["bottom"] if d == -1 else z["top"]) for z in smc.fvgs(m15)
+                     if z["dir"] == d and m15["t"][z["formed"]] >= lo_t and z["touched"] >= len(m15["t"])]
+            edges = [x for x in edges if (x - entry) * d < 0 and (x - stop) * d > 0]
+            if not edges:
+                continue
+            limit = float(min(edges) if d == -1 else max(edges))
+            risk = (limit - stop) * d
+            if risk < p.min_stop_costs * p.cost_pips.get(symbol, 1.2) * pip(symbol):
+                continue
+        ref = limit if limit is not None else entry
+        ahead = []
+        for x in sorted({x for x in cands if (x - ref) * d > 0}, key=lambda x: abs(x - ref)):
+            if not ahead or abs(x - ahead[-1]) > eq_tol:  # levels within the equal-level tolerance = one pool
+                ahead.append(x)
+        target = next((x for x in ahead[:p.max_targets] if (x - ref) * d >= p.min_rr * risk), None)
+        if target is not None:
+            break
     if target is None:
-        return None  # no logical target pays the minimum RR -- don't stretch
+        return None  # no logical target pays the minimum RR with any valid stop -- don't stretch
     if p.clear_path:  # 9 filters: nothing obstructing -- no untouched opposite imbalance between entry and target
         for b in ([hb] + ([h] if hb is not h else [])):
             for z in smc.fvgs(b):
@@ -306,7 +380,7 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
               "ote": [round(z_lo, 5), round(z_hi, 5)], "target_is_t1": target == leg["ext"],
               "rr_planned": round((target - entry) * d / risk, 2), "trigger": "1H after fail" if failed else p.trigger, "add_on": add is not None,
               "choch_plus": bool(plus) if not failed and p.trigger != "lsr" else None, "entry_mode": p.entry,
-              "t1_partial": partial is not None}
+              "t1_partial": partial is not None, "stop_kind": "wide" if len(tops) > 1 and top == tops[0] else "tight"}
     return {"dir": d, "status": "TRIGGERED", "entry": entry, "stop": stop, "target": float(target),
             "signal_time": int(ltf["t"][j]), "zone_base_time": int(hb["t"][leg["e"]]), "atr": float(la[j]),
             "checks": checks, "hold_bars": hold_bars, **({"add": add} if add else {}), **({"partial": partial} if partial else {})}
@@ -319,11 +393,11 @@ def _selfcheck() -> None:
     a = agg(h1, 14400)
     assert a["t"].tolist() == [0, 14400] and a["open"].tolist() == [0, 4] and a["high"].tolist() == [3.5, 7.5]
     assert a["low"].tolist() == [-0.5, 3.5] and a["close"].tolist() == [3.1, 7.1]
-    # leg_of on a sell leg: rise to 1.10, then a fall that closes below the protected low -> start = the up-leg top
-    px = np.r_[np.linspace(1.00, 1.10, 15), np.linspace(1.09, 1.03, 8)]
+    # leg_of on a sell leg: rise, pull back (confirmed high), BOS up to 1.10, then a fall through the protected low
+    px = np.r_[np.linspace(1.00, 1.06, 8), np.linspace(1.055, 1.04, 4), np.linspace(1.045, 1.10, 8), np.linspace(1.09, 1.02, 10)]
     b = {"t": np.arange(len(px)) * 14400, "open": px, "high": px + 0.004, "low": px - 0.004, "close": px}
     lg = leg_of(b, BennettParams(break_atr=0.0))
-    assert lg["d"] == -1 and lg["ext"] == b["low"][-1] and lg["start"] > lg["ext"], lg
+    assert lg["d"] == -1 and lg["kind"] == "CHoCH" and lg["ext"] == b["low"][-1] and lg["start"] == b["high"][19], lg
     lo, hi = smc.ote_band(lg["start"], lg["ext"], -1)
     assert lg["ext"] < lo < hi < lg["start"]
     # add-on fill in the backtester: sell 1.1000, stop 1.1010, target 1.0970, add at 1.1005 -> filled, then target

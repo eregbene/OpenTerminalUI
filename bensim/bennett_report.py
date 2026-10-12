@@ -2,9 +2,13 @@
 trade in his chart style, a snapshot (engine view at the end) for symbols without a trade, and writes a summary page
 with R and dollars.
 
-    python -m bensim.bennett_report --from 2026-10-05 --to 2026-10-09 [--update] [--symbols EURUSD,XAUUSD]
-                                    [--balance 97677 --risk 0.5] [--out docs/charts/report]
+    python -m bensim.bennett_report --when "last week" [--update] [--symbols EURUSD,XAUUSD]
+    python -m bensim.bennett_report --from 2026-10-05 --to 2026-10-09 [--balance 97677 --risk 0.5] [--out docs/charts/report]
+    python -m bensim.bennett_report --plan [--update]      # text plan for the next session, no charts
     (double-click: bensim/bennett_report.bat)
+
+--when takes plain English: last week, this week, last friday, yesterday, 6 december, last week of december 2025,
+december 2025, 2025-12-01 to 2025-12-05 (bensim/periods.py). Nothing given = last week.
 
 --to is inclusive (the whole day). --update first pulls the latest bars from MT5 (the bridge must be running).
 Output: <out>/<from>_<to>/index.html (+ trades.csv and one PNG per trade / snapshot).
@@ -23,6 +27,7 @@ from . import bennett_strategy as bs
 from . import bennett_smc as smc
 from .backtest import CONTRACT, Exec, _simulate, _spread, _usd_per_unit_move, _win, load_m5, resample
 from .config import SYMBOLS
+from .periods import parse_period
 from .strategy import pip
 
 
@@ -90,10 +95,10 @@ def trade_notes(tr: pd.Series, st: dict, usd: float) -> str:
                 f"({(ext - tr.entry) * d / risk:+.1f}R from the entry{', the target would have been hit' if (ext - tr.tp) * d >= 0 else ''}).")
     res = "WIN" if tr.r > 0 else "LOSS"
     return f"""<div class='notes'><h3>{sym} {side}, {_ts(tr.t_entry)} UTC -- {res} {tr.r:+.2f}R (${tr.usd:+,.0f})</h3>
-<ol><li><b>Bias:</b> daily trend {'down' if d < 0 else 'up'} + 4H {leg['kind']} (close through {f(st['brk'])}) &rarr; {side.lower()}s only.</li>
+<ol><li><b>Bias:</b> {st['ctx']} {leg['kind']} {'down' if d < 0 else 'up'} (close through {f(st['brk'])}) &rarr; {side.lower()}s only.</li>
 <li><b>Leg / fib:</b> {f(leg['start'])} &rarr; {f(leg['ext'])}; 50% = {f((leg['start'] + leg['ext']) / 2)}, <b>OTE {f(st['ote'][0])}&ndash;{f(st['ote'][1])}</b>.</li>
 <li><b>Area of interest:</b> {gaps} inside the OTE{liq}.</li>
-<li><b>Trigger:</b> price traded into the OTE, then a 5M CHoCH &rarr; {side.lower()} at <b>{f(tr.entry)}</b>, stop <b>{f(tr.sl)}</b> ({risk / pip(sym):.1f} pips, beyond the 5M swing{' / equal levels' if st['eq'] else ''}), target <b>{f(tr.tp)}</b> ({tr.chk_rr_planned}R, {'T1 = the leg extreme' if tr.chk_target_is_t1 else 'T2 = next liquidity'}).</li>
+<li><b>Trigger:</b> price traded into the OTE, then a 5M CHoCH &rarr; {side.lower()} at <b>{f(tr.entry)}</b>, stop <b>{f(tr.sl)}</b> ({risk / pip(sym):.1f} pips, beyond the 5M lower {'high' if d < 0 else 'low'} before the CHoCH + 1 pip{' / equal levels' if st['eq'] else ''}), target <b>{f(tr.tp)}</b> ({tr.chk_rr_planned}R, {'T1 = the leg extreme' if tr.chk_target_is_t1 else 'T2 = next liquidity'}).</li>
 <li><b>What happened:</b> best move {(best_px - tr.entry) * d / risk:+.1f}R (to {f(best_px)} on {_ts(best_t)}); the trade {how} = <b>{tr.r:+.2f}R</b>.{post}</li>
 <li><b>Money:</b> 1R = ${usd:,.0f} &rarr; size &asymp; {lots:.2f} lots &rarr; <b>${tr.usd:+,.0f}</b> (R includes spread + commission).</li></ol></div>"""
 
@@ -106,7 +111,7 @@ def snapshot_notes(sym: str, st: dict, px: float) -> str:
              "price went beyond the leg start -- the idea is invalid, waiting for a new leg" if pos > 1 else
              "waiting for a relief into the OTE" if pos < 0.62 else "price is deep in premium/discount above the OTE")
     return f"""<div class='notes'><h3>{sym}: no trade in this period</h3><ul>
-<li>4H {leg['kind']} &rarr; {'sells' if d < 0 else 'buys'} (if the daily agrees); leg {f(leg['start'])} &rarr; {f(leg['ext'])}, OTE {f(st['ote'][0])}&ndash;{f(st['ote'][1])}.</li>
+<li>{st['ctx']} {leg['kind']} &rarr; {'sells' if d < 0 else 'buys'}; leg {f(leg['start'])} &rarr; {f(leg['ext'])}, OTE {f(st['ote'][0])}&ndash;{f(st['ote'][1])}.</li>
 <li>Price at the end: {f(px)} (fib {pos:.2f}) &rarr; {state}.</li></ul></div>"""
 
 
@@ -121,10 +126,104 @@ async def _render(paths: list[Path]) -> None:
         await br.close()
 
 
+def update_bars(syms: list[str]) -> None:
+    """Pull the bars missing since the newest one in the DB from MT5. A stopped bridge only warns."""
+    from . import db, history
+    for s in syms:
+        try:
+            with db.connect() as c:
+                last = c.execute("select max(ts) from candles where symbol=%s and tf='M5'", [s]).fetchone()[0]
+            gap_days = (pd.Timestamp.now(tz="UTC") - pd.Timestamp(last)).days + 2 if last is not None else 30
+            n = history.download(s, "M5", years=max(gap_days, 3) / 365.25)
+            print(f"{s}: {n} bars refreshed from MT5")
+        except Exception as exc:  # bridge / terminal not running: report on what the DB has
+            print(f"{s}: could not update from MT5 ({type(exc).__name__}: {exc}) -- using the bars already in the DB")
+
+
+def plan_ahead(sym: str, p: bs.BennettParams) -> str:
+    """The engine's view after the last bar, in words: the leg, where the OTE is, what must happen next."""
+    end = pd.Timestamp.now(tz="UTC")
+    m5 = load_m5(sym, (end - pd.Timedelta(days=75)).isoformat(), None)
+    if len(m5["t"]) < 2000:
+        return f"{sym}: not enough bars in the DB"
+    f = lambda x: _p(sym, x)  # noqa: E731
+    now = int(m5["t"][-1]) + 300
+    m15, h1 = resample(m5, 900), resample(m5, 3600)
+    h = bs.closed({k: v[-p.htf_bars:] for k, v in h1.items()}, 3600, now)
+    hb, sec = (bs.closed(bs.agg(h, 14400), 14400, now), 14400) if p.leg_tf == "H4" else (h, 3600)
+    leg = bs.leg_of(hb, p)
+    px = float(m5["close"][-1])
+    head = f"{sym} (last bar {pd.Timestamp(now - 300, unit='s'):%a %d %b %H:%M} UTC, price {f(px)})"
+    if leg is None:
+        return f"{head}\n  no {p.leg_tf} structure yet -- nothing to do"
+    d, side = leg["d"], ("SELL" if leg["d"] < 0 else "BUY")
+    lines = [head, f"  {bs.context_text(p)} {leg['kind']} {'down' if d < 0 else 'up'} -> {side}S only. "
+                   f"Leg {f(leg['start'])} -> {f(leg['ext'])}, 50% {f((leg['start'] + leg['ext']) / 2)}"]
+    if p.bias == "H4" and p.leg_tf == "H1":
+        if bs.structure(bs.closed(bs.agg(h, 14400), 14400, now), p)["trend"][-1] != d:
+            lines.append("  4H trend disagrees -> no trade on this leg (bias filter)")
+    elif p.bias not in ("off", "H4"):
+        if bs.structure(bs.closed(bs.agg(h, 86400), 86400, now), p, seed=5)["trend"][-1] != d:
+            lines.append("  daily trend disagrees -> no trade on this leg (bias filter)")
+    t_ext = int(hb["t"][leg["x_bar"]])
+    rl = bs.relief(leg, m15, t_ext, p)
+    if rl is None:
+        lines.append("  the leg's extreme is still forming -- wait for the relief")
+        return "\n".join(lines)
+    if rl["invalid"]:
+        lines.append(f"  INVALID: a 15M candle closed beyond the protected level {f(leg['prot'])} -- wait for a new {p.leg_tf} break")
+        return "\n".join(lines)
+    leg, after, reach = rl["leg"], rl["after"], rl["reach"]
+    z_lo, z_hi = rl["ote"]
+    near, far = (z_lo, z_hi) if d == -1 else (z_hi, z_lo)
+    lines.append(f"  OTE (area of interest) {f(min(z_lo, z_hi))} - {f(max(z_lo, z_hi))}; "
+                 f"early warning if a candle closes {'above' if d < 0 else 'below'} {f(far)} (79%)")
+    t0, t1 = int(hb["t"][leg["s_bar"]]), t_ext + sec
+    zones = []
+    for name, b in ((f"{p.leg_tf} FVG", hb), ("1H FVG", h), ("15M FVG", m15)):
+        if name == "1H FVG" and hb is h:
+            continue
+        tb = int(np.searchsorted(b["t"], t_ext))
+        zones += [f"{name} {f(z['bottom'])}-{f(z['top'])}" for z in smc.fvgs(b) if z["dir"] == d
+                  and t0 <= b["t"][z["formed"]] <= t1 and z["touched"] >= tb and z["top"] >= z_lo and z["bottom"] <= z_hi]
+    lines.append("  FVG in the OTE: " + (", ".join(zones) if zones else "none -- no trade unless one forms"))
+    if (reach - near) * d > 0:
+        lines.append(f"  WAITING: the relief has not reached the OTE yet (best so far {f(reach)}; {f(near)} is "
+                     f"{abs(near - px) / pip(sym):.0f} pips from price). When it trades into the OTE, drop to the 5M and wait for a CHoCH.")
+    else:
+        ltf = {k: v[-p.m5_bars:] for k, v in m5.items()}
+        ms = bs.structure(ltf, p, seed=6, brk=p.ltf_break_atr)
+        tr5, prot = int(ms["trend"][-1]), float(ms["prot"][-1])
+        if tr5 == -d:
+            lines.append(f"  IN THE OTE (reached {f(reach)}). TRIGGER: a 5M candle CLOSE {'below' if d < 0 else 'above'} "
+                         f"{f(prot)} (5M protected {'low' if d < 0 else 'high'}) = 5M CHoCH -> {side} on that close; "
+                         f"stop beyond the 5M lower {'high' if d < 0 else 'low'} before it (+1 pip).")
+        else:
+            lines.append(f"  IN THE OTE (reached {f(reach)}); the 5M already points {'down' if tr5 < 0 else 'up' if tr5 > 0 else 'nowhere'} -- "
+                         f"wait for the next 5M pullback and a CHoCH {'down' if d < 0 else 'up'}.")
+        ia = np.flatnonzero(after)
+        push = ia[0] + int(np.argmax(m15["high"][after]) if d == -1 else np.argmin(m15["low"][after]))
+        lines.append(f"  The idea expires {pd.Timestamp(int(m15['t'][push]) + int(p.expire_h * 3600), unit='s'):%a %d %b %H:%M} UTC "
+                     f"if price does not push into the area again.")
+    eq_tol = p.eq_tol_atr * leg["atr"]
+    cands = sorted({x for x in [leg["ext"]] + smc.pools(hb, leg["ms"], d, len(hb["t"]) - 1, eq_tol) if (x - px) * d > 0},
+                   key=lambda x: abs(x - px))[:3]
+    lines.append("  Targets (liquidity): " + (", ".join(f(x) for x in cands) if cands else "none ahead")
+                 + f"; minimum {p.min_rr}R or no trade")
+    pl = bs.plan(_win(m15, len(m15["t"]), 300), _win(h1, len(h1["t"]), 200), _win(m5, len(m5["t"]), p.m5_bars), sym, p,
+                 htf=_win(h1, len(h1["t"]), p.htf_bars))
+    if pl and pl["status"] == "TRIGGERED":
+        lines.append(f"  >>> TRIGGERED on the last bar: {side} {f(pl['entry'])}, stop {f(pl['stop'])}, target {f(pl['target'])} "
+                     f"({pl['checks']['rr_planned']}R)")
+    return "\n".join(lines)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--from", dest="a", required=True)
-    ap.add_argument("--to", dest="b", required=True, help="inclusive day")
+    ap.add_argument("--when", default=None, help='plain English: "last week", "last friday", "6 december", ...')
+    ap.add_argument("--from", dest="a", default=None)
+    ap.add_argument("--to", dest="b", default=None, help="inclusive day")
+    ap.add_argument("--plan", action="store_true", help="text plan for the next session (no charts)")
     ap.add_argument("--symbols", default=",".join(SYMBOLS))
     ap.add_argument("--update", action="store_true", help="pull the latest bars from MT5 first")
     ap.add_argument("--balance", type=float, default=97_677.0)
@@ -134,9 +233,25 @@ def main() -> None:
     a = ap.parse_args()
     syms = [s for s in a.symbols.split(",") if s]
     if a.update:
-        from . import history
-        for s in syms:
-            history.download(s, "M5", years=0.05)
+        update_bars(syms)
+    if a.plan:
+        p = bs.BennettParams()
+        txt = "\n\n".join(plan_ahead(s, p) for s in syms)
+        day = pd.Timestamp.now(tz="UTC")
+        txt = f"Bennett plan -- made {day:%a %d %b %Y %H:%M} UTC ({bs.context_text(p)} leg, 5M trigger)\n\n{txt}"
+        print(txt)
+        out = Path(a.out) / "plans"
+        out.mkdir(parents=True, exist_ok=True)
+        fp = out / f"plan_{day:%Y-%m-%d_%H%M}.txt"
+        fp.write_text(txt, encoding="utf-8")
+        print(f"\nsaved: {fp.resolve()}")
+        return
+    if a.a is None or a.when is not None:
+        d0, d1 = parse_period(a.when or "last week")
+        a.a, a.b = d0.isoformat(), d1.isoformat()
+    elif a.b is None:
+        a.b = a.a
+    print(f"period: {a.a} to {a.b}")
     t0 = pd.Timestamp(a.a, tz="UTC")
     t1 = pd.Timestamp(a.b, tz="UTC") + pd.Timedelta(days=1)
     out = Path(a.out) / f"{a.a}_{a.b}"

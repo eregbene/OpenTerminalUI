@@ -39,23 +39,23 @@ def state(sym: str, tr: pd.Series, p: bs.BennettParams) -> dict:
     hb, sec = (bs.closed(bs.agg(h, 14400), 14400, t_in), 14400) if p.leg_tf == "H4" else (h, 3600)
     leg = bs.leg_of(hb, p)
     d = leg["d"]
+    m15c = bs.closed(m15, 900, t_in)
+    rl = bs.relief(leg, m15c, int(hb["t"][leg["x_bar"]]), p)  # same fib anchor as the strategy (no lookahead)
+    if rl is not None:
+        leg = rl["leg"]
     z_lo, z_hi = smc.ote_band(leg["start"], leg["ext"], d, p.ote)
     t0, t1 = int(hb["t"][leg["s_bar"]]), int(hb["t"][leg["x_bar"]]) + sec
-    m15c = bs.closed(m15, 900, t_in)
-    aft = m15c["t"] >= int(hb["t"][leg["x_bar"]])
-    hit = np.flatnonzero(aft & ((m15c["high"] >= z_lo) if d == -1 else (m15c["low"] <= z_hi)))
-    touch_t = int(m15c["t"][hit[0]]) if len(hit) else t_in  # first OTE touch (FVGs used before it don't count)
     gaps = []
     for name, b in ((f"{p.leg_tf.lower()} FVG", hb), ("1h FVG", h), ("15m FVG", m15c)):
         if name == "1h FVG" and hb is h:
             continue
         for z in smc.fvgs(b):
             if (z["dir"] == d and t0 <= b["t"][z["formed"]] <= t1 and z["top"] >= z_lo and z["bottom"] <= z_hi
-                    and z["touched"] >= int(np.searchsorted(b["t"], touch_t))):  # one-time use, same as the strategy
+                    and z["touched"] >= int(np.searchsorted(b["t"], int(hb["t"][leg["x_bar"]])))):  # one-time use, as the strategy
                 gaps.append((name, int(b["t"][z["c1"]]), z["bottom"], z["top"]))
     k5 = int(np.searchsorted(m5["t"] + 300, t_in, side="right"))
-    ltf = {k: v[max(0, k5 - 100):k5] for k, v in m5.items()}
-    ms = smc.market_structure(ltf, p.break_atr * smc.atr(ltf), seed=6)
+    ltf = {k: v[max(0, k5 - p.m5_bars):k5] for k, v in m5.items()}
+    ms = bs.structure(ltf, p, seed=6, brk=p.ltf_break_atr)  # the same 5M trigger rule as the strategy
     ev = ms["events"][-1] if ms["events"] else None
     choch = (int(ltf["t"][ev[4]]), int(ltf["t"][ev[0]]), float(ev[3])) if ev and ev[1] == "CHoCH" and ev[2] == d else None
     labels = [(int(hb["t"][b_]), lab, price) for b_, lab, price in leg["ms"]["labels"] if hb["t"][b_] >= t0 - 20 * sec]
@@ -65,7 +65,7 @@ def state(sym: str, tr: pd.Series, p: bs.BennettParams) -> dict:
     eqs = [e["level"] for e in smc.equal_levels(sh if d == -1 else sl_, p.eq_tol_atr * leg["atr"], high=d == -1)
            if (e["level"] - tr.entry) * -d > 0]
     return {"m15": m15, "leg": leg, "h": hb, "ote": (z_lo, z_hi), "gaps": gaps, "choch": choch,
-            "brk": leg["ms"]["events"][-1][3], "labels": labels, "breaks": breaks, "eq": eqs, "tf": p.leg_tf}
+            "brk": leg["ms"]["events"][-1][3], "labels": labels, "breaks": breaks, "eq": eqs, "tf": p.leg_tf, "ctx": bs.context_text(p)}
 
 
 def svg(sym: str, tr: pd.Series, s: dict, p: bs.BennettParams) -> str:
@@ -156,13 +156,13 @@ def svg(sym: str, tr: pd.Series, s: dict, p: bs.BennettParams) -> str:
     side = "BUY" if d == 1 else "SELL"
     res = f"SNAPSHOT, engine view, no lookahead -- {tr.note}" if snap else f"{'WIN' if tr.r > 0 else 'LOSS'} {tr.r:+.2f}R ({tr.exit_reason})"
     o.append(f'<text x="{PAD}" y="30" font-size="20" font-weight="bold">{sym} {side} -- {ts(tr.t_entry)} UTC -- {res}</text>')
-    o.append(f'<text x="{PAD}" y="52" fill="#555">Bennett process (M15 candles): daily bias -> {s["tf"]} {leg["kind"]} -> relief into OTE 62-79% (+FVG) -> 5m CHoCH -> {side.lower()}, '
-             f'stop above the {"high" if d == -1 else "low"} / equal {"highs" if d == -1 else "lows"}, target {"T1 = leg external " + ("low" if d == -1 else "high") if tr.chk_target_is_t1 else "T2 = next liquidity"}; planned {tr.chk_rr_planned}R</text>')
-    steps = [f"1. Daily bias + {s['tf']} {leg['kind']}: close through {f(s['brk'])} -> {side.lower()}s only (protected level {f(leg['start'])}).",
+    o.append(f'<text x="{PAD}" y="52" fill="#555">Bennett process (M15 candles): {s["ctx"]} {leg["kind"]} -> relief into OTE 62-79% (+FVG) -> 5m CHoCH -> {side.lower()}, '
+             f'stop above the 5m lower {"high" if d == -1 else "low"} / equal {"highs" if d == -1 else "lows"}, target {"T1 = leg external " + ("low" if d == -1 else "high") if tr.chk_target_is_t1 else "T2 = next liquidity"}; planned {tr.chk_rr_planned}R</text>')
+    steps = [f"1. {s['ctx']} {leg['kind']}: close through {f(s['brk'])} -> {side.lower()}s only (protected level {f(leg['start'])}).",
              f"2. Fib {f(leg['start'])} -> {f(leg['ext'])}: {'premium' if d == -1 else 'discount'} beyond 0.5, OTE {f(z_lo)}-{f(z_hi)} (dark green).",
              f"3. Area of interest: {', '.join(sorted({g[0] for g in s['gaps']})) or 'no FVG'} inside the OTE.",
              f"4. Price traded into the OTE, then a 5m CHoCH (close through the 5m swing) = trigger; entry {f(tr.entry)}.",
-             f"5. Stop {f(tr.sl)} beyond the 5m swing (invalidation); target {f(tr.tp)} ({tr.chk_rr_planned}R) -> exit {f(tr.exit)} = {tr.r:+.2f}R."]
+             f"5. Stop {f(tr.sl)} beyond the 5m lower {'high' if d == -1 else 'low'} before the CHoCH + 1 pip (invalidation); target {f(tr.tp)} ({tr.chk_rr_planned}R) -> exit {f(tr.exit)} = {tr.r:+.2f}R."]
     if snap:
         steps = steps[:3] + [f"4. Price now {f(tr.entry)} at fib {(tr.entry - leg['ext']) / (leg['start'] - leg['ext']):.2f}. {tr.note}"]
     for k, line in enumerate(steps):
