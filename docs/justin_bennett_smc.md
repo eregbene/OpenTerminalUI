@@ -290,3 +290,12 @@ lines; DXY only for marginal breaks; holiday chop.
 | **+ path to target clear** | **3 / +1.46** | **1 / +3.35** | **2 / +1.44** | **6 / +1.77 / +10.6** |
 | all four | 0 | 0 | 0 | 0 |
 Better than every LuxAlgo version, but not proven: baseline 45 trades; path-to-target positive in all 3 periods incl. the untouched one but only 6 trades. Needs a multi-year test (asked the user). Not traded.
+
+### 7.2 One year after the fixes (Oct 2025 → Oct 2026; real-loss "wait for 1H", leg-based hold)
+| Config | Trades | Avg R | t | Total R | Max DD |
+|---|---|---|---|---|---|
+| his 4 symbols | 37 | +0.40 | 0.9 | +14.7 | 2.8% |
+| all 7 symbols | 65 | −0.07 | −0.2 | −4.4 | 6.4% |
+| his 4 + path to target | 5 | −0.17 | — | −0.9 | 0.8% |
+Per symbol (all 7): AUDUSD +17.4R, XAUUSD +9.3R, EURUSD −0.5R, GBPUSD −11.5R, USDJPY −10.6R, USDCHF −7.4R, USDCAD −1.1R.
+The non-Bennett symbols lose; "path to target" was small-sample noise. Not proven, not traded. Weekly tool: `python -m bensim.bennett_report --from .. --to .. --update`.
