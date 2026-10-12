@@ -130,6 +130,7 @@ def main() -> None:
     ap.add_argument("--balance", type=float, default=97_677.0)
     ap.add_argument("--risk", type=float, default=0.5, help="risk per trade in %% (1R)")
     ap.add_argument("--out", default="docs/charts/report")
+    ap.add_argument("--csv", default=None, help="draw the trades of an existing backtest CSV instead of replaying")
     a = ap.parse_args()
     syms = [s for s in a.symbols.split(",") if s]
     if a.update:
@@ -143,8 +144,13 @@ def main() -> None:
     p, ex = bs.BennettParams(), Exec()
     usd = a.balance * a.risk / 100.0
     rows, svgs, no_trade, notes = [], [], [], {}
+    given = pd.read_csv(a.csv) if a.csv else None
     for s in syms:
-        trades = replay(s, t0, t1, p, ex)
+        if given is not None:
+            g = given[(given.symbol == s) & (given.t_entry >= t0.timestamp()) & (given.t_entry < t1.timestamp())]
+            trades = [dict(r, still_open=False) for _, r in g.iterrows()]
+        else:
+            trades = replay(s, t0, t1, p, ex)
         print(f"{s}: {len(trades)} trade(s)")
         for tr in trades:
             tr["usd"] = round(tr["r"] * usd, 2)
@@ -152,6 +158,8 @@ def main() -> None:
         if not trades:
             no_trade.append(s)
     df = pd.DataFrame(rows)
+    if len(df):
+        df = df.sort_values("t_entry").reset_index(drop=True)
     if len(df):
         df.to_csv(out / "trades.csv", index=False)
     for i, tr in df.iterrows():
