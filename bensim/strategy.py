@@ -82,10 +82,10 @@ def atr(b: Bars, n: int = 14) -> np.ndarray:
 def trend(b: Bars, k: int = 2) -> np.ndarray:
     """Swing-structure trend after each bar's close (+1/-1/0): a close beyond the last confirmed pivot
     (pivot j confirmed at j+k) flips the trend."""
-    h, l, c = b["high"], b["low"], b["close"]
+    h, l, c = b["high"].tolist(), b["low"].tolist(), b["close"].tolist()  # lists: tiny-slice max/min without numpy overhead
     n = len(c)
-    ph = {j + k: j for j in range(k, n - k) if h[j] > h[j - k:j].max() and h[j] >= h[j + 1:j + k + 1].max()}
-    pl = {j + k: j for j in range(k, n - k) if l[j] < l[j - k:j].min() and l[j] <= l[j + 1:j + k + 1].min()}
+    ph = {j + k: j for j in range(k, n - k) if h[j] > max(h[j - k:j]) and h[j] >= max(h[j + 1:j + k + 1])}
+    pl = {j + k: j for j in range(k, n - k) if l[j] < min(l[j - k:j]) and l[j] <= min(l[j + 1:j + k + 1])}
     out, t, last_h, last_l, h_live, l_live = np.zeros(n, int), 0, np.nan, np.nan, False, False
     for i in range(n):
         if i in ph:
