@@ -57,6 +57,10 @@ class BennettParams:
     after_fail: str = "1h"  # "1h" (his rule) | "stand" (no more trades in the leg) | "off"
     trigger: str = "choch"  # "choch" | "lsr"
     add_on: bool = False
+    entry: str = "close"  # "close" (market on the CHoCH close) | "fvg" (limit at the CHoCH leg's 15M FVG, else no trade)
+    t1_partial: bool = False  # 50% off at T1, the rest runs to T2
+    choch_plus: bool = False  # require a lower high (sell) before the CHoCH -- "a stronger change of character"
+    clear_path: bool = False  # no untouched opposite imbalance between the entry and T1
     h4_fill: bool = False
     took_internal: bool = False
     max_area_atr: float = 0.0
@@ -225,6 +229,11 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
         if ev is None or ev[0] != j or ev[1] != "CHoCH" or ev[2] != d:
             return None
         top = float(ms["prot"][j])  # the counter-move's external high = his invalidation level
+        top_bar = int(np.flatnonzero((ltf["high"] if d == -1 else ltf["low"])[:j + 1] == top)[-1])
+        sh, sl_ = smc.swing_points({k: v[:j] for k, v in ltf.items()}, 2)
+        plus = any(top_bar < b_ < j and ((pr < top) if d == -1 else (pr > top)) for b_, _, pr in (sh if d == -1 else sl_))
+        if p.choch_plus and not plus:
+            return None
     entry = float(m5["close"][-1])
     if p.premium_entry and smc.fib_pos(entry, leg["start"], leg["ext"]) < 0.5:
         return None  # "I cannot short below the 50%"
@@ -239,13 +248,36 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
     risk = (entry - stop) * d
     if risk <= 0 or risk < p.min_stop_costs * p.cost_pips.get(symbol, 1.2) * pip(symbol):
         return None
+    limit = None
+    if p.entry == "fvg":  # base video: if the CHoCH leg left a 15M FVG, wait for price to come back into it
+        lo_t = int(ltf["t"][max(0, j - 36)])
+        edges = [(z["bottom"] if d == -1 else z["top"]) for z in smc.fvgs(m15)
+                 if z["dir"] == d and m15["t"][z["formed"]] >= lo_t and z["touched"] >= len(m15["t"])]
+        edges = [x for x in edges if (x - entry) * d < 0 and (x - stop) * d > 0]
+        if not edges:
+            return None
+        limit = float(min(edges) if d == -1 else max(edges))
+        risk = (limit - stop) * d
+        if risk < p.min_stop_costs * p.cost_pips.get(symbol, 1.2) * pip(symbol):
+            return None
+    ref = limit if limit is not None else entry
     cands = [leg["ext"]] + smc.pools(hb, leg["ms"], d, len(hb["t"]) - 1, eq_tol)  # step 8
-    ahead = sorted({x for x in cands if (x - entry) * d > 0}, key=lambda x: abs(x - entry))[:p.max_targets]
-    target = next((x for x in ahead if (x - entry) * d >= p.min_rr * risk), None)
+    ahead = sorted({x for x in cands if (x - ref) * d > 0}, key=lambda x: abs(x - ref))[:p.max_targets]
+    target = next((x for x in ahead if (x - ref) * d >= p.min_rr * risk), None)
     if target is None:
         return None  # no logical target pays the minimum RR -- don't stretch
-    add = None
-    if p.add_on:  # half now, half at the trigger leg's nearest untouched 15M FVG between entry and stop
+    if p.clear_path:  # 9 filters: nothing obstructing -- no untouched opposite imbalance between entry and target
+        for b in ([hb] + ([h] if hb is not h else [])):
+            for z in smc.fvgs(b):
+                if z["dir"] == -d and z["touched"] >= len(b["t"]) and min(ref, target) < (z["bottom"] + z["top"]) / 2 < max(ref, target):
+                    return None
+    partial = None
+    if p.t1_partial:  # base video: half off at T1, the rest to T2 (the next liquidity beyond T1)
+        beyond = sorted({x for x in cands if (x - target) * d > 0}, key=lambda x: abs(x - target))
+        if beyond:
+            partial, target = {"price": float(target), "frac": 0.5}, float(beyond[0])
+    add = {"price": limit, "frac": 1.0} if limit is not None else None
+    if p.add_on and add is None:  # half now, half at the trigger leg's nearest untouched 15M FVG between entry and stop
         lo_t = int(ltf["t"][max(0, j - 36)])
         edges = [(z["bottom"] if d == -1 else z["top"]) for z in smc.fvgs(m15)
                  if z["dir"] == d and m15["t"][z["formed"]] >= lo_t and z["touched"] >= len(m15["t"])]
@@ -254,10 +286,12 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
             add = {"price": float(min(edges) if d == -1 else max(edges)), "frac": 0.5}
     checks = {"leg": f"{p.leg_tf} {leg['kind']}", "fib_pos": round(smc.fib_pos(entry, leg["start"], leg["ext"]), 2),
               "ote": [round(z_lo, 5), round(z_hi, 5)], "target_is_t1": target == leg["ext"],
-              "rr_planned": round((target - entry) * d / risk, 2), "trigger": "1H after fail" if failed else p.trigger, "add_on": add is not None}
+              "rr_planned": round((target - entry) * d / risk, 2), "trigger": "1H after fail" if failed else p.trigger, "add_on": add is not None,
+              "choch_plus": bool(plus) if not failed and p.trigger != "lsr" else None, "entry_mode": p.entry,
+              "t1_partial": partial is not None}
     return {"dir": d, "status": "TRIGGERED", "entry": entry, "stop": stop, "target": float(target),
             "signal_time": int(ltf["t"][j]), "zone_base_time": int(hb["t"][leg["e"]]), "atr": float(la[j]),
-            "checks": checks, **({"add": add} if add else {})}
+            "checks": checks, **({"add": add} if add else {}), **({"partial": partial} if partial else {})}
 
 
 def _selfcheck() -> None:
@@ -285,6 +319,19 @@ def _selfcheck() -> None:
          "plan": {"signal_time": 0, "checks": {}, "add": {"price": 1.1005, "frac": 0.5}}}
     tr = _simulate("EURUSD", bars, 0, o, SimpleNamespace(max_hold_bars=10), ex, 0.0)
     assert tr["add_filled"] and tr["exit_reason"] == "target" and abs(tr["r"] - 3.25) < 1e-6, tr
+    # T1 partial: sell 1.1000, stop 1.1010, T1 1.0970 (half), T2 1.0950 -> both hit = 0.5*3 + 0.5*5 = 4R
+    bars2 = {"t": 1_780_000_000 + np.arange(4) * 300, "open": np.array([1.1, 1.0995, 1.098, 1.096]),
+             "high": np.array([1.1001, 1.1, 1.0985, 1.0965]), "low": np.array([1.0999, 1.0968, 1.0975, 1.0948]),
+             "close": np.array([1.1, 1.098, 1.0978, 1.0952])}
+    o2 = {"side": "SELL", "price": 1.1000, "sl": 1.1010, "tp": 1.0950, "rr": 5.0,
+          "plan": {"signal_time": 0, "checks": {}, "partial": {"price": 1.0970, "frac": 0.5}}}
+    t2 = _simulate("EURUSD", bars2, 0, o2, SimpleNamespace(max_hold_bars=10), ex, 0.0)
+    assert t2["exit_reason"] == "target" and abs(t2["r"] - 4.0) < 1e-6, t2
+    # limit-only entry at 1.1005 (frac 1): R measured from the limit (risk 5 pips) -> target 1.0970 = 7R
+    o3 = {"side": "SELL", "price": 1.1000, "sl": 1.1010, "tp": 1.0970, "rr": 7.0,
+          "plan": {"signal_time": 0, "checks": {}, "add": {"price": 1.1005, "frac": 1.0}}}
+    t3 = _simulate("EURUSD", bars, 0, o3, SimpleNamespace(max_hold_bars=10), ex, 0.0)
+    assert t3["add_filled"] and t3["exit_reason"] == "target" and abs(t3["r"] - 7.0) < 1e-6, t3
     print("bennett selfcheck ok")
 
 

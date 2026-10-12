@@ -150,6 +150,8 @@ def run_symbol(args: tuple) -> pd.DataFrame:
         if len(news) and np.any(np.abs(news - now) <= ex.news_block_min * 60):
             continue
         tr = _simulate(sym, m5, k, order, p, ex, spr)
+        if tr["exit_reason"] == "no_fill":  # a limit that never filled is not a trade
+            continue
         trades.append(tr)
         open_until = tr["exit_index"]
         last15 = -1  # force a fresh plan scan after the trade
@@ -168,10 +170,14 @@ def _simulate(sym: str, m5: dict[str, np.ndarray], k: int, o: dict, p, ex: Exec,
     lots = max(0.01, np.floor(risk_usd_target / (risk * usd_move * units_per_lot) * 100) / 100)
     size, realized, be_done, part_done, ladder = 1.0, 0.0, False, False, 0
     add = o["plan"].get("add")  # Bennett: part size now, the rest on a limit at the imbalance (same stop / target)
-    add_px = None
+    part = o["plan"].get("partial")  # Bennett: take part off at T1 (a price), the rest runs to the target (T2)
+    add_px, part_done_px = None, None
+    if add or part:
+        assert not (ex.partial_r or ex.be_r or ex.tp_r), "plan add-on / partial are not combined with Exec partials / BE / ladders"
     if add:
-        assert not (ex.partial_r or ex.be_r or ex.tp_r), "add-on entries are not combined with partials / BE / ladders"
         size = 1.0 - add["frac"]
+        if add["frac"] >= 1.0:  # limit-only entry: R is measured from the limit price
+            risk = (add["price"] - sl) * d
     end = min(len(m5["t"]) - 1, k + p.max_hold_bars * 3)
     reason, xi, exit_px = "time", end, None
     for j in range(k + 1, end + 1):
@@ -180,6 +186,16 @@ def _simulate(sym: str, m5: dict[str, np.ndarray], k: int, o: dict, p, ex: Exec,
         # long exits on bid, short exits on ask (= bid + spread)
         if add and add_px is None and ((l_ + s <= add["price"]) if d == 1 else (h_ >= add["price"])):
             add_px = add["price"]  # the limit fills first (conservative if the stop is in the same bar)
+        if add and add["frac"] >= 1.0 and add_px is None:
+            if not (j - k <= 3 * 48 and ((l_ + s <= add["price"]) if d == 1 else (h_ >= add["price"]))):
+                if j - k > 3 * 48 or ((h_ >= tp) if d == 1 else (l_ + s <= tp)) or ((l_ <= sl) if d == 1 else (h_ + s >= sl)):
+                    reason, xi, exit_px = "no_fill", j, None  # limit not filled within 48 M15 bars / before stop or target
+                    break
+                continue
+        if part and part_done_px is None and ((h_ >= part["price"]) if d == 1 else (l_ + s <= part["price"])):
+            part_done_px = part["price"]
+            realized += part["frac"] * (part["price"] - (add_px if add and add["frac"] >= 1.0 else entry)) * d / risk
+            size -= part["frac"]
         adv_hit = (l_ <= sl) if d == 1 else (h_ + s >= sl)
         fav_hit = (h_ >= tp) if d == 1 else (l_ + s <= tp)
         if adv_hit:
@@ -204,13 +220,17 @@ def _simulate(sym: str, m5: dict[str, np.ndarray], k: int, o: dict, p, ex: Exec,
             new_sl = entry + d * ex.tp_stop_r[ladder] * risk
             sl = max(sl, new_sl) if d == 1 else min(sl, new_sl)
             ladder += 1
-    if exit_px is None:
+    if reason == "no_fill":
+        exit_px = entry
+    elif exit_px is None:
         exit_px = m5["close"][xi] if d == 1 else m5["close"][xi] + _spread(sym, int(m5["t"][xi]), ex)
     r_gross = realized + size * (exit_px - entry) * d / risk  # R = the risk of a FULL position at the first entry
     commission_r = ex.commission_per_lot_rt * lots / (risk * usd_move * units_per_lot * lots)
     if add:
         r_gross += add["frac"] * (exit_px - add_px) * d / risk if add_px is not None else 0.0
         commission_r *= size + (add["frac"] if add_px is not None else 0.0)
+    if reason == "no_fill":
+        r_gross, commission_r = 0.0, 0.0
     return {"symbol": sym, "dir": d, "t_signal": o["plan"]["signal_time"], "t_entry": int(m5["t"][k]) + 300, "t_exit": int(m5["t"][xi]) + 300,
             "entry": entry, "sl": o["sl"], "tp": tp, "exit": exit_px, "exit_reason": reason, "rr_planned": o["rr"], "lots": lots,
             "risk_pips": risk / pip(sym), "spread_pips_entry": spr_entry / pip(sym), "r_gross": r_gross, "commission_r": commission_r,
