@@ -9,6 +9,13 @@ $terminal = "E:\MT5\Bensim-100k\terminal64.exe"
 $port = 8773
 function Log($m) { Add-Content $log "$(Get-Date -Format s) $m" }
 
+# Safety: without admin rights Windows hides other processes' command lines, so the bridge / watchdog cannot be
+# recognised -- repairing blind once killed the real bridge. Not elevated -> change nothing, just say so.
+$admin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (-not $admin) { Log "WARN not elevated -- no repairs (the task must run with highest privileges)"; exit 1 }
+$blind = Get-CimInstance Win32_Process -Filter "name='python.exe' or name='powershell.exe'" | Where-Object { -not $_.CommandLine }
+if ($blind) { Log "WARN $(@($blind).Count) process command line(s) unreadable -- no repairs this run"; exit 1 }
+
 # 1. Docker Desktop (it starts Postgres itself: restart policy unless-stopped)
 $dockerExe = Join-Path $env:LOCALAPPDATA "Programs\DockerDesktop\Docker Desktop.exe"
 if (-not (Get-Process "Docker Desktop" -ErrorAction SilentlyContinue) -and (Test-Path $dockerExe)) {
