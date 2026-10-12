@@ -55,10 +55,12 @@ def swings(b: Bars, length: int) -> tuple[dict[int, tuple[int, float]], dict[int
     return tops, btms
 
 
-def structure(b: Bars, length: int, a200: np.ndarray, skip_levels: dict | None = None) -> dict[str, Any]:
-    """BOS/CHoCH + order blocks + trailing extremes for one structure layer."""
+def structure(b: Bars, length: int, a200: np.ndarray, skip_levels: dict | None = None, min_break: np.ndarray | None = None) -> dict[str, Any]:
+    """BOS/CHoCH + order blocks + trailing extremes for one structure layer. min_break (per bar, price units): the
+    close must end at least this far beyond the level (Bennett: 0.2 pip is not a break); default 0 = LuxAlgo."""
     h, l, c = b["high"], b["low"], b["close"]
     n = len(c)
+    mb = np.zeros(n) if min_break is None else min_break
     tops, btms = swings(b, length)
     trend, top, btm = 0, None, None
     ev, kind, tr = np.zeros(n, int), np.zeros(n, int), np.zeros(n, int)  # kind: 1 = CHoCH, 0 = BOS
@@ -82,7 +84,7 @@ def structure(b: Bars, length: int, a200: np.ndarray, skip_levels: dict | None =
             lvl = s[1]
             if skip_levels is not None and lvl == skip_levels[d][i]:
                 continue
-            if (c[i] > lvl >= c[i - 1]) if d == 1 else (c[i] < lvl <= c[i - 1]):
+            if (c[i] - mb[i] > lvl >= c[i - 1] - mb[i - 1]) if d == 1 else (c[i] + mb[i] < lvl <= c[i - 1] + mb[i - 1]):
                 ev[i], kind[i], piv[i] = d, int(trend == -d), s[0]
                 s[2], trend = False, d
                 ob = order_block(b, s[0], i, d, a200)
