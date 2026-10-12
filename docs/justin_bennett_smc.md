@@ -203,3 +203,13 @@ BoS & CHoCH entry signal · FVG secrets · 9 filter rules · trend lines with SM
 - His full rules (5M confirmation, no news, DXY barometer) score best; 15M trigger loses.
 - T1 (the leg's prior low) carries the result: 48 trades +0.67R; T2 trades ≈ 0R — supports "don't stretch".
 - **Not significant** (best t = 1.6), top-5 winners > total, and variant 4 by month: Jul +24.2R, Aug +6.6R, Sep +6.8R, Oct −5.2R (decaying). **Not traded.** Next: variant 6 unchanged on 2026-04 → 2026-07 (out of sample).
+
+### 4.1 Out-of-sample (2026-04-12 → 2026-07-12, unchanged parameters) — **FAILED**
+| Variant | Trades | Win % | Avg R | t | PF | Total R | Max DD |
+|---|---|---|---|---|---|---|---|
+| 5M + news + DXY (best in-sample) | 57 | 14 | **−0.42** | −1.9 | 0.55 | −23.9 | 6.8% |
+| 5M + news | 60 | 15 | −0.38 | −1.8 | 0.58 | −22.9 | 6.5% |
+Every month negative (Apr −3.7R, May −13.0R, Jun −3.6R, Jul −3.6R). The in-sample +0.63R was period luck: **Bennett's model as coded has no edge after costs.** Not traded.
+
+### 4.2 Trade diagrams (his chart style) — `python -m bensim.bennett_chart`
+`docs/charts/bennett/`: 3 winners (EURUSD sell 13 Jul +6.49R, EURUSD buy 18 Aug +4.85R, XAUUSD sell 11 Sep +5.35R) and 2 losers (EURUSD sell 2 Sep −1.11R: the 5M CHoCH came only after price had already fallen back below the 50% line and the OTE held as support; USDJPY buy 16 Sep −1.08R: stopped by one wick, then price ran straight to T1).
