@@ -42,18 +42,22 @@ def state(sym: str, tr: pd.Series, p: bs.BennettParams) -> dict:
     z_lo, z_hi = smc.ote_band(leg["start"], leg["ext"], d, p.ote)
     t0, t1 = int(hb["t"][leg["s_bar"]]), int(hb["t"][leg["x_bar"]]) + sec
     m15c = bs.closed(m15, 900, t_in)
+    aft = m15c["t"] >= int(hb["t"][leg["x_bar"]])
+    hit = np.flatnonzero(aft & ((m15c["high"] >= z_lo) if d == -1 else (m15c["low"] <= z_hi)))
+    touch_t = int(m15c["t"][hit[0]]) if len(hit) else t_in  # first OTE touch (FVGs used before it don't count)
     gaps = []
     for name, b in ((f"{p.leg_tf.lower()} FVG", hb), ("1h FVG", h), ("15m FVG", m15c)):
         if name == "1h FVG" and hb is h:
             continue
         for z in smc.fvgs(b):
-            if z["dir"] == d and t0 <= b["t"][z["formed"]] <= t1 and z["top"] >= z_lo and z["bottom"] <= z_hi:
+            if (z["dir"] == d and t0 <= b["t"][z["formed"]] <= t1 and z["top"] >= z_lo and z["bottom"] <= z_hi
+                    and z["touched"] >= int(np.searchsorted(b["t"], touch_t))):  # one-time use, same as the strategy
                 gaps.append((name, int(b["t"][z["c1"]]), z["bottom"], z["top"]))
     k5 = int(np.searchsorted(m5["t"] + 300, t_in, side="right"))
     ltf = {k: v[max(0, k5 - 100):k5] for k, v in m5.items()}
     ms = smc.market_structure(ltf, p.break_atr * smc.atr(ltf), seed=6)
     ev = ms["events"][-1] if ms["events"] else None
-    choch = (int(ltf["t"][ev[4]]), int(ltf["t"][ev[0]]), float(ev[3])) if ev else None
+    choch = (int(ltf["t"][ev[4]]), int(ltf["t"][ev[0]]), float(ev[3])) if ev and ev[1] == "CHoCH" and ev[2] == d else None
     labels = [(int(hb["t"][b_]), lab, price) for b_, lab, price in leg["ms"]["labels"] if hb["t"][b_] >= t0 - 20 * sec]
     breaks = [(int(hb["t"][pv]), int(hb["t"][e_]), kind, lvl) for e_, kind, _, lvl, pv in leg["ms"]["events"]
               if hb["t"][e_] >= t0 - 20 * sec]
@@ -67,12 +71,13 @@ def state(sym: str, tr: pd.Series, p: bs.BennettParams) -> dict:
 def svg(sym: str, tr: pd.Series, s: dict, p: bs.BennettParams) -> str:
     m, leg, d = s["m15"], s["leg"], s["leg"]["d"]
     t_start = int(s["h"]["t"][leg["s_bar"]]) - 6 * 3600
-    t_end = int(tr.t_exit) + 8 * 3600
+    snap = bool(tr.get("snapshot", False))  # engine view at t_entry only: no bars after it are drawn
+    t_end = int(tr.t_entry) + 300 if snap else int(tr.t_exit) + 8 * 3600
     i0, i1 = int(np.searchsorted(m["t"], t_start)), int(np.searchsorted(m["t"], t_end))
     v = {k: x[i0:i1] for k, x in m.items()}
     n = len(v["t"])
-    lo_p = min(v["low"].min(), tr.sl, tr.tp, leg["ext"], leg["start"])
-    hi_p = max(v["high"].max(), tr.sl, tr.tp, leg["ext"], leg["start"])
+    lo_p = float(np.nanmin([v["low"].min(), tr.sl, tr.tp, leg["ext"], leg["start"]]))
+    hi_p = float(np.nanmax([v["high"].max(), tr.sl, tr.tp, leg["ext"], leg["start"]]))
     span = hi_p - lo_p
     lo_p, hi_p = lo_p - 0.04 * span, hi_p + 0.04 * span
     cw = (W - PAD - RIGHT) / n
@@ -131,21 +136,25 @@ def svg(sym: str, tr: pd.Series, s: dict, p: bs.BennettParams) -> str:
         ta, tb, lv = s["choch"]
         o.append(f'<line x1="{X(ta):.1f}" x2="{X(tb):.1f}" y1="{Y(lv):.1f}" y2="{Y(lv):.1f}" stroke="#c2185b" stroke-width="2"/>')
         o.append(f'<text x="{X(ta) - 4:.1f}" y="{Y(lv) + (16 if d == -1 else -7):.1f}" text-anchor="end" fill="#c2185b" font-weight="bold">5m CHoCH</text>')
-    # position box: risk red, reward green, from entry to exit
+    # position box: risk red, reward green, from entry to exit (a snapshot has none)
+    if snap:
+        o.append(f'<line x1="{PAD + (n - 0.5) * cw:.1f}" x2="{PAD + (n - 0.5) * cw:.1f}" y1="{TOP}" y2="{H - INFO}" stroke="#1565c0" stroke-dasharray="3 3"/>')
+        o.append(f'<text x="{PAD + (n - 0.5) * cw - 4:.1f}" y="{TOP + 14}" text-anchor="end" fill="#1565c0" font-weight="bold">now ({ts(tr.t_entry)}) -- nothing after this is shown</text>')
     xi, xo = X(int(tr.t_entry) - 300), X(int(tr.t_exit) - 300)
     xo = max(xo, xi + 30)
-    for a_, b_, c in ((tr.entry, tr.sl, "rgba(220,60,60,0.30)"), (tr.entry, tr.tp, "rgba(40,160,90,0.30)")):
+    for a_, b_, c in (() if snap else ((tr.entry, tr.sl, "rgba(220,60,60,0.30)"), (tr.entry, tr.tp, "rgba(40,160,90,0.30)"))):
         o.append(f'<rect x="{xi:.1f}" y="{Y(max(a_, b_)):.1f}" width="{xo - xi:.1f}" height="{abs(Y(a_) - Y(b_)):.1f}" fill="{c}"/>')
-    for pr, lab, c in ((tr.entry, "Entry", "#111"), (tr.sl, "SL", "#c62828"), (tr.tp, "T1" if tr.chk_target_is_t1 else "T2", "#2e7d32")):
+    for pr, lab, c in (() if snap else ((tr.entry, "Entry", "#111"), (tr.sl, "SL", "#c62828"), (tr.tp, "T1" if tr.chk_target_is_t1 else "T2", "#2e7d32"))):
         o.append(f'<line x1="{xi:.1f}" x2="{xo:.1f}" y1="{Y(pr):.1f}" y2="{Y(pr):.1f}" stroke="{c}" stroke-width="1.5"/>')
         o.append(f'<text x="{xo + 4:.1f}" y="{Y(pr) + 4:.1f}" fill="{c}" font-weight="bold">{lab} {f(pr)}</text>')
-    o.append(f'<circle cx="{X(int(tr.t_exit) - 300):.1f}" cy="{Y(tr.exit):.1f}" r="6" fill="{"#2e7d32" if tr.r > 0 else "#c62828"}"/>')
+    if not snap:
+        o.append(f'<circle cx="{X(int(tr.t_exit) - 300):.1f}" cy="{Y(tr.exit):.1f}" r="6" fill="{"#2e7d32" if tr.r > 0 else "#c62828"}"/>')
     # price axis
     for k in range(7):
         pr = lo_p + k * (hi_p - lo_p) / 6
         o.append(f'<text x="{W - RIGHT + 8}" y="{Y(pr) + 4:.1f}" fill="#777" font-size="11">{f(pr)}</text>')
     side = "BUY" if d == 1 else "SELL"
-    res = f"{'WIN' if tr.r > 0 else 'LOSS'} {tr.r:+.2f}R ({tr.exit_reason})"
+    res = f"SNAPSHOT, engine view, no lookahead -- {tr.note}" if snap else f"{'WIN' if tr.r > 0 else 'LOSS'} {tr.r:+.2f}R ({tr.exit_reason})"
     o.append(f'<text x="{PAD}" y="30" font-size="20" font-weight="bold">{sym} {side} -- {ts(tr.t_entry)} UTC -- {res}</text>')
     o.append(f'<text x="{PAD}" y="52" fill="#555">Bennett process (M15 candles): daily bias -> {s["tf"]} {leg["kind"]} -> relief into OTE 62-79% (+FVG) -> 5m CHoCH -> {side.lower()}, '
              f'stop above the {"high" if d == -1 else "low"} / equal {"highs" if d == -1 else "lows"}, target {"T1 = leg external " + ("low" if d == -1 else "high") if tr.chk_target_is_t1 else "T2 = next liquidity"}; planned {tr.chk_rr_planned}R</text>')
@@ -154,6 +163,8 @@ def svg(sym: str, tr: pd.Series, s: dict, p: bs.BennettParams) -> str:
              f"3. Area of interest: {', '.join(sorted({g[0] for g in s['gaps']})) or 'no FVG'} inside the OTE.",
              f"4. Price traded into the OTE, then a 5m CHoCH (close through the 5m swing) = trigger; entry {f(tr.entry)}.",
              f"5. Stop {f(tr.sl)} beyond the 5m swing (invalidation); target {f(tr.tp)} ({tr.chk_rr_planned}R) -> exit {f(tr.exit)} = {tr.r:+.2f}R."]
+    if snap:
+        steps = steps[:3] + [f"4. Price now {f(tr.entry)} at fib {(tr.entry - leg['ext']) / (leg['start'] - leg['ext']):.2f}. {tr.note}"]
     for k, line in enumerate(steps):
         o.append(f'<text x="{PAD}" y="{H - INFO + 30 + 24 * k}" font-size="14" fill="{INK}">{line}</text>')
     o.append("</svg>")
@@ -174,18 +185,29 @@ async def render(paths: list[Path]) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--csv", required=True)
-    ap.add_argument("--rows", required=True, help="row numbers of the backtest CSV, e.g. 0,3,47")
+    ap.add_argument("--csv")
+    ap.add_argument("--rows", default="", help="row numbers of the backtest CSV, e.g. 0,3,47")
+    ap.add_argument("--snapshot", action="append", default=[], help='"SYMBOL|YYYY-MM-DD HH:MM|note": the engine view at that time')
     ap.add_argument("--out", default="docs/charts/bennett")
     ap.add_argument("--set", action="append", default=[], help='strategy params of that run, e.g. ltf="M5"')
     a = ap.parse_args()
     import ast
     p = bs.BennettParams(**{k: ast.literal_eval(x) for k, x in (kv.split("=", 1) for kv in a.set)})
-    t = pd.read_csv(a.csv)
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     files = []
-    for r in (int(x) for x in a.rows.split(",")):
+    for sn in a.snapshot:
+        sym, when, note = sn.split("|")
+        t0 = int(pd.Timestamp(when, tz="UTC").timestamp())
+        last = load_m5(sym, pd.Timestamp(t0 - 86400, unit="s", tz="UTC").isoformat(), pd.Timestamp(t0, unit="s", tz="UTC").isoformat())
+        px = float(last["close"][-1])
+        tr = pd.Series({"symbol": sym, "t_entry": t0, "t_exit": t0, "entry": px, "sl": np.nan, "tp": np.nan, "exit": px,
+                        "r": np.nan, "exit_reason": "", "chk_target_is_t1": True, "chk_rr_planned": "-", "snapshot": True, "note": note})
+        fp = out / f"snap_{sym}_{pd.Timestamp(t0, unit='s'):%Y%m%d_%H%M}.svg"
+        fp.write_text(svg(sym, tr, state(sym, tr, p), p), encoding="utf-8")
+        files.append(fp)
+    t = pd.read_csv(a.csv) if a.csv else pd.DataFrame()
+    for r in (int(x) for x in a.rows.split(",") if x):
         tr = t.loc[r]
         fp = out / f"{r:02d}_{tr.symbol}_{pd.Timestamp(int(tr.t_entry), unit='s'):%Y%m%d_%H%M}.svg"
         fp.write_text(svg(tr.symbol, tr, state(tr.symbol, tr, p), p), encoding="utf-8")
