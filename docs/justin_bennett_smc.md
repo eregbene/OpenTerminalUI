@@ -299,3 +299,13 @@ Better than every LuxAlgo version, but not proven: baseline 45 trades; path-to-t
 | his 4 + path to target | 5 | −0.17 | — | −0.9 | 0.8% |
 Per symbol (all 7): AUDUSD +17.4R, XAUUSD +9.3R, EURUSD −0.5R, GBPUSD −11.5R, USDJPY −10.6R, USDCHF −7.4R, USDCAD −1.1R.
 The non-Bennett symbols lose; "path to target" was small-sample noise. Not proven, not traded. Weekly tool: `python -m bensim.bennett_report --from .. --to .. --update`.
+
+### 7.3 Base video exactly vs 4H version (1 year, his 4 symbols)
+| Version | Trades | Avg R | Total R | Max DD |
+|---|---|---|---|---|
+| 4H leg (default) | 37 | +0.40 | +14.7 | 2.8% |
+| 1H leg | 33 | +0.08 | +2.7 | 2.2% |
+| **1H leg + external level swept internal liquidity** (`took_internal`) | 17 | **+0.49** | +8.4 | **1.0%** |
+| all base-video rules (+ `ltf_swept` 5M sweep + T1 partial) | 3 | +2.11 | +6.3 | 0.5% |
+| 4H leg + `took_internal` | 12 | +0.46 | +5.5 | 1.6% |
+His liquidity rule lifts the 1H version a lot and fixes GBPUSD; the 5M sweep on top is too strict to trade. Candidates A (4H) and B (1H + liquidity) need an out-of-sample check (Oct 2023 – Oct 2025) before anything else.
