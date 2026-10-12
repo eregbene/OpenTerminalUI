@@ -140,7 +140,7 @@ def run_symbol(args: tuple) -> pd.DataFrame:
         i1 = int(np.searchsorted(h1["t"] + bs, now, side="right"))
         waiting = []
         kw = {"htf": _win(h1, i1, hb)} if long_ctx else {}  # ~54 days of H1 for the H4 swing range / D1 trend efficiency
-        pl = plan(_win(m15, i15, 300), _win(h1, i1, 200), _win(m5, k + 1, 100), sym, p, waiting=waiting, **kw)
+        pl = plan(_win(m15, i15, 300), _win(h1, i1, 200), _win(m5, k + 1, getattr(p, "m5_bars", 100)), sym, p, waiting=waiting, **kw)
         last15 = cur15
         bid = float(m5["close"][k])
         spr = _spread(sym, now, ex)
@@ -178,7 +178,7 @@ def _simulate(sym: str, m5: dict[str, np.ndarray], k: int, o: dict, p, ex: Exec,
         size = 1.0 - add["frac"]
         if add["frac"] >= 1.0:  # limit-only entry: R is measured from the limit price
             risk = (add["price"] - sl) * d
-    end = min(len(m5["t"]) - 1, k + p.max_hold_bars * 3)
+    end = min(len(m5["t"]) - 1, k + o["plan"].get("hold_bars", p.max_hold_bars) * 3)  # a plan may set its own hold
     reason, xi, exit_px = "time", end, None
     for j in range(k + 1, end + 1):
         s = _spread(sym, int(m5["t"][j]), ex)

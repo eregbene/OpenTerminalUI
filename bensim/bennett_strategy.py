@@ -18,8 +18,9 @@ The manual process, as code (sell; buys are the mirror):
   8. targets         T1 = the leg's external low; T2 = untaken equal lows / older external lows beyond it; the first
                      that pays >= min_rr (he takes ~2.75-3R) -- never a far level just to reach the RR
   9. stand aside     the setup expires expire_h hours after the LATEST push into the OTE (chop = "red flag"); after a
-                     failed trigger in the leg (an M15 CHoCH our way later broken the other way) only a 1H CHoCH may
-                     trigger -- "after a 15M loss, now I need the 1H to convince me"
+                     LOSS in the leg -- an earlier VALID trigger (5M CHoCH our way, after the OTE touch, entry in
+                     premium) whose stop was later hit -- only a 1H CHoCH may trigger: "after a 15M loss, now I need
+                     the 1H to convince me" (a reversed CHoCH that was never a valid trade is not a loss)
 News (his filter 6) = the backtester's --news-block. Options: trigger="lsr" (sweep reversal instead of the CHoCH),
 add_on (half now, half at the trigger leg's 15M FVG), h4_fill (nearest 4H FVG of the leg fully filled first),
 took_internal (the leg start swept internal liquidity), max_area_atr (area width), dxy="agree" (synthetic DXY bias).
@@ -55,6 +56,8 @@ class BennettParams:
     stop_buffer_atr: float = 0.1
     expire_h: float = 48.0
     after_fail: str = "1h"  # "1h" (his rule) | "stand" (no more trades in the leg) | "off"
+    hold: str = "leg"  # "leg": max hold = 1.5 x the time the leg took (his time-in-trade filter), 50 h .. 10 days | "fixed"
+    m5_bars: int = 1000  # M5 history passed in (~3.5 days): enough to see earlier triggers of the same leg
     trigger: str = "choch"  # "choch" | "lsr"
     add_on: bool = False
     entry: str = "close"  # "close" (market on the CHoCH close) | "fvg" (limit at the CHoCH leg's 15M FVG, else no trade)
@@ -204,11 +207,19 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
     if ltf["t"][j] < touch_t:
         return None
     failed = False
-    if p.after_fail != "off":  # step 9: an M15 CHoCH our way since the touch, later broken the other way
-        s15 = structure(m15, p, seed=6)
-        k0 = int(np.searchsorted(m15["t"], touch_t))
-        ours = [e for e in s15["events"] if e[0] >= k0 and e[1] == "CHoCH" and e[2] == d]
-        failed = bool(ours) and any(e[0] > ours[0][0] and e[2] == -d for e in s15["events"])
+    if p.after_fail != "off":  # step 9: was there a real LOSS in this leg? (a valid earlier trigger, stop hit)
+        s5 = structure(m5, p, seed=6)
+        a5 = smc.atr(m5)
+        k0, last5 = int(np.searchsorted(m5["t"], touch_t)), len(m5["t"]) - 1
+        for i, kind, dd, _, _ in s5["events"]:
+            if i < k0 or i >= last5 or kind != "CHoCH" or dd != d:
+                continue
+            if smc.fib_pos(float(m5["close"][i]), leg["start"], leg["ext"]) < 0.5:
+                continue  # in discount: never a valid trade, so not a loss
+            stop_i = float(s5["prot"][i]) - d * p.stop_buffer_atr * a5[i]
+            if ((m5["high"][i + 1:last5 + 1] >= stop_i) if d == -1 else (m5["low"][i + 1:last5 + 1] <= stop_i)).any():
+                failed = True
+                break
         if failed and p.after_fail == "stand":
             return None
     if failed:  # "now I need the 1H": a 1H CHoCH our way on the 1H candle that just closed (= this M5 close)
@@ -284,14 +295,18 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
         edges = [x for x in edges if (x - entry) * d < 0 and (x - stop) * d > 0]
         if edges:
             add = {"price": float(min(edges) if d == -1 else max(edges)), "frac": 0.5}
-    checks = {"leg": f"{p.leg_tf} {leg['kind']}", "fib_pos": round(smc.fib_pos(entry, leg["start"], leg["ext"]), 2),
+    hold_bars = p.max_hold_bars
+    if p.hold == "leg":  # "measure how long the recent legs took from high to low" -- don't cut it after a few hours
+        took = (int(hb["t"][leg["x_bar"]]) - int(hb["t"][leg["s_bar"]])) // 900
+        hold_bars = int(min(960, max(p.max_hold_bars, 1.5 * took)))
+    checks = {"leg": f"{p.leg_tf} {leg['kind']}", "hold_bars": hold_bars, "fib_pos": round(smc.fib_pos(entry, leg["start"], leg["ext"]), 2),
               "ote": [round(z_lo, 5), round(z_hi, 5)], "target_is_t1": target == leg["ext"],
               "rr_planned": round((target - entry) * d / risk, 2), "trigger": "1H after fail" if failed else p.trigger, "add_on": add is not None,
               "choch_plus": bool(plus) if not failed and p.trigger != "lsr" else None, "entry_mode": p.entry,
               "t1_partial": partial is not None}
     return {"dir": d, "status": "TRIGGERED", "entry": entry, "stop": stop, "target": float(target),
             "signal_time": int(ltf["t"][j]), "zone_base_time": int(hb["t"][leg["e"]]), "atr": float(la[j]),
-            "checks": checks, **({"add": add} if add else {}), **({"partial": partial} if partial else {})}
+            "checks": checks, "hold_bars": hold_bars, **({"add": add} if add else {}), **({"partial": partial} if partial else {})}
 
 
 def _selfcheck() -> None:
