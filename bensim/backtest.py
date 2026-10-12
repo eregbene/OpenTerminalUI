@@ -114,8 +114,9 @@ def _news_times(sym: str) -> np.ndarray:
 def run_symbol(args: tuple) -> pd.DataFrame:
     sym, start, end, p, ex, name = args
     _, plan, order_for = STRATEGIES[name]
-    long_ctx = getattr(p, "h4_discount", False) or getattr(p, "trend_eff_min", 0) or getattr(p, "htf", "off") != "off"
-    warm = max(WARMUP_SEC, 200 * getattr(p, "bias_sec", 3600), 1400 * 3600 if long_ctx else 0)  # bias / H4-context windows must be loaded too
+    long_ctx = getattr(p, "h4_discount", False) or getattr(p, "trend_eff_min", 0) or getattr(p, "needs_htf", False)
+    hb = getattr(p, "htf_bars", 1300)  # length of the long H1 window passed as htf
+    warm = max(WARMUP_SEC, 200 * getattr(p, "bias_sec", 3600), (hb + 100) * 3600 if long_ctx else 0)  # bias / H4-context windows must be loaded too
     t_load = (pd.Timestamp(start, tz="UTC") - pd.Timedelta(seconds=warm)).isoformat() if start else None
     m5 = load_m5(sym, t_load, end)
     if not len(m5["t"]):
@@ -138,7 +139,7 @@ def run_symbol(args: tuple) -> pd.DataFrame:
         i15 = int(np.searchsorted(m15["t"] + es, now, side="right"))
         i1 = int(np.searchsorted(h1["t"] + bs, now, side="right"))
         waiting = []
-        kw = {"htf": _win(h1, i1, 1300)} if long_ctx else {}  # ~54 days of H1 for the H4 swing range / D1 trend efficiency
+        kw = {"htf": _win(h1, i1, hb)} if long_ctx else {}  # ~54 days of H1 for the H4 swing range / D1 trend efficiency
         pl = plan(_win(m15, i15, 300), _win(h1, i1, 200), _win(m5, k + 1, 100), sym, p, waiting=waiting, **kw)
         last15 = cur15
         bid = float(m5["close"][k])

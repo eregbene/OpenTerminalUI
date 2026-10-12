@@ -15,8 +15,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from . import bennett_smc as smc
 from . import bennett_strategy as bs
-from . import indicators
 from .backtest import load_m5, resample
 
 W, H, PAD, TOP, RIGHT, INFO = 1500, 900, 70, 70, 110, 170
@@ -28,31 +28,40 @@ def ts(t: int) -> str:
 
 
 def state(sym: str, tr: pd.Series, p: bs.BennettParams) -> dict:
-    """What the strategy saw at entry: 1H leg, OTE, FVGs in the area, the LTF CHoCH level."""
+    """What the strategy saw at entry, rebuilt with its own engine (bensim.bennett_smc): the leg, its labels and
+    breaks, the OTE, the leg's FVGs in the OTE, the relief's equal highs/lows, and the trigger CHoCH."""
     t_in = int(tr.t_entry)
-    m5 = load_m5(sym, pd.Timestamp(t_in - 12 * 86400, unit="s", tz="UTC").isoformat(),
+    m5 = load_m5(sym, pd.Timestamp(t_in - 70 * 86400, unit="s", tz="UTC").isoformat(),
                  pd.Timestamp(int(tr.t_exit) + 2 * 86400, unit="s", tz="UTC").isoformat())
     m15, h1 = resample(m5, 900), resample(m5, 3600)
-    h = {k: v[:int(np.searchsorted(h1["t"] + 3600, t_in, side="right"))] for k, v in h1.items()}
-    leg = bs.h1_leg({k: v[-200:] for k, v in h.items()}, p)
-    off = len(h["t"]) - min(200, len(h["t"]))
-    for k in ("e", "piv", "s_bar", "x_bar"):
-        leg[k] += off
-    z_lo, z_hi = bs.ote_band(leg, p)
-    t0, t1 = int(h["t"][leg["s_bar"]]), int(h["t"][leg["x_bar"]]) + 3600
+    h = bs.closed({k: v for k, v in h1.items()}, 3600, t_in)
+    h = {k: v[-1300:] for k, v in h.items()}
+    hb, sec = (bs.closed(bs.agg(h, 14400), 14400, t_in), 14400) if p.leg_tf == "H4" else (h, 3600)
+    leg = bs.leg_of(hb, p)
+    d = leg["d"]
+    z_lo, z_hi = smc.ote_band(leg["start"], leg["ext"], d, p.ote)
+    t0, t1 = int(hb["t"][leg["s_bar"]]), int(hb["t"][leg["x_bar"]]) + sec
+    m15c = bs.closed(m15, 900, t_in)
     gaps = []
-    for name, b in (("1h FVG", h), ("15m FVG", {k: v[:int(np.searchsorted(m15["t"] + 900, t_in, side="right"))] for k, v in m15.items()})):
-        for z in indicators.fvgs(b, auto=False):
-            if z["dir"] == leg["d"] and t0 <= b["t"][z["formed"]] <= t1 and z["top"] >= z_lo and z["bottom"] <= z_hi:
-                gaps.append((name, int(b["t"][z["formed"] - 2]), z["bottom"], z["top"]))
-    k5 = int(np.searchsorted(m5["t"] + 300, t_in, side="right"))  # M5 bars closed at entry
+    for name, b in ((f"{p.leg_tf.lower()} FVG", hb), ("1h FVG", h), ("15m FVG", m15c)):
+        if name == "1h FVG" and hb is h:
+            continue
+        for z in smc.fvgs(b):
+            if z["dir"] == d and t0 <= b["t"][z["formed"]] <= t1 and z["top"] >= z_lo and z["bottom"] <= z_hi:
+                gaps.append((name, int(b["t"][z["c1"]]), z["bottom"], z["top"]))
+    k5 = int(np.searchsorted(m5["t"] + 300, t_in, side="right"))
     ltf = {k: v[max(0, k5 - 100):k5] for k, v in m5.items()}
-    st = indicators.structure(ltf, p.ltf_len, indicators.atr_n(ltf, 200), min_break=p.break_atr * bs.atr(ltf))
-    j = len(ltf["t"]) - 1
-    piv = int(st["pivot"][j])
-    choch = (int(ltf["t"][piv]), int(ltf["t"][j]), float(ltf["low"][piv] if leg["d"] == -1 else ltf["high"][piv])) if piv >= 0 else None
-    brk_lvl = float(h["low"][leg["piv"]] if leg["d"] == -1 else h["high"][leg["piv"]])
-    return {"m15": m15, "leg": leg, "h": h, "ote": (z_lo, z_hi), "gaps": gaps, "choch": choch, "brk": brk_lvl}
+    ms = smc.market_structure(ltf, p.break_atr * smc.atr(ltf), seed=6)
+    ev = ms["events"][-1] if ms["events"] else None
+    choch = (int(ltf["t"][ev[4]]), int(ltf["t"][ev[0]]), float(ev[3])) if ev else None
+    labels = [(int(hb["t"][b_]), lab, price) for b_, lab, price in leg["ms"]["labels"] if hb["t"][b_] >= t0 - 20 * sec]
+    breaks = [(int(hb["t"][pv]), int(hb["t"][e_]), kind, lvl) for e_, kind, _, lvl, pv in leg["ms"]["events"]
+              if hb["t"][e_] >= t0 - 20 * sec]
+    sh, sl_ = smc.swing_points({k: v[-200:] for k, v in m15c.items()}, 2)
+    eqs = [e["level"] for e in smc.equal_levels(sh if d == -1 else sl_, p.eq_tol_atr * leg["atr"], high=d == -1)
+           if (e["level"] - tr.entry) * -d > 0]
+    return {"m15": m15, "leg": leg, "h": hb, "ote": (z_lo, z_hi), "gaps": gaps, "choch": choch,
+            "brk": leg["ms"]["events"][-1][3], "labels": labels, "breaks": breaks, "eq": eqs, "tf": p.leg_tf}
 
 
 def svg(sym: str, tr: pd.Series, s: dict, p: bs.BennettParams) -> str:
@@ -105,10 +114,19 @@ def svg(sym: str, tr: pd.Series, s: dict, p: bs.BennettParams) -> str:
         o.append(f'<line x1="{x:.1f}" x2="{x:.1f}" y1="{Y(v["high"][i]):.1f}" y2="{Y(v["low"][i]):.1f}" stroke="{col}"/>')
         yb, ye = sorted((Y(v["open"][i]), Y(v["close"][i])))
         o.append(f'<rect x="{x - cw * 0.35:.1f}" y="{yb:.1f}" width="{cw * 0.7:.1f}" height="{max(1, ye - yb):.1f}" fill="{"#fff" if up else col}" stroke="{col}"/>')
-    # 1H break (BOS / CHoCH) and the 5M CHoCH trigger
-    xp, xe = X(int(s["h"]["t"][leg["piv"]])), X(int(s["h"]["t"][leg["e"]]) + 3600)
-    o.append(f'<line x1="{xp:.1f}" x2="{xe:.1f}" y1="{Y(s["brk"]):.1f}" y2="{Y(s["brk"]):.1f}" stroke="#000" stroke-width="2"/>')
-    o.append(f'<text x="{(xp + xe) / 2:.1f}" y="{Y(s["brk"]) - 5:.1f}" text-anchor="middle" font-weight="bold">1H {leg["kind"]}</text>')
+    # leg-timeframe structure: every BOS / CHoCH line and the HH / HL / LH / LL labels the engine produced
+    for ta, tb, kind, lv in s["breaks"]:
+        if lv < lo_p or lv > hi_p:
+            continue
+        o.append(f'<line x1="{X(ta):.1f}" x2="{X(tb):.1f}" y1="{Y(lv):.1f}" y2="{Y(lv):.1f}" stroke="#000" stroke-width="{2 if kind == "CHoCH" else 1.2}"/>')
+        o.append(f'<text x="{(X(ta) + X(tb)) / 2:.1f}" y="{Y(lv) - 4:.1f}" text-anchor="middle" font-size="12" font-weight="bold">{s["tf"]} {kind}</text>')
+    for tl, lab, pr in s["labels"]:
+        if lo_p <= pr <= hi_p and tl >= v["t"][0]:
+            up_lab = lab in ("HH", "LH")
+            o.append(f'<text x="{X(tl):.1f}" y="{Y(pr) + (-8 if up_lab else 16):.1f}" text-anchor="middle" font-size="11" fill="#1565c0" font-weight="bold">{lab}</text>')
+    for lv in s["eq"]:
+        o.append(f'<line x1="{xa:.1f}" x2="{xb:.1f}" y1="{Y(lv):.1f}" y2="{Y(lv):.1f}" stroke="#ef6c00" stroke-width="1.5" stroke-dasharray="6 3"/>')
+        o.append(f'<text x="{xa + 6:.1f}" y="{Y(lv) - 4:.1f}" fill="#ef6c00" font-size="12" font-weight="bold">equal {"highs" if d == -1 else "lows"} = liquidity ({f(lv)})</text>')
     if s["choch"]:
         ta, tb, lv = s["choch"]
         o.append(f'<line x1="{X(ta):.1f}" x2="{X(tb):.1f}" y1="{Y(lv):.1f}" y2="{Y(lv):.1f}" stroke="#c2185b" stroke-width="2"/>')
@@ -129,9 +147,9 @@ def svg(sym: str, tr: pd.Series, s: dict, p: bs.BennettParams) -> str:
     side = "BUY" if d == 1 else "SELL"
     res = f"{'WIN' if tr.r > 0 else 'LOSS'} {tr.r:+.2f}R ({tr.exit_reason})"
     o.append(f'<text x="{PAD}" y="30" font-size="20" font-weight="bold">{sym} {side} -- {ts(tr.t_entry)} UTC -- {res}</text>')
-    o.append(f'<text x="{PAD}" y="52" fill="#555">Bennett model (M15 candles): 1H {leg["kind"]} -> pullback into OTE 62-79% (+FVG) -> 5m CHoCH -> {side.lower()}, '
-             f'stop beyond the 5m swing, target {"T1 = prior 1H " + ("low" if d == -1 else "high") if tr.chk_target_is_t1 else "T2 = next liquidity"}; DXY agreed; planned {tr.chk_rr_planned}R</text>')
-    steps = [f"1. 1H {leg['kind']}: close through {f(s['brk'])} -> {side.lower()}s only.",
+    o.append(f'<text x="{PAD}" y="52" fill="#555">Bennett process (M15 candles): daily bias -> {s["tf"]} {leg["kind"]} -> relief into OTE 62-79% (+FVG) -> 5m CHoCH -> {side.lower()}, '
+             f'stop above the {"high" if d == -1 else "low"} / equal {"highs" if d == -1 else "lows"}, target {"T1 = leg external " + ("low" if d == -1 else "high") if tr.chk_target_is_t1 else "T2 = next liquidity"}; planned {tr.chk_rr_planned}R</text>')
+    steps = [f"1. Daily bias + {s['tf']} {leg['kind']}: close through {f(s['brk'])} -> {side.lower()}s only (protected level {f(leg['start'])}).",
              f"2. Fib {f(leg['start'])} -> {f(leg['ext'])}: {'premium' if d == -1 else 'discount'} beyond 0.5, OTE {f(z_lo)}-{f(z_hi)} (dark green).",
              f"3. Area of interest: {', '.join(sorted({g[0] for g in s['gaps']})) or 'no FVG'} inside the OTE.",
              f"4. Price traded into the OTE, then a 5m CHoCH (close through the 5m swing) = trigger; entry {f(tr.entry)}.",

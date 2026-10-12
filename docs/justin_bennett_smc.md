@@ -242,3 +242,39 @@ Script: scratchpad `jb_anatomy.py` → `data/bennett_anatomy.csv`.
 | **After a 15M loss, wait for the 1H** | `loss_wait_1h=True` | if an M15 CHoCH our way since the OTE touch was later broken the other way, only a 1H CHoCH (on the 1H close) may trigger |
 | Daily / 4H baseline | `htf="H4D1"` | 4H and daily structure trends must agree |
 | "Cannot short in discount" | `premium_entry=True` | entry must still be beyond the leg's 50% |
+
+## 6. Manual read, EURUSD Apr–Jul 2026 (his method by eye, no strategy code)
+- Daily bearish: external high 1.2082 (27 Jan) → daily CHoCH 3 Mar (close 1.1611) → external low 1.1411 (13 Mar); daily OTE 1.1827–1.1941, 50% 1.1746 → **sells only**.
+- **A — 17 Apr**: rally into the **daily OTE** (high 1.18492), swept the 14–16 Apr highs and closed below the 16 Apr low → **daily liquidity-sweep reversal** → sell ~1.1763, stop ~1.1855, 2.8R to the April lows 1.1505 → hit 8 Jun (slow, 7 weeks). WIN ~+2.8R.
+- 21 Apr – 14 May: range, 4H protected low 1.1664 intact → no-trade zone.
+- **B — 15 May** 4H CHoCH; relief only to the 50% (1.16858), no OTE, < 2R to the equal lows → **no trade** (correctly skipped).
+- **C — 15–17 Jun**: after the 5 Jun BOS, relief into the OTE 1.1589–1.1614 with **equal highs ~1.1620** (liquidity) → lower high + LTF CHoCH 17 Jun → sell ~1.1590, stop ~1.1623, T1 1.14995 → hit 17–18 Jun. WIN ~+2.7–3R.
+- 24 Jun – 10 Jul: relief only to the 50% (1.14727) + chop → red flag, no trade.
+- **His way: 2 trades, both winners. The code: 10 EURUSD trades, −6.7R** — 6 BUYS against the daily downtrend (incl. a buy at 1.15842 on 16 Jun, exactly into setup C), sells at fib 0.18–0.39 (deep discount), and constant trading in the chop.
+
+## 7. The Bennett engine (authentic rebuild, no LuxAlgo) — `bensim/bennett_smc.py` + `bensim/bennett_strategy.py`
+Why: the first version used the LuxAlgo port (`indicators.py`), whose pivot structure flips on internal highs/lows
+(8 4H "CHoCHs" May–Jul; 16 Jun called 4H bullish). Rebuilt from his definitions and the manual EURUSD read.
+
+| Concept | His definition | Code |
+|---|---|---|
+| BOS / CHoCH (MSS) | close beyond (wicks never); only the protected level flips the trend; protected low = lowest low between the broken high and the BOS bar (box) | `smc.market_structure` |
+| HH / HL / LH / LL, external vs internal | external = confirmed by a BOS; in-between = internal | labels from the same engine |
+| FVG / imbalance | 3-candle gap, valid after candle 3 closes; one-time use (touched); HTF fills completely (candle-1 extreme) | `smc.fvgs` |
+| Premium / discount / OTE | 50% / 62–79% of the leg (fib 0, 0.5, 0.62, 0.79, 1) | `smc.ote_band`, `smc.fib_pos` |
+| Swing points | the visible highs/lows (above n neighbours) | `smc.swing_points` |
+| Equal highs/lows | consecutive swings within ~0.1 ATR = liquidity building | `smc.equal_levels` |
+| Sweep | wick through, no close beyond | `smc.swept` |
+| Swept internal liquidity | the run into the external high took an internal high | `smc.took_internal` |
+| Sweep reversal | low → wick under, no close → close above the high that started the sweep leg | `smc.sweep_reversal` |
+| Liquidity targets | T1 leg extreme, T2 untaken equal / older external levels | `smc.pools` |
+
+The strategy = the manual process: daily (opt. weekly) bias → 4H leg → relief into the OTE (50% alone is not enough)
+→ leg FVG in the OTE, untouched → 5M CHoCH, entry still in premium → stop above the 5M high AND the relief's equal
+highs → T1/T2 ≥ 2.75R → expire 48 h after the latest push; after a failed trigger only a 1H CHoCH ("wait for the 1H").
+Replay EURUSD Apr–Jul: finds the manual setup C (15 Jun 15:15 sell 1.16046, stop 1.16209 above the 1.1620 equal
+highs → T1 1.14995, 6.5R). Honest notes: strictly by his box rule the daily flipped up 9 Apr and the weekly stayed
+bullish until late June — my manual "weekly bearish" A trade was eyeballing; the first-touch sells of 11–12 Jun fail.
+**Missing (to add):** 50% at T1 + run to T2; "CHoCH plus" (lower high before the CHoCH); limit entry at the CHoCH leg's
+15M FVG; path-to-target (no opposite imbalance in the way); adaptive time-in-trade; distribution channels / trend
+lines; DXY only for marginal breaks; holiday chop.
