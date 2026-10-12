@@ -178,5 +178,10 @@ Use when there is **no CHoCH nearby** (the protected low is far away). Catches t
 | High-impact news (FOMC, NFP) in the next hours → no trade | backtester `--news-block <minutes>` |
 | Time in trade 1–2 days | `max_hold_bars=200` M15 (50 h) |
 
-**Not coded yet** (candidates for later variants): the **liquidity-sweep reversal** trigger (2.6), the **DXY referee** for marginal EURUSD/GBPUSD breaks (needs a synthetic DXY — the DB has no DXY, but 5 of its 6 basket currencies are in the DB), **weekly/daily** external-structure bias (2.8), **distribution channels / trend lines** (2.4, 2.10), half-size entry + add, 50% partial at T1, "after a 15M loss wait for 1H", emotional state / clarity (human).
+**Also coded (options):**
+- `trigger="lsr"` — the **liquidity-sweep reversal** (2.6) as the LTF trigger inside the area: swing high wicked above without a close above → close below the low the sweep leg started from; stop above the sweep high.
+- `dxy="agree"` — the **DXY barometer** (2.10/2.11): the synthetic DXY's last 1H break must point the dollar's way.
+  **DXY data:** ICMarkets MT5 has **no DXY symbol** (USDX/DXY/USDIndex/.cash all absent) but has **USDSEK**, so `bensim/dxy.py` builds it with the official ICE formula (`50.14348112 × EURUSD^-0.576 × USDJPY^0.136 × GBPUSD^-0.119 × USDCAD^0.091 × USDSEK^0.042 × USDCHF^0.036`) from our own M5 bars and stores it as symbol `DXY` (M5, source `synthetic-ice`). **Validated against Yahoo DX-Y.NYB** over 6,019 hourly bars (Oct 2025–Oct 2026): mean difference −0.001, std 0.013, hourly-change correlation 0.97. Live use would need it recomputed from live MT5 bars (not wired).
+
+**Not coded yet:** weekly/daily external-structure bias (2.8), distribution channels / trend lines (2.4, 2.10), half-size entry + add, 50% partial at T1, "after a 15M loss wait for 1H", emotional state / clarity (human).
 BoS & CHoCH entry signal · FVG secrets · 9 filter rules · trend lines with SMC · inducement · liquidity-sweep reversals (no CHoCH) · most traders skip this · HTF directional bias · top-down market structure · weekly outlook DXY/EURUSD/GBPUSD/AUDUSD/XAUUSD ×2 · why trades fail · why inconsistent.
