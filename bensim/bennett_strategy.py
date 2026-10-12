@@ -66,6 +66,7 @@ class BennettParams:
     clear_path: bool = False  # no untouched opposite imbalance between the entry and T1
     h4_fill: bool = False
     took_internal: bool = False
+    ltf_swept: bool = False  # base video: the 5M level the CHoCH breaks must itself have swept internal 5M liquidity
     max_area_atr: float = 0.0
     dxy: str = "off"
     min_stop_costs: float = 8.0
@@ -239,6 +240,8 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
         ev = ms["events"][-1] if ms["events"] else None
         if ev is None or ev[0] != j or ev[1] != "CHoCH" or ev[2] != d:
             return None
+        if p.ltf_swept and not smc.took_internal(ltf, ev[4], -d, look=60, near=6):
+            return None  # "this is my external low -- it took out the internal lows, confirmed by a 5M BOS"
         top = float(ms["prot"][j])  # the counter-move's external high = his invalidation level
         top_bar = int(np.flatnonzero((ltf["high"] if d == -1 else ltf["low"])[:j + 1] == top)[-1])
         sh, sl_ = smc.swing_points({k: v[:j] for k, v in ltf.items()}, 2)
