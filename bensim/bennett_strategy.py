@@ -80,6 +80,8 @@ class BennettParams:
     dxy: str = "off"
     min_stop_costs: float = 8.0
     max_rr: float = 20.0
+    killzones: tuple = ()  # UTC (start_hour, end_hour) windows the trigger bar must open in, e.g. ((7, 11), (13, 17))
+    no_sunday: bool = False  # no triggers on Sunday (the weekly open: thin, gappy; negative in every period)
     max_hold_bars: int = 200
     cost_pips: dict[str, float] = field(default_factory=lambda: {"EURUSD": 0.9, "GBPUSD": 1.2, "USDJPY": 1.0, "AUDUSD": 1.0,
                                                                   "USDCAD": 1.1, "USDCHF": 1.1, "XAUUSD": 3.0})
@@ -105,6 +107,14 @@ def agg(h1: Bars, sec: int) -> Bars:
 def closed(b: Bars, sec: int, now: int) -> Bars:
     """Only the bars of size sec that have closed by `now`."""
     return _cut(b, int(np.searchsorted(b["t"] + sec, now, side="right")))
+
+
+# Live demo config (2026-10-13): the setup-database winner -- 4H trend + clear path + 07-11/13-17 UTC + fresh 48 h,
+# engine exit = first liquidity paying >= 2.75R, tight stop; every other optional rule off. No AUDUSD (and no gold).
+LIVE = BennettParams(need_fvg=False, choch_plus=False, top_in_ote=False, after_fail="off", expire_h=48.0, min_rr=2.75,
+                     max_targets=2, bias="H4", stop_mode="tight", liq_eq_pips=0.0, premium_entry=False,
+                     took_internal=False, clear_path=True, killzones=((7, 11), (13, 17)), no_sunday=True)
+LIVE_SYMBOLS = ["EURUSD", "GBPUSD", "USDJPY", "USDCHF", "USDCAD"]
 
 
 def context_text(p: BennettParams) -> str:
@@ -215,6 +225,11 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
     if p.ltf == "M15" and int(np.sum(m5["t"] >= cur15)) != 1:
         return None
     now = int(m5["t"][-1]) + 300
+    bar_open = int(m5["t"][-1])
+    if p.no_sunday and (bar_open // 86400 + 4) % 7 == 0:  # epoch day 0 was a Thursday: (day + 4) % 7 == 0 is a Sunday
+        return None
+    if p.killzones and not any(a <= (bar_open % 86400) // 3600 < b for a, b in p.killzones):
+        return None
     h_all = closed(htf, 3600, now)  # completed 1H bars (long window, for the weekly bias)
     h = _cut({k: v[-1300:] for k, v in h_all.items()}, 1300)
     hb, sec = (closed(agg(h, 14400), 14400, now), 14400) if p.leg_tf == "H4" else (h, 3600)

@@ -12,6 +12,9 @@ Each cycle (8 s after every M5 close, UTC):
      stale data (last bar not the bar that just closed) -> skip that symbol (fail closed)
   5. TRIGGERED plan -> recorded once per (symbol, signal_time, dir) (restart-safe, never doubles) -> quote ->
      order_for() -> lots from the broker's tick value -> guard.check() -> market order with SL/TP
+  6. Bennett (second strategy, magic MAGIC_BN, BENSIM_BENNETT=off disables): bennett_strategy.LIVE on its own pairs,
+     the backtest's windows (the long 1H context from native MT5 H1 bars), its own risk scale (default half), its
+     own signal table live_signals_bennett; the guard and the -4% brake are shared by both strategies
 Everything (signals, decisions, orders, errors, heartbeat) goes to tables live_* in the bensim DB.
 """
 from __future__ import annotations
@@ -26,6 +29,7 @@ from zoneinfo import ZoneInfo
 
 import numpy as np
 
+from . import bennett_strategy as bstrat
 from . import bridge, db, guard, indicators
 from .backtest import _win, resample
 from .config import ROOT, env
@@ -40,6 +44,10 @@ LIVE_SYMBOLS = [x for x in env("BENSIM_LIVE_SYMBOLS", "EURUSD,GBPUSD,USDCHF,USDC
 WEAK_SETUP_RISK = float(env("BENSIM_WEAK_SETUP_RISK", "0.5"))  # risk multiplier when fewer than all confirmations agree
 LIVE_FROM = int(datetime.fromisoformat(env("BENSIM_LIVE_FROM", "2026-10-12T06:00:00+00:00")).timestamp())  # dry-run before this (UTC)
 STOP_FILE = ROOT / "bensim.STOP"
+MAGIC_BN = 770102
+BN_ON = env("BENSIM_BENNETT", "on").lower() != "off"
+BN_SYMBOLS = [x for x in env("BENSIM_BENNETT_SYMBOLS", ",".join(bstrat.LIVE_SYMBOLS)).split(",") if x]
+BN_RISK_SCALE = float(env("BENSIM_BENNETT_RISK_SCALE", "0.5"))  # x RISK_PCT: half risk while it proves itself live
 PRAGUE = ZoneInfo("Europe/Prague")
 
 SCHEMA = """
@@ -48,6 +56,9 @@ create table if not exists live_signals (symbol text, signal_time bigint, dir in
     entry double precision, stop double precision, target double precision, checks jsonb, decision text, detail jsonb,
     primary key (symbol, signal_time, dir));
 create table if not exists live_events (ts timestamptz default now(), level text, msg text);
+create table if not exists live_signals_bennett (symbol text, signal_time bigint, dir int, created timestamptz default now(),
+    entry double precision, stop double precision, target double precision, checks jsonb, decision text, detail jsonb,
+    primary key (symbol, signal_time, dir));
 """
 
 
@@ -84,6 +95,23 @@ def windows(m5: dict[str, np.ndarray]) -> tuple[dict, dict, dict]:
     return _win(m15, i15, 300), _win(h1, i1, 200), _win(m5, len(m5["t"]), 100)
 
 
+def h1_bars(symbol: str, n: int = 1400) -> dict[str, np.ndarray]:
+    """Completed native H1 bars (UTC) -- identical to H1 resampled from M5, and ~54 days of it in one call."""
+    rows = sorted(bridge.rates(symbol, "H1", 1, n), key=lambda r: r["time"])
+    t = server_to_utc(np.array([r["time"] for r in rows], dtype=np.int64))
+    return {"t": t, **{k: np.array([r[k] for r in rows], dtype=float) for k in ("open", "high", "low", "close")}}
+
+
+def bennett_windows(m5: dict[str, np.ndarray], h1: dict[str, np.ndarray], p: bstrat.BennettParams = bstrat.LIVE) -> tuple:
+    """The exact windows backtest.run_symbol hands the Bennett plan() after the newest M5 close:
+    (M15 300, H1 200, M5 m5_bars, htf = H1 htf_bars). h1 = native H1 (live) or H1 resampled from M5 (tests)."""
+    m15 = resample(m5, 900)
+    now = int(m5["t"][-1]) + 300
+    i15 = int(np.searchsorted(m15["t"] + 900, now, side="right"))
+    i1 = int(np.searchsorted(h1["t"] + 3600, now, side="right"))
+    return _win(m15, i15, 300), _win(h1, i1, 200), _win(m5, len(m5["t"]), p.m5_bars), _win(h1, i1, p.htf_bars)
+
+
 def loss_per_lot(q: dict, entry: float, stop: float) -> float:
     return abs(entry - stop) / q["trade_tick_size"] * q["trade_tick_value"]
 
@@ -115,7 +143,7 @@ def cycle(dry: bool) -> None:
     initial = float(state("initial") or state("initial", acct["balance"]))
     day_start = day_start_balance(acct)
     equity = float(acct["equity"])
-    ours = [p for p in bridge.positions() if p.get("magic") == MAGIC]
+    ours = [p for p in bridge.positions() if p.get("magic") in (MAGIC, MAGIC_BN)]
     quotes = {p["symbol"]: bridge.tick(p["symbol"]) for p in ours}
     state("heartbeat", {"utc": int(time.time()), "equity": equity, "open": len(ours), "dry": dry})
 
@@ -123,8 +151,10 @@ def cycle(dry: bool) -> None:
         for p in ours:
             log("WARN", f"DAILY FLATTEN close {p['symbol']} #{p['ticket']}: {bridge.close(p['ticket'], 'bensim flatten') if not dry else 'dry'}")
         return
-    hold = PARAMS.max_hold_bars * 900
-    for p in ours:  # time exit, as in the backtest
+    for p in ours:  # time exit, as in the backtest (Bennett: the plan's own hold, kept in the order comment "... h<bars>")
+        hold = PARAMS.max_hold_bars * 900
+        if p.get("magic") == MAGIC_BN and " h" in str(p.get("comment", "")):
+            hold = int(str(p["comment"]).rsplit(" h", 1)[1]) * 900
         opened = int(server_to_utc(np.array([p["time"]], dtype=np.int64))[0])
         if time.time() - opened >= hold:
             log("INFO", f"TIME EXIT {p['symbol']} #{p['ticket']}: {bridge.close(p['ticket'], 'bensim time') if not dry else 'dry'}")
@@ -154,6 +184,55 @@ def cycle(dry: bool) -> None:
             log("TRADE" if decision == "SENT" else "INFO", f"{sym} {'BUY' if pl['dir'] == 1 else 'SELL'} signal {pl['signal_time']}: {decision} {detail}")
         except Exception as exc:  # one symbol failing must not stop the others
             log("ERROR", f"{sym}: {exc!r}\n{traceback.format_exc(limit=3)}")
+    for sym in (BN_SYMBOLS if BN_ON else []):
+        try:
+            m5 = bars(sym)
+            if not len(m5["t"]) or int(m5["t"][-1]) < expected:
+                continue
+            m15, h1w, m5w, htf = bennett_windows(m5, h1_bars(sym))
+            pl = bstrat.plan(m15, h1w, m5w, sym, bstrat.LIVE, htf=htf)
+            if not pl or pl.get("status") != "TRIGGERED":
+                continue
+            with db.connect(autocommit=True) as c:
+                new = c.execute("""insert into live_signals_bennett (symbol, signal_time, dir, entry, stop, target, checks) values (%s,%s,%s,%s,%s,%s,%s)
+                                   on conflict do nothing returning 1""",
+                                (sym, pl["signal_time"], pl["dir"], pl["entry"], pl["stop"], pl["target"], json.dumps(pl["checks"], default=str))).fetchone()
+            if not new:
+                continue
+            decision, detail = decide_bn(sym, pl, initial, day_start, equity, opens, halted, dry)
+            if decision == "SENT":
+                opens.append(guard.Open(sym, pl["dir"], detail["risk_usd"]))
+            with db.connect(autocommit=True) as c:
+                c.execute("update live_signals_bennett set decision=%s, detail=%s where symbol=%s and signal_time=%s and dir=%s",
+                          (decision, json.dumps(detail, default=str), sym, pl["signal_time"], pl["dir"]))
+            log("TRADE" if decision == "SENT" else "INFO", f"BENNETT {sym} {'BUY' if pl['dir'] == 1 else 'SELL'} signal {pl['signal_time']}: {decision} {detail}")
+        except Exception as exc:
+            log("ERROR", f"BENNETT {sym}: {exc!r}\n{traceback.format_exc(limit=3)}")
+
+
+def decide_bn(sym: str, pl: dict, initial: float, day_start: float, equity: float, opens: list[guard.Open], halted: bool, dry: bool) -> tuple[str, dict]:
+    """Bennett order: market at the trigger close (as the backtest), fixed SL/TP, BN_RISK_SCALE x the normal risk."""
+    if halted:
+        return "SKIP_KILL_SWITCH", {}
+    q = bridge.tick(sym)
+    spec, why = bstrat.order_for(pl, q["bid"], q["ask"], bstrat.LIVE)
+    if spec is None:
+        return f"SKIP_{why}", {"bid": q["bid"], "ask": q["ask"]}
+    scale = guard.risk_scale(initial, equity) * BN_RISK_SCALE
+    lots = lots_for(q, spec["price"], spec["sl"], initial * RISK_PCT / 100 * scale)
+    if lots < q["volume_min"]:
+        return "SKIP_LOTS_BELOW_MIN", {"lots": lots}
+    risk_usd = loss_per_lot(q, spec["price"], spec["sl"]) * lots
+    ok, why = guard.check(initial, day_start, equity, opens, sym, pl["dir"], risk_usd)
+    detail = {"price": spec["price"], "sl": spec["sl"], "tp": spec["tp"], "rr": round(spec["rr"], 2), "lots": lots,
+              "risk_usd": round(risk_usd, 2), "scale": scale, "hold_bars": pl["hold_bars"]}
+    if not ok:
+        return f"SKIP_GUARD_{why}", detail
+    if dry:
+        return "DRY_RUN", detail
+    res = bridge.order(sym, spec["side"], lots, spec["sl"], spec["tp"], MAGIC_BN, f"bn {pl['signal_time'] % 10**8} h{pl['hold_bars']}")
+    detail["result"] = {k: res.get(k) for k in ("ok", "retcode", "comment", "order", "deal", "price", "volume", "detail")}
+    return ("SENT" if res.get("ok") else "ORDER_REJECTED"), detail
 
 
 def decide(sym: str, pl: dict, initial: float, day_start: float, equity: float, opens: list[guard.Open], halted: bool, dry: bool) -> tuple[str, dict]:
@@ -217,6 +296,9 @@ def status() -> None:
     with db.connect() as c:
         for r in c.execute("select to_char(created,'MM-DD HH24:MI'), symbol, dir, decision, detail->>'lots', detail->>'risk_usd' from live_signals order by created desc limit 10"):
             print("signal", *r)
+        if c.execute("select to_regclass('live_signals_bennett')").fetchone()[0]:
+            for r in c.execute("select to_char(created,'MM-DD HH24:MI'), symbol, dir, decision, detail->>'lots', detail->>'risk_usd' from live_signals_bennett order by created desc limit 10"):
+                print("bennett", *r)
         for r in c.execute("select to_char(ts,'MM-DD HH24:MI:SS'), level, left(msg, 160) from live_events where level <> 'INFO' order by ts desc limit 10"):
             print("event ", *r)
 
@@ -235,7 +317,8 @@ def main() -> None:
     with db.connect(autocommit=True) as c:
         c.execute(SCHEMA)
     log("INFO", f"live engine start: dry={a.dry_run} live_from={datetime.fromtimestamp(LIVE_FROM, timezone.utc):%Y-%m-%d %H:%M}Z risk={RISK_PCT}% "
-                f"params={PARAMS.zone_mode}+{PARAMS.confirm_min}of{','.join(PARAMS.confirm_any)} symbols={','.join(LIVE_SYMBOLS)}")
+                f"params={PARAMS.zone_mode}+{PARAMS.confirm_min}of{','.join(PARAMS.confirm_any)} symbols={','.join(LIVE_SYMBOLS)} | "
+                f"bennett={'on' if BN_ON else 'off'} {','.join(BN_SYMBOLS)} risk x{BN_RISK_SCALE}")
     failures = 0
     while True:
         try:
