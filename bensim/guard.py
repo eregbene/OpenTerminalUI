@@ -21,8 +21,8 @@ CURRENCIES = {"EURUSD": ("EUR", "USD"), "GBPUSD": ("GBP", "USD"), "USDJPY": ("US
 class GuardCfg:
     daily_stop_pct: float = 4.0
     daily_flat_pct: float = 4.5
-    reduce_at_pct: float = 6.0
-    halt_at_pct: float = 8.0
+    reduce_at_pct: float = 2.5  # 2026-10-13: half risk from -2.5% (was 6%)
+    halt_at_pct: float = 4.0  # 2026-10-13 brake: no new trades from -4% (was 8%; FTMO max loss is 10%)
     max_per_side: int = 2
     max_open: int = 4
 
@@ -75,7 +75,7 @@ def _selfcheck() -> None:
     assert check(i, i, i, two_long_usd, "XAUUSD", 1, 500)[0]  # short USD is fine
     assert check(i, i, i - 3_200, [Open("GBPUSD", 1, 500)], "EURUSD", -1, 500)[1].startswith("DAILY_RISK")  # 3.2k + 0.5k + 0.5k > 4k
     assert check(i, i, i - 4_600, [], "EURUSD", 1, 500)[1] == "DAILY_FLATTEN"
-    assert risk_scale(i, 93_000) == 0.5 and risk_scale(i, 91_500) == 0.0 and risk_scale(i, 99_000) == 1.0
+    assert risk_scale(i, 97_000) == 0.5 and risk_scale(i, 95_900) == 0.0 and risk_scale(i, 99_000) == 1.0
     assert check(i, 92_000, 91_900, [], "EURUSD", 1, 100)[1] == "TOTAL_DRAWDOWN_HALT"
     assert check(i, i, i, [Open("EURUSD", 1, 0)], "EURUSD", 1, 100)[1] == "SYMBOL_ALREADY_OPEN"
     print("guard selfcheck ok")
