@@ -27,14 +27,54 @@ Bars = dict[str, np.ndarray]
 H4, M15, H1, M5 = 14400, 900, 3600, 300
 FULL_BODY = 0.6  # "strong full-bodied candle" [2]: body >= 60% of the range
 RETURN_WINDOW_DAYS = 30  # a zone not revisited within this long is dropped
-CONFIRM_H = 12  # hours after the tap to wait for the lower-TF break of structure [4]
+CONFIRM_H = 24  # hours after the tap during which lower-TF breaks (and their order blocks) are traded [4, 14]
 FILL_H = 6  # hours to wait for the limit at the new lower-TF order block to fill
 HOLD_DAYS_FIXED, HOLD_DAYS_TRAIL = 10, 30
+MIN_STOP_PIPS = 3.0  # [14] "we don't like to trade setups with anything less than 3 pips in stop"
+PARTIAL = 0.9  # [14] 90% off at the target (previous high), the last 10% trails
+FLIP_H = 48  # [14] two-step confirmation: hours after the tap to wait for the 1H to flip
+
+
+STRUCTURE = "swing"  # "swing" = his substructure reading [1, 10, 14]; "box" = Bennett's strict box engine
+
+
+def swing_structure(b: Bars, n: int = 3, prom_atr: float = 0.5) -> dict:
+    """His structure [1, 4, 10, 14]: swings mapped on WICKS, only PROMINENT ones (a pivot with n bars each side whose
+    pullback is >= prom_atr x ATR -- "a pause is not a low"); a break = a body CLOSE beyond the most recent prominent
+    swing high/low ("we broke this high ... switching bullish"); the origin of the breaking leg = the lowest low (highest
+    high) between that swing and the break = the higher low / order block area. Same output format as market_structure."""
+    h, lo, c = b["high"].tolist(), b["low"].tolist(), b["close"].tolist()
+    nb = len(c)
+    a = smc.atr(b).tolist() if nb else []
+    trend = np.zeros(nb, int)
+    prot = np.full(nb, np.nan)
+    events = []
+    last_hi = last_lo = None  # (bar, price) of the latest confirmed prominent swing high / low
+    used_hi = used_lo = -1
+    d, p_lvl = 0, np.nan
+    for i in range(nb):
+        j = i - n
+        if j - n >= 0:
+            if h[j] >= max(h[j - n:j]) and h[j] >= max(h[j + 1:i + 1]) and h[j] - min(lo[j - n:i + 1]) >= prom_atr * a[j]:
+                last_hi = (j, h[j])
+            if lo[j] <= min(lo[j - n:j]) and lo[j] <= min(lo[j + 1:i + 1]) and max(h[j - n:i + 1]) - lo[j] >= prom_atr * a[j]:
+                last_lo = (j, lo[j])
+        if last_hi is not None and last_hi[0] != used_hi and c[i] > last_hi[1]:
+            org = last_hi[0] + int(np.argmin(lo[last_hi[0]:i + 1]))
+            events.append((i, "BOS" if d == 1 else "CHoCH", 1, float(last_hi[1]), last_hi[0]))
+            d, p_lvl, used_hi = 1, lo[org], last_hi[0]
+        elif last_lo is not None and last_lo[0] != used_lo and c[i] < last_lo[1]:
+            org = last_lo[0] + int(np.argmax(h[last_lo[0]:i + 1]))
+            events.append((i, "BOS" if d == -1 else "CHoCH", -1, float(last_lo[1]), last_lo[0]))
+            d, p_lvl, used_lo = -1, h[org], last_lo[0]
+        trend[i] = d
+        prot[i] = p_lvl
+    return {"trend": trend, "prot": prot, "ext": np.full(nb, np.nan), "events": events, "labels": []}
 
 
 def _structure(b: Bars) -> dict:
-    """Type-2 structure [1, 4]: swings mapped on wicks, a break = a body CLOSE beyond (min_break 0)."""
-    return smc.market_structure(b, None, seed=10)
+    """Type-2 structure [1, 4]: swings mapped on wicks, a break = a body CLOSE beyond."""
+    return swing_structure(b) if STRUCTURE == "swing" else smc.market_structure(b, None, seed=10)
 
 
 def order_block(b: Bars, origin: int, brk: int, d: int) -> tuple[int, float, float] | None:
@@ -86,14 +126,14 @@ def _trend_at(ms: dict, t: np.ndarray, sec: int, when: int) -> int:
 
 
 def _sim(sym: str, m5: Bars, k: int, d: int, entry: float, stop: float, ex: Exec, hold_days: int,
-         target: float | None = None, trail: list | None = None) -> dict:
+         target: float | None = None, trail: list | None = None, partial: float = 0.0) -> dict:
     """M5 simulation from bar k (the fill bar is excluded: same-bar exits are not knowable). Bid data; longs exit on
     the bid, shorts on the ask (bid + spread). Stop first on a same-bar tie. trail = [(time, new_stop), ...]."""
     risk = (entry - stop) * d
     end = min(len(m5["t"]) - 1, k + hold_days * 288)
     st, ti = stop, 0
     trail = trail or []
-    fav = 0.0
+    fav, banked, w = 0.0, 0.0, 1.0  # banked R from a partial, weight still open
     for j in range(k + 1, end + 1):
         tj = int(m5["t"][j])
         while ti < len(trail) and trail[ti][0] <= tj:
@@ -105,12 +145,14 @@ def _sim(sym: str, m5: Bars, k: int, d: int, entry: float, stop: float, ex: Exec
         adv = (lo <= st) if d == 1 else (hi + s >= st)
         best = (hi - entry) if d == 1 else (entry - lo - s)
         if adv:
-            return {"exit_t": tj, "r": (st - entry) * d / risk, "mfe": max(fav, best / risk), "how": "stop"}
+            return {"exit_t": tj, "r": banked + w * (st - entry) * d / risk, "mfe": max(fav, best / risk), "how": "stop"}
         fav = max(fav, best / risk)
         if target is not None and ((hi >= target) if d == 1 else (lo + s <= target)):
-            return {"exit_t": tj, "r": (target - entry) * d / risk, "mfe": fav, "how": "target"}
+            if not partial:
+                return {"exit_t": tj, "r": (target - entry) * d / risk, "mfe": fav, "how": "target"}
+            banked, w, target = partial * (target - entry) * d / risk, 1.0 - partial, None  # the runner trails on
     px = m5["close"][end] + (0 if d == 1 else _spread(sym, int(m5["t"][end]), ex))
-    return {"exit_t": int(m5["t"][end]), "r": (px - entry) * d / risk, "mfe": fav, "how": "time"}
+    return {"exit_t": int(m5["t"][end]), "r": banked + w * (px - entry) * d / risk, "mfe": fav, "how": "time"}
 
 
 def _cost_r(sym: str, entry: float, risk: float, ex: Exec) -> float:
@@ -158,13 +200,13 @@ def scan(args: tuple) -> pd.DataFrame:
     # zones on the 4H [4, 11] and on the 1H (his GBPJPY example: the 1H order block was the point of interest [5])
     zone_tfs = [("4H", h4, ms4, a4, H4), ("1H", h1, ms1, a1, H1)]
     for tf_name, zt, msz, az, zsec in zone_tfs:
-        rows += _zones(sym, tf_name, zt, msz, az, zsec, m5, m15, a15, d1, msd, ms4, h4, conf[tf_name], ev1, ex, p, t_start)
-    print(f"{sym}: {len(rows)} zones touched, {sum('conf_trail_r' in r for r in rows)} confirmation trades, "
+        rows += _zones(sym, tf_name, zt, msz, az, zsec, m5, m15, a15, d1, msd, ms4, h4, conf[tf_name], conf["4H"], ev1, ex, p, t_start)
+    print(f"{sym}: {len(rows)} zones touched, {sum('conf_top_trail_r' in r for r in rows)} confirmation trades, "
           f"{sum('risk_trail_r' in r for r in rows)} risk trades ({time.time() - t0:.0f}s)", flush=True)
     return pd.DataFrame(rows)
 
 
-def _zones(sym, tf_name, h4, ms4, a4, zsec, m5, m15, a15, d1, msd, ms_h4, h4_bars, conf_tf, ev1, ex, p, t_start) -> list:
+def _zones(sym, tf_name, h4, ms4, a4, zsec, m5, m15, a15, d1, msd, ms_h4, h4_bars, conf_tf, c15, ev1, ex, p, t_start) -> list:
     """All order-block zones of one timeframe and their returns / entries / exits (see scan)."""
     cb, cms, cev, cev_t, csec = conf_tf
     rows = []
@@ -223,42 +265,69 @@ def _zones(sym, tf_name, h4, ms4, a4, zsec, m5, m15, a15, d1, msd, ms_h4, h4_bar
                 row[f"risk_{name}_r"] = o["r"] - c
             row["risk_stop_pips"] = risk / p
             row["risk_target_rr"] = (target - near) * d / risk
-        # CONFIRMATION entry [4]: after the tap, a 15M break in the trade direction, then the newest 15M OB
+        def trade(prefix: str, ob: tuple, t_from: int) -> bool:
+            """[4, 14] limit at the order block's top (backtest video) or 50% (recaps), stop beyond it + 1 pip,
+            no trade under a 3-pip stop; exits fixed R / previous high / 90%-at-previous-high + runner / trailing."""
+            _, ob_lo, ob_hi = ob
+            filled = False
+            for mode in ("top", "mid"):
+                if f"{prefix}_{mode}_fill_t" in row:
+                    continue  # this entry price already got its trade
+                lim = (ob_hi if d == 1 else ob_lo) if mode == "top" else (ob_lo + ob_hi) / 2
+                stop = ob_lo - p if d == 1 else ob_hi + p
+                risk, key = (lim - stop) * d, f"{prefix}_{mode}"
+                if risk < MIN_STOP_PIPS * p:
+                    row[f"{key}_too_small"] = True
+                    continue
+                j = _fill(m5, sym, ex, t_from, t_from + FILL_H * 3600, d, lim, stop)
+                if j is None:
+                    continue
+                c = _cost_r(sym, lim, risk, ex)
+                tr = [(t, pr - d * p) for t, dd, pr in ev1 if dd == d and t > int(m5["t"][j])]
+                ok_t = (target - lim) * d > 0
+                for name, kw in (("2R", {"target": lim + d * 2 * risk}), ("3R", {"target": lim + d * 3 * risk}),
+                                 ("5R", {"target": lim + d * 5 * risk}),
+                                 ("prevhigh", {"target": target} if ok_t else None),
+                                 ("partial", {"target": target, "trail": tr, "partial": PARTIAL} if ok_t else None),
+                                 ("trail", {"trail": tr})):
+                    if kw is None:
+                        continue
+                    hold = HOLD_DAYS_FIXED if name in ("2R", "3R", "5R", "prevhigh") else HOLD_DAYS_TRAIL
+                    row[f"{key}_{name}_r"] = _sim(sym, m5, j, d, lim, stop, ex, hold, **kw)["r"] - c
+                row[f"{key}_stop_pips"] = risk / p
+                row[f"{key}_fill_t"] = int(m5["t"][j])
+                filled = True
+            return filled
+
+        def broken(t_a: int, t_b: int) -> bool:
+            """[4] a 15M close through the zone's far edge between the tap and t_b invalidates the zone."""
+            a, b = int(np.searchsorted(m15["t"], t_a)), int(np.searchsorted(m15["t"], t_b))
+            cl = m15["close"][a:b]
+            return bool(((cl < far) if d == 1 else (cl > far)).any())
+
+        # path 1 -- CONFIRMATION [4]: after the tap, each lower-TF break in the trade direction gives a new order block;
+        # a limit that misses is replaced by the next one ("just barely missed our order" -> next block [14])
         k = int(np.searchsorted(cev_t, touch_t + csec))
-        ct = int(np.searchsorted(cb["t"], touch_t))
-        conf = None
         while k < len(cev) and cev_t[k] <= touch_t + CONFIRM_H * 3600:
             i15, dd = cev[k]
-            broke = (cb["close"][ct:i15 + 1] < far) if d == 1 else (cb["close"][ct:i15 + 1] > far)
-            if broke.any():  # [4] price closed through the zone first: invalid
+            if broken(touch_t, int(cev_t[k])):
                 break
             if dd == d:
-                conf = i15
-                break
+                ob15 = order_block(cb, _origin(cb, cms, i15, d), i15, d)
+                if ob15 is not None and trade("conf", ob15, int(cev_t[k])) and "conf_mid_fill_t" in row:
+                    break  # both entry prices have their trade
             k += 1
-        if conf is not None:
-            ob15 = order_block(cb, _origin(cb, cms, conf, d), conf, d)
-            if ob15 is not None:
-                _, b15, t15 = ob15
-                lim, stop = (t15, b15 - p) if d == 1 else (b15, t15 + p)  # [4] stop beyond the block + 1 pip
-                t_conf = int(cb["t"][conf]) + csec
-                j = _fill(m5, sym, ex, t_conf, t_conf + FILL_H * 3600, d, lim, stop)
-                if j is not None and (lim - stop) * d > 0:
-                    risk = (lim - stop) * d
-                    c = _cost_r(sym, lim, risk, ex)
-                    tr = [(t, pr - d * p) for t, dd, pr in ev1 if dd == d and t > int(m5["t"][j])]
-                    for name, kw in (("2R", {"target": lim + d * 2 * risk}), ("3R", {"target": lim + d * 3 * risk}),
-                                     ("5R", {"target": lim + d * 5 * risk}), ("prevhigh", {"target": target}),
-                                     ("trail", {"trail": tr})):
-                        if name == "prevhigh" and (target - lim) * d <= 0:
-                            continue
-                        hold = HOLD_DAYS_TRAIL if name == "trail" else HOLD_DAYS_FIXED
-                        o = _sim(sym, m5, j, d, lim, stop, ex, hold, **kw)
-                        row[f"conf_{name}_r"] = o["r"] - c
-                        if name == "trail":
-                            row["conf_trail_mfe"] = o["mfe"]
-                    row.update({"conf_stop_pips": risk / p, "conf_target_rr": (target - lim) * d / risk,
-                                "conf_fill_t": int(m5["t"][j])})
+        # path 2 -- TWO-STEP (4H zones) [14]: after the tap the 1H flips our way, then the newest 15M OB
+        if tf_name == "4H":
+            m15b, ms15b, ev15b, ev15b_t, _ = c15
+            flip = next((t for t, dd, _ in ev1 if dd == d and touch_t < t <= touch_t + FLIP_H * 3600), None)
+            if flip is not None and not broken(touch_t, flip):
+                prior = [x for x in range(len(ev15b)) if ev15b[x][1] == d and touch_t < ev15b_t[x] <= flip]
+                if prior:
+                    i15 = ev15b[prior[-1]][0]
+                    ob15 = order_block(m15b, _origin(m15b, ms15b, i15, d), i15, d)
+                    if ob15 is not None:
+                        trade("twostep", ob15, flip)
         rows.append(row)
     return rows
 

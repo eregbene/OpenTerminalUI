@@ -205,3 +205,56 @@ is still negative, and most differences are inside the noise.
 Verdict: as mechanical rules, Phantom 1.0 + 2.0-core has **no edge after costs** on these pairs. Tiny 5M stops reach
 3R ~23% of the time but rarely survive to the 1H trailing stop; costs take ~0.2R per trade. Not coded (no rules in the
 lessons used): supply/demand flips, liquidity lessons, Wyckoff.
+
+## 14. How he actually got in -- trade recaps + backtesting video (1.0)
+- **EURUSD buys (20R + 30R)**: 4H distribution read -> 1H/15M/5M break of structure up after a liquidity wick ->
+  **1-minute** order block (down candle before the impulse that broke structure, small inefficiency) -> **buy limit at
+  the 50% of the order block**, stop just below its low; **"we don't like to trade setups with anything less than 3 pips
+  in stop"**; if entering at the top instead, give a 3.5-4 pip buffer. Target the prior 1H high / 1H order block;
+  90% off at target, 10% runner. Wyckoff accumulation (selling climax, automatic rally, mini-spring) as context.
+  [EURUSD 05:41-08:45, 11:14-12:30, 16:58-17:35, 19:02-19:13]
+- **GBPJPY sell**: daily up (pullback trade against it), 4H down, 1H break down -> 1H OB (17 pips) refined to 15M OB
+  (8 pips); 5M distribution/upthrust as extra confluence; entered with the stop above the whole POI (Asian session);
+  target = the prior 4H low with **equal lows** (liquidity); most of the position off at a point of interest, rest
+  trailed on 15M/5M structure. [GBPJPY 00:17-07:08]
+- **EURGBP buy**: Wyckoff re-accumulation on the 1M, order blocks refined 4H -> 1H -> 15M, executed on the 5M; mostly
+  a Wyckoff explainer (no new entry rule). [EURGBP 05:45-09:31, 13:00]
+- **Backtesting video (EURUSD Jan 2019, bar replay)**: weekly/daily down, 4H/1H points of interest marked first;
+  4H OB tapped -> waited for the **1H to switch bullish** -> **15M order block** (refined past the doji to the candle
+  where momentum began), **buy limit at the top of the block, stop below + 1 pip** (26+1, then 18+1 pips); **scale-ins**
+  on each new 15M order block after a 15M break (3.3 and 6.6 pip stops); stop moved under each 1H low after a 1H break;
+  counter-daily-trend trades allowed, managed more aggressively; body-close breaks. [Backtest 07:57-34:40]
+
+### Gaps between these trades and the first code (bensim/phantom.py v1)
+1. Entry price: **50% of the order block** (recaps) or the top (backtest) -- v1 used the top only.
+2. **Minimum stop 3 pips** -- v1 allowed 1.6-pip stops.
+3. Execution timeframe: his live entries are on the **1-minute** chart -- v1 used 15M/5M (no M1 history stored).
+4. Scale-ins on later order blocks and 90/10 partials -- not in v1.
+5. Two-step confirmation (4H zone tapped -> 1H flips -> 15M order block) -- v1 went 4H -> 15M directly.
+6. Wyckoff schematics, liquidity sweeps as triggers -- not codeable from these lessons (not coded).
+
+## 15. Manual check against his backtesting-video trade (EURUSD Jan 2019) -> gaps fixed -> final result
+EURUSD M5 history downloaded back to Oct 2018 to rebuild his bar-replay trade (his chart: TradingView OANDA, UTC-4).
+- **Gap A -- structure definition**: the Bennett box engine showed *no* 4H break from 8 Nov 2018 to Jan 2019, so his 4H
+  zone could not exist. Phantom reads **prominent recent swings (substructure)**; `swing_structure()` (wick swings with
+  >= 0.5 ATR pullback, body-close break of the latest one) now finds his zone: 4H CHoCH up 18 Dec -> order block
+  **1.13029-1.13132** (his blue zone ~1.1300-1.1310), tapped 2 Jan 18:30 NY at 1.12982, closed back inside.
+- **His first 15M order block reproduced exactly**: 1.13089-1.13346 = 25.7 pips (he: "26-pip stop"); its limit was
+  missed in both his replay and ours.
+- **Gap B -- re-arming**: he then took the **next** 15M order block after the next break; v2 stopped after the first.
+  Fixed: every lower-TF break in the trade direction within 24 h gives a new order block until one fills.
+- Remaining difference: his second block (18 pips) vs ours (8.7 pips) -- our 15M saw a small down-break at 01:45 that he
+  did not count; which minor swing "counts" is discretionary.
+- Also fixed earlier from the recaps: 50% entry, 3-pip minimum stop, 90/10 partial, two-step (1H flip) confirmation.
+- 1-minute execution: MT5 serves only the last 100,000 M1 bars (~3 months) -- not enough for a 3-year test.
+
+**Final 3-year result (v3, all fixes; 8,844 zones, ~5,400 confirmation trades), net R per trade:**
+| entry | exit | Oct 2023 - Jun 2025 | Jul 2025 - Oct 2026 |
+|---|---|---|---|
+| confirmation, top of block | 3R | -0.14 (t -4.3) | -0.16 (t -4.4) |
+| confirmation, top of block | trailing | -0.25 (t -3.1) | -0.21 (t -2.5) |
+| confirmation, 50% of block | 3R | -0.13 (t -3.5) | -0.18 (t -4.1) |
+| confirmation, 50% of block | 90/10 partial | -0.22 (t -2.8) | -0.18 (t -2.1) |
+| two-step (1H flip), 50% | trailing | +0.20 (102 trades, t 0.4) | +0.45 (57 trades, t 0.6) |
+Verdict unchanged and now statistically clear: the faithful mechanical version of Phantom loses after costs; only the
+rare two-step slice is positive, on too few trades to mean anything (t < 1).
