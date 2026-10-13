@@ -230,7 +230,7 @@ def decide_bn(sym: str, pl: dict, initial: float, day_start: float, equity: floa
         return f"SKIP_GUARD_{why}", detail
     if dry:
         return "DRY_RUN", detail
-    res = bridge.order(sym, spec["side"], lots, spec["sl"], spec["tp"], MAGIC_BN, f"bn {pl['signal_time'] % 10**8} h{pl['hold_bars']}")
+    res = bridge.order(sym, spec["side"], lots, spec["sl"], spec["tp"], MAGIC_BN, f"bennett {pl['signal_time'] % 10**8} h{pl['hold_bars']}")
     detail["result"] = {k: res.get(k) for k in ("ok", "retcode", "comment", "order", "deal", "price", "volume", "detail")}
     return ("SENT" if res.get("ok") else "ORDER_REJECTED"), detail
 
@@ -257,33 +257,38 @@ def decide(sym: str, pl: dict, initial: float, day_start: float, equity: float, 
         return f"SKIP_GUARD_{why}", detail
     if dry:
         return "DRY_RUN", detail
-    res = bridge.order(sym, spec["side"], lots, spec["sl"], spec["tp"], MAGIC, f"bs {pl['signal_time']}")
+    res = bridge.order(sym, spec["side"], lots, spec["sl"], spec["tp"], MAGIC, f"fib618 {pl['signal_time']}")
     detail["result"] = {k: res.get(k) for k in ("ok", "retcode", "comment", "order", "deal", "price", "volume", "detail")}
     return ("SENT" if res.get("ok") else "ORDER_REJECTED"), detail
 
 
-def setups() -> None:
-    """For every symbol, from the newest MT5 bars: H1 trend, any setup waiting for its fill (entry/SL), and the
-    exact prices the next M15 close must beat for a new BUY / SELL signal (plus the other conditions)."""
+def setup_lines(sym: str) -> list[str]:
+    """fib618 for one symbol from the newest MT5 bars: H1 trend, any setup waiting for its fill (entry/SL), and the
+    exact M15 close that would trigger the next BUY / SELL signal (plus the other conditions)."""
     from .strategy import atr, trend
 
+    m15, h1, m5 = windows(bars(sym))
+    waiting: list = []
+    pl = plan(m15, h1, m5, sym, PARAMS, waiting=waiting)
+    a = atr(m15)
+    exp = a[-1] / np.mean(a[-50:])
+    hi, lo = m15["high"][-PARAMS.channel:].max(), m15["low"][-PARAMS.channel:].min()
+    h1t = {1: "UP", -1: "DOWN", 0: "-"}[int(trend(h1)[-1])]
+    last = datetime.fromtimestamp(int(m15["t"][-1]) + 900, timezone.utc)
+    out = [f"{sym:7} H1 {h1t:4} | ATR exp {exp:.2f} (need >= {PARAMS.min_atr_expansion}) | data to {last:%a %H:%M}Z | state {(pl or {}).get('status', 'none')}"]
+    for d, e, sl in waiting:
+        out.append(f"        WAITING {'BUY' if d == 1 else 'SELL'}: entry {e:.5g}  SL {sl:.5g}  (market entry on the first M5 close touching it)")
+    if h1t == "UP":
+        out.append(f"        next BUY  signal: M15 close >= {hi + PARAMS.min_break_atr * a[-1]:.5g} + 2 of (killzone, POI at fib 0.618, sweep)")
+    if h1t == "DOWN":
+        out.append(f"        next SELL signal: M15 close <= {lo - PARAMS.min_break_atr * a[-1]:.5g} + 2 of (killzone, POI at fib 0.618, sweep)")
+    return out
+
+
+def setups() -> None:
     for sym in LIVE_SYMBOLS:
         try:
-            m15, h1, m5 = windows(bars(sym))
-            waiting: list = []
-            pl = plan(m15, h1, m5, sym, PARAMS, waiting=waiting)
-            a = atr(m15)
-            exp = a[-1] / np.mean(a[-50:])
-            hi, lo = m15["high"][-PARAMS.channel:].max(), m15["low"][-PARAMS.channel:].min()
-            h1t = {1: "UP", -1: "DOWN", 0: "-"}[int(trend(h1)[-1])]
-            last = datetime.fromtimestamp(int(m15["t"][-1]) + 900, timezone.utc)
-            print(f"{sym:7} H1 {h1t:4} | ATR exp {exp:.2f} (need >= {PARAMS.min_atr_expansion}) | data to {last:%a %H:%M}Z | state {(pl or {}).get('status', 'none')}")
-            for d, e, s in waiting:
-                print(f"        WAITING {'BUY' if d == 1 else 'SELL'}: entry {e:.5g}  SL {s:.5g}  (market entry on the first M5 close touching it)")
-            if h1t == "UP":
-                print(f"        next BUY  signal: M15 close >= {hi + PARAMS.min_break_atr * a[-1]:.5g} + 2 of (killzone, POI at fib 0.618, sweep)")
-            if h1t == "DOWN":
-                print(f"        next SELL signal: M15 close <= {lo - PARAMS.min_break_atr * a[-1]:.5g} + 2 of (killzone, POI at fib 0.618, sweep)")
+            print("\n".join(setup_lines(sym)))
         except Exception as exc:
             print(f"{sym:7} error: {exc!r}")
 

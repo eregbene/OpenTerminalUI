@@ -26,7 +26,6 @@ from . import bennett_chart as bc
 from . import bennett_strategy as bs
 from . import bennett_smc as smc
 from .backtest import CONTRACT, Exec, _simulate, _spread, _usd_per_unit_move, _win, load_m5, resample
-from .config import SYMBOLS
 from .periods import parse_period
 from .strategy import pip
 
@@ -228,7 +227,8 @@ def main() -> None:
     ap.add_argument("--from", dest="a", default=None)
     ap.add_argument("--to", dest="b", default=None, help="inclusive day")
     ap.add_argument("--plan", action="store_true", help="text plan for the next session (no charts)")
-    ap.add_argument("--symbols", default=",".join(SYMBOLS))
+    ap.add_argument("--symbols", default=",".join(bs.LIVE_SYMBOLS), help="default: the pairs Bennett trades live")
+    ap.add_argument("--no-open", action="store_true", help="do not open the report in the browser")
     ap.add_argument("--update", action="store_true", help="pull the latest bars from MT5 first")
     ap.add_argument("--balance", type=float, default=97_677.0)
     ap.add_argument("--risk", type=float, default=0.5, help="risk per trade in %% (1R)")
@@ -262,7 +262,7 @@ def main() -> None:
     t1 = pd.Timestamp(a.b, tz="UTC") + pd.Timedelta(days=1)
     out = Path(a.out) / f"{a.a}_{a.b}"
     out.mkdir(parents=True, exist_ok=True)
-    p, ex = bs.BennettParams(), Exec()
+    p, ex = bs.LIVE, Exec()  # the configuration the live engine trades
     usd = a.balance * a.risk / 100.0
     rows, svgs, no_trade, notes = [], [], [], {}
     given = pd.read_csv(a.csv) if a.csv else None
@@ -272,7 +272,7 @@ def main() -> None:
             trades = [dict(r, still_open=False) for _, r in g.iterrows()]
         else:
             trades = replay(s, t0, t1, p, ex)
-        print(f"{s}: {len(trades)} trade(s)")
+        print(f"{s}: {len(trades)} trade(s)", flush=True)
         for tr in trades:
             tr["usd"] = round(tr["r"] * usd, 2)
             rows.append(tr)
@@ -330,6 +330,9 @@ def main() -> None:
 {"".join(items)}</table>{imgs}</body></html>"""
     (out / "index.html").write_text(html, encoding="utf-8")
     print(f"{len(df)} trade(s), {tot_r:+.2f}R = ${tot_r * usd:+,.0f}\nreport: {(out / 'index.html').resolve()}")
+    if not a.no_open:
+        import webbrowser
+        webbrowser.open((out / "index.html").resolve().as_uri())
 
 
 if __name__ == "__main__":
