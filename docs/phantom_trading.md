@@ -258,3 +258,35 @@ EURUSD M5 history downloaded back to Oct 2018 to rebuild his bar-replay trade (h
 | two-step (1H flip), 50% | trailing | +0.20 (102 trades, t 0.4) | +0.45 (57 trades, t 0.6) |
 Verdict unchanged and now statistically clear: the faithful mechanical version of Phantom loses after costs; only the
 rare two-step slice is positive, on too few trades to mean anything (t < 1).
+
+## 16. Market commentaries (Sunday 27 Sep 2020, 74 min; Wednesday 16 Sep 2020, 22 min) -- gap check
+
+Mostly week-ahead analysis that repeats sections 1-15. New or sharper points:
+- **Order-block stacking**: a weekly OB containing a daily OB, then a 4H, then a 1H OB "increases the odds" of a reaction. [Sun 11:37-11:54, 24:44-25:00]
+  -> **Codeable gap** (not in v3, which uses one 4H/1H zone with no higher-TF parent check).
+- **Far-retrace rule**: if price needed about 75 pips to break structure and then comes almost all the way straight back, the block is less likely to hold. He wants a real pullback (rounded), not just a slowdown. [Sun 13:49-14:48]
+  Partly covered by the return-type rules [8, 8b], which already showed no edge.
+- **Spent zones**: a block tested many times, or one price is resting on, is "irrelevant". [Sun 42:02-42:08, 46:05-46:17]
+  A single wick into the zone before the real tap does not invalidate it (orders are layered). [Sun 12:22-13:17]
+  v3 trades the first tap only, so this is consistent.
+- **Two order blocks about 1 pip apart**: enter at their median, with the stop beyond the outer one. [Wed 19:18-20:44]
+  Close to the v3 50% entry.
+- **Spread can miss the fill**: two of his limits missed by 0.6 pips. Factor the spread into lower-TF entries. [Wed 10:10-10:27, 12:01-12:35]
+  Already in the fill model (`_fill` uses the bid/ask spread).
+- **Risk vs confirmation entry**: risk entry when the return is corrective and with the trend. Confirmation entry when the trend is counter or the momentum is heavy. Sunday-open / gap times also call for confirmation. [Wed 08:27-09:00, Sun 30:31-30:57, 43:32-43:52]
+  Same as section 4.
+- **Management example (EURJPY)**: 1M substructure entry, 5-pip stop. He took 50% off at a 5M OB / inefficiency, moved to break-even, then trailed on the 15M below a higher low; +4.2%. He also took an earlier 0.5% loss. He says the entry itself was **not valid** (substructure, no true BOS). [Sun 32:51-41:08]
+  Shows a 50% partial + BE + 15M trail variant; v3 already tests 90/10 + trail.
+- **Other context (not codeable / not testable)**:
+  - transactional (non-speculative) flows explain why some OBs fail [Sun 02:39-04:47];
+  - even handles (e.g. 0.70) institutions like to buy at [Sun 53:13-53:27];
+  - Heikin Ashi as a momentum view, "still testing" [Sun 14:55-15:15];
+  - risk-on/off cycles, Wyckoff accumulation/redistribution schematics, half-size probes with scale-ins [Sun 54:41-60:22];
+  - 50 EMA "gravity" [Sun 69:14-69:26];
+  - FOMC-week choppiness [Wed 22:12-22:20];
+  - he names the 1M and 30-second charts as execution TFs [Sun 70:06-70:14].
+
+**Verdict**:
+- One real codeable gap: **OB stacking** (higher-TF parent zone around the 4H/1H zone).
+- Everything else is already coded and tested, or is discretionary context.
+- Stacking is a filter on the existing v3 setups, so it can be tested on the setup database without a new engine. It is not tested yet.
