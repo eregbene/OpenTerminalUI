@@ -296,6 +296,7 @@ def _zones(sym, tf_name, h4, ms4, a4, zsec, m5, m15, a15, d1, msd, ms_h4, h4_bar
                     row[f"{key}_{name}_r"] = _sim(sym, m5, j, d, lim, stop, ex, hold, **kw)["r"] - c
                 row[f"{key}_stop_pips"] = risk / p
                 row[f"{key}_fill_t"] = int(m5["t"][j])
+                row.update({f"{key}_entry": lim, f"{key}_stop": stop, "target": target, "zone_bot": bot, "zone_top": top})
                 filled = True
             return filled
 
