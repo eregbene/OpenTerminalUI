@@ -203,8 +203,12 @@ def plan_ahead(sym: str, p: bs.BennettParams) -> str:
                          f"wait for the next 5M pullback and a CHoCH {'down' if d < 0 else 'up'}.")
         ia = np.flatnonzero(after)
         push = ia[0] + int(np.argmax(m15["high"][after]) if d == -1 else np.argmin(m15["low"][after]))
-        lines.append(f"  The idea expires {pd.Timestamp(int(m15['t'][push]) + int(p.expire_h * 3600), unit='s'):%a %d %b %H:%M} UTC "
-                     f"if price does not push into the area again.")
+        exp = int(m15["t"][push]) + int(p.expire_h * 3600)
+        if exp <= now:
+            lines[-1] = (f"  EXPIRED: in the OTE but no new push into it for {p.expire_h:g} h "
+                         f"(since {pd.Timestamp(exp, unit='s'):%a %d %b %H:%M} UTC) -- no trade on this leg")
+        else:
+            lines.append(f"  The idea expires {pd.Timestamp(exp, unit='s'):%a %d %b %H:%M} UTC if price does not push into the area again.")
     eq_tol = p.eq_tol_atr * leg["atr"]
     cands = sorted({x for x in [leg["ext"]] + smc.pools(hb, leg["ms"], d, len(hb["t"]) - 1, eq_tol) if (x - px) * d > 0},
                    key=lambda x: abs(x - px))[:3]
@@ -235,10 +239,12 @@ def main() -> None:
     if a.update:
         update_bars(syms)
     if a.plan:
-        p = bs.BennettParams()
+        p = bs.LIVE  # the configuration the live engine trades
         txt = "\n\n".join(plan_ahead(s, p) for s in syms)
         day = pd.Timestamp.now(tz="UTC")
-        txt = f"Bennett plan -- made {day:%a %d %b %Y %H:%M} UTC ({bs.context_text(p)} leg, 5M trigger)\n\n{txt}"
+        kz = ", ".join(f"{x:02d}-{y:02d}" for x, y in p.killzones) or "any time"
+        txt = (f"Bennett plan -- made {day:%a %d %b %Y %H:%M} UTC ({bs.context_text(p)} leg, 5M trigger; triggers only {kz} UTC"
+               f"{', not Sunday' if p.no_sunday else ''}{', clear path to the target' if p.clear_path else ''})\n\n{txt}")
         print(txt)
         out = Path(a.out) / "plans"
         out.mkdir(parents=True, exist_ok=True)
