@@ -82,6 +82,7 @@ class BennettParams:
     max_rr: float = 20.0
     killzones: tuple = ()  # UTC (start_hour, end_hour) windows the trigger bar must open in, e.g. ((7, 11), (13, 17))
     no_sunday: bool = False  # no triggers on Sunday (the weekly open: thin, gappy; negative in every period)
+    agree_tf: int = 0  # >0 (seconds): that timeframe's structure trend must already agree at the 5M trigger (1800 = 30M)
     max_hold_bars: int = 200
     cost_pips: dict[str, float] = field(default_factory=lambda: {"EURUSD": 0.9, "GBPUSD": 1.2, "USDJPY": 1.0, "AUDUSD": 1.0,
                                                                   "USDCAD": 1.1, "USDCHF": 1.1, "XAUUSD": 3.0})
@@ -109,11 +110,12 @@ def closed(b: Bars, sec: int, now: int) -> Bars:
     return _cut(b, int(np.searchsorted(b["t"] + sec, now, side="right")))
 
 
-# Live demo config (2026-10-13): the setup-database winner -- 4H trend + clear path + 07-11/13-17 UTC + fresh 48 h,
+# Live demo config (2026-10-13): the setup-database winner -- 4H trend + clear path + 07-11/13-17 UTC + fresh 48 h
+# + the 30M structure already agreeing at the 5M trigger,
 # engine exit = first liquidity paying >= 2.75R, tight stop; every other optional rule off. No AUDUSD (and no gold).
 LIVE = BennettParams(need_fvg=False, choch_plus=False, top_in_ote=False, after_fail="off", expire_h=48.0, min_rr=2.75,
                      max_targets=2, bias="H4", stop_mode="tight", liq_eq_pips=0.0, premium_entry=False,
-                     took_internal=False, clear_path=True, killzones=((7, 11), (13, 17)), no_sunday=True)
+                     took_internal=False, clear_path=True, killzones=((7, 11), (13, 17)), no_sunday=True, agree_tf=1800)
 LIVE_SYMBOLS = ["EURUSD", "GBPUSD", "USDJPY", "USDCHF", "USDCAD"]
 
 
@@ -340,6 +342,9 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: BennettParams = BennettPar
         if st is None:
             return None
         tops, plus, top = st["tops"], st["plus"], st["tops"][0]
+        if p.agree_tf:  # 5-year setup database: with the 30M already turned our way +0.26R / +0.15R; against it -0.2R
+            if structure(closed(agg(m5, p.agree_tf), p.agree_tf, now), p)["trend"][-1] != d:
+                return None
     entry = float(m5["close"][-1])
     if p.premium_entry and smc.fib_pos(entry, leg["start"], leg["ext"]) < 0.5:
         return None  # "I cannot short below the 50%"
