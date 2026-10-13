@@ -22,14 +22,19 @@ W = {"EURUSD": -0.576, "USDJPY": 0.136, "GBPUSD": -0.119, "USDCAD": 0.091, "USDS
 K = 50.14348112
 
 
-def synth(start: str | None = None, end: str | None = None) -> dict[str, np.ndarray]:
-    """M5 DXY bars on the timestamps where all six pairs have a bar."""
-    bars = {s: load_m5(s, start, end) for s in W}
+# without USDSEK (4.2%; the broker's history starts Jan 2025): the other weights scaled to 100% -- tracks the DXY closely
+W_EX_SEK = {s: w / (1 - W["USDSEK"]) for s, w in W.items() if s != "USDSEK"}
+
+
+def synth(start: str | None = None, end: str | None = None, weights: dict | None = None) -> dict[str, np.ndarray]:
+    """M5 DXY bars on the timestamps where all its pairs have a bar (weights: W = the ICE formula, or W_EX_SEK)."""
+    weights = weights or W
+    bars = {s: load_m5(s, start, end) for s in weights}
     t = bars["EURUSD"]["t"]
     for b in bars.values():
         t = np.intersect1d(t, b["t"])
     out = {k: np.full(len(t), np.log(K)) for k in ("open", "high", "low", "close")}
-    for s, w in W.items():
+    for s, w in weights.items():
         b = bars[s]
         idx = np.searchsorted(b["t"], t)
         up, dn = (b["high"], b["low"]) if w > 0 else (b["low"], b["high"])  # what pushes DXY up / down
