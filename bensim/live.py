@@ -30,7 +30,7 @@ from zoneinfo import ZoneInfo
 import numpy as np
 
 from . import bennett_strategy as bstrat
-from . import bridge, db, flow_live, guard, indicators, trade_watch
+from . import bridge, crypto_paper, db, flow_live, guard, indicators, trade_watch
 from .backtest import _win, resample
 from .config import ROOT, env
 from .mt5_time import server_to_utc
@@ -265,6 +265,10 @@ def cycle(dry: bool) -> None:
         flow_live.step(time.time(), initial, day_start, equity, halted, dry, log, state)
     except Exception as exc:
         log("ERROR", f"FLOW: {exc!r}\n{traceback.format_exc(limit=3)}")
+    try:  # crypto momentum PAPER book (no orders, own files on D:): once per UTC day after 00:05
+        crypto_paper.step(log)
+    except Exception as exc:
+        log("ERROR", f"CRYPTO PAPER: {exc!r}")
 
 
 def decide_bn(sym: str, pl: dict, initial: float, day_start: float, equity: float, opens: list[guard.Open], halted: bool, dry: bool) -> tuple[str, dict]:

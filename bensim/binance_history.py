@@ -128,6 +128,34 @@ def load(name: str, tf: str = "M5") -> dict[str, np.ndarray]:
     return {"t": z["t"], "open": z["o"], "high": z["h"], "low": z["l"], "close": z["c"], "n": z["n"]}
 
 
+FUNDING = "https://fapi.binance.com/fapi/v1/fundingRate?symbol={s}&startTime={a}&limit=1000"
+
+
+def download_funding(sym: str) -> int:
+    """All funding payments of a USD-M perpetual -> <SYM>_funding.npz (t = UTC s, rate = fraction per payment;
+    longs PAY a positive rate, shorts receive it). Every 8h (some coins 4h/1h at times)."""
+    rows, a = [], 1_500_000_000_000
+    while True:
+        part = json.loads(_get(FUNDING.format(s=sym, a=a)) or b"[]")
+        if not part:
+            break
+        rows += part
+        a = int(part[-1]["fundingTime"]) + 1
+        if len(part) < 1000:
+            break
+    if not rows:
+        return 0
+    t = np.array([int(r["fundingTime"]) // 1000 for r in rows], dtype=np.int64)
+    rate = np.array([float(r["fundingRate"]) for r in rows])
+    np.savez_compressed(OUT / f"{sym}_funding.npz", t=t, rate=rate)
+    return len(t)
+
+
+def load_funding(sym: str) -> tuple[np.ndarray, np.ndarray]:
+    z = np.load(OUT / f"{sym}_funding.npz")
+    return z["t"], z["rate"]
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--top", type=int, default=30)
@@ -135,6 +163,7 @@ def main() -> None:
     ap.add_argument("--update", action="store_true", help="re-download every name in symbols.json")
     ap.add_argument("--tf", default="M5")
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--funding", action="store_true", help="download funding history for every futures name, then stop")
     a = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     meta_f = OUT / "symbols.json"
@@ -143,6 +172,10 @@ def main() -> None:
         meta |= universe(a.top)
         meta_f.write_text(json.dumps(meta, indent=1))
     names = a.symbols.split(",") if a.symbols else list(meta)
+    if a.funding:
+        for nm in [n for n in names if meta.get(n, {}).get("market") == "um"]:
+            print(f"{nm:16} funding payments: {download_funding(nm):,}", flush=True)
+        return
 
     def job(nm: str) -> str:
         t0 = time.time()
