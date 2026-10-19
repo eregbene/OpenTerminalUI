@@ -48,6 +48,12 @@ class Params:
     target_mode: str = "atr"  # "atr": open(i+1) +/- target_atr*ATR; "liquidity": the impulse's high/low reached before the pullback (BSL/SSL)
     min_rr_liq: float = 2.0
     fib_level: float = 0.618  # zone_mode="fib": entry at this retracement of the breakout leg, stop beyond its 100% (origin)
+    # zone_mode="fib" research option (tradingstrategyguides fib trend-line rule): "touch" = market on the first touch of
+    # fib_level (live); "close_back" = after the touch, enter on the first entry-tf CLOSE back beyond close_back_level;
+    # the setup dies if price reaches invalid_level first. Stop/target unchanged.
+    entry_trigger: str = "touch"
+    close_back_level: float = 0.5
+    invalid_level: float = 0.786
     fib_ext: float = 1.272  # target_mode="fib_ext": target at this extension of the leg
     balance_max_atr: float = 0.0  # >0: the channel bars before the break must range <= N x ATR (tight balance / flag / triangle)  # liquidity target: skip when target is < this many R away
     placebo_seed: int = 0  # research control: >0 moves each zone to a fake level 0.5-1.5x the real pullback depth (same stop width)
@@ -265,6 +271,34 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: Params = Params(), waiting
                 continue
             if not _context_ok(htf, int(known), d, float(entry), p):
                 continue
+            if p.zone_mode == "fib" and p.entry_trigger == "close_back":
+                rng_ = abs(leg1 - leg0)
+                mid, inv = leg1 - d * p.close_back_level * rng_, leg1 - d * p.invalid_level * rng_
+                touched, trig, dead = False, None, False
+                for j in range(i + 1, min(last + 1, i + 1 + p.plan_bars)):
+                    if (m["low"][j] <= inv) if d == 1 else (m["high"][j] >= inv):
+                        dead = True  # blew through the zone: trend broken
+                        break
+                    touched = touched or bool((m["low"][j] <= entry) if d == 1 else (m["high"][j] >= entry))
+                    if touched and (m["close"][j] - mid) * d >= 0:
+                        trig = j
+                        break
+                if dead or (trig is not None and p.weekend_cancel and _week(m["t"][trig]) != _week(m["t"][i])):
+                    continue
+                if trig is None:  # no waiting zone: it can only trigger on an entry-tf close, when plan() runs anyway
+                    if last + 1 - (i + 1) < p.plan_bars:
+                        status = status or {"dir": d, "status": "WAITING", "signal_bar": i}
+                    continue
+                if trig == last and len(forming) == 1:  # the close just happened: market entry now
+                    e = float(m["close"][last])
+                    if (e - stop) * d <= 0 or (target - e) * d <= 0:
+                        continue
+                    return {"dir": d, "status": "TRIGGERED", "entry": e, "stop": float(stop), "target": float(target),
+                            "signal_time": int(m["t"][i]), "zone_base_time": int(m["t"][B]), "atr": float(a[i]),
+                            "atr_expansion": float(exp[i]), "checks": checks}
+                busy_until = _exit_bar(m, trig + 1, d, stop, target, last, p.max_hold_bars)
+                status = {"dir": d, "status": "CONSUMED" if busy_until <= last else "IN_TRADE", "signal_bar": i}
+                break
             win = slice(i + 1, min(last + 1, i + 1 + p.plan_bars))
             touch = (m["low"][win] <= entry) if d == 1 else (m["high"][win] >= entry)
             if touch.any():
