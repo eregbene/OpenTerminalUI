@@ -30,7 +30,7 @@ from zoneinfo import ZoneInfo
 import numpy as np
 
 from . import bennett_strategy as bstrat
-from . import bridge, db, flow_live, guard, indicators
+from . import bridge, db, flow_live, guard, indicators, trade_watch
 from .backtest import _win, resample
 from .config import ROOT, env
 from .mt5_time import server_to_utc
@@ -200,6 +200,10 @@ def cycle(dry: bool) -> None:
         shadow(ours, quotes)
     except Exception as exc:  # a shadow-check failure never stops trading
         log("ERROR", f"SHADOW: {exc!r}")
+    try:  # in-trade watch: observe only (all three books)
+        trade_watch.watch([p for p in bridge.positions() if p.get("magic") in (MAGIC, MAGIC_BN, flow_live.MAGIC)], bars, h1_bars, log)
+    except Exception as exc:
+        log("ERROR", f"WATCH: {exc!r}")
     for p in ours:  # time exit, as in the backtest (Bennett: the plan's own hold, kept in the order comment "... h<bars>")
         hold = PARAMS.max_hold_bars * 900
         if p.get("magic") == MAGIC_BN and " h" in str(p.get("comment", "")):

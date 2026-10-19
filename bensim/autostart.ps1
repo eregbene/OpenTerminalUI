@@ -9,6 +9,11 @@ $terminal = "E:\MT5\Bensim-100k\terminal64.exe"
 $port = 8773
 function Log($m) { Add-Content $log "$(Get-Date -Format s) $m" }
 
+# one run at a time: the logon and 5-minute triggers fire together after a reboot -> two watchdogs, which kill each
+# other's bridge (2026-10-14)
+$mutex = New-Object System.Threading.Mutex($false, "Global\bensim_autostart")
+if (-not $mutex.WaitOne(0)) { exit 0 }
+
 # Safety: without admin rights Windows hides other processes' command lines, so the bridge / watchdog cannot be
 # recognised -- repairing blind once killed the real bridge. Not elevated -> change nothing, just say so.
 $admin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)

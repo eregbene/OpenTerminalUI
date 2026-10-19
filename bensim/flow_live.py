@@ -2,15 +2,15 @@
 
     python -m bensim.flow_live train          # train the frozen models for this year (5 seeds x long/short)
     python -m bensim.flow_live check          # one dry decision now (no orders), printing what it sees
-    BENSIM_FLOW=off|dry|live                  # in the engine; default dry (logs decisions, sends nothing)
+    BENSIM_FLOW=off|dry|live                  # in the engine; default live since 2026-10-19 (dry = log only)
 
 Exactly the research rules (bensim.macro_yields ensemble + bensim.combo), nothing re-tuned:
   ML     every new H1 close: inputs = bensim.edge_miner.features + add_strength over the 25 pairs (MT5 H1 bars, UTC) +
          2-year yield gaps (data/macro/yields_2y.csv, lagged one day); the spread input = the FXCM median spread of that
          pair and hour (what the model was trained on, not the broker's). Prediction = average of 5 seeds; trade the pair
          when its best side > the threshold (95th percentile of the previous year's predictions). Pairs EURUSD USDJPY
-         USDCAD EURJPY CADJPY, one open trade per pair, closed after 6 hours, BENSIM_FLOW_ML_LOTS (0.40).
-  MORNING  weekdays: sell EURUSD at the first cycle from 09:00 UTC, close from 12:00 UTC, BENSIM_FLOW_AM_LOTS (0.85).
+         USDCAD EURJPY CADJPY, one open trade per pair, closed after 6 hours, BENSIM_FLOW_ML_LOTS (0.80).
+  MORNING  weekdays: sell EURUSD at the first cycle from 09:00 UTC, close from 12:00 UTC, BENSIM_FLOW_AM_LOTS (2.5).
   Safety   own magic 770103; a disaster stop 4 typical moves away (ML 145 bp, morning 68 bp); no new orders when the
          kill switch file exists, the guard's daily flatten / drawdown halt applies, or the inputs are stale; every decision
          is written to live_flow (unique per kind + symbol + decision time: never sent twice); yields refreshed daily in
@@ -37,9 +37,9 @@ from .fxcm_history import PAIRS as ALL28
 from .mt5_time import server_to_utc
 
 MAGIC = 770103
-MODE = os.environ.get("BENSIM_FLOW", "dry").lower()
-ML_LOTS = float(os.environ.get("BENSIM_FLOW_ML_LOTS", "0.40"))
-AM_LOTS = float(os.environ.get("BENSIM_FLOW_AM_LOTS", "0.85"))
+MODE = os.environ.get("BENSIM_FLOW", "live").lower()  # 2026-10-19 user: live on the demo
+ML_LOTS = float(os.environ.get("BENSIM_FLOW_ML_LOTS", "0.80"))
+AM_LOTS = float(os.environ.get("BENSIM_FLOW_AM_LOTS", "2.5"))
 PAIRS = my.PAIRS  # the 5 pairs with yields on both sides
 UNIVERSE = [p for p in ALL28 if p not in ("EURCAD", "GBPAUD", "CHFJPY")]  # the 25 pairs the model learned strength from
 MODELS = Path("data/flow_models")

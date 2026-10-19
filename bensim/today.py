@@ -19,11 +19,13 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 
+from . import bennett_chart as bc
 from . import bennett_strategy as bs
 from . import bridge, db, indicators, live, plan_chart
 from .backtest import load_m5, resample
-from .bennett_report import plan_ahead, update_bars
+from .bennett_report import _render as bn_render, plan_ahead, update_bars
 from .strategy import trend
 
 NAMES = {live.MAGIC: "fib618", live.MAGIC_BN: "Bennett"}
@@ -74,6 +76,23 @@ def signals_html() -> str:
             "<th>What the engine did</th><th>Risk $</th></tr>" + body + "</table>")
 
 
+def bennett_chart(sym: str, out: Path) -> Path | None:
+    """Bennett's engine view at the last bar as a chart (same snapshot as bennett_report); None when there is no leg yet."""
+    last = load_m5(sym, (datetime.now(timezone.utc) - timedelta(days=3)).isoformat(), None)
+    if not len(last["t"]):
+        return None
+    tq, px = int(last["t"][-1]) + 300, float(last["close"][-1])
+    tr = pd.Series({"symbol": sym, "t_entry": tq, "t_exit": tq, "entry": px, "sl": np.nan, "tp": np.nan, "exit": px, "r": np.nan,
+                    "exit_reason": "", "chk_target_is_t1": True, "chk_rr_planned": "-", "snapshot": True, "note": "engine view now"})
+    try:
+        st = bc.state(sym, tr, bs.LIVE)
+    except Exception:  # no leg yet etc.
+        return None
+    f = out / f"{sym}_bennett.svg"
+    f.write_text(bc.svg(sym, tr, st, bs.LIVE), encoding="utf-8")
+    return f
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-update", action="store_true", help="skip pulling the newest bars from MT5")
@@ -88,7 +107,7 @@ def main() -> None:
     if not a.no_update:
         print("pulling the newest bars from MT5 ...", flush=True)
         update_bars(pairs)
-    cards, svgs = [], []
+    cards, svgs, bn_svgs = [], [], []
     for sym in pairs:
         print(f"{sym}: plans ...", flush=True)
         if sym in fib_pairs:
@@ -108,6 +127,9 @@ def main() -> None:
         if sym in bn_pairs:
             try:
                 bn = f"<pre>{html.escape(plan_ahead(sym, bs.LIVE))}</pre>"
+                if (f := bennett_chart(sym, out)) is not None:
+                    bn_svgs.append(f)
+                    bn += f"<img src='{f.with_suffix('.png').name}'>"
             except Exception as exc:
                 bn = f"<p class='warn'>{html.escape(repr(exc))}</p>"
         else:
@@ -116,6 +138,7 @@ def main() -> None:
                      f"<div class='col'><h3>{_tag('Bennett')}</h3>{bn}</div></div></div>")
     print("rendering charts ...", flush=True)
     asyncio.run(plan_chart.render(svgs))
+    asyncio.run(bn_render(bn_svgs))
     kz = ", ".join(f"{x:02d}-{y:02d}" for x, y in bs.LIVE.killzones)
     page = f"""<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Today -- both strategies</title><style>

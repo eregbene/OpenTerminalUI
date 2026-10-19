@@ -11,6 +11,7 @@ All amounts are account-currency (USD). Pure functions -- the live engine feeds 
 """
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 
 CURRENCIES = {"EURUSD": ("EUR", "USD"), "GBPUSD": ("GBP", "USD"), "USDJPY": ("USD", "JPY"), "AUDUSD": ("AUD", "USD"),
@@ -27,6 +28,12 @@ class GuardCfg:
     max_open: int = 4
 
 
+FTMO = GuardCfg()
+# 2026-10-19 user: DEMO, not FTMO, for now -- only a safety net against a runaway bug/day; BENSIM_GUARD=ftmo restores FTMO
+DEMO = GuardCfg(daily_stop_pct=10.0, daily_flat_pct=10.0, reduce_at_pct=100.0, halt_at_pct=100.0, max_per_side=99, max_open=6)
+ACTIVE = FTMO if os.environ.get("BENSIM_GUARD", "demo").lower() == "ftmo" else DEMO
+
+
 @dataclass(frozen=True)
 class Open:
     symbol: str
@@ -39,17 +46,18 @@ def legs(symbol: str, d: int) -> set[tuple[str, int]]:
     return {(base, d), (quote, -d)}
 
 
-def flatten_now(initial: float, day_start: float, equity: float, cfg: GuardCfg = GuardCfg()) -> bool:
-    return day_start - equity >= cfg.daily_flat_pct / 100 * initial
+def flatten_now(initial: float, day_start: float, equity: float, cfg: GuardCfg = None) -> bool:
+    return day_start - equity >= (cfg or ACTIVE).daily_flat_pct / 100 * initial
 
 
-def risk_scale(initial: float, equity: float, cfg: GuardCfg = GuardCfg()) -> float:
-    dd = (initial - equity) / initial * 100
+def risk_scale(initial: float, equity: float, cfg: GuardCfg = None) -> float:
+    cfg, dd = cfg or ACTIVE, (initial - equity) / initial * 100
     return 0.0 if dd >= cfg.halt_at_pct else (0.5 if dd >= cfg.reduce_at_pct else 1.0)
 
 
 def check(initial: float, day_start: float, equity: float, opens: list[Open], symbol: str, d: int, new_risk_usd: float,
-          cfg: GuardCfg = GuardCfg()) -> tuple[bool, str]:
+          cfg: GuardCfg = None) -> tuple[bool, str]:
+    cfg = cfg or ACTIVE
     if flatten_now(initial, day_start, equity, cfg):
         return False, "DAILY_FLATTEN"
     if risk_scale(initial, equity, cfg) == 0.0:
@@ -68,16 +76,21 @@ def check(initial: float, day_start: float, equity: float, opens: list[Open], sy
 
 
 def _selfcheck() -> None:
-    i = 100_000.0
-    assert check(i, i, i, [], "EURUSD", 1, 500) == (True, "OK")
+    i, F = 100_000.0, FTMO
+    assert check(i, i, i, [], "EURUSD", 1, 500, F) == (True, "OK")
     two_long_usd = [Open("USDCAD", 1, 500), Open("EURUSD", -1, 500)]
-    assert check(i, i, i, two_long_usd, "XAUUSD", -1, 500)[1] == "CURRENCY_SIDE_FULL"  # third long-USD bet
-    assert check(i, i, i, two_long_usd, "XAUUSD", 1, 500)[0]  # short USD is fine
-    assert check(i, i, i - 3_200, [Open("GBPUSD", 1, 500)], "EURUSD", -1, 500)[1].startswith("DAILY_RISK")  # 3.2k + 0.5k + 0.5k > 4k
-    assert check(i, i, i - 4_600, [], "EURUSD", 1, 500)[1] == "DAILY_FLATTEN"
-    assert risk_scale(i, 97_000) == 0.5 and risk_scale(i, 95_900) == 0.0 and risk_scale(i, 99_000) == 1.0
-    assert check(i, 92_000, 91_900, [], "EURUSD", 1, 100)[1] == "TOTAL_DRAWDOWN_HALT"
-    assert check(i, i, i, [Open("EURUSD", 1, 0)], "EURUSD", 1, 100)[1] == "SYMBOL_ALREADY_OPEN"
+    assert check(i, i, i, two_long_usd, "XAUUSD", -1, 500, F)[1] == "CURRENCY_SIDE_FULL"  # third long-USD bet
+    assert check(i, i, i, two_long_usd, "XAUUSD", 1, 500, F)[0]  # short USD is fine
+    assert check(i, i, i - 3_200, [Open("GBPUSD", 1, 500)], "EURUSD", -1, 500, F)[1].startswith("DAILY_RISK")  # 3.2k + 0.5k + 0.5k > 4k
+    assert check(i, i, i - 4_600, [], "EURUSD", 1, 500, F)[1] == "DAILY_FLATTEN"
+    assert risk_scale(i, 97_000, F) == 0.5 and risk_scale(i, 95_900, F) == 0.0 and risk_scale(i, 99_000, F) == 1.0
+    assert check(i, 92_000, 91_900, [], "EURUSD", 1, 100, F)[1] == "TOTAL_DRAWDOWN_HALT"
+    assert check(i, i, i, [Open("EURUSD", 1, 0)], "EURUSD", 1, 100, F)[1] == "SYMBOL_ALREADY_OPEN"
+    D = DEMO
+    assert check(i, i, i, two_long_usd, "XAUUSD", -1, 500, D) == (True, "OK")  # no currency-side cap
+    assert risk_scale(i, 90_000, D) == 1.0 and check(i, i, i - 5_000, [], "EURUSD", 1, 500, D)[0]  # no FTMO brakes
+    assert check(i, i, i - 10_000, [], "EURUSD", 1, 500, D)[1] == "DAILY_FLATTEN"  # -10% day net
+    assert check(i, i, i, [Open(s, 1, 0) for s in ("GBPUSD", "USDJPY", "AUDUSD", "USDCHF", "USDCAD", "XAUUSD")], "EURUSD", 1, 100, D)[1] == "MAX_OPEN"
     print("guard selfcheck ok")
 
 
