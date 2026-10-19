@@ -30,7 +30,7 @@ from zoneinfo import ZoneInfo
 import numpy as np
 
 from . import bennett_strategy as bstrat
-from . import bridge, db, guard, indicators
+from . import bridge, db, flow_live, guard, indicators
 from .backtest import _win, resample
 from .config import ROOT, env
 from .mt5_time import server_to_utc
@@ -49,6 +49,7 @@ BN_ON = env("BENSIM_BENNETT", "on").lower() != "off"
 BN_SYMBOLS = [x for x in env("BENSIM_BENNETT_SYMBOLS", ",".join(bstrat.LIVE_SYMBOLS)).split(",") if x]
 BN_RISK_SCALE = float(env("BENSIM_BENNETT_RISK_SCALE", "0.5"))  # x RISK_PCT: half risk while it proves itself live
 PRAGUE = ZoneInfo("Europe/Prague")
+FRIDAY_CLOSE_UTC = int(env("BENSIM_FRIDAY_CLOSE_UTC", "20"))  # Friday hour (UTC) to close everything; FX closes 21:00Z summer / 22:00Z winter
 
 SCHEMA = """
 create table if not exists live_state (k text primary key, v jsonb not null, updated timestamptz default now());
@@ -138,6 +139,49 @@ def day_start_balance(acct: dict) -> float:
     return float(s["balance"])
 
 
+def close_all(ours: list[dict], why: str, comment: str, dry: bool) -> None:
+    flow = [p for p in bridge.positions() if p.get("magic") == flow_live.MAGIC]  # the flow book is closed too
+    for p in ours + flow:
+        log("WARN", f"{why} close {p['symbol']} #{p['ticket']}: {bridge.close(p['ticket'], comment) if not dry else 'dry'}")
+
+
+_shadowed: set = set()  # (ticket, message) already logged -- each finding is logged once per engine run
+
+
+def shadow(ours: list[dict], quotes: dict) -> None:
+    """Shadow each open position against the signal that sent it: SL/TP present and unchanged, lots as sized, real
+    risk (fill to SL) within 25% of the planned risk. Logs 'SHADOW OK' once per position, or a WARN per problem."""
+    for p in ours:
+        q, c = quotes[p["symbol"]], str(p.get("comment", "")).split()
+        table = "live_signals_bennett" if p.get("magic") == MAGIC_BN else "live_signals"
+        row = None
+        if len(c) > 1 and c[1].isdigit():
+            with db.connect() as conn:
+                row = conn.execute(f"select detail from {table} where symbol=%s and decision='SENT' and signal_time %% 100000000 = %s",
+                                   (p["symbol"], int(c[1]) % 10**8)).fetchone()
+        tol = 2 * q["trade_tick_size"]
+        problems = []
+        if not p["sl"] or not p["tp"]:
+            problems.append(f"missing SL/TP (sl {p['sl']}, tp {p['tp']})")
+        if not row:
+            problems.append(f"no SENT signal matches comment '{p.get('comment')}' (manual trade?)")
+        else:
+            d = row[0]
+            if abs(p["sl"] - d["sl"]) > tol:
+                problems.append(f"SL {p['sl']} != planned {d['sl']:.5g}")
+            if abs(p["tp"] - d["tp"]) > tol:
+                problems.append(f"TP {p['tp']} != planned {d['tp']:.5g}")
+            if abs(p["volume"] - d["lots"]) > 1e-6:
+                problems.append(f"lots {p['volume']} != planned {d['lots']}")
+            risk = abs(p["price_open"] - p["sl"]) / q["trade_tick_size"] * q["trade_tick_value"] * p["volume"]
+            if p["sl"] and risk > 1.25 * d["risk_usd"]:
+                problems.append(f"risk ${risk:.0f} > planned ${d['risk_usd']:.0f} +25% (fill {p['price_open']} vs plan {d['price']:.5g})")
+        for msg in problems or ["SHADOW OK: SL/TP/lots/risk as planned"]:
+            if (p["ticket"], msg) not in _shadowed:
+                _shadowed.add((p["ticket"], msg))
+                log("WARN" if problems else "INFO", f"{'SHADOW ' if problems else ''}{msg} -- {p['symbol']} #{p['ticket']}")
+
+
 def cycle(dry: bool) -> None:
     acct = bridge.account()
     initial = float(state("initial") or state("initial", acct["balance"]))
@@ -148,9 +192,14 @@ def cycle(dry: bool) -> None:
     state("heartbeat", {"utc": int(time.time()), "equity": equity, "open": len(ours), "dry": dry})
 
     if guard.flatten_now(initial, day_start, equity):
-        for p in ours:
-            log("WARN", f"DAILY FLATTEN close {p['symbol']} #{p['ticket']}: {bridge.close(p['ticket'], 'bensim flatten') if not dry else 'dry'}")
-        return
+        return close_all(ours, "DAILY FLATTEN", "bensim flatten", dry)
+    utc = datetime.now(timezone.utc)
+    if utc.weekday() == 4 and utc.hour >= FRIDAY_CLOSE_UTC:  # no weekend holds: the Monday gap jumps the stop (EURUSD 16 Oct: -$423 vs -$243 planned)
+        return close_all(ours, "FRIDAY CLOSE", "bensim friday", dry)  # and no new orders until Monday
+    try:
+        shadow(ours, quotes)
+    except Exception as exc:  # a shadow-check failure never stops trading
+        log("ERROR", f"SHADOW: {exc!r}")
     for p in ours:  # time exit, as in the backtest (Bennett: the plan's own hold, kept in the order comment "... h<bars>")
         hold = PARAMS.max_hold_bars * 900
         if p.get("magic") == MAGIC_BN and " h" in str(p.get("comment", "")):
@@ -208,6 +257,10 @@ def cycle(dry: bool) -> None:
             log("TRADE" if decision == "SENT" else "INFO", f"BENNETT {sym} {'BUY' if pl['dir'] == 1 else 'SELL'} signal {pl['signal_time']}: {decision} {detail}")
         except Exception as exc:
             log("ERROR", f"BENNETT {sym}: {exc!r}\n{traceback.format_exc(limit=3)}")
+    try:  # flow/rate book (bensim.flow_live): own magic, exits and limits; a failure here never stops the strategies above
+        flow_live.step(time.time(), initial, day_start, equity, halted, dry, log, state)
+    except Exception as exc:
+        log("ERROR", f"FLOW: {exc!r}\n{traceback.format_exc(limit=3)}")
 
 
 def decide_bn(sym: str, pl: dict, initial: float, day_start: float, equity: float, opens: list[guard.Open], halted: bool, dry: bool) -> tuple[str, dict]:
@@ -304,6 +357,9 @@ def status() -> None:
         if c.execute("select to_regclass('live_signals_bennett')").fetchone()[0]:
             for r in c.execute("select to_char(created,'MM-DD HH24:MI'), symbol, dir, decision, detail->>'lots', detail->>'risk_usd' from live_signals_bennett order by created desc limit 10"):
                 print("bennett", *r)
+        if c.execute("select to_regclass('live_flow')").fetchone()[0]:
+            for r in c.execute("select to_char(created,'MM-DD HH24:MI'), kind, symbol, dir, round(pred::numeric, 2), decision from live_flow order by created desc limit 10"):
+                print("flow  ", *r)
         for r in c.execute("select to_char(ts,'MM-DD HH24:MI:SS'), level, left(msg, 160) from live_events where level <> 'INFO' order by ts desc limit 10"):
             print("event ", *r)
 
@@ -323,7 +379,8 @@ def main() -> None:
         c.execute(SCHEMA)
     log("INFO", f"live engine start: dry={a.dry_run} live_from={datetime.fromtimestamp(LIVE_FROM, timezone.utc):%Y-%m-%d %H:%M}Z risk={RISK_PCT}% "
                 f"params={PARAMS.zone_mode}+{PARAMS.confirm_min}of{','.join(PARAMS.confirm_any)} symbols={','.join(LIVE_SYMBOLS)} | "
-                f"bennett={'on' if BN_ON else 'off'} {','.join(BN_SYMBOLS)} risk x{BN_RISK_SCALE}")
+                f"bennett={'on' if BN_ON else 'off'} {','.join(BN_SYMBOLS)} risk x{BN_RISK_SCALE} | "
+                f"flow={flow_live.MODE} ml {flow_live.ML_LOTS} lots am {flow_live.AM_LOTS} lots")
     failures = 0
     while True:
         try:
