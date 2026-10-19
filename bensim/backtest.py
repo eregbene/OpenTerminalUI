@@ -25,6 +25,7 @@ import json
 from concurrent.futures import ProcessPoolExecutor
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -32,7 +33,7 @@ import pandas as pd
 from . import db
 from .config import SYMBOLS
 from . import bennett_strategy, fvg_strategy, gf_strategy, orderflow_strategy, pullback_strategy, strategy
-from .strategy import pip
+from .strategy import CRYPTO_TICK, pip
 
 STRATEGIES = {"imbalance": (strategy.Params, strategy.plan, strategy.order_for),
               "htf_fvg": (fvg_strategy.FvgParams, fvg_strategy.plan, fvg_strategy.order_for),
@@ -42,9 +43,12 @@ STRATEGIES = {"imbalance": (strategy.Params, strategy.plan, strategy.order_for),
               "gf": (gf_strategy.GfParams, gf_strategy.plan, gf_strategy.order_for)}
 WARMUP_SEC = 30 * 86400  # covers the 300 M15 / 200 H1 bar windows plan() sees
 
+BINANCE_DIR = Path(__file__).resolve().parent.parent / "data/bars/binance"
 CONTRACT = {"XAUUSD": 100.0}  # units per lot; FX = 100,000
 CURRENCIES = {"EURUSD": ("EUR", "USD"), "GBPUSD": ("GBP", "USD"), "USDJPY": ("USD", "JPY"), "AUDUSD": ("AUD", "USD"),
               "USDCHF": ("USD", "CHF"), "USDCAD": ("USD", "CAD"), "XAUUSD": ("XAU", "USD")}
+CONTRACT |= {s: 1.0 for s in CRYPTO_TICK}  # crypto: 1 lot = 1 coin
+CURRENCIES |= {s: (s.split(".")[0][:-4], "USD") for s in CRYPTO_TICK}  # USDT quoted, USDT ~ USD
 
 
 @dataclass(frozen=True)
@@ -53,6 +57,11 @@ class Exec:
                                                                         "USDCHF": 0.3, "USDCAD": 0.3, "XAUUSD": 1.2})
     commission_per_lot_rt: float = 7.0
     slippage_pips: float = 0.1
+    # crypto (CRYPTO_TICK symbols) pay a fee on notional instead of commission per lot: Binance USD-M taker 0.05% each
+    # side; spread = 1 tick (raw_spread_pips default 1.0 there), no rollover widening.
+    # ponytail: funding (every 8h, ~0.01%) not modelled -- add from /fapi/v1/fundingRate when multi-day holds matter
+    crypto_fee_rt: float = 0.001
+    crypto_spot_fee_rt: float = 0.002  # spot (.SPOT names): 0.1% each side
     rollover_mult: float = 4.0  # spread multiplier 20:55-22:05 UTC (rollover), raw accounts widen there
     risk_pct: float = 0.25
     start_balance: float = 100_000.0
@@ -69,6 +78,8 @@ class Exec:
 
 def _spread(sym: str, t: int, ex: Exec) -> float:
     m = (t % 86400) // 60
+    if sym in CRYPTO_TICK:
+        return ex.raw_spread_pips.get(sym, 1.0) * pip(sym)
     mult = ex.rollover_mult if 20 * 60 + 55 <= m <= 22 * 60 + 5 else 1.0
     return ex.raw_spread_pips.get(sym, 0.5) * pip(sym) * mult
 
@@ -78,7 +89,18 @@ def _usd_per_unit_move(sym: str, price: float) -> float:
     return 1.0 if CURRENCIES[sym][1] == "USD" else 1.0 / price
 
 
+def crypto_fee(sym: str, ex: Exec) -> float:
+    return ex.crypto_spot_fee_rt if sym.endswith(".SPOT") else ex.crypto_fee_rt
+
+
 def load_m5(sym: str, start: str | None, end: str | None) -> dict[str, np.ndarray]:
+    f = BINANCE_DIR / f"{sym}_M5.npz"
+    if f.exists():  # crypto lives in files on D: (bensim.binance_history), not in the DB
+        z = np.load(f)
+        lo = int(pd.Timestamp(start, tz="UTC").timestamp()) if start else 0
+        hi = int(pd.Timestamp(end, tz="UTC").timestamp()) if end else 2**62
+        k = (z["t"] >= lo) & (z["t"] < hi)
+        return {"t": z["t"][k], "open": z["o"][k], "high": z["h"][k], "low": z["l"][k], "close": z["c"][k]}
     q = "select extract(epoch from ts)::bigint, open, high, low, close from candles where symbol=%s and tf='M5'"
     args: list = [sym]
     if start:
@@ -226,7 +248,7 @@ def _simulate(sym: str, m5: dict[str, np.ndarray], k: int, o: dict, p, ex: Exec,
     elif exit_px is None:
         exit_px = m5["close"][xi] if d == 1 else m5["close"][xi] + _spread(sym, int(m5["t"][xi]), ex)
     r_gross = realized + size * (exit_px - entry) * d / risk  # R = the risk of a FULL position at the first entry
-    commission_r = ex.commission_per_lot_rt * lots / (risk * usd_move * units_per_lot * lots)
+    commission_r = (crypto_fee(sym, ex) * entry if sym in CRYPTO_TICK else ex.commission_per_lot_rt / (usd_move * units_per_lot)) / risk
     if add:
         r_gross += add["frac"] * (exit_px - add_px) * d / risk if add_px is not None else 0.0
         commission_r *= size + (add["frac"] if add_px is not None else 0.0)

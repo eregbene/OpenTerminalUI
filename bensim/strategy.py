@@ -15,7 +15,9 @@ Rules
 """
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -75,7 +77,16 @@ class Params:
                                                                   "USDCAD": 1.1, "USDCHF": 1.1, "XAUUSD": 3.0})
 
 
+# Binance USD-M perpetuals + spot (bensim.binance_history; spot names end in .SPOT): a crypto "pip" = the tick size
+CRYPTO_TICK = {"BTCUSDT": 0.1, "ETHUSDT": 0.01, "SOLUSDT": 0.01, "BNBUSDT": 0.01, "XRPUSDT": 0.0001}
+_meta = Path(__file__).resolve().parent.parent / "data/bars/binance/symbols.json"
+if _meta.exists():
+    CRYPTO_TICK |= {k: v["tick"] for k, v in json.loads(_meta.read_text()).items()}
+
+
 def pip(symbol: str) -> float:
+    if symbol in CRYPTO_TICK:
+        return CRYPTO_TICK[symbol]
     return 0.1 if symbol == "XAUUSD" else (0.01 if symbol.endswith("JPY") else 0.0001)
 
 

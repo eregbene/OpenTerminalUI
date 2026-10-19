@@ -20,8 +20,8 @@ import pandas as pd
 
 from . import bennett_smc as smc
 from . import bennett_strategy as bs
-from .backtest import Exec, _spread, _usd_per_unit_move, load_m5, resample
-from .strategy import pip
+from .backtest import Exec, _spread, _usd_per_unit_move, crypto_fee, load_m5, resample
+from .strategy import CRYPTO_TICK, pip
 
 Bars = dict[str, np.ndarray]
 H4, M15, H1, M5 = 14400, 900, 3600, 300
@@ -157,6 +157,8 @@ def _sim(sym: str, m5: Bars, k: int, d: int, entry: float, stop: float, ex: Exec
 
 def _cost_r(sym: str, entry: float, risk: float, ex: Exec) -> float:
     """Commission (round turn per lot) + slippage on both sides, in R."""
+    if sym in CRYPTO_TICK:  # crypto: fee on notional (see backtest.Exec.crypto_fee_rt)
+        return (crypto_fee(sym, ex) * entry + 2 * ex.slippage_pips * pip(sym)) / risk
     usd_per_lot_per_unit = _usd_per_unit_move(sym, entry) * (100.0 if sym == "XAUUSD" else 100_000.0)
     return (ex.commission_per_lot_rt / usd_per_lot_per_unit + 2 * ex.slippage_pips * pip(sym)) / risk
 

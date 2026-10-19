@@ -49,7 +49,12 @@ def download(symbol: str, tf: str = "M5", years: float = 5.0) -> int:
     for r, ts, k in zip(rows, t, keep):
         if k and r["high"] >= max(r["open"], r["close"]) and r["low"] <= min(r["open"], r["close"]) and r["low"] > 0:
             buf.write(f"{symbol}\t{tf}\t{datetime.fromtimestamp(int(ts), timezone.utc).isoformat()}\t{r['open']}\t{r['high']}\t{r['low']}\t{r['close']}\t{int(r.get('tick_volume', 0))}\tICMARKETS_MT5\n")
-    buf.seek(0)
+    return store(buf.getvalue())
+
+
+def store(lines: str) -> int:
+    """Upsert tab-separated candle rows (symbol, tf, ts iso, open, high, low, close, volume, source) into candles."""
+    buf = io.StringIO(lines)
     with db.connect() as c, c.cursor() as cur:
         cur.execute("create temp table _c (like candles) on commit drop")
         with cur.copy("copy _c from stdin") as cp:
@@ -75,7 +80,7 @@ def holes(t: np.ndarray, step: int, max_gap: int = 2 * 3600) -> list[tuple[int, 
     return [(int(t[i] + step), int(t[i + 1])) for i in idx]
 
 
-def audit(symbol: str, tf: str = "M5") -> dict:
+def audit(symbol: str, tf: str = "M5", source: str = "ICMARKETS_MT5") -> dict:
     with db.connect() as c:
         rows = c.execute("select extract(epoch from ts)::bigint from candles where symbol=%s and tf=%s order by ts", (symbol, tf)).fetchall()
     t = np.array([r[0] for r in rows], dtype=np.int64)
@@ -85,10 +90,10 @@ def audit(symbol: str, tf: str = "M5") -> dict:
            "holes": len(spans), "missing_days": round(sum(b - a for a, b in spans) / 86400, 1)}
     with db.connect() as c:
         c.execute("""insert into data_audit (symbol, tf, source, first_ts, last_ts, bars, holes_over_2h, missing_days, notes)
-                     values (%s,%s,'ICMARKETS_MT5',%s,%s,%s,%s,%s,%s) on conflict (symbol, tf, source) do update set
+                     values (%s,%s,%s,%s,%s,%s,%s,%s,%s) on conflict (symbol, tf, source) do update set
                      first_ts=excluded.first_ts, last_ts=excluded.last_ts, bars=excluded.bars, holes_over_2h=excluded.holes_over_2h,
                      missing_days=excluded.missing_days, notes=excluded.notes, checked_at=now()""",
-                  (symbol, tf, out["first"], out["last"], out["bars"], out["holes"], out["missing_days"],
+                  (symbol, tf, source, out["first"], out["last"], out["bars"], out["holes"], out["missing_days"],
                    "; ".join(f"{datetime.fromtimestamp(a, timezone.utc):%Y-%m-%d %H:%M}+{(b - a) / 3600:.0f}h" for a, b in spans[:40])))
         c.commit()
     return out
