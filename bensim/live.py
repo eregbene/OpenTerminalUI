@@ -187,8 +187,9 @@ def cycle(dry: bool) -> None:
     initial = float(state("initial") or state("initial", acct["balance"]))
     day_start = day_start_balance(acct)
     equity = float(acct["equity"])
-    ours = [p for p in bridge.positions() if p.get("magic") in (MAGIC, MAGIC_BN)]
-    quotes = {p["symbol"]: bridge.tick(p["symbol"]) for p in ours}
+    every = [p for p in bridge.positions() if 770100 < (p.get("magic") or 0) < 770200]  # all bensim books (one trade per pair)
+    ours = [p for p in every if p.get("magic") in (MAGIC, MAGIC_BN)]
+    quotes = {p["symbol"]: bridge.tick(p["symbol"]) for p in every}
     state("heartbeat", {"utc": int(time.time()), "equity": equity, "open": len(ours), "dry": dry})
 
     if guard.flatten_now(initial, day_start, equity):
@@ -213,7 +214,7 @@ def cycle(dry: bool) -> None:
         if time.time() - opened >= hold:
             log("INFO", f"TIME EXIT {p['symbol']} #{p['ticket']}: {bridge.close(p['ticket'], 'bensim time') if not dry else 'dry'}")
     halted = STOP_FILE.exists()
-    opens = [guard.Open(p["symbol"], 1 if p["type"] == 0 else -1, open_risk(p, quotes[p["symbol"]])) for p in ours]
+    opens = [guard.Open(p["symbol"], 1 if p["type"] == 0 else -1, open_risk(p, quotes[p["symbol"]])) for p in every]
     expected = (int(time.time()) // 300) * 300 - 300  # start time of the M5 bar that just closed
     for sym in LIVE_SYMBOLS:
         try:

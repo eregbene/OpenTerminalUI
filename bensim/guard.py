@@ -42,7 +42,7 @@ class Open:
 
 
 def legs(symbol: str, d: int) -> set[tuple[str, int]]:
-    base, quote = CURRENCIES[symbol]
+    base, quote = CURRENCIES.get(symbol, (symbol[:3], symbol[3:6]))  # flow book crosses (EURJPY, CADJPY) too
     return {(base, d), (quote, -d)}
 
 

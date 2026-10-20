@@ -189,7 +189,9 @@ def step(now: float, initial: float, day_start: float, equity: float, halted: bo
         state("flow_yields_day", utc.date().isoformat())
         _yields_busy.set()
         threading.Thread(target=_refresh_yields, args=(log,), daemon=True).start()
-    ours = [p for p in bridge.positions() if p.get("magic") == MAGIC]
+    pos = bridge.positions()
+    ours = [p for p in pos if p.get("magic") == MAGIC]
+    held = {p["symbol"] for p in pos if 770100 < (p.get("magic") or 0) < 770200}  # one trade per pair across ALL bensim books (2026-10-20)
     for p in ours:  # time exits
         opened = int(server_to_utc(np.array([p["time"]], dtype=np.int64))[0])
         hold = HOLD_AM if str(p.get("comment", "")).startswith("flowam") else HOLD_ML
@@ -204,8 +206,8 @@ def step(now: float, initial: float, day_start: float, equity: float, halted: bo
         if _record("am", "EURUSD", dt, -1, 0.0, 0.0, "PENDING", {}):
             if blocked:
                 decision, detail = "SKIP_BLOCKED", {"halted": halted}
-            elif any(str(p.get("comment", "")).startswith("flowam") for p in ours):
-                decision, detail = "SKIP_OPEN", {}
+            elif "EURUSD" in held:
+                decision, detail = "SKIP_PAIR_OPEN", {}
             else:
                 detail = _send("am", "EURUSD", -1, AM_LOTS, HOLD_AM, log, dry)
                 decision = "DRY" if dry else ("SENT" if detail.get("result", {}).get("ok") else "FAILED")
@@ -233,10 +235,11 @@ def step(now: float, initial: float, day_start: float, equity: float, halted: bo
             continue
         if blocked:
             decision, detail = "SKIP_BLOCKED", {}
-        elif any(p["symbol"] == r.symbol and str(p.get("comment", "")).startswith("flowml") for p in ours):
-            decision, detail = "SKIP_OPEN", {}
+        elif r.symbol in held:
+            decision, detail = "SKIP_PAIR_OPEN", {}
         else:
             detail = _send("ml", r.symbol, d, ML_LOTS, HOLD_ML, log, dry)
+            held.add(r.symbol)
             decision = "DRY" if dry else ("SENT" if detail.get("result", {}).get("ok") else "FAILED")
         with db.connect(autocommit=True) as c:
             c.execute("update live_flow set decision=%s, detail=%s where kind='ml' and symbol=%s and decision_time=%s",
