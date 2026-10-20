@@ -30,7 +30,7 @@ from zoneinfo import ZoneInfo
 import numpy as np
 
 from . import bennett_strategy as bstrat
-from . import bridge, crypto_paper, db, flow_live, guard, indicators, trade_watch
+from . import books, bridge, crypto_paper, db, flow_live, guard, indicators, trade_watch
 from .backtest import _win, resample
 from .config import ROOT, env
 from .mt5_time import server_to_utc
@@ -140,7 +140,7 @@ def day_start_balance(acct: dict) -> float:
 
 
 def close_all(ours: list[dict], why: str, comment: str, dry: bool) -> None:
-    flow = [p for p in bridge.positions() if p.get("magic") == flow_live.MAGIC]  # the flow book is closed too
+    flow = [p for p in bridge.positions() if p.get("magic") in {flow_live.MAGIC, *books.MAGICS.values()}]  # flow + research books too
     for p in ours + flow:
         log("WARN", f"{why} close {p['symbol']} #{p['ticket']}: {bridge.close(p['ticket'], comment) if not dry else 'dry'}")
 
@@ -201,7 +201,8 @@ def cycle(dry: bool) -> None:
     except Exception as exc:  # a shadow-check failure never stops trading
         log("ERROR", f"SHADOW: {exc!r}")
     try:  # in-trade watch: observe only (all three books)
-        trade_watch.watch([p for p in bridge.positions() if p.get("magic") in (MAGIC, MAGIC_BN, flow_live.MAGIC)], bars, h1_bars, log)
+        trade_watch.watch([p for p in bridge.positions() if p.get("magic") in {MAGIC, MAGIC_BN, flow_live.MAGIC, *books.MAGICS.values()}],
+                          bars, h1_bars, log)
     except Exception as exc:
         log("ERROR", f"WATCH: {exc!r}")
     for p in ours:  # time exit, as in the backtest (Bennett: the plan's own hold, kept in the order comment "... h<bars>")
@@ -265,6 +266,10 @@ def cycle(dry: bool) -> None:
         flow_live.step(time.time(), initial, day_start, equity, halted, dry, log, state)
     except Exception as exc:
         log("ERROR", f"FLOW: {exc!r}\n{traceback.format_exc(limit=3)}")
+    try:  # research books (bensim.books): own magics, one trade per pair across ALL books, highest confirmation wins
+        books.step(initial, day_start, equity, halted, dry, log, bars, h1_bars, windows, open_risk, {MAGIC, MAGIC_BN, flow_live.MAGIC})
+    except Exception as exc:
+        log("ERROR", f"BOOKS: {exc!r}\n{traceback.format_exc(limit=3)}")
     try:  # crypto momentum PAPER book (no orders, own files on D:): once per UTC day after 00:05
         crypto_paper.step(log)
     except Exception as exc:
@@ -388,7 +393,8 @@ def main() -> None:
     log("INFO", f"live engine start: dry={a.dry_run} live_from={datetime.fromtimestamp(LIVE_FROM, timezone.utc):%Y-%m-%d %H:%M}Z risk={RISK_PCT}% "
                 f"params={PARAMS.zone_mode}+{PARAMS.confirm_min}of{','.join(PARAMS.confirm_any)} symbols={','.join(LIVE_SYMBOLS)} | "
                 f"bennett={'on' if BN_ON else 'off'} {','.join(BN_SYMBOLS)} risk x{BN_RISK_SCALE} | "
-                f"flow={flow_live.MODE} ml {flow_live.ML_LOTS} lots am {flow_live.AM_LOTS} lots")
+                f"flow={flow_live.MODE} ml {flow_live.ML_LOTS} lots am {flow_live.AM_LOTS} lots | "
+                f"books={','.join(books.ON) or 'off'} risk x{books.RISK_SCALE}")
     failures = 0
     while True:
         try:
