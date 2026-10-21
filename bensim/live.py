@@ -140,7 +140,7 @@ def day_start_balance(acct: dict) -> float:
 
 
 def close_all(ours: list[dict], why: str, comment: str, dry: bool) -> None:
-    flow = [p for p in bridge.positions() if p.get("magic") in {flow_live.MAGIC, *books.MAGICS.values()}]  # flow + research books too
+    flow = [p for p in bridge.positions() if p.get("magic") in {flow_live.MAGIC, *books.MAGICS.values(), 770109}]  # flow + research books too
     for p in ours + flow:
         log("WARN", f"{why} close {p['symbol']} #{p['ticket']}: {bridge.close(p['ticket'], comment) if not dry else 'dry'}")
 
@@ -202,7 +202,7 @@ def cycle(dry: bool) -> None:
     except Exception as exc:  # a shadow-check failure never stops trading
         log("ERROR", f"SHADOW: {exc!r}")
     try:  # in-trade watch: observe only (all three books)
-        trade_watch.watch([p for p in bridge.positions() if p.get("magic") in {MAGIC, MAGIC_BN, flow_live.MAGIC, *books.MAGICS.values()}],
+        trade_watch.watch([p for p in bridge.positions() if p.get("magic") in {MAGIC, MAGIC_BN, flow_live.MAGIC, *books.MAGICS.values(), 770109}],
                           bars, h1_bars, log)
     except Exception as exc:
         log("ERROR", f"WATCH: {exc!r}")
