@@ -8,10 +8,12 @@
             same target, closed with the original trade at the latest.
 
 All with the backtest's spread, slippage and commission; 1 unit = R of the base trade size ($500 at 0.5%).
-    python -m bensim.entry_check
+    python -m bensim.entry_check [start]     # default 3 months; 2021-10-21 = 5 years (MT5 M5 history)
+ADD-ON 3/3 = the add-on only on fib618 trades that had all 3 confirmations (killzone, POI, sweep) = live full-risk setups.
 """
 from __future__ import annotations
 
+import sys
 from concurrent.futures import ProcessPoolExecutor
 
 import numpy as np
@@ -19,13 +21,14 @@ import pandas as pd
 
 from . import backtest as bt
 from . import bennett_strategy as bstrat
+from . import indicators
 from .backtest import CONTRACT, Exec, _spread, _usd_per_unit_move, load_m5, run_symbol
 from .exit_check import _tf_trend
 from .live import LIVE_SYMBOLS
 from .strategy import pip
 from .weekly_check import LIVE as FIB_LIVE
 
-START, END = "2026-07-21", "2026-10-21"
+START, END = (sys.argv[1] if len(sys.argv) > 1 else "2026-07-21"), "2026-10-21"
 DAY, HOLD = 288, 600  # M5 bars: 24h, max hold (= 200 M15 bars, as the strategies)
 
 
@@ -80,7 +83,7 @@ def check(args) -> list[dict]:
             for j in range(xi + 1, min(xi + DAY, nxt)):
                 s = _spread(sym, int(m5["t"][j]), ex)
                 if (m5["high"][j] >= tr.entry) if d == 1 else (m5["low"][j] + s <= tr.entry):
-                    out.append({"rule": "RE-ENTRY", "book": tr.book, "r": sim(sym, m5, j, d, tr.entry, tr.entry - d * risk, tr.tp, min(j + HOLD, nxt, n), ex)})
+                    out.append({"rule": "RE-ENTRY", "book": tr.book, "t": int(m5["t"][j]), "r": sim(sym, m5, j, d, tr.entry, tr.entry - d * risk, tr.tp, min(j + HOLD, nxt, n), ex)})
                     break
         # ADD-ON
         for j in range(k + 1, xi):
@@ -89,7 +92,7 @@ def check(args) -> list[dict]:
             if (px - tr.entry) * d >= risk and tr_at(h4, now) == tr_at(h1, now) == tr_at(m15, now) == d:
                 if (tr.tp - px) * d > 0:
                     r_add = sim(sym, m5, j, d, px, tr.entry, tr.tp, xi, ex) * abs(px - tr.entry) / risk  # same lots -> base R
-                    out.append({"rule": "ADD-ON", "book": tr.book, "r": r_add})
+                    out.append({"rule": "ADD-ON", "book": tr.book, "r": r_add, "t": now, "full": tr.full})
                 break
         # LATE
         sk = signals[(signals.book == tr.book) & (signals.t_entry > tr.t_entry) & (signals.t_entry < tr.t_exit)
@@ -103,7 +106,7 @@ def check(args) -> list[dict]:
             now = int(m5["t"][xi]) + 300
             px = m5["close"][xi] + (_spread(sym, now, ex) if sd == 1 else 0)
             if not hit and (px - s_.entry) * sd >= -0.25 * abs(s_.entry - s_.sl) and (s_.tp - px) * sd > 0:
-                out.append({"rule": "LATE", "book": tr.book, "r": sim(sym, m5, xi, sd, px, s_.sl, s_.tp, min(xi + HOLD, nxt, n), ex)})
+                out.append({"rule": "LATE", "book": tr.book, "t": now, "r": sim(sym, m5, xi, sd, px, s_.sl, s_.tp, min(xi + HOLD, nxt, n), ex)})
     return [o | {"symbol": sym} for o in out]
 
 
@@ -118,14 +121,17 @@ def main() -> None:
     for j, b, s in zip(jobs, base, sigs):
         if not b.empty:
             per.setdefault(j[0], [[], []])
-            per[j[0]][0].append(b.assign(book=name(j)))
+            full = [name(j) == "fib618" and all(indicators.passes({k[4:]: v for k, v in r.items() if k.startswith("chk_")}, (c,)) for c in FIB_LIVE.confirm_any)
+                    for r in b.to_dict("records")]
+            per[j[0]][0].append(b.assign(book=name(j), full=full))
             per[j[0]][1].append(s.assign(book=name(j)))
     with ProcessPoolExecutor(4) as pool:
         rows = [r for part in pool.map(check, [(sym, pd.concat(b), pd.concat(s)) for sym, (b, s) in per.items()]) for r in part]
     allb = pd.concat([x for v in per.values() for x in v[0]])
     print(f"{START} .. {END}: base {len(allb)} trades avg {allb.r.mean():+.3f}R total {allb.r.sum():+.1f}R (${allb.r.sum() * 500:+,.0f})")
     df = pd.DataFrame(rows)
-    for rule in ("RE-ENTRY", "LATE", "ADD-ON"):
+    df = pd.concat([df, df[(df.rule == "ADD-ON") & (df.full == True)].assign(rule="ADD-ON 3/3")], ignore_index=True)  # noqa: E712
+    for rule in ("RE-ENTRY", "LATE", "ADD-ON", "ADD-ON 3/3"):
         r = df.r[df.rule == rule] if len(df) else pd.Series(dtype=float)
         if r.empty:
             print(f"  {rule:9} no trades")
@@ -133,6 +139,7 @@ def main() -> None:
         t = r.mean() / r.std(ddof=1) * np.sqrt(len(r)) if len(r) > 1 and r.std() > 0 else 0.0
         print(f"  {rule:9} extra trades {len(r):3}  win {(r > 0).mean():4.0%}  avg {r.mean():+.3f}R  total {r.sum():+6.1f}R "
               f"(${r.sum() * 500:+,.0f})  t {t:+.1f}  by symbol {df[df.rule == rule].groupby('symbol').r.sum().round(1).to_dict()}")
+        print(f"             by year {df[df.rule == rule].groupby(pd.to_datetime(df.t, unit='s').dt.year).r.sum().round(1).to_dict()}")
 
 
 if __name__ == "__main__":
