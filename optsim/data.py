@@ -5,7 +5,7 @@
 stocks/<T>.csv.gz   t (UTC s), open, high, low, close   -- MT5 CFD feed, regular + extended session as the broker has it
 iv/<T>.csv.gz       date, iv (30-day ATM implied vol), hv   -- DoltHub post-no-preference/options volatility_history
 chain/<T>.csv.gz    date, expiration, strike, call_put, bid, ask, vol, delta -- one Wednesday a week, strikes +-4%,
-                     expirations <= 9 days: real quoted spreads + short-dated IV to calibrate the option model.
+                     expirations <= 21 days (DoltHub keeps only >= ~2-week expiries; no weeklies / 0DTE): real quoted spreads + short-dated IV to calibrate the option model.
 """
 from __future__ import annotations
 
@@ -89,6 +89,9 @@ def _iv_one(t: str) -> None:
         for m in pd.date_range("2021-07-01", pd.Timestamp.now(), freq="MS"):  # monthly: the API times out on bigger ranges
             rows += dolt(f"SELECT date, iv_current AS iv, hv_current AS hv FROM volatility_history "
                          f"WHERE act_symbol='{t}' AND date BETWEEN '{m:%Y-%m-%d}' AND '{m + pd.offsets.MonthEnd(0):%Y-%m-%d}'")
+        if not rows:
+            print(f"iv {t}: no DoltHub data (ETF) -- realized vol fallback", flush=True)
+            return
         df = pd.DataFrame(rows).astype({"iv": float, "hv": float})
         df.to_csv(ROOT / "iv" / f"{t}.csv.gz", index=False)
         print(f"iv {t}: {len(df)} days", flush=True)
@@ -107,12 +110,12 @@ def _chain_one(t: str) -> None:
             return
         st = pd.read_csv(ROOT / "stocks" / f"{t}.csv.gz")
         day = st.assign(d=pd.to_datetime(st.t, unit="s").dt.date).groupby("d").close.last()
-        weds = [d for d in day.index if d.weekday() == 2]
+        weds = [d for d in day.index if d.weekday() == 2 and d.day <= 7]  # first Wednesday of each month (~35 s/query)
         rows = []
         for d in weds:
             px = day[d]
             rows += dolt(f"SELECT date, expiration, strike, call_put, bid, ask, vol, delta FROM option_chain "
-                         f"WHERE act_symbol='{t}' AND date='{d}' AND expiration <= '{d + pd.Timedelta(days=9)}' "
+                         f"WHERE act_symbol='{t}' AND date='{d}' AND expiration <= '{d + pd.Timedelta(days=21)}' "
                          f"AND strike BETWEEN {px * 0.96:.2f} AND {px * 1.04:.2f}")
         df = pd.DataFrame(rows)
         if len(df):
