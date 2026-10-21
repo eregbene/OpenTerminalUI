@@ -36,6 +36,8 @@ class P:
                                 # vwap = strict: calls only above VWAP / puts only below; off = no filter
     trend_atr: float = 0.5      # 'trending' = VWAP moved > 0.5 x ATR(5m) over the last 60 minutes
     stop_edge: str = "far"      # far = wiggle room (default), near = conservative
+    against_rule: str = "always"  # "always" = exit on 2 opposite closes anywhere; "after_tp1" = only at friction (TP1 reached)
+    majors_only: bool = False   # only zones drawn by 10:30 (+ prior-day levels): his #1 tip
     flips: bool = True          # broken zone flips side and can be traded once (his "hard" days Dec 9 / Dec 15)
     budget: float = 1000.0      # $ premium per trade
     fee: float = 0.65           # $ per contract per side
@@ -190,7 +192,7 @@ def run_day(t: str, day: pd.DataFrame, prev: pd.DataFrame | None, a_prev: float,
                 why = "tp1 stall"  # reached TP1 and it can't go past: sell (Ch 17 L7)
             elif pos["tp"] is not None and pos["tp2"] is None and ((lo[k] <= pos["tp"]) if d == -1 else (h[k] >= pos["tp"])):
                 why = "target"
-            elif pos["against"] >= 2:
+            elif pos["against"] >= 2 and (p.against_rule == "always" or pos["tp1_hit"]):
                 why = "2 against"
             elif mins[k] >= t_flat:
                 why = "eod"
@@ -207,6 +209,9 @@ def run_day(t: str, day: pd.DataFrame, prev: pd.DataFrame | None, a_prev: float,
         # major zones = the day's extremes among live zones (+ prior-day levels)
         sup = [z for z in live if z.kind == -1 and not z.prior_day and not z.flipped and z.bot > c[k - 1] - 3 * (z.top - z.bot)]
         dem = [z for z in live if z.kind == 1 and not z.prior_day and not z.flipped and z.top < c[k - 1] + 3 * (z.top - z.bot)]
+        if p.majors_only:
+            sup = [z for z in sup if z.t <= t_draw]
+            dem = [z for z in dem if z.t <= t_draw]
         majors = ([max(sup, key=lambda z: z.top)] if sup else []) + ([min(dem, key=lambda z: z.bot)] if dem else [])             + [z for z in live if z.prior_day or z.flipped]  # the day's extremes + previous day's high/low + flipped zones
         # 4-candle state machine on the active zone
         if state == 0:
@@ -337,6 +342,8 @@ def main() -> None:
         for x in run_day(t, days[i], days[i - 1], a, P()):
             print({k: (round(v, 3) if isinstance(v, float) else v) for k, v in x.items()})
         return
+    if sys.argv[1:2] == ["--v2"]:
+        return main_v2()
     variants = {"base": P(), "no trend filter": P(trend="off"), "strict vwap": P(trend="vwap"), "near stop": P(stop_edge="near")}
     for name, p in variants.items():
         with ProcessPoolExecutor(4) as pool:
@@ -345,6 +352,26 @@ def main() -> None:
         tr.to_csv(ROOT / f"mkenny_trades_{name.replace(' ', '_')}.csv.gz", index=False)
         report(tr, f"=== {name} -- 5 years (2021-08 .. now; SPY only 2026)")
         report(tr[tr.day >= "2023-10-21"], f"=== {name} -- last 3 years")
+
+
+def main_v2() -> None:
+    """Changes from re-reading his trades (2026-10-21), declared before running: learn 2021-08..2023-12, confirm 2024+."""
+    variants = {"base": P(),
+                "V1 hold (2-against only at TP1)": P(against_rule="after_tp1"),
+                "V2 majors only, 1/day": P(majors_only=True, flips=False, max_trades=1),
+                "V3 = V1 + V2": P(against_rule="after_tp1", majors_only=True, flips=False, max_trades=1)}
+    for name, p in variants.items():
+        with ProcessPoolExecutor(4) as pool:
+            parts = list(pool.map(run_ticker, [(t, "2021-08-09", p) for t in TICKERS]))
+        tr = pd.concat([x for x in parts if not x.empty], ignore_index=True)
+        tr.to_csv(ROOT / f"mkenny_v2_{name.split()[0]}.csv.gz", index=False)
+        print(f"\n##### {name}")
+        for lab, g in (("learn 2021-08..2023", tr[tr.day < "2024-01-01"]), ("CONFIRM 2024..2026-10", tr[tr.day >= "2024-01-01"])):
+            for sub, gg in (("all 9", g), ("SPY+QQQ", g[g.ticker.isin(["SPY", "QQQ"])])):
+                r = gg.r
+                t_ = r.mean() / r.std() * np.sqrt(len(r)) if len(r) > 2 else 0
+                print(f"  {lab:22} {sub:8} n {len(gg):5}  stock R {r.mean():+.3f} (t {t_:+.1f}) win {(r > 0).mean():.0%} | "
+                      f"option {gg.opt_ret.mean():+.1%}/trade win {(gg.opt_ret > 0).mean():.0%}  exits {gg.why.value_counts().to_dict()}")
 
 
 if __name__ == "__main__":
