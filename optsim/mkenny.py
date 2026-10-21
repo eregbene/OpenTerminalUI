@@ -27,7 +27,8 @@ class P:
     zone_atr: float = 0.30      # zone width = 0.3 x ATR14(5m)  (10 cents on 2020 SPY)
     push_atr: float = 1.0       # zone needs a push away >= 1 ATR within 3 bars
     start: str = "10:30"        # 1 h after the open
-    last_entry: str = "15:50"
+    last_entry: str = "15:55"
+    power_hour: str = "15:00"   # from here: enter on the confirmation candle (3rd) -- Dec 7 2020
     flat: str = "15:58"
     max_trades: int = 2
     touch_tol: float = 0.10     # x width: "1-2 cents short still counts"
@@ -35,6 +36,7 @@ class P:
                                 # vwap = strict: calls only above VWAP / puts only below; off = no filter
     trend_atr: float = 0.5      # 'trending' = VWAP moved > 0.5 x ATR(5m) over the last 60 minutes
     stop_edge: str = "far"      # far = wiggle room (default), near = conservative
+    flips: bool = True          # broken zone flips side and can be traded once (his "hard" days Dec 9 / Dec 15)
     budget: float = 1000.0      # $ premium per trade
     fee: float = 0.65           # $ per contract per side
 
@@ -46,6 +48,7 @@ class Zone:
     bot: float
     t: int             # available from (UTC s)
     prior_day: bool = False
+    flipped: bool = False
     used: bool = False
     dead: bool = False
 
@@ -65,7 +68,7 @@ def load(t: str) -> pd.DataFrame:
 def iv_series(t: str) -> pd.Series:
     f = ROOT / "iv" / f"{t}.csv.gz"
     if not f.exists():
-        return pd.Series(dtype=float)
+        return pd.Series(dtype=float, index=pd.DatetimeIndex([]))
     s = pd.read_csv(f, parse_dates=["date"]).set_index("date").iv.sort_index()
     return s[s > 0]
 
@@ -162,7 +165,8 @@ def run_day(t: str, day: pd.DataFrame, prev: pd.DataFrame | None, a_prev: float,
     vwap = np.cumsum((h + lo + c) / 3 * vol) / np.cumsum(vol)
     trades, state, z_act, R, C = [], 0, None, None, None
     pos = None  # dict while in a trade
-    t_start, t_last, t_flat = hm(p.start), hm(p.last_entry), hm(p.flat)
+    t_start, t_last, t_flat, t_ph = hm(p.start), hm(p.last_entry), hm(p.flat), hm(p.power_hour)
+    t_draw = int(tm[0]) + (hm(p.start) - int(mins[0])) * 60  # zones existing when he opens the platform (UTC s)
     for k in range(1, len(day)):
         now = int(tm[k]) + 60
         live = [z for z in zones if z.t <= now and not z.dead and not z.used]
@@ -170,6 +174,8 @@ def run_day(t: str, day: pd.DataFrame, prev: pd.DataFrame | None, a_prev: float,
         for z in live:
             if (z.kind == -1 and c[k] > z.top) or (z.kind == 1 and c[k] < z.bot):
                 z.dead = True
+                if p.flips and not z.flipped and (z.prior_day or z.t <= t_draw):  # only zones he drew at 10:30 (majors) flip
+                    zones.append(Zone(-z.kind, z.top, z.bot, now, z.prior_day, flipped=True))
         if pos:
             d, z = pos["d"], pos["z"]
             stop = (z.top if p.stop_edge == "far" else z.bot) if d == -1 else (z.bot if p.stop_edge == "far" else z.top)
@@ -178,24 +184,30 @@ def run_day(t: str, day: pd.DataFrame, prev: pd.DataFrame | None, a_prev: float,
             why = None
             if (c[k] - stop) * d < 0:
                 why = "stop"
-            elif pos["tp"] is not None and ((lo[k] <= pos["tp"]) if d == -1 else (h[k] >= pos["tp"])):
+            elif pos["tp2"] is not None and ((lo[k] <= pos["tp2"]) if d == -1 else (h[k] >= pos["tp2"])):
+                why, pos["tp"] = "tp2", pos["tp2"]
+            elif pos["tp1_hit"] and against:
+                why = "tp1 stall"  # reached TP1 and it can't go past: sell (Ch 17 L7)
+            elif pos["tp"] is not None and pos["tp2"] is None and ((lo[k] <= pos["tp"]) if d == -1 else (h[k] >= pos["tp"])):
                 why = "target"
             elif pos["against"] >= 2:
                 why = "2 against"
             elif mins[k] >= t_flat:
                 why = "eod"
+            if not why and pos["tp"] is not None and ((lo[k] <= pos["tp"]) if d == -1 else (h[k] >= pos["tp"])):
+                pos["tp1_hit"] = True
             if why:
-                px = pos["tp"] if why == "target" else c[k]
-                trades.append({**{k_: v for k_, v in pos.items() if k_ not in ("z", "against")}, "exit": px,
+                px = pos["tp"] if why in ("target", "tp2") else c[k]
+                trades.append({**{k_: v for k_, v in pos.items() if k_ not in ("z", "against", "tp1_hit")}, "exit": px,
                                "t_exit": now, "min_exit": int(mins[k]) + 1, "why": why})
                 pos = None
             continue
         if mins[k] < t_start or mins[k] > t_last or len(trades) >= p.max_trades:
             continue
         # major zones = the day's extremes among live zones (+ prior-day levels)
-        sup = [z for z in live if z.kind == -1 and not z.prior_day and z.bot > c[k - 1] - 3 * (z.top - z.bot)]
-        dem = [z for z in live if z.kind == 1 and not z.prior_day and z.top < c[k - 1] + 3 * (z.top - z.bot)]
-        majors = ([max(sup, key=lambda z: z.top)] if sup else []) + ([min(dem, key=lambda z: z.bot)] if dem else [])             + [z for z in live if z.prior_day]  # doc: the day's extremes PLUS the previous day's high / low
+        sup = [z for z in live if z.kind == -1 and not z.prior_day and not z.flipped and z.bot > c[k - 1] - 3 * (z.top - z.bot)]
+        dem = [z for z in live if z.kind == 1 and not z.prior_day and not z.flipped and z.top < c[k - 1] + 3 * (z.top - z.bot)]
+        majors = ([max(sup, key=lambda z: z.top)] if sup else []) + ([min(dem, key=lambda z: z.bot)] if dem else [])             + [z for z in live if z.prior_day or z.flipped]  # the day's extremes + previous day's high/low + flipped zones
         # 4-candle state machine on the active zone
         if state == 0:
             for z in majors:
@@ -217,16 +229,18 @@ def run_day(t: str, day: pd.DataFrame, prev: pd.DataFrame | None, a_prev: float,
             outside = (h[k] <= z.bot) if d == -1 else (lo[k] >= z.top)  # closed AND wicked outside the zone
             if same and beyond and outside:
                 C, state = k, 2
+                if mins[k] >= t_ph:  # power hour: enter on the fast confirmation candle itself (at its close)
+                    state = 3
             elif same:
                 R = k  # side-by-side reversal candles
             else:
                 state = 0  # opposite colour cancels: wait for a new reversal
             continue
-        if state == 2:  # entry candle: enter at its open if it opens beyond the confirmation close's side
-            state = 0
-            if (o[k] - c[C]) * d < -0.5 * (z.top - z.bot):
+        if state in (2, 3):  # entry candle: enter at its open if it opens beyond the confirmation close's side
+            ph, state = state == 3, 0
+            if not ph and (o[k] - c[C]) * d < -0.5 * (z.top - z.bot):
                 continue  # gapped back: not "forming beyond"
-            entry = o[k]
+            entry = c[C] if ph else o[k]
             stop = (z.top if p.stop_edge == "far" else z.bot) if d == -1 else (z.bot if p.stop_edge == "far" else z.top)
             risk = (entry - stop) * d
             if risk <= 0:
@@ -243,12 +257,12 @@ def run_day(t: str, day: pd.DataFrame, prev: pd.DataFrame | None, a_prev: float,
                     [zz.bot for zz in zones if zz.kind == -1 and zz.t <= now and zz is not z and zz.bot > entry]
             if (vwap[k - 1] - entry) * d > 0:
                 cands.append(vwap[k - 1])
-            tp = (max(cands) if d == -1 else min(cands)) if cands else None
-            if tp is not None and abs(tp - entry) < risk:
-                continue  # no room (VWAP / next zone in the way) -- "zones too tight"
+            cands = sorted(cands, reverse=(d == -1))  # nearest first in the trade direction
+            tp, tp2 = (cands[0] if cands else None), (cands[1] if len(cands) > 1 else None)
             z.used = True
             pos = {"ticker": t, "day": str(day.d.iloc[0]), "d": d, "z": z, "entry": entry, "risk": risk, "tp": tp,
-                   "t_entry": int(tm[k]), "min_entry": int(mins[k]), "prior_day_zone": z.prior_day, "against": 0}
+                   "t_entry": int(tm[k]), "min_entry": int(mins[k]), "prior_day_zone": z.prior_day, "flip": z.flipped,
+                   "tp2": tp2, "tp1_hit": False, "against": 0}
     return trades
 
 
@@ -275,9 +289,11 @@ def run_ticker(args) -> pd.DataFrame:
     res = []
     for r in tr.itertuples():
         dts = pd.Timestamp(r.day)
-        v = ivs[:dts].iloc[-1] if len(ivs[:dts]) else hv[:dts].dropna().iloc[-1]
+        h_ = hv[:dts].dropna()
+        v = ivs[:dts].iloc[-1] if len(ivs[:dts]) else (h_.iloc[-1] if len(h_) else 0.35)  # IV, else realized vol
         res.append(option_trade(t, r.d, r.entry, r.exit, r.min_entry, r.min_exit, r.day, float(v), spr, p))
     tr["opt_pnl"], tr["opt_ret"], tr["ask"] = zip(*res)
+    tr["iv_src"] = "iv" if len(ivs) else "hv"
     return tr
 
 

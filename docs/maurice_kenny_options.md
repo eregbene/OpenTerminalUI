@@ -68,7 +68,29 @@ Source: `D:\trading\Maurice Kenny - How to Day Trade Like the Top 10` (90 lesson
 - Zone = 5-min swing high/low (2 bars each side) followed by a push away of >= 1 ATR within 3 bars.
 - Major = the day's current extreme zones + previous day's high/low; minor = other zones (targets only).
 - Trades from 10:30 ET (1h after open) to 15:50 ET; flat by 15:58 ET. Each zone traded once. Max 2 trades/day/ticker.
-- Direction filter: calls only above VWAP, puts only below VWAP at the entry candle.
+- Direction filter ("don't fight the day"): no trade against a trending day = VWAP moved > 0.5 x ATR(5m) over the
+  last 60 min AND price on that side of VWAP. (Strict "calls only above VWAP" was dropped BEFORE the test: his own
+  20 Nov 2020 put was above VWAP on a range day. Strict and no-filter are reported as variants.)
+- Corrections after reading his trade frames (2026-10-21, before any backtest result):
+  1. No "VWAP / next zone in the way" skip: he took 18 Dec, 3, 10, 16 Dec with VWAP right in the path. VWAP / nearest
+     zone = TP1: sell there only if it stalls (opposite candle), else hold to TP2 = next zone (Ch 17 L7).
+  2. Flipped zones traded (15 Dec, 9 Dec) — only zones that existed at 10:30 (his drawn majors) or prior-day levels.
+  3. Power hour (from 15:00): entry on the confirmation candle, last entry 15:55 (7 Dec).
+
+## Manual check of all 9 course trades (frames vs engine on US500/10 ≈ SPY)
+| Day | Type | His trade (frame) | Engine | Match |
+|---|---|---|---|---|
+| 20 Nov | easy | put 11:41 ET @357.41, zone 357.54-.64 | put 11:42 @357.42 | yes |
+| 16 Nov | easy | call 13:46 ET, zone 359.71-.81 | call 13:47 | yes |
+| 18 Dec | easy | put 12:45 ET, zone 369.54-.64 | put 12:33 (other zone, stopped) | close |
+| 3 Dec | medium | call 11:16 ET, zone 366.8-.9 | puts | no |
+| 10 Dec | medium | call 13:02 ET, zone 366.34-.44 | call 13:01 (+0.86R) | yes |
+| 16 Dec | medium | call 14:23 ET, zone 369.05-.15 | call 14:03 | close |
+| 15 Dec | hard flip | call 12:35 ET, broken supply 367.48-.58 | put 12:27 | no |
+| 9 Dec | hard flip | put 11:58 ET, broken demand 369.56-.66 | put 13:29 | close |
+| 7 Dec | hard PH | call 15:52 ET, zone 367.89-.99 | none | no |
+3 exact, 3 close, 3 missed — remaining gaps are zone placement (he draws by eye on SPY; we test on the US500 CFD).
+Not tuned further: fitting 9 days would be curve-fitting his examples.
 - Entry at the open of candle 4; stop = 1-min close beyond the far edge; exit at TP1 touch or 2 opposite closes.
 - Option: ATM, nearest listed expiry (SPY/QQQ daily since 2022; single stocks Friday weeklies), Black-Scholes on the
   day's implied vol (DoltHub), real ATM spreads from DoltHub chain quotes, $0.65/contract/side.
