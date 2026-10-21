@@ -5,6 +5,10 @@ if there is need"). Every action goes through here so it is capped, logged with 
     python -m bensim.manager open EURUSD SELL 1.1250 1.1180 "reason"   # SL + TP required
     python -m bensim.manager close 2020560789 "reason"       # any bensim position (take profit / cut)
     python -m bensim.manager score                           # did the manager add or lose money vs doing nothing?
+    python -m bensim.manager scan                            # confluence: per pair, which strategies point which way
+
+EXPERIMENT (user "yes start", 2026-10-21): discretionary manager trades only where >= 2 strategies agree (signals of the
+last 24h / pending book orders / flow ML last 6h) AND H4, H1, M15 all agree. Stop the experiment at -5R; review at 20 trades.
 
 Caps: risk 0.25% of the initial balance per manager trade, max 2 manager trades open, the engine guard (daily loss,
 one trade per pair, currency side), kill switch file respected. Manager trades carry MAGIC 770109.
@@ -18,7 +22,7 @@ import time
 
 import numpy as np
 
-from . import bridge, db, guard, live
+from . import books, bridge, db, guard, live
 from .backtest import resample
 from .strategy import trend
 from .trade_watch import verdict
@@ -26,6 +30,7 @@ from .trade_watch import verdict
 MAGIC = 770109
 RISK_PCT = 0.25
 MAX_OPEN = 2
+EXPERIMENT_STOP_R = -5.0
 SCHEMA = """create table if not exists manager_actions (ts bigint, action text, ticket bigint, symbol text, dir int,
     price double precision, sl double precision, tp double precision, lots double precision, magic int, reason text,
     result jsonb)"""
@@ -101,6 +106,36 @@ def _counterfactual(sym: str, d: int, t0: int, sl: float, tp: float, price: floa
     return (m["close"][-1] - price) * d
 
 
+def votes(sym: str) -> list[tuple]:
+    """(source, dir, entry, stop, target) for every strategy currently pointing somewhere on `sym`."""
+    now = int(time.time())
+    out = []
+    with db.connect() as c:
+        for tbl, name in (("live_signals", "fib618"), ("live_signals_bennett", "Bennett")):
+            out += [(name, *r) for r in c.execute(f"select dir, entry, stop, target from {tbl} where symbol=%s and signal_time > %s",
+                                                  (sym, now - 86400)).fetchall()]
+        out += [(f"book {b}", d, e, st, tg) for b, d, e, st, tg in c.execute(
+            "select book, dir, entry, stop, target from live_books where symbol=%s and (status='PENDING' or signal_time > %s)",
+            (sym, now - 86400)).fetchall()]
+        out += [(f"flow {k}", d, None, None, None) for k, d in c.execute(
+            "select kind, dir from live_flow where symbol=%s and decision_time > %s and dir <> 0", (sym, now - 6 * 3600)).fetchall()]
+    return out
+
+
+def scan() -> None:
+    name = {1: "BUY", -1: "SELL", 0: "--"}
+    for sym in sorted({*live.LIVE_SYMBOLS, *live.BN_SYMBOLS, *books.SYMBOLS}):
+        v = votes(sym)
+        tf = tf_trends(sym)
+        for d in (1, -1):
+            src = sorted({x[0] for x in v if x[1] == d})
+            if len(src) >= 2 and all(t == d for t in tf):
+                stops = [x[3] for x in v if x[1] == d and x[3]]
+                print(f"CANDIDATE {sym} {name[d]}: {', '.join(src)} + H4/H1/M15 all {name[d]}; strategy stops {stops}")
+        if v:
+            print(f"  {sym}: " + "; ".join(f"{x[0]} {name[x[1]]}" for x in v) + f" | trend H4/H1/M15 {[name[t] for t in tf]}")
+
+
 def score() -> None:
     with db.connect() as c:
         c.execute(SCHEMA)
@@ -125,6 +160,10 @@ def score() -> None:
             note, tot = f"vs holding ${usd:+.0f}", tot + usd
         print(f"{time.strftime('%m-%d %H:%M', time.gmtime(ts))} {act:5} {sym} {'BUY' if d == 1 else 'SELL'} #{tk}: {note}  -- {reason}")
     print(f"manager value added so far: ${tot:+,.0f}")
+    r_exp = sum(pnl.get(r[2], 0) for r in rows if r[1] == "OPEN") / (float(live.state("initial")) * RISK_PCT / 100)
+    n_exp = sum(1 for r in rows if r[1] == "OPEN" and r[2] in pnl)
+    print(f"experiment: {n_exp} closed manager trades, {r_exp:+.2f}R"
+          + ("  -> STOP: experiment limit reached" if r_exp <= EXPERIMENT_STOP_R else "") + ("  -> REVIEW due" if n_exp >= 20 else ""))
 
 
 if __name__ == "__main__":
@@ -135,6 +174,8 @@ if __name__ == "__main__":
         print(open_trade(a[0], a[1].upper(), float(a[2]), float(a[3]), a[4]))
     elif cmd == "close":
         print(close_trade(int(a[0]), a[1]))
+    elif cmd == "scan":
+        scan()
     elif cmd == "score":
         score()
     else:
