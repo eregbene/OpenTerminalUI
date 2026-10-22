@@ -110,7 +110,7 @@ def load_m5(sym: str, start: str | None, end: str | None) -> dict[str, np.ndarra
         q += " and ts < %s"
         args.append(end)
     with db.connect() as c:
-        a = np.array(c.execute(q + " order by ts", args).fetchall(), dtype=float)
+        a = np.array(c.execute(q + " order by ts", args).fetchall(), dtype=float).reshape(-1, 5)  # no rows -> empty, not a crash
     return {"t": a[:, 0].astype(np.int64), "open": a[:, 1], "high": a[:, 2], "low": a[:, 3], "close": a[:, 4]}
 
 
