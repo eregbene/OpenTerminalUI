@@ -1,0 +1,122 @@
+done bennett LIVE EURUSD 6
+done bennett LIVE GBPUSD 7
+done bennett LIVE AUDUSD 7
+done bennett LIVE XAUUSD 6
+done bennett LIVE USDJPY 12
+done bennett LIVE USDCHF 6
+done bennett LIVE USDCAD 4
+done bennett BASE EURUSD 46
+done bennett BASE GBPUSD 47
+done bennett BASE AUDUSD 37
+done bennett BASE XAUUSD 49
+done bennett BASE USDJPY 41
+done bennett BASE USDCHF 33
+done bennett BASE USDCAD 33
+done bennett LATEST1 EURUSD 70
+done bennett LATEST1 GBPUSD 64
+done bennett LATEST1 AUDUSD 48
+done bennett LATEST1 XAUUSD 76
+done bennett LATEST1 USDJPY 68
+done bennett LATEST1 USDCHF 55
+done bennett LATEST1 USDCAD 43
+done bennett LATEST2F EURUSD 44
+done bennett LATEST2F GBPUSD 45
+done bennett LATEST2F AUDUSD 40
+done bennett LATEST2F XAUUSD 50
+done bennett LATEST2F USDJPY 43
+done bennett LATEST2F USDCHF 28
+done bennett LATEST2F USDCAD 28
+done channel CHANNEL EURUSD 129
+done channel CHANNEL GBPUSD 144
+done channel CHANNEL AUDUSD 177
+done channel CHANNEL XAUUSD 125
+done channel CHANNEL USDJPY 144
+done channel CHANNEL USDCHF 140
+done channel CHANNEL USDCAD 173
+done faiz OLD EURUSD 70
+done faiz OLD GBPUSD 50
+done faiz OLD AUDUSD 30
+done faiz OLD XAUUSD 130
+done faiz OLD USDJPY 109
+done faiz OLD USDCHF 36
+done faiz OLD USDCAD 24
+done faiz MATCHED EURUSD 120
+done faiz MATCHED GBPUSD 74
+done faiz MATCHED AUDUSD 62
+done faiz MATCHED XAUUSD 216
+done faiz MATCHED USDJPY 185
+done faiz MATCHED USDCHF 58
+done faiz MATCHED USDCAD 52
+done jeafx OLD H1/M5 EURUSD 29
+done jeafx OLD H1/M5 GBPUSD 32
+done jeafx OLD H1/M5 AUDUSD 32
+done jeafx OLD H1/M5 XAUUSD 31
+done jeafx OLD H1/M5 USDJPY 21
+done jeafx OLD H1/M5 USDCHF 32
+done jeafx OLD H1/M5 USDCAD 31
+done jeafx MATCHED H1/M5 EURUSD 40
+done jeafx MATCHED H1/M5 GBPUSD 41
+done jeafx MATCHED H1/M5 AUDUSD 45
+done jeafx MATCHED H1/M5 XAUUSD 47
+done jeafx MATCHED H1/M5 USDJPY 36
+done jeafx MATCHED H1/M5 USDCHF 44
+done jeafx MATCHED H1/M5 USDCAD 39
+done jeafx MATCHED M15/M5 EURUSD 145
+done jeafx MATCHED M15/M5 GBPUSD 164
+done jeafx MATCHED M15/M5 AUDUSD 176
+done jeafx MATCHED M15/M5 XAUUSD 144
+done jeafx MATCHED M15/M5 USDJPY 140
+done jeafx MATCHED M15/M5 USDCHF 188
+done jeafx MATCHED M15/M5 USDCAD 178
+
+2 YEARS 2024-11-07 .. 2026-11-07; PASS = both years > 0, t >= 2, $ > 0 at $500 risk; engine R shown for reference
+
+== bennett LIVE: 48 trades | engine (as traded) +14.0R
+   own stop               win  29% +0.254R t +0.79 total   +12.2R (Y1 +8.7 / Y2 +3.5) | $   +6,086 @$500 | 1/5/7 lots $   -2,041 / $   -10,203 / $   -14,284 
+   stop >= target (1:1)   win  52% +0.074R t +0.62 total    +3.5R (Y1 +6.0 / Y2 -2.4) | $   +1,768 @$500 | 1/5/7 lots $   -5,123 / $   -25,613 / $   -35,858 
+   stop >= 1 ATR(15M)     win  29% +0.254R t +0.79 total   +12.2R (Y1 +8.7 / Y2 +3.5) | $   +6,089 @$500 | 1/5/7 lots $   -2,048 / $   -10,238 / $   -14,334 
+
+== bennett BASE: 286 trades | engine (as traded) +66.9R
+   own stop               win  30% +0.133R t +1.05 total   +38.1R (Y1 +34.1 / Y2 +3.9) | $  +19,042 @$500 | 1/5/7 lots $   -2,538 / $   -12,689 / $   -17,765 
+   stop >= target (1:1)   win  52% +0.007R t +0.17 total    +2.1R (Y1 +0.9 / Y2 +1.2) | $   +1,072 @$500 | 1/5/7 lots $  -10,534 / $   -52,668 / $   -73,735 
+   stop >= 1 ATR(15M)     win  30% +0.133R t +1.05 total   +38.0R (Y1 +34.1 / Y2 +3.9) | $  +19,007 @$500 | 1/5/7 lots $   -2,538 / $   -12,689 / $   -17,765 
+
+== bennett LATEST1: 424 trades | engine (as traded) +55.0R
+   own stop               win  28% +0.059R t +0.61 total   +24.9R (Y1 +36.3 / Y2 -11.4) | $  +12,459 @$500 | 1/5/7 lots $  -47,723 / $  -238,617 / $  -334,064 
+   stop >= target (1:1)   win  47% -0.014R t -0.37 total    -5.7R (Y1 -3.8 / Y2 -1.9) | $   -2,866 @$500 | 1/5/7 lots $  -38,400 / $  -192,001 / $  -268,802 
+   stop >= 1 ATR(15M)     win  28% +0.059R t +0.61 total   +24.9R (Y1 +36.2 / Y2 -11.4) | $  +12,427 @$500 | 1/5/7 lots $  -47,937 / $  -239,687 / $  -335,562 
+
+== bennett LATEST2F: 278 trades | engine (as traded) +46.1R
+   own stop               win  28% +0.080R t +0.63 total   +22.2R (Y1 +31.7 / Y2 -9.5) | $  +11,090 @$500 | 1/5/7 lots $  -17,599 / $   -87,995 / $  -123,193 
+   stop >= target (1:1)   win  50% -0.014R t -0.30 total    -3.8R (Y1 +0.1 / Y2 -3.9) | $   -1,889 @$500 | 1/5/7 lots $   -4,248 / $   -21,238 / $   -29,733 
+   stop >= 1 ATR(15M)     win  28% +0.080R t +0.63 total   +22.1R (Y1 +31.6 / Y2 -9.5) | $  +11,055 @$500 | 1/5/7 lots $  -17,599 / $   -87,995 / $  -123,193 
+
+== channel CHANNEL: 1032 trades | engine (as traded) +135.3R
+   own stop               win  19% +0.131R t +1.29 total  +135.3R (Y1 +93.1 / Y2 +42.2) | $  +67,630 @$500 | 1/5/7 lots $  +19,915 / $   +99,576 / $  +139,407 
+   stop >= target (1:1)   win  50% +0.000R t +0.02 total    +0.4R (Y1 -7.0 / Y2 +7.4) | $     +175 @$500 | 1/5/7 lots $   -7,852 / $   -39,260 / $   -54,965 
+   stop >= 1 ATR(15M)     win  19% +0.143R t +1.41 total  +147.9R (Y1 +86.6 / Y2 +61.4) | $  +73,975 @$500 | 1/5/7 lots $  +35,420 / $  +177,098 / $  +247,938 
+
+== faiz OLD: 449 trades | engine (as traded) -9.5R
+   own stop               win  28% -0.105R t -1.28 total   -47.3R (Y1 -49.3 / Y2 +2.0) | $  -23,665 @$500 | 1/5/7 lots $     +514 / $    +2,568 / $    +3,596 
+   stop >= target (1:1)   win  53% +0.005R t +0.10 total    +2.0R (Y1 -14.0 / Y2 +16.1) | $   +1,018 @$500 | 1/5/7 lots $  -71,545 / $  -357,725 / $  -500,814 
+   stop >= 1 ATR(15M)     win  29% -0.059R t -0.74 total   -26.7R (Y1 -34.4 / Y2 +7.7) | $  -13,353 @$500 | 1/5/7 lots $   +5,977 / $   +29,886 / $   +41,840 
+
+== faiz MATCHED: 767 trades | engine (as traded) -63.7R
+   own stop               win  25% -0.149R t -2.17 total  -114.6R (Y1 -107.6 / Y2 -7.0) | $  -57,276 @$500 | 1/5/7 lots $   +3,429 / $   +17,144 / $   +24,002 
+   stop >= target (1:1)   win  49% -0.054R t -1.63 total   -41.6R (Y1 -46.8 / Y2 +5.2) | $  -20,818 @$500 | 1/5/7 lots $  -28,772 / $  -143,862 / $  -201,407 
+   stop >= 1 ATR(15M)     win  26% -0.142R t -2.22 total  -108.7R (Y1 -113.4 / Y2 +4.7) | $  -54,367 @$500 | 1/5/7 lots $     -894 / $    -4,470 / $    -6,258 
+
+== jeafx OLD H1/M5: 208 trades | engine (as traded) -13.6R
+   own stop               win  30% -0.105R t -0.90 total   -21.9R (Y1 -31.0 / Y2 +9.1) | $  -10,958 @$500 | 1/5/7 lots $     +404 / $    +2,022 / $    +2,831 
+   stop >= target (1:1)   win  49% -0.040R t -0.66 total    -8.3R (Y1 -9.8 / Y2 +1.5) | $   -4,130 @$500 | 1/5/7 lots $  -67,654 / $  -338,271 / $  -473,580 
+   stop >= 1 ATR(15M)     win  30% -0.100R t -0.85 total   -20.7R (Y1 -30.6 / Y2 +9.9) | $  -10,373 @$500 | 1/5/7 lots $   -1,751 / $    -8,755 / $   -12,257 
+
+== jeafx MATCHED H1/M5: 292 trades | engine (as traded) +4.3R
+   own stop               win  28% -0.078R t -0.71 total   -22.9R (Y1 -23.3 / Y2 +0.4) | $  -11,459 @$500 | 1/5/7 lots $  +21,272 / $  +106,358 / $  +148,902 
+   stop >= target (1:1)   win  48% -0.041R t -0.85 total   -11.9R (Y1 -12.1 / Y2 +0.2) | $   -5,937 @$500 | 1/5/7 lots $  -48,554 / $  -242,771 / $  -339,879 
+   stop >= 1 ATR(15M)     win  28% -0.081R t -0.75 total   -23.5R (Y1 -25.1 / Y2 +1.6) | $  -11,753 @$500 | 1/5/7 lots $  +18,534 / $   +92,670 / $  +129,738 
+
+== jeafx MATCHED M15/M5: 1135 trades | engine (as traded) +51.2R
+   own stop               win  23% -0.113R t -1.64 total  -128.5R (Y1 +12.3 / Y2 -140.9) | $  -64,265 @$500 | 1/5/7 lots $  +35,728 / $  +178,639 / $  +250,095 
+   stop >= target (1:1)   win  51% -0.020R t -0.74 total   -22.7R (Y1 +18.2 / Y2 -40.9) | $  -11,345 @$500 | 1/5/7 lots $  +77,295 / $  +386,473 / $  +541,062 
+   stop >= 1 ATR(15M)     win  25% -0.048R t -0.74 total   -54.1R (Y1 +22.7 / Y2 -76.8) | $  -27,050 @$500 | 1/5/7 lots $  +44,334 / $  +221,671 / $  +310,340 

@@ -68,3 +68,6 @@ Win rate rises as expected, but not past the ~55% a 1:1 needs; mixed, not signif
    stop room beyond the liquidity; our code picks an older / inner one or a tight stop.
 4. Next: longer samples (1-2 years) for the matched versions before any DEMO change; Bennett channel mode; Faiz F2 and
    video 29; JeaFx shorts; Phantom's outer-zone rule.
+
+## 6. Two-year test (2024-11-07 .. 2026-11-06, reports/round25/two_year.log) -- PASS bar: both years > 0, t >= 2, $ > 0
+NO version passes. Closest: Bennett CHANNEL mode 1,032 trades +135.3R (Y1 +93.1 / Y2 +42.2, t 1.29, +$67.6k @$500; with a 1-ATR stop floor +147.9R, Y1 +86.6 / Y2 +61.4, t 1.41). Bennett base +38.1R (Y1 +34.1 / Y2 +3.9, t 1.05); Bennett live +12.2R (48 tr, both years +). Faiz matched -114.6R (t -2.17, significantly negative), Faiz old -47.3R; JeaFx all negative (-21.9 / -22.9 / -128.5R). User's 1:1 stop: pulls every version to ~0 (channel +135R -> +0.4R) -> dropped. Caveat: the common replay walker is harsher than the sflow/orderflow engines on tiny stops (JeaFx M15 engine +51R vs replay -128R); Bennett/channel agree. Next: channel mode on the UNTOUCHED 2021-10..2024-11 period before any DEMO step.
