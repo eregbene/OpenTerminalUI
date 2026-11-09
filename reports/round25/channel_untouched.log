@@ -1,0 +1,15 @@
+1253 trades {'XAUUSD': 226, 'USDCHF': 218, 'AUDUSD': 213, 'EURUSD': 212, 'GBPUSD': 176, 'USDJPY': 156, 'USDCAD': 52}
+
+CHANNEL mode, UNTOUCHED 2021-10-12 .. 2024-11-07; PASS = total > 0, t >= 1.5, >= 2 of 3 years > 0, $ > 0 @$500
+
+== own stop: 1253 trades win 16% -0.020R/trade t -0.23 total -25.0R  FAIL
+   $ at $500 risk: $-12,486 | fixed 1 lot $-8,116 | 5 lots $-40,579 | 7 LOTS $-56,811
+   per year R: {2021: 2.6, 2022: -76.4, 2023: 92.9, 2024: -44.1} | 7-lot $ per year: {2021: 11687.0, 2022: -34222.0, 2023: 78072.0, 2024: -112349.0}
+   per pair R: {'AUDUSD': -5.6, 'EURUSD': 14.5, 'GBPUSD': -8.4, 'USDCAD': 28.5, 'USDCHF': -20.0, 'USDJPY': 38.9, 'XAUUSD': -72.8}
+   worst losing streak (trades): 35 | top-3 winners R: [21.5, 18.6, 17.9]
+
+== stop >= 1 ATR(15M): 1253 trades win 16% -0.030R/trade t -0.36 total -38.0R  FAIL
+   $ at $500 risk: $-18,979 | fixed 1 lot $-9,524 | 5 lots $-47,618 | 7 LOTS $-66,665
+   per year R: {2021: 2.7, 2022: -84.9, 2023: 87.9, 2024: -43.8} | 7-lot $ per year: {2021: 10744.0, 2022: -36957.0, 2023: 74793.0, 2024: -115245.0}
+   per pair R: {'AUDUSD': -5.6, 'EURUSD': 9.8, 'GBPUSD': -17.0, 'USDCAD': 28.5, 'USDCHF': -20.2, 'USDJPY': 38.9, 'XAUUSD': -72.4}
+   worst losing streak (trades): 35 | top-3 winners R: [18.6, 17.9, 17.5]

@@ -71,3 +71,6 @@ Win rate rises as expected, but not past the ~55% a 1:1 needs; mixed, not signif
 
 ## 6. Two-year test (2024-11-07 .. 2026-11-06, reports/round25/two_year.log) -- PASS bar: both years > 0, t >= 2, $ > 0
 NO version passes. Closest: Bennett CHANNEL mode 1,032 trades +135.3R (Y1 +93.1 / Y2 +42.2, t 1.29, +$67.6k @$500; with a 1-ATR stop floor +147.9R, Y1 +86.6 / Y2 +61.4, t 1.41). Bennett base +38.1R (Y1 +34.1 / Y2 +3.9, t 1.05); Bennett live +12.2R (48 tr, both years +). Faiz matched -114.6R (t -2.17, significantly negative), Faiz old -47.3R; JeaFx all negative (-21.9 / -22.9 / -128.5R). User's 1:1 stop: pulls every version to ~0 (channel +135R -> +0.4R) -> dropped. Caveat: the common replay walker is harsher than the sflow/orderflow engines on tiny stops (JeaFx M15 engine +51R vs replay -128R); Bennett/channel agree. Next: channel mode on the UNTOUCHED 2021-10..2024-11 period before any DEMO step.
+
+## 7. Channel mode on the UNTOUCHED period 2021-10-12 .. 2024-11-06 -- FAIL
+1,253 trades, 16% win, -25.0R (t -0.23); $-12,486 @$500; fixed 7 lots $-56,811. Years: 2022 -76.4R, 2023 +92.9R, 2024 -44.1R. Gold -72.8R. Worst losing streak 35 trades. 1-ATR floor: -38.0R. The 2-year +135R does not repeat -> period-dependent, not an edge. Not for the DEMO.
