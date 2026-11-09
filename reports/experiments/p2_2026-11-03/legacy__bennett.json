@@ -1,0 +1,131 @@
+{
+ "trades": 5,
+ "win_rate": 0.6,
+ "expectancy_net_r": 1.198,
+ "gross_r_before_commission_swap": 1.232,
+ "commission_r": 0.034,
+ "swap_r": 0.0,
+ "swap_unknown_trades": 0,
+ "total_r": 6.0,
+ "profit_factor": 3.9,
+ "trade_t": 1.19,
+ "per_trade_sharpe": 0.534,
+ "skew": 0.04,
+ "kurtosis": 0.12,
+ "daily": {
+  "days": 66,
+  "sharpe_ann": 1.98,
+  "sortino_ann": 8.02,
+  "day_clustered_t": 1.02,
+  "lag1_autocorr": -0.016,
+  "effective_days": 68.2
+ },
+ "psr_vs_0": 0.868,
+ "dsr": {
+  "trials_n": 350,
+  "trial_sharpes_used": 115,
+  "sr_star_per_trade": 0.444,
+  "dsr": 0.575
+ },
+ "bootstrap": {
+  "block_days": 4,
+  "paths": 5000,
+  "seed": 19,
+  "total_r_ci90": [
+   -2.1,
+   15.8
+  ],
+  "p_total_le_0": 0.143,
+  "max_dd_r_median": 1.1,
+  "max_dd_r_p95": 3.2
+ },
+ "drawdown": {
+  "max_dd_r": 2.06,
+  "max_dd_peak_to_trough_days": 62.1,
+  "max_dd_recovery_days": 3.0,
+  "longest_underwater_days": 65.1
+ },
+ "by_symbol": {
+  "EURUSD": {
+   "n": 1,
+   "avg_r": 3.686,
+   "total_r": 3.7,
+   "win_rate": 1.0
+  },
+  "USDCHF": {
+   "n": 2,
+   "avg_r": 0.059,
+   "total_r": 0.1,
+   "win_rate": 0.5
+  },
+  "XAUUSD": {
+   "n": 2,
+   "avg_r": 1.094,
+   "total_r": 2.2,
+   "win_rate": 0.5
+  }
+ },
+ "by_session": {
+  "London 07-12": {
+   "n": 4,
+   "avg_r": 0.7,
+   "total_r": 2.8,
+   "win_rate": 0.5
+  },
+  "London/NY 12-16": {
+   "n": 1,
+   "avg_r": 3.192,
+   "total_r": 3.2,
+   "win_rate": 1.0
+  }
+ },
+ "by_month_frozen_walk_forward": {
+  "2026-08": {
+   "n": 1,
+   "avg_r": 3.686,
+   "total_r": 3.7,
+   "win_rate": 1.0
+  },
+  "2026-10": {
+   "n": 4,
+   "avg_r": 0.576,
+   "total_r": 2.3,
+   "win_rate": 0.5
+  }
+ },
+ "by_side": {
+  "long": {
+   "n": 1,
+   "avg_r": 3.686,
+   "total_r": 3.7,
+   "win_rate": 1.0
+  },
+  "short": {
+   "n": 4,
+   "avg_r": 0.576,
+   "total_r": 2.3,
+   "win_rate": 0.5
+  }
+ },
+ "by_exit": {
+  "stop": {
+   "n": 2,
+   "avg_r": -1.032,
+   "total_r": -2.1,
+   "win_rate": 0.0
+  },
+  "target": {
+   "n": 2,
+   "avg_r": 3.439,
+   "total_r": 6.9,
+   "win_rate": 1.0
+  },
+  "time": {
+   "n": 1,
+   "avg_r": 1.176,
+   "total_r": 1.2,
+   "win_rate": 1.0
+  }
+ },
+ "months_positive": "2/2"
+}

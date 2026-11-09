@@ -11,8 +11,12 @@ Execution (MT5 bars are BID prices):
   * entry: market at the trigger bar's close -- BUY at ask (= bid + spread), SELL at bid; + slippage
   * exits on later M5 bars: long SL/TP on bid, short SL/TP on ask; gap through -> fill at the open;
     a bar reaching both SL and TP counts as SL; time exit after Params.max_hold_bars M15 bars
-  * costs: spread = per-symbol raw spread x hour-of-day profile, commission $7 per lot round trip,
-    slippage on market entry and stop fills
+  * costs: spread = per-symbol raw spread (x rollover_mult 20:55-22:05 UTC; no other hour profile),
+    commission $7 per lot round trip, slippage on market entry and stop fills
+  * audit P0 options (2026-11-03, all OFF by default -> results unchanged): friday_close_utc (close at the first
+    bar from Friday HH:00 UTC, no new entries after it that Friday -- live.py behaviour), swap_usd_per_lot_night
+    (observed broker swap per lot-night, rollover at server midnight, Wednesday x3), cost_sources (labels).
+    Use exec_profile("legacy" | "observed_account") for the two audited cost sets.
   * sizing: Params-independent risk % of equity, lots rounded down to 0.01 (min 0.01); P&L in USD
   * prop-firm check: 5% daily loss / 10% max loss on the starting balance (closed-trade basis)
 Options (default off, for research): news block around high-impact events, break-even / partial at +R.
@@ -33,6 +37,7 @@ import pandas as pd
 from . import db
 from .config import SYMBOLS
 from . import bennett_strategy, fvg_strategy, gf_strategy, orderflow_strategy, pullback_strategy, strategy
+from .mt5_time import rollover_nights, utc_to_server
 from .strategy import CRYPTO_TICK, pip
 
 STRATEGIES = {"imbalance": (strategy.Params, strategy.plan, strategy.order_for),
@@ -74,6 +79,42 @@ class Exec:
     tp_r: tuple = ()
     tp_frac: tuple = ()
     tp_stop_r: tuple = ()
+    friday_close_utc: int = -1  # -1 = off; e.g. 20 = flat at the first M5 bar from Friday 20:00 UTC, no entries after
+    swap_usd_per_lot_night: dict = field(default_factory=dict)  # "EURUSD|long" -> USD per lot-night (+ = credit); {} = off
+    cost_sources: dict = field(default_factory=dict)  # labels only: observed / estimated / unknown per cost
+
+
+def exec_profile(name: str) -> Exec:
+    """The two audited cost sets (audit P0). Each cost is labelled observed / estimated / unknown.
+    legacy           = the cost model every result before 2026-11-03 used (raw-account guess), weekends held, no swap
+    observed_account = what the demo account (ICMarketsSC-Demo, login 53007035) actually charges: spread sampled
+                       2026-11-03 12:5x UTC (data/costs/spread_samples_2026-11-03.json), $0 commission (deals),
+                       swap per lot-night from 150 days of closed deals (data/costs/deals_costs_2026-11-03.json),
+                       Friday 20:00 UTC close as live.py"""
+    if name == "legacy":
+        return Exec(cost_sources={"spread": "estimated (raw-account guess, x4 at rollover)", "commission": "estimated ($7/lot rt broker schedule)",
+                                  "slippage": "estimated (0.1 pip)", "swap": "unknown (not charged)", "gaps": "observed (bar opens)"})
+    if name == "observed_account":
+        spr = json.loads(Path("data/costs/spread_samples_2026-11-03.json").read_text())["spread_pips"]
+        deals = json.loads(Path("data/costs/deals_costs_2026-11-03.json").read_text())["by_symbol_side"]
+        swap = {k: v["swap_usd_per_lot_night"] for k, v in deals.items() if v.get("swap_usd_per_lot_night") is not None}
+        return Exec(raw_spread_pips={s: round(float(np.mean(v)), 2) for s, v in spr.items()}, commission_per_lot_rt=0.0,
+                    friday_close_utc=20, swap_usd_per_lot_night=swap,
+                    cost_sources={"spread": "observed (5 samples, one London/NY session 2026-11-03) applied to all hours = estimated off-hours; "
+                                            "x4 at rollover = estimated",
+                                  "commission": "observed ($0 on 150 days of demo deals)", "slippage": "estimated (0.1 pip)",
+                                  "swap": "observed per lot-night (150 days of deals), applied to past dates = estimated; "
+                                          "pairs/sides with no overnight deals = unknown (0)",
+                                  "gaps": "observed (bar opens)", "friday_close": "as live.py (fib618/Bennett); books hold weekends live"})
+    raise ValueError(name)
+
+
+def friday_close_ts(t: int, hour: int) -> int:
+    """The first Friday HH:00 UTC at or after t's week position (t itself if t is past it on that Friday -> next week)."""
+    day = t // 86400
+    fri = day + (1 - (day + 3) % 7 + 3) % 7  # 1970-01-01 Thursday -> weekday (day+3)%7, Friday = 4
+    ts = fri * 86400 + hour * 3600
+    return ts if ts > t else ts + 7 * 86400
 
 
 def _spread(sym: str, t: int, ex: Exec) -> float:
@@ -170,6 +211,8 @@ def run_symbol(args: tuple) -> pd.DataFrame:
         order, why = order_for(pl, bid, bid + spr, p)
         if order is None:
             continue
+        if ex.friday_close_utc >= 0 and (now // 86400 + 3) % 7 == 4 and (now % 86400) >= ex.friday_close_utc * 3600:
+            continue  # live: no new orders after the Friday close
         if len(news) and np.any(np.abs(news - now) <= ex.news_block_min * 60):
             continue
         tr = _simulate(sym, m5, k, order, p, ex, spr)
@@ -203,9 +246,13 @@ def _simulate(sym: str, m5: dict[str, np.ndarray], k: int, o: dict, p, ex: Exec,
             risk = (add["price"] - sl) * d
     end = min(len(m5["t"]) - 1, k + o["plan"].get("hold_bars", p.max_hold_bars) * 3)  # a plan may set its own hold
     reason, xi, exit_px = "time", end, None
+    fc = friday_close_ts(int(m5["t"][k]) + 300, ex.friday_close_utc) if ex.friday_close_utc >= 0 else None
     for j in range(k + 1, end + 1):
         s = _spread(sym, int(m5["t"][j]), ex)
         o_, h_, l_ = m5["open"][j], m5["high"][j], m5["low"][j]
+        if fc is not None and m5["t"][j] >= fc and not (add and add["frac"] >= 1.0 and add_px is None):
+            exit_px, reason, xi = (o_ if d == 1 else o_ + s), "friday_close", j  # market close at the bar open
+            break
         # long exits on bid, short exits on ask (= bid + spread)
         if add and add_px is None and ((l_ + s <= add["price"]) if d == 1 else (h_ >= add["price"])):
             add_px = add["price"]  # the limit fills first (conservative if the stop is in the same bar)
@@ -254,10 +301,18 @@ def _simulate(sym: str, m5: dict[str, np.ndarray], k: int, o: dict, p, ex: Exec,
         commission_r *= size + (add["frac"] if add_px is not None else 0.0)
     if reason == "no_fill":
         r_gross, commission_r = 0.0, 0.0
-    return {"symbol": sym, "dir": d, "t_signal": o["plan"]["signal_time"], "t_entry": int(m5["t"][k]) + 300, "t_exit": int(m5["t"][xi]) + 300,
+    t_in, t_out = int(m5["t"][k]) + 300, int(m5["t"][xi]) + (0 if reason == "friday_close" else 300)
+    nights, swap_r, swap_known = 0, 0.0, None
+    if ex.swap_usd_per_lot_night and reason != "no_fill":
+        # ponytail: swap on the full position (partials / add-ons ignored); fine while swap is a small cost
+        nights = rollover_nights(utc_to_server(t_in), utc_to_server(t_out))
+        rate = ex.swap_usd_per_lot_night.get(f"{sym}|{'long' if d == 1 else 'short'}")
+        swap_known = rate is not None or nights == 0
+        swap_r = nights * (rate or 0.0) / (risk * usd_move * units_per_lot)
+    return {"symbol": sym, "dir": d, "t_signal": o["plan"]["signal_time"], "t_entry": int(m5["t"][k]) + 300, "t_exit": t_out,
             "entry": entry, "sl": o["sl"], "tp": tp, "exit": exit_px, "exit_reason": reason, "rr_planned": o["rr"], "lots": lots,
             "risk_pips": risk / pip(sym), "spread_pips_entry": spr_entry / pip(sym), "r_gross": r_gross, "commission_r": commission_r,
-            "r": r_gross - commission_r, "exit_index": xi, "add_filled": add_px is not None if add else None, **{f"chk_{k_}": v for k_, v in o["plan"].get("checks", {}).items()}}
+            "r": r_gross - commission_r + swap_r, "swap_r": swap_r, "nights": nights, "swap_known": swap_known, "exit_index": xi, "add_filled": add_px is not None if add else None, **{f"chk_{k_}": v for k_, v in o["plan"].get("checks", {}).items()}}
 
 
 def summarize(t: pd.DataFrame, ex: Exec) -> dict:

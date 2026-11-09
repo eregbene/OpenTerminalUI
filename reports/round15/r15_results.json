@@ -1,0 +1,570 @@
+{
+ "skipped_no_bars": {
+  "AUD": 4,
+  "CAD": 4,
+  "CHF": 1,
+  "EUR": 6,
+  "GBP": 6,
+  "JPY": 6,
+  "NZD": 3
+ },
+ "missing_X": {
+  "AUD": {
+   "X": 154,
+   "X2": 0,
+   "meetings": 154
+  },
+  "CAD": {
+   "X": 0,
+   "X2": 0,
+   "meetings": 119
+  },
+  "CHF": {
+   "X": 5,
+   "X2": 5,
+   "meetings": 59
+  },
+  "EUR": {
+   "X": 0,
+   "X2": 0,
+   "meetings": 131
+  },
+  "GBP": {
+   "X": 0,
+   "X2": 0,
+   "meetings": 137
+  },
+  "JPY": {
+   "X": 0,
+   "X2": 0,
+   "meetings": 143
+  },
+  "NZD": {
+   "X": 24,
+   "X2": 24,
+   "meetings": 107
+  }
+ },
+ "literal": {
+  "H1": {
+   "n": 360,
+   "n_long": 124,
+   "n_short": 236,
+   "mean_net_bp": -14.49,
+   "mean_gross_bp": -8.99,
+   "mean_swap_bp": -5.5,
+   "win": 0.467,
+   "t": -1.8,
+   "p": 0.9638342070870805,
+   "periods": {
+    "DISC": {
+     "n": 141,
+     "mean_bp": -3.53
+    },
+    "VAL": {
+     "n": 82,
+     "mean_bp": -16.16
+    },
+    "LOCK": {
+     "n": 137,
+     "mean_bp": -24.77
+    }
+   },
+   "usd": {
+    "1lot": {
+     "per_year": -3956,
+     "worst_month": -7431,
+     "max_dd": -64483
+    },
+    "5lot": {
+     "per_year": -19780,
+     "worst_month": -37157,
+     "max_dd": -322419
+    },
+    "7lot": {
+     "per_year": -27692,
+     "worst_month": -52020,
+     "max_dd": -451387
+    }
+   },
+   "by_bank": {
+    "CAD": {
+     "n": 67,
+     "mean_bp": 0.95,
+     "t": 0.06
+    },
+    "CHF": {
+     "n": 24,
+     "mean_bp": -52.54,
+     "t": -1.74
+    },
+    "EUR": {
+     "n": 107,
+     "mean_bp": -6.84,
+     "t": -0.57
+    },
+    "GBP": {
+     "n": 83,
+     "mean_bp": -17.64,
+     "t": -1.21
+    },
+    "JPY": {
+     "n": 24,
+     "mean_bp": -73.61,
+     "t": -2.85
+    },
+    "NZD": {
+     "n": 55,
+     "mean_bp": -1.02,
+     "t": -0.03
+    }
+   },
+   "by_side": {
+    "-1": {
+     "n": 236,
+     "mean_bp": -5.95
+    },
+    "1": {
+     "n": 124,
+     "mean_bp": -30.74
+    }
+   },
+   "bh_pass": false,
+   "all_periods_pos": false,
+   "PASS": false
+  },
+  "H2": {
+   "n": 223,
+   "n_long": 122,
+   "n_short": 101,
+   "mean_net_bp": -9.54,
+   "mean_gross_bp": -1.66,
+   "mean_swap_bp": -7.88,
+   "win": 0.502,
+   "t": -0.83,
+   "p": 0.7956969325467727,
+   "periods": {
+    "DISC": {
+     "n": 74,
+     "mean_bp": -7.92
+    },
+    "VAL": {
+     "n": 38,
+     "mean_bp": -59.47
+    },
+    "LOCK": {
+     "n": 111,
+     "mean_bp": 6.48
+    }
+   },
+   "usd": {
+    "1lot": {
+     "per_year": -1136,
+     "worst_month": -7448,
+     "max_dd": -48770
+    },
+    "5lot": {
+     "per_year": -5683,
+     "worst_month": -37240,
+     "max_dd": -243854
+    },
+    "7lot": {
+     "per_year": -7956,
+     "worst_month": -52137,
+     "max_dd": -341396
+    }
+   },
+   "by_bank": {
+    "AUD": {
+     "n": 27,
+     "mean_bp": -21.32,
+     "t": -0.61
+    },
+    "CAD": {
+     "n": 49,
+     "mean_bp": -1.77,
+     "t": -0.09
+    },
+    "CHF": {
+     "n": 8,
+     "mean_bp": 24.05,
+     "t": 0.54
+    },
+    "EUR": {
+     "n": 36,
+     "mean_bp": 36.76,
+     "t": 1.73
+    },
+    "GBP": {
+     "n": 54,
+     "mean_bp": -27.09,
+     "t": -1.2
+    },
+    "JPY": {
+     "n": 8,
+     "mean_bp": -28.74,
+     "t": -0.99
+    },
+    "NZD": {
+     "n": 41,
+     "mean_bp": -31.39,
+     "t": -0.92
+    }
+   },
+   "by_side": {
+    "-1": {
+     "n": 101,
+     "mean_bp": -1.59
+    },
+    "1": {
+     "n": 122,
+     "mean_bp": -16.12
+    }
+   },
+   "bh_pass": false,
+   "all_periods_pos": false,
+   "PASS": false
+  },
+  "H3": {
+   "n": 133,
+   "n_long": 133,
+   "n_short": 0,
+   "mean_net_bp": -44.26,
+   "mean_gross_bp": -34.64,
+   "mean_swap_bp": -9.62,
+   "win": 0.376,
+   "t": -3.69,
+   "p": 0.9998335692865039,
+   "periods": {
+    "DISC": {
+     "n": 71,
+     "mean_bp": -65.01
+    },
+    "VAL": {
+     "n": 53,
+     "mean_bp": -6.42
+    },
+    "LOCK": {
+     "n": 9,
+     "mean_bp": -103.38
+    }
+   },
+   "usd": {
+    "1lot": {
+     "per_year": -4337,
+     "worst_month": -5835,
+     "max_dd": -63659
+    },
+    "5lot": {
+     "per_year": -21685,
+     "worst_month": -29177,
+     "max_dd": -318297
+    },
+    "7lot": {
+     "per_year": -30360,
+     "worst_month": -40848,
+     "max_dd": -445616
+    }
+   },
+   "by_bank": {
+    "CAD": {
+     "n": 22,
+     "mean_bp": -42.37,
+     "t": -1.25
+    },
+    "CHF": {
+     "n": 15,
+     "mean_bp": -28.68,
+     "t": -0.91
+    },
+    "EUR": {
+     "n": 5,
+     "mean_bp": -47.9,
+     "t": -0.83
+    },
+    "GBP": {
+     "n": 19,
+     "mean_bp": -13.79,
+     "t": -0.53
+    },
+    "JPY": {
+     "n": 62,
+     "mean_bp": -66.05,
+     "t": -4.49
+    },
+    "NZD": {
+     "n": 10,
+     "mean_bp": 7.27,
+     "t": 0.09
+    }
+   },
+   "by_side": {
+    "1": {
+     "n": 133,
+     "mean_bp": -44.26
+    }
+   }
+  }
+ },
+ "clean": {
+  "H1": {
+   "n": 360,
+   "n_long": 124,
+   "n_short": 236,
+   "mean_net_bp": -13.31,
+   "mean_gross_bp": -8.04,
+   "mean_swap_bp": -5.27,
+   "win": 0.472,
+   "t": -1.79,
+   "p": 0.9627783735157253,
+   "periods": {
+    "DISC": {
+     "n": 141,
+     "mean_bp": -0.47
+    },
+    "VAL": {
+     "n": 82,
+     "mean_bp": -14.77
+    },
+    "LOCK": {
+     "n": 137,
+     "mean_bp": -25.65
+    }
+   },
+   "usd": {
+    "1lot": {
+     "per_year": -3539,
+     "worst_month": -7431,
+     "max_dd": -54618
+    },
+    "5lot": {
+     "per_year": -17695,
+     "worst_month": -37157,
+     "max_dd": -273092
+    },
+    "7lot": {
+     "per_year": -24773,
+     "worst_month": -52020,
+     "max_dd": -382330
+    }
+   },
+   "by_bank": {
+    "CAD": {
+     "n": 67,
+     "mean_bp": 0.95,
+     "t": 0.06
+    },
+    "CHF": {
+     "n": 24,
+     "mean_bp": -52.54,
+     "t": -1.74
+    },
+    "EUR": {
+     "n": 107,
+     "mean_bp": -6.84,
+     "t": -0.57
+    },
+    "GBP": {
+     "n": 83,
+     "mean_bp": -17.64,
+     "t": -1.21
+    },
+    "JPY": {
+     "n": 24,
+     "mean_bp": -37.36,
+     "t": -1.7
+    },
+    "NZD": {
+     "n": 55,
+     "mean_bp": -9.12,
+     "t": -0.38
+    }
+   },
+   "by_side": {
+    "-1": {
+     "n": 236,
+     "mean_bp": -5.04
+    },
+    "1": {
+     "n": 124,
+     "mean_bp": -29.05
+    }
+   },
+   "bh_pass": false,
+   "all_periods_pos": false,
+   "PASS": false
+  },
+  "H2": {
+   "n": 223,
+   "n_long": 122,
+   "n_short": 101,
+   "mean_net_bp": -5.88,
+   "mean_gross_bp": 1.72,
+   "mean_swap_bp": -7.59,
+   "win": 0.498,
+   "t": -0.53,
+   "p": 0.7032126953204157,
+   "periods": {
+    "DISC": {
+     "n": 74,
+     "mean_bp": -2.27
+    },
+    "VAL": {
+     "n": 38,
+     "mean_bp": -49.98
+    },
+    "LOCK": {
+     "n": 111,
+     "mean_bp": 6.82
+    }
+   },
+   "usd": {
+    "1lot": {
+     "per_year": -752,
+     "worst_month": -7448,
+     "max_dd": -45727
+    },
+    "5lot": {
+     "per_year": -3763,
+     "worst_month": -37240,
+     "max_dd": -228637
+    },
+    "7lot": {
+     "per_year": -5268,
+     "worst_month": -52137,
+     "max_dd": -320092
+    }
+   },
+   "by_bank": {
+    "AUD": {
+     "n": 27,
+     "mean_bp": 5.72,
+     "t": 0.16
+    },
+    "CAD": {
+     "n": 49,
+     "mean_bp": -1.77,
+     "t": -0.09
+    },
+    "CHF": {
+     "n": 8,
+     "mean_bp": 24.05,
+     "t": 0.54
+    },
+    "EUR": {
+     "n": 36,
+     "mean_bp": 36.76,
+     "t": 1.73
+    },
+    "GBP": {
+     "n": 54,
+     "mean_bp": -27.09,
+     "t": -1.2
+    },
+    "JPY": {
+     "n": 8,
+     "mean_bp": -18.32,
+     "t": -1.14
+    },
+    "NZD": {
+     "n": 41,
+     "mean_bp": -31.33,
+     "t": -1.09
+    }
+   },
+   "by_side": {
+    "-1": {
+     "n": 101,
+     "mean_bp": 5.18
+    },
+    "1": {
+     "n": 122,
+     "mean_bp": -15.03
+    }
+   },
+   "bh_pass": false,
+   "all_periods_pos": false,
+   "PASS": false
+  },
+  "H3": {
+   "n": 133,
+   "n_long": 133,
+   "n_short": 0,
+   "mean_net_bp": -42.15,
+   "mean_gross_bp": -33.11,
+   "mean_swap_bp": -9.04,
+   "win": 0.338,
+   "t": -3.86,
+   "p": 0.9999097425477362,
+   "periods": {
+    "DISC": {
+     "n": 71,
+     "mean_bp": -60.14
+    },
+    "VAL": {
+     "n": 53,
+     "mean_bp": -12.5
+    },
+    "LOCK": {
+     "n": 9,
+     "mean_bp": -74.86
+    }
+   },
+   "usd": {
+    "1lot": {
+     "per_year": -3982,
+     "worst_month": -4716,
+     "max_dd": -57774
+    },
+    "5lot": {
+     "per_year": -19913,
+     "worst_month": -23581,
+     "max_dd": -288870
+    },
+    "7lot": {
+     "per_year": -27878,
+     "worst_month": -33014,
+     "max_dd": -404418
+    }
+   },
+   "by_bank": {
+    "CAD": {
+     "n": 22,
+     "mean_bp": -42.37,
+     "t": -1.25
+    },
+    "CHF": {
+     "n": 15,
+     "mean_bp": -28.68,
+     "t": -0.91
+    },
+    "EUR": {
+     "n": 5,
+     "mean_bp": -47.9,
+     "t": -0.83
+    },
+    "GBP": {
+     "n": 19,
+     "mean_bp": -13.79,
+     "t": -0.53
+    },
+    "JPY": {
+     "n": 62,
+     "mean_bp": -53.34,
+     "t": -4.0
+    },
+    "NZD": {
+     "n": 10,
+     "mean_bp": -43.51,
+     "t": -0.73
+    }
+   },
+   "by_side": {
+    "1": {
+     "n": 133,
+     "mean_bp": -42.15
+    }
+   }
+  }
+ }
+}

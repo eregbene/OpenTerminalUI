@@ -1,0 +1,394 @@
+{
+ "window_from": "2026-10-10",
+ "deals": 195,
+ "positions": 99,
+ "closed": 96,
+ "open": 3,
+ "partial": 0,
+ "manual_closed_positions": 19,
+ "manual_closed_pnl": 8441.58,
+ "review": [
+  {
+   "position_id": 2054559323,
+   "strategy": "REVIEW_magic_999001",
+   "symbol": "EURUSD",
+   "db_refs": "",
+   "open_comment": "guard test"
+  },
+  {
+   "position_id": 2054559756,
+   "strategy": "REVIEW_magic_999001",
+   "symbol": "EURUSD",
+   "db_refs": "",
+   "open_comment": "guard test"
+  },
+  {
+   "position_id": 2054559871,
+   "strategy": "REVIEW_magic_999001",
+   "symbol": "EURUSD",
+   "db_refs": "",
+   "open_comment": "guard test"
+  }
+ ],
+ "by_strategy": {
+  "REVIEW_magic_999001": {
+   "positions": 3,
+   "net_usd": -0.26,
+   "win": 0.0,
+   "exp_usd": -0.09,
+   "exp_r_net": null,
+   "pf": 0.0,
+   "max_dd_usd": -0.18,
+   "avg_hold_h": 0.0,
+   "median_mfe_r": NaN,
+   "median_mae_r": NaN,
+   "costs_usd": {
+    "commission": 0.0,
+    "swap": 0.0,
+    "fee": 0.0
+   },
+   "exits": {
+    "ENGINE": 3
+   },
+   "manual_closes": 0,
+   "manual_close_pnl": 0.0,
+   "engine_only_pnl": -0.26,
+   "best_pair": "EURUSD -0",
+   "worst_pair": "EURUSD -0",
+   "first": "2026-11-02",
+   "last": "2026-11-02"
+  },
+  "bennett": {
+   "positions": 2,
+   "net_usd": 166.14,
+   "win": 0.5,
+   "exp_usd": 83.07,
+   "exp_r_net": 0.344,
+   "pf": 1.68,
+   "max_dd_usd": 0.0,
+   "avg_hold_h": 15.3,
+   "median_mfe_r": 2.0465,
+   "median_mae_r": -0.7535,
+   "costs_usd": {
+    "commission": 0.0,
+    "swap": -67.74,
+    "fee": 0.0
+   },
+   "exits": {
+    "SL": 1,
+    "MANUAL": 1
+   },
+   "manual_closes": 1,
+   "manual_close_pnl": 408.86,
+   "engine_only_pnl": -242.72,
+   "best_pair": "USDCHF +166",
+   "worst_pair": "USDCHF +166",
+   "first": "2026-10-20",
+   "last": "2026-10-22"
+  },
+  "cta": {
+   "positions": 1,
+   "net_usd": 739.97,
+   "win": 1.0,
+   "exp_usd": 739.97,
+   "exp_r_net": 3.362,
+   "pf": null,
+   "max_dd_usd": 0.0,
+   "avg_hold_h": 15.9,
+   "median_mfe_r": 3.449,
+   "median_mae_r": -0.32,
+   "costs_usd": {
+    "commission": 0.0,
+    "swap": 0.0,
+    "fee": 0.0
+   },
+   "exits": {
+    "MANUAL": 1
+   },
+   "manual_closes": 1,
+   "manual_close_pnl": 739.97,
+   "engine_only_pnl": 0.0,
+   "best_pair": "XAUUSD +740",
+   "worst_pair": "XAUUSD +740",
+   "first": "2026-10-30",
+   "last": "2026-10-30"
+  },
+  "enigma": {
+   "positions": 5,
+   "net_usd": 742.01,
+   "win": 0.6,
+   "exp_usd": 148.4,
+   "exp_r_net": 0.609,
+   "pf": 2.53,
+   "max_dd_usd": -243.32,
+   "avg_hold_h": 6.6,
+   "median_mfe_r": 0.964,
+   "median_mae_r": -0.428,
+   "costs_usd": {
+    "commission": 0.0,
+    "swap": -6.95,
+    "fee": 0.0
+   },
+   "exits": {
+    "TP": 2,
+    "SL": 2,
+    "MANUAL": 1
+   },
+   "manual_closes": 1,
+   "manual_close_pnl": 168.88,
+   "engine_only_pnl": 573.13,
+   "best_pair": "EURUSD +1058",
+   "worst_pair": "USDCHF -243",
+   "first": "2026-10-23",
+   "last": "2026-11-04"
+  },
+  "fib618": {
+   "positions": 27,
+   "net_usd": -1261.44,
+   "win": 0.333,
+   "exp_usd": -46.72,
+   "exp_r_net": 0.053,
+   "pf": 0.78,
+   "max_dd_usd": -2697.97,
+   "avg_hold_h": 11.0,
+   "median_mfe_r": 0.545,
+   "median_mae_r": -0.816,
+   "costs_usd": {
+    "commission": 0.0,
+    "swap": -172.04,
+    "fee": 0.0
+   },
+   "exits": {
+    "SL": 17,
+    "MANUAL": 5,
+    "TP": 4,
+    "ENGINE": 1
+   },
+   "manual_closes": 5,
+   "manual_close_pnl": 2257.1,
+   "engine_only_pnl": -3518.54,
+   "best_pair": "GBPUSD +1032",
+   "worst_pair": "USDCAD -1231",
+   "first": "2026-10-13",
+   "last": "2026-11-06"
+  },
+  "flow_am": {
+   "positions": 13,
+   "net_usd": 1117.5,
+   "win": 0.615,
+   "exp_usd": 85.96,
+   "exp_r_net": 0.045,
+   "pf": 1.89,
+   "max_dd_usd": -375.0,
+   "avg_hold_h": 2.8,
+   "median_mfe_r": 0.171,
+   "median_mae_r": -0.131,
+   "costs_usd": {
+    "commission": 0.0,
+    "swap": 0.0,
+    "fee": 0.0
+   },
+   "exits": {
+    "ENGINE": 10,
+    "MANUAL": 3
+   },
+   "manual_closes": 3,
+   "manual_close_pnl": 1067.5,
+   "engine_only_pnl": 50.0,
+   "best_pair": "EURUSD +1118",
+   "worst_pair": "EURUSD +1118",
+   "first": "2026-10-19",
+   "last": "2026-11-05"
+  },
+  "flow_ml": {
+   "positions": 21,
+   "net_usd": -191.31,
+   "win": 0.476,
+   "exp_usd": -9.11,
+   "exp_r_net": -0.014,
+   "pf": 0.84,
+   "max_dd_usd": -883.95,
+   "avg_hold_h": 7.0,
+   "median_mfe_r": 0.071,
+   "median_mae_r": -0.104,
+   "costs_usd": {
+    "commission": 0.0,
+    "swap": 20.77,
+    "fee": 0.0
+   },
+   "exits": {
+    "ENGINE": 20,
+    "MANUAL": 1
+   },
+   "manual_closes": 1,
+   "manual_close_pnl": 174.4,
+   "engine_only_pnl": -365.71,
+   "best_pair": "EURJPY +524",
+   "worst_pair": "USDJPY -644",
+   "first": "2026-10-19",
+   "last": "2026-11-06"
+  },
+  "imbalance": {
+   "positions": 13,
+   "net_usd": 1420.53,
+   "win": 0.308,
+   "exp_usd": 109.27,
+   "exp_r_net": 0.437,
+   "pf": 1.64,
+   "max_dd_usd": -1945.68,
+   "avg_hold_h": 3.3,
+   "median_mfe_r": 0.317,
+   "median_mae_r": -0.807,
+   "costs_usd": {
+    "commission": 0.0,
+    "swap": 1.03,
+    "fee": 0.0
+   },
+   "exits": {
+    "SL": 9,
+    "MANUAL": 3,
+    "TP": 1
+   },
+   "manual_closes": 3,
+   "manual_close_pnl": 3116.42,
+   "engine_only_pnl": -1695.89,
+   "best_pair": "XAUUSD +1838",
+   "worst_pair": "EURUSD -490",
+   "first": "2026-10-20",
+   "last": "2026-11-06"
+  },
+  "manager": {
+   "positions": 1,
+   "net_usd": 130.92,
+   "win": 1.0,
+   "exp_usd": 130.92,
+   "exp_r_net": 0.544,
+   "pf": null,
+   "max_dd_usd": 0.0,
+   "avg_hold_h": 42.8,
+   "median_mfe_r": 0.676,
+   "median_mae_r": -0.275,
+   "costs_usd": {
+    "commission": 0.0,
+    "swap": -3.48,
+    "fee": 0.0
+   },
+   "exits": {
+    "MANUAL": 1
+   },
+   "manual_closes": 1,
+   "manual_close_pnl": 130.92,
+   "engine_only_pnl": 0.0,
+   "best_pair": "USDCAD +131",
+   "worst_pair": "USDCAD +131",
+   "first": "2026-10-28",
+   "last": "2026-10-30"
+  },
+  "sflow": {
+   "positions": 10,
+   "net_usd": -1427.26,
+   "win": 0.3,
+   "exp_usd": -142.73,
+   "exp_r_net": -0.444,
+   "pf": 0.21,
+   "max_dd_usd": -1167.26,
+   "avg_hold_h": 2.0,
+   "median_mfe_r": 0.391,
+   "median_mae_r": -0.619,
+   "costs_usd": {
+    "commission": 0.0,
+    "swap": 0.0,
+    "fee": 0.0
+   },
+   "exits": {
+    "SL": 7,
+    "MANUAL": 3
+   },
+   "manual_closes": 3,
+   "manual_close_pnl": 377.53,
+   "engine_only_pnl": -1804.79,
+   "best_pair": "USDJPY +287",
+   "worst_pair": "AUDUSD -1065",
+   "first": "2026-10-22",
+   "last": "2026-11-05"
+  }
+ },
+ "account": {
+  "balance": 99113.99,
+  "equity": 99255.26,
+  "currency": "USD",
+  "leverage": 500
+ },
+ "total_closed_pnl": 1436.8,
+ "fixed_lot_risk": {
+  "flow_ml|EURUSD": {
+   "lots": 0.8,
+   "disaster_stop_bp": 145.0,
+   "stop_pips": 162.0,
+   "usd_at_stop": 1296.0,
+   "pct_equity": 1.31,
+   "configured_0.5pct_usd": 496.0,
+   "status": "UNVERIFIED"
+  },
+  "flow_ml|USDJPY": {
+   "lots": 0.8,
+   "disaster_stop_bp": 145.0,
+   "stop_pips": 229.6,
+   "usd_at_stop": 1160.0,
+   "pct_equity": 1.17,
+   "configured_0.5pct_usd": 496.0,
+   "status": "UNVERIFIED"
+  },
+  "flow_ml|USDCAD": {
+   "lots": 0.8,
+   "disaster_stop_bp": 145.0,
+   "stop_pips": 204.1,
+   "usd_at_stop": 1160.0,
+   "pct_equity": 1.17,
+   "configured_0.5pct_usd": 496.0,
+   "status": "UNVERIFIED"
+  },
+  "flow_ml|EURJPY": {
+   "lots": 0.8,
+   "disaster_stop_bp": 145.0,
+   "stop_pips": 256.5,
+   "usd_at_stop": 1296.0,
+   "pct_equity": 1.31,
+   "configured_0.5pct_usd": 496.0,
+   "status": "UNVERIFIED"
+  },
+  "flow_ml|CADJPY": {
+   "lots": 0.8,
+   "disaster_stop_bp": 145.0,
+   "stop_pips": 163.1,
+   "usd_at_stop": 824.0,
+   "pct_equity": 0.83,
+   "configured_0.5pct_usd": 496.0,
+   "status": "UNVERIFIED"
+  },
+  "flow_am|EURUSD": {
+   "lots": 2.5,
+   "disaster_stop_bp": 68.0,
+   "stop_pips": 76.0,
+   "usd_at_stop": 1899.0,
+   "pct_equity": 1.91,
+   "configured_0.5pct_usd": 496.0,
+   "status": "UNVERIFIED"
+  }
+ },
+ "max_concurrent": {
+  "positions": 5,
+  "risk_usd": 3690.0,
+  "ccy_legs": {
+   "USD-": 4,
+   "USD+": 3,
+   "EUR+": 3,
+   "JPY-": 3,
+   "EUR-": 2,
+   "CAD+": 2,
+   "CAD-": 1,
+   "XAU+": 1
+  },
+  "risk_at": "2026-11-02 11:00:11"
+ }
+}

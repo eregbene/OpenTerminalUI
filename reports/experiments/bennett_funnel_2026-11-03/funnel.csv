@@ -1,0 +1,12 @@
+exit,all,EURUSD,GBPUSD,USDJPY,USDCHF,USDCAD,XAUUSD
+"line 234: if p.no_sunday and (bar_open // 86400 + 4) % 7 == 0:  # epoch day 0 was a Thursday: (day + 4) % 7 == 0 is a Sunday | return None | if p.killzones and not any(a <= (bar_open % 86400) // 3600 < b for a, b in p.killzones): ",24181,4067,4067,4067,4067,4067,3846
+"line 246: d = leg[""d""] | if p.bias == ""H4"":  # base video: the leg's larger context (4H structure) must agree; the daily is not used | if p.leg_tf == ""H1"" and structure(closed(agg(h, 14400), 14400, now), p)[""trend""][-1] != d: | re",4122,576,610,784,639,772,741
+"line 270: leg, after, reach = rl[""leg""], rl[""after""], rl[""reach""] | z_lo, z_hi = rl[""ote""] | if (reach < z_lo) if d == -1 else (reach > z_hi): | return None  # relief has not reached the OTE",3656,694,873,279,409,838,563
+"line 338: ms = structure(ltf, p, seed=6, brk=p.ltf_break_atr) | ev = ms[""events""][-1] if ms[""events""] else None | if ev is None or ev[0] != j or ev[1] != ""CHoCH"" or ev[2] != d: | return None",3208,466,429,764,721,327,501
+"line 275: touch_t = int(m15[""t""][touch_i]) | push_i = int(np.flatnonzero(after)[0]) + int(np.argmax(m15[""high""][after]) if d == -1 else np.argmin(m15[""low""][after])) | if now - int(m15[""t""][push_i]) > p.expire_h * 3600: | return N",1231,250,126,282,285,32,256
+"line 232: now = int(m5[""t""][-1]) + 300 | bar_open = int(m5[""t""][-1]) | if p.no_sunday and (bar_open // 86400 + 4) % 7 == 0:  # epoch day 0 was a Thursday: (day + 4) % 7 == 0 is a Sunday | return None",859,152,152,151,152,152,100
+"line 266: t_ext = int(hb[""t""][leg[""x_bar""]]) | rl = relief(leg, m15, t_ext, p)  # step 3 | if rl is None or rl[""invalid""]: | return None  # a close beyond the protected level: the idea is invalid",432,123,70,0,50,141,48
+"line 347: tops, plus, top = st[""tops""], st[""plus""], st[""tops""][0] | if p.agree_tf:  # 5-year setup database: with the 30M already turned our way +0.26R / +0.15R; against it -0.2R | if structure(closed(agg(m5, p.agree_tf), p.agree_",12,1,1,2,6,0,2
+line 392: if target is not None: | break | if target is None: | return None  # no logical target pays the minimum RR with any valid stop -- don't stretch,9,2,3,1,1,2,0
+"line 397: for b in ([hb] + ([h] if hb is not h else [])): | for z in smc.fvgs(b): | if z[""dir""] == -d and z[""touched""] >= len(b[""t""]) and min(ref, target) < (z[""bottom""] + z[""top""]) / 2 < max(ref, target): | return None",1,0,0,0,1,0,0
+TRIGGERED,1,0,0,0,0,0,1

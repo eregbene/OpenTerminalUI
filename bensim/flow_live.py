@@ -30,11 +30,11 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from . import bridge, db, guard
+from . import bridge, db, guard, news_block
 from . import edge_miner as em
 from . import macro_yields as my
 from .fxcm_history import PAIRS as ALL28
-from .mt5_time import server_to_utc
+from .mt5_time import server_to_utc, utc_to_server
 
 MAGIC = 770103
 MODE = os.environ.get("BENSIM_FLOW", "live").lower()  # 2026-10-19 user: live on the demo
@@ -45,6 +45,14 @@ UNIVERSE = [p for p in ALL28 if p not in ("EURCAD", "GBPAUD", "CHFJPY")]  # the 
 MODELS = Path("data/flow_models")
 FEATS = em.FEATURES + ["gap_level", "gap_d5", "gap_d20", "gap_d60"]
 HOLD_ML, HOLD_AM = 6 * 3600, 3 * 3600
+# 2026-11-06 user GO (Stage 4 items 1 + 2). RISK_PCT > 0: lots = that % of equity at the disaster stop (broker tick
+# value / size, rounded down to the lot step; no broker spec -> no order); 0 = the old fixed lots above.
+RISK_PCT = float(os.environ.get("BENSIM_FLOW_RISK_PCT", "0.5"))
+# ML: no new entries at these UTC decision hours (rollover spreads; 2-year advisor backtest -4.0 vs +2.6 bp, p 0.009)
+ML_SKIP_UTC = {int(h) for h in os.environ.get("BENSIM_FLOW_ML_SKIP_UTC", "20,21,22,23,0").split(",") if h.strip() != ""}
+# ML: enter only while short-term volatility expands: mean H1 range of the last 6 closed bars / last 48 > this (0 = off).
+# Round 8/9 research (reports/round8 MORNING_REPORT, round9 REPORT): live 5 walk-forward 2016-26 +4.32 vs +1.44 bp, 11/11 years.
+ML_ATR_MIN = float(os.environ.get("BENSIM_FLOW_ML_ATR_MIN", "1.2"))
 STOP_BP = {"ml": 145.0, "am": 68.0}
 SEEDS = (0, 7, 13, 21, 42)
 SCHEMA = """create table if not exists live_flow (
@@ -122,6 +130,12 @@ def h1(sym: str, n: int = 700) -> dict[str, np.ndarray]:
     return {"t": t[done], **{k: np.array([r[k] for r in rows], dtype=float)[done] for k in ("open", "high", "low", "close")}}
 
 
+def atr_ratio(high: np.ndarray, low: np.ndarray) -> float:
+    """Mean range of the last 6 closed bars / last 48 (NaN when fewer than 48 bars)."""
+    r = np.asarray(high, dtype=float) - np.asarray(low, dtype=float)
+    return float(r[-6:].mean() / r[-48:].mean()) if len(r) >= 48 and r[-48:].mean() > 0 else float("nan")
+
+
 def scores(now: float) -> tuple[pd.DataFrame, list[str]]:
     """Ensemble predictions for the 5 pairs at the latest H1 close; returns (rows, stale pairs)."""
     mdl = model()
@@ -136,7 +150,9 @@ def scores(now: float) -> tuple[pd.DataFrame, list[str]]:
         spr_bp = np.array([mdl["spread_bp"].get((s, h), np.nan) for h in hrs])
         m["spr"] = spr_bp / 1e4 * m["close"]  # the spread the model was trained with (FXCM median, this pair/hour)
         frames.append(em.features(s, m))
-    if not frames:  # market closed / every pair stale
+    fresh = {s for s in UNIVERSE if s not in stale}
+    if not frames or any(not any(c in (p[:3], p[3:]) for p in fresh) for c in em.CCY):
+        # market closed, or a currency has no fresh pair (e.g. just after a restart): strength can't be built -> skip hour
         return pd.DataFrame(), stale
     f = em.add_strength(pd.concat(frames, ignore_index=True))
     f = add_gaps(f[f.t == pd.Timestamp(hour_open + 3600, unit="s")].copy())
@@ -154,15 +170,41 @@ def _record(kind: str, sym: str, dt: int, d: int, pred: float, thr: float, decis
                               (kind, sym, dt, d, pred, thr, decision, json.dumps(detail, default=str))).fetchone())
 
 
-def _send(kind: str, sym: str, d: int, lots: float, hold: int, log, dry: bool) -> dict:
+def _send(kind: str, sym: str, d: int, lots: float, hold: int, log, dry: bool, gate=None) -> dict:
     q = bridge.tick(sym)
     px = q["ask"] if d == 1 else q["bid"]
     sl = round(px * (1 - d * STOP_BP[kind] / 1e4), int(q["digits"]))
+    if gate is not None:  # risk-based size + the shared guard (open-risk cap, currency sides, ...)
+        from .live import lots_for
+        equity, check = gate
+        if RISK_PCT > 0:
+            if not q.get("trade_tick_value") or not q.get("trade_tick_size") or not q.get("volume_step"):
+                return {"price": px, "sl": sl, "lots": 0.0, "result": {"ok": False, "comment": "no broker spec -> no order"}, "skip": "SKIP_NO_SPEC"}
+            lots = lots_for(q, px, sl, equity * RISK_PCT / 100)
+            if lots < (q.get("volume_min") or 0.01):
+                return {"price": px, "sl": sl, "lots": lots, "result": {"ok": False, "comment": "below min lot"}, "skip": "SKIP_MIN_LOT"}
+        risk = abs(px - sl) / q["trade_tick_size"] * q["trade_tick_value"] * lots if q.get("trade_tick_size") else None
+        ok, why = check(sym, d, risk)
+        if not ok:
+            return {"price": px, "sl": sl, "lots": lots, "risk_usd": risk, "result": {"ok": False, "comment": why}, "skip": f"SKIP_GUARD_{why.split()[0]}"}
     if dry:
         return {"dry": True, "price": px, "sl": sl, "lots": lots}
     res = bridge.order(sym, "BUY" if d == 1 else "SELL", lots, sl, 0.0, MAGIC, f"flow{kind} {hold // 3600}h")
     log("TRADE" if res.get("ok") else "ERROR", f"FLOW {kind.upper()} {sym} {'BUY' if d == 1 else 'SELL'} {lots} lots: {res}")
-    return {"price": px, "sl": sl, "lots": lots, "result": res}
+    return {"price": px, "sl": sl, "lots": lots, "result": res, "risk_pct": RISK_PCT}
+
+
+def _gate(initial: float, day_start: float, equity: float):
+    """(equity, check) for _send: the same guard.check every other bensim book uses, over ALL bensim positions."""
+    from .live import open_risk
+    pos = [p for p in bridge.positions() if 770100 < (p.get("magic") or 0) < 770200]
+    quotes = {p["symbol"]: bridge.tick(p["symbol"]) for p in pos}
+    opens = [guard.Open(p["symbol"], 1 if p["type"] == 0 else -1, open_risk(p, quotes[p["symbol"]])) for p in pos]
+
+    def check(sym: str, d: int, risk: float | None):
+        ok, why = guard.check(initial, day_start, equity, opens, sym, d, risk)
+        return ok, why
+    return equity, check
 
 
 _yields_busy = threading.Event()
@@ -208,9 +250,11 @@ def step(now: float, initial: float, day_start: float, equity: float, halted: bo
                 decision, detail = "SKIP_BLOCKED", {"halted": halted}
             elif "EURUSD" in held:
                 decision, detail = "SKIP_PAIR_OPEN", {}
+            elif news := news_block.blocked("EURUSD"):
+                decision, detail = "SKIP_NEWS", {"news": news}
             else:
-                detail = _send("am", "EURUSD", -1, AM_LOTS, HOLD_AM, log, dry)
-                decision = "DRY" if dry else ("SENT" if detail.get("result", {}).get("ok") else "FAILED")
+                detail = _send("am", "EURUSD", -1, AM_LOTS, HOLD_AM, log, dry, _gate(initial, day_start, equity))
+                decision = detail.get("skip") or ("DRY" if dry else ("SENT" if detail.get("result", {}).get("ok") else "FAILED"))
             with db.connect(autocommit=True) as c:
                 c.execute("update live_flow set decision=%s, detail=%s where kind='am' and symbol='EURUSD' and decision_time=%s",
                           (decision, json.dumps(detail, default=str), dt))
@@ -220,6 +264,12 @@ def step(now: float, initial: float, day_start: float, equity: float, halted: bo
     if utc.minute >= 15 or state("flow_ml_hour") == hour_dt:
         return
     state("flow_ml_hour", hour_dt)
+    if datetime.fromtimestamp(hour_dt, timezone.utc).hour in ML_SKIP_UTC:
+        log("INFO", f"FLOW ML skipped this hour: late-hour rule ({sorted(ML_SKIP_UTC)} UTC)")
+        return
+    if utc_to_server(hour_dt) // 3600 % 24 == 0:  # broker midnight = daily break (22:00Z, 21:00Z in US summer): orders get "Market closed"
+        log("INFO", "FLOW ML skipped this hour: broker daily break")
+        return
     mdl = model()
     if mdl["year"] != utc.year:
         log("WARN", f"FLOW model is for {mdl['year']} (now {utc.year}) -- run: python -m bensim.flow_live train")
@@ -233,14 +283,23 @@ def step(now: float, initial: float, day_start: float, equity: float, halted: bo
             continue
         if not _record("ml", r.symbol, hour_dt, d, float(best), mdl["thr"], "PENDING", {}):
             continue
+        atr = float("nan")
+        if ML_ATR_MIN > 0:
+            m = h1(r.symbol, 60)
+            atr = atr_ratio(m["high"], m["low"]) if len(m["t"]) and int(m["t"][-1]) == hour_dt - 3600 else float("nan")
         if blocked:
             decision, detail = "SKIP_BLOCKED", {}
+        elif ML_ATR_MIN > 0 and not atr > ML_ATR_MIN:  # NaN (missing bars) also skips
+            decision, detail = "SKIP_ATR_QUIET", {"atr6_48": None if np.isnan(atr) else round(atr, 3), "min": ML_ATR_MIN}
         elif r.symbol in held:
             decision, detail = "SKIP_PAIR_OPEN", {}
+        elif news := news_block.blocked(r.symbol):
+            decision, detail = "SKIP_NEWS", {"news": news}
         else:
-            detail = _send("ml", r.symbol, d, ML_LOTS, HOLD_ML, log, dry)
-            held.add(r.symbol)
-            decision = "DRY" if dry else ("SENT" if detail.get("result", {}).get("ok") else "FAILED")
+            detail = _send("ml", r.symbol, d, ML_LOTS, HOLD_ML, log, dry, _gate(initial, day_start, equity))
+            decision = detail.get("skip") or ("DRY" if dry else ("SENT" if detail.get("result", {}).get("ok") else "FAILED"))
+            if decision in ("SENT", "DRY"):
+                held.add(r.symbol)
         with db.connect(autocommit=True) as c:
             c.execute("update live_flow set decision=%s, detail=%s where kind='ml' and symbol=%s and decision_time=%s",
                       (decision, json.dumps(detail, default=str), r.symbol, hour_dt))

@@ -1,0 +1,678 @@
+{
+ "H12": [
+  {
+   "claim": "LIVE5 1.4",
+   "p": 0.0005570610690246214,
+   "a_all_periods": true,
+   "b_t2": true,
+   "c_sharpe": false,
+   "d_lock": "True",
+   "e_BH": true,
+   "PASS": false
+  },
+  {
+   "claim": "LIVE5 1.7",
+   "p": 0.008656319025516543,
+   "a_all_periods": false,
+   "b_t2": true,
+   "c_sharpe": false,
+   "d_lock": "True",
+   "e_BH": true,
+   "PASS": false
+  },
+  {
+   "claim": "OTHER20 1.4",
+   "p": 0.01130384423855279,
+   "a_all_periods": true,
+   "b_t2": true,
+   "c_sharpe": true,
+   "d_lock": "True",
+   "e_BH": true,
+   "PASS": true
+  },
+  {
+   "claim": "OTHER20 1.7",
+   "p": 0.013903447513498595,
+   "a_all_periods": false,
+   "b_t2": true,
+   "c_sharpe": true,
+   "d_lock": "True",
+   "e_BH": true,
+   "PASS": false
+  }
+ ],
+ "books": {
+  "LIVE5 1.2": {
+   "n": 2028,
+   "bp": 4.32,
+   "t_wk": 3.64,
+   "sharpe": 1.07,
+   "DISC": 6.46,
+   "VAL": 2.71,
+   "LOCK": 4.6,
+   "years_pos": 11
+  },
+  "LIVE5 all": {
+   "n": 6138,
+   "bp": 1.44,
+   "t_wk": 2.35,
+   "sharpe": 0.72,
+   "DISC": 2.21,
+   "VAL": 0.77,
+   "LOCK": 1.57,
+   "years_pos": 8
+  },
+  "LIVE5 1.4": {
+   "n": 1217,
+   "bp": 5.4,
+   "t_wk": 3.26,
+   "sharpe": 0.93,
+   "DISC": 9.35,
+   "VAL": 3.3,
+   "LOCK": 4.8,
+   "years_pos": 11
+  },
+  "LIVE5 1.7": {
+   "n": 512,
+   "bp": 8.3,
+   "t_wk": 2.38,
+   "sharpe": 0.69,
+   "DISC": 19.36,
+   "VAL": 2.24,
+   "LOCK": 7.26,
+   "years_pos": 8
+  },
+  "OTHER20 1.2": {
+   "n": 5586,
+   "bp": 1.8,
+   "t_wk": 2.11,
+   "sharpe": 0.59,
+   "DISC": 2.87,
+   "VAL": 0.89,
+   "LOCK": 2.12,
+   "years_pos": 9
+  },
+  "OTHER20 all": {
+   "n": 16358,
+   "bp": 1.12,
+   "t_wk": 2.37,
+   "sharpe": 0.68,
+   "DISC": 1.48,
+   "VAL": 0.44,
+   "LOCK": 1.79,
+   "years_pos": 9
+  },
+  "OTHER20 1.4": {
+   "n": 3216,
+   "bp": 2.69,
+   "t_wk": 2.28,
+   "sharpe": 0.66,
+   "DISC": 4.57,
+   "VAL": 1.97,
+   "LOCK": 2.14,
+   "years_pos": 8
+  },
+  "OTHER20 1.7": {
+   "n": 1327,
+   "bp": 4.54,
+   "t_wk": 2.2,
+   "sharpe": 0.62,
+   "DISC": 11.42,
+   "VAL": 3.14,
+   "LOCK": 1.65,
+   "years_pos": 8
+  }
+ },
+ "exits": {
+  "ATR>1.2 LIVE5 E1 hold 12h": {
+   "n": 1691,
+   "extra_bp": 0.07,
+   "t_wk": 0.05,
+   "DISC": -2.35,
+   "VAL": 0.52,
+   "LOCK": 1.93,
+   "share_cross_21utc": 0.72,
+   "PASS": false
+  },
+  "ATR>1.2 LIVE5 E2 winners to 12h": {
+   "n": 884,
+   "extra_bp": -0.98,
+   "t_wk": -0.61,
+   "DISC": -3.75,
+   "VAL": 1.15,
+   "LOCK": -1.36,
+   "share_cross_21utc": 0.74,
+   "PASS": false
+  },
+  "ATR>1.2 OTHER20 E1 hold 12h": {
+   "n": 4728,
+   "extra_bp": 1.0,
+   "t_wk": 1.47,
+   "DISC": 1.83,
+   "VAL": -0.08,
+   "LOCK": 1.74,
+   "share_cross_21utc": 0.69,
+   "PASS": false
+  },
+  "ATR>1.2 OTHER20 E2 winners to 12h": {
+   "n": 2394,
+   "extra_bp": 0.59,
+   "t_wk": 0.56,
+   "DISC": -0.88,
+   "VAL": 1.0,
+   "LOCK": 1.42,
+   "share_cross_21utc": 0.7,
+   "PASS": false
+  },
+  "ATR>1.7 LIVE5 E1 hold 12h": {
+   "n": 427,
+   "extra_bp": 0.67,
+   "t_wk": 0.3,
+   "DISC": 0.88,
+   "VAL": -2.63,
+   "LOCK": 5.02,
+   "share_cross_21utc": 0.72,
+   "PASS": false
+  },
+  "ATR>1.7 LIVE5 E2 winners to 12h": {
+   "n": 227,
+   "extra_bp": -0.93,
+   "t_wk": -0.37,
+   "DISC": 1.78,
+   "VAL": -3.5,
+   "LOCK": -0.38,
+   "share_cross_21utc": 0.76,
+   "PASS": false
+  },
+  "ATR>1.7 OTHER20 E1 hold 12h": {
+   "n": 1136,
+   "extra_bp": 1.89,
+   "t_wk": 0.96,
+   "DISC": 1.9,
+   "VAL": 1.59,
+   "LOCK": 2.25,
+   "share_cross_21utc": 0.65,
+   "PASS": false
+  },
+  "ATR>1.7 OTHER20 E2 winners to 12h": {
+   "n": 555,
+   "extra_bp": 2.66,
+   "t_wk": 0.69,
+   "DISC": -1.53,
+   "VAL": 4.01,
+   "LOCK": 4.08,
+   "share_cross_21utc": 0.65,
+   "PASS": false
+  }
+ },
+ "dollars": {
+  "LIVE5 ATR>1.2 10y": {
+   "trades": 1892,
+   "bp": 4.28,
+   "win": 0.523,
+   "1lot": {
+    "total": 79082,
+    "per_year": 7341,
+    "worst_trade": -1524,
+    "worst_day": -2208,
+    "max_dd": -7340
+   },
+   "5lot": {
+    "total": 395411,
+    "per_year": 36705,
+    "worst_trade": -7621,
+    "worst_day": -11042,
+    "max_dd": -36703
+   },
+   "7lot": {
+    "total": 553575,
+    "per_year": 51387,
+    "worst_trade": -10669,
+    "worst_day": -15459,
+    "max_dd": -51384
+   }
+  },
+  "LIVE5 ATR>1.2 2026": {
+   "trades": 106,
+   "bp": 6.26,
+   "win": 0.557,
+   "1lot": {
+    "total": 6596,
+    "per_year": null,
+    "worst_trade": -717,
+    "worst_day": -690,
+    "max_dd": -1386
+   },
+   "5lot": {
+    "total": 32981,
+    "per_year": null,
+    "worst_trade": -3586,
+    "worst_day": -3453,
+    "max_dd": -6930
+   },
+   "7lot": {
+    "total": 46174,
+    "per_year": null,
+    "worst_trade": -5021,
+    "worst_day": -4835,
+    "max_dd": -9702
+   }
+  },
+  "LIVE5 ATR>1.4 10y": {
+   "trades": 1149,
+   "bp": 5.62,
+   "win": 0.52,
+   "1lot": {
+    "total": 63718,
+    "per_year": 5914,
+    "worst_trade": -1432,
+    "worst_day": -2238,
+    "max_dd": -5950
+   },
+   "5lot": {
+    "total": 318594,
+    "per_year": 29574,
+    "worst_trade": -7160,
+    "worst_day": -11193,
+    "max_dd": -29753
+   },
+   "7lot": {
+    "total": 446031,
+    "per_year": 41404,
+    "worst_trade": -10024,
+    "worst_day": -15670,
+    "max_dd": -41655
+   }
+  },
+  "LIVE5 ATR>1.4 2026": {
+   "trades": 63,
+   "bp": 4.3,
+   "win": 0.476,
+   "1lot": {
+    "total": 2640,
+    "per_year": null,
+    "worst_trade": -717,
+    "worst_day": -661,
+    "max_dd": -1921
+   },
+   "5lot": {
+    "total": 13200,
+    "per_year": null,
+    "worst_trade": -3586,
+    "worst_day": -3308,
+    "max_dd": -9605
+   },
+   "7lot": {
+    "total": 18480,
+    "per_year": null,
+    "worst_trade": -5021,
+    "worst_day": -4631,
+    "max_dd": -13448
+   }
+  },
+  "LIVE5 ATR>1.7 10y": {
+   "trades": 482,
+   "bp": 8.61,
+   "win": 0.519,
+   "1lot": {
+    "total": 39706,
+    "per_year": 3687,
+    "worst_trade": -1207,
+    "worst_day": -1871,
+    "max_dd": -3180
+   },
+   "5lot": {
+    "total": 198534,
+    "per_year": 18438,
+    "worst_trade": -6036,
+    "worst_day": -9356,
+    "max_dd": -15902
+   },
+   "7lot": {
+    "total": 277948,
+    "per_year": 25814,
+    "worst_trade": -8450,
+    "worst_day": -13099,
+    "max_dd": -22262
+   }
+  },
+  "LIVE5 ATR>1.7 2026": {
+   "trades": 23,
+   "bp": 14.95,
+   "win": 0.565,
+   "1lot": {
+    "total": 3199,
+    "per_year": null,
+    "worst_trade": -717,
+    "worst_day": -661,
+    "max_dd": -571
+   },
+   "5lot": {
+    "total": 15996,
+    "per_year": null,
+    "worst_trade": -3586,
+    "worst_day": -3308,
+    "max_dd": -2856
+   },
+   "7lot": {
+    "total": 22395,
+    "per_year": null,
+    "worst_trade": -5021,
+    "worst_day": -4631,
+    "max_dd": -3998
+   }
+  },
+  "TOP10 (in-sample pick) ATR>1.2 10y": {
+   "trades": 3152,
+   "bp": 4.14,
+   "win": 0.521,
+   "1lot": {
+    "total": 120279,
+    "per_year": 11165,
+    "worst_trade": -2384,
+    "worst_day": -2863,
+    "max_dd": -12649
+   },
+   "5lot": {
+    "total": 601398,
+    "per_year": 55826,
+    "worst_trade": -11921,
+    "worst_day": -14316,
+    "max_dd": -63248
+   },
+   "7lot": {
+    "total": 841957,
+    "per_year": 78157,
+    "worst_trade": -16689,
+    "worst_day": -20043,
+    "max_dd": -88548
+   }
+  },
+  "TOP10 (in-sample pick) ATR>1.2 2026": {
+   "trades": 160,
+   "bp": 3.53,
+   "win": 0.531,
+   "1lot": {
+    "total": 6816,
+    "per_year": null,
+    "worst_trade": -717,
+    "worst_day": -791,
+    "max_dd": -2401
+   },
+   "5lot": {
+    "total": 34081,
+    "per_year": null,
+    "worst_trade": -3586,
+    "worst_day": -3957,
+    "max_dd": -12005
+   },
+   "7lot": {
+    "total": 47713,
+    "per_year": null,
+    "worst_trade": -5021,
+    "worst_day": -5540,
+    "max_dd": -16807
+   }
+  },
+  "TOP10 (in-sample pick) ATR>1.4 10y": {
+   "trades": 1889,
+   "bp": 5.41,
+   "win": 0.521,
+   "1lot": {
+    "total": 94597,
+    "per_year": 8781,
+    "worst_trade": -2384,
+    "worst_day": -2683,
+    "max_dd": -6691
+   },
+   "5lot": {
+    "total": 472986,
+    "per_year": 43906,
+    "worst_trade": -11921,
+    "worst_day": -13419,
+    "max_dd": -33456
+   },
+   "7lot": {
+    "total": 662180,
+    "per_year": 61468,
+    "worst_trade": -16689,
+    "worst_day": -18787,
+    "max_dd": -46839
+   }
+  },
+  "TOP10 (in-sample pick) ATR>1.4 2026": {
+   "trades": 98,
+   "bp": 1.01,
+   "win": 0.459,
+   "1lot": {
+    "total": 1561,
+    "per_year": null,
+    "worst_trade": -717,
+    "worst_day": -861,
+    "max_dd": -2855
+   },
+   "5lot": {
+    "total": 7805,
+    "per_year": null,
+    "worst_trade": -3586,
+    "worst_day": -4309,
+    "max_dd": -14278
+   },
+   "7lot": {
+    "total": 10928,
+    "per_year": null,
+    "worst_trade": -5021,
+    "worst_day": -6032,
+    "max_dd": -19990
+   }
+  },
+  "TOP10 (in-sample pick) ATR>1.7 10y": {
+   "trades": 759,
+   "bp": 9.93,
+   "win": 0.534,
+   "1lot": {
+    "total": 68996,
+    "per_year": 6408,
+    "worst_trade": -1207,
+    "worst_day": -2325,
+    "max_dd": -3084
+   },
+   "5lot": {
+    "total": 344982,
+    "per_year": 32040,
+    "worst_trade": -6036,
+    "worst_day": -11627,
+    "max_dd": -15423
+   },
+   "7lot": {
+    "total": 482975,
+    "per_year": 44856,
+    "worst_trade": -8450,
+    "worst_day": -16278,
+    "max_dd": -21592
+   }
+  },
+  "TOP10 (in-sample pick) ATR>1.7 2026": {
+   "trades": 39,
+   "bp": 10.75,
+   "win": 0.564,
+   "1lot": {
+    "total": 4043,
+    "per_year": null,
+    "worst_trade": -717,
+    "worst_day": -674,
+    "max_dd": -744
+   },
+   "5lot": {
+    "total": 20218,
+    "per_year": null,
+    "worst_trade": -3586,
+    "worst_day": -3372,
+    "max_dd": -3720
+   },
+   "7lot": {
+    "total": 28305,
+    "per_year": null,
+    "worst_trade": -5021,
+    "worst_day": -4722,
+    "max_dd": -5208
+   }
+  },
+  "ALL25 ATR>1.2 10y": {
+   "trades": 5833,
+   "bp": 1.8,
+   "win": 0.5,
+   "1lot": {
+    "total": 96953,
+    "per_year": 8999,
+    "worst_trade": -3674,
+    "worst_day": -4275,
+    "max_dd": -27769
+   },
+   "5lot": {
+    "total": 484767,
+    "per_year": 44999,
+    "worst_trade": -18374,
+    "worst_day": -21377,
+    "max_dd": -138845
+   },
+   "7lot": {
+    "total": 678673,
+    "per_year": 62999,
+    "worst_trade": -25724,
+    "worst_day": -29928,
+    "max_dd": -194383
+   }
+  },
+  "ALL25 ATR>1.2 2026": {
+   "trades": 302,
+   "bp": 3.03,
+   "win": 0.55,
+   "1lot": {
+    "total": 10297,
+    "per_year": null,
+    "worst_trade": -835,
+    "worst_day": -1285,
+    "max_dd": -4740
+   },
+   "5lot": {
+    "total": 51487,
+    "per_year": null,
+    "worst_trade": -4177,
+    "worst_day": -6429,
+    "max_dd": -23703
+   },
+   "7lot": {
+    "total": 72081,
+    "per_year": null,
+    "worst_trade": -5849,
+    "worst_day": -9001,
+    "max_dd": -33184
+   }
+  },
+  "ALL25 ATR>1.4 10y": {
+   "trades": 3519,
+   "bp": 2.77,
+   "win": 0.506,
+   "1lot": {
+    "total": 88207,
+    "per_year": 8188,
+    "worst_trade": -3674,
+    "worst_day": -4416,
+    "max_dd": -12111
+   },
+   "5lot": {
+    "total": 441039,
+    "per_year": 40940,
+    "worst_trade": -18374,
+    "worst_day": -22083,
+    "max_dd": -60558
+   },
+   "7lot": {
+    "total": 617455,
+    "per_year": 57317,
+    "worst_trade": -25724,
+    "worst_day": -30917,
+    "max_dd": -84781
+   }
+  },
+  "ALL25 ATR>1.4 2026": {
+   "trades": 185,
+   "bp": 2.61,
+   "win": 0.541,
+   "1lot": {
+    "total": 6014,
+    "per_year": null,
+    "worst_trade": -835,
+    "worst_day": -1137,
+    "max_dd": -4373
+   },
+   "5lot": {
+    "total": 30071,
+    "per_year": null,
+    "worst_trade": -4177,
+    "worst_day": -5686,
+    "max_dd": -21869
+   },
+   "7lot": {
+    "total": 42100,
+    "per_year": null,
+    "worst_trade": -5849,
+    "worst_day": -7961,
+    "max_dd": -30617
+   }
+  },
+  "ALL25 ATR>1.7 10y": {
+   "trades": 1471,
+   "bp": 5.12,
+   "win": 0.504,
+   "1lot": {
+    "total": 67705,
+    "per_year": 6288,
+    "worst_trade": -2924,
+    "worst_day": -5357,
+    "max_dd": -10864
+   },
+   "5lot": {
+    "total": 338528,
+    "per_year": 31440,
+    "worst_trade": -14622,
+    "worst_day": -26787,
+    "max_dd": -54324
+   },
+   "7lot": {
+    "total": 473940,
+    "per_year": 44017,
+    "worst_trade": -20470,
+    "worst_day": -37503,
+    "max_dd": -76054
+   }
+  },
+  "ALL25 ATR>1.7 2026": {
+   "trades": 72,
+   "bp": 6.2,
+   "win": 0.528,
+   "1lot": {
+    "total": 3811,
+    "per_year": null,
+    "worst_trade": -717,
+    "worst_day": -661,
+    "max_dd": -762
+   },
+   "5lot": {
+    "total": 19058,
+    "per_year": null,
+    "worst_trade": -3586,
+    "worst_day": -3308,
+    "max_dd": -3811
+   },
+   "7lot": {
+    "total": 26682,
+    "per_year": null,
+    "worst_trade": -5021,
+    "worst_day": -4631,
+    "max_dd": -5336
+   }
+  }
+ }
+}

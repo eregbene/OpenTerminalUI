@@ -1,0 +1,17 @@
+{
+ "holm": {
+  "orderflow": 0.0096,
+  "pullback": 0.0712,
+  "h1_fvg": 0.1941,
+  "fib618": 1.0,
+  "gf": 1.0,
+  "bennett": 1.0,
+  "enigma": 1.0,
+  "imbalance": 1.0
+ },
+ "pbo": {
+  "splits": 70,
+  "blocks": 8,
+  "pbo": 0.5
+ }
+}

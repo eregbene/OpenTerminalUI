@@ -1,0 +1,107 @@
+{
+ "trades": 2,
+ "win_rate": 0.5,
+ "expectancy_net_r": 0.254,
+ "gross_r_before_commission_swap": 0.25,
+ "commission_r": 0.0,
+ "swap_r": 0.004,
+ "swap_unknown_trades": 1,
+ "total_r": 0.5,
+ "profit_factor": 1.87,
+ "trade_t": 0.3,
+ "per_trade_sharpe": 0.214,
+ "skew": 0.0,
+ "kurtosis": 3.0,
+ "daily": {
+  "days": 67,
+  "sharpe_ann": 0.79,
+  "sortino_ann": 1.68,
+  "day_clustered_t": 0.41,
+  "lag1_autocorr": -0.006,
+  "effective_days": 67.8
+ },
+ "psr_vs_0": NaN,
+ "dsr": {
+  "trials_n": 350,
+  "trial_sharpes_used": 115,
+  "sr_star_per_trade": 0.444,
+  "dsr": NaN
+ },
+ "bootstrap": {
+  "block_days": 4,
+  "paths": 5000,
+  "seed": 19,
+  "total_r_ci90": [
+   -0.6,
+   2.2
+  ],
+  "p_total_le_0": 0.449,
+  "max_dd_r_median": 0.6,
+  "max_dd_r_p95": 1.2
+ },
+ "drawdown": {
+  "max_dd_r": 0.58,
+  "max_dd_peak_to_trough_days": 3.7,
+  "max_dd_recovery_days": "not recovered",
+  "longest_underwater_days": 3.7
+ },
+ "by_symbol": {
+  "USDJPY": {
+   "n": 1,
+   "avg_r": -0.585,
+   "total_r": -0.6,
+   "win_rate": 0.0
+  },
+  "XAUUSD": {
+   "n": 1,
+   "avg_r": 1.092,
+   "total_r": 1.1,
+   "win_rate": 1.0
+  }
+ },
+ "by_session": {
+  "Asia 00-07": {
+   "n": 1,
+   "avg_r": -0.585,
+   "total_r": -0.6,
+   "win_rate": 0.0
+  },
+  "London 07-12": {
+   "n": 1,
+   "avg_r": 1.092,
+   "total_r": 1.1,
+   "win_rate": 1.0
+  }
+ },
+ "by_month_frozen_walk_forward": {
+  "2026-10": {
+   "n": 2,
+   "avg_r": 0.254,
+   "total_r": 0.5,
+   "win_rate": 0.5
+  }
+ },
+ "by_side": {
+  "short": {
+   "n": 2,
+   "avg_r": 0.254,
+   "total_r": 0.5,
+   "win_rate": 0.5
+  }
+ },
+ "by_exit": {
+  "target": {
+   "n": 1,
+   "avg_r": 1.092,
+   "total_r": 1.1,
+   "win_rate": 1.0
+  },
+  "time": {
+   "n": 1,
+   "avg_r": -0.585,
+   "total_r": -0.6,
+   "win_rate": 0.0
+  }
+ },
+ "months_positive": "1/1"
+}

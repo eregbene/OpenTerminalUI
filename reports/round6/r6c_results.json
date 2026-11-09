@@ -1,0 +1,436 @@
+{
+ "window": "2026-01-01 .. data end (FXCM M5 to 2026-10-09)",
+ "errors": [],
+ "by_tf": {
+  "M5/M5": {
+   "original": {
+    "n": 1873,
+    "mean_R": -0.26,
+    "total_R": -487.9,
+    "t": -5.72,
+    "win": 0.194
+   },
+   "flipped": {
+    "n": 1873,
+    "mean_R": 0.021,
+    "total_R": 39.5,
+    "t": 0.38,
+    "win": 0.256
+   },
+   "flipped_pairs_positive": "11/26",
+   "flipped_best_pairs": {
+    "GBPUSD": {
+     "count": 75,
+     "mean": 0.312,
+     "sum": 23.389
+    },
+    "XAUUSD": {
+     "count": 128,
+     "mean": 0.187,
+     "sum": 23.991
+    },
+    "NZDJPY": {
+     "count": 68,
+     "mean": 0.355,
+     "sum": 24.148
+    },
+    "GBPCHF": {
+     "count": 72,
+     "mean": 0.372,
+     "sum": 26.816
+    },
+    "EURJPY": {
+     "count": 47,
+     "mean": 1.037,
+     "sum": 48.72
+    }
+   },
+   "flipped_worst_pairs": {
+    "NZDCHF": {
+     "count": 63,
+     "mean": -0.377,
+     "sum": -23.775
+    },
+    "EURAUD": {
+     "count": 87,
+     "mean": -0.258,
+     "sum": -22.418
+    },
+    "AUDUSD": {
+     "count": 67,
+     "mean": -0.332,
+     "sum": -22.275
+    }
+   },
+   "flipped_by_month": {
+    "1": 53.0,
+    "2": 73.4,
+    "3": -11.1,
+    "4": -70.6,
+    "5": 5.0,
+    "6": -9.0,
+    "7": 6.8,
+    "8": -5.1,
+    "9": 2.5,
+    "10": -5.3
+   }
+  },
+  "M15/M5": {
+   "original": {
+    "n": 556,
+    "mean_R": -0.016,
+    "total_R": -8.9,
+    "t": -0.17,
+    "win": 0.228
+   },
+   "flipped": {
+    "n": 556,
+    "mean_R": -0.194,
+    "total_R": -107.8,
+    "t": -2.35,
+    "win": 0.198
+   },
+   "flipped_pairs_positive": "8/26",
+   "flipped_best_pairs": {
+    "USDJPY": {
+     "count": 19,
+     "mean": 0.208,
+     "sum": 3.951
+    },
+    "AUDCAD": {
+     "count": 20,
+     "mean": 0.226,
+     "sum": 4.518
+    },
+    "GBPUSD": {
+     "count": 17,
+     "mean": 0.354,
+     "sum": 6.011
+    },
+    "NZDJPY": {
+     "count": 24,
+     "mean": 0.307,
+     "sum": 7.378
+    },
+    "NZDCHF": {
+     "count": 15,
+     "mean": 1.535,
+     "sum": 23.022
+    }
+   },
+   "flipped_worst_pairs": {
+    "GBPNZD": {
+     "count": 32,
+     "mean": -0.721,
+     "sum": -23.074
+    },
+    "NZDCAD": {
+     "count": 22,
+     "mean": -0.885,
+     "sum": -19.475
+    },
+    "NZDUSD": {
+     "count": 23,
+     "mean": -0.671,
+     "sum": -15.426
+    }
+   },
+   "flipped_by_month": {
+    "1": -12.8,
+    "2": -15.8,
+    "3": 7.6,
+    "4": -42.7,
+    "5": -2.0,
+    "6": 3.3,
+    "7": 2.5,
+    "8": -37.2,
+    "9": -0.4,
+    "10": -10.3
+   }
+  },
+  "M30/M5": {
+   "original": {
+    "n": 321,
+    "mean_R": 0.131,
+    "total_R": 41.9,
+    "t": 0.96,
+    "win": 0.262
+   },
+   "flipped": {
+    "n": 321,
+    "mean_R": 0.009,
+    "total_R": 2.8,
+    "t": 0.07,
+    "win": 0.243
+   },
+   "flipped_pairs_positive": "11/26",
+   "flipped_best_pairs": {
+    "AUDUSD": {
+     "count": 14,
+     "mean": 0.489,
+     "sum": 6.851
+    },
+    "XAUUSD": {
+     "count": 16,
+     "mean": 0.597,
+     "sum": 9.554
+    },
+    "EURAUD": {
+     "count": 12,
+     "mean": 0.818,
+     "sum": 9.813
+    },
+    "USDCHF": {
+     "count": 13,
+     "mean": 1.163,
+     "sum": 15.119
+    },
+    "EURJPY": {
+     "count": 8,
+     "mean": 2.023,
+     "sum": 16.181
+    }
+   },
+   "flipped_worst_pairs": {
+    "NZDUSD": {
+     "count": 18,
+     "mean": -0.524,
+     "sum": -9.436
+    },
+    "CADJPY": {
+     "count": 8,
+     "mean": -1.019,
+     "sum": -8.153
+    },
+    "AUDCAD": {
+     "count": 17,
+     "mean": -0.425,
+     "sum": -7.217
+    }
+   },
+   "flipped_by_month": {
+    "1": -19.8,
+    "2": -12.9,
+    "3": 8.5,
+    "4": 10.4,
+    "5": -1.0,
+    "6": -1.0,
+    "7": 1.4,
+    "8": 12.2,
+    "9": 17.5,
+    "10": -12.4
+   }
+  },
+  "H1/M5": {
+   "original": {
+    "n": 173,
+    "mean_R": -0.094,
+    "total_R": -16.3,
+    "t": -0.66,
+    "win": 0.231
+   },
+   "flipped": {
+    "n": 173,
+    "mean_R": 0.03,
+    "total_R": 5.1,
+    "t": 0.17,
+    "win": 0.243
+   },
+   "flipped_pairs_positive": "11/26",
+   "flipped_best_pairs": {
+    "AUDJPY": {
+     "count": 7,
+     "mean": 0.691,
+     "sum": 4.836
+    },
+    "EURJPY": {
+     "count": 4,
+     "mean": 1.723,
+     "sum": 6.892
+    },
+    "EURUSD": {
+     "count": 7,
+     "mean": 1.045,
+     "sum": 7.314
+    },
+    "USDCHF": {
+     "count": 8,
+     "mean": 0.954,
+     "sum": 7.635
+    },
+    "XAUUSD": {
+     "count": 16,
+     "mean": 1.061,
+     "sum": 16.978
+    }
+   },
+   "flipped_worst_pairs": {
+    "EURAUD": {
+     "count": 8,
+     "mean": -1.012,
+     "sum": -8.097
+    },
+    "AUDCHF": {
+     "count": 6,
+     "mean": -1.023,
+     "sum": -6.137
+    },
+    "NZDUSD": {
+     "count": 6,
+     "mean": -1.016,
+     "sum": -6.094
+    }
+   },
+   "flipped_by_month": {
+    "1": 17.1,
+    "2": -14.7,
+    "3": -7.4,
+    "4": 11.1,
+    "5": 5.1,
+    "6": -1.0,
+    "7": 11.4,
+    "8": -0.5,
+    "9": -8.0,
+    "10": -8.1
+   }
+  },
+  "H4/M15": {
+   "original": {
+    "n": 30,
+    "mean_R": 0.195,
+    "total_R": 5.9,
+    "t": 0.59,
+    "win": 0.333
+   },
+   "flipped": {
+    "n": 30,
+    "mean_R": -0.619,
+    "total_R": -18.6,
+    "t": -3.28,
+    "win": 0.133
+   },
+   "flipped_pairs_positive": "4/20",
+   "flipped_best_pairs": {
+    "EURJPY": {
+     "count": 1,
+     "mean": -1.003,
+     "sum": -1.003
+    },
+    "NZDCAD": {
+     "count": 2,
+     "mean": 0.192,
+     "sum": 0.385
+    },
+    "XAUUSD": {
+     "count": 1,
+     "mean": 1.36,
+     "sum": 1.36
+    },
+    "USDJPY": {
+     "count": 1,
+     "mean": 2.382,
+     "sum": 2.382
+    },
+    "EURNZD": {
+     "count": 1,
+     "mean": 2.536,
+     "sum": 2.536
+    }
+   },
+   "flipped_worst_pairs": {
+    "CADJPY": {
+     "count": 3,
+     "mean": -1.01,
+     "sum": -3.03
+    },
+    "GBPNZD": {
+     "count": 3,
+     "mean": -1.004,
+     "sum": -3.012
+    },
+    "AUDCHF": {
+     "count": 2,
+     "mean": -1.014,
+     "sum": -2.028
+    }
+   },
+   "flipped_by_month": {
+    "1": -8.7,
+    "2": -5.1,
+    "3": 0.4,
+    "4": -0.5,
+    "8": -2.0,
+    "9": -1.6,
+    "10": -1.0
+   }
+  },
+  "H12/H1": {
+   "original": {
+    "n": 8,
+    "mean_R": 0.329,
+    "total_R": 2.6,
+    "t": 0.51,
+    "win": 0.375
+   },
+   "flipped": {
+    "n": 8,
+    "mean_R": -0.357,
+    "total_R": -2.9,
+    "t": -0.84,
+    "win": 0.25
+   },
+   "flipped_pairs_positive": "2/7",
+   "flipped_best_pairs": {
+    "EURJPY": {
+     "count": 1,
+     "mean": -1.003,
+     "sum": -1.003
+    },
+    "EURAUD": {
+     "count": 1,
+     "mean": -1.002,
+     "sum": -1.002
+    },
+    "GBPNZD": {
+     "count": 1,
+     "mean": -1.002,
+     "sum": -1.002
+    },
+    "EURNZD": {
+     "count": 1,
+     "mean": 1.447,
+     "sum": 1.447
+    },
+    "GBPCAD": {
+     "count": 1,
+     "mean": 1.715,
+     "sum": 1.715
+    }
+   },
+   "flipped_worst_pairs": {
+    "GBPCHF": {
+     "count": 2,
+     "mean": -1.004,
+     "sum": -2.009
+    },
+    "AUDCAD": {
+     "count": 1,
+     "mean": -1.004,
+     "sum": -1.004
+    },
+    "EURJPY": {
+     "count": 1,
+     "mean": -1.003,
+     "sum": -1.003
+    }
+   },
+   "flipped_by_month": {
+    "1": -1.0,
+    "2": -1.6,
+    "3": -1.0,
+    "8": 1.7,
+    "10": -1.0
+   }
+  }
+ }
+}

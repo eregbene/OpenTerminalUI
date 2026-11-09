@@ -1,0 +1,37 @@
+bennett {'RA': (41.0, 0, None), 'RB': (41.0, 0, None), 'MOM': (38.1, 19, -0.22)} base 41.0
+enigma {'RA': (-60.0, 455, 0.35), 'RB': (-71.0, 191, -0.28), 'MOM': (-35.8, 623, -0.08)} base -92.5
+fib618 {'RA': (-88.5, 1916, 1.45), 'RB': (-131.2, 519, 1.39), 'MOM': (-32.9, 1537, -0.33)} base -104.1
+imbalance {'RA': (-90.6, 2603, 0.44), 'RB': (-141.4, 1079, 0.36), 'MOM': (-78.8, 2553, 0.23)} base -161.3
+sflow {'RA': (-112.0, 743, 1.03), 'RB': (-146.7, 499, 1.2), 'MOM': (-0.9, 925, -1.54)} base -166.7
+parallax {'RA': (140.5, 416, -1.2), 'RB': (151.5, 159, -0.97), 'MOM': (74.7, 579, 0.41)} base 148.9
+cta {'RA': (-140.2, 1003, -1.47), 'RB': (-219.1, 868, -1.13), 'MOM': (-72.1, 1324, 3.09)} base -716.5
+flow_ml {'RA': (6531.3, 1457, 0.1), 'RB': (8251.3, 318, 0.33), 'MOM': (4819.2, 2098, 0.63)} base 8939.6
+flow_am {'RA': (4057.3, 650, -0.95), 'RB': (4632.9, 58, -0.63), 'MOM': (3468.9, 910, -0.33)} base 4649.6
+     strategy policy         p     t  both_halves_removed_negative  both_halves_better  removed    gain     bh   PASS
+0     bennett     RA  1.000000   NaN                         False               False        0     0.0  False  False
+1     bennett     RB  1.000000   NaN                         False               False        0     0.0  False  False
+2     bennett    MOM  0.414447 -0.22                         False               False       19    -2.9  False  False
+3      enigma     RA  1.000000  0.35                          True                True      455    32.5  False  False
+4      enigma     RB  0.389679 -0.28                          True                True      191    21.5  False  False
+5      enigma    MOM  0.470079 -0.08                          True                True      623    56.7  False  False
+6      fib618     RA  1.000000  1.45                         False               False     1916    15.6  False  False
+7      fib618     RB  1.000000  1.39                         False               False      519   -27.1  False  False
+8      fib618    MOM  0.372023 -0.33                          True                True     1537    71.2  False  False
+9   imbalance     RA  1.000000  0.44                          True                True     2603    70.7  False  False
+10  imbalance     RB  1.000000  0.36                         False               False     1079    19.9  False  False
+11  imbalance    MOM  1.000000  0.23                          True                True     2553    82.5  False  False
+12      sflow     RA  1.000000  1.03                          True                True      743    54.7  False  False
+13      sflow     RB  1.000000  1.20                          True                True      499    20.0  False  False
+14      sflow    MOM  0.061901 -1.54                          True                True      925   165.8  False  False
+15   parallax     RA  0.115571 -1.20                         False               False      416    -8.4  False  False
+16   parallax     RB  0.166119 -0.97                         False               False      159     2.6  False  False
+17   parallax    MOM  1.000000  0.41                         False               False      579   -74.2  False  False
+18        cta     RA  0.070645 -1.47                          True                True     1003   576.3  False  False
+19        cta     RB  0.129651 -1.13                          True                True      868   497.4  False  False
+20        cta    MOM  1.000000  3.09                          True                True     1324   644.4  False  False
+21    flow_ml     RA  1.000000  0.10                         False               False     1457 -2408.3  False  False
+22    flow_ml     RB  1.000000  0.33                         False               False      318  -688.3  False  False
+23    flow_ml    MOM  1.000000  0.63                         False               False     2098 -4120.4  False  False
+24    flow_am     RA  0.170508 -0.95                         False               False      650  -592.3  False  False
+25    flow_am     RB  0.266541 -0.63                         False               False       58   -16.7  False  False
+26    flow_am    MOM  0.371317 -0.33                         False               False      910 -1180.7  False  False

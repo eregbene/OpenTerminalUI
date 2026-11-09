@@ -1,0 +1,25 @@
+2016 {'GLOBAL': 1044, 'PAIR': 1329}
+2017 {'GLOBAL': 1638, 'PAIR': 1769}
+2018 {'GLOBAL': 2044, 'PAIR': 2112}
+2019 {'GLOBAL': 1415, 'PAIR': 1642}
+2020 {'GLOBAL': 2135, 'PAIR': 2170}
+2021 {'GLOBAL': 1520, 'PAIR': 1722}
+2022 {'GLOBAL': 2986, 'PAIR': 3254}
+2023 {'GLOBAL': 1103, 'PAIR': 1440}
+2024 {'GLOBAL': 1136, 'PAIR': 1398}
+2025 {'GLOBAL': 1049, 'PAIR': 1190}
+2026 {'GLOBAL': 973, 'PAIR': 977}
+GLOBAL LIVE5|all_hours {'n': 4658, 'bp': 0.55, 't': 0.63, 'p': 0.2655, 'total': 2575.0, 'win': 0.506} 16-20 1.49 21-26 -0.39 yrs+ 7/11
+GLOBAL LIVE5|no_late_hours {'n': 3384, 'bp': 0.4, 't': 0.38, 'p': 0.3523, 'total': 1343.0, 'win': 0.504} 16-20 2.05 21-26 -1.31 yrs+ 7/11
+GLOBAL GAINED|all_hours {'n': 9591, 'bp': 1.41, 't': 1.77, 'p': 0.0388, 'total': 13534.0, 'win': 0.508} 16-20 1.33 21-26 1.48 yrs+ 9/11
+GLOBAL GAINED|no_late_hours {'n': 7131, 'bp': 1.36, 't': 1.46, 'p': 0.0724, 'total': 9676.0, 'win': 0.503} 16-20 0.63 21-26 2.0 yrs+ 9/11
+GLOBAL AUD_NO_YIELDS|all_hours {'n': 2794, 'bp': 2.23, 't': 1.68, 'p': 0.0467, 'total': 6234.0, 'win': 0.523} 16-20 1.96 21-26 2.53 yrs+ 7/11
+GLOBAL AUD_NO_YIELDS|no_late_hours {'n': 2066, 'bp': 0.94, 't': 0.54, 'p': 0.2944, 'total': 1952.0, 'win': 0.503} 16-20 0.56 21-26 1.36 yrs+ 6/11
+GLOBAL GAINED positive in both halves: ['EURCHF', 'EURNZD', 'GBPCAD', 'GBPCHF', 'GBPJPY', 'GBPNZD', 'NZDJPY', 'USDCHF']
+PAIR LIVE5|all_hours {'n': 3862, 'bp': 0.4, 't': 0.43, 'p': 0.3345, 'total': 1527.0, 'win': 0.511} 16-20 1.02 21-26 -0.21 yrs+ 4/11
+PAIR LIVE5|no_late_hours {'n': 2804, 'bp': 0.12, 't': 0.11, 'p': 0.4581, 'total': 327.0, 'win': 0.505} 16-20 0.76 21-26 -0.54 yrs+ 4/11
+PAIR GAINED|all_hours {'n': 10250, 'bp': 1.27, 't': 1.72, 'p': 0.0429, 'total': 12970.0, 'win': 0.506} 16-20 1.27 21-26 1.26 yrs+ 8/11
+PAIR GAINED|no_late_hours {'n': 7598, 'bp': 1.58, 't': 1.79, 'p': 0.0366, 'total': 11996.0, 'win': 0.502} 16-20 1.05 21-26 2.02 yrs+ 9/11
+PAIR AUD_NO_YIELDS|all_hours {'n': 4891, 'bp': 2.06, 't': 2.26, 'p': 0.0121, 'total': 10072.0, 'win': 0.531} 16-20 2.4 21-26 1.7 yrs+ 10/11
+PAIR AUD_NO_YIELDS|no_late_hours {'n': 3545, 'bp': 1.77, 't': 1.65, 'p': 0.0502, 'total': 6282.0, 'win': 0.521} 16-20 1.92 21-26 1.61 yrs+ 7/11
+PAIR GAINED positive in both halves: ['EURNZD', 'GBPCAD', 'GBPCHF', 'GBPJPY', 'GBPNZD', 'GBPUSD', 'NZDJPY', 'USDCHF']

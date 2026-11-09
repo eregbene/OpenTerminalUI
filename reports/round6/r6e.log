@@ -1,0 +1,34 @@
+DONE X3_turn_of_month
+DONE X4_pair_divergence
+DONE X5_news_second_move
+DONE X6_carry
+DONE X7_flowml_cheap
+X2 AUDCAD 1217
+X2 AUDCHF 2269
+X2 AUDJPY 4146
+X2 AUDNZD 5334
+X2 AUDUSD 6615
+X2 CADCHF 7677
+X2 CADJPY 9407
+X2 EURAUD 11738
+DONE X2_round_numbers
+X1 AUDCAD {'FADE_QUIET': 1148, 'FADE_HIGH': 16649}
+X1 AUDCHF {'FADE_QUIET': 2688, 'FADE_HIGH': 33533}
+X1 AUDJPY {'FADE_QUIET': 2990, 'FADE_HIGH': 50368}
+X1 AUDNZD {'FADE_QUIET': 5104, 'FADE_HIGH': 66718}
+X1 AUDUSD {'FADE_QUIET': 5264, 'FADE_HIGH': 83677}
+X1 CADCHF {'FADE_QUIET': 6998, 'FADE_HIGH': 99939}
+X1 CADJPY {'FADE_QUIET': 7336, 'FADE_HIGH': 116614}
+X1 EURAUD {'FADE_QUIET': 7893, 'FADE_HIGH': 133384}
+DONE X1_fade_quiet_breakouts
+{
+ "X3_turn_of_month:TOM": "FAILED",
+ "X3_turn_of_month:CONTROL_mid_month": "FAILED",
+ "X4_pair_divergence:EURUSD-GBPUSD": "FAILED",
+ "X4_pair_divergence:AUDUSD-NZDUSD": "FAILED",
+ "X4_pair_divergence:EURJPY-GBPJPY": "FAILED",
+ "X5_news_second_move:CONT": "FAILED",
+ "X5_news_second_move:FADE": "FAILED",
+ "X7_flowml_cheap:CHEAP": "FAILED",
+ "X7_flowml_cheap:REST": "PROMISING"
+}

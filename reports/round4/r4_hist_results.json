@@ -1,0 +1,1835 @@
+{
+ "bennett": {
+  "unit": "R",
+  "span": "2012-02-23 .. 2026-05-18",
+  "all": {
+   "n": 205,
+   "exp": 0.1458,
+   "win": 0.298,
+   "pf": 1.214,
+   "total": 29.9,
+   "max_dd": -17.6,
+   "t": 1.07,
+   "p": 0.1425,
+   "avg_hold_h": 11.0
+  },
+  "DISC": {
+   "n": 127,
+   "exp": 0.0508,
+   "win": 0.307,
+   "pf": 1.075,
+   "total": 6.5,
+   "max_dd": -17.6,
+   "t": 0.32,
+   "p": 0.3749,
+   "avg_hold_h": 11.2
+  },
+  "VAL": {
+   "n": 32,
+   "exp": 0.3517,
+   "win": 0.281,
+   "pf": 1.535,
+   "total": 11.3,
+   "max_dd": -12.4,
+   "t": 1.02,
+   "p": 0.1577,
+   "avg_hold_h": 11.5
+  },
+  "LOCK": {
+   "n": 46,
+   "exp": 0.2651,
+   "win": 0.283,
+   "pf": 1.375,
+   "total": 12.2,
+   "max_dd": -8.9,
+   "t": 0.76,
+   "p": 0.2254,
+   "avg_hold_h": 10.3
+  },
+  "by_year": {
+   "2012": -0.539,
+   "2013": -0.196,
+   "2014": 0.517,
+   "2015": 0.548,
+   "2016": -0.572,
+   "2017": 0.516,
+   "2018": -0.083,
+   "2019": -0.223,
+   "2020": -0.004,
+   "2021": 2.733,
+   "2022": 1.123,
+   "2023": 0.329,
+   "2024": 0.341,
+   "2025": 0.317,
+   "2026": -0.036
+  },
+  "years_positive": "8/15",
+  "recent_2024_26": {
+   "n": 38,
+   "exp": 0.2516,
+   "win": 0.263,
+   "pf": 1.348,
+   "total": 9.6,
+   "max_dd": -8.9,
+   "t": 0.63,
+   "p": 0.2676,
+   "avg_hold_h": 10.0
+  },
+  "worst_pairs": {
+   "GBPUSD": {
+    "count": 35,
+    "mean": -0.339
+   },
+   "USDCAD": {
+    "count": 33,
+    "mean": 0.016
+   },
+   "EURUSD": {
+    "count": 40,
+    "mean": 0.032
+   }
+  },
+  "best_pairs": {
+   "EURUSD": {
+    "count": 40,
+    "mean": 0.032
+   },
+   "USDJPY": {
+    "count": 57,
+    "mean": 0.283
+   },
+   "USDCHF": {
+    "count": 40,
+    "mean": 0.595
+   }
+  },
+  "pairs_positive": "4/5",
+  "sessions": {
+   "london": {
+    "count": 72,
+    "mean": -0.128
+   },
+   "overlap": {
+    "count": 81,
+    "mean": 0.29
+   },
+   "tokyo": {
+    "count": 47,
+    "mean": 0.35
+   }
+  },
+  "regimes_worst": {
+   "low/mid": {
+    "count": 36,
+    "mean": -0.134
+   },
+   "low/range": {
+    "count": 46,
+    "mean": 0.093
+   }
+  },
+  "regimes_best": {
+   "mid/range": {
+    "count": 32,
+    "mean": 0.109
+   },
+   "high/range": {
+    "count": 34,
+    "mean": 0.79
+   }
+  },
+  "psr_vs_0": 0.8737,
+  "dsr": 0.0126,
+  "bootstrap": {
+   "block_days": 6,
+   "paths": 5000,
+   "seed": 19,
+   "total_r_ci90": [
+    -16.0,
+    74.2
+   ],
+   "p_total_le_0": 0.146,
+   "max_dd_r_median": 19.8,
+   "max_dd_r_p95": 38.1
+  },
+  "management": {
+   "median_mfe_R": 0.87,
+   "median_mae_R": 1.07,
+   "losers_never_above_0.3R (wrong direction/entry)": 0.396,
+   "losers_that_reached_+1R (management)": 0.25,
+   "winners_first_-0.5R_against (tight-stop risk)": 0.0,
+   "winner_capture_r_over_mfe": 0.817
+  },
+  "exit_mix": {
+   "stop": 0.663,
+   "target": 0.171,
+   "friday_close": 0.127,
+   "time": 0.039
+  }
+ },
+ "enigma": {
+  "unit": "R",
+  "span": "2012-01-12 .. 2026-06-16",
+  "all": {
+   "n": 1230,
+   "exp": -0.0771,
+   "win": 0.337,
+   "pf": 0.88,
+   "total": -94.9,
+   "max_dd": -102.7,
+   "t": -1.93,
+   "p": 0.9728,
+   "avg_hold_h": 11.6
+  },
+  "DISC": {
+   "n": 597,
+   "exp": -0.0608,
+   "win": 0.342,
+   "pf": 0.904,
+   "total": -36.3,
+   "max_dd": -62.9,
+   "t": -1.04,
+   "p": 0.8494,
+   "avg_hold_h": 11.2
+  },
+  "VAL": {
+   "n": 265,
+   "exp": -0.149,
+   "win": 0.298,
+   "pf": 0.785,
+   "total": -39.5,
+   "max_dd": -42.0,
+   "t": -1.69,
+   "p": 0.9529,
+   "avg_hold_h": 11.0
+  },
+  "LOCK": {
+   "n": 368,
+   "exp": -0.0519,
+   "win": 0.356,
+   "pf": 0.918,
+   "total": -19.1,
+   "max_dd": -26.8,
+   "t": -0.75,
+   "p": 0.7721,
+   "avg_hold_h": 12.8
+  },
+  "by_year": {
+   "2012": -0.047,
+   "2013": 0.043,
+   "2014": -0.321,
+   "2015": 0.052,
+   "2016": -0.178,
+   "2017": -0.07,
+   "2018": 0.106,
+   "2019": -0.143,
+   "2020": 0.004,
+   "2021": -0.564,
+   "2022": -0.218,
+   "2023": -0.113,
+   "2024": 0.035,
+   "2025": -0.046,
+   "2026": -0.082
+  },
+  "years_positive": "5/15",
+  "recent_2024_26": {
+   "n": 254,
+   "exp": -0.0243,
+   "win": 0.382,
+   "pf": 0.959,
+   "total": -6.2,
+   "max_dd": -18.3,
+   "t": -0.29,
+   "p": 0.6137,
+   "avg_hold_h": 14.0
+  },
+  "worst_pairs": {
+   "XAUUSD": {
+    "count": 80,
+    "mean": -0.22
+   },
+   "USDCAD": {
+    "count": 132,
+    "mean": -0.178
+   },
+   "USDCHF": {
+    "count": 180,
+    "mean": -0.116
+   }
+  },
+  "best_pairs": {
+   "AUDUSD": {
+    "count": 248,
+    "mean": -0.07
+   },
+   "EURUSD": {
+    "count": 173,
+    "mean": -0.028
+   },
+   "USDJPY": {
+    "count": 227,
+    "mean": 0.018
+   }
+  },
+  "pairs_positive": "1/7",
+  "sessions": {
+   "london": {
+    "count": 313,
+    "mean": -0.169
+   },
+   "late": {
+    "count": 219,
+    "mean": -0.104
+   },
+   "new_york": {
+    "count": 174,
+    "mean": -0.073
+   },
+   "tokyo": {
+    "count": 249,
+    "mean": -0.043
+   },
+   "overlap": {
+    "count": 275,
+    "mean": 0.015
+   }
+  },
+  "regimes_worst": {
+   "mid/mid": {
+    "count": 110,
+    "mean": -0.275
+   },
+   "mid/range": {
+    "count": 164,
+    "mean": -0.213
+   }
+  },
+  "regimes_best": {
+   "high/range": {
+    "count": 198,
+    "mean": 0.006
+   },
+   "low/mid": {
+    "count": 169,
+    "mean": 0.128
+   }
+  },
+  "psr_vs_0": 0.0292,
+  "dsr": 0.0,
+  "bootstrap": {
+   "block_days": 10,
+   "paths": 5000,
+   "seed": 19,
+   "total_r_ci90": [
+    -173.7,
+    -16.8
+   ],
+   "p_total_le_0": 0.976,
+   "max_dd_r_median": 114.1,
+   "max_dd_r_p95": 185.9
+  },
+  "management": {
+   "median_mfe_R": 0.91,
+   "median_mae_R": 1.05,
+   "losers_never_above_0.3R (wrong direction/entry)": 0.327,
+   "losers_that_reached_+1R (management)": 0.239,
+   "winners_first_-0.5R_against (tight-stop risk)": 0.0,
+   "winner_capture_r_over_mfe": 0.854
+  },
+  "exit_mix": {
+   "stop": 0.628,
+   "target": 0.245,
+   "friday_close": 0.091,
+   "time": 0.037
+  }
+ },
+ "fib618": {
+  "unit": "R",
+  "span": "2012-01-04 .. 2026-06-26",
+  "all": {
+   "n": 3266,
+   "exp": -0.0514,
+   "win": 0.291,
+   "pf": 0.926,
+   "total": -167.7,
+   "max_dd": -226.4,
+   "t": -1.75,
+   "p": 0.9599,
+   "avg_hold_h": 10.4
+  },
+  "DISC": {
+   "n": 1685,
+   "exp": -0.0278,
+   "win": 0.294,
+   "pf": 0.96,
+   "total": -46.9,
+   "max_dd": -107.9,
+   "t": -0.67,
+   "p": 0.748,
+   "avg_hold_h": 10.0
+  },
+  "VAL": {
+   "n": 742,
+   "exp": -0.0991,
+   "win": 0.286,
+   "pf": 0.857,
+   "total": -73.6,
+   "max_dd": -93.8,
+   "t": -1.54,
+   "p": 0.9376,
+   "avg_hold_h": 10.9
+  },
+  "LOCK": {
+   "n": 839,
+   "exp": -0.0563,
+   "win": 0.292,
+   "pf": 0.918,
+   "total": -47.3,
+   "max_dd": -99.5,
+   "t": -1.06,
+   "p": 0.8543,
+   "avg_hold_h": 10.5
+  },
+  "by_year": {
+   "2012": 0.028,
+   "2013": -0.299,
+   "2014": 0.067,
+   "2015": 0.034,
+   "2016": -0.02,
+   "2017": -0.184,
+   "2018": 0.158,
+   "2019": -0.226,
+   "2020": -0.069,
+   "2021": -0.233,
+   "2022": 0.006,
+   "2023": -0.125,
+   "2024": -0.206,
+   "2025": 0.1,
+   "2026": 0.113
+  },
+  "years_positive": "7/15",
+  "recent_2024_26": {
+   "n": 595,
+   "exp": -0.0283,
+   "win": 0.304,
+   "pf": 0.958,
+   "total": -16.8,
+   "max_dd": -63.8,
+   "t": -0.46,
+   "p": 0.6756,
+   "avg_hold_h": 10.6
+  },
+  "worst_pairs": {
+   "XAUUSD": {
+    "count": 208,
+    "mean": -0.091
+   },
+   "USDCAD": {
+    "count": 558,
+    "mean": -0.091
+   },
+   "EURUSD": {
+    "count": 867,
+    "mean": -0.064
+   }
+  },
+  "best_pairs": {
+   "EURUSD": {
+    "count": 867,
+    "mean": -0.064
+   },
+   "USDCHF": {
+    "count": 803,
+    "mean": -0.048
+   },
+   "GBPUSD": {
+    "count": 830,
+    "mean": -0.004
+   }
+  },
+  "pairs_positive": "0/5",
+  "sessions": {
+   "new_york": {
+    "count": 374,
+    "mean": -0.108
+   },
+   "tokyo": {
+    "count": 139,
+    "mean": -0.098
+   },
+   "late": {
+    "count": 374,
+    "mean": -0.05
+   },
+   "overlap": {
+    "count": 1405,
+    "mean": -0.048
+   },
+   "london": {
+    "count": 974,
+    "mean": -0.029
+   }
+  },
+  "regimes_worst": {
+   "low/trend": {
+    "count": 71,
+    "mean": -0.28
+   },
+   "low/range": {
+    "count": 688,
+    "mean": -0.096
+   }
+  },
+  "regimes_best": {
+   "high/range": {
+    "count": 523,
+    "mean": -0.025
+   },
+   "low/mid": {
+    "count": 505,
+    "mean": 0.05
+   }
+  },
+  "psr_vs_0": 0.0366,
+  "dsr": 0.0,
+  "bootstrap": {
+   "block_days": 13,
+   "paths": 5000,
+   "seed": 19,
+   "total_r_ci90": [
+    -314.4,
+    -18.4
+   ],
+   "p_total_le_0": 0.969,
+   "max_dd_r_median": 209.7,
+   "max_dd_r_p95": 343.0
+  },
+  "management": {
+   "median_mfe_R": 0.88,
+   "median_mae_R": 1.07,
+   "losers_never_above_0.3R (wrong direction/entry)": 0.357,
+   "losers_that_reached_+1R (management)": 0.278,
+   "winners_first_-0.5R_against (tight-stop risk)": 0.0,
+   "winner_capture_r_over_mfe": 0.863
+  },
+  "exit_mix": {
+   "stop": 0.671,
+   "target": 0.2,
+   "friday_close": 0.108,
+   "time": 0.021
+  }
+ },
+ "imbalance": {
+  "unit": "R",
+  "span": "2012-01-03 .. 2026-06-30",
+  "all": {
+   "n": 4802,
+   "exp": -0.0456,
+   "win": 0.214,
+   "pf": 0.941,
+   "total": -219.1,
+   "max_dd": -321.9,
+   "t": -1.5,
+   "p": 0.9334,
+   "avg_hold_h": 6.1
+  },
+  "DISC": {
+   "n": 2341,
+   "exp": -0.097,
+   "win": 0.204,
+   "pf": 0.878,
+   "total": -227.1,
+   "max_dd": -260.7,
+   "t": -2.34,
+   "p": 0.9902,
+   "avg_hold_h": 6.1
+  },
+  "VAL": {
+   "n": 1124,
+   "exp": -0.0158,
+   "win": 0.219,
+   "pf": 0.98,
+   "total": -17.7,
+   "max_dd": -81.4,
+   "t": -0.25,
+   "p": 0.5972,
+   "avg_hold_h": 6.2
+  },
+  "LOCK": {
+   "n": 1337,
+   "exp": 0.0192,
+   "win": 0.228,
+   "pf": 1.025,
+   "total": 25.6,
+   "max_dd": -62.6,
+   "t": 0.32,
+   "p": 0.3764,
+   "avg_hold_h": 6.2
+  },
+  "by_year": {
+   "2012": 0.017,
+   "2013": -0.204,
+   "2014": -0.209,
+   "2015": -0.222,
+   "2016": 0.071,
+   "2017": 0.027,
+   "2018": -0.175,
+   "2019": 0.046,
+   "2020": -0.009,
+   "2021": 0.105,
+   "2022": -0.048,
+   "2023": -0.077,
+   "2024": 0.04,
+   "2025": 0.064,
+   "2026": 0.082
+  },
+  "years_positive": "8/15",
+  "recent_2024_26": {
+   "n": 939,
+   "exp": 0.0601,
+   "win": 0.236,
+   "pf": 1.08,
+   "total": 56.4,
+   "max_dd": -62.6,
+   "t": 0.79,
+   "p": 0.2163,
+   "avg_hold_h": 6.1
+  },
+  "worst_pairs": {
+   "EURUSD": {
+    "count": 925,
+    "mean": -0.178
+   },
+   "AUDUSD": {
+    "count": 597,
+    "mean": -0.121
+   },
+   "USDCHF": {
+    "count": 495,
+    "mean": -0.098
+   }
+  },
+  "best_pairs": {
+   "USDCAD": {
+    "count": 552,
+    "mean": 0.067
+   },
+   "USDJPY": {
+    "count": 892,
+    "mean": 0.068
+   },
+   "XAUUSD": {
+    "count": 344,
+    "mean": 0.129
+   }
+  },
+  "pairs_positive": "3/7",
+  "sessions": {
+   "london": {
+    "count": 1264,
+    "mean": -0.093
+   },
+   "overlap": {
+    "count": 1636,
+    "mean": -0.086
+   },
+   "tokyo": {
+    "count": 522,
+    "mean": -0.063
+   },
+   "late": {
+    "count": 676,
+    "mean": 0.048
+   },
+   "new_york": {
+    "count": 704,
+    "mean": 0.057
+   }
+  },
+  "regimes_worst": {
+   "mid/mid": {
+    "count": 453,
+    "mean": -0.298
+   },
+   "low/trend": {
+    "count": 98,
+    "mean": -0.192
+   }
+  },
+  "regimes_best": {
+   "high/trend": {
+    "count": 128,
+    "mean": 0.219
+   },
+   "mid/trend": {
+    "count": 72,
+    "mean": 0.224
+   }
+  },
+  "psr_vs_0": 0.0668,
+  "dsr": 0.0,
+  "bootstrap": {
+   "block_days": 13,
+   "paths": 5000,
+   "seed": 19,
+   "total_r_ci90": [
+    -457.7,
+    16.3
+   ],
+   "p_total_le_0": 0.935,
+   "max_dd_r_median": 294.4,
+   "max_dd_r_p95": 504.6
+  },
+  "management": {
+   "median_mfe_R": 0.92,
+   "median_mae_R": 1.15,
+   "losers_never_above_0.3R (wrong direction/entry)": 0.299,
+   "losers_that_reached_+1R (management)": 0.349,
+   "winners_first_-0.5R_against (tight-stop risk)": 0.0,
+   "winner_capture_r_over_mfe": 0.891
+  },
+  "exit_mix": {
+   "stop": 0.767,
+   "target": 0.158,
+   "friday_close": 0.07,
+   "time": 0.005
+  }
+ },
+ "sflow": {
+  "unit": "R",
+  "span": "2012-01-10 .. 2026-10-16",
+  "all": {
+   "n": 1539,
+   "exp": -0.1255,
+   "win": 0.222,
+   "pf": 0.844,
+   "total": -193.1,
+   "max_dd": -247.6,
+   "t": -2.39,
+   "p": 0.9914,
+   "avg_hold_h": 20.5
+  },
+  "DISC": {
+   "n": 653,
+   "exp": -0.1094,
+   "win": 0.216,
+   "pf": 0.863,
+   "total": -71.4,
+   "max_dd": -99.0,
+   "t": -1.37,
+   "p": 0.9148,
+   "avg_hold_h": 19.5
+  },
+  "VAL": {
+   "n": 445,
+   "exp": -0.1279,
+   "win": 0.229,
+   "pf": 0.839,
+   "total": -56.9,
+   "max_dd": -79.8,
+   "t": -1.32,
+   "p": 0.9058,
+   "avg_hold_h": 22.0
+  },
+  "LOCK": {
+   "n": 441,
+   "exp": -0.1468,
+   "win": 0.222,
+   "pf": 0.823,
+   "total": -64.7,
+   "max_dd": -103.5,
+   "t": -1.45,
+   "p": 0.9261,
+   "avg_hold_h": 20.5
+  },
+  "by_year": {
+   "2012": -0.05,
+   "2013": -0.228,
+   "2014": -0.099,
+   "2015": -0.025,
+   "2016": 0.012,
+   "2017": -0.342,
+   "2018": -0.016,
+   "2019": -0.412,
+   "2020": -0.219,
+   "2021": 0.503,
+   "2022": -0.412,
+   "2023": -0.155,
+   "2024": -0.382,
+   "2025": -0.222,
+   "2026": 0.301
+  },
+  "years_positive": "3/15",
+  "recent_2024_26": {
+   "n": 334,
+   "exp": -0.1441,
+   "win": 0.237,
+   "pf": 0.823,
+   "total": -48.1,
+   "max_dd": -85.5,
+   "t": -1.4,
+   "p": 0.9175,
+   "avg_hold_h": 20.1
+  },
+  "worst_pairs": {
+   "USDCAD": {
+    "count": 206,
+    "mean": -0.369
+   },
+   "XAUUSD": {
+    "count": 97,
+    "mean": -0.243
+   },
+   "USDJPY": {
+    "count": 220,
+    "mean": -0.149
+   }
+  },
+  "best_pairs": {
+   "AUDUSD": {
+    "count": 280,
+    "mean": -0.093
+   },
+   "GBPUSD": {
+    "count": 266,
+    "mean": -0.013
+   },
+   "EURUSD": {
+    "count": 233,
+    "mean": -0.003
+   }
+  },
+  "pairs_positive": "0/7",
+  "sessions": {
+   "late": {
+    "count": 213,
+    "mean": -0.23
+   },
+   "overlap": {
+    "count": 392,
+    "mean": -0.192
+   },
+   "london": {
+    "count": 429,
+    "mean": -0.139
+   },
+   "tokyo": {
+    "count": 374,
+    "mean": -0.034
+   },
+   "new_york": {
+    "count": 131,
+    "mean": 0.027
+   }
+  },
+  "regimes_worst": {
+   "mid/mid": {
+    "count": 128,
+    "mean": -0.205
+   },
+   "low/mid": {
+    "count": 266,
+    "mean": -0.16
+   }
+  },
+  "regimes_best": {
+   "high/mid": {
+    "count": 178,
+    "mean": 0.047
+   },
+   "low/trend": {
+    "count": 32,
+    "mean": 0.174
+   }
+  },
+  "psr_vs_0": 0.0105,
+  "dsr": 0.0,
+  "bootstrap": {
+   "block_days": 11,
+   "paths": 5000,
+   "seed": 19,
+   "total_r_ci90": [
+    -325.8,
+    -54.2
+   ],
+   "p_total_le_0": 0.987,
+   "max_dd_r_median": 223.8,
+   "max_dd_r_p95": 343.7
+  },
+  "exit_mix": {
+   "stop": 0.778,
+   "target": 0.22,
+   "time": 0.002
+  },
+  "cost_R_per_trade": 0.032
+ },
+ "parallax": {
+  "unit": "R",
+  "span": "2012-02-08 .. 2026-10-07",
+  "all": {
+   "n": 1633,
+   "exp": 0.0922,
+   "win": 0.293,
+   "pf": 1.13,
+   "total": 150.6,
+   "max_dd": -46.8,
+   "t": 1.53,
+   "p": 0.0638,
+   "avg_hold_h": 93.6
+  },
+  "DISC": {
+   "n": 753,
+   "exp": 0.134,
+   "win": 0.301,
+   "pf": 1.192,
+   "total": 100.9,
+   "max_dd": -42.2,
+   "t": 1.57,
+   "p": 0.0587,
+   "avg_hold_h": 93.1
+  },
+  "VAL": {
+   "n": 495,
+   "exp": 0.1301,
+   "win": 0.301,
+   "pf": 1.186,
+   "total": 64.4,
+   "max_dd": -46.8,
+   "t": 1.18,
+   "p": 0.1206,
+   "avg_hold_h": 96.7
+  },
+  "LOCK": {
+   "n": 385,
+   "exp": -0.0382,
+   "win": 0.268,
+   "pf": 0.948,
+   "total": -14.7,
+   "max_dd": -46.5,
+   "t": -0.29,
+   "p": 0.6125,
+   "avg_hold_h": 90.5
+  },
+  "by_year": {
+   "2012": -0.04,
+   "2013": 0.059,
+   "2014": 0.325,
+   "2015": -0.092,
+   "2016": 0.223,
+   "2017": 0.221,
+   "2018": 0.309,
+   "2019": 0.173,
+   "2020": -0.188,
+   "2021": 0.458,
+   "2022": 0.127,
+   "2023": -0.371,
+   "2024": 0.274,
+   "2025": -0.127,
+   "2026": -0.025
+  },
+  "years_positive": "9/15",
+  "recent_2024_26": {
+   "n": 293,
+   "exp": 0.0663,
+   "win": 0.297,
+   "pf": 1.093,
+   "total": 19.4,
+   "max_dd": -31.1,
+   "t": 0.4,
+   "p": 0.3435,
+   "avg_hold_h": 92.3
+  },
+  "worst_pairs": {
+   "GBPNZD": {
+    "count": 66,
+    "mean": -0.367
+   },
+   "AUDNZD": {
+    "count": 69,
+    "mean": -0.167
+   },
+   "CADCHF": {
+    "count": 78,
+    "mean": -0.161
+   }
+  },
+  "best_pairs": {
+   "NZDUSD": {
+    "count": 73,
+    "mean": 0.408
+   },
+   "GBPJPY": {
+    "count": 51,
+    "mean": 0.481
+   },
+   "GBPUSD": {
+    "count": 51,
+    "mean": 0.572
+   }
+  },
+  "pairs_positive": "17/25",
+  "sessions": {
+   "overlap": {
+    "count": 138,
+    "mean": -0.05
+   },
+   "new_york": {
+    "count": 281,
+    "mean": -0.03
+   },
+   "london": {
+    "count": 259,
+    "mean": 0.104
+   },
+   "late": {
+    "count": 470,
+    "mean": 0.141
+   },
+   "tokyo": {
+    "count": 485,
+    "mean": 0.15
+   }
+  },
+  "regimes_worst": {
+   "high/mid": {
+    "count": 135,
+    "mean": -0.101
+   },
+   "high/range": {
+    "count": 343,
+    "mean": -0.017
+   }
+  },
+  "regimes_best": {
+   "mid/range": {
+    "count": 247,
+    "mean": 0.205
+   },
+   "mid/mid": {
+    "count": 90,
+    "mean": 0.545
+   }
+  },
+  "psr_vs_0": 0.9861,
+  "dsr": 0.1387,
+  "bootstrap": {
+   "block_days": 9,
+   "paths": 5000,
+   "seed": 19,
+   "total_r_ci90": [
+    -19.0,
+    327.0
+   ],
+   "p_total_le_0": 0.071,
+   "max_dd_r_median": 71.8,
+   "max_dd_r_p95": 136.0
+  }
+ },
+ "cta": {
+  "unit": "R",
+  "span": "2012-10-18 .. 2026-09-28",
+  "all": {
+   "n": 1558,
+   "exp": -0.3399,
+   "win": 0.091,
+   "pf": 0.633,
+   "total": -529.5,
+   "max_dd": -749.0,
+   "t": -3.29,
+   "p": 0.9995,
+   "avg_hold_h": 282.5
+  },
+  "DISC": {
+   "n": 747,
+   "exp": -0.0988,
+   "win": 0.112,
+   "pf": 0.889,
+   "total": -73.8,
+   "max_dd": -293.3,
+   "t": -0.52,
+   "p": 0.6984,
+   "avg_hold_h": 326.8
+  },
+  "VAL": {
+   "n": 429,
+   "exp": -0.6449,
+   "win": 0.054,
+   "pf": 0.326,
+   "total": -276.6,
+   "max_dd": -275.6,
+   "t": -6.83,
+   "p": 1.0,
+   "avg_hold_h": 201.3
+  },
+  "LOCK": {
+   "n": 382,
+   "exp": -0.4688,
+   "win": 0.092,
+   "pf": 0.512,
+   "total": -179.1,
+   "max_dd": -178.9,
+   "t": -2.85,
+   "p": 0.9975,
+   "avg_hold_h": 287.1
+  },
+  "by_year": {
+   "2012": 6.713,
+   "2013": -0.156,
+   "2014": -0.278,
+   "2015": -0.403,
+   "2016": -0.532,
+   "2017": -0.265,
+   "2018": -0.717,
+   "2019": -0.874,
+   "2020": -0.556,
+   "2021": -0.646,
+   "2022": -0.555,
+   "2023": -0.617,
+   "2024": -0.635,
+   "2025": 0.377,
+   "2026": -1.056
+  },
+  "years_positive": "2/15",
+  "recent_2024_26": {
+   "n": 258,
+   "exp": -0.3977,
+   "win": 0.097,
+   "pf": 0.594,
+   "total": -102.6,
+   "max_dd": -101.6,
+   "t": -1.73,
+   "p": 0.9563,
+   "avg_hold_h": 343.1
+  },
+  "worst_pairs": {
+   "CADCHF": {
+    "count": 51,
+    "mean": -1.005
+   },
+   "NZDCAD": {
+    "count": 64,
+    "mean": -0.911
+   },
+   "GBPNZD": {
+    "count": 74,
+    "mean": -0.907
+   }
+  },
+  "best_pairs": {
+   "AUDCHF": {
+    "count": 58,
+    "mean": 0.252
+   },
+   "CADJPY": {
+    "count": 62,
+    "mean": 0.635
+   },
+   "USDJPY": {
+    "count": 81,
+    "mean": 0.698
+   }
+  },
+  "pairs_positive": "5/25",
+  "sessions": {
+   "new_york": {
+    "count": 1558,
+    "mean": -0.34
+   }
+  },
+  "regimes_worst": {
+   "high/range": {
+    "count": 392,
+    "mean": -0.581
+   },
+   "low/range": {
+    "count": 423,
+    "mean": -0.432
+   }
+  },
+  "regimes_best": {
+   "mid/mid": {
+    "count": 100,
+    "mean": -0.077
+   },
+   "high/mid": {
+    "count": 153,
+    "mean": -0.027
+   }
+  },
+  "psr_vs_0": 0.0018,
+  "dsr": 0.0,
+  "bootstrap": {
+   "block_days": 10,
+   "paths": 5000,
+   "seed": 19,
+   "total_r_ci90": [
+    -793.4,
+    -217.8
+   ],
+   "p_total_le_0": 0.995,
+   "max_dd_r_median": 590.4,
+   "max_dd_r_p95": 813.4
+  }
+ },
+ "flow_ml": {
+  "unit": "bp",
+  "span": "2016-01-04 .. 2026-10-09",
+  "all": {
+   "n": 5664,
+   "exp": 1.5783,
+   "win": 0.52,
+   "pf": 1.14,
+   "total": 8939.6,
+   "max_dd": -1642.8,
+   "t": 2.69,
+   "p": 0.0037,
+   "avg_hold_h": 6.0
+  },
+  "DISC": {
+   "n": 1981,
+   "exp": 1.9345,
+   "win": 0.52,
+   "pf": 1.178,
+   "total": 3832.2,
+   "max_dd": -1264.3,
+   "t": 2.08,
+   "p": 0.0194,
+   "avg_hold_h": 6.0
+  },
+  "VAL": {
+   "n": 2203,
+   "exp": 1.447,
+   "win": 0.539,
+   "pf": 1.132,
+   "total": 3187.8,
+   "max_dd": -1270.9,
+   "t": 1.5,
+   "p": 0.0679,
+   "avg_hold_h": 6.0
+  },
+  "LOCK": {
+   "n": 1480,
+   "exp": 1.2971,
+   "win": 0.492,
+   "pf": 1.105,
+   "total": 1919.7,
+   "max_dd": -1642.8,
+   "t": 1.08,
+   "p": 0.1416,
+   "avg_hold_h": 6.0
+  },
+  "by_year": {
+   "2016": 1.979,
+   "2017": -0.25,
+   "2018": 3.432,
+   "2019": 1.77,
+   "2020": 3.64,
+   "2021": -0.675,
+   "2022": 1.203,
+   "2023": -0.569,
+   "2024": 3.057,
+   "2025": 1.865,
+   "2026": 0.404
+  },
+  "years_positive": "8/11",
+  "recent_2024_26": {
+   "n": 1129,
+   "exp": 1.8771,
+   "win": 0.498,
+   "pf": 1.158,
+   "total": 2119.2,
+   "max_dd": -762.9,
+   "t": 1.45,
+   "p": 0.0743,
+   "avg_hold_h": 6.0
+  },
+  "worst_pairs": {
+   "USDJPY": {
+    "count": 1701,
+    "mean": 0.658
+   },
+   "USDCAD": {
+    "count": 418,
+    "mean": 0.951
+   },
+   "EURUSD": {
+    "count": 522,
+    "mean": 1.639
+   }
+  },
+  "best_pairs": {
+   "EURUSD": {
+    "count": 522,
+    "mean": 1.639
+   },
+   "EURJPY": {
+    "count": 1365,
+    "mean": 1.967
+   },
+   "CADJPY": {
+    "count": 1658,
+    "mean": 2.341
+   }
+  },
+  "pairs_positive": "5/5",
+  "sessions": {
+   "late": {
+    "count": 699,
+    "mean": -2.116
+   },
+   "tokyo": {
+    "count": 1976,
+    "mean": 0.727
+   },
+   "london": {
+    "count": 1199,
+    "mean": 2.283
+   },
+   "new_york": {
+    "count": 969,
+    "mean": 2.55
+   },
+   "overlap": {
+    "count": 821,
+    "mean": 4.597
+   }
+  },
+  "regimes_worst": {
+   "low/range": {
+    "count": 764,
+    "mean": -0.914
+   },
+   "mid/mid": {
+    "count": 680,
+    "mean": 0.671
+   }
+  },
+  "regimes_best": {
+   "high/range": {
+    "count": 616,
+    "mean": 2.444
+   },
+   "high/mid": {
+    "count": 1099,
+    "mean": 3.239
+   }
+  },
+  "psr_vs_0": 0.9996,
+  "dsr": 0.5359,
+  "bootstrap": {
+   "block_days": 12,
+   "paths": 5000,
+   "seed": 19,
+   "total_r_ci90": [
+    3511.4,
+    14484.7
+   ],
+   "p_total_le_0": 0.003,
+   "max_dd_r_median": 1783.0,
+   "max_dd_r_p95": 3095.0
+  }
+ },
+ "flow_am": {
+  "unit": "bp",
+  "span": "2012-01-02 .. 2026-10-09",
+  "all": {
+   "n": 3723,
+   "exp": 1.3683,
+   "win": 0.542,
+   "pf": 1.237,
+   "total": 5094.0,
+   "max_dd": -421.7,
+   "t": 4.64,
+   "p": 0.0,
+   "avg_hold_h": 3.0
+  },
+  "DISC": {
+   "n": 1811,
+   "exp": 1.5411,
+   "win": 0.542,
+   "pf": 1.248,
+   "total": 2791.0,
+   "max_dd": -411.3,
+   "t": 3.4,
+   "p": 0.0004,
+   "avg_hold_h": 3.0
+  },
+  "VAL": {
+   "n": 1037,
+   "exp": 1.9043,
+   "win": 0.544,
+   "pf": 1.345,
+   "total": 1974.8,
+   "max_dd": -407.3,
+   "t": 3.32,
+   "p": 0.0005,
+   "avg_hold_h": 3.0
+  },
+  "LOCK": {
+   "n": 875,
+   "exp": 0.3751,
+   "win": 0.539,
+   "pf": 1.072,
+   "total": 328.2,
+   "max_dd": -421.7,
+   "t": 0.79,
+   "p": 0.2153,
+   "avg_hold_h": 3.0
+  },
+  "by_year": {
+   "2012": 0.664,
+   "2013": 1.049,
+   "2014": 1.591,
+   "2015": 3.287,
+   "2016": 1.237,
+   "2017": 1.984,
+   "2018": 0.986,
+   "2019": 1.296,
+   "2020": 0.654,
+   "2021": 0.927,
+   "2022": 4.733,
+   "2023": 0.974,
+   "2024": -0.498,
+   "2025": 1.141,
+   "2026": -0.573
+  },
+  "years_positive": "13/15",
+  "recent_2024_26": {
+   "n": 621,
+   "exp": 0.1303,
+   "win": 0.523,
+   "pf": 1.027,
+   "total": 80.9,
+   "max_dd": -397.3,
+   "t": 0.24,
+   "p": 0.4048,
+   "avg_hold_h": 3.0
+  },
+  "worst_pairs": {
+   "EURUSD": {
+    "count": 3723,
+    "mean": 1.368
+   }
+  },
+  "best_pairs": {
+   "EURUSD": {
+    "count": 3723,
+    "mean": 1.368
+   }
+  },
+  "pairs_positive": "1/1",
+  "sessions": {
+   "london": {
+    "count": 3714,
+    "mean": 1.357
+   }
+  },
+  "regimes_worst": {
+   "low/trend": {
+    "count": 71,
+    "mean": -0.007
+   },
+   "low/range": {
+    "count": 828,
+    "mean": 0.409
+   }
+  },
+  "regimes_best": {
+   "high/trend": {
+    "count": 56,
+    "mean": 2.847
+   },
+   "mid/trend": {
+    "count": 54,
+    "mean": 5.071
+   }
+  },
+  "psr_vs_0": 1.0,
+  "dsr": 0.9287,
+  "bootstrap": {
+   "block_days": 15,
+   "paths": 5000,
+   "seed": 19,
+   "total_r_ci90": [
+    3310.1,
+    6883.1
+   ],
+   "p_total_le_0": 0.0,
+   "max_dd_r_median": 461.2,
+   "max_dd_r_p95": 741.5
+  }
+ },
+ "_lifecycle_variants_best": [
+  {
+   "book": "imbalance",
+   "period": "DISC",
+   "variant": "ML_EXIT",
+   "orig_avg": -0.084,
+   "var_avg": 0.28,
+   "t": 14.38,
+   "p": 0.0
+  },
+  {
+   "book": "fib618",
+   "period": "DISC",
+   "variant": "ML_EXIT",
+   "orig_avg": -0.057,
+   "var_avg": 0.252,
+   "t": 11.66,
+   "p": 0.0
+  },
+  {
+   "book": "enigma",
+   "period": "DISC",
+   "variant": "ML_EXIT",
+   "orig_avg": -0.084,
+   "var_avg": 0.247,
+   "t": 7.99,
+   "p": 0.0
+  },
+  {
+   "book": "bennett",
+   "period": "DISC",
+   "variant": "ML_EXIT",
+   "orig_avg": 0.065,
+   "var_avg": 0.357,
+   "t": 3.81,
+   "p": 0.0
+  },
+  {
+   "book": "bennett",
+   "period": "VAL",
+   "variant": "BE_1.5",
+   "orig_avg": -0.112,
+   "var_avg": 0.047,
+   "t": 2.4,
+   "p": 0.011
+  },
+  {
+   "book": "enigma",
+   "period": "LOCK",
+   "variant": "TIME_24",
+   "orig_avg": -0.098,
+   "var_avg": -0.055,
+   "t": 1.75,
+   "p": 0.041
+  },
+  {
+   "book": "imbalance",
+   "period": "VAL",
+   "variant": "PT_2",
+   "orig_avg": -0.064,
+   "var_avg": -0.019,
+   "t": 1.73,
+   "p": 0.043
+  },
+  {
+   "book": "imbalance",
+   "period": "LOCK",
+   "variant": "STALL_4",
+   "orig_avg": 0.003,
+   "var_avg": 0.013,
+   "t": 1.65,
+   "p": 0.051
+  },
+  {
+   "book": "enigma",
+   "period": "VAL",
+   "variant": "PT_2",
+   "orig_avg": -0.013,
+   "var_avg": 0.02,
+   "t": 1.49,
+   "p": 0.069
+  },
+  {
+   "book": "fib618",
+   "period": "LOCK",
+   "variant": "TR_2_1",
+   "orig_avg": -0.052,
+   "var_avg": -0.03,
+   "t": 0.93,
+   "p": 0.176
+  },
+  {
+   "book": "fib618",
+   "period": "VAL",
+   "variant": "BE_1.5",
+   "orig_avg": -0.037,
+   "var_avg": -0.021,
+   "t": 0.75,
+   "p": 0.226
+  },
+  {
+   "book": "bennett",
+   "period": "LOCK",
+   "variant": "TIME_48",
+   "orig_avg": 0.459,
+   "var_avg": 0.46,
+   "t": 0.11,
+   "p": 0.458
+  }
+ ],
+ "_pbo": {
+  "parallax (6 variants x 3 targets)": {
+   "splits": 70,
+   "blocks": 8,
+   "pbo": 0.0
+  },
+  "cta (v1, v2)": {
+   "splits": 70,
+   "blocks": 8,
+   "pbo": 0.2
+  },
+  "sflow (entry kinds A-D + placebo)": {
+   "splits": 70,
+   "blocks": 8,
+   "pbo": 0.2
+  }
+ },
+ "_filters_confirmed": [
+  {
+   "strategy": "cta",
+   "condition": "H4+D1 trend with trade",
+   "DISC_n": 581,
+   "DISC_with": 0.131,
+   "DISC_without": -0.904,
+   "DISC_t": 5.34,
+   "DISC_p": 1.248059767885184e-07,
+   "VAL_n": 352,
+   "VAL_with": -0.563,
+   "VAL_without": -1.019,
+   "VAL_t": 3.93,
+   "VAL_p": 0.00010041803731245103,
+   "LOCK_n": 295,
+   "LOCK_with": -0.363,
+   "LOCK_without": -0.828,
+   "LOCK_t": 1.88,
+   "LOCK_p": 0.06115728025394334,
+   "DISC_bh": true,
+   "eligible": true,
+   "confirmed": true
+  },
+  {
+   "strategy": "cta",
+   "condition": "H4+D1 trend against trade",
+   "DISC_n": 50,
+   "DISC_with": -0.917,
+   "DISC_without": -0.04,
+   "DISC_t": -4.67,
+   "DISC_p": 4.515951009235862e-06,
+   "VAL_n": 27,
+   "VAL_with": -1.021,
+   "VAL_without": -0.62,
+   "VAL_t": -3.95,
+   "VAL_p": 9.355792520015566e-05,
+   "LOCK_n": 20,
+   "LOCK_with": -0.925,
+   "LOCK_without": -0.444,
+   "LOCK_t": -2.56,
+   "LOCK_p": 0.011251422428412558,
+   "DISC_bh": true,
+   "eligible": true,
+   "confirmed": true
+  },
+  {
+   "strategy": "cta",
+   "condition": "ccy strength against (gap <= -3)",
+   "DISC_n": 136,
+   "DISC_with": -1.014,
+   "DISC_without": 0.105,
+   "DISC_t": -6.52,
+   "DISC_p": 1.4991296425255153e-10,
+   "VAL_n": 58,
+   "VAL_with": -0.998,
+   "VAL_without": -0.59,
+   "VAL_t": -3.64,
+   "VAL_p": 0.0003123795725493327,
+   "LOCK_n": 83,
+   "LOCK_with": -0.946,
+   "LOCK_without": -0.336,
+   "LOCK_t": -2.98,
+   "LOCK_p": 0.003042982186341841,
+   "DISC_bh": true,
+   "eligible": true,
+   "confirmed": true
+  },
+  {
+   "strategy": "cta",
+   "condition": "24h move against trade > 1 sd",
+   "DISC_n": 67,
+   "DISC_with": -1.014,
+   "DISC_without": -0.009,
+   "DISC_t": -6.49,
+   "DISC_p": 1.6269723471429446e-10,
+   "VAL_n": 27,
+   "VAL_with": -1.019,
+   "VAL_without": -0.62,
+   "VAL_t": -3.92,
+   "VAL_p": 0.00010325632153229736,
+   "LOCK_n": 38,
+   "LOCK_with": -1.02,
+   "LOCK_without": -0.408,
+   "LOCK_t": -3.68,
+   "LOCK_p": 0.0002685973145811562,
+   "DISC_bh": true,
+   "eligible": true,
+   "confirmed": true
+  }
+ ],
+ "_filters_disc_eligible": [
+  {
+   "strategy": "bennett",
+   "condition": "H4+D1 trend with trade",
+   "DISC_n": 77,
+   "DISC_with": -0.228,
+   "DISC_without": 0.48,
+   "DISC_t": -2.11,
+   "DISC_bh": false,
+   "VAL_t": -0.31,
+   "LOCK_t": 0.54
+  },
+  {
+   "strategy": "parallax",
+   "condition": "vol pct > 0.8",
+   "DISC_n": 151,
+   "DISC_with": -0.252,
+   "DISC_without": 0.231,
+   "DISC_t": -3.29,
+   "DISC_bh": true,
+   "VAL_t": -0.73,
+   "LOCK_t": 0.64
+  },
+  {
+   "strategy": "parallax",
+   "condition": "vol pct < 0.2",
+   "DISC_n": 220,
+   "DISC_with": 0.348,
+   "DISC_without": 0.046,
+   "DISC_t": 2.08,
+   "DISC_bh": false,
+   "VAL_t": 0.12,
+   "LOCK_t": 0.95
+  },
+  {
+   "strategy": "cta",
+   "condition": "ranging (er_120 < 0.1)",
+   "DISC_n": 527,
+   "DISC_with": -0.306,
+   "DISC_without": 0.396,
+   "DISC_t": -2.07,
+   "DISC_bh": false,
+   "VAL_t": -0.52,
+   "LOCK_t": -1.48
+  },
+  {
+   "strategy": "cta",
+   "condition": "H4+D1 trend with trade",
+   "DISC_n": 581,
+   "DISC_with": 0.131,
+   "DISC_without": -0.904,
+   "DISC_t": 5.34,
+   "DISC_bh": true,
+   "VAL_t": 3.93,
+   "LOCK_t": 1.88
+  },
+  {
+   "strategy": "cta",
+   "condition": "H4+D1 trend against trade",
+   "DISC_n": 50,
+   "DISC_with": -0.917,
+   "DISC_without": -0.04,
+   "DISC_t": -4.67,
+   "DISC_bh": true,
+   "VAL_t": -3.95,
+   "LOCK_t": -2.56
+  },
+  {
+   "strategy": "cta",
+   "condition": "swing structure with trade",
+   "DISC_n": 558,
+   "DISC_with": 0.13,
+   "DISC_without": -0.775,
+   "DISC_t": 4.38,
+   "DISC_bh": true,
+   "VAL_t": 1.94,
+   "LOCK_t": 1.55
+  },
+  {
+   "strategy": "cta",
+   "condition": "ccy strength with trade (gap >= 3)",
+   "DISC_n": 255,
+   "DISC_with": 0.986,
+   "DISC_without": -0.661,
+   "DISC_t": 4.44,
+   "DISC_bh": true,
+   "VAL_t": 2.66,
+   "LOCK_t": 1.18
+  },
+  {
+   "strategy": "cta",
+   "condition": "ccy strength against (gap <= -3)",
+   "DISC_n": 136,
+   "DISC_with": -1.014,
+   "DISC_without": 0.105,
+   "DISC_t": -6.52,
+   "DISC_bh": true,
+   "VAL_t": -3.64,
+   "LOCK_t": -2.98
+  },
+  {
+   "strategy": "cta",
+   "condition": "24h move with trade > 1 sd",
+   "DISC_n": 148,
+   "DISC_with": 1.356,
+   "DISC_without": -0.458,
+   "DISC_t": 3.34,
+   "DISC_bh": true,
+   "VAL_t": 1.05,
+   "LOCK_t": 2.04
+  },
+  {
+   "strategy": "cta",
+   "condition": "24h move against trade > 1 sd",
+   "DISC_n": 67,
+   "DISC_with": -1.014,
+   "DISC_without": -0.009,
+   "DISC_t": -6.49,
+   "DISC_bh": true,
+   "VAL_t": -3.92,
+   "LOCK_t": -3.68
+  },
+  {
+   "strategy": "flow_ml",
+   "condition": "ATR expanding (6/48 > 1.2)",
+   "DISC_n": 568,
+   "DISC_with": 5.665,
+   "DISC_without": 0.435,
+   "DISC_t": 2.62,
+   "DISC_bh": false,
+   "VAL_t": 1.69,
+   "LOCK_t": 3.19
+  },
+  {
+   "strategy": "flow_ml",
+   "condition": "London/NY overlap",
+   "DISC_n": 297,
+   "DISC_with": 6.307,
+   "DISC_without": 1.163,
+   "DISC_t": 2.34,
+   "DISC_bh": false,
+   "VAL_t": 0.95,
+   "LOCK_t": 1.39
+  },
+  {
+   "strategy": "flow_am",
+   "condition": "24h move with trade > 1 sd",
+   "DISC_n": 252,
+   "DISC_with": 3.972,
+   "DISC_without": 1.148,
+   "DISC_t": 2.18,
+   "DISC_bh": false,
+   "VAL_t": 2.24,
+   "LOCK_t": 0.14
+  }
+ ]
+}

@@ -1,0 +1,40 @@
+tests 550, DISC BH survivors 0
+{'FAILED': 550}
+
+NOT FAILED:
+Empty DataFrame
+Columns: [rule, dir, outcome, DISC_n, DISC_mean, DISC_t, VAL_mean, VAL_t, LOCK_mean, LOCK_t, ALL_yrs_pos, ALL_pairs_pos, grade]
+Index: []
+
+DISC BH survivors:
+Empty DataFrame
+Columns: [rule, dir, outcome, DISC_n, DISC_mean, DISC_t, VAL_mean, VAL_t, LOCK_mean, LOCK_t, ALL_yrs_pos, ALL_pairs_pos, grade]
+Index: []
+
+Top 25 by DISC t:
+                                               rule         dir    outcome  DISC_n  DISC_mean  DISC_t  VAL_mean  VAL_t  LOCK_mean  LOCK_t  ALL_yrs_pos  ALL_pairs_pos   grade
+468              D05 month-end 15 UTC USD 120h move    reversed        48h     582      6.571   1.756     5.871  0.886     16.411   2.042        0.733          1.000  FAILED
+467              D05 month-end 15 UTC USD 120h move    reversed        24h     582      3.463   1.148    -3.353 -0.674     11.755   1.692        0.667          0.714  FAILED
+466              D05 month-end 15 UTC USD 120h move    reversed        12h     582      2.436   1.119    -5.522 -1.639      4.207   0.700        0.467          0.429  FAILED
+293                B12 failed previous-day breakout  as-defined        48h   16784      0.758   0.746    -2.304 -1.694      1.043   0.726        0.533          0.400  FAILED
+338  B16 FVG with displacement (size>0.3, disp>1.5)    reversed        48h   15672      0.767   0.720    -0.837 -0.697      0.849   0.705        0.533          0.600  FAILED
+486                D07 quarter-end 15 UTC 120h move    reversed        12h     684      1.922   0.538     1.238  0.616      7.290   2.325        0.600          0.680  FAILED
+408                  C04 high-vol 24h overextension    reversed        48h     700      4.979   0.457    13.711  1.435     -3.601  -0.301        0.667          0.600  FAILED
+487                D07 quarter-end 15 UTC 120h move    reversed        24h     684      1.920   0.400     7.843  1.563      9.505   1.656        0.733          0.800  FAILED
+488                D07 quarter-end 15 UTC 120h move    reversed        48h     684      2.540   0.380     7.132  1.142     15.504   1.916        0.600          0.720  FAILED
+87           A5 +liquidity sweep same side (3 bars)    reversed        24h    7531      0.390   0.375    -0.879 -0.693      1.369   0.949        0.467          0.400  FAILED
+407                  C04 high-vol 24h overextension    reversed        24h     770      3.348   0.369    18.893  1.586     15.883   1.717        0.667          0.760  FAILED
+37            A02 strongest-vs-weakest at 00/12 UTC    reversed        24h    2983      0.383   0.307    -1.107 -0.716      0.766   0.492        0.333          0.600  FAILED
+457                    D04 Friday 15 UTC 3-day move    reversed        24h    9023      0.280   0.275    -0.566 -0.337     -0.121  -0.072        0.533          0.520  FAILED
+409                  C04 high-vol 24h overextension    reversed  bracket_R     770      0.016   0.227     0.006  0.068     -0.007  -0.084        0.533          0.440  FAILED
+280                               B11 sweep + CHoCH  as-defined         6h    3601      0.240   0.194    -2.324 -2.250     -0.656  -0.637        0.333          0.440  FAILED
+537                            I05 2-ATR single bar    reversed        24h   25259      0.130   0.171    -1.513 -1.904     -2.041  -2.337        0.267          0.320  FAILED
+281                               B11 sweep + CHoCH  as-defined        12h    3557      0.293   0.154    -2.217 -1.886     -0.775  -0.709        0.400          0.520  FAILED
+543              I06 trend acceleration (er_24>0.6)  as-defined        48h    3940      0.455   0.152    -4.349 -1.491     -9.774  -3.959        0.267          0.320  FAILED
+118                         A7b +New York open hour    reversed        48h    7439      0.097   0.059    -1.528 -0.828      3.296   1.930        0.533          0.480  FAILED
+406                  C04 high-vol 24h overextension    reversed        12h     982      0.179   0.022    13.135  1.535      6.507   1.741        0.800          0.680  FAILED
+542              I06 trend acceleration (er_24>0.6)  as-defined        24h    4264      0.019   0.009    -0.649 -0.293     -5.273  -2.654        0.400          0.320  FAILED
+73               A4 +trend persistence (er_120>0.3)  as-defined        48h     698     -0.295  -0.041    -6.197 -0.865     -3.154  -0.444        0.400          0.280  FAILED
+218                            B04 CHoCH swing (50)    reversed        48h    3256     -0.126  -0.051    -0.305 -0.124     -0.052  -0.023        0.400          0.480  FAILED
+148                 A9 +ATR expansion (ATR6/48>1.2)    reversed        48h   11250     -0.078  -0.058    -0.764 -0.549      0.125   0.086        0.600          0.440  FAILED
+405                  C04 high-vol 24h overextension    reversed         6h    1381     -0.314  -0.059     5.866  1.539      4.259   2.667        0.867          0.640  FAILED

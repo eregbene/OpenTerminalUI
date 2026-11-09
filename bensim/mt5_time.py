@@ -23,3 +23,17 @@ def server_to_utc(server_ts: np.ndarray) -> np.ndarray:
     days = np.unique(approx // 86400)
     off = {int(d): server_offset_hours(int(d) * 86400 + 43200) for d in days}
     return server_ts - np.array([off[int(d)] for d in approx // 86400], dtype=np.int64) * 3600
+
+
+def utc_to_server(utc_ts: int) -> int:
+    return int(utc_ts) + server_offset_hours(int(utc_ts)) * 3600
+
+
+def rollover_nights(t_in: int, t_out: int, triple_day: int = 2) -> int:
+    """Swap nights between two SERVER-time epochs (rollover = server midnight): Mon/Tue/Thu/Fri nights count 1,
+    the Wednesday night (MT5 swap_rollover3days, 0=Mon) counts 3, Saturday/Sunday nights 0 -> 7 per full week."""
+    n = 0
+    for day in range(int(t_in) // 86400, int(t_out) // 86400):
+        wd = (day + 3) % 7  # 1970-01-01 was a Thursday -> Monday = 0
+        n += 0 if wd >= 5 else (3 if wd == triple_day else 1)
+    return n

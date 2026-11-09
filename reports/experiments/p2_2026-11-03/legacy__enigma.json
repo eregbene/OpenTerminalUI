@@ -1,0 +1,173 @@
+{
+ "trades": 24,
+ "win_rate": 0.292,
+ "expectancy_net_r": 0.321,
+ "gross_r_before_commission_swap": 0.379,
+ "commission_r": 0.057,
+ "swap_r": 0.0,
+ "swap_unknown_trades": 0,
+ "total_r": 7.7,
+ "profit_factor": 1.44,
+ "trade_t": 0.6,
+ "per_trade_sharpe": 0.122,
+ "skew": 2.54,
+ "kurtosis": 10.59,
+ "daily": {
+  "days": 67,
+  "sharpe_ann": 1.11,
+  "sortino_ann": 3.33,
+  "day_clustered_t": 0.57,
+  "lag1_autocorr": -0.085,
+  "effective_days": 79.5
+ },
+ "psr_vs_0": 0.754,
+ "dsr": {
+  "trials_n": 350,
+  "trial_sharpes_used": 115,
+  "sr_star_per_trade": 0.444,
+  "dsr": 0.035
+ },
+ "bootstrap": {
+  "block_days": 4,
+  "paths": 5000,
+  "seed": 19,
+  "total_r_ci90": [
+   -11.0,
+   30.1
+  ],
+  "p_total_le_0": 0.283,
+  "max_dd_r_median": 7.8,
+  "max_dd_r_p95": 15.8
+ },
+ "drawdown": {
+  "max_dd_r": 8.45,
+  "max_dd_peak_to_trough_days": 39.6,
+  "max_dd_recovery_days": "not recovered",
+  "longest_underwater_days": 53.4
+ },
+ "by_symbol": {
+  "EURUSD": {
+   "n": 6,
+   "avg_r": 0.003,
+   "total_r": 0.0,
+   "win_rate": 0.333
+  },
+  "GBPUSD": {
+   "n": 4,
+   "avg_r": 2.58,
+   "total_r": 10.3,
+   "win_rate": 0.5
+  },
+  "USDCAD": {
+   "n": 5,
+   "avg_r": 1.366,
+   "total_r": 6.8,
+   "win_rate": 0.6
+  },
+  "USDCHF": {
+   "n": 5,
+   "avg_r": -1.057,
+   "total_r": -5.3,
+   "win_rate": 0.0
+  },
+  "USDJPY": {
+   "n": 2,
+   "avg_r": -1.078,
+   "total_r": -2.2,
+   "win_rate": 0.0
+  },
+  "XAUUSD": {
+   "n": 2,
+   "avg_r": -1.006,
+   "total_r": -2.0,
+   "win_rate": 0.0
+  }
+ },
+ "by_session": {
+  "Asia 00-07": {
+   "n": 6,
+   "avg_r": -0.51,
+   "total_r": -3.1,
+   "win_rate": 0.167
+  },
+  "London 07-12": {
+   "n": 6,
+   "avg_r": 1.314,
+   "total_r": 7.9,
+   "win_rate": 0.333
+  },
+  "London/NY 12-16": {
+   "n": 7,
+   "avg_r": 0.069,
+   "total_r": 0.5,
+   "win_rate": 0.286
+  },
+  "NY 16-21": {
+   "n": 3,
+   "avg_r": -0.107,
+   "total_r": -0.3,
+   "win_rate": 0.333
+  },
+  "rollover 21-24": {
+   "n": 2,
+   "avg_r": 1.362,
+   "total_r": 2.7,
+   "win_rate": 0.5
+  }
+ },
+ "by_month_frozen_walk_forward": {
+  "2026-08": {
+   "n": 9,
+   "avg_r": 0.604,
+   "total_r": 5.4,
+   "win_rate": 0.444
+  },
+  "2026-09": {
+   "n": 8,
+   "avg_r": 0.339,
+   "total_r": 2.7,
+   "win_rate": 0.125
+  },
+  "2026-10": {
+   "n": 7,
+   "avg_r": -0.063,
+   "total_r": -0.4,
+   "win_rate": 0.286
+  }
+ },
+ "by_side": {
+  "long": {
+   "n": 11,
+   "avg_r": -0.547,
+   "total_r": -6.0,
+   "win_rate": 0.182
+  },
+  "short": {
+   "n": 13,
+   "avg_r": 1.056,
+   "total_r": 13.7,
+   "win_rate": 0.385
+  }
+ },
+ "by_exit": {
+  "stop": {
+   "n": 16,
+   "avg_r": -1.057,
+   "total_r": -16.9,
+   "win_rate": 0.0
+  },
+  "target": {
+   "n": 6,
+   "avg_r": 3.985,
+   "total_r": 23.9,
+   "win_rate": 1.0
+  },
+  "time": {
+   "n": 2,
+   "avg_r": 0.354,
+   "total_r": 0.7,
+   "win_rate": 0.5
+  }
+ },
+ "months_positive": "2/3"
+}

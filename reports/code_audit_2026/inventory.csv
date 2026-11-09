@@ -1,0 +1,129 @@
+file,git,lines,first_doc_line,imports_bensim
+bensim/__init__.py,tracked,1,"Bensim lean app: one strategy (donchian_imbalance), MT5 bridge, clean data, backtests, eve",
+bensim/audit_p2.py,UNTRACKED,104,"Audit P2: 8 strategies x 6 symbols x identical execution, frozen params (docs/audit/p2_pro","backtest,bennett_strategy,books,fvg_strategy,gf_strategy,orderflow_strategy,pullback_strategy,registry,validate,weekly_check"
+bensim/audit_p2_v2.py,UNTRACKED,185,Audit P2 v2 (docs/audit/p2_protocol_v2_2026-11-03.md): each strategy's own live Friday rul,"backtest,registry,validate"
+bensim/backfill.py,UNTRACKED,95,"Insert-only candle backfill from the MT5 bridge: adds bars AFTER what the DB has, never re","bridge,config,db,mt5_time"
+bensim/backtest.py,tracked,393,"Backtester for donchian_imbalance on broker data (`candles`, M5, UTC) -- MT5/prop-firm sty","bennett_strategy,config,db,fvg_strategy,gf_strategy,mt5_time,orderflow_strategy,pullback_strategy,strategy"
+bensim/bennett_chart.py,tracked,220,Draw Bennett-strategy backtest trades the way Justin Bennett marks his charts: the 1H BOS/,"backtest,bennett_smc,bennett_strategy"
+bensim/bennett_funnel.py,UNTRACKED,88,"Where do Bennett setups die? (forensic phase 2026-11-03; diagnostic only -- no P&L, no par","backtest,bennett_strategy,registry"
+bensim/bennett_report.py,tracked,339,"Bennett report for any day / week, no lookahead: replays the Bennett engine bar by bar on ","backtest,bennett_chart,bennett_smc,bennett_strategy,db,history,periods,strategy"
+bensim/bennett_smc.py,tracked,275,"Justin Bennett's SMC building blocks, written from his own definitions (14 videos in D:/Do",
+bensim/bennett_strategy.py,tracked,468,"bennett -- Justin Bennett's SMC entry model, built step by step from the manual top-down r","backtest,bennett_smc,strategy"
+bensim/binance_history.py,tracked,195,"Binance history (USD-M perpetual futures + spot, USDT pairs) -> compressed files on D: (C:",
+bensim/books.py,tracked,397,"Research books LIVE on the DEMO account (2026-10-20, user request) -- five strategies that","backtest,bridge,config,cta_momentum,db,fvg_strategy,guard,live,mt5_time,parallax,sflow,strategy"
+bensim/bridge.py,tracked,56,"Thin HTTP client for the MT5 bridge (backend/brokers/mt5/bridge.py, one process per accoun",config
+bensim/chart.py,tracked,202,"Draw backtest trades exactly as the code saw them, to check the strategy against hand-mark","backtest,db,indicators,strategy"
+bensim/combo.py,tracked,73,Combined book: rate-aware ML model (bensim.macro_yields ensemble) + EURUSD European-mornin,fxcm_history
+bensim/config.py,tracked,34,"Settings, read once from the environment / repo .env (no secrets in code).",
+bensim/cost_snapshot.py,UNTRACKED,102,"Observed broker costs (audit P0, 2026-11-03), read-only:","bridge,config,mt5_time"
+bensim/crypto_momentum.py,tracked,97,Crypto time-series momentum (rules frozen 2026-10-19 before any run).,binance_history
+bensim/crypto_paper.py,tracked,107,"Crypto momentum PAPER book: $100,000 virtual, real Binance spot prices, rebalanced once a ",crypto_momentum
+bensim/cta_momentum.py,UNTRACKED,167,"Daily trend-momentum strategy of the r/Forex ""I profitably traded FX for a CTA"" post (f09u","fxcm_history,parallax,strategy"
+bensim/currency_clock.py,UNTRACKED,90,"Currency clock: each currency's own hour-of-day habit, measured on the past, traded throug",edge_miner
+bensim/db.py,tracked,40,"Fresh, small Postgres schema for the lean app (database `bensim`).",config
+bensim/dxy.py,tracked,81,Synthetic US Dollar Index (DXY) from the broker's own bars -- ICMarkets MT5 has no DXY sym,"backtest,db"
+bensim/edge3_check.py,UNTRACKED,138,"3 'edge' ideas (user ask 2026-11-03) -- 3-month test on MT5 bridge data, rules frozen befo","night_check,pattern_check,scalp_check,strategy"
+bensim/edge_miner.py,tracked,249,"Edge miner: 25 FX pairs x 15 years of hourly decisions -> what really pays, found on the p",fxcm_history
+bensim/edge_wf.py,tracked,82,Walk-forward of the edge-miner model as it would have run live: each year retrained on ALL,edge_miner
+bensim/entry_check.py,tracked,146,"Three ""manager gets in"" rules on top of fib618 + Bennett, 3-month backtest. Rules fixed BE","backtest,bennett_strategy,exit_check,indicators,live,strategy,weekly_check"
+bensim/entry_filter_check.py,tracked,66,Do fib618 / Bennett trades entered AGAINST the H4 (or H1/M15) swing trend do worse? (live ,"backtest,bennett_strategy,exit_check,live,weekly_check"
+bensim/events.py,tracked,155,"Economic calendar (Forex Factory) history into `economic_events`, in UTC.",db
+bensim/exit_check.py,tracked,86,Would the in-trade watch (trade_watch RULES) have helped if it CLOSED trades? 3-month back,"backtest,bennett_strategy,live,strategy,trade_watch,weekly_check"
+bensim/extra_ind.py,tracked,147,"TradingView indicators the user trades with, rebuilt causally (value at bar i uses bars <=",db
+bensim/fib_borrow.py,UNTRACKED,156,What the two Reddit strategies add to fib618 -- three borrowed ideas tested on fib618's ow,"backtest,parallax"
+bensim/fib_htf.py,UNTRACKED,118,fib618 on bigger bars and on many more pairs / years -- the two decisive tests of 2026-10-,"backtest,config,fxcm_history,strategy"
+bensim/flow_live.py,tracked,274,"Flow/rate book, live (DEMO): the rate-aware ML model + the EURUSD European-morning short, ","bridge,db,edge_miner,fxcm_history,guard,macro_yields,mt5_time"
+bensim/fvg_strategy.py,tracked,187,"htf_fvg -- top-down imbalance strategy: higher-timeframe FVG for direction + POI, M15 conf","indicators,strategy"
+bensim/fx_scalp_check.py,UNTRACKED,59,Forex scalping check (user ask 2026-10-31): the VWAP scalper + our existing strategies on ,"backtest,pattern_check,scalp_check,tm_check"
+bensim/fxcm_history.py,tracked,97,"FXCM free candle history -> H1 bid bars + real spread, for pairs our broker DB does not ho",
+bensim/fxcm_quality.py,UNTRACKED,110,"FXCM M5/H1 data-quality assessment (approved 2026-11-03; read-only, no strategy backtests)","backtest,registry"
+bensim/gf_strategy.py,tracked,96,"Her journal strategy (44 journaled trades, Sep-Oct 2026), coded with the rules her own tra","bennett_smc,indicators,strategy"
+bensim/gold_check.py,tracked,70,"The 3 live strategies on GOLD (XAUUSD), rules frozen as they trade live (2026-10-19).","backtest,bennett_strategy,weekly_check"
+bensim/gold_donchian.py,UNTRACKED,76,"Gold ""Stairway to Heaven"" (r/algotrading 1unk44b, u/UniversalJS, user ask 2026-10-30) -- 3","backtest,pattern_check,strategy"
+bensim/gold_fakemove.py,UNTRACKED,107,"Gold NY ""fake move"" (Reddit r/Daytrading 1mw7p8z, u/Otherwise_Amoeba_767, user ask 2026-10","backtest,pattern_check,strategy"
+bensim/gold_fvg.py,UNTRACKED,143,"Gold breakout-FVG (user ask 2026-10-30, from a Reddit r/Daytrading gold summary) -- 3-mont","backtest,pattern_check,strategy"
+bensim/gold_session.py,UNTRACKED,105,"Gold time-of-day anomaly (Blose & Gondhalekar 2014/2018: overnight up, day down; CBS thesi",backtest
+bensim/guard.py,tracked,98,"FTMO-style risk guard for the live engine: may this new order be sent, and at what risk sc",
+bensim/history.py,tracked,119,"Download broker-quality history (ICMarkets via the MT5 bridge) into the `candles` table, i","bridge,config,db,mt5_time"
+bensim/indicators.py,tracked,307,"SMC / ICT confirmation indicators, built the way LuxAlgo's ""Smart Money Concepts"" script b",
+bensim/live.py,tracked,416,"Live engine (DEMO): the backtest's exact decision path, run after every M5 close, with an ","backtest,bennett_strategy,books,bridge,config,crypto_paper,db,flow_live,guard,indicators,mt5_time,strategy,trade_watch"
+bensim/loss_patterns.py,UNTRACKED,70,Where do the losses come from? 5-year breakdown of the signal-search trades by market cond,signal_search
+bensim/macro_yields.py,tracked,264,Macro FX: do 2-year government yield gaps drive the pairs (the post-2021 rate regime)?,"edge_miner,edge_wf,fxcm_history,parallax"
+bensim/manager.py,tracked,184,"Manager: Claude's discretionary hand on the DEMO, user-authorised 2026-10-21 (""close trade","backtest,books,bridge,db,guard,live,strategy,trade_watch"
+bensim/meta.py,tracked,111,"Meta-labeling, walk-forward: learn which fib-breakout signals pay, using only the past.","db,trade_report"
+bensim/mt5_bridge.py,tracked,174,"Minimal MT5 bridge for bensim: one process on the Windows host, one MT5 terminal, DEMO acc",config
+bensim/mt5_time.py,tracked,39,"ICMarkets (and most ""New York close"" MT5 brokers) server time = UTC+2, or UTC+3 while the ",
+bensim/night_5y.py,UNTRACKED,49,"5-year check of idea B (Asian breakout) and B2 (first London hour, stop at the other side)","backtest,mt5_time,night_check,pattern_check"
+bensim/night_check.py,UNTRACKED,170,"Night / Asian-session ideas (user ask 2026-11-03, ""like Night Hunter Pro"") -- 3-month test","pattern_check,pine90_check,scalp_check,strategy"
+bensim/orderflow_strategy.py,tracked,307,"orderflow -- Faiz SMC course (G:/Faiz SMC Trading Course: SMC Basics 1-9, Trading Strategi","fvg_strategy,indicators,strategy"
+bensim/parallax.py,tracked,294,"ParallaxFX ""10 Minutes/Day"" strategy (r/Forex, June 2020, parts I-VIII) and the two user t","backtest,config,fxcm_history,strategy"
+bensim/pattern_check.py,tracked,97,Pattern analysis of the live strategies' trades (user ask 2026-10-22 after the XAUUSD imba,"backtest,bennett_strategy,books,exit_check,live,weekly_check"
+bensim/periods.py,tracked,123,"Plain-English periods for the reports: ""last week"", ""last friday"", ""6 december"", ""last wee",
+bensim/phantom.py,tracked,355,Phantom Trading (1.0 + 2.0 core lessons) -- setup database. Rules: docs/phantom_trading.md,"backtest,bennett_smc,bennett_strategy,strategy"
+bensim/phantom_report.py,tracked,73,Judge Phantom's rules on the setup database (bensim.phantom): each rule's KEPT vs DROPPED ,
+bensim/phantom_week.py,tracked,102,"Phantom report for a period: every trade of the chosen entry/exit, a chart per trade and a",backtest
+bensim/pine90_check.py,UNTRACKED,108,"'90% win rate scalping strategy' (user paste 2026-10-31, Pine v5) -- 3-month test on all F","backtest,binance_history,config"
+bensim/plan_chart.py,tracked,155,"Next-session plan chart per symbol, from the newest stored bars (what the live engine will","backtest,config,indicators,strategy"
+bensim/pullback_strategy.py,tracked,110,trend_pullback -- rebuilt from the archived OpenTerminalUI strategy (backend/mt5_strategie,"indicators,strategy"
+bensim/r12_trades.py,UNTRACKED,59,R1/R2 trades (docs/audit/r1_r2_preregistration_2026-11-03.md): fib618 / enigma / imbalance,"backtest,books,registry,weekly_check"
+bensim/r1_news.py,UNTRACKED,173,R1: is fib618 / enigma profit concentrated around high-impact news? (docs/audit/r1_r2_prer,"backtest,db,registry,validate"
+bensim/r2_noise.py,UNTRACKED,135,R2: strategy outcomes vs the Time Machine noise baseline (docs/audit/r1_r2_preregistration,"backtest,registry,timemachine,validate"
+bensim/reconcile.py,UNTRACKED,162,"Live vs backtest reconciliation (approved 2026-11-03, READ-ONLY: DB selects, bridge /deals","backtest,bennett_strategy,books,bridge,db,live,mt5_time,registry"
+bensim/regime_study.py,UNTRACKED,104,"Why did the edges stop? Year-by-year market properties of 25 FX pairs (FXCM H1, 2012-now) ","fxcm_history,parallax"
+bensim/regime_switch.py,UNTRACKED,157,"Regime switch: per pair and month, trade mean-reversion OR trend OR nothing -- decided onl","fxcm_history,parallax,strategy"
+bensim/registry.py,UNTRACKED,93,"Experiment registry (audit P1, 2026-11-03): one append-only JSON line per experiment, neve",db
+bensim/scalp_check.py,UNTRACKED,130,"Two scalping ideas (user ask 2026-10-31, from research + r/algotrading) -- 3-month test on","bridge,gold_fvg,mt5_time,pattern_check,strategy"
+bensim/setups.py,tracked,142,"Setup database for the Bennett engine: EVERY candidate setup in a period, unfiltered, with","backtest,bennett_strategy,strategy"
+bensim/setups_report.py,tracked,90,"Judge Bennett's rules on the setup database (bensim.setups): for each rule, the setups it ",
+bensim/sflow.py,tracked,241,"STRUCTURE FLOW (sflow) -- JeaFx ""Master Market Structure in 68 Minutes"", rules in docs/jea","backtest,fxcm_history,phantom,strategy"
+bensim/signal_search.py,UNTRACKED,228,"Signal search: let a model look for an entry signal across many inputs at once, judged onl","backtest,strategy"
+bensim/smc_features.py,UNTRACKED,186,"SMC inputs (BOS / CHoCH, FVG, imbalance, liquidity) for the rate-aware model -- does the d","edge_miner,edge_wf,fxcm_history,macro_yields"
+bensim/strategy.py,tracked,364,"donchian_imbalance (""combination B"") -- the single strategy, shared by live trading and ba",indicators
+bensim/structure_filter.py,tracked,73,JeaFx structure as a FILTER on the live strategies (2026-10-19; rules frozen before runnin,"backtest,bennett_strategy,combo,sflow,weekly_check"
+bensim/test_backtest.py,tracked,35,python -m pytest bensim/test_backtest.py -q,"backtest,strategy"
+bensim/test_backtest_p0.py,UNTRACKED,26,Audit P0 options: default Exec unchanged; friday_close_utc never holds past Friday 20:00 U,"backtest,weekly_check"
+bensim/test_cta_momentum.py,UNTRACKED,41,"Hand-made daily bars -> the CTA trend-momentum entry, stop and trailing do what the post s",cta_momentum
+bensim/test_flow_live.py,tracked,28,Live input path == research input path: the flow book must see exactly what the model was ,"bensim,fxcm_history"
+bensim/test_live.py,tracked,67,Parity: replaying stored M5 bars through the live engine's own path (live.windows + plan) ,"backtest,bennett_strategy,db,guard,live,strategy"
+bensim/test_parallax.py,UNTRACKED,86,Hand-made prices -> the ParallaxFX rules do exactly what the posts say.  python -m pytest ,parallax
+bensim/test_timemachine.py,UNTRACKED,46,,timemachine
+bensim/time_of_day.py,UNTRACKED,105,Flow-based edge: does a currency weaken during its own business hours? (Ranaldo 2009 style,fxcm_history
+bensim/timemachine.py,UNTRACKED,177,"Time machine (idea from github.com/Jakeschincariol/day-trader-skill, rebuilt for MT5 forex","backtest,bridge"
+bensim/tm_check.py,UNTRACKED,85,"Does the time machine help? (user ask 2026-10-29) -- 3 months, 4 strategies, 5 pairs + gol","backtest,bennett_strategy,books,pattern_check,timemachine,weekly_check"
+bensim/today.py,tracked,162,Today's page for BOTH live strategies -- works without Claude: double-click bensim\today.b,"backtest,bennett_chart,bennett_report,bennett_strategy,bridge,db,indicators,live,plan_chart,strategy"
+bensim/trade_path.py,tracked,80,What happens AFTER entry: excursions and alternative exits for a 5-year trade file (fib618,backtest
+bensim/trade_report.py,tracked,102,"Why did trades win or lose? Per-trade context for backtest runs, then win rate / avg R spl","backtest,db,indicators,strategy"
+bensim/trade_watch.py,tracked,116,"In-trade watch -- OBSERVE ONLY, it never closes or changes a trade (2026-10-19 user choice","backtest,bridge,db,strategy"
+bensim/tradeguard.py,UNTRACKED,242,"TradeGuard: daily/weekly loss + profit lock for a trader's MT5 account, run from OUR PC (o","bridge,mt5_time"
+bensim/tsmom.py,UNTRACKED,69,"FX time-series momentum (trend following) -- the textbook version of the literature, on 25","fxcm_history,parallax"
+bensim/untouched_check.py,UNTRACKED,50,"Final check of the two Reddit strategies on years never used before (FXCM H1, 25 pairs, 20","cta_momentum,fxcm_history,parallax"
+bensim/validate.py,UNTRACKED,291,"Independent validation engine (audit P1, 2026-11-03). Reads trade CSVs only; never trades,","backtest,registry"
+bensim/walk_forward.py,UNTRACKED,132,"Walk-forward ""improver"" for fib618: learn the best filter on the past, trade it on the uns",backtest
+bensim/weekly_check.py,tracked,76,"Friday forward check: live fib618 config vs base vs the frozen CANDIDATE, on weeks the can","backtest,trade_path"
+bensim_github_lab/day-trader-skill/tests/_load.py,UNTRACKED,15,Load a script from a skill folder (the folder names have hyphens).,
+bensim_github_lab/day-trader-skill/tests/test_alerts.py,UNTRACKED,454,,
+bensim_github_lab/day-trader-skill/tests/test_analyst.py,UNTRACKED,163,,
+bensim_github_lab/day-trader-skill/tests/test_broker.py,UNTRACKED,307,,
+bensim_github_lab/day-trader-skill/tests/test_budget.py,UNTRACKED,374,,
+bensim_github_lab/day-trader-skill/tests/test_entry.py,UNTRACKED,605,trader-entry tests. Fixtures in tests/fixtures/trader-entry/:,
+bensim_github_lab/day-trader-skill/tests/test_exit.py,UNTRACKED,290,trader-exit tests. Bars for the ATR stop reuse tests/fixtures/trader-entry/,
+bensim_github_lab/day-trader-skill/tests/test_news.py,UNTRACKED,208,,
+bensim_github_lab/day-trader-skill/tests/test_pelosi.py,UNTRACKED,200,,
+bensim_github_lab/day-trader-skill/tests/test_repo.py,UNTRACKED,139,,
+bensim_github_lab/day-trader-skill/tests/test_risk.py,UNTRACKED,523,,
+bensim_github_lab/day-trader-skill/tests/test_scanner.py,UNTRACKED,646,,
+bensim_github_lab/day-trader-skill/tests/test_timemachine.py,UNTRACKED,614,,
+bensim_github_lab/day-trader-skill/trader-alerts/alerts.py,UNTRACKED,787,Price alerts and the NYSE clock for trader-alerts. Standard library only.,
+bensim_github_lab/day-trader-skill/trader-analyst/facts.py,UNTRACKED,548,Earnings reader for trader-analyst. Standard library only.,
+bensim_github_lab/day-trader-skill/trader-broker/ticket.py,UNTRACKED,720,Order tickets and the decision log for trader-broker. Standard library only.,
+bensim_github_lab/day-trader-skill/trader-budget/size.py,UNTRACKED,881,"Position sizing for trader-budget. Standard library only, no network.",
+bensim_github_lab/day-trader-skill/trader-entry/entry.py,UNTRACKED,960,Entry Timer for trader-entry: watches a setup bar by bar and says the,
+bensim_github_lab/day-trader-skill/trader-exit/exit.py,UNTRACKED,735,Exit Planner for trader-exit: sets the stop and the target BEFORE you,
+bensim_github_lab/day-trader-skill/trader-news/news.py,UNTRACKED,546,News monitor for trader-news. Standard library only.,
+bensim_github_lab/day-trader-skill/trader-pelosi/ptr.py,UNTRACKED,566,Congress trade tracker for trader-pelosi. Standard library only.,
+bensim_github_lab/day-trader-skill/trader-risk/check.py,UNTRACKED,819,"Pre-trade risk check for trader-risk. Standard library only, no network.",
+bensim_github_lab/day-trader-skill/trader-scanner/scan.py,UNTRACKED,1083,Chart Scanner for trader-scanner: scan thousands of charts for setups. Standard library on,
+bensim_github_lab/day-trader-skill/trader-timemachine/timemachine.py,UNTRACKED,956,Time Machine for trader-timemachine. Standard library only.,
+optsim/__init__.py,tracked,0,,
+optsim/data.py,tracked,133,"Options engine data (all on D:, data/options/). Separate from the FX (bensim) and crypto e","bensim,mt5_time"
+optsim/mkenny.py,tracked,378,Maurice Kenny supply & demand -> 0DTE / nearest-expiry ATM options. Rules: docs/maurice_ke,

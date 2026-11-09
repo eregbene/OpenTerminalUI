@@ -1,0 +1,315 @@
+{
+ "BASE|LIVE5": {
+  "n": 6768,
+  "bp": 1.39,
+  "t_wk": 2.34,
+  "sharpe": 0.73,
+  "DISC": 2.52,
+  "VAL": 0.75,
+  "LOCK": 1.05,
+  "years_pos": 9,
+  "usd_1lot": {
+   "per_year": 8339,
+   "worst_month": -7666,
+   "max_dd": -16569
+  },
+  "usd_5lot": {
+   "per_year": 41697,
+   "worst_month": -38331,
+   "max_dd": -82845
+  },
+  "usd_7lot": {
+   "per_year": 58376,
+   "worst_month": -53663,
+   "max_dd": -115983
+  }
+ },
+ "BASE|LIVE5|ATR1.2": {
+  "n": 2119,
+  "bp": 4.96,
+  "t_wk": 3.86,
+  "sharpe": 1.18,
+  "DISC": 7.04,
+  "VAL": 2.62,
+  "LOCK": 6.35,
+  "years_pos": 11,
+  "usd_1lot": {
+   "per_year": 9578,
+   "worst_month": -4056,
+   "max_dd": -6557
+  },
+  "usd_5lot": {
+   "per_year": 47890,
+   "worst_month": -20284,
+   "max_dd": -32788
+  },
+  "usd_7lot": {
+   "per_year": 67046,
+   "worst_month": -28397,
+   "max_dd": -45904
+  }
+ },
+ "BASE|OTHER20": {
+  "n": 18185,
+  "bp": 1.01,
+  "t_wk": 1.98,
+  "sharpe": 0.63,
+  "DISC": 1.48,
+  "VAL": 0.45,
+  "LOCK": 1.38,
+  "years_pos": 9,
+  "usd_1lot": {
+   "per_year": 14747,
+   "worst_month": -10766,
+   "max_dd": -48291
+  },
+  "usd_5lot": {
+   "per_year": 73737,
+   "worst_month": -53834,
+   "max_dd": -241456
+  },
+  "usd_7lot": {
+   "per_year": 103231,
+   "worst_month": -75368,
+   "max_dd": -338039
+  }
+ },
+ "BASE|OTHER20|ATR1.2": {
+  "n": 5875,
+  "bp": 1.77,
+  "t_wk": 2.12,
+  "sharpe": 0.65,
+  "DISC": 3.12,
+  "VAL": 1.07,
+  "LOCK": 1.49,
+  "years_pos": 10,
+  "usd_1lot": {
+   "per_year": 9373,
+   "worst_month": -6036,
+   "max_dd": -25698
+  },
+  "usd_5lot": {
+   "per_year": 46869,
+   "worst_month": -30182,
+   "max_dd": -128491
+  },
+  "usd_7lot": {
+   "per_year": 65617,
+   "worst_month": -42256,
+   "max_dd": -179888
+  }
+ },
+ "BASE|AUD6": {
+  "n": 4696,
+  "bp": 1.33,
+  "t_wk": 1.53,
+  "sharpe": 0.52,
+  "DISC": 1.68,
+  "VAL": 0.04,
+  "LOCK": 2.92,
+  "years_pos": 9,
+  "usd_1lot": {
+   "per_year": 4553,
+   "worst_month": -10496,
+   "max_dd": -15481
+  },
+  "usd_5lot": {
+   "per_year": 22767,
+   "worst_month": -52484,
+   "max_dd": -77407
+  },
+  "usd_7lot": {
+   "per_year": 31874,
+   "worst_month": -73478,
+   "max_dd": -108370
+  }
+ },
+ "BASE|AUD6|ATR1.2": {
+  "n": 1529,
+  "bp": 1.06,
+  "t_wk": 0.83,
+  "sharpe": 0.25,
+  "DISC": 0.26,
+  "VAL": 0.6,
+  "LOCK": 2.47,
+  "years_pos": 8,
+  "usd_1lot": {
+   "per_year": 1361,
+   "worst_month": -3422,
+   "max_dd": -6682
+  },
+  "usd_5lot": {
+   "per_year": 6807,
+   "worst_month": -17110,
+   "max_dd": -33411
+  },
+  "usd_7lot": {
+   "per_year": 9530,
+   "worst_month": -23955,
+   "max_dd": -46776
+  }
+ },
+ "POLICY|LIVE5": {
+  "n": 6840,
+  "bp": 1.01,
+  "t_wk": 1.88,
+  "sharpe": 0.58,
+  "DISC": 1.66,
+  "VAL": 0.64,
+  "LOCK": 0.88,
+  "years_pos": 7,
+  "usd_1lot": {
+   "per_year": 6248,
+   "worst_month": -9327,
+   "max_dd": -20449
+  },
+  "usd_5lot": {
+   "per_year": 31244,
+   "worst_month": -46635,
+   "max_dd": -102247
+  },
+  "usd_7lot": {
+   "per_year": 43742,
+   "worst_month": -65289,
+   "max_dd": -143146
+  }
+ },
+ "POLICY|LIVE5|ATR1.2": {
+  "n": 2014,
+  "bp": 2.62,
+  "t_wk": 2.28,
+  "sharpe": 0.69,
+  "DISC": 3.94,
+  "VAL": 1.68,
+  "LOCK": 2.77,
+  "years_pos": 8,
+  "usd_1lot": {
+   "per_year": 4764,
+   "worst_month": -4748,
+   "max_dd": -10481
+  },
+  "usd_5lot": {
+   "per_year": 23823,
+   "worst_month": -23744,
+   "max_dd": -52406
+  },
+  "usd_7lot": {
+   "per_year": 33352,
+   "worst_month": -33242,
+   "max_dd": -73369
+  }
+ },
+ "POLICY|OTHER20": {
+  "n": 18613,
+  "bp": 1.13,
+  "t_wk": 2.19,
+  "sharpe": 0.66,
+  "DISC": 1.22,
+  "VAL": 0.61,
+  "LOCK": 2.11,
+  "years_pos": 10,
+  "usd_1lot": {
+   "per_year": 15619,
+   "worst_month": -16296,
+   "max_dd": -51728
+  },
+  "usd_5lot": {
+   "per_year": 78096,
+   "worst_month": -81481,
+   "max_dd": -258642
+  },
+  "usd_7lot": {
+   "per_year": 109335,
+   "worst_month": -114073,
+   "max_dd": -362099
+  }
+ },
+ "POLICY|OTHER20|ATR1.2": {
+  "n": 5787,
+  "bp": 1.76,
+  "t_wk": 1.78,
+  "sharpe": 0.56,
+  "DISC": 2.03,
+  "VAL": 1.21,
+  "LOCK": 2.39,
+  "years_pos": 10,
+  "usd_1lot": {
+   "per_year": 8637,
+   "worst_month": -5555,
+   "max_dd": -34503
+  },
+  "usd_5lot": {
+   "per_year": 43187,
+   "worst_month": -27776,
+   "max_dd": -172517
+  },
+  "usd_7lot": {
+   "per_year": 60463,
+   "worst_month": -38887,
+   "max_dd": -241523
+  }
+ },
+ "POLICY|AUD6": {
+  "n": 4642,
+  "bp": 1.5,
+  "t_wk": 1.97,
+  "sharpe": 0.55,
+  "DISC": 0.88,
+  "VAL": 0.99,
+  "LOCK": 3.34,
+  "years_pos": 9,
+  "usd_1lot": {
+   "per_year": 4807,
+   "worst_month": -3743,
+   "max_dd": -13891
+  },
+  "usd_5lot": {
+   "per_year": 24037,
+   "worst_month": -18716,
+   "max_dd": -69457
+  },
+  "usd_7lot": {
+   "per_year": 33652,
+   "worst_month": -26202,
+   "max_dd": -97241
+  }
+ },
+ "POLICY|AUD6|ATR1.2": {
+  "n": 1437,
+  "bp": 2.32,
+  "t_wk": 1.62,
+  "sharpe": 0.48,
+  "DISC": -0.33,
+  "VAL": 1.98,
+  "LOCK": 5.45,
+  "years_pos": 8,
+  "usd_1lot": {
+   "per_year": 2572,
+   "worst_month": -2619,
+   "max_dd": -4707
+  },
+  "usd_5lot": {
+   "per_year": 12864,
+   "worst_month": -13099,
+   "max_dd": -23535
+  },
+  "usd_7lot": {
+   "per_year": 18010,
+   "worst_month": -18339,
+   "max_dd": -32950
+  }
+ },
+ "verdict": {
+  "LIVE5": {
+   "a_periods": false,
+   "b_sharpe": "False",
+   "c_t2": "False"
+  },
+  "OTHER20": {
+   "a_periods": false,
+   "b_sharpe": "True",
+   "c_t2": "True"
+  }
+ },
+ "PASS": false
+}

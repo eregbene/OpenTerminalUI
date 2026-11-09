@@ -1,0 +1,21 @@
+2016 {'GLOBAL': 2953, 'PAIR': 3134}
+2017 {'GLOBAL': 2916, 'PAIR': 3165}
+2018 {'GLOBAL': 3380, 'PAIR': 3481}
+2019 {'GLOBAL': 2460, 'PAIR': 2580}
+2020 {'GLOBAL': 3158, 'PAIR': 3354}
+2021 {'GLOBAL': 2682, 'PAIR': 2738}
+2022 {'GLOBAL': 2789, 'PAIR': 2918}
+2023 {'GLOBAL': 2220, 'PAIR': 2732}
+2024 {'GLOBAL': 2928, 'PAIR': 3304}
+2025 {'GLOBAL': 2078, 'PAIR': 2197}
+2026 {'GLOBAL': 1547, 'PAIR': 1597}
+GLOBAL LIVE5|all_hours {'n': 9870, 'bp': 1.21, 't': 2.65, 'p': 0.0042, 'total': 11958.0, 'win': 0.516} 16-20 1.73 21-26 0.7 yrs+ 10/11
+GLOBAL LIVE5|no_late_hours {'n': 7658, 'bp': 1.53, 't': 2.75, 'p': 0.0031, 'total': 11700.0, 'win': 0.516} 16-20 2.04 21-26 1.01 yrs+ 10/11
+GLOBAL NEW20|all_hours {'n': 19241, 'bp': 0.9, 't': 2.22, 'p': 0.0133, 'total': 17411.0, 'win': 0.511} 16-20 1.8 21-26 -0.06 yrs+ 9/11
+GLOBAL NEW20|no_late_hours {'n': 15243, 'bp': 1.09, 't': 2.2, 'p': 0.0141, 'total': 16631.0, 'win': 0.508} 16-20 1.71 21-26 0.41 yrs+ 9/11
+GLOBAL NEW20 positive in both halves: ['AUDJPY', 'AUDNZD', 'EURAUD', 'EURGBP', 'EURNZD', 'GBPJPY', 'NZDCAD', 'NZDCHF', 'NZDUSD']
+PAIR LIVE5|all_hours {'n': 6240, 'bp': 1.41, 't': 2.73, 'p': 0.0032, 'total': 8786.0, 'win': 0.521} 16-20 2.17 21-26 0.64 yrs+ 9/11
+PAIR LIVE5|no_late_hours {'n': 4931, 'bp': 1.84, 't': 3.05, 'p': 0.0012, 'total': 9062.0, 'win': 0.525} 16-20 2.63 21-26 1.03 yrs+ 9/11
+PAIR NEW20|all_hours {'n': 24960, 'bp': 0.63, 't': 1.87, 'p': 0.0312, 'total': 15747.0, 'win': 0.51} 16-20 1.35 21-26 -0.1 yrs+ 8/11
+PAIR NEW20|no_late_hours {'n': 19645, 'bp': 0.74, 't': 1.83, 'p': 0.0339, 'total': 14611.0, 'win': 0.507} 16-20 1.05 21-26 0.42 yrs+ 9/11
+PAIR NEW20 positive in both halves: ['AUDJPY', 'AUDNZD', 'AUDUSD', 'EURAUD', 'EURNZD', 'NZDCAD', 'NZDCHF', 'NZDJPY', 'NZDUSD']

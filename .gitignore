@@ -105,3 +105,11 @@ logs/
 .agents/
 docs/charts/
 docs/bensim_*.svg
+
+# 2026-11-09: local tool output and large research data (not for git)
+.playwright-mcp/
+reports/**/*.pkl
+reports/round10/r10_home_trades.csv
+reports/round13/r13_fix_trades.csv
+reports/round3/r3_ccyrank_trades.csv
+bensim_github_lab/day-trader-skill/
