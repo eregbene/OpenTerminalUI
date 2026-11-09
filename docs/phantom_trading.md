@@ -290,3 +290,7 @@ Mostly week-ahead analysis that repeats sections 1-15. New or sharper points:
 - One real codeable gap: **OB stacking** (higher-TF parent zone around the 4H/1H zone).
 - Everything else is already coded and tested, or is discretionary context.
 - Stacking is a filter on the existing v3 setups, so it can be tested on the setup database without a new engine. It is not tested yet.
+
+## His real trade vs our code (2026-11-09)
+Trade Recap GBPJPY Sell (FXCM 5M, NY time): limit sell 139.806 placed 20 Aug 2020 21:00 NY (21 Aug 01:00 UTC) at the 4H supply above the 'BC' high after a Wyckoff UTAD, stop 139.953, price collapsed on 21 Aug.
+phantom.scan on FXCM GBPJPY 10-25 Aug 2020: nearest = 1H zone 139.601-139.838 (created 19 Aug 11:00, tapped 20 Aug 16:00) -> confirmation short 20 Aug 18:45 at 139.732, stop 139.806 = HIS ENTRY -> stopped (-1.16R). NOT matched: his zone is the outer one above the liquidity (BC high) and his stop sits beyond the liquidity wicks; ours is inside it.

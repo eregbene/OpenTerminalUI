@@ -22,7 +22,7 @@ import time
 
 import numpy as np
 
-from . import books, bridge, db, guard, live
+from . import books, bridge, db, guard, live, news_block
 from .backtest import resample
 from .strategy import trend
 from .trade_watch import verdict
@@ -31,6 +31,8 @@ MAGIC = 770109
 RISK_PCT = 0.25
 MAX_OPEN = 2
 EXPERIMENT_STOP_R = -5.0
+# 2026-10-29: a time-machine gate (refuse target-first < 10%) was tested and REMOVED -- 3m, 198 trades: refused
+# trades +0.27R vs kept +0.23R (far targets are the trend winners noise can't reach). See bensim/tm_check.py.
 SCHEMA = """create table if not exists manager_actions (ts bigint, action text, ticket bigint, symbol text, dir int,
     price double precision, sl double precision, tp double precision, lots double precision, magic int, reason text,
     result jsonb)"""
@@ -76,12 +78,14 @@ def open_trade(sym: str, side: str, sl: float, tp: float, reason: str) -> dict:
     pos = _ours()
     assert sum(p["magic"] == MAGIC for p in pos) < MAX_OPEN, f"already {MAX_OPEN} manager trades open"
     initial, day_start = float(live.state("initial")), float(live.state("day_start")["balance"])
-    lots = live.lots_for(q, price, sl, initial * RISK_PCT / 100)
-    assert lots >= q["volume_min"], "lots below minimum"
-    risk_usd = live.loss_per_lot(q, price, sl) * lots
+    sz = live.size_trade(q, price, sl, initial * RISK_PCT / 100)  # pip-value sizing, costs included (2026-11-09)
+    assert sz["ok"], f"lots: {sz['reason']}"
+    lots, risk_usd = sz["lots"], sz["est_loss"]
     opens = [guard.Open(p["symbol"], 1 if p["type"] == 0 else -1, live.open_risk(p, bridge.tick(p["symbol"]))) for p in pos]
     ok, why = guard.check(initial, day_start, bridge.account()["equity"], opens, sym, d, risk_usd)
     assert ok, f"guard: {why}"
+    news = news_block.blocked(sym)
+    assert not news, f"news blackout: {news}"
     res = bridge.order(sym, side, lots, sl, tp, MAGIC, "manager")
     _log("OPEN", res.get("order"), sym, d, res.get("price") or price, sl, tp, lots, MAGIC, reason, res)
     return res

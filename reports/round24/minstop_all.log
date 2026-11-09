@@ -1,0 +1,56 @@
+3 months 2026-08-07 .. 2026-11-06, normal targets; break-even win% = (1 + cost) / (1 + reward:risk)
+
+== Bennett LIVE (5 trades)  VERDICT: keep own stop
+   own stop               median stop   13.8p win  40% (need  22%) +0.801R total   +4.0R | $  +2,002 @$500 | 1/5/7 lots $  +2,124 / $  +10,620 / $  +14,868
+   stop >= target (1:1)   median stop   65.3p win  40% (need  51%) +0.156R total   +0.8R | $    +389 @$500 | 1/5/7 lots $  -1,255 / $   -6,273 / $   -8,783
+   stop >= 1 ATR(15M)     median stop   13.8p win  40% (need  22%) +0.801R total   +4.0R | $  +2,002 @$500 | 1/5/7 lots $  +2,124 / $  +10,620 / $  +14,868
+
+== Bennett BASE (36 trades)  VERDICT: keep own stop
+   own stop               median stop   23.0p win  33% (need  21%) -0.022R total   -0.8R | $    -399 @$500 | 1/5/7 lots $  -3,706 / $  -18,529 / $  -25,940
+   stop >= target (1:1)   median stop   81.6p win  53% (need  51%) -0.055R total   -2.0R | $    -991 @$500 | 1/5/7 lots $  -9,971 / $  -49,856 / $  -69,798
+   stop >= 1 ATR(15M)     median stop   23.0p win  33% (need  21%) -0.022R total   -0.8R | $    -399 @$500 | 1/5/7 lots $  -3,706 / $  -18,529 / $  -25,940
+
+== Bennett LATEST1 (49 trades)  VERDICT: ADOPT stop >= 1 ATR(15M)
+   own stop               median stop   18.5p win  22% (need  21%) -0.120R total   -5.9R | $  -2,950 @$500 | 1/5/7 lots $  +6,013 / $  +30,067 / $  +42,093
+   stop >= target (1:1)   median stop   79.6p win  47% (need  51%) +0.062R total   +3.0R | $  +1,511 @$500 | 1/5/7 lots $ +11,881 / $  +59,405 / $  +83,167
+   stop >= 1 ATR(15M)     median stop   18.5p win  22% (need  21%) -0.120R total   -5.9R | $  -2,947 @$500 | 1/5/7 lots $  +6,009 / $  +30,047 / $  +42,066
+
+== Bennett LATEST2F (33 trades)  VERDICT: keep own stop
+   own stop               median stop   18.6p win  27% (need  22%) -0.026R total   -0.8R | $    -423 @$500 | 1/5/7 lots $  +2,914 / $  +14,568 / $  +20,395
+   stop >= target (1:1)   median stop   79.6p win  39% (need  51%) -0.218R total   -7.2R | $  -3,605 @$500 | 1/5/7 lots $  -7,479 / $  -37,394 / $  -52,352
+   stop >= 1 ATR(15M)     median stop   18.6p win  27% (need  22%) -0.026R total   -0.8R | $    -423 @$500 | 1/5/7 lots $  +2,914 / $  +14,568 / $  +20,395
+
+== Bennett LIVE_LATEST (5 trades)  VERDICT: keep own stop
+   own stop               median stop   13.8p win  40% (need  23%) +0.800R total   +4.0R | $  +2,000 @$500 | 1/5/7 lots $  +2,128 / $  +10,638 / $  +14,893
+   stop >= target (1:1)   median stop   65.3p win  60% (need  51%) +0.370R total   +1.8R | $    +924 @$500 | 1/5/7 lots $    -695 / $   -3,475 / $   -4,865
+   stop >= 1 ATR(15M)     median stop   13.8p win  40% (need  23%) +0.800R total   +4.0R | $  +2,000 @$500 | 1/5/7 lots $  +2,128 / $  +10,638 / $  +14,893
+
+== Faiz OLD (39 trades)  VERDICT: ADOPT stop >= 1 ATR(15M)
+   own stop               median stop   40.3p win  36% (need  27%) +0.127R total   +4.9R | $  +2,472 @$500 | 1/5/7 lots $  +8,801 / $  +44,004 / $  +61,606
+   stop >= target (1:1)   median stop   68.9p win  54% (need  51%) +0.101R total   +3.9R | $  +1,974 @$500 | 1/5/7 lots $  +7,909 / $  +39,546 / $  +55,364
+   stop >= 1 ATR(15M)     median stop   40.3p win  36% (need  28%) +0.129R total   +5.0R | $  +2,509 @$500 | 1/5/7 lots $  +7,940 / $  +39,698 / $  +55,577
+
+== Faiz MATCHED (61 trades)  VERDICT: keep own stop
+   own stop               median stop   19.7p win  20% (need  24%) -0.076R total   -4.6R | $  -2,303 @$500 | 1/5/7 lots $  +8,294 / $  +41,472 / $  +58,061
+   stop >= target (1:1)   median stop   68.9p win  46% (need  51%) -0.056R total   -3.4R | $  -1,712 @$500 | 1/5/7 lots $ +30,102 / $ +150,510 / $ +210,714
+   stop >= 1 ATR(15M)     median stop   19.7p win  21% (need  26%) -0.095R total   -5.8R | $  -2,896 @$500 | 1/5/7 lots $  +9,337 / $  +46,687 / $  +65,362
+
+== JeaFx OLD H1/M5 (29 trades)  VERDICT: ADOPT stop >= target (1:1)
+   own stop               median stop   13.0p win  34% (need  28%) -0.129R total   -3.7R | $  -1,867 @$500 | 1/5/7 lots $    -855 / $   -4,275 / $   -5,985
+   stop >= target (1:1)   median stop   42.4p win  55% (need  51%) +0.005R total   +0.2R | $     +78 @$500 | 1/5/7 lots $  -9,713 / $  -48,563 / $  -67,988
+   stop >= 1 ATR(15M)     median stop   13.0p win  34% (need  28%) -0.120R total   -3.5R | $  -1,737 @$500 | 1/5/7 lots $  -1,211 / $   -6,056 / $   -8,478
+
+== JeaFx OLD M15/M5 (103 trades)  VERDICT: keep own stop
+   own stop               median stop    6.1p win  25% (need  27%) -0.078R total   -8.1R | $  -4,032 @$500 | 1/5/7 lots $ +11,838 / $  +59,189 / $  +82,865
+   stop >= target (1:1)   median stop   24.8p win  50% (need  53%) +0.002R total   +0.2R | $    +115 @$500 | 1/5/7 lots $ +23,698 / $ +118,489 / $ +165,884
+   stop >= 1 ATR(15M)     median stop    7.2p win  26% (need  29%) -0.077R total   -7.9R | $  -3,956 @$500 | 1/5/7 lots $ +11,133 / $  +55,663 / $  +77,928
+
+== JeaFx MATCHED H1/M5 (38 trades)  VERDICT: keep own stop
+   own stop               median stop   12.8p win  26% (need  26%) -0.341R total  -13.0R | $  -6,476 @$500 | 1/5/7 lots $  -3,760 / $  -18,799 / $  -26,318
+   stop >= target (1:1)   median stop   44.8p win  47% (need  51%) -0.042R total   -1.6R | $    -802 @$500 | 1/5/7 lots $ -19,624 / $  -98,119 / $ -137,366
+   stop >= 1 ATR(15M)     median stop   12.8p win  26% (need  26%) -0.334R total  -12.7R | $  -6,346 @$500 | 1/5/7 lots $  -4,116 / $  -20,579 / $  -28,811
+
+== JeaFx MATCHED M15/M5 (147 trades)  VERDICT: keep own stop
+   own stop               median stop    5.9p win  22% (need  23%) -0.237R total  -34.9R | $ -17,431 @$500 | 1/5/7 lots $ +17,267 / $  +86,333 / $ +120,866
+   stop >= target (1:1)   median stop   30.6p win  50% (need  52%) -0.025R total   -3.6R | $  -1,803 @$500 | 1/5/7 lots $ +18,160 / $  +90,799 / $ +127,119
+   stop >= 1 ATR(15M)     median stop    7.0p win  22% (need  25%) -0.228R total  -33.5R | $ -16,773 @$500 | 1/5/7 lots $ +15,615 / $  +78,073 / $ +109,303

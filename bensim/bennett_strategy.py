@@ -84,6 +84,8 @@ class BennettParams:
     no_sunday: bool = False  # no triggers on Sunday (the weekly open: thin, gappy; negative in every period)
     agree_tf: int = 0  # >0 (seconds): that timeframe's structure trend must already agree at the 5M trigger (1800 = 30M)
     max_hold_bars: int = 200
+    leg_anchor: str = "external"  # "external" | "latest": fib on the newest (incl. internal) break -- his 2026 live trades
+    leg_swing_atr: float = 0.0  # latest: the broken swing must have had a pull-back of >= this x ATR before the break
     cost_pips: dict[str, float] = field(default_factory=lambda: {"EURUSD": 0.9, "GBPUSD": 1.2, "USDJPY": 1.0, "AUDUSD": 1.0,
                                                                   "USDCAD": 1.1, "USDCHF": 1.1, "XAUUSD": 3.0})
 
@@ -161,9 +163,41 @@ def leg_of(b: Bars, p: BennettParams) -> dict | None:
         if cand:
             s_bar, start = cand[-1][0], float(cand[-1][1])
     x_bar = int(np.flatnonzero(x_e[:j + 1] == ext)[-1])
-    return {"d": d, "e": e, "piv": piv, "kind": kind, "start": start, "s_bar": s_bar, "ext": ext, "x_bar": x_bar,
-            "prot": float(ms["prot"][j]),
-            "atr": float(smc.atr(b)[-1]), "ms": ms}
+    leg = {"d": d, "e": e, "piv": piv, "kind": kind, "start": start, "s_bar": s_bar, "ext": ext, "x_bar": x_bar,
+           "prot": float(ms["prot"][j]), "atr": float(smc.atr(b)[-1]), "ms": ms}
+    return latest_leg(b, leg, p.leg_swing_atr) if p.leg_anchor == "latest" else leg
+
+
+def latest_leg(b: Bars, leg: dict, swing_atr: float = 0.0) -> dict:
+    """His live trades (9-rules video, EURUSD 2 Jan / 6 Jan 2026): the fib goes on the NEWEST break in the trend's
+    direction, internal ones included ("iBOS"): the last swing low (sell) closed below after the external leg began ->
+    start = the high the displacement came from (highest high between that swing low and the break) -> the running
+    low since. The idea dies on a close above that start (his "protected high" of the new leg)."""
+    d, j = leg["d"], len(b["t"]) - 1
+    sh, sl_ = smc.swing_points(b, 2)
+    piv = b["close"] * d  # sell (d=-1): -close > -low <=> close below the low; buy: close above the high
+    best = None
+    for sb, cf, pr in (sl_ if d == -1 else sh):
+        if sb <= leg["s_bar"]:
+            continue
+        hit = np.flatnonzero(piv[cf + 1:j + 1] > pr * d)
+        if len(hit):
+            k = cf + 1 + int(hit[0])
+            bounce = (b["high"][sb:k + 1].max() - pr) if d == -1 else (pr - b["low"][sb:k + 1].min())
+            if bounce < swing_atr * leg["atr"]:  # "a BOS only through a pullback-confirmed swing" (lows in a line = internal)
+                continue
+            if best is None or k > best[0]:
+                best = (k, sb)
+    if best is None:
+        return leg
+    k, sb = best
+    seg = b["high"][sb:k + 1] if d == -1 else b["low"][sb:k + 1]
+    s_bar = sb + int(np.argmax(seg) if d == -1 else np.argmin(seg))
+    tail = b["low"][k:j + 1] if d == -1 else b["high"][k:j + 1]
+    x_bar = k + int(np.argmin(tail) if d == -1 else np.argmax(tail))
+    start = float(b["high"][s_bar] if d == -1 else b["low"][s_bar])
+    ext = float(b["low"][x_bar] if d == -1 else b["high"][x_bar])
+    return {**leg, "kind": "iBOS", "start": start, "s_bar": s_bar, "ext": ext, "x_bar": x_bar, "prot": start}
 
 
 def relief(leg: dict, m15: Bars, t_ext: int, p: BennettParams) -> dict | None:

@@ -331,6 +331,17 @@ Gaps from the 3 new videos (not coded yet):
   pullback into the FVG/OTE of the CHoCH leg, stop 3-4 pips below the low; unfilled opposite imbalances = targets;
   3R minimum; out before the weekend.
 
+### 7.4b His real trades vs our code (manual frame check, 2026-11-09; sheets in D:/trading/bennett_work/sheets)
+| His trade (from the videos) | Ours | Why |
+|---|---|---|
+| **$13,491 USDCAD long**, Discord "longs around 1.3540/50, target 1.3640/50, 5R": entry 1.3544 Tue 10 Mar 2026 after the Mon 9 Mar low 1.35256 + 15M iCHoCH, stop ~1.3522, target hit Thu 12 Mar (our data agrees: pullback low 1.35421, 1.3640 touched 12 Mar 20:30 UTC) | **no USDCAD trade Feb-Mar 2026** | range trade at a 4H **parallel-channel bottom** + mitigated 4H imbalance; our code needs a trending 4H leg + OTE relief, no channel/range mode |
+| **EURUSD short A** (9-rules video): entry 1.17569, stop 1.17657, T 1.17201, ~02 Jan 2026 04:20 UTC, target hit same day (~4R) | LIVE 0, base video 0, 4H-leg version: 2 **longs** (5 & 8 Jan), both -1R | **leg anchoring**: he draws the fib on the LATEST 1H break (1.17799 -> 1.17202, OTE 1.1757-1.1767, reached 1.17649); our engine keeps the older external leg (protected 1.1804 -> ext low 1.17029, OTE 1.1766-1.1783, missed by 1 pip). He trades the newest (internal) 1H leg; ours only re-anchors on external breaks. Relaxing FVG/top-in-OTE/after-fail/RR/M15 still gives 0 trades. LIVE also has killzones 7-11/13-17 UTC (04:20 is outside). |
+| **EURUSD short B**: 1H CHoCH 6 Jan, entry 1.17217, stop 1.17442, T 1.16591, hit 8 Jan (~2.8R) | 0 | same anchoring issue |
+| Weekly outlook 12-16 Jan: GBPUSD short only after a 1H close < 1.3400 then the 4H-imbalance retrace | GBPUSD short 19 Jan 1.3391, -1R | same idea, both would lose (GBP ran to 1.365) |
+| same outlook: AUDUSD short only after a close < 0.6660 | AUDUSD short 13 Jan, +0.15R | **his condition never happened** (low 0.6663) -- our code shorted without his protected-low close |
+| outlook 19-23 Jan: his Discord trades = DXY 15M sweep+close-back bottoms, GBPUSD short (sweep of the 1H high + acceptance below, 15M FVG, 5M shift), EURUSD short at the distribution-channel top after sweeping 15M equal highs | -- | his live entries lean on **sweep + close back** and **distribution channels** |
+**Biggest real gap found: leg anchoring (he uses the newest 1H leg, incl. internal breaks).** Second: channel/range mode.
+
 ### 7.5 Tools that work without Claude
 - **`bensim\bennett_report.bat`** (double-click): type a period in plain English -- `last week` (Enter), `this week`,
   `last friday`, `yesterday`, `6 december`, `last week of december 2025`, `december 2025`,

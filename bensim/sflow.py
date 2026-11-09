@@ -1,4 +1,4 @@
-"""STRUCTURE FLOW (sflow) -- JeaFx "Master Market Structure in 68 Minutes", rules in docs/jeafx_market_structure.md.
+﻿"""STRUCTURE FLOW (sflow) -- JeaFx "Master Market Structure in 68 Minutes", rules in docs/jeafx_market_structure.md.
 
     python -m bensim.sflow --start 2026-07-19 --end 2026-10-18          # 3-month test, 7 pairs, (H1,M5) + (H4,M15)
 
@@ -40,6 +40,9 @@ PAIRS = {"H1/M5": (3600, 300), "H4/M15": (14400, 900)}
 K = 3  # bars without a new extreme that confirm an impulse high/low
 PULLBACK_ATR = 1.0  # ...and the pull-back must be this many ATR: smaller dips are internal structure (his 33:00 mistake)
 WAIT_DAYS, HOLD_DAYS, B_WINDOW = 5, 10, 24
+ZONE_ORIGIN = "extreme"  # "extreme" (old: zone at the extreme since the broken level) | "impulse" (last swing before the break)
+ZONE_LIFE = "next_bos"  # "next_bos" (old: a zone dies at the next HTF BOS) | "touch" (his NZDJPY 7 May 2025 long: the zone
+#                        lives until price trades into it or CLOSES through its far side, up to WAIT_DAYS)
 
 
 def structure(b: dict, k: int = K, state: list | None = None) -> list[dict]:
@@ -68,7 +71,13 @@ def structure(b: dict, k: int = K, state: list | None = None) -> list[dict]:
             a = up_i if bull else dn_i
             origin = a + int(np.argmin(lo[a:i + 1]) if bull else np.argmax(h[a:i + 1]))
             ext = origin + int(np.argmax(h[origin:i + 1]) if bull else np.argmin(lo[origin:i + 1]))
-            ev.append({"i": i, "d": nd, "origin": origin, "zone": _zone(b, origin, i, nd)})
+            zo = origin
+            if ZONE_ORIGIN == "impulse":  # his NZDJPY 6 May 2025 short: the zone is the base of the impulse that BROKE,
+                # i.e. the last 3-candle swing (high for a sell) before the break -- not the extreme since the broken level
+                sw = [j for j in range(max(origin, 1), i - 1)
+                      if ((h[j] > h[j - 1] and h[j] > h[j + 1]) if nd == -1 else (lo[j] < lo[j - 1] and lo[j] < lo[j + 1]))]
+                zo = sw[-1] if sw else origin
+            ev.append({"i": i, "d": nd, "origin": origin, "zone": _zone(b, zo, i, nd), "zone_origin": zo})
             d = nd
             if bull:
                 dn_i, up_i, dn_ok, up_ok = origin, ext, True, i - ext > k
@@ -158,10 +167,10 @@ def run(args: tuple) -> list[dict]:
             continue
         d, (top, bot) = e["d"], e["zone"]
         t_next = int(hb["t"][nxt[e["i"]]]) + hs if nxt[e["i"]] is not None else int(m5["t"][-1])
-        t_end = min(t_next, t_bos + WAIT_DAYS * 86400)
+        t_end = t_bos + WAIT_DAYS * 86400 if ZONE_LIFE == "touch" else min(t_next, t_bos + WAIT_DAYS * 86400)
         near, far = (top, bot) if d == 1 else (bot, top)
         stop = far - d * 0.1 * a_h[e["i"]]
-        t_org = int(hb["t"][e["origin"]])
+        t_org = int(hb["t"][e.get("zone_origin", e["origin"])])
 
         def target_at(k: int) -> float:  # the impulse extreme printed before the fill bar
             seg = slice(idx(t_org), k)

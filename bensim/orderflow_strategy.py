@@ -1,4 +1,4 @@
-"""orderflow -- Faiz SMC course (G:/Faiz SMC Trading Course: SMC Basics 1-9, Trading Strategies 1-5 and 29), built
+﻿"""orderflow -- Faiz SMC course (G:/Faiz SMC Trading Course: SMC Basics 1-9, Trading Strategies 1-5 and 29), built
 on bensim.indicators (LuxAlgo-style swings / internal BOS-CHoCH / FVG). Same plan() contract as bensim.strategy.
 
 mode "liquidity_ob" (video 29, "Order Block Liquidity" -- the mentor's own upgrade of order flow), sell example
@@ -56,7 +56,10 @@ class OrderFlowParams:
     small_fvg_atr: float = 0.5  # flow: gap <= this -> enter at the FVG, else at the first-candle OB
     stop_buffer_atr: float = 0.1
     entry_buffer_atr: float = 0.02  # confirmation: limit "a little bit above" the demand for the spread
-    min_rr: float = 2.0
+    min_rr: float = 2.0  # video 29 (liquidity_ob): "1:2 minimum"
+    flow_min_rr: float = 1.0  # flow (videos 1-5): NO minimum stated -- he targets the leg's high/low (his F2 trade = 1.39R)
+    structure: str = "internal"  # "internal" | "swing": his MSS = the last higher LOW of the main swing broken (video 2)
+    entry_sec: int = 900  # execution timeframe: 900 = M15 (videos 2-3), 300 = M5 (videos 4-5)
     rr_target: float = 3.0
     htf_poi: bool = False
     tap_bars: int = 16
@@ -160,7 +163,7 @@ def built_liquidity(pools: dict, after: int, upto: int, entry: float, far: float
 
 
 def _setup(m: Bars, ind: dict, i: int, d: int, last: int, a: np.ndarray, p: OrderFlowParams, rt: float, htf) -> dict | None:
-    it = ind["internal"]
+    it = ind[p.structure]
     piv = int(it["pivot"][i])
     if piv < 0:
         return None
@@ -202,7 +205,7 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: OrderFlowParams = OrderFlo
     """Same contract as bensim.strategy.plan: TRIGGERED only on the M5 bar that first touches the entry."""
     if len(m["t"]) < 100 or len(h1["t"]) < 10 or not len(m5["t"]):
         return None
-    cur15 = (int(m5["t"][-1]) // 900) * 900
+    cur15 = (int(m5["t"][-1]) // p.entry_sec) * p.entry_sec  # the forming execution bar (M15 or M5)
     last = int(np.searchsorted(m["t"], cur15)) - 1
     if last < 60:
         return None
@@ -217,7 +220,7 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: OrderFlowParams = OrderFlo
     a = atr(mm)
     rt = p.cost_pips.get(symbol, 1.2) * pip(symbol)
     forming = np.flatnonzero(m5["t"] >= cur15)
-    it = ind["internal"]
+    it = ind[p.structure]
     tops, btms = indicators.swings(mm, 5)  # internal swings = the stop pools price builds on the pullback
     busy_until, status = -1, None
     for i in np.flatnonzero(it["event"] != 0):
@@ -234,7 +237,8 @@ def plan(m: Bars, h1: Bars, m5: Bars, symbol: str, p: OrderFlowParams = OrderFlo
         need = p.mode in ("flow", "confirmation") and p.need_liquidity
         liq = lambda upto, far: not need or built_liquidity(btms if d == 1 else tops, i, upto, entry, far)  # noqa: E731
         impulse = lambda upto: float(m["high"][i:upto + 1].max() if d == 1 else m["low"][i:upto + 1].min())  # noqa: E731
-        rr_ok = lambda tg: (tg - entry) * d >= p.min_rr * s["risk"]  # noqa: E731
+        rr_min = p.flow_min_rr if p.mode == "flow" else p.min_rr
+        rr_ok = lambda tg: (tg - entry) * d >= rr_min * s["risk"]  # noqa: E731
         win = slice(r + 1, min(last + 1, r + 1 + p.plan_bars))
         touch = (m["low"][win] <= entry) if d == 1 else (m["high"][win] >= entry)
         ran = np.zeros(len(touch), bool) if ext else ((m["high"][win] >= target) if d == 1 else (m["low"][win] <= target))

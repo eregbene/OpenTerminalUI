@@ -1,0 +1,25 @@
+done EURUSD
+done GBPUSD
+done USDJPY
+done AUDUSD
+done USDCHF
+done USDCAD
+done XAUUSD
+
+window 2026-08-07 .. 2026-11-06, H4 key level -> M15 entry, net of costs
+ERL  CISD   176 trades win  24% -0.114R/trade total  -20.0R t -0.81 $ -10,003 @$500 | 1/5/7 lots $  -4,077 / $  -20,385 / $  -28,540  median stop 12.4p RR 3.5
+ERL  MSS    161 trades win  20% -0.142R/trade total  -22.9R t -0.82 $ -11,449 @$500 | 1/5/7 lots $  -6,101 / $  -30,503 / $  -42,705  median stop 8.3p RR 4.1
+ERL  iFVG   270 trades win  20% -0.168R/trade total  -45.4R t -1.33 $ -22,695 @$500 | 1/5/7 lots $ -59,711 / $ -298,553 / $ -417,974  median stop 11.5p RR 3.9
+FVG  CISD   115 trades win  30% +0.050R/trade total   +5.7R t +0.28 $  +2,872 @$500 | 1/5/7 lots $  +6,349 / $  +31,746 / $  +44,445  median stop 10.9p RR 3.4
+FVG  MSS    105 trades win  16% -0.457R/trade total  -48.0R t -2.85 $ -23,999 @$500 | 1/5/7 lots $  -5,240 / $  -26,198 / $  -36,678  median stop 7.1p RR 3.9
+FVG  iFVG   139 trades win  28% -0.102R/trade total  -14.2R t -0.69 $  -7,077 @$500 | 1/5/7 lots $    +814 / $   +4,069 / $   +5,696  median stop 11.5p RR 3.6
+ALL  ALL    966 trades win  23% -0.150R/trade total -144.7R t -2.38 $ -72,352 @$500 | 1/5/7 lots $ -67,965 / $ -339,825 / $ -475,755  median stop 10.5p RR 3.8
+
+per pair (all models):
+  AUDUSD: 119 trades -47.1R
+  EURUSD: 130 trades +5.4R
+  GBPUSD: 114 trades -30.5R
+  USDCAD: 147 trades -21.9R
+  USDCHF: 145 trades -39.8R
+  USDJPY: 144 trades +26.2R
+  XAUUSD: 167 trades -36.9R

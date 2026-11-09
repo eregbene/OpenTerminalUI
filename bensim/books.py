@@ -5,7 +5,7 @@ traded anyway to collect real results. Run from live.cycle() after fib618/Bennet
     python -m bensim.books selfcheck    # the fill / cancel / pick-one-per-pair rules on hand-made prices
     BENSIM_BOOKS=imbalance,enigma,...   # which books trade (default all five; "off" = none)
 
-Books (rules exactly as backtested; magic per book; risk BENSIM_BOOKS_RISK_SCALE (0.5) x BENSIM_RISK_PCT each):
+Books (rules exactly as backtested; magic per book; risk fixed $ RISK_USD each via live.size_trade since 2026-11-09; BENSIM_BOOKS_RISK_SCALE unused):
   imbalance  770104  strategy.plan default Params (donchian break -> imbalance zone), market at the trigger, fixed SL/TP
   enigma     770105  fvg_strategy.plan, H4 FVG -> M15 shift, market at the trigger, fixed SL/TP
   sflow      770106  JeaFx structure, entry A: H1 close-only BOS -> limit at the zone's near edge (killed by an M5 close
@@ -34,7 +34,7 @@ import traceback
 import numpy as np
 import pandas as pd
 
-from . import bridge, db, fvg_strategy, guard, sflow
+from . import bridge, db, fvg_strategy, guard, news_block, sflow
 from . import cta_momentum as cta
 from . import parallax as px
 from .backtest import Exec, _spread, resample
@@ -43,8 +43,10 @@ from .mt5_time import server_to_utc
 from .strategy import Params, atr, order_for, pip, plan, trend
 
 MAGICS = {"imbalance": 770104, "enigma": 770105, "sflow": 770106, "parallax": 770107, "cta": 770108}
-_on = env("BENSIM_BOOKS", ",".join(MAGICS)).lower()
+# 2026-11-06 user GO (Stage 4 item 4): parallax + cta SHADOW only (signals recorded with status SHADOW, never sent)
+_on = env("BENSIM_BOOKS", "imbalance,enigma,sflow").lower()
 ON = [] if _on == "off" else [b for b in _on.split(",") if b in MAGICS]
+SHADOW = [b for b in env("BENSIM_BOOKS_SHADOW", "parallax,cta").lower().split(",") if b in MAGICS and b not in ON]
 SYMBOLS = [x for x in env("BENSIM_BOOKS_SYMBOLS", "EURUSD,GBPUSD,USDJPY,AUDUSD,USDCHF,USDCAD,XAUUSD").split(",") if x]
 RISK_SCALE = float(env("BENSIM_BOOKS_RISK_SCALE", "0.5"))
 IMB, ENIGMA = Params(), fvg_strategy.FvgParams(htf="H4")
@@ -225,13 +227,14 @@ def _send(cd: dict, initial: float, day_start: float, equity: float, opens: list
         return "SKIP_PRICE_OUTSIDE_PLAN", {"price": price}
     if cd["book"] == "sflow" and (target - price) * d < 1.0 * (price - cd["stop"]) * d:
         return "SKIP_RR_BELOW_1", {"price": price, "target": target}
-    from .live import RISK_PCT, loss_per_lot, lots_for  # noqa: PLC0415  (live imports this module)
-    scale = guard.risk_scale(initial, equity) * RISK_SCALE
-    lots = lots_for(q, price, cd["stop"], initial * RISK_PCT / 100 * scale)
-    if lots < q["volume_min"]:
-        return "SKIP_LOTS_BELOW_MIN", {"lots": lots}
-    risk_usd = loss_per_lot(q, price, cd["stop"]) * lots
+    from .live import BUDGETS, size_trade  # noqa: PLC0415  (live imports this module)
+    sz = size_trade(q, price, cd["stop"], BUDGETS[cd["book"]] * guard.risk_scale(initial, equity))  # 2026-11-09: fixed $
+    if not sz["ok"]:
+        return "SKIP_LOTS_BELOW_MIN", sz
+    lots, risk_usd = sz["lots"], sz["est_loss"]
     ok, why = guard.check(initial, day_start, equity, opens, sym, d, risk_usd)
+    news = news_block.blocked(sym) if ok else None
+    ok, why = (False, news) if news else (ok, why)
     detail = {"price": price, "sl": cd["stop"], "tp": target or 0.0, "lots": lots, "risk_usd": round(risk_usd, 2), "conf": cd["conf"]}
     if not ok:
         return f"SKIP_GUARD_{why}", detail
@@ -267,7 +270,7 @@ def step(initial: float, day_start: float, equity: float, halted: bool, dry: boo
                 if not len(m5["t"]) or int(m5["t"][-1]) < expected:
                     continue  # market closed / stale feed
                 h1, rows = h1_bars(sym), []
-                for book in ON:
+                for book in ON + SHADOW:
                     if book in ("imbalance", "enigma"):
                         new = sig_plan(book, sym, m5, h1, windows)
                     elif book == "sflow":
@@ -280,12 +283,13 @@ def step(initial: float, day_start: float, equity: float, halted: bool, dry: boo
                                            expire, hold, status, extra) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                                            on conflict do nothing returning 1""",
                                         (book, sym, r["signal_time"], r["dir"], r["leg"], r["kind"], r["entry"], r["stop"], r["target"],
-                                         r["cancel"], r["expire"], r["hold"], "PENDING" if r["kind"] != "market" else "NEW",
+                                         r["cancel"], r["expire"], r["hold"],
+                                         "SHADOW" if book in SHADOW else ("PENDING" if r["kind"] != "market" else "NEW"),
                                          json.dumps(r["extra"]))).fetchone()
                         if ins:
                             log("INFO", f"BOOK {book} {sym} {'BUY' if r['dir'] == 1 else 'SELL'} {r['kind']} signal: entry {r['entry']:.5g} "
-                                        f"stop {r['stop']:.5g} target {r['target']:.5g}")
-                            if r["kind"] == "market":
+                                        f"stop {r['stop']:.5g} target {r['target']:.5g}{' (SHADOW, not sent)' if book in SHADOW else ''}")
+                            if r["kind"] == "market" and book not in SHADOW:
                                 rows.append(dict(r, book=book, symbol=sym))
                 spr = _spread(sym, int(m5["t"][-1]), EX)
                 for book, sig_t, d, leg, kind, entry, stop, target, cancel, expire, hold, extra in c.execute(

@@ -191,3 +191,22 @@ Bugs found and fixed during the run: OB invalidation too strict; plan loop stopp
 ### 6.1 Idea tested: "trade INTO the zone, then take the confirmation trade" (A + B)
 Trade A = from the moment the setup is known, trade towards the zone (TP = zone), then B = the normal setup trade.
 Result (same 3 months): price reaches the zone 56–68% of the time, but first runs AGAINST A about as far as the zone is away (median 1.67 ATR vs 1.59 ATR distance for JeaFx+liquidity; 2.30 vs 2.28 for flow). A was negative in every stop variant (best: −0.03R with the stop beyond the impulse extreme), and A + B was always worse than B alone. **Rejected** — waiting at the zone is where the edge (if any) is. Script: scratchpad `pre_trade.py`, data `data/pre_trade_3m_*.csv`.
+
+## 7. His own example trades vs our code (manual full-size frames, 2026-11-09; D:/trading/faiz_work/full)
+| # | His trade (FXCM, NY-time charts) | Our orderflow code |
+|---|---|---|
+| F2 (video 3) | GBPUSD 15M LONG 22 Jul 2022 ~08:00 UTC, MSS then retest of the demand box, entry ~1.1936, stop 1.19109, target the prior high 1.19713 = **1.39R**, won | flow: SHORT 22 Jul 13:35 -1R (no-liq: 3 trades -3R); OB-liq: none. Our min_rr 2.0 can never take his 1.39R trade |
+| F4 (video 5) | EURUSD **5M** LONG 8 Aug 2022 18:50 UTC, entry ~1.0189, stop 1.01835 (5.7 pips), target 1.02218, **5.72R**, won | none (our shift is on M15 only) |
+| F1 (video 2) | GBPUSD 15M SHORT 9 Aug 2022 ~09:00 UTC from the supply box ~1.2124, stop ~1.2138, target the low 1.20689, won | flow: LONG 9 Aug 15:10 -1R |
+| F3 (video 4) | GBPUSD **5M** SHORT 17 Aug 2022 ~18:30 UTC, entry ~1.2076, stop ~1.2093, target 1.20275 (~3R), won | none |
+**0 of 4 reproduced; 2 opposite-side losses.** Gaps seen: min RR (he took 1.39R), 5M execution, zone = the full box he draws. JeaFx 'This entry model' video is no longer on disk (only these notes remain).
+
+### 7.1 Code fixes from his own trades (2026-11-09)
+- His RR (videos 1-5): NO minimum -- 'target the high / another liquidity pool'; his F2 = 1.39R. New flow_min_rr=1.0 (video 29 keeps its stated 1:2).
+- Execution timeframe per example: entry_sec=900 (M15, videos 2-3) or 300 (M5, videos 4-5).
+- structure='swing': his MSS = the last higher LOW of the main swing broken (video 2), not every internal break.
+- Replay: **F4 exact** (swing M5: 8 Aug 18:50, entry 1.01885 vs 1.0189, target 1.02220 vs 1.02218; stop 1.01724 vs his 1.01835); **F3 near-exact** (internal M5: 17 Aug 18:05 short 1.20662, stop 1.20966, target 1.20282 vs his 1.20275); F1/F2 (M15) still not matched -- next.
+
+### 7.2 Video 29 (Order Block Liquidity) trade + best matched setting (2026-11-09)
+- His trade: EURUSD 5M SHORT 6 Sep 2022 07:15 NY (11:15 UTC), entry 0.99351, stop 0.99443 (9.2 pips), target 0.98801 (~6R), won. Our liquidity_ob code (M15/M5, internal/swing, fake/box stop): NO trade that week -> not matched.
+- Best videos-1-5 setting: swing structure, M5, setup life 24 h (plan_bars=288), no min RR: F1 EXACT (9 Aug 09:10 short 1.21254 / 1.21383 / 1.20655, +4.64R) and F4 EXACT; F3 only with internal M5; F2 setup found (1.19376/1.19113) but not traded.

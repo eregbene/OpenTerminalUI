@@ -21,6 +21,10 @@ if (-not $admin) { Log "WARN not elevated -- no repairs (the task must run with 
 $blind = Get-CimInstance Win32_Process -Filter "name='python.exe' or name='powershell.exe'" | Where-Object { -not $_.CommandLine }
 if ($blind) { Log "WARN $(@($blind).Count) process command line(s) unreadable -- no repairs this run"; exit 1 }
 
+# 0. TradeGuard (gf's account guard) -- separate from Bensim, ignores bensim.STOP; first so a slow Postgres can't delay it
+$tg = Get-CimInstance Win32_Process -Filter "name='powershell.exe'" | Where-Object { $_.CommandLine -like '*bensim.tradeguard live*' }
+if (-not $tg) { & (Join-Path $root "bensim\start_tradeguard.ps1"); Log "started the TradeGuard watchdog" }
+
 # 1. Docker Desktop (it starts Postgres itself: restart policy unless-stopped)
 $dockerExe = Join-Path $env:LOCALAPPDATA "Programs\DockerDesktop\Docker Desktop.exe"
 if (-not (Get-Process "Docker Desktop" -ErrorAction SilentlyContinue) -and (Test-Path $dockerExe)) {

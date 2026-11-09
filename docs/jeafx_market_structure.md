@@ -133,3 +133,10 @@ State per symbol and per timeframe pair (HTF, LTF) — default (H1, M5) and (H4,
 
 Test plan (per [[3-month rule]]): last 3 months, 7 pairs, M5 data, costs as backtest.Exec; report A, B, C separately,
 win%, avgR, R by pair, with a placebo (same entries, random direction). Only if A or B > +0.1R with t > 2 → 5y check.
+
+## His real trades vs our sflow code (2026-11-09, full frames D:/trading/jeafx_work/full)
+NZDJPY 15M OANDA, May 2025: (1) short from supply 6 May ~07:30 -> target the low, +3.94%; (2) next supply short stopped -1%; (3) LONG from the demand zone 7 May ~19:00, entry ~85.40, stop ~85.27, target 86.16 hit 8 May, +5.42%.
+sflow replay (FXCM NZDJPY, 15M structure, 4-10 May 2025): 7 trades, ALL losers (-1R each), none at his zones; his 7 May long is not taken. H1 structure: 0 trades. Same finding as Bennett/Faiz: the code does not trade what the mentor traded. (Old work folder with transcript/close-ups was gone; sheets rebuilt in D:/trading/jeafx_work/sheets.)
+
+### Fix 1 (2026-11-09): zone lifetime
+sflow already found his demand zone EXACTLY (BOS 6 May 14:15 UTC, zone 85.401-85.261 = his 85.40/85.27 box) but killed it at the next HTF BOS (a 22:00 spike) and then flipped the trend on a dip below that spike's tiny protected low. He keeps a zone until price trades into it or closes through it. New option sflow.ZONE_LIFE='touch' (default unchanged 'next_bos'). Replay 4-10 May 2025: his +5.42% long reproduced (A long 7 May 18:05 UTC 85.401, stop 85.252, target 86.18, +5.21R); week -3.08R -> +1.11R. His 6 May supply shorts (+3.94%, -1%) still not matched; 4 extra losing trades remain (next: which breaks he ignores).

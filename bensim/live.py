@@ -30,7 +30,7 @@ from zoneinfo import ZoneInfo
 import numpy as np
 
 from . import bennett_strategy as bstrat
-from . import books, bridge, crypto_paper, db, flow_live, guard, indicators, trade_watch
+from . import books, bridge, crypto_paper, db, flow_live, guard, indicators, news_block, sizing, trade_watch
 from .backtest import _win, resample
 from .config import ROOT, env
 from .mt5_time import server_to_utc
@@ -41,7 +41,14 @@ PARAMS = Params(zone_mode="fib", confirm_any=("killzone", "poi", "sweep"), confi
 RISK_PCT = float(env("BENSIM_RISK_PCT", "0.5"))
 # 2026-10-13: AUDUSD and USDJPY dropped -- negative in 2025, 2026 and over 5 years (and under Bennett)
 LIVE_SYMBOLS = [x for x in env("BENSIM_LIVE_SYMBOLS", "EURUSD,GBPUSD,USDCHF,USDCAD,XAUUSD").split(",") if x]
-WEAK_SETUP_RISK = float(env("BENSIM_WEAK_SETUP_RISK", "0.5"))  # risk multiplier when fewer than all confirmations agree
+WEAK_SETUP_RISK = float(env("BENSIM_WEAK_SETUP_RISK", "0.5"))  # (unused since 2026-11-09: fixed $ budgets below)
+# 2026-11-09 user: fixed $ risk per trade, lots from the pip value incl. spread/slippage/commission (bensim.sizing) for
+# fib618, Bennett, the books and the manager; Flow ML/AM keep their own %-at-disaster-stop sizing (lots_for).
+RISK_USD = sizing.RISK_USD  # BENSIM_RISK_USD, default $500
+# one budget per strategy (user: no split by setup; the best one bigger) -- Bennett = the only positive stop-based
+# strategy over 10 years (round 21). Override each with BENSIM_RISK_USD_<NAME>.
+BUDGETS = {k: float(env(f"BENSIM_RISK_USD_{k.upper()}", str(v))) for k, v in
+           {"fib618": RISK_USD, "bennett": 1000, "imbalance": RISK_USD, "enigma": RISK_USD, "sflow": RISK_USD}.items()}
 LIVE_FROM = int(datetime.fromisoformat(env("BENSIM_LIVE_FROM", "2026-10-12T06:00:00+00:00")).timestamp())  # dry-run before this (UTC)
 STOP_FILE = ROOT / "bensim.STOP"
 MAGIC_BN = 770102
@@ -121,6 +128,13 @@ def lots_for(q: dict, entry: float, stop: float, risk_usd: float) -> float:
     step = q["volume_step"]
     raw = risk_usd / loss_per_lot(q, entry, stop)
     return round(math.floor(raw / step + 1e-9) * step, 2)
+
+
+def size_trade(q: dict, entry: float, stop: float, budget_usd: float) -> dict:
+    """Fixed-$ lots (bensim.sizing): rounded down, max-lot capped, ok=False below the min lot; logged for every trade."""
+    d = sizing.size(q, entry, stop, budget_usd)
+    log("INFO", sizing.log_line(d))
+    return d
 
 
 def open_risk(p: dict, q: dict) -> float:
@@ -263,6 +277,10 @@ def cycle(dry: bool) -> None:
             log("TRADE" if decision == "SENT" else "INFO", f"BENNETT {sym} {'BUY' if pl['dir'] == 1 else 'SELL'} signal {pl['signal_time']}: {decision} {detail}")
         except Exception as exc:
             log("ERROR", f"BENNETT {sym}: {exc!r}\n{traceback.format_exc(limit=3)}")
+    try:  # news blackout calendar: daily Forex Factory refresh in a background process (bensim.news_block)
+        news_block.refresh_daily(state, log)
+    except Exception as exc:
+        log("ERROR", f"NEWS calendar refresh: {exc!r}")
     try:  # flow/rate book (bensim.flow_live): own magic, exits and limits; a failure here never stops the strategies above
         flow_live.step(time.time(), initial, day_start, equity, halted, dry, log, state)
     except Exception as exc:
@@ -278,21 +296,24 @@ def cycle(dry: bool) -> None:
 
 
 def decide_bn(sym: str, pl: dict, initial: float, day_start: float, equity: float, opens: list[guard.Open], halted: bool, dry: bool) -> tuple[str, dict]:
-    """Bennett order: market at the trigger close (as the backtest), fixed SL/TP, BN_RISK_SCALE x the normal risk."""
+    """Bennett order: market at the trigger close (as the backtest), fixed SL/TP, fixed $ risk (BUDGETS["bennett"], bensim.sizing)."""
     if halted:
         return "SKIP_KILL_SWITCH", {}
     q = bridge.tick(sym)
     spec, why = bstrat.order_for(pl, q["bid"], q["ask"], bstrat.LIVE)
     if spec is None:
         return f"SKIP_{why}", {"bid": q["bid"], "ask": q["ask"]}
-    scale = guard.risk_scale(initial, equity) * BN_RISK_SCALE
-    lots = lots_for(q, spec["price"], spec["sl"], initial * RISK_PCT / 100 * scale)
-    if lots < q["volume_min"]:
-        return "SKIP_LOTS_BELOW_MIN", {"lots": lots}
-    risk_usd = loss_per_lot(q, spec["price"], spec["sl"]) * lots
+    scale = guard.risk_scale(initial, equity)
+    sz = size_trade(q, spec["price"], spec["sl"], BUDGETS["bennett"] * scale)
+    if not sz["ok"]:
+        return "SKIP_LOTS_BELOW_MIN", sz
+    lots, risk_usd = sz["lots"], sz["est_loss"]
     ok, why = guard.check(initial, day_start, equity, opens, sym, pl["dir"], risk_usd)
+    news = news_block.blocked(sym) if ok else None
+    ok, why = (False, news) if news else (ok, why)
     detail = {"price": spec["price"], "sl": spec["sl"], "tp": spec["tp"], "rr": round(spec["rr"], 2), "lots": lots,
-              "risk_usd": round(risk_usd, 2), "scale": scale, "hold_bars": pl["hold_bars"]}
+              "risk_usd": round(risk_usd, 2), "scale": scale, "hold_bars": pl["hold_bars"], "budget_usd": sz["risk_usd"],
+              "stop_pips": sz["stop_pips"], "pip_value": sz["pip_value"]}
     if not ok:
         return f"SKIP_GUARD_{why}", detail
     if dry:
@@ -310,16 +331,16 @@ def decide(sym: str, pl: dict, initial: float, day_start: float, equity: float, 
     if spec is None:
         return f"SKIP_{why}", {"bid": q["bid"], "ask": q["ask"]}
     n_conf = sum(indicators.passes(pl["checks"], (k,)) for k in PARAMS.confirm_any)
-    confidence = 1.0 if n_conf >= len(PARAMS.confirm_any) else WEAK_SETUP_RISK  # 3 of 3: full risk, 2 of 3: half
-    scale = guard.risk_scale(initial, equity) * confidence
-    risk_target = initial * RISK_PCT / 100 * scale
-    lots = lots_for(q, spec["price"], spec["sl"], risk_target)
-    if lots < q["volume_min"]:
-        return "SKIP_LOTS_BELOW_MIN", {"lots": lots}
-    risk_usd = loss_per_lot(q, spec["price"], spec["sl"]) * lots
+    scale = guard.risk_scale(initial, equity)
+    sz = size_trade(q, spec["price"], spec["sl"], BUDGETS["fib618"] * scale)
+    if not sz["ok"]:
+        return "SKIP_LOTS_BELOW_MIN", sz
+    lots, risk_usd = sz["lots"], sz["est_loss"]
     ok, why = guard.check(initial, day_start, equity, opens, sym, pl["dir"], risk_usd)
+    news = news_block.blocked(sym) if ok else None
+    ok, why = (False, news) if news else (ok, why)
     detail = {"price": spec["price"], "sl": spec["sl"], "tp": spec["tp"], "rr": round(spec["rr"], 2), "lots": lots, "risk_usd": round(risk_usd, 2), "scale": scale,
-              "confirmations": n_conf}
+              "confirmations": n_conf, "budget_usd": sz["risk_usd"], "stop_pips": sz["stop_pips"], "pip_value": sz["pip_value"]}
     if not ok:
         return f"SKIP_GUARD_{why}", detail
     if dry:
@@ -391,11 +412,11 @@ def main() -> None:
         return setups()
     with db.connect(autocommit=True) as c:
         c.execute(SCHEMA)
-    log("INFO", f"live engine start: dry={a.dry_run} live_from={datetime.fromtimestamp(LIVE_FROM, timezone.utc):%Y-%m-%d %H:%M}Z risk={RISK_PCT}% "
+    log("INFO", f"live engine start: dry={a.dry_run} live_from={datetime.fromtimestamp(LIVE_FROM, timezone.utc):%Y-%m-%d %H:%M}Z risk $ {BUDGETS} (fixed, costs incl. comm {sizing.COMMISSION_RT}/lot slip {sizing.SLIPPAGE_PIPS}p) "
                 f"params={PARAMS.zone_mode}+{PARAMS.confirm_min}of{','.join(PARAMS.confirm_any)} symbols={','.join(LIVE_SYMBOLS)} | "
-                f"bennett={'on' if BN_ON else 'off'} {','.join(BN_SYMBOLS)} risk x{BN_RISK_SCALE} | "
-                f"flow={flow_live.MODE} ml {flow_live.ML_LOTS} lots am {flow_live.AM_LOTS} lots | "
-                f"books={','.join(books.ON) or 'off'} risk x{books.RISK_SCALE}")
+                f"bennett={'on' if BN_ON else 'off'} {','.join(BN_SYMBOLS)} | "
+                f"flow={flow_live.MODE} risk {flow_live.RISK_PCT}% at the disaster stop | "
+                f"books={','.join(books.ON) or 'off'} ")
     failures = 0
     while True:
         try:
