@@ -42,9 +42,13 @@ from .config import env
 from .mt5_time import server_to_utc
 from .strategy import Params, atr, order_for, pip, plan, trend
 
-MAGICS = {"imbalance": 770104, "enigma": 770105, "sflow": 770106, "parallax": 770107, "cta": 770108}
+MAGICS = {"imbalance": 770104, "enigma": 770105, "sflow": 770106, "parallax": 770107, "cta": 770108, "channel": 770110}
 # 2026-11-06 user GO (Stage 4 item 4): parallax + cta SHADOW only (signals recorded with status SHADOW, never sent)
-_on = env("BENSIM_BOOKS", "imbalance,enigma,sflow").lower()
+# 2026-11-09 user GO: channel (Bennett range mode, BUYS ONLY -- the only filter that passed the untouched 2021-24 check;
+# 5y +258R t 2.38) LIVE at $1,000 risk (live.BUDGETS["channel"]); stopped for good after CHANNEL_KILL_USD realised loss.
+_on = env("BENSIM_BOOKS", "imbalance,enigma,sflow,channel").lower()
+CHANNEL_SIDES = (1,) if env("BENSIM_CHANNEL_SIDES", "buy").lower() == "buy" else (1, -1)
+CHANNEL_KILL_USD = float(env("BENSIM_CHANNEL_KILL_USD", "30000"))  # realised loss since start -> no new channel trades
 ON = [] if _on == "off" else [b for b in _on.split(",") if b in MAGICS]
 SHADOW = [b for b in env("BENSIM_BOOKS_SHADOW", "parallax,cta").lower().split(",") if b in MAGICS and b not in ON]
 SYMBOLS = [x for x in env("BENSIM_BOOKS_SYMBOLS", "EURUSD,GBPUSD,USDJPY,AUDUSD,USDCHF,USDCAD,XAUUSD").split(",") if x]
@@ -152,6 +156,45 @@ def sig_sflow(sym: str, h1: dict) -> list[dict]:
     return [{"kind": "zone", "signal_time": int(h1["t"][e["i"]]), "dir": d, "leg": 0, "entry": near,
              "stop": far - d * 0.1 * atr(h1)[e["i"]], "target": 0.0, "cancel": far, "expire": t_bos + sflow.WAIT_DAYS * DAY,
              "hold": sflow.HOLD_DAYS * DAY, "extra": {"t_origin": int(h1["t"][e["origin"]])}}]
+
+
+def sig_channel(sym: str, m5: dict, h1: dict) -> list[dict]:
+    """Bennett channel mode (bensim.bennett_channel.setup, the backtested function): only on the M5 close that completes
+    a 15M bar. Pending 'zone' limit at the 62% OTE, cancelled on a close below the leg low, 24 h, 10-day hold."""
+    from . import bennett_channel as bc  # noqa: PLC0415
+    from .bennett_strategy import agg  # noqa: PLC0415
+    t_close = int(m5["t"][-1]) + 300
+    if t_close % 900:
+        return []
+    m15 = resample(m5, 900)
+    i = int(np.searchsorted(m15["t"] + 900, t_close, side="right")) - 1
+    if i < 0 or int(m15["t"][i]) + 900 != t_close:
+        return []
+    h4 = bc.h4_closed(agg(h1, 14400), t_close)
+    out = []
+    for d in CHANNEL_SIDES:
+        s = bc.setup(h4, m15, i, d, pip(sym))
+        if s:
+            out.append({"kind": "zone", "signal_time": int(m15["t"][i]), "dir": d, "leg": 0, "entry": s["entry"], "stop": s["stop"],
+                        "target": s["target"], "cancel": s["ext"], "expire": t_close + DAY, "hold": 10 * DAY, "extra": {}})
+    return out
+
+
+def channel_dead(c, log) -> bool:
+    """Kill switch: realised P&L (profit + commission + swap) of magic 770110 since the book's start <= -CHANNEL_KILL_USD."""
+    row = c.execute("select v from live_state where k='channel_start'").fetchone()
+    start = int(row[0]) if row else None
+    if start is None:
+        start = int(time.time())
+        c.execute("insert into live_state (k, v) values ('channel_start', %s) on conflict (k) do nothing", (json.dumps(start),))
+    key = ("channel_pnl", int(time.time()) // 900)
+    if key not in _cache:
+        ds = [d for d in bridge.deals(start - 3600, int(time.time()) + 3600) if d.get("magic") == MAGICS["channel"]]
+        _cache[key] = sum(d.get("profit", 0.0) + d.get("commission", 0.0) + d.get("swap", 0.0) + d.get("fee", 0.0) for d in ds)
+    if _cache[key] <= -CHANNEL_KILL_USD:
+        log("WARN", f"BOOK channel KILL SWITCH: realised {_cache[key]:+,.0f} USD <= -{CHANNEL_KILL_USD:,.0f} -- no new channel trades")
+        return True
+    return False
 
 
 def sig_parallax(b: pd.DataFrame) -> list[dict]:
@@ -263,6 +306,7 @@ def step(initial: float, day_start: float, equity: float, halted: bool, dry: boo
         c.execute(SCHEMA)
         pos, held = _held(all_magics | set(MAGICS.values()))
         _exits(pos, c, m5_of, log, dry)
+        ch_dead = "channel" in ON and channel_dead(c, log)
         cands: list[dict] = []
         for sym in SYMBOLS:
             try:
@@ -275,6 +319,8 @@ def step(initial: float, day_start: float, equity: float, halted: bool, dry: boo
                         new = sig_plan(book, sym, m5, h1, windows)
                     elif book == "sflow":
                         new = sig_sflow(sym, h1)
+                    elif book == "channel":
+                        new = [] if ch_dead else sig_channel(sym, m5, h1)
                     else:
                         b = d1_bars(sym)
                         new = sig_parallax(b) if book == "parallax" else sig_cta(sym, b)
@@ -300,8 +346,10 @@ def step(initial: float, day_start: float, equity: float, halted: bool, dry: boo
                     if now >= expire or newer:
                         c.execute("update live_books set status='EXPIRED', updated=now() where book=%s and symbol=%s and signal_time=%s and dir=%s and leg=%s", key)
                         continue
-                    if int(m5["t"][-1]) < sig_t + (3600 if book == "sflow" else DAY):
+                    if int(m5["t"][-1]) < sig_t + {"sflow": 3600, "channel": 900}.get(book, DAY):
                         continue  # the signal bar itself is still the newest data
+                    if book == "channel" and ch_dead:
+                        continue
                     hit = touched(kind, d, entry, cancel, m5["high"][-1], m5["low"][-1], m5["close"][-1], spr)
                     if hit == "cancel":
                         c.execute("update live_books set status='CANCELLED', updated=now() where book=%s and symbol=%s and signal_time=%s and dir=%s and leg=%s", key)

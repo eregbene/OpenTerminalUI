@@ -48,7 +48,8 @@ RISK_USD = sizing.RISK_USD  # BENSIM_RISK_USD, default $500
 # one budget per strategy (user: no split by setup; the best one bigger) -- Bennett = the only positive stop-based
 # strategy over 10 years (round 21). Override each with BENSIM_RISK_USD_<NAME>.
 BUDGETS = {k: float(env(f"BENSIM_RISK_USD_{k.upper()}", str(v))) for k, v in
-           {"fib618": RISK_USD, "bennett": 1000, "imbalance": RISK_USD, "enigma": RISK_USD, "sflow": RISK_USD}.items()}
+           {"fib618": RISK_USD, "bennett": 1000, "imbalance": RISK_USD, "enigma": RISK_USD, "sflow": RISK_USD,
+            "channel": 1000}.items()}  # channel: 2026-11-09 user GO, $1,000 risk (buys only, kill switch in books)
 LIVE_FROM = int(datetime.fromisoformat(env("BENSIM_LIVE_FROM", "2026-10-12T06:00:00+00:00")).timestamp())  # dry-run before this (UTC)
 STOP_FILE = ROOT / "bensim.STOP"
 MAGIC_BN = 770102

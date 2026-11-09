@@ -43,45 +43,63 @@ def channel(h4: dict, j: int) -> tuple[float, float, float] | None:
     return k, at + dn, at + up
 
 
-def run(sym: str, start: str, end: str) -> list[dict]:
+def setup(h4: dict, m15: dict, i: int, d: int, p: float) -> dict | None:
+    """Rules 1-3 + the order (4-6) for the 15M bar i that just closed: {entry, stop, ext, target} or None.
+    h4 must hold only 4H bars closed by the close of bar i. Shared by the backtest (run) and the live book."""
+    h, lo, c = m15["high"], m15["low"], m15["close"]
+    if i < 41:
+        return None
+    ch = channel(h4, len(h4["t"]))
+    if ch is None:
+        return None
+    _, bot, top = ch
+    w = top - bot
+    # 2 location: the extreme of the last 32 15M bars is inside the outer quarter
+    seg = slice(max(0, i - 32), i + 1)
+    ext_i = seg.start + int(np.argmin(lo[seg]) if d == 1 else np.argmax(h[seg]))
+    ext = float(lo[ext_i] if d == 1 else h[ext_i])
+    if (ext > bot + 0.25 * w) if d == 1 else (ext < top - 0.25 * w):
+        return None
+    # 3 trigger: this close breaks the last 3-candle swing (high for a buy) made before the extreme
+    sw = [k for k in range(max(1, ext_i - 40), ext_i) if ((h[k] > h[k - 1] and h[k] > h[k + 1]) if d == 1 else (lo[k] < lo[k - 1] and lo[k] < lo[k + 1]))]
+    if not sw:
+        return None
+    lvl = h[sw[-1]] if d == 1 else lo[sw[-1]]
+    if not ((c[i] > lvl >= c[i - 1]) if d == 1 else (c[i] < lvl <= c[i - 1])):
+        return None
+    leg_hi = float(h[ext_i:i + 1].max() if d == 1 else lo[ext_i:i + 1].min())
+    entry = leg_hi - 0.62 * (leg_hi - ext)  # first touch of the OTE band (62% of the CHoCH leg), both sides
+    stop = ext - d * 3.5 * p
+    target = (top - 0.25 * w) if d == 1 else (bot + 0.25 * w)
+    risk = (entry - stop) * d
+    if risk <= 0 or (target - entry) * d < 3 * risk:
+        return None
+    return {"entry": float(entry), "stop": float(stop), "ext": ext, "target": float(target)}
+
+
+def h4_closed(h4: dict, t_close: int) -> dict:
+    """The 4H bars closed by t_close."""
+    j = int(np.searchsorted(h4["t"] + 14400, t_close, side="right"))
+    return {k: v[:j] for k, v in h4.items()}
+
+
+def run(sym: str, start: str, end: str, sides: tuple = (1, -1)) -> list[dict]:
     m5 = load_m5(sym, (pd.Timestamp(start) - pd.Timedelta(days=40)).strftime("%Y-%m-%d"), end)
     if len(m5["t"]) < 5000:
         return []
     h4, m15 = resample(m5, 14400), resample(m5, 900)
     p, t0 = pip(sym), pd.Timestamp(start, tz="UTC").timestamp()
-    h, lo, c, t = m15["high"], m15["low"], m15["close"], m15["t"]
+    t = m15["t"]
     out, busy = [], 0
     for i in range(10, len(t)):
         if t[i] < t0 or t[i] < busy:
             continue
-        j = int(np.searchsorted(h4["t"] + 14400, t[i] + 900, side="right"))  # 4H bars closed by this 15M close
-        ch = channel(h4, j)
-        if ch is None:
-            continue
-        _, bot, top = ch
-        w = top - bot
-        for d in (1, -1):
-            # 2 location: the extreme of the last 32 15M bars is inside the outer quarter
-            seg = slice(max(0, i - 32), i + 1)
-            ext_i = seg.start + int(np.argmin(lo[seg]) if d == 1 else np.argmax(h[seg]))
-            ext = lo[ext_i] if d == 1 else h[ext_i]
-            if (ext > bot + 0.25 * w) if d == 1 else (ext < top - 0.25 * w):
+        hb = h4_closed(h4, int(t[i]) + 900)
+        for d in sides:
+            s = setup(hb, m15, i, d, p)
+            if s is None:
                 continue
-            # 3 trigger: this close breaks the last 3-candle swing (high for a buy) made before the extreme
-            sw = [k for k in range(max(1, ext_i - 40), ext_i) if ((h[k] > h[k - 1] and h[k] > h[k + 1]) if d == 1 else (lo[k] < lo[k - 1] and lo[k] < lo[k + 1]))]
-            if not sw:
-                continue
-            lvl = h[sw[-1]] if d == 1 else lo[sw[-1]]
-            if not ((c[i] > lvl >= c[i - 1]) if d == 1 else (c[i] < lvl <= c[i - 1])):
-                continue
-            leg_hi = float(h[ext_i:i + 1].max() if d == 1 else lo[ext_i:i + 1].min())
-            entry = leg_hi - 0.62 * (leg_hi - ext)  # first touch of the OTE band (62% of the CHoCH leg), both sides
-            stop = ext - d * 3.5 * p
-            target = (top - 0.25 * w) if d == 1 else (bot + 0.25 * w)
-            risk = (entry - stop) * d
-            if risk <= 0 or (target - entry) * d < 3 * risk:
-                continue
-            tr = _fill_and_exit(m5, sym, d, int(t[i]) + 900, entry, stop, ext, target, p)
+            tr = _fill_and_exit(m5, sym, d, int(t[i]) + 900, s["entry"], s["stop"], s["ext"], s["target"], p)
             if tr:
                 out.append(tr)
                 busy = tr["t_exit"]
