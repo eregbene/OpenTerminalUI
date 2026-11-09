@@ -74,3 +74,6 @@ NO version passes. Closest: Bennett CHANNEL mode 1,032 trades +135.3R (Y1 +93.1 
 
 ## 7. Channel mode on the UNTOUCHED period 2021-10-12 .. 2024-11-06 -- FAIL
 1,253 trades, 16% win, -25.0R (t -0.23); $-12,486 @$500; fixed 7 lots $-56,811. Years: 2022 -76.4R, 2023 +92.9R, 2024 -44.1R. Gold -72.8R. Worst losing streak 35 trades. 1-ATR floor: -38.0R. The 2-year +135R does not repeat -> period-dependent, not an edge. Not for the DEMO.
+
+## 8. Channel mode filters (found on the 2 years, checked on the untouched 2021-2024)
+Only F1 BUYS ONLY passes the untouched check: +129.8R / 589 tr (t 1.60) vs unfiltered -25.0R; 2-year +128.8R / 455 tr. All 5 years: 1,044 buys +258.5R, avg +0.248R, t 2.38; years 2021 +13.8 / 2022 -25.3 / 2023 +94.5 / 2024 +46.5 / 2025 +106.2 / 2026 +22.9; not gold-driven (without gold +91R and +119R). Sells over 5 years -148R. Other filters FAIL out of sample (skip 13-17 UTC -164R, skip 1st attempt -136R, all four -18R). Risk: worst drawdown $44,964 at $500/trade (~90R), $121,779 at 7 lots (more than the account); longest losing streak 25. Caveat: 1 of 4 candidate filters picked on the 2 years.
