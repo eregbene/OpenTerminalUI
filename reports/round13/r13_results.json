@@ -1,0 +1,180 @@
+{
+ "claims": [
+  {
+   "claim": "H1a",
+   "n": 92656,
+   "mean_bp": -0.97,
+   "t": -11.44,
+   "p": 1.0,
+   "P1": -1.131,
+   "P2": -0.679,
+   "P3": -1.017,
+   "usd": {
+    "1lot": {
+     "per_year": -55145,
+     "worst_month": -35268,
+     "max_dd": -808298
+    },
+    "5lot": {
+     "per_year": -275726,
+     "worst_month": -176340,
+     "max_dd": -4041492
+    },
+    "7lot": {
+     "per_year": -386017,
+     "worst_month": -246876,
+     "max_dd": -5658089
+    }
+   },
+   "BH": false,
+   "PASS": false
+  },
+  {
+   "claim": "H1b",
+   "n": 4312,
+   "mean_bp": -1.116,
+   "t": -2.98,
+   "p": 0.9983744490359221,
+   "P1": -2.623,
+   "P2": -0.102,
+   "P3": 0.02,
+   "usd": {
+    "1lot": {
+     "per_year": -3216,
+     "worst_month": -5247,
+     "max_dd": -51861
+    },
+    "5lot": {
+     "per_year": -16083,
+     "worst_month": -26236,
+     "max_dd": -259307
+    },
+    "7lot": {
+     "per_year": -22516,
+     "worst_month": -36730,
+     "max_dd": -363030
+    }
+   },
+   "BH": false,
+   "PASS": false
+  },
+  {
+   "claim": "H1c",
+   "n": 92659,
+   "mean_bp": -0.72,
+   "t": -9.25,
+   "p": 1.0,
+   "P1": -0.918,
+   "P2": -0.448,
+   "P3": -0.698,
+   "usd": {
+    "1lot": {
+     "per_year": -42720,
+     "worst_month": -20572,
+     "max_dd": -629905
+    },
+    "5lot": {
+     "per_year": -213603,
+     "worst_month": -102862,
+     "max_dd": -3149525
+    },
+    "7lot": {
+     "per_year": -299044,
+     "worst_month": -144008,
+     "max_dd": -4409335
+    }
+   },
+   "BH": false,
+   "PASS": false
+  },
+  {
+   "claim": "H2",
+   "n": 321,
+   "mean_pct_month": -0.261,
+   "t": -2.71,
+   "p": 0.9964880026932431,
+   "P1": 5.55452722783003e-05,
+   "P2": -0.004955258433054216,
+   "P3": -0.002918915878684255,
+   "usd": {
+    "1lot_per_year": -3135,
+    "1lot_worst_month": -5955
+   },
+   "BH": false,
+   "PASS": false
+  },
+  {
+   "claim": "H3",
+   "n": 1260,
+   "mean_bp": -0.2,
+   "t": -0.09,
+   "p": 0.5361750021972519,
+   "P1": -0.18,
+   "P2": 1.1,
+   "P3": -1.44,
+   "usd": {
+    "1lot": {
+     "per_year": 271,
+     "worst_month": -10808,
+     "max_dd": -22646
+    },
+    "5lot": {
+     "per_year": 1359,
+     "worst_month": -54041,
+     "max_dd": -113232
+    },
+    "7lot": {
+     "per_year": 1902,
+     "worst_month": -75658,
+     "max_dd": -158525
+    }
+   },
+   "by_pair": {
+    "AUDNZD": {
+     "count": 461,
+     "mean": -2.94
+    },
+    "EURCHF": {
+     "count": 347,
+     "mean": -1.92
+    },
+    "EURGBP": {
+     "count": 452,
+     "mean": 3.92
+    }
+   },
+   "BH": false,
+   "PASS": false
+  }
+ ],
+ "reported": {
+  "H1a_by_pair": {
+   "AUDCAD": -1.2,
+   "AUDCHF": -1.58,
+   "AUDJPY": -1.08,
+   "AUDNZD": -1.21,
+   "AUDUSD": -1.15,
+   "CADCHF": -0.99,
+   "CADJPY": -0.64,
+   "EURAUD": -0.98,
+   "EURCHF": -0.57,
+   "EURGBP": -0.49,
+   "EURJPY": -0.72,
+   "EURNZD": -1.36,
+   "EURUSD": -0.29,
+   "GBPCAD": -1.12,
+   "GBPCHF": -1.16,
+   "GBPJPY": -0.8,
+   "GBPNZD": -1.66,
+   "GBPUSD": -0.69,
+   "NZDCAD": -1.47,
+   "NZDCHF": -1.31,
+   "NZDJPY": -1.06,
+   "NZDUSD": -1.31,
+   "USDCAD": -0.44,
+   "USDCHF": -0.36,
+   "USDJPY": -0.63
+  },
+  "H1_gross_reversal_corr": 0.009
+ }
+}

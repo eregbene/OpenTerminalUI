@@ -1,0 +1,25 @@
+3569 trades 2024-11-07 .. 2026-11-07: imbalance 962, faiz 767, fib618 571, channel 455, sflow (JeaFx) 292, bennett 278, enigma 244
+total +269.8R
+
+scheme                                              total $    year 1    year 2  worst DD   DD % worst month worst day lose run
+$250 risk                                           +66,487   +23,805   +42,683    20,942  20.9%     -10,037    -3,104       19
+$250 risk, max 3 lots                               +67,668   +22,850   +44,818    19,727  19.7%      -9,647    -3,048       19
+$500 risk                                          +134,116   +48,185   +85,930    41,960  42.0%     -20,058    -6,214       19
+$500 risk, max 3 lots                              +124,096   +46,314   +77,782    35,209  35.2%     -16,970    -5,389       19
+current live ($1k Bennett+channel, $500 rest)      +221,636  +119,925  +101,711    38,058  38.1%     -19,490   -10,817       19
+fixed 3 lots                                       +475,719  +185,844  +289,875   172,037 172.0%    -108,209   -74,826       19
+fixed 1 lot                                        +158,573   +61,948   +96,625    57,346  57.3%     -36,070   -24,942       19
+
+$ per strategy:
+               $250 risk  $250 risk, max 3 lots  $500 risk  $500 risk, max 3 lots  current live ($1k Bennett+channel, $500 rest)  fixed 3 lots  fixed 1 lot  trades      R
+bennett          11499.0                11660.0    22968.0                21291.0                                        46069.0       12206.0       4069.0     278   46.0
+channel          32050.0                32994.0    64357.0                53971.0                                       128775.0       56275.0      18758.0     455  129.0
+enigma            2377.0                  897.0     4727.0                 -923.0                                         4727.0      -37958.0     -12653.0     244    9.0
+faiz            -16123.0               -12735.0   -32076.0               -13150.0                                       -32076.0       55487.0      18496.0     767  -64.0
+fib618           11276.0                10469.0    22720.0                20292.0                                        22720.0       68376.0      22792.0     571   46.0
+imbalance        24367.0                20338.0    49345.0                31401.0                                        49345.0      205605.0      68535.0     962   99.0
+sflow (JeaFx)     1041.0                 4046.0     2075.0                11214.0                                         2075.0      115729.0      38576.0     292    4.0
+
+Right size for the 100k (same $ risk for every strategy, max 3 lots):
+  worst drawdown <= 5%: $50 per trade -> total +12,840, DD 4,140 (4.1%), worst month -1,976, worst day -616
+  worst drawdown <= 10%: $100 per trade -> total +26,437, DD 8,291 (8.3%), worst month -3,944, worst day -1,237

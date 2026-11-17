@@ -1,0 +1,344 @@
+{
+ "chosen_filters_on_DISC": [],
+ "DISC_all_trades": {
+  "n": 4622,
+  "expR": -0.0659,
+  "pf": 0.911,
+  "totalR": -304.7,
+  "maxDD_R": -333.9,
+  "win": 0.255,
+  "t": -2.47
+ },
+ "DISC_filtered": {
+  "n": 4622,
+  "expR": -0.0659,
+  "pf": 0.911,
+  "totalR": -304.7,
+  "maxDD_R": -333.9,
+  "win": 0.255,
+  "t": -2.47
+ },
+ "VAL_all_trades": {
+  "n": 2083,
+  "expR": -0.0494,
+  "pf": 0.933,
+  "totalR": -102.9,
+  "maxDD_R": -139.8,
+  "win": 0.253,
+  "t": -1.21
+ },
+ "VAL_filtered": {
+  "n": 2083,
+  "expR": -0.0494,
+  "pf": 0.933,
+  "totalR": -102.9,
+  "maxDD_R": -139.8,
+  "win": 0.253,
+  "t": -1.21
+ },
+ "LOCK_all_trades": {
+  "n": 2574,
+  "expR": -0.0095,
+  "pf": 0.987,
+  "totalR": -24.5,
+  "maxDD_R": -129.8,
+  "win": 0.268,
+  "t": -0.26
+ },
+ "LOCK_filtered": {
+  "n": 2574,
+  "expR": -0.0095,
+  "pf": 0.987,
+  "totalR": -24.5,
+  "maxDD_R": -129.8,
+  "win": 0.268,
+  "t": -0.26
+ },
+ "ML_trade_filter": {
+  "DISC->VAL": {
+   "AUC": 0.5743,
+   "all": {
+    "n": 2083,
+    "expR": -0.0494,
+    "pf": 0.933,
+    "totalR": -102.9,
+    "maxDD_R": -139.8,
+    "win": 0.253,
+    "t": -1.21
+   },
+   "top_half": {
+    "n": 1247,
+    "expR": -0.0736,
+    "pf": 0.893,
+    "totalR": -91.8,
+    "maxDD_R": -107.7,
+    "win": 0.289,
+    "t": -1.62
+   },
+   "bottom_half": {
+    "n": 836,
+    "expR": -0.0134,
+    "pf": 0.983,
+    "totalR": -11.2,
+    "maxDD_R": -64.3,
+    "win": 0.2,
+    "t": -0.18
+   }
+  },
+  "DISC+VAL->LOCK": {
+   "AUC": 0.5786,
+   "all": {
+    "n": 2574,
+    "expR": -0.0095,
+    "pf": 0.987,
+    "totalR": -24.5,
+    "maxDD_R": -129.8,
+    "win": 0.268,
+    "t": -0.26
+   },
+   "top_half": {
+    "n": 1521,
+    "expR": -0.0477,
+    "pf": 0.929,
+    "totalR": -72.5,
+    "maxDD_R": -108.3,
+    "win": 0.303,
+    "t": -1.18
+   },
+   "bottom_half": {
+    "n": 1053,
+    "expR": 0.0456,
+    "pf": 1.058,
+    "totalR": 48.0,
+    "maxDD_R": -58.4,
+    "win": 0.217,
+    "t": 0.68
+   }
+  }
+ },
+ "by_book_period": [
+  {
+   "book": "bennett",
+   "per": "DISC",
+   "count": 126,
+   "mean": 0.059
+  },
+  {
+   "book": "bennett",
+   "per": "LOCK",
+   "count": 45,
+   "mean": 0.293
+  },
+  {
+   "book": "bennett",
+   "per": "VAL",
+   "count": 32,
+   "mean": 0.352
+  },
+  {
+   "book": "enigma",
+   "per": "DISC",
+   "count": 581,
+   "mean": -0.05
+  },
+  {
+   "book": "enigma",
+   "per": "LOCK",
+   "count": 362,
+   "mean": -0.044
+  },
+  {
+   "book": "enigma",
+   "per": "VAL",
+   "count": 254,
+   "mean": -0.114
+  },
+  {
+   "book": "fib618",
+   "per": "DISC",
+   "count": 1646,
+   "mean": -0.028
+  },
+  {
+   "book": "fib618",
+   "per": "LOCK",
+   "count": 833,
+   "mean": -0.051
+  },
+  {
+   "book": "fib618",
+   "per": "VAL",
+   "count": 710,
+   "mean": -0.1
+  },
+  {
+   "book": "imbalance",
+   "per": "DISC",
+   "count": 2269,
+   "mean": -0.104
+  },
+  {
+   "book": "imbalance",
+   "per": "LOCK",
+   "count": 1334,
+   "mean": 0.016
+  },
+  {
+   "book": "imbalance",
+   "per": "VAL",
+   "count": 1087,
+   "mean": -0.013
+  }
+ ],
+ "by_session": {
+  "asia": {
+   "count": 940,
+   "mean": 0.006
+  },
+  "late": {
+   "count": 462,
+   "mean": 0.058
+  },
+  "london": {
+   "count": 2048,
+   "mean": -0.062
+  },
+  "ny": {
+   "count": 2098,
+   "mean": 0.02
+  },
+  "overlap": {
+   "count": 3731,
+   "mean": -0.102
+  }
+ },
+ "pairs_worst5": {
+  "EURUSD": {
+   "count": 1975,
+   "mean": -0.12
+  },
+  "AUDUSD": {
+   "count": 824,
+   "mean": -0.104
+  },
+  "USDCHF": {
+   "count": 1473,
+   "mean": -0.052
+  },
+  "GBPUSD": {
+   "count": 1991,
+   "mean": -0.047
+  },
+  "USDCAD": {
+   "count": 1245,
+   "mean": -0.029
+  }
+ },
+ "pairs_best5": {
+  "USDCHF": {
+   "count": 1473,
+   "mean": -0.052
+  },
+  "GBPUSD": {
+   "count": 1991,
+   "mean": -0.047
+  },
+  "USDCAD": {
+   "count": 1245,
+   "mean": -0.029
+  },
+  "XAUUSD": {
+   "count": 617,
+   "mean": 0.022
+  },
+  "USDJPY": {
+   "count": 1154,
+   "mean": 0.073
+  }
+ },
+ "regimes": {
+  "vol=low|trend=range": {
+   "n": 915,
+   "expR": -0.0748,
+   "pf": 0.898,
+   "totalR": -68.4,
+   "maxDD_R": -107.9,
+   "win": 0.249,
+   "t": -1.28
+  },
+  "vol=low|trend=mid": {
+   "n": 939,
+   "expR": -0.0018,
+   "pf": 0.997,
+   "totalR": -1.6,
+   "maxDD_R": -54.2,
+   "win": 0.285,
+   "t": -0.03
+  },
+  "vol=low|trend=trend": {
+   "n": 938,
+   "expR": -0.0356,
+   "pf": 0.95,
+   "totalR": -33.4,
+   "maxDD_R": -61.3,
+   "win": 0.281,
+   "t": -0.63
+  },
+  "vol=mid|trend=range": {
+   "n": 962,
+   "expR": 0.0105,
+   "pf": 1.014,
+   "totalR": 10.1,
+   "maxDD_R": -55.2,
+   "win": 0.268,
+   "t": 0.17
+  },
+  "vol=mid|trend=mid": {
+   "n": 901,
+   "expR": -0.1403,
+   "pf": 0.814,
+   "totalR": -126.4,
+   "maxDD_R": -137.4,
+   "win": 0.239,
+   "t": -2.45
+  },
+  "vol=mid|trend=trend": {
+   "n": 924,
+   "expR": -0.1524,
+   "pf": 0.795,
+   "totalR": -140.8,
+   "maxDD_R": -158.2,
+   "win": 0.247,
+   "t": -2.72
+  },
+  "vol=high|trend=range": {
+   "n": 912,
+   "expR": 0.0393,
+   "pf": 1.054,
+   "totalR": 35.8,
+   "maxDD_R": -48.7,
+   "win": 0.27,
+   "t": 0.59
+  },
+  "vol=high|trend=mid": {
+   "n": 948,
+   "expR": -0.121,
+   "pf": 0.84,
+   "totalR": -114.7,
+   "maxDD_R": -145.4,
+   "win": 0.234,
+   "t": -2.09
+  },
+  "vol=high|trend=trend": {
+   "n": 927,
+   "expR": 0.0429,
+   "pf": 1.058,
+   "totalR": 39.8,
+   "maxDD_R": -35.9,
+   "win": 0.25,
+   "t": 0.63
+  }
+ },
+ "losers_reaching_+1R_first": 0.319,
+ "winners_mae_below_-0.5R": 0.0
+}

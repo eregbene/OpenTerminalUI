@@ -1,0 +1,30 @@
+P1 OWN 0.0259 None {'n': 4419, 'bp': 1.12, 't': 0.88, 'p': 0.1903, 'win': 0.513, 'pf': 1.073}
+P1 R3 0.0307 None {'n': 4186, 'bp': 2.95, 't': 1.56, 'p': 0.0597, 'win': 0.53, 'pf': 1.181}
+P1 R3_ADD 0.0026 None {'n': 4244, 'bp': -1.66, 't': -3.32, 'p': 0.9995, 'win': 0.474, 'pf': 0.868}
+P1 LOGIT 0.0279 0.516 {'n': 8335, 'bp': 0.62, 't': 0.57, 'p': 0.286, 'win': 0.505, 'pf': 1.044}
+P1 RF 0.0289 0.5167 {'n': 6188, 'bp': 0.96, 't': 0.9, 'p': 0.1855, 'win': 0.531, 'pf': 1.074}
+P1 HGBC 0.0333 0.5182 {'n': 6311, 'bp': 1.5, 't': 0.98, 'p': 0.1636, 'win': 0.525, 'pf': 1.104}
+P2 OWN 0.0212 None {'n': 3694, 'bp': -0.77, 't': -0.5, 'p': 0.6911, 'win': 0.471, 'pf': 0.952}
+P2 R3 0.0141 None {'n': 2796, 'bp': -0.55, 't': -0.25, 'p': 0.5992, 'win': 0.486, 'pf': 0.968}
+P2 R3_ADD 0.0104 None {'n': 4649, 'bp': -1.06, 't': -1.5, 'p': 0.9321, 'win': 0.462, 'pf': 0.921}
+P2 LOGIT 0.0255 0.5152 {'n': 4089, 'bp': 0.27, 't': 0.32, 'p': 0.3732, 'win': 0.507, 'pf': 1.02}
+P2 RF 0.0265 0.516 {'n': 2845, 'bp': 2.45, 't': 2.06, 'p': 0.0203, 'win': 0.536, 'pf': 1.184}
+P2 HGBC 0.0177 0.5098 {'n': 2744, 'bp': -0.41, 't': -0.4, 'p': 0.6556, 'win': 0.495, 'pf': 0.972}
+P1 {'R3_minus_OWN_IC': 0.0048, 'interaction_value_IC': 0.0281, 'TREE_AUC': 0.5151, 'G_move_IC': 0.3355, 'G_ptp_AUC': 0.5368, 'G_psl_AUC': 0.5208}
+ bands {'MONITOR': {'share': 0.0406, 'n': 24906, 'bp': 0.22, 't': 0.61, 'p': 0.2697, 'win': 0.508, 'pf': 1.022}, 'REJECT': {'share': 0.8801, 'n': 539460, 'bp': -1.15, 't': -7.54, 'p': 1.0, 'win': 0.484, 'pf': 0.916}, 'TRADE': {'share': 0.0793, 'n': 48583, 'bp': 1.51, 't': 0.62, 'p': 0.2682, 'win': 0.518, 'pf': 1.074}} 
+ TRADE {'n': 14533, 'bp': 1.2, 't': 1.2, 'p': 0.1155, 'win': 0.513, 'pf': 1.069}
+P2 {'R3_minus_OWN_IC': -0.0071, 'interaction_value_IC': 0.0037, 'TREE_AUC': 0.5097, 'G_move_IC': 0.3366, 'G_ptp_AUC': 0.5383, 'G_psl_AUC': 0.5203}
+ bands {'MONITOR': {'share': 0.0419, 'n': 21613, 'bp': -1.91, 't': -4.79, 'p': 1.0, 'win': 0.473, 'pf': 0.83}, 'REJECT': {'share': 0.8913, 'n': 460148, 'bp': -1.63, 't': -10.5, 'p': 1.0, 'win': 0.474, 'pf': 0.875}, 'TRADE': {'share': 0.0668, 'n': 34490, 'bp': 1.33, 't': 1.05, 'p': 0.1483, 'win': 0.514, 'pf': 1.074}} 
+ TRADE {'n': 9891, 'bp': 0.34, 't': 0.47, 'p': 0.3203, 'win': 0.512, 'pf': 1.02}
+P1|OWN|uncapped {'trades': 4419, 'bp_per_trade': 1.12, 'total_bp': 4963.3, 'sharpe_daily_ann': 0.5, 'max_dd_bp': -3762.9, 'top_currency_share': {'JPY': 0.158, 'USD': 0.14, 'EUR': 0.13, 'CHF': 0.122}}
+P1|OWN|cap4_ccy2 {'trades': 2920, 'bp_per_trade': 0.3, 'total_bp': 865.5, 'sharpe_daily_ann': 0.15, 'max_dd_bp': -2505.9, 'top_currency_share': {'JPY': 0.157, 'USD': 0.145, 'EUR': 0.129, 'NZD': 0.12}}
+P1|R3|uncapped {'trades': 4186, 'bp_per_trade': 2.95, 'total_bp': 12333.0, 'sharpe_daily_ann': 0.95, 'max_dd_bp': -6913.6, 'top_currency_share': {'USD': 0.161, 'JPY': 0.156, 'CHF': 0.124, 'EUR': 0.119}}
+P1|R3|cap4_ccy2 {'trades': 2912, 'bp_per_trade': 0.76, 'total_bp': 2199.7, 'sharpe_daily_ann': 0.41, 'max_dd_bp': -4089.6, 'top_currency_share': {'USD': 0.163, 'JPY': 0.151, 'CHF': 0.129, 'EUR': 0.127}}
+P1|STRONG_WEAK|uncapped {'trades': 6058, 'bp_per_trade': -2.06, 'total_bp': -12476.6, 'sharpe_daily_ann': -1.34, 'max_dd_bp': -13200.7, 'top_currency_share': {'USD': 0.145, 'NZD': 0.138, 'JPY': 0.138, 'GBP': 0.129}}
+P1|STRONG_WEAK|cap4_ccy2 {'trades': 4529, 'bp_per_trade': -1.56, 'total_bp': -7080.3, 'sharpe_daily_ann': -0.99, 'max_dd_bp': -7826.7, 'top_currency_share': {'USD': 0.142, 'JPY': 0.142, 'NZD': 0.136, 'AUD': 0.13}}
+P2|OWN|uncapped {'trades': 3694, 'bp_per_trade': -0.77, 'total_bp': -2851.4, 'sharpe_daily_ann': -0.3, 'max_dd_bp': -6809.3, 'top_currency_share': {'JPY': 0.149, 'CHF': 0.148, 'USD': 0.142, 'EUR': 0.117}}
+P2|OWN|cap4_ccy2 {'trades': 2444, 'bp_per_trade': -1.14, 'total_bp': -2775.1, 'sharpe_daily_ann': -0.64, 'max_dd_bp': -3529.0, 'top_currency_share': {'CHF': 0.144, 'USD': 0.143, 'JPY': 0.139, 'EUR': 0.12}}
+P2|R3|uncapped {'trades': 2796, 'bp_per_trade': -0.55, 'total_bp': -1528.1, 'sharpe_daily_ann': -0.2, 'max_dd_bp': -6143.9, 'top_currency_share': {'JPY': 0.162, 'CHF': 0.13, 'USD': 0.129, 'EUR': 0.126}}
+P2|R3|cap4_ccy2 {'trades': 1898, 'bp_per_trade': -0.89, 'total_bp': -1682.4, 'sharpe_daily_ann': -0.46, 'max_dd_bp': -3265.5, 'top_currency_share': {'JPY': 0.156, 'USD': 0.134, 'EUR': 0.128, 'CHF': 0.125}}
+P2|STRONG_WEAK|uncapped {'trades': 5056, 'bp_per_trade': -2.77, 'total_bp': -14004.4, 'sharpe_daily_ann': -1.88, 'max_dd_bp': -14704.5, 'top_currency_share': {'USD': 0.16, 'JPY': 0.158, 'NZD': 0.144, 'AUD': 0.128}}
+P2|STRONG_WEAK|cap4_ccy2 {'trades': 3790, 'bp_per_trade': -2.68, 'total_bp': -10146.8, 'sharpe_daily_ann': -1.82, 'max_dd_bp': -10745.7, 'top_currency_share': {'JPY': 0.159, 'USD': 0.159, 'NZD': 0.144, 'AUD': 0.131}}

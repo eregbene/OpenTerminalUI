@@ -1,0 +1,524 @@
+{
+"__init__": [],
+"audit_p2": [
+"backtest",
+"bennett_strategy",
+"books",
+"fvg_strategy",
+"gf_strategy",
+"orderflow_strategy",
+"pullback_strategy",
+"registry",
+"validate",
+"weekly_check"
+],
+"audit_p2_v2": [
+"backtest",
+"registry",
+"validate"
+],
+"backfill": [
+"bridge",
+"config",
+"db",
+"mt5_time"
+],
+"backtest": [
+"bennett_strategy",
+"config",
+"db",
+"fvg_strategy",
+"gf_strategy",
+"mt5_time",
+"orderflow_strategy",
+"pullback_strategy",
+"strategy"
+],
+"bennett_chart": [
+"backtest",
+"bennett_smc",
+"bennett_strategy"
+],
+"bennett_funnel": [
+"backtest",
+"bennett_strategy",
+"registry"
+],
+"bennett_report": [
+"backtest",
+"bennett_chart",
+"bennett_smc",
+"bennett_strategy",
+"db",
+"history",
+"periods",
+"strategy"
+],
+"bennett_smc": [],
+"bennett_strategy": [
+"backtest",
+"bennett_smc",
+"strategy"
+],
+"binance_history": [],
+"books": [
+"backtest",
+"bridge",
+"config",
+"cta_momentum",
+"db",
+"fvg_strategy",
+"guard",
+"live",
+"mt5_time",
+"parallax",
+"sflow",
+"strategy"
+],
+"bridge": [
+"config"
+],
+"chart": [
+"backtest",
+"db",
+"indicators",
+"strategy"
+],
+"combo": [
+"fxcm_history"
+],
+"config": [],
+"cost_snapshot": [
+"bridge",
+"config",
+"mt5_time"
+],
+"crypto_momentum": [
+"binance_history"
+],
+"crypto_paper": [
+"crypto_momentum"
+],
+"cta_momentum": [
+"fxcm_history",
+"parallax",
+"strategy"
+],
+"currency_clock": [
+"edge_miner"
+],
+"db": [
+"config"
+],
+"dxy": [
+"backtest",
+"db"
+],
+"edge3_check": [
+"night_check",
+"pattern_check",
+"scalp_check",
+"strategy"
+],
+"edge_miner": [
+"fxcm_history"
+],
+"edge_wf": [
+"edge_miner"
+],
+"entry_check": [
+"backtest",
+"bennett_strategy",
+"exit_check",
+"indicators",
+"live",
+"strategy",
+"weekly_check"
+],
+"entry_filter_check": [
+"backtest",
+"bennett_strategy",
+"exit_check",
+"live",
+"weekly_check"
+],
+"events": [
+"db"
+],
+"exit_check": [
+"backtest",
+"bennett_strategy",
+"live",
+"strategy",
+"trade_watch",
+"weekly_check"
+],
+"extra_ind": [
+"db"
+],
+"fib_borrow": [
+"backtest",
+"parallax"
+],
+"fib_htf": [
+"backtest",
+"config",
+"fxcm_history",
+"strategy"
+],
+"flow_live": [
+"bridge",
+"db",
+"edge_miner",
+"fxcm_history",
+"guard",
+"macro_yields",
+"mt5_time"
+],
+"fvg_strategy": [
+"indicators",
+"strategy"
+],
+"fx_scalp_check": [
+"backtest",
+"pattern_check",
+"scalp_check",
+"tm_check"
+],
+"fxcm_history": [],
+"fxcm_quality": [
+"backtest",
+"registry"
+],
+"gf_strategy": [
+"bennett_smc",
+"indicators",
+"strategy"
+],
+"gold_check": [
+"backtest",
+"bennett_strategy",
+"weekly_check"
+],
+"gold_donchian": [
+"backtest",
+"pattern_check",
+"strategy"
+],
+"gold_fakemove": [
+"backtest",
+"pattern_check",
+"strategy"
+],
+"gold_fvg": [
+"backtest",
+"pattern_check",
+"strategy"
+],
+"gold_session": [
+"backtest"
+],
+"guard": [],
+"history": [
+"bridge",
+"config",
+"db",
+"mt5_time"
+],
+"indicators": [],
+"live": [
+"backtest",
+"bennett_strategy",
+"books",
+"bridge",
+"config",
+"crypto_paper",
+"db",
+"flow_live",
+"guard",
+"indicators",
+"mt5_time",
+"strategy",
+"trade_watch"
+],
+"loss_patterns": [
+"signal_search"
+],
+"macro_yields": [
+"edge_miner",
+"edge_wf",
+"fxcm_history",
+"parallax"
+],
+"manager": [
+"backtest",
+"books",
+"bridge",
+"db",
+"guard",
+"live",
+"strategy",
+"trade_watch"
+],
+"meta": [
+"db",
+"trade_report"
+],
+"mt5_bridge": [
+"config"
+],
+"mt5_time": [],
+"night_5y": [
+"backtest",
+"mt5_time",
+"night_check",
+"pattern_check"
+],
+"night_check": [
+"pattern_check",
+"pine90_check",
+"scalp_check",
+"strategy"
+],
+"orderflow_strategy": [
+"fvg_strategy",
+"indicators",
+"strategy"
+],
+"parallax": [
+"backtest",
+"config",
+"fxcm_history",
+"strategy"
+],
+"pattern_check": [
+"backtest",
+"bennett_strategy",
+"books",
+"exit_check",
+"live",
+"weekly_check"
+],
+"periods": [],
+"phantom": [
+"backtest",
+"bennett_smc",
+"bennett_strategy",
+"strategy"
+],
+"phantom_report": [],
+"phantom_week": [
+"backtest"
+],
+"pine90_check": [
+"backtest",
+"binance_history",
+"config"
+],
+"plan_chart": [
+"backtest",
+"config",
+"indicators",
+"strategy"
+],
+"pullback_strategy": [
+"indicators",
+"strategy"
+],
+"r12_trades": [
+"backtest",
+"books",
+"registry",
+"weekly_check"
+],
+"r1_news": [
+"backtest",
+"db",
+"registry",
+"validate"
+],
+"r2_noise": [
+"backtest",
+"registry",
+"timemachine",
+"validate"
+],
+"reconcile": [
+"backtest",
+"bennett_strategy",
+"books",
+"bridge",
+"db",
+"live",
+"mt5_time",
+"registry"
+],
+"regime_study": [
+"fxcm_history",
+"parallax"
+],
+"regime_switch": [
+"fxcm_history",
+"parallax",
+"strategy"
+],
+"registry": [
+"db"
+],
+"scalp_check": [
+"bridge",
+"gold_fvg",
+"mt5_time",
+"pattern_check",
+"strategy"
+],
+"setups": [
+"backtest",
+"bennett_strategy",
+"strategy"
+],
+"setups_report": [],
+"sflow": [
+"backtest",
+"fxcm_history",
+"phantom",
+"strategy"
+],
+"signal_search": [
+"backtest",
+"strategy"
+],
+"smc_features": [
+"edge_miner",
+"edge_wf",
+"fxcm_history",
+"macro_yields"
+],
+"strategy": [
+"indicators"
+],
+"structure_filter": [
+"backtest",
+"bennett_strategy",
+"combo",
+"sflow",
+"weekly_check"
+],
+"test_backtest": [
+"backtest",
+"strategy"
+],
+"test_backtest_p0": [
+"backtest",
+"weekly_check"
+],
+"test_cta_momentum": [
+"cta_momentum"
+],
+"test_flow_live": [
+"bensim",
+"fxcm_history"
+],
+"test_live": [
+"backtest",
+"bennett_strategy",
+"db",
+"guard",
+"live",
+"strategy"
+],
+"test_parallax": [
+"parallax"
+],
+"test_timemachine": [],
+"time_of_day": [
+"fxcm_history"
+],
+"timemachine": [],
+"tm_check": [
+"backtest",
+"bennett_strategy",
+"books",
+"pattern_check",
+"timemachine",
+"weekly_check"
+],
+"today": [
+"backtest",
+"bennett_chart",
+"bennett_report",
+"bennett_strategy",
+"bridge",
+"db",
+"indicators",
+"live",
+"plan_chart",
+"strategy"
+],
+"trade_path": [
+"backtest"
+],
+"trade_report": [
+"backtest",
+"db",
+"indicators",
+"strategy"
+],
+"trade_watch": [
+"backtest",
+"bridge",
+"db",
+"strategy"
+],
+"tradeguard": [
+"bridge",
+"mt5_time"
+],
+"tsmom": [
+"fxcm_history",
+"parallax"
+],
+"untouched_check": [
+"cta_momentum",
+"fxcm_history",
+"parallax"
+],
+"validate": [
+"backtest",
+"registry"
+],
+"walk_forward": [
+"backtest"
+],
+"weekly_check": [
+"backtest",
+"trade_path"
+],
+"_load": [],
+"test_alerts": [],
+"test_analyst": [],
+"test_broker": [],
+"test_budget": [],
+"test_entry": [],
+"test_exit": [],
+"test_news": [],
+"test_pelosi": [],
+"test_repo": [],
+"test_risk": [],
+"test_scanner": [],
+"alerts": [],
+"facts": [],
+"ticket": [],
+"size": [],
+"entry": [],
+"exit": [],
+"news": [],
+"ptr": [],
+"check": [],
+"scan": [],
+"data": [
+"bensim",
+"mt5_time"
+],
+"mkenny": []
+}

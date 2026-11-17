@@ -1,0 +1,37 @@
+Zones = imbalance (FVG) with the liquidity under it; trade = enter at the zone edge, stop below the liquidity, 1:3
+
+== H1: 8330 zones, 98% came back to the zone (median 0.1 days after it formed); median stop 38 pips
+   HELD (1:3 target first) 23.6%   BROKE (went through, took the liquidity) 73.1%   open after 20 days 3.2%
+   imbalance fully filled at/after the touch: 91% of touches (median 0.3 days after forming); held even after a full fill: 17%
+   after BREAKING the liquidity, came back above the zone: within 5 days 67%, within 20 days 83%
+   trade result: -0.021 R/trade, total -173R (Y1 -63, Y2 -110) = -173,070 $ at $1k risk per trade
+      buys :  4301 trades, held 24.0%, -0.001 R/trade, total -6R
+      sells:  3896 trades, held 23.1%, -0.043 R/trade, total -167R
+   STACKED zones (the 1H/4H zone sits inside an active higher-TF zone):
+      alone               1558 trades, held  21.4%, broke  76.1%, -0.124 R/trade, total   -193R (Y1 -103, Y2 -90)
+      +4H zone            2852 trades, held  24.3%, broke  72.2%, +0.016 R/trade, total    +45R (Y1 -28, Y2 +73)
+      +1D zone             644 trades, held  25.0%, broke  74.1%, -0.017 R/trade, total    -11R (Y1 +32, Y2 -43)
+      +4H +1D (3 zones)   3143 trades, held  23.7%, broke  72.4%, -0.004 R/trade, total    -14R (Y1 +36, Y2 -50)
+   by pair:  AUDUSD -128R, EURUSD +1R, GBPUSD -21R, USDCAD +69R, USDCHF -80R, USDJPY -67R, XAUUSD +54R
+
+== H4: 2286 zones, 97% came back to the zone (median 0.3 days after it formed); median stop 73 pips
+   HELD (1:3 target first) 17.9%   BROKE (went through, took the liquidity) 64.6%   open after 20 days 17.5%
+   imbalance fully filled at/after the touch: 87% of touches (median 1.6 days after forming); held even after a full fill: 11%
+   after BREAKING the liquidity, came back above the zone: within 5 days 44%, within 20 days 69%
+   trade result: +0.017 R/trade, total +38R (Y1 -30, Y2 +67) = +37,519 $ at $1k risk per trade
+      buys :  1156 trades, held 18.8%, +0.078 R/trade, total +90R
+      sells:  1069 trades, held 16.9%, -0.049 R/trade, total -53R
+   STACKED zones (the 1H/4H zone sits inside an active higher-TF zone):
+      alone                842 trades, held  18.1%, broke  66.2%, -0.019 R/trade, total    -16R (Y1 -45, Y2 +30)
+      +1D zone            1383 trades, held  17.8%, broke  63.7%, +0.038 R/trade, total    +53R (Y1 +16, Y2 +37)
+   by pair:  AUDUSD -30R, EURUSD +13R, GBPUSD +1R, USDCAD +38R, USDCHF -6R, USDJPY -39R, XAUUSD +61R
+
+== D1: 512 zones, 94% came back to the zone (median 1.2 days after it formed); median stop 162 pips
+   HELD (1:3 target first) 6.0%   BROKE (went through, took the liquidity) 39.1%   open after 20 days 54.9%
+   imbalance fully filled at/after the touch: 76% of touches (median 4.4 days after forming); held even after a full fill: 4%
+   after BREAKING the liquidity, came back above the zone: within 5 days 21%, within 20 days 51%
+   trade result: +0.063 R/trade, total +30R (Y1 +4, Y2 +26) = +30,257 $ at $1k risk per trade
+      buys :   266 trades, held 6.4%, +0.067 R/trade, total +18R
+      sells:   217 trades, held 5.5%, +0.058 R/trade, total +13R
+   by pair:  AUDUSD +6R, EURUSD -9R, GBPUSD -11R, USDCAD +2R, USDCHF +8R, USDJPY -1R, XAUUSD +34R
+

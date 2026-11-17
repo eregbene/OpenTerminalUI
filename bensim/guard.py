@@ -1,0 +1,110 @@
+"""FTMO-style risk guard for the live engine: may this new order be sent, and at what risk scale?
+
+Rules (FTMO 2-Step objectives: 5% max daily loss vs the 00:00 CE(S)T balance incl. floating P/L, 10% static
+max loss; https://ftmo.com/en/trading-objectives/), with buffers so the engine stops BEFORE a breach:
+  * worst-case day: today's loss so far + what every open trade still risks to its stop + the new trade's risk
+    must stay <= daily_stop_pct of initial capital (4% of the 5% limit)
+  * flatten: today's loss (equity basis) >= daily_flat_pct -> close everything, no new trades today
+  * total drawdown: equity <= initial - reduce_at_pct -> half risk; <= initial - halt_at_pct -> no new trades
+  * concentration: at most max_per_side open trades long (or short) the same currency, max_open trades in all
+All amounts are account-currency (USD). Pure functions -- the live engine feeds them broker numbers.
+"""
+from __future__ import annotations
+
+import os
+from dataclasses import dataclass
+
+CURRENCIES = {"EURUSD": ("EUR", "USD"), "GBPUSD": ("GBP", "USD"), "USDJPY": ("USD", "JPY"), "AUDUSD": ("AUD", "USD"),
+              "USDCHF": ("USD", "CHF"), "USDCAD": ("USD", "CAD"), "XAUUSD": ("XAU", "USD")}
+
+
+@dataclass(frozen=True)
+class GuardCfg:
+    daily_stop_pct: float = 4.0
+    daily_flat_pct: float = 4.5
+    reduce_at_pct: float = 2.5  # 2026-10-13: half risk from -2.5% (was 6%)
+    halt_at_pct: float = 4.0  # 2026-10-13 brake: no new trades from -4% (was 8%; FTMO max loss is 10%)
+    max_per_side: int = 2
+    max_open: int = 4
+    max_open_risk_pct: float = 100.0  # 2026-11-06: summed remaining stop risk of all bensim positions + the new one, % of equity
+
+
+FTMO = GuardCfg()
+# 2026-10-19 user: DEMO, not FTMO, for now -- only a safety net against a runaway bug/day; BENSIM_GUARD=ftmo restores FTMO
+DEMO = GuardCfg(daily_stop_pct=10.0, daily_flat_pct=10.0, reduce_at_pct=100.0, halt_at_pct=100.0, max_open=6,
+               # 2026-11-06 user GO (Stage 4 item 3): <= 2 legs per currency side, <= 2.5 % open risk; env restores the old values
+               max_per_side=int(os.environ.get("BENSIM_GUARD_MAX_PER_SIDE", "2")),
+               max_open_risk_pct=float(os.environ.get("BENSIM_GUARD_OPEN_RISK_PCT", "2.5")))
+ACTIVE = FTMO if os.environ.get("BENSIM_GUARD", "demo").lower() == "ftmo" else DEMO
+
+
+@dataclass(frozen=True)
+class Open:
+    symbol: str
+    dir: int  # +1 buy, -1 sell
+    risk_usd: float  # what it still loses if its stop is hit from the current price (0 if the stop is past entry)
+
+
+def legs(symbol: str, d: int) -> set[tuple[str, int]]:
+    base, quote = CURRENCIES.get(symbol, (symbol[:3], symbol[3:6]))  # flow book crosses (EURJPY, CADJPY) too
+    return {(base, d), (quote, -d)}
+
+
+def flatten_now(initial: float, day_start: float, equity: float, cfg: GuardCfg = None) -> bool:
+    return day_start - equity >= (cfg or ACTIVE).daily_flat_pct / 100 * initial
+
+
+def risk_scale(initial: float, equity: float, cfg: GuardCfg = None) -> float:
+    cfg, dd = cfg or ACTIVE, (initial - equity) / initial * 100
+    return 0.0 if dd >= cfg.halt_at_pct else (0.5 if dd >= cfg.reduce_at_pct else 1.0)
+
+
+def check(initial: float, day_start: float, equity: float, opens: list[Open], symbol: str, d: int, new_risk_usd: float,
+          cfg: GuardCfg = None) -> tuple[bool, str]:
+    cfg = cfg or ACTIVE
+    if flatten_now(initial, day_start, equity, cfg):
+        return False, "DAILY_FLATTEN"
+    if risk_scale(initial, equity, cfg) == 0.0:
+        return False, "TOTAL_DRAWDOWN_HALT"
+    if len(opens) >= cfg.max_open:
+        return False, "MAX_OPEN"
+    if any(o.symbol == symbol for o in opens):
+        return False, "SYMBOL_ALREADY_OPEN"
+    used = [leg for o in opens for leg in legs(o.symbol, o.dir)]
+    if any(used.count(leg) >= cfg.max_per_side for leg in legs(symbol, d)):
+        return False, "CURRENCY_SIDE_FULL"
+    if new_risk_usd is None or new_risk_usd != new_risk_usd:
+        return False, "RISK_UNKNOWN"  # never assumed zero
+    open_risk = sum(o.risk_usd for o in opens) + new_risk_usd
+    if open_risk > cfg.max_open_risk_pct / 100 * equity:
+        return False, f"OPEN_RISK_CAP {open_risk:.0f} > {cfg.max_open_risk_pct}% of equity"
+    worst = (day_start - equity) + sum(o.risk_usd for o in opens) + new_risk_usd
+    if worst > cfg.daily_stop_pct / 100 * initial:
+        return False, f"DAILY_RISK worst-case {worst:.0f} > {cfg.daily_stop_pct}%"
+    return True, "OK"
+
+
+def _selfcheck() -> None:
+    i, F = 100_000.0, FTMO
+    assert check(i, i, i, [], "EURUSD", 1, 500, F) == (True, "OK")
+    two_long_usd = [Open("USDCAD", 1, 500), Open("EURUSD", -1, 500)]
+    assert check(i, i, i, two_long_usd, "XAUUSD", -1, 500, F)[1] == "CURRENCY_SIDE_FULL"  # third long-USD bet
+    assert check(i, i, i, two_long_usd, "XAUUSD", 1, 500, F)[0]  # short USD is fine
+    assert check(i, i, i - 3_200, [Open("GBPUSD", 1, 500)], "EURUSD", -1, 500, F)[1].startswith("DAILY_RISK")  # 3.2k + 0.5k + 0.5k > 4k
+    assert check(i, i, i - 4_600, [], "EURUSD", 1, 500, F)[1] == "DAILY_FLATTEN"
+    assert risk_scale(i, 97_000, F) == 0.5 and risk_scale(i, 95_900, F) == 0.0 and risk_scale(i, 99_000, F) == 1.0
+    assert check(i, 92_000, 91_900, [], "EURUSD", 1, 100, F)[1] == "TOTAL_DRAWDOWN_HALT"
+    assert check(i, i, i, [Open("EURUSD", 1, 0)], "EURUSD", 1, 100, F)[1] == "SYMBOL_ALREADY_OPEN"
+    D = DEMO
+    assert check(i, i, i, two_long_usd, "XAUUSD", -1, 500, D)[1] == "CURRENCY_SIDE_FULL"  # 2026-11-06: cap 2 per side
+    assert check(i, i, i, [Open("EURUSD", 1, 2000)], "USDJPY", 1, 600, D)[1].startswith("OPEN_RISK_CAP")  # 2.6 % > 2.5 %
+    assert check(i, i, i, [Open("EURUSD", 1, 2000)], "USDJPY", 1, 400, D) == (True, "OK")  # 2.4 %
+    assert check(i, i, i, [], "EURUSD", 1, None, D)[1] == "RISK_UNKNOWN" 
+    assert risk_scale(i, 90_000, D) == 1.0 and check(i, i, i - 5_000, [], "EURUSD", 1, 500, D)[0]  # no FTMO brakes
+    assert check(i, i, i - 10_000, [], "EURUSD", 1, 500, D)[1] == "DAILY_FLATTEN"  # -10% day net
+    assert check(i, i, i, [Open(s, 1, 0) for s in ("GBPUSD", "USDJPY", "AUDUSD", "USDCHF", "USDCAD", "XAUUSD")], "EURUSD", 1, 100, D)[1] == "MAX_OPEN"
+    print("guard selfcheck ok")
+
+
+if __name__ == "__main__":
+    _selfcheck()

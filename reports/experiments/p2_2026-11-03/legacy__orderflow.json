@@ -1,0 +1,131 @@
+{
+ "trades": 11,
+ "win_rate": 0.0,
+ "expectancy_net_r": -1.027,
+ "gross_r_before_commission_swap": -1.003,
+ "commission_r": 0.025,
+ "swap_r": 0.0,
+ "swap_unknown_trades": 0,
+ "total_r": -11.3,
+ "profit_factor": 0.0,
+ "trade_t": -93.19,
+ "per_trade_sharpe": -28.097,
+ "skew": -1.88,
+ "kurtosis": 4.94,
+ "daily": {
+  "days": 66,
+  "sharpe_ann": -6.35,
+  "sortino_ann": -5.94,
+  "day_clustered_t": -3.25,
+  "lag1_autocorr": -0.165,
+  "effective_days": 92.2
+ },
+ "psr_vs_0": 0.0,
+ "dsr": {
+  "trials_n": 350,
+  "trial_sharpes_used": 115,
+  "sr_star_per_trade": 0.444,
+  "dsr": 0.0
+ },
+ "bootstrap": {
+  "block_days": 4,
+  "paths": 5000,
+  "seed": 19,
+  "total_r_ci90": [
+   -17.3,
+   -6.2
+  ],
+  "p_total_le_0": 1.0,
+  "max_dd_r_median": 11.3,
+  "max_dd_r_p95": 17.3
+ },
+ "drawdown": {
+  "max_dd_r": 11.3,
+  "max_dd_peak_to_trough_days": 83.9,
+  "max_dd_recovery_days": "not recovered",
+  "longest_underwater_days": 83.9
+ },
+ "by_symbol": {
+  "USDCAD": {
+   "n": 1,
+   "avg_r": -1.1,
+   "total_r": -1.1,
+   "win_rate": 0.0
+  },
+  "USDJPY": {
+   "n": 1,
+   "avg_r": -1.102,
+   "total_r": -1.1,
+   "win_rate": 0.0
+  },
+  "XAUUSD": {
+   "n": 9,
+   "avg_r": -1.011,
+   "total_r": -9.1,
+   "win_rate": 0.0
+  }
+ },
+ "by_session": {
+  "Asia 00-07": {
+   "n": 7,
+   "avg_r": -1.023,
+   "total_r": -7.2,
+   "win_rate": 0.0
+  },
+  "London 07-12": {
+   "n": 1,
+   "avg_r": -1.016,
+   "total_r": -1.0,
+   "win_rate": 0.0
+  },
+  "NY 16-21": {
+   "n": 3,
+   "avg_r": -1.042,
+   "total_r": -3.1,
+   "win_rate": 0.0
+  }
+ },
+ "by_month_frozen_walk_forward": {
+  "2026-08": {
+   "n": 6,
+   "avg_r": -1.025,
+   "total_r": -6.2,
+   "win_rate": 0.0
+  },
+  "2026-09": {
+   "n": 2,
+   "avg_r": -1.014,
+   "total_r": -2.0,
+   "win_rate": 0.0
+  },
+  "2026-10": {
+   "n": 3,
+   "avg_r": -1.04,
+   "total_r": -3.1,
+   "win_rate": 0.0
+  }
+ },
+ "by_side": {
+  "long": {
+   "n": 3,
+   "avg_r": -1.041,
+   "total_r": -3.1,
+   "win_rate": 0.0
+  },
+  "short": {
+   "n": 8,
+   "avg_r": -1.022,
+   "total_r": -8.2,
+   "win_rate": 0.0
+  }
+ },
+ "by_exit": {
+  "stop": {
+   "n": 11,
+   "avg_r": -1.027,
+   "total_r": -11.3,
+   "win_rate": 0.0
+  }
+ },
+ "months_positive": "0/3"
+}

@@ -1,6 +1,0 @@
--r requirements-research.txt
-pytest-cov
-pytest-asyncio
-asyncpg
-psycopg[binary]
-openai>=2.0.0

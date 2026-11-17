@@ -1,0 +1,8 @@
+Round 29 FVG lab, untouched 2021-10-04 .. 2024-11-07: 690570 events, 7 pairs, buys + sells
+
+H4   all FVGs                                   +discount CLOSE_C1  target 2.5 : n  1336 win  26.1% -0.146R total  -195.4R (halves -88 / -107) t -3.6 -> FAIL
+H4   FVG + sweep                                +discount CE_C1     target 4.0 : n   828 win  22.0% -0.025R total   -20.4R (halves -38 / +18) t -0.4 -> FAIL
+H4   FVG + sweep                                          CLOSE_C1  target 2.5 : n  2547 win  33.3% +0.018R total   +46.0R (halves -17 / +63) t  0.6 -> FAIL
+M30  SMC: sweep + MSS + displacement + FVG                CLOSE_LIQ target 6.0 : n  3652 win  35.1% -0.018R total   -67.3R (halves -47 / -20) t -0.7 -> FAIL
+H1   FVG + MSS (trend turn)                               BOT_LIQ   target 6.0 : n  3275 win  28.5% -0.019R total   -61.8R (halves -76 / +14) t -0.6 -> FAIL
+H1   SMC: sweep + MSS + FVG                               TOP_LIQ   target 5.0 : n  2469 win  31.7% -0.085R total  -210.5R (halves -162 / -49) t -2.7 -> FAIL

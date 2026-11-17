@@ -1,0 +1,685 @@
+{
+ "window": "2024-11-01 .. 2026-11-01",
+ "trades": 2694,
+ "runtime_s": 398,
+ "by_strategy": {
+  "bennett": {
+   "unit": "R",
+   "n": 26,
+   "all_mean": 0.446,
+   "all_total": 11.6,
+   "FAVOURABLE": {
+    "n": 1,
+    "mean": 2.188,
+    "total": 2.2
+   },
+   "CAUTION": {
+    "n": 25,
+    "mean": 0.376,
+    "total": 9.4
+   },
+   "UNFAVOURABLE": {
+    "n": 0,
+    "mean": null,
+    "total": 0.0
+   },
+   "ERROR": {
+    "n": 0,
+    "mean": null,
+    "total": 0.0
+   },
+   "skip_unfavourable": {
+    "total_before": 11.6,
+    "total_after": 11.6,
+    "mean_after": 0.446,
+    "removed": 0,
+    "unf_vs_rest_t": null,
+    "p_two_sided": null
+   },
+   "by_year": {
+    "2024": {
+     "CAUTION": [
+      2,
+      3.399
+     ]
+    },
+    "2025": {
+     "CAUTION": [
+      15,
+      0.193
+     ],
+     "FAVOURABLE": [
+      1,
+      2.188
+     ]
+    },
+    "2026": {
+     "CAUTION": [
+      8,
+      -0.036
+     ]
+    }
+   },
+   "findings": {
+    "caution: high-impact news in the holding window": [
+     18,
+     0.15,
+     1.111
+    ],
+    "support: H4 structure agrees": [
+     18,
+     -0.011,
+     1.474
+    ],
+    "caution: London session": [
+     15,
+     0.714,
+     0.08
+    ]
+   }
+  },
+  "enigma": {
+   "unit": "R",
+   "n": 185,
+   "all_mean": -0.076,
+   "all_total": -14.0,
+   "FAVOURABLE": {
+    "n": 0,
+    "mean": null,
+    "total": 0.0
+   },
+   "CAUTION": {
+    "n": 120,
+    "mean": -0.043,
+    "total": -5.2
+   },
+   "UNFAVOURABLE": {
+    "n": 65,
+    "mean": -0.136,
+    "total": -8.8
+   },
+   "ERROR": {
+    "n": 0,
+    "mean": null,
+    "total": 0.0
+   },
+   "skip_unfavourable": {
+    "total_before": -14.0,
+    "total_after": -5.2,
+    "mean_after": -0.043,
+    "removed": 65,
+    "unf_vs_rest_t": -0.45,
+    "p_two_sided": 0.656
+   },
+   "by_year": {
+    "2024": {
+     "CAUTION": [
+      11,
+      -0.549
+     ],
+     "UNFAVOURABLE": [
+      8,
+      0.16
+     ]
+    },
+    "2025": {
+     "CAUTION": [
+      85,
+      -0.071
+     ],
+     "UNFAVOURABLE": [
+      37,
+      0.012
+     ]
+    },
+    "2026": {
+     "CAUTION": [
+      24,
+      0.288
+     ],
+     "UNFAVOURABLE": [
+      20,
+      -0.527
+     ]
+    }
+   },
+   "findings": {
+    "caution: high-impact news in the holding window": [
+     149,
+     -0.127,
+     0.135
+    ],
+    "against: transitioning regime, normal volatility": [
+     65,
+     -0.136,
+     -0.043
+    ],
+    "caution: move agent UNKNOWN": [
+     31,
+     -0.348,
+     -0.021
+    ],
+    "caution: XAUUSD historically weakest": [
+     31,
+     -0.348,
+     -0.021
+    ],
+    "caution: currency strength against the trade": [
+     30,
+     0.378,
+     -0.164
+    ],
+    "caution: USDCAD historically weakest": [
+     17,
+     -0.237,
+     -0.059
+    ],
+    "support: low volatility, transitioning": [
+     16,
+     -0.402,
+     -0.045
+    ]
+   }
+  },
+  "fib618": {
+   "unit": "R",
+   "n": 388,
+   "all_mean": 0.071,
+   "all_total": 27.6,
+   "FAVOURABLE": {
+    "n": 0,
+    "mean": null,
+    "total": 0.0
+   },
+   "CAUTION": {
+    "n": 381,
+    "mean": 0.065,
+    "total": 24.9
+   },
+   "UNFAVOURABLE": {
+    "n": 7,
+    "mean": 0.373,
+    "total": 2.6
+   },
+   "ERROR": {
+    "n": 0,
+    "mean": null,
+    "total": 0.0
+   },
+   "skip_unfavourable": {
+    "total_before": 27.6,
+    "total_after": 24.9,
+    "mean_after": 0.065,
+    "removed": 7,
+    "unf_vs_rest_t": 0.46,
+    "p_two_sided": 0.6639
+   },
+   "by_year": {
+    "2024": {
+     "CAUTION": [
+      48,
+      -0.168
+     ]
+    },
+    "2025": {
+     "CAUTION": [
+      222,
+      0.089
+     ],
+     "UNFAVOURABLE": [
+      3,
+      0.973
+     ]
+    },
+    "2026": {
+     "CAUTION": [
+      111,
+      0.12
+     ],
+     "UNFAVOURABLE": [
+      4,
+      -0.077
+     ]
+    }
+   },
+   "findings": {
+    "caution: high-impact news in the holding window": [
+     262,
+     0.066,
+     0.083
+    ],
+    "caution: move agent UNKNOWN": [
+     54,
+     0.33,
+     0.029
+    ],
+    "caution: currency strength against the trade": [
+     42,
+     -0.091,
+     0.091
+    ],
+    "caution: low volatility + ranging": [
+     22,
+     0.564,
+     0.041
+    ]
+   }
+  },
+  "flow_am": {
+   "unit": "bp",
+   "n": 408,
+   "all_mean": 0.449,
+   "all_total": 183.1,
+   "FAVOURABLE": {
+    "n": 29,
+    "mean": -0.905,
+    "total": -26.3
+   },
+   "CAUTION": {
+    "n": 379,
+    "mean": 0.552,
+    "total": 209.3
+   },
+   "UNFAVOURABLE": {
+    "n": 0,
+    "mean": null,
+    "total": 0.0
+   },
+   "ERROR": {
+    "n": 0,
+    "mean": null,
+    "total": 0.0
+   },
+   "skip_unfavourable": {
+    "total_before": 183.1,
+    "total_after": 183.1,
+    "mean_after": 0.449,
+    "removed": 0,
+    "unf_vs_rest_t": null,
+    "p_two_sided": null
+   },
+   "by_year": {
+    "2024": {
+     "CAUTION": [
+      29,
+      -2.17
+     ],
+     "FAVOURABLE": [
+      4,
+      10.674
+     ]
+    },
+    "2025": {
+     "CAUTION": [
+      230,
+      1.477
+     ],
+     "FAVOURABLE": [
+      14,
+      -4.374
+     ]
+    },
+    "2026": {
+     "CAUTION": [
+      120,
+      -0.562
+     ],
+     "FAVOURABLE": [
+      11,
+      -0.701
+     ]
+    }
+   },
+   "findings": {
+    "caution: very low EURUSD volatility": [
+     105,
+     0.554,
+     0.412
+    ],
+    "caution: currency strength against the trade": [
+     96,
+     0.391,
+     0.466
+    ],
+    "support: overnight EURUSD move already with the short": [
+     44,
+     -0.824,
+     0.603
+    ],
+    "caution: high-impact news in the holding window": [
+     18,
+     6.526,
+     0.168
+    ]
+   }
+  },
+  "flow_ml": {
+   "unit": "bp",
+   "n": 767,
+   "all_mean": 1.096,
+   "all_total": 840.3,
+   "FAVOURABLE": {
+    "n": 105,
+    "mean": -1.579,
+    "total": -165.8
+   },
+   "CAUTION": {
+    "n": 489,
+    "mean": 3.468,
+    "total": 1695.7
+   },
+   "UNFAVOURABLE": {
+    "n": 173,
+    "mean": -3.987,
+    "total": -689.7
+   },
+   "ERROR": {
+    "n": 0,
+    "mean": null,
+    "total": 0.0
+   },
+   "skip_unfavourable": {
+    "total_before": 840.3,
+    "total_after": 1530.0,
+    "mean_after": 2.576,
+    "removed": 173,
+    "unf_vs_rest_t": -2.63,
+    "p_two_sided": 0.0088
+   },
+   "by_year": {
+    "2024": {
+     "CAUTION": [
+      41,
+      6.489
+     ],
+     "FAVOURABLE": [
+      12,
+      -9.795
+     ],
+     "UNFAVOURABLE": [
+      13,
+      -9.155
+     ]
+    },
+    "2025": {
+     "CAUTION": [
+      225,
+      4.035
+     ],
+     "FAVOURABLE": [
+      56,
+      -3.895
+     ],
+     "UNFAVOURABLE": [
+      80,
+      -0.203
+     ]
+    },
+    "2026": {
+     "CAUTION": [
+      223,
+      2.34
+     ],
+     "FAVOURABLE": [
+      37,
+      4.593
+     ],
+     "UNFAVOURABLE": [
+      80,
+      -6.93
+     ]
+    }
+   },
+   "findings": {
+    "support: ATR expanding": [
+     275,
+     3.227,
+     -0.096
+    ],
+    "caution: currency strength against the trade": [
+     263,
+     1.847,
+     0.703
+    ],
+    "against: late-hour entry": [
+     173,
+     -3.987,
+     2.576
+    ],
+    "caution: high-impact news in the holding window": [
+     126,
+     8.283,
+     -0.317
+    ],
+    "caution: low volatility + ranging": [
+     16,
+     -1.845,
+     1.158
+    ]
+   }
+  },
+  "imbalance": {
+   "unit": "R",
+   "n": 693,
+   "all_mean": 0.03,
+   "all_total": 20.6,
+   "FAVOURABLE": {
+    "n": 19,
+    "mean": 0.343,
+    "total": 6.5
+   },
+   "CAUTION": {
+    "n": 458,
+    "mean": -0.007,
+    "total": -3.1
+   },
+   "UNFAVOURABLE": {
+    "n": 216,
+    "mean": 0.079,
+    "total": 17.2
+   },
+   "ERROR": {
+    "n": 0,
+    "mean": null,
+    "total": 0.0
+   },
+   "skip_unfavourable": {
+    "total_before": 20.6,
+    "total_after": 3.4,
+    "mean_after": 0.007,
+    "removed": 216,
+    "unf_vs_rest_t": 0.41,
+    "p_two_sided": 0.6852
+   },
+   "by_year": {
+    "2024": {
+     "CAUTION": [
+      42,
+      -0.181
+     ],
+     "FAVOURABLE": [
+      4,
+      -1.013
+     ],
+     "UNFAVOURABLE": [
+      21,
+      -0.555
+     ]
+    },
+    "2025": {
+     "CAUTION": [
+      291,
+      0.032
+     ],
+     "FAVOURABLE": [
+      10,
+      0.919
+     ],
+     "UNFAVOURABLE": [
+      121,
+      0.073
+     ]
+    },
+    "2026": {
+     "CAUTION": [
+      125,
+      -0.038
+     ],
+     "FAVOURABLE": [
+      5,
+      0.276
+     ],
+     "UNFAVOURABLE": [
+      74,
+      0.271
+     ]
+    }
+   },
+   "findings": {
+    "caution: high-impact news in the holding window": [
+     552,
+     -0.012,
+     0.191
+    ],
+    "against: transitioning regime, normal volatility": [
+     215,
+     0.085,
+     0.005
+    ],
+    "support: trending with normal/high volatility": [
+     211,
+     -0.054,
+     0.067
+    ],
+    "caution: move agent UNKNOWN": [
+     177,
+     0.183,
+     -0.023
+    ],
+    "caution: EURUSD historically weakest": [
+     124,
+     -0.234,
+     0.087
+    ],
+    "caution: more open FVGs against the trade than with it": [
+     63,
+     0.294,
+     0.003
+    ],
+    "caution: AUDUSD historically weakest": [
+     44,
+     0.266,
+     0.014
+    ],
+    "caution: currency strength against the trade": [
+     28,
+     -0.482,
+     0.051
+    ]
+   }
+  },
+  "sflow": {
+   "unit": "R",
+   "n": 227,
+   "all_mean": -0.052,
+   "all_total": -11.8,
+   "FAVOURABLE": {
+    "n": 0,
+    "mean": null,
+    "total": 0.0
+   },
+   "CAUTION": {
+    "n": 145,
+    "mean": -0.142,
+    "total": -20.6
+   },
+   "UNFAVOURABLE": {
+    "n": 82,
+    "mean": 0.107,
+    "total": 8.8
+   },
+   "ERROR": {
+    "n": 0,
+    "mean": null,
+    "total": 0.0
+   },
+   "skip_unfavourable": {
+    "total_before": -11.8,
+    "total_after": -20.6,
+    "mean_after": -0.142,
+    "removed": 82,
+    "unf_vs_rest_t": 0.92,
+    "p_two_sided": 0.3611
+   },
+   "by_year": {
+    "2024": {
+     "CAUTION": [
+      9,
+      -1.071
+     ],
+     "UNFAVOURABLE": [
+      2,
+      0.44
+     ]
+    },
+    "2025": {
+     "CAUTION": [
+      91,
+      -0.201
+     ],
+     "UNFAVOURABLE": [
+      39,
+      -0.273
+     ]
+    },
+    "2026": {
+     "CAUTION": [
+      45,
+      0.162
+     ],
+     "UNFAVOURABLE": [
+      41,
+      0.452
+     ]
+    }
+   },
+   "findings": {
+    "caution: sflow entry A historically worse than its placebo": [
+     227,
+     -0.052,
+     0.0
+    ],
+    "caution: high-impact news in the holding window": [
+     224,
+     -0.084,
+     2.315
+    ],
+    "caution: currency strength against the trade": [
+     46,
+     0.567,
+     -0.209
+    ],
+    "caution: fresh failed breakout against the trade": [
+     36,
+     -0.484,
+     0.029
+    ],
+    "against: USDCAD historically worst for sflow": [
+     33,
+     0.042,
+     -0.068
+    ],
+    "caution: move agent UNKNOWN": [
+     30,
+     -0.092,
+     -0.046
+    ],
+    "against: XAUUSD historically worst for sflow": [
+     30,
+     -0.092,
+     -0.046
+    ]
+   }
+  }
+ }
+}

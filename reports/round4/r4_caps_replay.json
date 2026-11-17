@@ -1,0 +1,82 @@
+{
+ "A_as_traded": {
+  "trades": 96,
+  "kept": 76,
+  "blocked": 20,
+  "kept_net_usd": 3082.51,
+  "blocked_net_usd": -1645.45,
+  "all_net_usd_at_this_sizing": 1437.06,
+  "block_reasons": {
+   "aggregate": 13,
+   "USD+ legs": 1,
+   "USD- legs": 7
+  },
+  "blocked_by_strategy": {
+   "flow_am": {
+    "blocked": 5,
+    "blocked_pnl": -427.5
+   },
+   "fib618": {
+    "blocked": 1,
+    "blocked_pnl": 497.32
+   },
+   "sflow": {
+    "blocked": 4,
+    "blocked_pnl": -367.12
+   },
+   "flow_ml": {
+    "blocked": 7,
+    "blocked_pnl": -621.81
+   },
+   "imbalance": {
+    "blocked": 2,
+    "blocked_pnl": -484.81
+   },
+   "enigma": {
+    "blocked": 1,
+    "blocked_pnl": -241.53
+   }
+  },
+  "max_open_risk_pct_kept": 2.42
+ },
+ "B_flow_risk_sized_0.5pct": {
+  "trades": 96,
+  "kept": 86,
+  "blocked": 10,
+  "kept_net_usd": 1440.64,
+  "blocked_net_usd": -793.12,
+  "all_net_usd_at_this_sizing": 647.52,
+  "block_reasons": {
+   "USD+ legs": 2,
+   "USD- legs": 7,
+   "JPY- legs": 1
+  },
+  "blocked_by_strategy": {
+   "flow_am": {
+    "blocked": 1,
+    "blocked_pnl": -97.02
+   },
+   "fib618": {
+    "blocked": 1,
+    "blocked_pnl": 497.32
+   },
+   "sflow": {
+    "blocked": 5,
+    "blocked_pnl": -614.86
+   },
+   "imbalance": {
+    "blocked": 1,
+    "blocked_pnl": -241.35
+   },
+   "enigma": {
+    "blocked": 1,
+    "blocked_pnl": -241.53
+   },
+   "flow_ml": {
+    "blocked": 1,
+    "blocked_pnl": -95.68
+   }
+  },
+  "max_open_risk_pct_kept": 1.73
+ }
+}

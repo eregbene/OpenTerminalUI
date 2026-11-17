@@ -1,0 +1,296 @@
+# Phantom Trading -- course notes (Phantom 1.0 "Old" + Phantom 2.0 core lessons only)
+
+Source: `D:\trading\Phantom Trading 2.0 Refined` -- Phantom 1.0 (12 videos) and the 11 core lessons of Phantom 2.0
+(no live meetups / team content / backtesting recordings). Transcripts: `D:\trading\phantom1_work\audio\_transcripts`
+(GPU: Const-me Whisper on the RX 580, small.en; CPU: faster-whisper small), frames every 30 s in `...\frames`.
+Every rule below cites the lesson and timestamp; nothing gets coded without a source.
+
+## 1. Market structure (1.0: "Multi Timeframe Market Structure", "Market Structure Walk Through")
+- **Three mapping methods**; his preference is **method 1: highs/lows on candle BODIES, break = BODY CLOSE beyond**
+  (wicks differ between brokers, bodies do not). Method 2: wick mapping + body-close break; method 3: wick + wick.
+  Pick one, never mix. [MTF 01:00-04:30]
+- A wick through a level without a close = a **liquidity grab** (stops above the prior high), not a break.
+  [MTF 01:40; Walk 03:13, 05:52]
+- Only **prominent swings** count -- a pause inside a move is not a swing. Check on the **line chart (closes)**: it
+  "really shows that clear delineation". [Walk 04:03-04:44, 06:44-08:05]
+- **One impulsive leg = one swing**: dips inside a strong leg that break nothing are not new lows. [Walk 11:07-11:36]
+- **Higher timeframe leads**: daily HH/HL -> 1H LL/LH is the daily pullback; sells there are allowed but managed
+  "more aggressively" because the daily higher low is coming. [MTF 00:10-01:00, 09:30-11:00]
+- **What happens after the break**: a true break runs away from the level; an immediate return = false / no momentum.
+  [MTF 10:00]
+- Structure is only the **framework / direction**; entries come from **order blocks, inefficiency and Wyckoff**. [MTF 05:30]
+
+## 2. Order blocks (1.0: "Order Blocks", 40 min)
+- **Definition**: the last opposite candle before a **large impulsive move (or series) that BREAKS STRUCTURE**.
+  Bullish OB = down candle before the up move that breaks a high; bearish = up candle before the down move. [00:27-00:50]
+- **Why it works**: unfilled institutional orders + rebalancing -> price returns to the block. [00:50-01:14]
+- **Entry / stop**: limit at the near edge (bullish: OB top, bearish: OB bottom), stop just beyond the far edge;
+  **put the stop beyond nearby liquidity wicks**, not at the block itself, or it gets spiked. [01:14-01:54, 15:45-15:59, 26:49-27:25]
+- **Quality markers**: the break is **impulsive / with momentum**, often leaves an **imbalance** (gap) [03:08-03:16, 12:48-13:02];
+  an OB candle that is **too large** is skipped (use it only as a lower-TF point of interest). [10:55-11:06]
+- **Refinement ("price doesn't know time")**: if the candle after the OB candle does **not engulf it / shows no momentum**,
+  move the OB forward to the candle right before the **first strong full-bodied engulfing candle** -- where momentum
+  actually starts. Smaller stop, less drawdown. [04:09-05:39, 18:28-19:35, 20:30-20:57]
+- **Multi-timeframe entry**: 1H OB = point of interest; when price taps it, wait for a **15M break of structure**, which
+  leaves a **15M OB**; enter on the retest of the 15M OB -> ~half the stop, ~2x the reward (example 26 -> 12 pips,
+  RR 2.8 -> 5.9). [13:08-16:35, 25:01-26:46]
+- **Targets**: previous highs / **equal highs** (resting stops = liquidity price seeks). [09:45-10:25, 28:05-28:19]
+- **Trend**: with the **daily** trend; counter-trend OBs are "dangerous", lower confidence. [11:44-12:19, 20:17-20:27, 21:45-21:54]
+- **Two OBs stacked**: split the risk (half on each) or wait for the second test / lower-TF confirmation. [22:45-23:30]
+- A tap-and-reject at an OB is also a place to **take profit / secure the stop** on an open trade. [28:46-29:00]
+
+## 3. Market inefficiency (1.0: "Market Inefficiency", 14 min)
+- **Definition (= a 3-candle FVG)**: efficient if candle 1's high meets candle 3's low (up move; mirror for down);
+  a gap between them = **inefficient** price, one side never got filled. [00:07-01:42]
+- Price **gravitates back to rebalance** the gap before / while continuing -- consolidations are often this. [01:42, 07:04-07:30]
+- **Not an entry on its own** ("we don't just trade inefficiencies for the sake of it" -- strong momentum blasts through
+  them); **order blocks are the entry**, inefficiencies are **targets / points of interest / market understanding**.
+  [07:46-07:51, 09:37-09:53, 13:06-13:16]
+- **OB filter**: if price returns to an OB with **strong opposite momentum** and has **already rebalanced the
+  inefficiency** in front of it, the OB is likely to **fail** (nothing left to fund the move). [04:33-05:38]
+- The best OB entries often **fill the inefficiency first, then tap the OB** ("cleared out the imbalance, then tapped
+  the order block"). [10:09-10:29]
+- Inefficiency also measures volatility; higher-TF gaps can take a very long time to fill. [12:05-12:15, 13:47-13:58]
+
+## 4. Entry types (1.0: "Entry Types", 22 min) -- GBPUSD 4H -> 1H -> 15M walk-through
+- **Top-down**: 4H trend + 4H order blocks (points of interest, POI) -> refine on 1H -> refine on 15M. [03:25-07:26]
+- **Risk entry**: buy/sell **limit on the lower-TF (15M) refined OB inside the higher-TF POI**, stop beyond it.
+  Best when: **with the trend**, price returns to the POI **correctively (slowly)**, the 15M OB sits inside the
+  higher-TF POI. Con: little confirmation, more stop-outs. [00:15-01:46, 10:47-11:22]
+- **Confirmation entry**: when price **taps the POI**, drop to the lower TF and **wait for a break of structure in the
+  trade's direction**, then enter (limit) on the **newly created order block** -- he uses the **most recent** one,
+  stop beyond it **+1 pip for spread**. Best when: price returns to the POI **impulsively / with strong opposite
+  momentum** ("catching a falling knife"), counter-trend, several POIs, or a large gap between the HTF POI and the
+  LTF refinement. Con: misses trades that tap and run without a retest. [01:46-03:19, 07:26-08:26, 19:22-19:42]
+- **Approach momentum is a filter**: impulsive approach into the POI = low probability (the confirmation rule
+  filtered out the failed upper block); **corrective** approach = higher probability. [08:42-09:08, 21:51-22:13]
+- **Invalidation**: price breaking through the POI (beyond the OB) kills it. [10:12-10:16]
+- **Structure method used here: type 2** (wick mapping, body-close breaks); a wick below a low = liquidity purge,
+  not a lower low. [12:47-13:09]
+- **Management**: stop trailed below each new 15M higher low; a lower-TF break of structure against the trade at an
+  opposing POI = take profits / exit; **target = the opposing higher-TF order block / POI**. [15:42-18:42]
+- **Reversal at the target**: the opposing 4H POI (built after an equal-highs sweep) gave the next trade -- a
+  confirmation short after a 15M break down, entry at the most recent OB. [18:42-20:32]
+
+## 5. Putting it all together -- GBPJPY buy (1.0, 23 min): the full process on one trade
+1. **Weekly**: uptrend, price reacting off a (refined) weekly OB -> "retest of the weekly highs is highly likely". [00:07-01:07]
+2. **Daily**: the weekly pullback shows as daily lower lows; daily now turning up (HH/HL) with a **daily OB** where
+   the higher low is expected. [01:07-02:02]
+3. **4H**: still down -- that is the daily pullback; it will turn up once the higher low forms. [02:06-02:43]
+4. **1H**: the **first timeframe to break structure UP** -> its OB = the point of interest (18 pips). [02:47-03:37]
+5. **15M**: same break, refined OB inside it (~9 pips). [04:02-04:58]
+6. **5M confirmation**: after price taps the 1H/15M OBs, a **5M break of structure up** -> 5M OB (~5 pips) -> buy limit
+   just above it, stop just below. [06:02-10:24]
+7. **Targets in steps**: 1H high -> 4H high -> daily high -> **weekly high** (= 81.8R from a 5-pip stop). [05:22-05:43, 10:30-11:03]
+8. **Management**: after each **body-close** break of a 15M/1H/4H high, trail the stop below the **prominent** low that
+   made it (wick breaks don't count -- "waiting for breaks with candles is much more effective"); a multi-day
+   pullback with a lot of open profit -> tighten under the nearest low. Locked 14% -> 28% -> 44% -> 61R, target hit at
+   81.78R after ~17 days. [11:30-20:16]
+9. A pullback on the 1H/4H is judged against the **higher timeframes**: daily/weekly still up = pullback, not
+   reversal; it typically refills the **inefficiency** left by the impulse. [15:07-17:40]
+10. A later 1H OB inside the move = **scale-in** opportunity, same logic. [20:33-22:16]
+
+## 6. Phantom 2.0 -- Zone creation & mapping framework (theory, 19 min)
+- Idea: institutions can't fill their size at once -> price **returns to where they entered** (supply/demand zones). [04:05-06:12]
+- **Two zone types** [06:18]:
+  - **Range-created**: a sideways range (**4-6 candles, never > 8** -- otherwise go up a timeframe), zone = range
+    **highest high to lowest low**, valid only after a **rapid expansion that breaks out of the range**. [06:28-07:39, 13:33-15:33]
+  - **Pivot-created**: a sharp move one way followed by a rapid expansion the other way; zone = the **pivot candle(s)**
+    (the last opposite candle(s) before the expansion -- one or several) = the order block idea. [11:42-12:28, 15:41-16:47]
+- **Refinement**: a range zone can be refined to the pivot candle(s) inside it (last opposite candle(s) before the
+  breakout). [16:47-18:29]
+- **Validity = how price leaves**: a **rapid, significant expansion** = high volume / institutional footprint = valid;
+  a slow **trickle** out, or a breakout that **immediately retraces**, = low volume = no zone. [08:39-09:56]
+- **Never trade the breakout itself** -- mark the zone and **wait for price to return** to it. [08:29-08:39, 11:11-11:42, 12:28-12:43]
+- Ranges also form from **low volume** (NY close -> Asia); the expansion test separates them. [07:39-08:19]
+- **Application (2.0 lesson 2, USDJPY 15M)**: three valid drawings of one zone -- full range (e.g. 12 pips), the pivot
+  candles (11.5), or the **last opposite candle where momentum began** (4) -- refined for RR, wider when waiting for
+  a higher-TF return + lower-TF entry. [06:30-07:51] **Include the adjacent candle's wick** if it extends the zone, since
+  stops go beyond the zone ("it only adds ~1.5 pips"). [09:23-10:20] The **sharper the expansion, the more likely a large
+  order** -- not all moves are equal. [15:30-15:51] Many raw zones fail; the filtering rules come in later lessons. [12:05-12:26]
+
+## 7. Phantom 2.0 -- Continuation & reversal models (theory 12 min + application 15 min)
+- **Continuation zone**: the zone forms **in the direction of the move before it** -- up move, range/pivot, up expansion
+  (rally-base-rally) = continuation demand; down-base-down = continuation supply. [Theory 00:26-02:33]
+- **Reversal zone**: the move before it was the **other way** -- down move, range/pivot, up expansion (drop-base-rally) =
+  reversal demand; up-base-down = reversal supply. [Theory 02:42-04:32]
+- Same three drawing options as before (whole range / pivot candles / single last candle); one candle on a higher TF
+  is a range or pivot on a lower TF -- the models are fractal. [Theory 04:47-11:12; App 04:20-04:45]
+- **Testable claim: reversal models are the higher-probability ones**; continuation zones work but are often
+  "liquidity building", and **each further continuation zone in the same leg is less likely to hold** ("the further
+  up an up move ... the less likely"). Build ideas around the reversal, then the *first* continuation. [App 13:11-14:37]
+- Almost every zone gets *some* reaction; the job is a probability model: does the zone hold given the zones around
+  it and the higher-TF trend? A huge zone with a small reaction -> think continuation inside it instead. [App 07:21-09:07]
+
+## 8. Phantom 2.0 -- Return-to-zone considerations (application, 14 min; theory being re-transcribed)
+- **How price comes back matters most**: a **corrective / rounded return** into the zone = higher probability; a
+  **V-shaped (impulsive) return** = the zone usually fails or only gives a small reaction ("I've had more losses on
+  aggressive V returns than on corrective returns"). [00:35-02:54, 11:33-11:49]
+- We judge zones by **follow-through**, not by the first reaction (almost every zone gets one). [01:55-02:40]
+- The **departure** must be aggressive (expansive, displacement); a corrective departure = no institutional footprint.
+  [06:55-07:41, 09:02-09:17]
+- Combination seen on the chart: **continuation zone + V return -> failed (three times in a row)**; **reversal zone +
+  corrective return -> respected**. [12:14-12:56]
+- Ranges in the **Asian session** = low volume -> weaker zones. [05:38-06:22]
+
+## 9. Phantom 2.0 -- Fractal supply/demand refinements (theory, 11 min)
+- **Inside bar** (candle inside the previous one, then broken) = a **range on the lower timeframe** -> a zone (continuation
+  if in the trend direction). Usable without dropping to the lower TF. [00:58-04:12]
+- Small pivots made of wicks/bodies on a higher TF = continuation pivots on the lower TF. [04:20-05:49]
+- **Large-wick zone candle**: refine the zone to **the wick only** (inside it the lower TF shows the real zone); the
+  whole candle is still valid, just wider. [05:49-09:12]
+- Combine with the return type (rounded / corrective / V). [10:57-11:10]
+
+## 10. Phantom 2.0 -- Market structure basics (theory 15 min + application 12 min, EURUSD)
+- Uptrend = HH/HL; a **complex pullback** (substructure) sits between the swing low and swing high; a higher low is only
+  **confirmed when the high breaks**; the trend holds until the protected low is broken. [Theory 00:42-02:51, 06:52-07:33]
+- **The higher low = the origin of the move that broke structure** (lowest point before the breaking leg). [Theory 02:51-03:28]
+- **Breaks need a close**: a wick through the lower high without a close leaves the downtrend intact. [App 04:05-04:23]
+- **Structure + supply/demand**: uptrend = **demand respected, supply failing**; downtrend = supply respected, demand
+  failing; both respected = a fight -> wait. [Theory 08:56-15:19; MTF App 26:34-26:53]
+- Higher-TF trend sets the side: trade **demand zones with a bullish higher TF** (short-term counter trades allowed,
+  but longevity is with the trend). [Theory 08:13-08:39]
+- Again: **reversal zones held, continuation zones (four in a row) reacted but failed**. [App 07:34-08:07]
+- Zones at the **extreme / origin** of a range hold better than minor ones mid-range. [App 09:42-09:53; MTF App 11:26-11:36]
+
+## 11. Phantom 2.0 -- Multi-timeframe market structure (theory 10 min + application 30 min, EURUSD)
+- His timeframes: **daily (narrative), 4H + 15M (structure), 1M (execution)**; weekly/monthly for context; pick a few
+  and stick to them. [Theory 05:54-06:49; App 24:37-25:05]
+- A higher-TF pullback = lower-TF **lower lows/lower highs**; the lower-TF lower low **is** the higher-TF higher low;
+  trends **change on the lower TF first** (4H/15M change of character before the daily). [Theory 01:22-02:16; App 11:58-12:42, 25:27-25:38]
+- **Don't sell just because the 4H turns bearish while the daily is bullish** -- in that case supply gets "totally ripped
+  through". [App 08:01-09:01]
+- **Each extra tap weakens a zone** ("the more taps ... the weaker"); a zone tapped twice gets absorbed -> free fall. [App 13:21-13:36, 20:32-21:00]
+- **Equal lows are liquidity, not valid structure**. [App 07:31-07:48]
+- Not in the lessons we have (referenced as later videos): supply/demand **flips**, **liquidity** details, the 2.0
+  entry model -> we use the 1.0 entry rules (section 4) for execution.
+
+## 8b. Return-to-zone considerations -- theory (2.0 lesson 5, 11 min; re-transcribed with the medium model)
+- Three ways price returns: **rounded** (slow curve back in -- "very high probability"), **corrective** (stair-steps
+  absorbing opposing mini-zones on the way -- high probability), **V-reversal** (immediate sharp return -- "very risky",
+  "statistically don't play out"; stay out or wait for a newly created zone with a better return).
+- Exception that is **even better**: a rounded/corrective return whose **last leg into the zone is impulsive** (large
+  candles -- a "sucker's rally" that lures breakout traders) -> often the most aggressive move away.
+- How the zone was created matters, but **how price returns matters even more**.
+
+## 12. Mechanical rulebook (what gets coded) -- every line traced to a section above
+1. **Bias**: daily structure (wick mapping, body-close breaks = his type 2 [4]) -> trade only its direction [1, 10, 11].
+2. **Zones (points of interest) on the 4H** [4, 11]: **pivot/OB zones** = last opposite candle(s) before an impulsive
+   move that **breaks structure**, refined to the candle before the first full-bodied engulfing candle [2, 6]; **range
+   zones** = 4-6 (max 8) candle range left by a rapid expansion [6]; include an extending neighbour wick [6].
+3. **Zone quality features (recorded, then tested)**: reversal vs continuation [7]; departure strength / imbalance left
+   [2, 3, 6]; return type rounded / corrective / V, impulsive last leg [8, 8b]; number of taps [11]; extreme vs
+   mid-range location [10]; zone width; Asian-session range [8]; inefficiency already filled in front of it [3].
+4. **Entry** [4]: *confirmation* -- price taps the 4H zone -> 15M break of structure in the trade direction -> limit at
+   the newest 15M OB, stop beyond it + liquidity wick + 1 pip; *risk* (variant) -- limit on the zone itself.
+5. **Invalidation** [4]: price closes through the zone before the entry.
+6. **Exits (all recorded)**: fixed R; the previous 4H swing high/low (liquidity) [2, 4]; the opposing 4H zone [4];
+   structure trailing under each new 1H prominent low after a body-close break [5].
+7. **Not coded (no rules in our lessons)**: supply/demand flips, liquidity sweeps beyond equal levels as triggers,
+   Wyckoff schematics.
+
+## 13. Results -- 3-year setup database (Oct 2023 -> Oct 2026, EURUSD GBPUSD USDJPY AUDUSD USDCHF USDCAD)
+`python -m bensim.phantom` (engine) / `python -m bensim.phantom_report <csv>` (rule report). 4,516 zones (4H + 1H),
+~1,050 confirmation trades (4H zone -> 15M break, 1H zone -> 5M break, limit at the newest order block; median stop
+~4-5 pips) and ~4,500 risk-entry trades (limit on the zone). All R net of costs; discovery = created < 2025-07-01.
+
+| Discovery (2,545 zones) | conf 2R | conf 3R | conf trail | risk 3R | risk trail |
+|---|---|---|---|---|---|
+| all zones | -0.20 (t -3.4) | -0.23 (t -3.2) | -0.16 | -0.13 (t -3.8) | -0.15 |
+His filters (kept vs dropped) did **not** create an edge: reversal zones, slow / non-V / corrective returns, impulsive
+last leg, daily-trend agreement (4H-trend agreement even hurt), imbalance, zone size, Asian session -- every kept group
+is still negative, and most differences are inside the noise.
+**One-time confirm** of the best rule-based slice (his Entry Types method: 4H zones + 15M confirmation): discovery
+64 trades +0.28R (2R) -> **confirm Jul 2025 - Oct 2026: 59 trades -0.15R (2R) / -0.22R (3R) / -0.47R (trail)**.
+Verdict: as mechanical rules, Phantom 1.0 + 2.0-core has **no edge after costs** on these pairs. Tiny 5M stops reach
+3R ~23% of the time but rarely survive to the 1H trailing stop; costs take ~0.2R per trade. Not coded (no rules in the
+lessons used): supply/demand flips, liquidity lessons, Wyckoff.
+
+## 14. How he actually got in -- trade recaps + backtesting video (1.0)
+- **EURUSD buys (20R + 30R)**: 4H distribution read -> 1H/15M/5M break of structure up after a liquidity wick ->
+  **1-minute** order block (down candle before the impulse that broke structure, small inefficiency) -> **buy limit at
+  the 50% of the order block**, stop just below its low; **"we don't like to trade setups with anything less than 3 pips
+  in stop"**; if entering at the top instead, give a 3.5-4 pip buffer. Target the prior 1H high / 1H order block;
+  90% off at target, 10% runner. Wyckoff accumulation (selling climax, automatic rally, mini-spring) as context.
+  [EURUSD 05:41-08:45, 11:14-12:30, 16:58-17:35, 19:02-19:13]
+- **GBPJPY sell**: daily up (pullback trade against it), 4H down, 1H break down -> 1H OB (17 pips) refined to 15M OB
+  (8 pips); 5M distribution/upthrust as extra confluence; entered with the stop above the whole POI (Asian session);
+  target = the prior 4H low with **equal lows** (liquidity); most of the position off at a point of interest, rest
+  trailed on 15M/5M structure. [GBPJPY 00:17-07:08]
+- **EURGBP buy**: Wyckoff re-accumulation on the 1M, order blocks refined 4H -> 1H -> 15M, executed on the 5M; mostly
+  a Wyckoff explainer (no new entry rule). [EURGBP 05:45-09:31, 13:00]
+- **Backtesting video (EURUSD Jan 2019, bar replay)**: weekly/daily down, 4H/1H points of interest marked first;
+  4H OB tapped -> waited for the **1H to switch bullish** -> **15M order block** (refined past the doji to the candle
+  where momentum began), **buy limit at the top of the block, stop below + 1 pip** (26+1, then 18+1 pips); **scale-ins**
+  on each new 15M order block after a 15M break (3.3 and 6.6 pip stops); stop moved under each 1H low after a 1H break;
+  counter-daily-trend trades allowed, managed more aggressively; body-close breaks. [Backtest 07:57-34:40]
+
+### Gaps between these trades and the first code (bensim/phantom.py v1)
+1. Entry price: **50% of the order block** (recaps) or the top (backtest) -- v1 used the top only.
+2. **Minimum stop 3 pips** -- v1 allowed 1.6-pip stops.
+3. Execution timeframe: his live entries are on the **1-minute** chart -- v1 used 15M/5M (no M1 history stored).
+4. Scale-ins on later order blocks and 90/10 partials -- not in v1.
+5. Two-step confirmation (4H zone tapped -> 1H flips -> 15M order block) -- v1 went 4H -> 15M directly.
+6. Wyckoff schematics, liquidity sweeps as triggers -- not codeable from these lessons (not coded).
+
+## 15. Manual check against his backtesting-video trade (EURUSD Jan 2019) -> gaps fixed -> final result
+EURUSD M5 history downloaded back to Oct 2018 to rebuild his bar-replay trade (his chart: TradingView OANDA, UTC-4).
+- **Gap A -- structure definition**: the Bennett box engine showed *no* 4H break from 8 Nov 2018 to Jan 2019, so his 4H
+  zone could not exist. Phantom reads **prominent recent swings (substructure)**; `swing_structure()` (wick swings with
+  >= 0.5 ATR pullback, body-close break of the latest one) now finds his zone: 4H CHoCH up 18 Dec -> order block
+  **1.13029-1.13132** (his blue zone ~1.1300-1.1310), tapped 2 Jan 18:30 NY at 1.12982, closed back inside.
+- **His first 15M order block reproduced exactly**: 1.13089-1.13346 = 25.7 pips (he: "26-pip stop"); its limit was
+  missed in both his replay and ours.
+- **Gap B -- re-arming**: he then took the **next** 15M order block after the next break; v2 stopped after the first.
+  Fixed: every lower-TF break in the trade direction within 24 h gives a new order block until one fills.
+- Remaining difference: his second block (18 pips) vs ours (8.7 pips) -- our 15M saw a small down-break at 01:45 that he
+  did not count; which minor swing "counts" is discretionary.
+- Also fixed earlier from the recaps: 50% entry, 3-pip minimum stop, 90/10 partial, two-step (1H flip) confirmation.
+- 1-minute execution: MT5 serves only the last 100,000 M1 bars (~3 months) -- not enough for a 3-year test.
+
+**Final 3-year result (v3, all fixes; 8,844 zones, ~5,400 confirmation trades), net R per trade:**
+| entry | exit | Oct 2023 - Jun 2025 | Jul 2025 - Oct 2026 |
+|---|---|---|---|
+| confirmation, top of block | 3R | -0.14 (t -4.3) | -0.16 (t -4.4) |
+| confirmation, top of block | trailing | -0.25 (t -3.1) | -0.21 (t -2.5) |
+| confirmation, 50% of block | 3R | -0.13 (t -3.5) | -0.18 (t -4.1) |
+| confirmation, 50% of block | 90/10 partial | -0.22 (t -2.8) | -0.18 (t -2.1) |
+| two-step (1H flip), 50% | trailing | +0.20 (102 trades, t 0.4) | +0.45 (57 trades, t 0.6) |
+Verdict unchanged and now statistically clear: the faithful mechanical version of Phantom loses after costs; only the
+rare two-step slice is positive, on too few trades to mean anything (t < 1).
+
+## 16. Market commentaries (Sunday 27 Sep 2020, 74 min; Wednesday 16 Sep 2020, 22 min) -- gap check
+
+Mostly week-ahead analysis that repeats sections 1-15. New or sharper points:
+- **Order-block stacking**: a weekly OB containing a daily OB, then a 4H, then a 1H OB "increases the odds" of a reaction. [Sun 11:37-11:54, 24:44-25:00]
+  -> **Codeable gap** (not in v3, which uses one 4H/1H zone with no higher-TF parent check).
+- **Far-retrace rule**: if price needed about 75 pips to break structure and then comes almost all the way straight back, the block is less likely to hold. He wants a real pullback (rounded), not just a slowdown. [Sun 13:49-14:48]
+  Partly covered by the return-type rules [8, 8b], which already showed no edge.
+- **Spent zones**: a block tested many times, or one price is resting on, is "irrelevant". [Sun 42:02-42:08, 46:05-46:17]
+  A single wick into the zone before the real tap does not invalidate it (orders are layered). [Sun 12:22-13:17]
+  v3 trades the first tap only, so this is consistent.
+- **Two order blocks about 1 pip apart**: enter at their median, with the stop beyond the outer one. [Wed 19:18-20:44]
+  Close to the v3 50% entry.
+- **Spread can miss the fill**: two of his limits missed by 0.6 pips. Factor the spread into lower-TF entries. [Wed 10:10-10:27, 12:01-12:35]
+  Already in the fill model (`_fill` uses the bid/ask spread).
+- **Risk vs confirmation entry**: risk entry when the return is corrective and with the trend. Confirmation entry when the trend is counter or the momentum is heavy. Sunday-open / gap times also call for confirmation. [Wed 08:27-09:00, Sun 30:31-30:57, 43:32-43:52]
+  Same as section 4.
+- **Management example (EURJPY)**: 1M substructure entry, 5-pip stop. He took 50% off at a 5M OB / inefficiency, moved to break-even, then trailed on the 15M below a higher low; +4.2%. He also took an earlier 0.5% loss. He says the entry itself was **not valid** (substructure, no true BOS). [Sun 32:51-41:08]
+  Shows a 50% partial + BE + 15M trail variant; v3 already tests 90/10 + trail.
+- **Other context (not codeable / not testable)**:
+  - transactional (non-speculative) flows explain why some OBs fail [Sun 02:39-04:47];
+  - even handles (e.g. 0.70) institutions like to buy at [Sun 53:13-53:27];
+  - Heikin Ashi as a momentum view, "still testing" [Sun 14:55-15:15];
+  - risk-on/off cycles, Wyckoff accumulation/redistribution schematics, half-size probes with scale-ins [Sun 54:41-60:22];
+  - 50 EMA "gravity" [Sun 69:14-69:26];
+  - FOMC-week choppiness [Wed 22:12-22:20];
+  - he names the 1M and 30-second charts as execution TFs [Sun 70:06-70:14].
+
+**Verdict**:
+- One real codeable gap: **OB stacking** (higher-TF parent zone around the 4H/1H zone).
+- Everything else is already coded and tested, or is discretionary context.
+- Stacking is a filter on the existing v3 setups, so it can be tested on the setup database without a new engine. It is not tested yet.
+
+## His real trade vs our code (2026-11-09)
+Trade Recap GBPJPY Sell (FXCM 5M, NY time): limit sell 139.806 placed 20 Aug 2020 21:00 NY (21 Aug 01:00 UTC) at the 4H supply above the 'BC' high after a Wyckoff UTAD, stop 139.953, price collapsed on 21 Aug.
+phantom.scan on FXCM GBPJPY 10-25 Aug 2020: nearest = 1H zone 139.601-139.838 (created 19 Aug 11:00, tapped 20 Aug 16:00) -> confirmation short 20 Aug 18:45 at 139.732, stop 139.806 = HIS ENTRY -> stopped (-1.16R). NOT matched: his zone is the outer one above the liquidity (BC high) and his stop sits beyond the liquidity wicks; ours is inside it.

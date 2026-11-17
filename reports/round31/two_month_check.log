@@ -1,0 +1,52 @@
+2-MONTH CODE CHECK 2026-09-01 .. 2026-11-01, 7 pairs, 1H / 4H / 1D zones
+
+trades rebuilt by the separate checker: 823; in the study: 823; matched 823, identical (R, BOS, liquidity, Fibonacci) 823; only in checker 0, only in study 0
+
+RESULT OF THE 2 MONTHS (R per trade; $ at $1k risk)
+   H1: WITHOUT the new filters  638 trades, hit 1:3 13.3%, total  -64.5R (-64,540 $)  |  WITH the new filters  27 trades, hit 1:3  7.4%, total   -9.6R (-9,629 $)
+   H4: WITHOUT the new filters  151 trades, hit 1:3 15.9%, total   -5.7R (-5,718 $)  |  WITH the new filters   5 trades, hit 1:3 20.0%, total   -1.1R (-1,066 $)
+   D1: WITHOUT the new filters   34 trades, hit 1:3  2.9%, total   +4.3R (+4,297 $)  |  WITH the new filters  10 trades, hit 1:3 10.0%, total   +5.2R (+5,250 $)
+
+ALL 1D TRADES + every trade that passed the new filters on 4H:
+       when    sym tf side        top         sl         tp        R   bos  fib_pos  new_pass
+09-03 04:30 USDCHF D1  BUY    0.81167    0.80100    0.84368  0.70965 False  0.64981     False
+09-03 12:50 GBPUSD D1 SELL    1.35148    1.36539    1.30975  0.74148  True  0.39990      True
+09-04 07:55 EURUSD H4  BUY    1.16214    1.15776    1.17528 -1.02374  True  0.48677      True
+09-04 12:30 USDCHF H4 SELL    0.81001    0.81616    0.79156 -1.01756  True  0.36195      True
+09-04 12:30 XAUUSD H4  BUY 4417.55000 4298.30000 4775.30000 -1.00148  True  0.32574      True
+09-04 12:30 USDCAD H4 SELL    1.38574    1.39448    1.35952 -1.01373  True  0.44685      True
+09-10 12:30 USDJPY D1 SELL  154.41900  160.44100  136.35300 -0.63667  True  0.86222     False
+09-14 15:40 USDJPY H4  BUY  154.36000  153.19100  157.86700  2.99059  True  0.20901      True
+09-16 07:30 EURUSD D1 SELL    1.15518    1.16591    1.12299  2.99031  True  0.44553      True
+09-16 18:00 AUDUSD D1 SELL    0.71375    0.72428    0.68216  1.48813 False  0.31791      True
+09-18 02:55 USDJPY D1 SELL  156.75400  160.44100  145.69300 -0.40656  True  0.82587     False
+09-18 17:05 USDCHF D1  BUY    0.82227    0.80792    0.86532 -0.21101  True  0.86860     False
+09-21 00:40 USDJPY D1  BUY  156.72200  153.28500  167.03300  0.43905  True  0.34532      True
+09-24 15:05 USDJPY D1 SELL  158.96600  160.32300  154.89500  0.52542  True  0.57330     False
+09-25 10:10 EURUSD D1 SELL    1.13991    1.15027    1.10883  2.10000  True  0.87207     False
+09-25 11:15 GBPUSD D1 SELL    1.32559    1.34113    1.27897 -1.00746  True  0.89070     False
+09-27 21:00 USDCAD D1  BUY    1.41333    1.39712    1.46196 -1.00740  True  0.94982     False
+09-30 06:50 XAUUSD D1 SELL 4187.57000 4379.05000 3613.13000  1.48921  True  0.75143     False
+09-30 12:30 USDCAD D1  BUY    1.41733    1.40197    1.46341 -1.00781  True  0.93974     False
+10-01 14:20 USDCHF D1  BUY    0.83184    0.81785    0.87381 -1.00772  True  0.90169     False
+10-02 03:25 USDCAD D1  BUY    1.42163    1.40919    1.45895 -1.00965  True  0.91257     False
+10-12 01:05 AUDUSD D1 SELL    0.69948    0.71216    0.66144  0.11041  True  0.82122     False
+10-12 05:20 XAUUSD D1  BUY 4184.79000 4063.48000 4548.72000 -1.00145  True  0.18767      True
+10-19 15:50 GBPUSD D1  BUY    1.33039    1.31318    1.38202  0.61267  True  0.31013      True
+10-20 07:35 USDCAD D1  BUY    1.40643    1.39161    1.45089 -0.73684  True  0.83703     False
+10-20 14:25 GBPUSD D1 SELL    1.34063    1.35652    1.29296 -0.03373  True  0.66973     False
+10-22 06:20 USDCAD D1  BUY    1.40247    1.38932    1.44192 -0.52928  True  0.73728     False
+10-22 11:00 AUDUSD D1  BUY    0.70059    0.68892    0.73560 -0.22708  True  0.32509      True
+10-22 11:05 GBPUSD D1  BUY    1.33643    1.31318    1.40618  0.19372  True  0.43809      True
+10-23 12:50 USDCAD D1  BUY    1.39738    1.37962    1.45066 -0.10529  True  0.60907     False
+10-25 21:00 USDCAD D1 SELL    1.40186    1.42039    1.34627  0.32974  True  0.52083     False
+10-26 00:45 USDJPY D1 SELL  157.16000  158.65100  152.68700 -0.73307  True  0.43074      True
+10-26 03:00 XAUUSD D1 SELL 4004.21000 4193.42000 3436.58000  0.53799  True  0.95715     False
+10-27 01:05 USDCHF D1 SELL    0.82824    0.84001    0.79293  0.74613  True  0.25303      True
+10-27 14:00 XAUUSD D1 SELL 4034.28000 4202.06000 3530.94000  0.78593  True  0.91560     False
+10-28 00:30 AUDUSD D1 SELL    0.70452    0.71453    0.67449  0.64336  True  0.61046     False
+10-29 02:05 USDCHF D1  BUY    0.82728    0.81866    0.85314 -1.01253 False  0.64323     False
+10-29 20:20 EURUSD D1 SELL    1.11769    1.12657    1.09105 -0.05225  True  0.88207     False
+10-30 00:55 USDJPY D1  BUY  157.42300  156.03000  161.60200  0.58004 False  0.60432     False
+
+full list: reports/round31/two_month_trades.csv; charts: reports/round31/two_month_01..10.png

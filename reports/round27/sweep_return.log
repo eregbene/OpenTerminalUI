@@ -1,0 +1,67 @@
+SWEEP THEN RETURN: zone -> liquidity swept -> lower-TF confirmation -> entry; stop under the sweep low
+
+== How often it happens
+   H1: 8330 zones, liquidity swept 73%; after the sweep: reclaim 49%, MSS 86% (median 8 h after the sweep), MSS+FVG fill 46%, BOS 51%
+   H4: 2286 zones, liquidity swept 68%; after the sweep: reclaim 40%, MSS 83% (median 32 h after the sweep), MSS+FVG fill 39%, BOS 47%
+   D1: 512 zones, liquidity swept 60%; after the sweep: reclaim 26%, MSS 68% (median 117 h after the sweep), MSS+FVG fill 32%, BOS 33%
+
+== Results (R per trade = same $ risk; $ at $1k risk per trade). * = both years positive
+TF  entry    target     n   win%   avg R  total R      Y1      Y2 stop pips   $ at $1k
+H1  RECLAIM  2R      2954  31.8%  -0.093   -275.2   -63.5  -211.7      51.9   -275,221  
+H1  RECLAIM  3R      2954  25.7%  -0.087   -258.5  -114.4  -144.1      51.9   -258,452  
+H1  RECLAIM  LIQ      844  31.2%  -0.177   -149.6   -61.9   -87.8      46.5   -149,647  
+H1  MSS      2R      5233  31.0%  -0.112   -588.2  -256.6  -331.6      34.7   -588,173  
+H1  MSS      3R      5233  23.5%  -0.125   -655.5  -324.8  -330.8      34.7   -655,502  
+H1  MSS      LIQ     3673  25.0%  -0.121   -445.0  -211.2  -233.8      30.3   -444,981  
+H1  MSS_FVG  2R      2771  29.6%  -0.160   -443.9  -218.2  -225.8      25.9   -443,946  
+H1  MSS_FVG  3R      2771  22.5%  -0.160   -442.9  -217.0  -225.9      25.9   -442,882  
+H1  MSS_FVG  LIQ     2234  21.4%  -0.194   -432.6  -243.9  -188.7      23.8   -432,580  
+H1  BOS      2R      3086  33.1%  -0.044   -136.2   -85.0   -51.2      49.2   -136,180  
+H1  BOS      3R      3086  26.7%  -0.035   -108.2  -100.9    -7.2      49.2   -108,190  
+H1  BOS      LIQ     1602  33.0%  -0.025    -39.3   +12.9   -52.2      42.0    -39,260  
+
+H4  RECLAIM  2R       620  38.7%  -0.013     -7.8   -15.0    +7.3      96.1     -7,751  
+H4  RECLAIM  3R       620  35.5%  +0.002     +0.9   -29.5   +30.5      96.1       +947  
+H4  RECLAIM  LIQ      188  42.6%  +0.046     +8.6    -1.9   +10.5      84.0     +8,571  
+H4  MSS      2R      1293  33.7%  -0.051    -66.1    -0.6   -65.5      65.6    -66,109  
+H4  MSS      3R      1293  28.2%  -0.044    -56.4   -15.2   -41.2      65.6    -56,375  
+H4  MSS      LIQ      956  27.0%  -0.106   -101.3   +12.9  -114.1      58.3   -101,253  
+H4  MSS_FVG  2R       610  39.7%  +0.135    +82.3   +65.1   +17.2      50.5    +82,306 *
+H4  MSS_FVG  3R       610  33.8%  +0.230   +140.5   +74.4   +66.1      50.5   +140,505 *
+H4  MSS_FVG  LIQ      516  29.7%  +0.192    +98.9   +68.8   +30.2      44.2    +98,940 *
+H4  BOS      2R       738  39.2%  +0.027    +20.0   +54.4   -34.4      88.3    +20,016  
+H4  BOS      3R       738  36.4%  +0.064    +47.3   +81.4   -34.1      88.3    +47,346  
+H4  BOS      LIQ      403  35.0%  -0.074    -30.0   +30.0   -60.0      72.7    -29,956  
+
+D1  RECLAIM  2R        81  50.6%  +0.107     +8.7    +2.6    +6.1     217.1     +8,672 *
+D1  RECLAIM  3R        81  50.6%  +0.179    +14.5    +5.8    +8.7     217.1    +14,502 *
+D1  RECLAIM  LIQ       31  54.8%  +0.239     +7.4    +1.5    +5.9     185.3     +7,406 *
+D1  MSS      2R       208  46.2%  +0.082    +17.0   +17.9    -0.9     114.1    +17,023  
+D1  MSS      3R       208  44.7%  +0.166    +34.6   +17.0   +17.6     114.1    +34,603 *
+D1  MSS      LIQ      171  43.3%  +0.179    +30.6    +5.4   +25.2     103.5    +30,588 *
+D1  MSS_FVG  2R       100  44.0%  +0.060     +6.0    +9.4    -3.4      81.8     +6,010  
+D1  MSS_FVG  3R       100  41.0%  +0.109    +10.9    +7.2    +3.6      81.8    +10,897 *
+D1  MSS_FVG  LIQ       94  42.6%  +0.253    +23.8   +12.1   +11.7      80.7    +23,759 *
+D1  BOS      2R       102  54.9%  +0.067     +6.8    -6.3   +13.1     160.7     +6,801  
+D1  BOS      3R       102  54.9%  +0.089     +9.1    -6.8   +15.9     160.7     +9,087  
+D1  BOS      LIQ       61  47.5%  +0.103     +6.3    -6.9   +13.2     133.3     +6,296  
+
+== Top 3 by total R: split by imbalance size (gap in ATR of its own TF), buys/sells, pair
+ H4 MSS_FVG 3R (total +141R, both years +); median imbalance 19 pips, median sweep 44 pips below the liquidity
+    small <0.6    326 trades, median    13 pips, win  34.4%, +0.244 R/trade, total +79R
+    0.6-1         182 trades, median    22 pips, win  31.3%, +0.123 R/trade, total +22R
+    1-2            94 trades, median    46 pips, win  38.3%, +0.457 R/trade, total +43R
+    big >2          8 trades, median    75 pips, win  12.5%, -0.530 R/trade, total -4R
+    buys +63R / sells +78R | AUDUSD +28, EURUSD -20, GBPUSD +61, USDCAD -29, USDCHF -1, USDJPY +39, XAUUSD +64
+ H4 MSS_FVG LIQ (total +99R, both years +); median imbalance 19 pips, median sweep 49 pips below the liquidity
+    small <0.6    266 trades, median    14 pips, win  32.7%, +0.260 R/trade, total +69R
+    0.6-1         155 trades, median    22 pips, win  23.9%, +0.063 R/trade, total +10R
+    1-2            87 trades, median    46 pips, win  32.2%, +0.299 R/trade, total +26R
+    big >2          8 trades, median    75 pips, win  12.5%, -0.761 R/trade, total -6R
+    buys +29R / sells +70R | AUDUSD +43, EURUSD -9, GBPUSD +29, USDCAD -20, USDCHF +9, USDJPY +25, XAUUSD +23
+ H4 MSS_FVG 2R (total +82R, both years +); median imbalance 19 pips, median sweep 44 pips below the liquidity
+    small <0.6    326 trades, median    13 pips, win  40.8%, +0.176 R/trade, total +58R
+    0.6-1         182 trades, median    22 pips, win  35.2%, -0.022 R/trade, total -4R
+    1-2            94 trades, median    46 pips, win  46.8%, +0.363 R/trade, total +34R
+    big >2          8 trades, median    75 pips, win  12.5%, -0.655 R/trade, total -5R
+    buys +28R / sells +54R | AUDUSD +29, EURUSD -11, GBPUSD +36, USDCAD -19, USDCHF -8, USDJPY +18, XAUUSD +38

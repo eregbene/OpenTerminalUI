@@ -1,0 +1,21 @@
+Round 33b: pattern memory (30 candles + 10 daily candles), 49609 imbalances H1..D1, 7 pairs
+
+TF   decision   K |  checked on 2023-06..2024-11   |      TEST 2024-11..2026-11 (never seen)      | test deciles low->high
+H1   FILL      - | no K/threshold made money on the check years -> no trades
+H1   FOLLOW    - | no K/threshold made money on the check years -> no trades
+H1   HOLD      - | no K/threshold made money on the check years -> no trades
+H1   BREAK     - | no K/threshold made money on the check years -> no trades
+H4   FILL      - | no K/threshold made money on the check years -> no trades
+H4   FOLLOW   50 | n   211 +0.001R    +0.2R       | n   292 win 61.0% -0.005R    -1.3R t -0.1 | +0.08 -0.09 -0.08 -0.08 -0.13 +0.02 -0.04 -0.03 -0.03 -0.01
+H4   HOLD     50 | n   357 +0.014R    +5.0R       | n   674 win 28.5% -0.100R   -67.7R t -1.5 | +0.03 -0.16 +0.05 -0.15 -0.01 -0.04 -0.18 -0.07 -0.08 -0.15
+H4   BREAK     - | no K/threshold made money on the check years -> no trades
+H12  FILL    100 | n   189 +0.051R    +9.6R       | n   394 win 42.4% -0.095R   -37.4R t -1.6 | -0.08 -0.13 +0.11 +0.03 -0.01 -0.07 +0.05 +0.03 -0.18 +0.01
+H12  FOLLOW    - | no K/threshold made money on the check years -> no trades
+H12  HOLD      - | no K/threshold made money on the check years -> no trades
+H12  BREAK     - | no K/threshold made money on the check years -> no trades
+D1   FILL      - | no K/threshold made money on the check years -> no trades
+
+VERDICT (pass = total > 0 and t >= 2 on the unseen 2024-26):
+   H4   FOLLOW    292 trades total    -1.3R t -0.1 -> FAIL
+   H4   HOLD      674 trades total   -67.7R t -1.5 -> FAIL
+   H12  FILL      394 trades total   -37.4R t -1.6 -> FAIL

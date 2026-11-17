@@ -1,0 +1,27 @@
+//@version=5
+// bensim volume pane -- goes UNDER the chart (Pine draws an overlay script and a pane script separately, so this is
+// the one extra script next to bensim All-in-One).
+//   columns  = tick volume per candle (green = up candle, red = down candle); forex volume = number of price updates
+//   blue line = 20-candle average volume
+//   ORANGE columns = volume surge: LuxAlgo volume oscillator (EMA5 vs EMA10 of volume) above 20%
+//   dots on the zero line = LazyBear squeeze: black = squeeze ON (coiling), gray = released, blue = no squeeze
+// Information only: tested as an entry rule on the last 3 months, volume surges did not improve the strategy.
+indicator("bensim Volume + Squeeze", "bensim VOL", overlay = false, format = format.volume)
+
+surgePct = input.float(20, "Surge threshold (%)")
+avgLen   = input.int(20, "Average length")
+
+volEma10 = ta.ema(volume, 10)
+volOsc   = volEma10 > 0 ? 100 * (ta.ema(volume, 5) - volEma10) / volEma10 : 0.0
+surge    = volOsc > surgePct
+colUp    = close >= open
+plot(volume, "Volume", style = plot.style_columns, color = surge ? color.new(color.orange, 0) : colUp ? color.new(color.teal, 40) : color.new(color.red, 40))
+plot(ta.sma(volume, avgLen), "Average", color = color.new(color.blue, 0), linewidth = 2)
+
+basis   = ta.sma(close, 20)
+dev     = 1.5 * ta.stdev(close, 20)
+rangeMa = ta.sma(ta.tr(true), 20)
+sqzOn   = basis - dev > basis - rangeMa * 1.5 and basis + dev < basis + rangeMa * 1.5
+sqzOff  = basis - dev < basis - rangeMa * 1.5 and basis + dev > basis + rangeMa * 1.5
+plotshape(true, "Squeeze", shape.circle, location.bottom, sqzOn ? color.black : sqzOff ? color.gray : color.blue, size = size.tiny)
+alertcondition(surge and not surge[1], "Volume surge", "Volume surge on {{ticker}}")

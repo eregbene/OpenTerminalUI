@@ -1,0 +1,46 @@
+﻿bars loaded
+167 trades {'imbalance': 69, 'fib618': 66, 'enigma': 17, 'sflow': 13, 'bennett': 2}
+
+== 1 CAP (2 losses/day) -- total R diff full (h1/h2), max drawdown R
+  all books together  kept 117/167  total   +31.0R vs base   +44.8R  diff  -13.8 (-2.9/-10.9)  DD 16.1R vs 18.5R  skipped mean +0.276R  
+      kept $  +15,498 @$500 | 1/5/7 lots $   +9,032 / $   +45,160 / $   +63,224
+      base $  +22,399 @$500 | 1/5/7 lots $   +5,850 / $   +29,252 / $   +40,953
+      bennett       1/    2     +0.8R vs    -0.2R
+      enigma       16/   17     +5.2R vs    +4.2R
+      fib618       46/   66    +10.0R vs   +24.9R
+      imbalance    43/   69     +1.7R vs    -3.4R
+      sflow        11/   13    +13.3R vs   +19.2R
+  per book            kept 154/167  total   +35.1R vs base   +44.8R  diff   -9.7 (-0.5/-9.2)  DD 16.4R vs 18.5R  skipped mean +0.746R  
+      kept $  +17,552 @$500 | 1/5/7 lots $   +1,024 / $    +5,119 / $    +7,166
+      base $  +22,399 @$500 | 1/5/7 lots $   +5,850 / $   +29,252 / $   +40,953
+      bennett       2/    2     -0.2R vs    -0.2R
+      enigma       17/   17     +4.2R vs    +4.2R
+      fib618       60/   66    +16.8R vs   +24.9R
+      imbalance    62/   69     -4.9R vs    -3.4R
+      sflow        13/   13    +19.2R vs   +19.2R
+
+== 2/3 FILTERS -- R/trade kept vs base (same trades with bars) diff full (h1/h2)
+-- PD30
+  bennett   only 0 kept
+  enigma    only 7 kept
+  fib618    kept    33/   66  +0.337R vs +0.378R  diff -0.041 (-0.277/+0.074) 
+            kept $   +5,563 @$500 | 1/5/7 lots $   -3,655 / $   -18,277 / $   -25,587   base $  +12,474 @$500 | 1/5/7 lots $   -7,797 / $   -38,987 / $   -54,582
+  imbalance kept    25/   69  -0.229R vs -0.049R  diff -0.180 (+0.076/-0.385) 
+            kept $   -2,865 @$500 | 1/5/7 lots $   -4,265 / $   -21,325 / $   -29,855   base $   -1,704 @$500 | 1/5/7 lots $   -1,598 / $    -7,991 / $   -11,188
+  sflow     only 6 kept
+  ALL       kept    71/  167  +0.394R vs +0.268R  diff +0.126 (+0.207/+0.009) 
+-- PDSW
+  bennett   only 0 kept
+  enigma    only 9 kept
+  fib618    kept    28/   66  +0.486R vs +0.378R  diff +0.108 (+0.568/-0.054) 
+            kept $   +6,810 @$500 | 1/5/7 lots $   -9,362 / $   -46,810 / $   -65,534   base $  +12,474 @$500 | 1/5/7 lots $   -7,797 / $   -38,987 / $   -54,582
+  imbalance only 10 kept
+  sflow     only 10 kept
+  ALL       kept    57/  167  +0.554R vs +0.268R  diff +0.285 (+0.630/+0.011) 
+-- KEY
+  bennett   only 0 kept
+  enigma    only 6 kept
+  fib618    only 8 kept
+  imbalance only 6 kept
+  sflow     only 1 kept
+  ALL       kept    21/  167  +0.147R vs +0.268R  diff -0.121 (-0.017/-0.130) 

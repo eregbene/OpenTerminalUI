@@ -1,0 +1,393 @@
+"""Backtester for donchian_imbalance on broker data (`candles`, M5, UTC) -- MT5/prop-firm style.
+
+    python -m bensim.backtest                         # all symbols, default params, 5 years
+    python -m bensim.backtest --symbols EURUSD --start 2024-01-01 --news-block 30 --be-r 1.0
+
+Exactly the live decision path: after every M5 close, bensim.strategy.plan() sees the same windows the live
+engine sees (300 completed M15, 200 H1, 100 M5 bars, resampled from M5 on UTC boundaries). For speed, plan()
+runs on every M15 boundary and on any M5 bar that reaches a waiting zone -- the only bars that can trigger.
+
+Execution (MT5 bars are BID prices):
+  * entry: market at the trigger bar's close -- BUY at ask (= bid + spread), SELL at bid; + slippage
+  * exits on later M5 bars: long SL/TP on bid, short SL/TP on ask; gap through -> fill at the open;
+    a bar reaching both SL and TP counts as SL; time exit after Params.max_hold_bars M15 bars
+  * costs: spread = per-symbol raw spread (x rollover_mult 20:55-22:05 UTC; no other hour profile),
+    commission $7 per lot round trip, slippage on market entry and stop fills
+  * audit P0 options (2026-11-03, all OFF by default -> results unchanged): friday_close_utc (close at the first
+    bar from Friday HH:00 UTC, no new entries after it that Friday -- live.py behaviour), swap_usd_per_lot_night
+    (observed broker swap per lot-night, rollover at server midnight, Wednesday x3), cost_sources (labels).
+    Use exec_profile("legacy" | "observed_account") for the two audited cost sets.
+  * sizing: Params-independent risk % of equity, lots rounded down to 0.01 (min 0.01); P&L in USD
+  * prop-firm check: 5% daily loss / 10% max loss on the starting balance (closed-trade basis)
+Options (default off, for research): news block around high-impact events, break-even / partial at +R.
+"""
+from __future__ import annotations
+
+import argparse
+import ast
+import json
+from concurrent.futures import ProcessPoolExecutor
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timezone
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+from . import db
+from .config import SYMBOLS
+from . import bennett_strategy, fvg_strategy, gf_strategy, orderflow_strategy, pullback_strategy, strategy
+from .mt5_time import rollover_nights, utc_to_server
+from .strategy import CRYPTO_TICK, pip
+
+STRATEGIES = {"imbalance": (strategy.Params, strategy.plan, strategy.order_for),
+              "htf_fvg": (fvg_strategy.FvgParams, fvg_strategy.plan, fvg_strategy.order_for),
+              "pullback": (pullback_strategy.PullbackParams, pullback_strategy.plan, pullback_strategy.order_for),
+              "orderflow": (orderflow_strategy.OrderFlowParams, orderflow_strategy.plan, orderflow_strategy.order_for),
+              "bennett": (bennett_strategy.BennettParams, bennett_strategy.plan, bennett_strategy.order_for),
+              "gf": (gf_strategy.GfParams, gf_strategy.plan, gf_strategy.order_for)}
+WARMUP_SEC = 30 * 86400  # covers the 300 M15 / 200 H1 bar windows plan() sees
+
+BINANCE_DIR = Path(__file__).resolve().parent.parent / "data/bars/binance"
+CONTRACT = {"XAUUSD": 100.0}  # units per lot; FX = 100,000
+CURRENCIES = {"EURUSD": ("EUR", "USD"), "GBPUSD": ("GBP", "USD"), "USDJPY": ("USD", "JPY"), "AUDUSD": ("AUD", "USD"),
+              "USDCHF": ("USD", "CHF"), "USDCAD": ("USD", "CAD"), "XAUUSD": ("XAU", "USD")}
+CONTRACT |= {s: 1.0 for s in CRYPTO_TICK}  # crypto: 1 lot = 1 coin
+CURRENCIES |= {s: (s.split(".")[0][:-4], "USD") for s in CRYPTO_TICK}  # USDT quoted, USDT ~ USD
+
+
+@dataclass(frozen=True)
+class Exec:
+    raw_spread_pips: dict[str, float] = field(default_factory=lambda: {"EURUSD": 0.1, "GBPUSD": 0.3, "USDJPY": 0.2, "AUDUSD": 0.2,
+                                                                        "USDCHF": 0.3, "USDCAD": 0.3, "XAUUSD": 1.2})
+    commission_per_lot_rt: float = 7.0
+    slippage_pips: float = 0.1
+    # crypto (CRYPTO_TICK symbols) pay a fee on notional instead of commission per lot: Binance USD-M taker 0.05% each
+    # side; spread = 1 tick (raw_spread_pips default 1.0 there), no rollover widening.
+    # ponytail: funding (every 8h, ~0.01%) not modelled -- add from /fapi/v1/fundingRate when multi-day holds matter
+    crypto_fee_rt: float = 0.001
+    crypto_spot_fee_rt: float = 0.002  # spot (.SPOT names): 0.1% each side
+    rollover_mult: float = 4.0  # spread multiplier 20:55-22:05 UTC (rollover), raw accounts widen there
+    risk_pct: float = 0.25
+    start_balance: float = 100_000.0
+    news_block_min: int = 0  # 0 = off; else no entries within +/- N minutes of a high-impact event
+    be_r: float = 0.0  # 0 = off; move SL to entry once price reaches +be_r R
+    partial_r: float = 0.0  # 0 = off; close partial_frac at +partial_r R
+    partial_frac: float = 0.5
+    # TP ladder (off when empty): close tp_frac[i] of the position at +tp_r[i] R, then move the stop to tp_stop_r[i] R;
+    # whatever is left runs to the strategy's own target. E.g. tp_r=(1, 2), tp_frac=(0.5, 0.25), tp_stop_r=(0, 1).
+    tp_r: tuple = ()
+    tp_frac: tuple = ()
+    tp_stop_r: tuple = ()
+    friday_close_utc: int = -1  # -1 = off; e.g. 20 = flat at the first M5 bar from Friday 20:00 UTC, no entries after
+    swap_usd_per_lot_night: dict = field(default_factory=dict)  # "EURUSD|long" -> USD per lot-night (+ = credit); {} = off
+    cost_sources: dict = field(default_factory=dict)  # labels only: observed / estimated / unknown per cost
+
+
+def exec_profile(name: str) -> Exec:
+    """The two audited cost sets (audit P0). Each cost is labelled observed / estimated / unknown.
+    legacy           = the cost model every result before 2026-11-03 used (raw-account guess), weekends held, no swap
+    observed_account = what the demo account (ICMarketsSC-Demo, login 53007035) actually charges: spread sampled
+                       2026-11-03 12:5x UTC (data/costs/spread_samples_2026-11-03.json), $0 commission (deals),
+                       swap per lot-night from 150 days of closed deals (data/costs/deals_costs_2026-11-03.json),
+                       Friday 20:00 UTC close as live.py"""
+    if name == "legacy":
+        return Exec(cost_sources={"spread": "estimated (raw-account guess, x4 at rollover)", "commission": "estimated ($7/lot rt broker schedule)",
+                                  "slippage": "estimated (0.1 pip)", "swap": "unknown (not charged)", "gaps": "observed (bar opens)"})
+    if name == "observed_account":
+        spr = json.loads(Path("data/costs/spread_samples_2026-11-03.json").read_text())["spread_pips"]
+        deals = json.loads(Path("data/costs/deals_costs_2026-11-03.json").read_text())["by_symbol_side"]
+        swap = {k: v["swap_usd_per_lot_night"] for k, v in deals.items() if v.get("swap_usd_per_lot_night") is not None}
+        return Exec(raw_spread_pips={s: round(float(np.mean(v)), 2) for s, v in spr.items()}, commission_per_lot_rt=0.0,
+                    friday_close_utc=20, swap_usd_per_lot_night=swap,
+                    cost_sources={"spread": "observed (5 samples, one London/NY session 2026-11-03) applied to all hours = estimated off-hours; "
+                                            "x4 at rollover = estimated",
+                                  "commission": "observed ($0 on 150 days of demo deals)", "slippage": "estimated (0.1 pip)",
+                                  "swap": "observed per lot-night (150 days of deals), applied to past dates = estimated; "
+                                          "pairs/sides with no overnight deals = unknown (0)",
+                                  "gaps": "observed (bar opens)", "friday_close": "as live.py (fib618/Bennett); books hold weekends live"})
+    raise ValueError(name)
+
+
+def friday_close_ts(t: int, hour: int) -> int:
+    """The first Friday HH:00 UTC at or after t's week position (t itself if t is past it on that Friday -> next week)."""
+    day = t // 86400
+    fri = day + (1 - (day + 3) % 7 + 3) % 7  # 1970-01-01 Thursday -> weekday (day+3)%7, Friday = 4
+    ts = fri * 86400 + hour * 3600
+    return ts if ts > t else ts + 7 * 86400
+
+
+def _spread(sym: str, t: int, ex: Exec) -> float:
+    m = (t % 86400) // 60
+    if sym in CRYPTO_TICK:
+        return ex.raw_spread_pips.get(sym, 1.0) * pip(sym)
+    mult = ex.rollover_mult if 20 * 60 + 55 <= m <= 22 * 60 + 5 else 1.0
+    return ex.raw_spread_pips.get(sym, 0.5) * pip(sym) * mult
+
+
+def _usd_per_unit_move(sym: str, price: float) -> float:
+    """USD P&L of a 1.0 price move on 1 unit."""
+    return 1.0 if CURRENCIES[sym][1] == "USD" else 1.0 / price
+
+
+def crypto_fee(sym: str, ex: Exec) -> float:
+    return ex.crypto_spot_fee_rt if sym.endswith(".SPOT") else ex.crypto_fee_rt
+
+
+def load_m5(sym: str, start: str | None, end: str | None) -> dict[str, np.ndarray]:
+    f = BINANCE_DIR / f"{sym}_M5.npz"
+    if f.exists():  # crypto lives in files on D: (bensim.binance_history), not in the DB
+        z = np.load(f)
+        lo = int(pd.Timestamp(start, tz="UTC").timestamp()) if start else 0
+        hi = int(pd.Timestamp(end, tz="UTC").timestamp()) if end else 2**62
+        k = (z["t"] >= lo) & (z["t"] < hi)
+        return {"t": z["t"][k], "open": z["o"][k], "high": z["h"][k], "low": z["l"][k], "close": z["c"][k]}
+    q = "select extract(epoch from ts)::bigint, open, high, low, close from candles where symbol=%s and tf='M5'"
+    args: list = [sym]
+    if start:
+        q += " and ts >= %s"
+        args.append(start)
+    if end:
+        q += " and ts < %s"
+        args.append(end)
+    with db.connect() as c:
+        a = np.array(c.execute(q + " order by ts", args).fetchall(), dtype=float).reshape(-1, 5)  # no rows -> empty, not a crash
+    return {"t": a[:, 0].astype(np.int64), "open": a[:, 1], "high": a[:, 2], "low": a[:, 3], "close": a[:, 4]}
+
+
+def resample(b: dict[str, np.ndarray], sec: int) -> dict[str, np.ndarray]:
+    key = b["t"] // sec
+    s = np.r_[0, np.flatnonzero(np.diff(key)) + 1]
+    e = np.r_[s[1:], len(key)]
+    return {"t": key[s] * sec, "open": b["open"][s], "high": np.maximum.reduceat(b["high"], s),
+            "low": np.minimum.reduceat(b["low"], s), "close": b["close"][e - 1]}
+
+
+def _win(b: dict[str, np.ndarray], z: int, n: int) -> dict[str, np.ndarray]:
+    return {k: v[max(0, z - n):z] for k, v in b.items()}
+
+
+def _news_times(sym: str) -> np.ndarray:
+    cur = set(CURRENCIES[sym]) | {"USD"} if sym == "XAUUSD" else set(CURRENCIES[sym])
+    with db.connect() as c:
+        rows = c.execute("select extract(epoch from ts)::bigint from economic_events where impact='high' and currency = any(%s) and name not like '%%]' order by ts",
+                         (list(cur),)).fetchall()
+    return np.array([r[0] for r in rows], dtype=np.int64)
+
+
+def run_symbol(args: tuple) -> pd.DataFrame:
+    sym, start, end, p, ex, name = args
+    _, plan, order_for = STRATEGIES[name]
+    long_ctx = getattr(p, "h4_discount", False) or getattr(p, "trend_eff_min", 0) or getattr(p, "needs_htf", False)
+    hb = getattr(p, "htf_bars", 1300)  # length of the long H1 window passed as htf
+    warm = max(WARMUP_SEC, 200 * getattr(p, "bias_sec", 3600), (hb + 100) * 3600 if long_ctx else 0)  # bias / H4-context windows must be loaded too
+    t_load = (pd.Timestamp(start, tz="UTC") - pd.Timedelta(seconds=warm)).isoformat() if start else None
+    m5 = load_m5(sym, t_load, end)
+    if not len(m5["t"]):
+        return pd.DataFrame()
+    es, bs = getattr(p, "entry_sec", 900), getattr(p, "bias_sec", 3600)
+    m15, h1 = resample(m5, es), resample(m5, bs)
+    t0 = int(pd.Timestamp(start, tz="UTC").timestamp()) if start else int(m5["t"][0])
+    news = _news_times(sym) if ex.news_block_min else np.zeros(0, np.int64)
+    trades, open_until, waiting, last15 = [], -1, [], -1
+    for k in np.flatnonzero(m5["t"] >= t0):
+        if k <= open_until or k < 100:
+            continue
+        now = int(m5["t"][k]) + 300
+        cur15 = (int(m5["t"][k]) // es) * es
+        new_bucket = cur15 != last15
+        if not new_bucket:  # cheap pre-check: can this bar reach any waiting zone?
+            lo, hi = m5["low"][k], m5["high"][k]
+            if not any((lo <= e) if d == 1 else (hi >= e) for d, e, _ in waiting):
+                continue
+        i15 = int(np.searchsorted(m15["t"] + es, now, side="right"))
+        i1 = int(np.searchsorted(h1["t"] + bs, now, side="right"))
+        waiting = []
+        kw = {"htf": _win(h1, i1, hb)} if long_ctx else {}  # ~54 days of H1 for the H4 swing range / D1 trend efficiency
+        pl = plan(_win(m15, i15, 300), _win(h1, i1, 200), _win(m5, k + 1, getattr(p, "m5_bars", 100)), sym, p, waiting=waiting, **kw)
+        last15 = cur15
+        bid = float(m5["close"][k])
+        spr = _spread(sym, now, ex)
+        order, why = order_for(pl, bid, bid + spr, p)
+        if order is None:
+            continue
+        if ex.friday_close_utc >= 0 and (now // 86400 + 3) % 7 == 4 and (now % 86400) >= ex.friday_close_utc * 3600:
+            continue  # live: no new orders after the Friday close
+        if len(news) and np.any(np.abs(news - now) <= ex.news_block_min * 60):
+            continue
+        tr = _simulate(sym, m5, k, order, p, ex, spr)
+        if tr["exit_reason"] == "no_fill":  # a limit that never filled is not a trade
+            continue
+        trades.append(tr)
+        open_until = tr["exit_index"]
+        last15 = -1  # force a fresh plan scan after the trade
+    return pd.DataFrame(trades)
+
+
+def _simulate(sym: str, m5: dict[str, np.ndarray], k: int, o: dict, p, ex: Exec, spr_entry: float) -> dict:
+    d = 1 if o["side"] == "BUY" else -1
+    slip = ex.slippage_pips * pip(sym)
+    entry = o["price"] + d * slip
+    sl, tp = o["sl"], o["tp"]
+    risk = (entry - sl) * d
+    units_per_lot = CONTRACT.get(sym, 100_000.0)
+    usd_move = _usd_per_unit_move(sym, entry)
+    risk_usd_target = ex.start_balance * ex.risk_pct / 100  # equity compounding applied later in summaries
+    lots = max(0.01, np.floor(risk_usd_target / (risk * usd_move * units_per_lot) * 100) / 100)
+    size, realized, be_done, part_done, ladder = 1.0, 0.0, False, False, 0
+    add = o["plan"].get("add")  # Bennett: part size now, the rest on a limit at the imbalance (same stop / target)
+    part = o["plan"].get("partial")  # Bennett: take part off at T1 (a price), the rest runs to the target (T2)
+    add_px, part_done_px = None, None
+    if add or part:
+        assert not (ex.partial_r or ex.be_r or ex.tp_r), "plan add-on / partial are not combined with Exec partials / BE / ladders"
+    if add:
+        size = 1.0 - add["frac"]
+        if add["frac"] >= 1.0:  # limit-only entry: R is measured from the limit price
+            risk = (add["price"] - sl) * d
+    end = min(len(m5["t"]) - 1, k + o["plan"].get("hold_bars", p.max_hold_bars) * 3)  # a plan may set its own hold
+    reason, xi, exit_px = "time", end, None
+    fc = friday_close_ts(int(m5["t"][k]) + 300, ex.friday_close_utc) if ex.friday_close_utc >= 0 else None
+    for j in range(k + 1, end + 1):
+        s = _spread(sym, int(m5["t"][j]), ex)
+        o_, h_, l_ = m5["open"][j], m5["high"][j], m5["low"][j]
+        if fc is not None and m5["t"][j] >= fc and not (add and add["frac"] >= 1.0 and add_px is None):
+            exit_px, reason, xi = (o_ if d == 1 else o_ + s), "friday_close", j  # market close at the bar open
+            break
+        # long exits on bid, short exits on ask (= bid + spread)
+        if add and add_px is None and ((l_ + s <= add["price"]) if d == 1 else (h_ >= add["price"])):
+            add_px = add["price"]  # the limit fills first (conservative if the stop is in the same bar)
+        if add and add["frac"] >= 1.0 and add_px is None:
+            if not (j - k <= 3 * 48 and ((l_ + s <= add["price"]) if d == 1 else (h_ >= add["price"]))):
+                if j - k > 3 * 48 or ((h_ >= tp) if d == 1 else (l_ + s <= tp)) or ((l_ <= sl) if d == 1 else (h_ + s >= sl)):
+                    reason, xi, exit_px = "no_fill", j, None  # limit not filled within 48 M15 bars / before stop or target
+                    break
+                continue
+        if part and part_done_px is None and ((h_ >= part["price"]) if d == 1 else (l_ + s <= part["price"])):
+            part_done_px = part["price"]
+            realized += part["frac"] * (part["price"] - (add_px if add and add["frac"] >= 1.0 else entry)) * d / risk
+            size -= part["frac"]
+        adv_hit = (l_ <= sl) if d == 1 else (h_ + s >= sl)
+        fav_hit = (h_ >= tp) if d == 1 else (l_ + s <= tp)
+        if adv_hit:
+            gap_open = o_ if d == 1 else o_ + s
+            exit_px = (min(gap_open, sl) if d == 1 else max(gap_open, sl)) - d * slip
+            reason, xi = ("stop" if (sl - entry) * d < 0 else ("breakeven" if abs(sl - entry) < 1e-12 else "trail_stop")), j
+            break
+        if fav_hit:
+            exit_px, reason, xi = tp, "target", j
+            break
+        best = h_ if d == 1 else l_ + s
+        r_now = (best - entry) * d / risk
+        if ex.partial_r and not part_done and r_now >= ex.partial_r:  # applied at the partial level, next bars run the rest
+            realized += ex.partial_frac * ex.partial_r
+            size -= ex.partial_frac
+            part_done = True
+        if ex.be_r and not be_done and r_now >= ex.be_r:
+            sl, be_done = entry, True
+        while ladder < len(ex.tp_r) and r_now >= ex.tp_r[ladder]:  # TP1, TP2...: bank part, move the stop (from the next bar)
+            realized += ex.tp_frac[ladder] * ex.tp_r[ladder]
+            size -= ex.tp_frac[ladder]
+            new_sl = entry + d * ex.tp_stop_r[ladder] * risk
+            sl = max(sl, new_sl) if d == 1 else min(sl, new_sl)
+            ladder += 1
+    if reason == "no_fill":
+        exit_px = entry
+    elif exit_px is None:
+        exit_px = m5["close"][xi] if d == 1 else m5["close"][xi] + _spread(sym, int(m5["t"][xi]), ex)
+    r_gross = realized + size * (exit_px - entry) * d / risk  # R = the risk of a FULL position at the first entry
+    commission_r = (crypto_fee(sym, ex) * entry if sym in CRYPTO_TICK else ex.commission_per_lot_rt / (usd_move * units_per_lot)) / risk
+    if add:
+        r_gross += add["frac"] * (exit_px - add_px) * d / risk if add_px is not None else 0.0
+        commission_r *= size + (add["frac"] if add_px is not None else 0.0)
+    if reason == "no_fill":
+        r_gross, commission_r = 0.0, 0.0
+    t_in, t_out = int(m5["t"][k]) + 300, int(m5["t"][xi]) + (0 if reason == "friday_close" else 300)
+    nights, swap_r, swap_known = 0, 0.0, None
+    if ex.swap_usd_per_lot_night and reason != "no_fill":
+        # ponytail: swap on the full position (partials / add-ons ignored); fine while swap is a small cost
+        nights = rollover_nights(utc_to_server(t_in), utc_to_server(t_out))
+        rate = ex.swap_usd_per_lot_night.get(f"{sym}|{'long' if d == 1 else 'short'}")
+        swap_known = rate is not None or nights == 0
+        swap_r = nights * (rate or 0.0) / (risk * usd_move * units_per_lot)
+    return {"symbol": sym, "dir": d, "t_signal": o["plan"]["signal_time"], "t_entry": int(m5["t"][k]) + 300, "t_exit": t_out,
+            "entry": entry, "sl": o["sl"], "tp": tp, "exit": exit_px, "exit_reason": reason, "rr_planned": o["rr"], "lots": lots,
+            "risk_pips": risk / pip(sym), "spread_pips_entry": spr_entry / pip(sym), "r_gross": r_gross, "commission_r": commission_r,
+            "r": r_gross - commission_r + swap_r, "swap_r": swap_r, "nights": nights, "swap_known": swap_known, "exit_index": xi, "add_filled": add_px is not None if add else None, **{f"chk_{k_}": v for k_, v in o["plan"].get("checks", {}).items()}}
+
+
+def summarize(t: pd.DataFrame, ex: Exec) -> dict:
+    if t.empty:
+        return {"trades": 0}
+    t = t.sort_values("t_exit")
+    r = t.r.to_numpy()
+    eq = ex.start_balance * (1 + np.cumsum(r) * ex.risk_pct / 100)  # fixed-fraction of starting balance
+    peak = np.maximum.accumulate(np.r_[ex.start_balance, eq])[1:]
+    dd_pct = float(((peak - eq) / peak).max() * 100)
+    day = pd.to_datetime(t.t_exit, unit="s").dt.date
+    daily_pct = (t.r * ex.risk_pct).groupby(day).sum()
+    yrs = pd.to_datetime(t.t_entry, unit="s").dt.year
+    wins = r[r > 0]
+    return {"trades": len(r), "win_rate": round(100 * float((r > 0).mean()), 1), "avg_r": round(float(r.mean()), 3),
+            "t_stat": round(float(r.mean() / r.std(ddof=1) * np.sqrt(len(r))), 2) if len(r) > 2 else None,
+            "profit_factor": round(float(wins.sum() / -r[r <= 0].sum()), 2) if (r <= 0).any() else None,
+            "total_r": round(float(r.sum()), 1), "return_pct": round(float(r.sum() * ex.risk_pct), 2), "max_dd_pct": round(dd_pct, 2),
+            "worst_day_pct": round(float(daily_pct.min()), 2), "days_over_5pct_loss": int((daily_pct <= -5).sum()),
+            "breaches_10pct_max_loss": bool(((ex.start_balance - eq) / ex.start_balance * 100 >= 10).any()),
+            "trades_per_month": round(len(r) / max(1, (t.t_entry.max() - t.t_entry.min()) / 2.63e6), 1),
+            "by_year": {int(y): {"n": int(len(g)), "avg_r": round(float(g.r.mean()), 3), "total_r": round(float(g.r.sum()), 1)} for y, g in t.groupby(yrs)},
+            "by_symbol": {s: {"n": int(len(g)), "avg_r": round(float(g.r.mean()), 3), "total_r": round(float(g.r.sum()), 1)} for s, g in t.groupby("symbol")},
+            "exits": t.exit_reason.value_counts().to_dict(), "avg_commission_r": round(float(t.commission_r.mean()), 3),
+            "avg_entry_spread_pips": round(float(t.spread_pips_entry.mean()), 2)}
+
+
+def save(params, ex: Exec, symbols: list[str], start: str | None, end: str | None, t: pd.DataFrame, summary: dict) -> int:
+    with db.connect() as c:
+        c.execute("""create table if not exists backtest_runs (id bigserial primary key, created_at timestamptz default now(),
+                     symbols text, start_date text, end_date text, params jsonb, exec jsonb, summary jsonb)""")
+        c.execute("""create table if not exists backtest_trades (run_id bigint references backtest_runs(id) on delete cascade,
+                     symbol text, dir int, t_entry timestamptz, t_exit timestamptz, entry double precision, sl double precision,
+                     tp double precision, exit double precision, exit_reason text, lots double precision, r double precision, r_gross double precision)""")
+        run_id = c.execute("insert into backtest_runs (symbols, start_date, end_date, params, exec, summary) values (%s,%s,%s,%s,%s,%s) returning id",
+                           (",".join(symbols), start, end, json.dumps(asdict(params)), json.dumps(asdict(ex)), json.dumps(summary, default=str))).fetchone()[0]
+        with c.cursor() as cur:
+            cur.executemany("insert into backtest_trades values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                            [(run_id, r.symbol, int(r.dir), datetime.fromtimestamp(int(r.t_entry), timezone.utc), datetime.fromtimestamp(int(r.t_exit), timezone.utc),
+                              r.entry, r.sl, r.tp, r.exit, r.exit_reason, r.lots, r.r, r.r_gross) for r in t.itertuples()])
+        c.commit()
+    return run_id
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--symbols", default=",".join(SYMBOLS))
+    ap.add_argument("--start", default=None)
+    ap.add_argument("--end", default=None)
+    ap.add_argument("--news-block", type=int, default=0)
+    ap.add_argument("--be-r", type=float, default=0.0)
+    ap.add_argument("--partial-r", type=float, default=0.0)
+    ap.add_argument("--workers", type=int, default=3)
+    ap.add_argument("--tp-ladder", default="", help='TP1/TP2... as "R:fraction:stop_to_R,...", e.g. "1:0.5:0,2:0.25:1"')
+    ap.add_argument("--strategy", choices=sorted(STRATEGIES), default="imbalance")
+    ap.add_argument("--csv", default=None, help="also write every trade (with its SMC checks) to this CSV")
+    ap.add_argument("--set", action="append", default=[], help="strategy param, e.g. --set min_body_ratio=0.6 --set 'killzones=((7,10),(12,15))'")
+    a = ap.parse_args()
+    p = STRATEGIES[a.strategy][0](**{k: ast.literal_eval(v) for k, v in (kv.split("=", 1) for kv in a.set)})
+    lad = [tuple(float(v) for v in step.split(":")) for step in a.tp_ladder.split(",") if step]
+    ex = Exec(news_block_min=a.news_block, be_r=a.be_r, partial_r=a.partial_r,
+              tp_r=tuple(x[0] for x in lad), tp_frac=tuple(x[1] for x in lad), tp_stop_r=tuple(x[2] for x in lad))
+    syms = a.symbols.split(",")
+    with ProcessPoolExecutor(a.workers) as pool:
+        frames = [x for x in pool.map(run_symbol, [(s, a.start, a.end, p, ex, a.strategy) for s in syms]) if not x.empty]
+    if not frames:
+        print(json.dumps({"run_id": None, "trades": 0}))
+        return
+    t = pd.concat(frames, ignore_index=True)
+    s = summarize(t, ex)
+    run_id = save(p, ex, syms, a.start, a.end, t, s)
+    if a.csv:
+        t.to_csv(a.csv, index=False)
+    print(json.dumps({"run_id": run_id, **s}, indent=1, default=str))
+
+
+if __name__ == "__main__":
+    main()

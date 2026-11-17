@@ -1,0 +1,8 @@
+[
+ {"tf": "H4",  "filter": "all FVGs", "discount": true,  "key": "CLOSE_C1", "target": 2.5},
+ {"tf": "H4",  "filter": "FVG + sweep", "discount": true,  "key": "CE_C1", "target": 4.0},
+ {"tf": "H4",  "filter": "FVG + sweep", "discount": false, "key": "CLOSE_C1", "target": 2.5},
+ {"tf": "M30", "filter": "SMC: sweep + MSS + displacement + FVG", "discount": false, "key": "CLOSE_LIQ", "target": 6.0},
+ {"tf": "H1",  "filter": "FVG + MSS (trend turn)", "discount": false, "key": "BOT_LIQ", "target": 6.0},
+ {"tf": "H1",  "filter": "SMC: sweep + MSS + FVG", "discount": false, "key": "TOP_LIQ", "target": 5.0}
+]
