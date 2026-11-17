@@ -1,0 +1,129 @@
+Round 32: imbalance = big one-sided candle, liquidity = the lows beyond it; do imbalances FILL BACK, and when?
+
+1) HOW OFTEN AND WHEN THE IMBALANCE FILLS BACK (100 bars of its own timeframe)
+   TF   period   imbalances  touched 50% fill full fill bars to 50% bars to full
+   M15  2024-26       64555     100%      92%       84%         1.0          4.0
+   M15  2021-24       88562     100%      93%       85%         1.0          3.7
+   M30  2024-26       31542     100%      91%       82%         1.0          3.8
+   M30  2021-24       43202     100%      91%       83%         1.0          3.7
+   H1   2024-26       15114     100%      91%       83%         1.3          4.5
+   H1   2021-24       20269     100%      91%       83%         1.2          4.5
+   H4   2024-26        3960     100%      92%       83%         1.5          5.6
+   H4   2021-24        5188     100%      91%       83%         1.6          5.4
+   H12  2024-26        1492     100%      92%       83%         1.4          6.2
+   H12  2021-24        1900     100%      91%       83%         1.6          6.2
+   D1   2024-26         820     100%      91%       83%         1.9          5.8
+   D1   2021-24        1032     100%      91%       84%         2.3          5.9
+
+2) THE LIQUIDITY: what happens first? (CE = 50% fill of the imbalance)
+   == NEAR liquidity (nearest swing low)
+   M15  2024-26: fill first  50% | liquidity then fill  30% | liquidity, no fill   6% | neither   0% | none below  14%  -> once the liquidity is taken, fills back  83% (median 4 bars later)
+   M15  2021-24: fill first  51% | liquidity then fill  30% | liquidity, no fill   6% | neither   0% | none below  14%  -> once the liquidity is taken, fills back  84% (median 4 bars later)
+   M30  2024-26: fill first  49% | liquidity then fill  29% | liquidity, no fill   7% | neither   0% | none below  15%  -> once the liquidity is taken, fills back  80% (median 4 bars later)
+   M30  2021-24: fill first  50% | liquidity then fill  29% | liquidity, no fill   7% | neither   0% | none below  14%  -> once the liquidity is taken, fills back  81% (median 4 bars later)
+   H1   2024-26: fill first  48% | liquidity then fill  29% | liquidity, no fill   7% | neither   0% | none below  16%  -> once the liquidity is taken, fills back  81% (median 4 bars later)
+   H1   2021-24: fill first  48% | liquidity then fill  29% | liquidity, no fill   7% | neither   0% | none below  16%  -> once the liquidity is taken, fills back  81% (median 4 bars later)
+   H4   2024-26: fill first  49% | liquidity then fill  30% | liquidity, no fill   7% | neither   0% | none below  15%  -> once the liquidity is taken, fills back  82% (median 6 bars later)
+   H4   2021-24: fill first  48% | liquidity then fill  28% | liquidity, no fill   7% | neither   0% | none below  17%  -> once the liquidity is taken, fills back  80% (median 5 bars later)
+   H12  2024-26: fill first  52% | liquidity then fill  26% | liquidity, no fill   7% | neither   0% | none below  15%  -> once the liquidity is taken, fills back  80% (median 7 bars later)
+   H12  2021-24: fill first  48% | liquidity then fill  28% | liquidity, no fill   7% | neither   0% | none below  16%  -> once the liquidity is taken, fills back  80% (median 6 bars later)
+   D1   2024-26: fill first  47% | liquidity then fill  30% | liquidity, no fill   8% | neither   0% | none below  15%  -> once the liquidity is taken, fills back  80% (median 6 bars later)
+   D1   2021-24: fill first  47% | liquidity then fill  28% | liquidity, no fill   8% | neither   0% | none below  17%  -> once the liquidity is taken, fills back  78% (median 7 bars later)
+   == MAJOR liquidity (lowest low of the last 120 bars)
+   M15  2024-26: fill first  73% | liquidity then fill   7% | liquidity, no fill   5% | neither   2% | none below  13%  -> once the liquidity is taken, fills back  61% (median 9 bars later)
+   M15  2021-24: fill first  74% | liquidity then fill   7% | liquidity, no fill   4% | neither   2% | none below  13%  -> once the liquidity is taken, fills back  63% (median 8 bars later)
+   M30  2024-26: fill first  72% | liquidity then fill   7% | liquidity, no fill   5% | neither   3% | none below  13%  -> once the liquidity is taken, fills back  59% (median 8 bars later)
+   M30  2021-24: fill first  73% | liquidity then fill   7% | liquidity, no fill   5% | neither   2% | none below  13%  -> once the liquidity is taken, fills back  61% (median 8 bars later)
+   H1   2024-26: fill first  71% | liquidity then fill   7% | liquidity, no fill   5% | neither   2% | none below  14%  -> once the liquidity is taken, fills back  58% (median 9 bars later)
+   H1   2021-24: fill first  71% | liquidity then fill   7% | liquidity, no fill   5% | neither   2% | none below  14%  -> once the liquidity is taken, fills back  58% (median 9 bars later)
+   H4   2024-26: fill first  72% | liquidity then fill   7% | liquidity, no fill   5% | neither   2% | none below  14%  -> once the liquidity is taken, fills back  62% (median 13 bars later)
+   H4   2021-24: fill first  69% | liquidity then fill   8% | liquidity, no fill   6% | neither   1% | none below  16%  -> once the liquidity is taken, fills back  57% (median 9 bars later)
+   H12  2024-26: fill first  73% | liquidity then fill   7% | liquidity, no fill   5% | neither   2% | none below  14%  -> once the liquidity is taken, fills back  58% (median 16 bars later)
+   H12  2021-24: fill first  70% | liquidity then fill   8% | liquidity, no fill   6% | neither   1% | none below  15%  -> once the liquidity is taken, fills back  57% (median 14 bars later)
+   D1   2024-26: fill first  70% | liquidity then fill   8% | liquidity, no fill   6% | neither   2% | none below  14%  -> once the liquidity is taken, fills back  56% (median 22 bars later)
+   D1   2021-24: fill first  66% | liquidity then fill  10% | liquidity, no fill   7% | neither   1% | none below  16%  -> once the liquidity is taken, fills back  58% (median 16 bars later)
+
+3) THE TRADE: catch the fill after the liquidity is taken (R per trade = same $ risk; * = positive in both periods)
+   TF   liq   entry    target |               2024-26                |               2021-24               
+   M15  NEAR  LIMIT    EDGE   | n 23422 win   50% -0.129R -3024.7 t -16.3 | n 31464 win   50% -0.131R -4109.1 t -18.5  
+   M15  NEAR  LIMIT    CE     | n 23422 win   31% -0.341R -7979.5 t -32.0 | n 31464 win   31% -0.340R -10694.1 t -36.6  
+   M15  NEAR  LIMIT    FULL   | n 23422 win   23% -0.357R -8360.2 t -28.1 | n 31464 win   22% -0.344R -10827.5 t -31.0  
+   M15  NEAR  RECLAIM  EDGE   | n 12516 win   46% -0.226R -2830.4 t -25.4 | n 16555 win   47% -0.209R -3456.5 t -27.3  
+   M15  NEAR  RECLAIM  CE     | n 18243 win   49% -0.204R -3717.7 t -23.7 | n 24401 win   51% -0.178R -4354.1 t -24.7  
+   M15  NEAR  RECLAIM  FULL   | n 19857 win   44% -0.196R -3899.9 t -19.9 | n 26596 win   46% -0.168R -4462.6 t -20.4  
+   M15  MAJOR LIMIT    EDGE   | n  7849 win   29% -0.300R -2357.3 t -12.1 | n 10504 win   28% -0.321R -3370.1 t -15.4  
+   M15  MAJOR LIMIT    CE     | n  7849 win   19% -0.415R -3257.2 t -15.3 | n 10504 win   18% -0.439R -4609.5 t -19.5  
+   M15  MAJOR LIMIT    FULL   | n  7849 win   15% -0.433R -3401.0 t -15.0 | n 10504 win   14% -0.432R -4540.1 t -17.5  
+   M15  MAJOR RECLAIM  EDGE   | n  5703 win   42% -0.138R  -789.5 t -6.1 | n  7526 win   42% -0.105R  -793.4 t -5.3  
+   M15  MAJOR RECLAIM  CE     | n  6477 win   40% -0.132R  -855.9 t -5.9 | n  8515 win   41% -0.097R  -828.3 t -5.0  
+   M15  MAJOR RECLAIM  FULL   | n  6672 win   36% -0.142R  -945.6 t -6.0 | n  8807 win   37% -0.087R  -765.9 t -4.1  
+
+   M30  NEAR  LIMIT    EDGE   | n 11320 win   53% -0.060R  -680.7 t -5.4 | n 15181 win   54% -0.041R  -623.8 t -4.1  
+   M30  NEAR  LIMIT    CE     | n 11320 win   30% -0.252R -2853.3 t -16.7 | n 15181 win   31% -0.215R -3259.0 t -15.9  
+   M30  NEAR  LIMIT    FULL   | n 11320 win   23% -0.255R -2892.1 t -14.1 | n 15181 win   23% -0.209R -3170.2 t -13.0  
+   M30  NEAR  RECLAIM  EDGE   | n  6036 win   49% -0.201R -1211.0 t -15.6 | n  8139 win   51% -0.140R -1138.0 t -11.8  
+   M30  NEAR  RECLAIM  CE     | n  8718 win   50% -0.178R -1554.1 t -14.3 | n 11700 win   51% -0.129R -1506.7 t -11.4  
+   M30  NEAR  RECLAIM  FULL   | n  9504 win   44% -0.164R -1557.5 t -11.6 | n 12700 win   44% -0.120R -1530.3 t -9.5  
+   M30  MAJOR LIMIT    EDGE   | n  3802 win   29% -0.305R -1159.1 t -9.9 | n  5133 win   29% -0.237R -1218.2 t -8.3  
+   M30  MAJOR LIMIT    CE     | n  3802 win   18% -0.391R -1485.3 t -11.5 | n  5133 win   18% -0.341R -1751.8 t -10.9  
+   M30  MAJOR LIMIT    FULL   | n  3802 win   14% -0.421R -1602.1 t -11.5 | n  5133 win   15% -0.341R -1751.3 t -10.0  
+   M30  MAJOR RECLAIM  EDGE   | n  2636 win   40% -0.182R  -479.8 t -5.8 | n  3656 win   43% -0.051R  -186.8 t -1.6  
+   M30  MAJOR RECLAIM  CE     | n  3016 win   39% -0.181R  -546.8 t -5.8 | n  4113 win   41% -0.045R  -186.4 t -1.4  
+   M30  MAJOR RECLAIM  FULL   | n  3142 win   35% -0.188R  -591.8 t -5.7 | n  4245 win   36% -0.037R  -158.3 t -1.1  
+
+   H1   NEAR  LIMIT    EDGE   | n  5465 win   55% -0.034R  -183.4 t -2.1 | n  7240 win   53% -0.038R  -274.3 t -2.7  
+   H1   NEAR  LIMIT    CE     | n  5465 win   30% -0.192R -1049.9 t -8.8 | n  7240 win   29% -0.176R -1270.8 t -9.1  
+   H1   NEAR  LIMIT    FULL   | n  5465 win   22% -0.215R -1175.4 t -8.3 | n  7240 win   22% -0.176R -1274.7 t -7.6  
+   H1   NEAR  RECLAIM  EDGE   | n  2999 win   54% -0.118R  -353.5 t -5.7 | n  3930 win   56% -0.108R  -423.8 t -6.7  
+   H1   NEAR  RECLAIM  CE     | n  4258 win   49% -0.118R  -503.1 t -5.8 | n  5573 win   52% -0.088R  -489.2 t -5.3  
+   H1   NEAR  RECLAIM  FULL   | n  4586 win   41% -0.122R  -561.1 t -5.2 | n  5999 win   43% -0.089R  -533.3 t -4.7  
+   H1   MAJOR LIMIT    EDGE   | n  1912 win   28% -0.259R  -495.6 t -6.2 | n  2550 win   28% -0.153R  -391.2 t -3.5  
+   H1   MAJOR LIMIT    CE     | n  1912 win   18% -0.351R  -671.2 t -7.7 | n  2550 win   18% -0.210R  -535.9 t -4.4  
+   H1   MAJOR LIMIT    FULL   | n  1912 win   14% -0.342R  -654.3 t -6.7 | n  2550 win   15% -0.198R  -505.2 t -3.8  
+   H1   MAJOR RECLAIM  EDGE   | n  1297 win   42% -0.105R  -136.2 t -2.2 | n  1807 win   46% +0.061R  +110.5 t +1.3  
+   H1   MAJOR RECLAIM  CE     | n  1492 win   39% -0.086R  -129.0 t -1.8 | n  2027 win   42% +0.071R  +144.8 t +1.5  
+   H1   MAJOR RECLAIM  FULL   | n  1537 win   34% -0.092R  -141.9 t -1.8 | n  2084 win   38% +0.099R  +206.9 t +2.0  
+
+   H4   NEAR  LIMIT    EDGE   | n  1448 win   53% -0.043R   -62.9 t -1.5 | n  1843 win   52% -0.035R   -65.3 t -1.3  
+   H4   NEAR  LIMIT    CE     | n  1448 win   31% -0.127R  -183.4 t -3.2 | n  1843 win   31% -0.071R  -130.5 t -1.9  
+   H4   NEAR  LIMIT    FULL   | n  1448 win   21% -0.188R  -271.7 t -4.0 | n  1843 win   23% -0.078R  -143.8 t -1.7  
+   H4   NEAR  RECLAIM  EDGE   | n   783 win   54% -0.129R  -101.1 t -3.5 | n  1042 win   57% -0.082R   -85.6 t -2.0  
+   H4   NEAR  RECLAIM  CE     | n  1121 win   46% -0.170R  -190.7 t -4.7 | n  1461 win   49% -0.066R   -96.8 t -1.5  
+   H4   NEAR  RECLAIM  FULL   | n  1202 win   38% -0.155R  -186.0 t -3.5 | n  1565 win   40% -0.050R   -78.1 t -0.9  
+   H4   MAJOR LIMIT    EDGE   | n   474 win   29% -0.091R   -43.2 t -0.9 | n   698 win   28% -0.168R  -117.1 t -2.4  
+   H4   MAJOR LIMIT    CE     | n   474 win   20% -0.076R   -35.8 t -0.7 | n   698 win   19% -0.176R  -122.5 t -2.1  
+   H4   MAJOR LIMIT    FULL   | n   474 win   15% -0.135R   -63.9 t -1.1 | n   698 win   14% -0.213R  -148.4 t -2.4  
+   H4   MAJOR RECLAIM  EDGE   | n   319 win   40% -0.051R   -16.3 t -0.5 | n   519 win   42% +0.083R   +43.1 t +0.8  
+   H4   MAJOR RECLAIM  CE     | n   375 win   40% +0.011R    +4.2 t +0.1 | n   576 win   36% +0.058R   +33.2 t +0.5 *
+   H4   MAJOR RECLAIM  FULL   | n   386 win   35% -0.012R    -4.8 t -0.1 | n   596 win   32% -0.007R    -4.2 t -0.1  
+
+   H12  NEAR  LIMIT    EDGE   | n   495 win   49% -0.007R    -3.6 t -0.1 | n   677 win   49% -0.079R   -53.7 t -1.9  
+   H12  NEAR  LIMIT    CE     | n   495 win   30% -0.075R   -36.9 t -1.0 | n   677 win   29% -0.092R   -62.3 t -1.5  
+   H12  NEAR  LIMIT    FULL   | n   495 win   21% -0.160R   -79.0 t -1.9 | n   677 win   20% -0.170R  -115.3 t -2.4  
+   H12  NEAR  RECLAIM  EDGE   | n   292 win   60% -0.049R   -14.2 t -0.8 | n   367 win   60% -0.018R    -6.6 t -0.3  
+   H12  NEAR  RECLAIM  CE     | n   404 win   47% -0.070R   -28.2 t -1.1 | n   528 win   50% -0.022R   -11.4 t -0.4  
+   H12  NEAR  RECLAIM  FULL   | n   428 win   36% -0.224R   -95.8 t -3.5 | n   571 win   40% -0.085R   -48.5 t -1.2  
+   H12  MAJOR LIMIT    EDGE   | n   184 win   23% -0.343R   -63.1 t -2.6 | n   258 win   22% -0.450R  -116.2 t -5.1  
+   H12  MAJOR LIMIT    CE     | n   184 win   15% -0.366R   -67.4 t -2.6 | n   258 win   13% -0.434R  -112.1 t -3.9  
+   H12  MAJOR LIMIT    FULL   | n   184 win   12% -0.398R   -73.2 t -2.7 | n   258 win   10% -0.460R  -118.7 t -3.7  
+   H12  MAJOR RECLAIM  EDGE   | n   139 win   50% -0.032R    -4.4 t -0.3 | n   179 win   35% -0.172R   -30.7 t -1.6  
+   H12  MAJOR RECLAIM  CE     | n   155 win   43% -0.021R    -3.3 t -0.2 | n   210 win   33% -0.177R   -37.1 t -1.6  
+   H12  MAJOR RECLAIM  FULL   | n   157 win   36% -0.101R   -15.8 t -0.9 | n   216 win   29% -0.138R   -29.7 t -1.1  
+
+   D1   NEAR  LIMIT    EDGE   | n   310 win   49% -0.113R   -35.0 t -1.9 | n   368 win   47% -0.129R   -47.4 t -2.2  
+   D1   NEAR  LIMIT    CE     | n   310 win   31% -0.102R   -31.6 t -1.2 | n   368 win   24% -0.250R   -92.0 t -3.3  
+   D1   NEAR  LIMIT    FULL   | n   310 win   23% -0.114R   -35.5 t -1.1 | n   368 win   18% -0.237R   -87.3 t -2.6  
+   D1   NEAR  RECLAIM  EDGE   | n   170 win   57% -0.086R   -14.7 t -1.1 | n   210 win   57% -0.127R   -26.8 t -1.8  
+   D1   NEAR  RECLAIM  CE     | n   246 win   47% -0.076R   -18.8 t -0.9 | n   288 win   45% -0.167R   -48.2 t -2.3  
+   D1   NEAR  RECLAIM  FULL   | n   265 win   39% -0.122R   -32.4 t -1.4 | n   311 win   37% -0.164R   -50.9 t -1.9  
+   D1   MAJOR LIMIT    EDGE   | n   116 win   22% -0.262R   -30.4 t -1.4 | n   171 win   19% -0.265R   -45.3 t -1.5  
+   D1   MAJOR LIMIT    CE     | n   116 win   15% -0.268R   -31.1 t -1.3 | n   171 win   11% -0.342R   -58.5 t -1.8  
+   D1   MAJOR LIMIT    FULL   | n   116 win   12% -0.262R   -30.4 t -1.2 | n   171 win    8% -0.404R   -69.1 t -2.0  
+   D1   MAJOR RECLAIM  EDGE   | n    91 win   42% -0.018R    -1.7 t -0.1 | n   133 win   39% -0.346R   -46.0 t -4.0  
+   D1   MAJOR RECLAIM  CE     | n    97 win   35% -0.032R    -3.1 t -0.1 | n   145 win   30% -0.448R   -64.9 t -5.2  
+   D1   MAJOR RECLAIM  FULL   | n   100 win   31% -0.041R    -4.1 t -0.2 | n   151 win   28% -0.431R   -65.1 t -4.6  
+
+4) PATTERN: what makes the fill more likely? (2024-26 / 2021-24, % of imbalances reaching 50% fill)
+   H1: by candle size: <1 ATR: 94/95%, 1-1.5: 91/92%, 1.5-2.5: 88/88%, >2.5 ATR: 80/75% | fills happen most in UTC hours: 13h, 12h, 14h, 15h
+   H4: by candle size: <1 ATR: 94/95%, 1-1.5: 92/91%, 1.5-2.5: 87/86%, >2.5 ATR: 74/74% | fills happen most in UTC hours: 12h, 13h, 8h, 14h
+   D1: by candle size: <1 ATR: 94/93%, 1-1.5: 91/92%, 1.5-2.5: 86/84%, >2.5 ATR: 77/80% | fills happen most in UTC hours: 13h, 12h, 14h, 7h

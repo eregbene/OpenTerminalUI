@@ -1,0 +1,124 @@
+119 survivors re-checked with the REAL spread at the entry/exit bar (FADE of a down candle = buy at the ask, etc.)
+
+TF     h condition                              |  2023-26 before  |  real spread 2023-26   | no 20-24h UTC / Fri close
+M30    6 sess=rollover & dow=4                  | +0.646 t 6.7   | n  1375 -1.068 t -4.2 | n     0 +nan t  nan 
+M30   12 sess=rollover & dow=4                  | +0.803 t 7.2   | n  1375 -0.912 t -3.4 | n     0 +nan t  nan 
+M30    3 sess=rollover & dow=4                  | +0.549 t 6.2   | n  1375 -1.165 t -4.9 | n     0 +nan t  nan 
+H1     3 sess=rollover & dow=4                  | +0.493 t 5.3   | n  1034 -0.316 t -1.3 | n     0 +nan t  nan 
+H1     6 sess=rollover & dow=4                  | +0.587 t 5.6   | n  1034 -0.222 t -0.8 | n     0 +nan t  nan 
+M15   12 sess=rollover & dow=4                  | +0.695 t 4.7   | n  2498 -2.925 t -9.7 | n     0 +nan t  nan 
+M15    6 sess=late & place=2                    | +0.036 t 2.6   | n 14234 -0.492 t-13.5 | n  9971 -0.244 t -8.0 
+M15   24 sess=rollover & dow=4                  | +0.902 t 5.8   | n  2498 -2.717 t -8.8 | n     0 +nan t  nan 
+M30    3 size=2 & sess=rollover                 | +0.265 t 8.7   | n  3958 -0.343 t -2.8 | n     0 +nan t  nan 
+M30    6 sess=late & place=2                    | +0.036 t 4.5   | n  7155 -0.308 t -7.2 | n  5598 -0.274 t -6.6 
+M15    6 size=2 & sess=rollover                 | +0.238 t 8.3   | n 15816 -1.426 t-18.2 | n     0 +nan t  nan 
+M15    6 sess=rollover & dow=4                  | +0.635 t 4.3   | n  2498 -2.984 t-10.5 | n     0 +nan t  nan 
+M30   12 sess=rollover & opp=False              | +0.242 t 6.4   | n 10478 -0.644 t-10.2 | n     0 +nan t  nan 
+M30    6 sess=rollover & opp=False              | +0.216 t 7.8   | n 10478 -0.677 t-12.8 | n     0 +nan t  nan 
+M30    3 sess=rollover & opp=False              | +0.212 t10.7   | n 10478 -0.717 t-14.7 | n     0 +nan t  nan 
+M30    3 fvg=True & sess=rollover               | +0.552 t 9.6   | n  1660 -0.469 t -3.7 | n     0 +nan t  nan 
+H1     3 sess=late & place=2                    | +0.008 t 3.1   | n  5024 -0.289 t -9.6 | n  3978 -0.267 t -9.1 
+M30    6 sess=late & trend=True                 | +0.031 t 3.0   | n  8992 -0.325 t -9.0 | n  7003 -0.296 t -8.3 
+M30   24 sess=rollover & dow=4                  | +0.849 t 5.3   | n  1375 -0.865 t -3.0 | n     0 +nan t  nan 
+M15   12 sess=late & place=2                    | +0.038 t 3.1   | n 14234 -0.583 t-11.3 | n  9971 -0.442 t-11.0 
+M15   12 size=2 & sess=rollover                 | +0.268 t 8.2   | n 15816 -1.353 t-16.2 | n     0 +nan t  nan 
+M30    3 sess=late & place=2                    | +0.011 t 3.2   | n  7155 -0.217 t -8.6 | n  5598 -0.128 t -5.0 
+H1     6 sess=rollover & trend=True             | +0.177 t 3.7   | n  4253 -0.089 t -1.9 | n     0 +nan t  nan 
+M30    6 sess=late & opp=False                  | +0.007 t 2.2   | n  9766 -0.348 t-10.7 | n  7384 -0.336 t -9.6 
+H1    12 sess=rollover & news=False             | +0.132 t 3.9   | n  7581 -0.277 t -4.1 | n     0 +nan t  nan 
+H1    12 sess=rollover & dow=4                  | +0.690 t 4.7   | n  1034 -0.118 t  0.0 | n     0 +nan t  nan 
+H1     3 sess=rollover & opp=False              | +0.191 t 8.0   | n  4909 -0.228 t -5.2 | n     0 +nan t  nan 
+H1     6 sess=rollover & opp=False              | +0.215 t 6.5   | n  4909 -0.200 t -2.9 | n     0 +nan t  nan 
+H1     3 sess=rollover & trend=True             | +0.134 t 4.4   | n  4253 -0.137 t -3.0 | n     0 +nan t  nan 
+M30    6 fvg=True & sess=rollover               | +0.575 t 8.4   | n  1660 -0.393 t -2.7 | n     0 +nan t  nan 
+H1    12 sess=rollover                          | +0.141 t 4.2   | n  7812 -0.260 t -3.8 | n     0 +nan t  nan 
+H1    12 sess=rollover & vol=1                  | +0.174 t 3.5   | n  5375 -0.212 t -3.3 | n     0 +nan t  nan 
+H1     3 sess=rollover & cross=1                | +0.149 t 4.2   | n  3021 -0.315 t -6.3 | n     0 +nan t  nan 
+H1     6 sess=rollover & vol=1                  | +0.165 t 5.1   | n  5375 -0.223 t -4.1 | n     0 +nan t  nan 
+M30   12 sess=rollover & news=False             | +0.081 t 4.1   | n 15394 -0.633 t-11.9 | n     0 +nan t  nan 
+H1     6 sess=rollover & news=False             | +0.147 t 4.8   | n  7581 -0.264 t -5.9 | n     0 +nan t  nan 
+M15   24 size=2 & sess=rollover                 | +0.265 t 6.9   | n 15816 -1.347 t-14.1 | n     0 +nan t  nan 
+H1     3 sess=late & trend=True                 | +0.008 t 2.0   | n  6477 -0.281 t-10.4 | n  5166 -0.264 t-10.1 
+H1     3 size=2 & sess=rollover                 | +0.225 t 5.7   | n  1694 -0.021 t  0.3 | n     0 +nan t  nan 
+H1    12 sess=rollover & opp=False              | +0.212 t 5.1   | n  4909 -0.201 t -1.8 | n     0 +nan t  nan 
+H1    12 run=1 & sess=rollover                  | +0.130 t 3.9   | n  7473 -0.271 t -3.9 | n     0 +nan t  nan 
+H1     6 sess=rollover                          | +0.152 t 5.1   | n  7812 -0.251 t -5.5 | n     0 +nan t  nan 
+M15    6 fvg=True & sess=rollover               | +0.479 t11.9   | n  5971 -1.700 t-13.7 | n     0 +nan t  nan 
+M30    3 sess=rollover & place=2                | +0.089 t 4.7   | n  6718 -0.460 t -7.4 | n     0 +nan t  nan 
+M30   24 sess=rollover & vol=1                  | +0.101 t 3.2   | n  9471 -0.469 t -6.3 | n     0 +nan t  nan 
+M30    6 sess=rollover & news=False             | +0.071 t 4.7   | n 15394 -0.652 t-14.2 | n     0 +nan t  nan 
+H1     6 sess=rollover & cross=1                | +0.167 t 3.9   | n  3021 -0.293 t -4.5 | n     0 +nan t  nan 
+H1     3 sess=rollover                          | +0.127 t 6.1   | n  7812 -0.280 t -7.6 | n     0 +nan t  nan 
+H1     3 sess=rollover & news=False             | +0.121 t 5.6   | n  7581 -0.294 t -8.0 | n     0 +nan t  nan 
+M30    6 size=2 & sess=rollover                 | +0.286 t 7.8   | n  3958 -0.306 t -2.1 | n     0 +nan t  nan 
+M30   12 sess=rollover                          | +0.084 t 4.0   | n 15877 -0.613 t-11.9 | n     0 +nan t  nan 
+M15   12 fvg=True & sess=rollover               | +0.506 t 9.0   | n  5971 -1.588 t-11.9 | n     0 +nan t  nan 
+M30   12 fvg=True & sess=rollover               | +0.533 t 6.2   | n  1660 -0.428 t -2.1 | n     0 +nan t  nan 
+M15   24 sess=rollover & opp=False              | +0.179 t 5.7   | n 24780 -1.523 t-19.8 | n     0 +nan t  nan 
+H1    12 fvg=False & sess=rollover              | +0.113 t 3.5   | n  7090 -0.286 t -4.1 | n     0 +nan t  nan 
+H1     3 sess=rollover & vol=1                  | +0.137 t 5.9   | n  5375 -0.255 t -5.7 | n     0 +nan t  nan 
+M30   12 sess=rollover & vol=1                  | +0.122 t 4.6   | n  9471 -0.454 t -7.8 | n     0 +nan t  nan 
+H1     6 run=1 & sess=rollover                  | +0.150 t 4.7   | n  7473 -0.252 t -5.7 | n     0 +nan t  nan 
+M30    6 sess=rollover                          | +0.071 t 4.5   | n 15877 -0.636 t-14.2 | n     0 +nan t  nan 
+H1     1 size=2 & sess=rollover                 | +0.067 t 2.8   | n  1694 -0.200 t -3.2 | n     0 +nan t  nan 
+M30   12 sess=rollover & trend=True             | +0.122 t 3.2   | n  8699 -0.424 t -5.8 | n     0 +nan t  nan 
+H1     3 sess=rollover & place=2                | +0.130 t 3.9   | n  3243 -0.113 t -2.3 | n     0 +nan t  nan 
+M30    3 sess=rollover & trend=True             | +0.105 t 5.3   | n  8699 -0.488 t -9.2 | n     0 +nan t  nan 
+M15   12 sess=rollover & opp=False              | +0.131 t 5.3   | n 24780 -1.582 t-23.0 | n     0 +nan t  nan 
+M30    6 sess=rollover & trend=True             | +0.120 t 4.5   | n  8699 -0.436 t -7.5 | n     0 +nan t  nan 
+H1     3 fvg=True & sess=rollover               | +0.387 t 9.1   | n   722 -0.036 t -0.2 | n     0 +nan t  nan 
+H1    12 vol=1 & place=2                        | +0.008 t 2.3   | n 28011 -0.181 t -2.8 | n 22705 -0.127 t -1.1 
+M30   12 sess=late & place=2                    | +0.009 t 2.2   | n  7155 -0.253 t -4.4 | n  5279 -0.225 t -5.8 
+H1     3 size=1 & sess=rollover                 | +0.122 t 5.2   | n  2854 -0.252 t -4.3 | n     0 +nan t  nan 
+M15   24 sess=NY & place=2                      | +0.040 t 2.8   | n 15235 -0.528 t-12.0 | n 15235 -0.528 t-12.0 
+H1     6 sess=rollover & place=2                | +0.158 t 3.3   | n  3243 -0.079 t -1.3 | n     0 +nan t  nan 
+H1    12 sess=rollover & trend=True             | +0.175 t 3.2   | n  4253 -0.088 t -0.9 | n     0 +nan t  nan 
+H1     3 run=1 & sess=rollover                  | +0.119 t 5.7   | n  7473 -0.287 t -7.7 | n     0 +nan t  nan 
+M30   12 run=1 & sess=rollover                  | +0.064 t 3.4   | n 15154 -0.631 t-12.4 | n     0 +nan t  nan 
+M30   24 fvg=True & sess=rollover               | +0.502 t 4.4   | n  1660 -0.452 t -1.9 | n     0 +nan t  nan 
+M30   12 size=2 & sess=rollover                 | +0.374 t 7.1   | n  3958 -0.212 t -0.4 | n     0 +nan t  nan 
+M30   12 sess=rollover & place=2                | +0.085 t 2.7   | n  6718 -0.415 t -4.7 | n     0 +nan t  nan 
+M30   12 sess=rollover & trend=False            | +0.038 t 2.1   | n  7178 -0.843 t-10.0 | n     0 +nan t  nan 
+H1     6 size=2 & sess=rollover                 | +0.225 t 4.9   | n  1694 -0.018 t  0.7 | n     0 +nan t  nan 
+H1     6 size=1 & sess=rollover                 | +0.144 t 4.0   | n  2854 -0.227 t -3.2 | n     0 +nan t  nan 
+H1     1 fvg=True & sess=rollover               | +0.219 t 8.0   | n   722 -0.274 t -2.6 | n     0 +nan t  nan 
+H1    12 sess=rollover & trend=False            | +0.099 t 2.5   | n  3559 -0.466 t -5.1 | n     0 +nan t  nan 
+H1     6 fvg=False & sess=rollover              | +0.127 t 4.3   | n  7090 -0.275 t -5.9 | n     0 +nan t  nan 
+M30    3 sess=rollover & news=False             | +0.072 t 6.0   | n 15394 -0.687 t-16.1 | n     0 +nan t  nan 
+M30    6 sess=rollover & vol=1                  | +0.101 t 5.1   | n  9471 -0.483 t -9.1 | n     0 +nan t  nan 
+H1    12 sess=rollover & cross=1                | +0.203 t 3.7   | n  3021 -0.254 t -3.1 | n     0 +nan t  nan 
+H1     3 sess=rollover & trend=False            | +0.119 t 5.7   | n  3559 -0.451 t -7.4 | n     0 +nan t  nan 
+H1     3 sess=rollover & place=0                | +0.130 t 3.7   | n  2163 -0.571 t -7.0 | n     0 +nan t  nan 
+M30    6 sess=rollover & place=2                | +0.099 t 4.0   | n  6718 -0.410 t -6.0 | n     0 +nan t  nan 
+H1     3 sess=rollover & vol=2                  | +0.105 t 3.8   | n  1554 -0.059 t -0.3 | n     0 +nan t  nan 
+M30    3 sess=rollover & vol=1                  | +0.114 t 5.7   | n  9471 -0.505 t-10.3 | n     0 +nan t  nan 
+M30    3 sess=rollover                          | +0.073 t 5.8   | n 15877 -0.668 t-16.0 | n     0 +nan t  nan 
+M30    6 run=1 & sess=rollover                  | +0.049 t 3.7   | n 15154 -0.656 t-14.5 | n     0 +nan t  nan 
+M30    3 run=2 & sess=rollover                  | +0.455 t 7.7   | n   691 -0.348 t -2.1 | n     0 +nan t  nan 
+M30   12 fvg=True & place=2                     | +0.009 t 4.3   | n 18909 -0.152 t -1.1 | n 17569 -0.148 t -0.6 
+M30   12 sess=rollover & cross=2                | +0.087 t 2.5   | n  7336 -0.628 t -7.0 | n     0 +nan t  nan 
+H1     6 vol=1 & place=2                        | +0.020 t 2.8   | n 28011 -0.131 t -3.7 | n 24893 -0.129 t -3.4 
+H1     3 fvg=False & sess=rollover              | +0.101 t 5.2   | n  7090 -0.305 t -7.8 | n     0 +nan t  nan 
+H1    12 sess=rollover & place=1                | +0.145 t 3.0   | n  2406 -0.213 t -2.4 | n     0 +nan t  nan 
+M30   12 size=2 & place=2                       | +0.011 t 3.1   | n 27086 -0.144 t -1.7 | n 25012 -0.149 t -1.3 
+H1    12 sess=rollover & place=2                | +0.152 t 2.5   | n  3243 -0.084 t -0.9 | n     0 +nan t  nan 
+M15    6 sess=rollover & opp=False              | +0.121 t 5.8   | n 24780 -1.686 t-25.6 | n     0 +nan t  nan 
+M30   12 fvg=False & sess=rollover              | +0.032 t 2.6   | n 14217 -0.635 t-12.5 | n     0 +nan t  nan 
+H1    12 size=0 & sess=rollover                 | +0.135 t 2.4   | n  3264 -0.377 t -5.0 | n     0 +nan t  nan 
+M5    24 sess=rollover & dow=4                  | +0.254 t 3.3   | n  5944 -6.503 t-17.6 | n     0 +nan t  nan 
+H1     6 sess=rollover & place=1                | +0.169 t 3.3   | n  2406 -0.191 t -3.4 | n     0 +nan t  nan 
+M30    3 sess=rollover & cross=2                | +0.048 t 3.3   | n  7336 -0.716 t-10.3 | n     0 +nan t  nan 
+H1     3 sess=rollover & place=1                | +0.121 t 3.8   | n  2406 -0.243 t -4.6 | n     0 +nan t  nan 
+M30   24 run=2 & sess=rollover                  | +0.310 t 2.5   | n   691 -0.420 t -1.0 | n     0 +nan t  nan 
+M30   12 run=2 & sess=rollover                  | +0.491 t 4.7   | n   691 -0.244 t -0.3 | n     0 +nan t  nan 
+H4     6 place=2 & opp=False                    | +0.000 t 3.7   | n  7799 -0.105 t  0.2 | n  5485 +0.003 t  2.3 
+M30   12 sess=rollover & cross=1                | +0.056 t 3.3   | n  5792 -0.703 t -9.9 | n     0 +nan t  nan 
+M15   12 sess=rollover & place=2                | +0.054 t 4.2   | n 18633 -1.006 t-11.8 | n     0 +nan t  nan 
+H1     6 fvg=True & sess=rollover               | +0.401 t 6.2   | n   722 -0.016 t  0.2 | n     0 +nan t  nan 
+H1    12 sess=rollover & cross=0                | +0.182 t 3.2   | n  1343 -0.116 t -0.1 | n     0 +nan t  nan 
+H1    12 size=1 & sess=rollover                 | +0.116 t 3.0   | n  2854 -0.253 t -2.2 | n     0 +nan t  nan 
+M15    6 sess=rollover & place=2                | +0.034 t 4.0   | n 18633 -1.109 t-14.2 | n     0 +nan t  nan 
+M15   12 run=2 & sess=rollover                  | +0.497 t 5.8   | n  3005 -1.541 t -9.5 | n     0 +nan t  nan 
+M30    6 run=2 & sess=rollover                  | +0.500 t 5.8   | n   691 -0.249 t -1.3 | n     0 +nan t  nan 
+
+survive the real-spread AND no-rollover checks: 0 of 119

@@ -1,0 +1,58 @@
+Round 34: 8,041,896 imbalance candles, 25 pairs, 5m..4H, 2012-2026 (+ 18649 weekend gaps)
+
+1) BASE RATE after costs (ATR per trade): + = follow the imbalance (continuation), - = fade it (fill)
+   M5   n 2,847,914  h1: gross -0.075 cost 0.275  h6: gross -0.108 cost 0.275  h24: gross -0.125 cost 0.275
+   M15  n   887,227  h1: gross -0.066 cost 0.147  h6: gross -0.087 cost 0.147  h24: gross -0.102 cost 0.147
+   M30  n   428,901  h1: gross -0.052 cost 0.094  h6: gross -0.054 cost 0.094  h24: gross -0.082 cost 0.094
+   H1   n   208,222  h1: gross -0.039 cost 0.064  h6: gross -0.049 cost 0.064  h24: gross -0.043 cost 0.064
+   H4   n    53,736  h1: gross -0.023 cost 0.029  h6: gross -0.015 cost 0.029  h24: gross -0.003 cost 0.029
+
+2) SEARCH: 580 conditions x 5 TF x 5 horizons x 2 sides = 29,000 tests
+   229 passed discovery AND validation; final 2023-26 (untouched) shown once:
+   TF     h side   condition                                |      2012-19       |      2020-22       |       2023-26 FINAL       
+   M30    6 FADE   sess=rollover & dow=4                    | n   2600 +0.563 t11.6 | n   986 +0.680 t 8.6 | n  1375 +0.646 t 6.7 pairs+ 22 REAL
+   M30   12 FADE   sess=rollover & dow=4                    | n   2600 +0.657 t10.2 | n   986 +0.671 t 6.1 | n  1375 +0.803 t 7.2 pairs+ 24 REAL
+   M30    3 FADE   sess=rollover & dow=4                    | n   2600 +0.457 t10.2 | n   986 +0.546 t 9.5 | n  1375 +0.549 t 6.2 pairs+ 21 REAL
+   H1     3 FADE   sess=rollover & dow=4                    | n   2126 +0.419 t 9.8 | n   788 +0.420 t 8.8 | n  1034 +0.493 t 5.3 pairs+ 23 REAL
+   H1     6 FADE   sess=rollover & dow=4                    | n   2126 +0.527 t 9.0 | n   788 +0.437 t 4.8 | n  1034 +0.587 t 5.6 pairs+ 22 REAL
+   M15   12 FADE   sess=rollover & dow=4                    | n   5467 +0.543 t 8.8 | n  1981 +0.522 t 6.5 | n  2498 +0.695 t 4.7 pairs+ 23 REAL
+   M15    6 FADE   sess=late & place=2                      | n  39018 +0.059 t 8.4 | n 13514 +0.041 t 4.9 | n 14234 +0.036 t 2.6 pairs+ 17 REAL
+   M15   24 FADE   sess=rollover & dow=4                    | n   5467 +0.749 t 8.4 | n  1981 +0.441 t 4.0 | n  2498 +0.902 t 5.8 pairs+ 21 REAL
+   M30    3 FADE   size=2 & sess=rollover                   | n   5877 +0.162 t 8.3 | n  2622 +0.328 t12.0 | n  3958 +0.265 t 8.7 pairs+ 20 REAL
+   H4     1 FADE   fvg=True                                 | n   9315 +0.021 t 8.2 | n  3918 -0.072 t 3.2 | n  4054 -0.033 t 2.8 pairs+  7 fails
+   M30    6 FADE   sess=late & place=2                      | n  18508 +0.068 t 8.2 | n  6488 +0.073 t 6.2 | n  7155 +0.036 t 4.5 pairs+ 18 REAL
+   M15    6 FADE   size=2 & sess=rollover                   | n  23261 +0.101 t 8.1 | n 11692 +0.273 t12.9 | n 15816 +0.238 t 8.3 pairs+ 22 REAL
+   M15    6 FADE   sess=rollover & dow=4                    | n   5467 +0.418 t 8.1 | n  1981 +0.448 t 7.4 | n  2498 +0.635 t 4.3 pairs+ 22 REAL
+   M30   12 FADE   sess=rollover & opp=False                | n  20733 +0.206 t 8.0 | n  9262 +0.299 t 7.9 | n 10478 +0.242 t 6.4 pairs+ 20 REAL
+   M30    6 FADE   sess=rollover & opp=False                | n  20733 +0.131 t 7.8 | n  9262 +0.254 t10.2 | n 10478 +0.216 t 7.8 pairs+ 22 REAL
+   M15    1 FADE   fvg=True & sess=NY                       | n  12104 +0.006 t 7.8 | n  4626 -0.023 t 2.5 | n  5160 -0.063 t 0.8 pairs+  4 fails
+   M30    3 FADE   sess=rollover & opp=False                | n  20733 +0.070 t 7.8 | n  9262 +0.225 t13.6 | n 10478 +0.212 t10.7 pairs+ 20 REAL
+   M30    3 FADE   fvg=True & sess=rollover                 | n   3256 +0.240 t 7.8 | n  1176 +0.458 t10.2 | n  1660 +0.552 t 9.6 pairs+ 24 REAL
+   H1     3 FADE   sess=late & place=2                      | n  13447 +0.046 t 7.7 | n  4808 +0.051 t 4.2 | n  5024 +0.008 t 3.1 pairs+ 16 REAL
+   M30    6 FADE   sess=late & trend=True                   | n  22973 +0.069 t 7.6 | n  7990 +0.061 t 5.3 | n  8992 +0.031 t 3.0 pairs+ 15 REAL
+   H4     3 FADE   place=2 & opp=False                      | n  18512 +0.022 t 7.6 | n  7329 -0.045 t 5.1 | n  7799 -0.044 t 3.3 pairs+  6 fails
+   H4     1 FADE   fvg=True & news=False                    | n   8616 +0.014 t 7.5 | n  3745 -0.067 t 3.4 | n  3844 -0.032 t 2.7 pairs+  6 fails
+   H4     1 FADE   fvg=True & trend=True                    | n   6355 +0.032 t 7.5 | n  2609 -0.068 t 3.3 | n  2767 -0.027 t 2.8 pairs+  8 fails
+   M30   24 FADE   sess=rollover & dow=4                    | n   2600 +0.699 t 7.4 | n   986 +0.942 t 5.5 | n  1375 +0.849 t 5.3 pairs+ 23 REAL
+   M15   12 FADE   sess=late & place=2                      | n  39018 +0.086 t 7.4 | n 13514 +0.113 t 5.6 | n 14234 +0.038 t 3.1 pairs+ 14 REAL
+   M15   12 FADE   size=2 & sess=rollover                   | n  23261 +0.151 t 7.3 | n 11692 +0.281 t10.0 | n 15816 +0.268 t 8.2 pairs+ 23 REAL
+   H4     1 FADE   fvg=True & place=2                       | n   5485 +0.033 t 7.3 | n  2249 -0.063 t 3.6 | n  2386 -0.040 t 2.6 pairs+  8 fails
+   M30    3 FADE   sess=late & place=2                      | n  18508 +0.019 t 7.0 | n  6488 +0.029 t 4.9 | n  7155 +0.011 t 3.2 pairs+ 14 REAL
+   H4     1 FADE   fvg=True & opp=False                     | n   7202 +0.010 t 7.0 | n  3043 -0.070 t 3.0 | n  3068 -0.038 t 2.4 pairs+  8 fails
+   H1     6 FADE   sess=rollover & trend=True               | n   8403 +0.174 t 7.0 | n  3665 +0.167 t 6.0 | n  4253 +0.177 t 3.7 pairs+ 21 REAL
+   M30    1 FADE   fvg=True & sess=NY                       | n   7283 +0.010 t 7.0 | n  2839 +0.016 t 3.6 | n  3061 -0.038 t 2.0 pairs+  9 fails
+   H4     3 FADE   trend=True & opp=False                   | n  22268 +0.015 t 7.0 | n  8856 -0.037 t 4.2 | n  9494 -0.041 t 3.1 pairs+  6 fails
+   M15   12 FADE   sess=late & trend=True                   | n  49124 +0.093 t 7.0 | n 16992 +0.079 t 4.9 | n 17688 -0.004 t 1.6 pairs+ 12 fails
+   M30   12 FADE   vol=2 & place=2                          | n  40569 +0.025 t 6.9 | n 15749 +0.014 t 2.4 | n 16290 -0.026 t 4.3 pairs+ 10 fails
+   M30    6 FADE   sess=late & opp=False                    | n  25658 +0.068 t 6.8 | n  9006 +0.029 t 4.7 | n  9766 +0.007 t 2.2 pairs+ 13 REAL
+   H1    12 FADE   sess=rollover & news=False               | n  14263 +0.201 t 6.8 | n  6439 +0.183 t 4.9 | n  7581 +0.132 t 3.9 pairs+ 21 REAL
+   H1    12 FADE   sess=rollover & dow=4                    | n   2126 +0.524 t 6.8 | n   788 +0.480 t 3.7 | n  1034 +0.690 t 4.7 pairs+ 24 REAL
+   H1     3 FADE   sess=rollover & opp=False                | n   9817 +0.118 t 6.8 | n  4073 +0.188 t11.1 | n  4909 +0.191 t 8.0 pairs+ 24 REAL
+   H1     6 FADE   sess=rollover & opp=False                | n   9817 +0.164 t 6.6 | n  4073 +0.197 t 7.2 | n  4909 +0.215 t 6.5 pairs+ 22 REAL
+   M30    3 FADE   sess=NY & place=2                        | n  22067 +0.009 t 6.5 | n  8371 +0.005 t 2.6 | n  8789 -0.014 t 1.0 pairs+  8 fails
+   -> REAL in all three periods: 119 of 229
+
+3) WEEKEND GAP (fade the Sunday gap toward Friday's close; cost = Sunday's real spread), ATR(daily) per trade
+   all gaps               2012-19 n 8696 h1 -0.037 h6 -0.038 h24 -0.050 | 2020-22 n 3098 h1 -0.065 h6 -0.050 h24 -0.059 | 2023-26 n 2957 h1 -0.118 h6 -0.090 h24 -0.078
+   gap > 0.1 daily ATR    2012-19 n 4740 h1 -0.010 h6 -0.009 h24 -0.023 | 2020-22 n 1674 h1 -0.028 h6 -0.001 h24 -0.010 | 2023-26 n 1750 h1 -0.093 h6 -0.050 h24 -0.047
+   gap > 0.25 daily ATR   2012-19 n 1712 h1 +0.025 h6 +0.038 h24 +0.018 | 2020-22 n 551 h1 +0.030 h6 +0.049 h24 +0.036 | 2023-26 n 805 h1 -0.077 h6 -0.007 h24 +0.018

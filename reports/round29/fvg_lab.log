@@ -1,0 +1,228 @@
+Round 29 FVG lab, discovery 2024-11-07 .. 2026-11-03: 499400 events, 7 pairs, buys + sells
+
+1) THE TARGET IS NOT FIXED: avg R per trade by target, all FVGs, entry at the 50% (CE), stop under candle 1 (C1)
+   TF       0.5     1.0     1.5     2.0     2.5     3.0     4.0     5.0     6.0     EXT
+   M5    -0.282  -0.259  -0.260  -0.260  -0.262  -0.263  -0.270  -0.272  -0.279  -0.264
+   M15   -0.173  -0.164  -0.169  -0.178  -0.171  -0.177  -0.175  -0.172  -0.176  -0.177
+   M30   -0.126  -0.118  -0.115  -0.117  -0.113  -0.107  -0.105  -0.091  -0.086  -0.138
+   H1    -0.066  -0.061  -0.061  -0.062  -0.051  -0.058  -0.044  -0.054  -0.047  -0.052
+   H4    -0.006  +0.011  +0.017  +0.013  +0.019  +0.016  +0.052  +0.003  -0.040  +0.052
+   H12   -0.022  -0.025  -0.039  -0.028  -0.047  -0.045  -0.089  -0.042  -0.004  +0.008
+   D1    +0.002  -0.037  -0.018  -0.027  +0.014  -0.028  -0.075  -0.095  -0.066  -0.088
+
+2) BEST ENTRY / STOP / TARGET PER SETUP AND TIMEFRAME (n >= 100, both years positive; '-' = nothing qualifies)
+   TF   setup                                        entry_stop target      n   win%   avg R  total R      Y1      Y2     t stop pips
+   M5   all FVGs                                     -
+   M5   all FVGs +discount                           -
+   M5   FVG with displacement (body >= 1 ATR)        -
+   M5   FVG with displacement (body >= 1 ATR) +discount -
+   M5   FVG + sweep                                  -
+   M5   FVG + sweep +discount                        -
+   M5   FVG + structure break (MSS or BOS)           -
+   M5   FVG + structure break (MSS or BOS) +discount -
+   M5   FVG + MSS (trend turn)                       -
+   M5   FVG + MSS (trend turn) +discount             -
+   M5   SMC: sweep + MSS + FVG                       -
+   M5   SMC: sweep + MSS + FVG +discount             -
+   M5   SMC: sweep + MSS + displacement + FVG        -
+   M5   SMC: sweep + MSS + displacement + FVG +discount -
+   M5   SMC: sweep + break + FVG in a killzone       -
+   M5   SMC: sweep + break + FVG in a killzone +discount -
+   M5   Silver Bullet: FVG in NY 3-4/10-11/14-15     -
+   M5   Silver Bullet: FVG in NY 3-4/10-11/14-15 +discount -
+   M5   Silver Bullet + sweep                        -
+   M5   Silver Bullet + sweep +discount              -
+   M5   FVG + break + no news                        -
+   M5   FVG + break + no news +discount              -
+   M5   IFVG (inverted FVG)                          -
+   M5   IFVG (inverted FVG) +discount                -
+   M5   IFVG + displacement                          -
+   M5   IFVG + displacement +discount                -
+   M5   IFVG + sweep                                 -
+   M5   IFVG + sweep +discount                       -
+
+   M15  all FVGs                                     -
+   M15  all FVGs +discount                           -
+   M15  FVG with displacement (body >= 1 ATR)        -
+   M15  FVG with displacement (body >= 1 ATR) +discount -
+   M15  FVG + sweep                                  -
+   M15  FVG + sweep +discount                        -
+   M15  FVG + structure break (MSS or BOS)           -
+   M15  FVG + structure break (MSS or BOS) +discount -
+   M15  FVG + MSS (trend turn)                       -
+   M15  FVG + MSS (trend turn) +discount             -
+   M15  SMC: sweep + MSS + FVG                       -
+   M15  SMC: sweep + MSS + FVG +discount             -
+   M15  SMC: sweep + MSS + displacement + FVG        -
+   M15  SMC: sweep + MSS + displacement + FVG +discount TOP_LIQ    EXT       187  55.6%  +0.014     +2.7    +2.7    +0.0   0.2
+   M15  SMC: sweep + break + FVG in a killzone       -
+   M15  SMC: sweep + break + FVG in a killzone +discount -
+   M15  Silver Bullet: FVG in NY 3-4/10-11/14-15     -
+   M15  Silver Bullet: FVG in NY 3-4/10-11/14-15 +discount -
+   M15  Silver Bullet + sweep                        -
+   M15  Silver Bullet + sweep +discount              -
+   M15  FVG + break + no news                        -
+   M15  FVG + break + no news +discount              -
+   M15  IFVG (inverted FVG)                          -
+   M15  IFVG (inverted FVG) +discount                -
+   M15  IFVG + displacement                          -
+   M15  IFVG + displacement +discount                -
+   M15  IFVG + sweep                                 -
+   M15  IFVG + sweep +discount                       -
+
+   M30  all FVGs                                     -
+   M30  all FVGs +discount                           -
+   M30  FVG with displacement (body >= 1 ATR)        CLOSE_LIQ  6.0     11950  34.5%  +0.020   +236.7  +198.3   +38.5   1.3
+   M30  FVG with displacement (body >= 1 ATR) +discount CE_LIQ     6.0      3001  27.1%  +0.081   +244.2  +117.3  +126.9   2.0
+   M30  FVG + sweep                                  -
+   M30  FVG + sweep +discount                        -
+   M30  FVG + structure break (MSS or BOS)           -
+   M30  FVG + structure break (MSS or BOS) +discount -
+   M30  FVG + MSS (trend turn)                       -
+   M30  FVG + MSS (trend turn) +discount             -
+   M30  SMC: sweep + MSS + FVG                       CLOSE_LIQ  6.0      4851  36.9%  +0.049   +239.8  +126.5  +113.3   2.1
+   M30  SMC: sweep + MSS + FVG +discount             CE_LIQ     6.0      1782  28.7%  +0.051    +90.9   +14.5   +76.4   1.0
+   M30  SMC: sweep + MSS + displacement + FVG        CLOSE_LIQ  6.0      2391  37.9%  +0.098   +233.6   +91.9  +141.7   2.9
+   M30  SMC: sweep + MSS + displacement + FVG +discount CE_LIQ     6.0       818  29.7%  +0.093    +76.4   +33.4   +43.0   1.3
+   M30  SMC: sweep + break + FVG in a killzone       CLOSE_LIQ  6.0      2365  37.6%  +0.051   +120.7   +72.2   +48.5   1.5
+   M30  SMC: sweep + break + FVG in a killzone +discount -
+   M30  Silver Bullet: FVG in NY 3-4/10-11/14-15     -
+   M30  Silver Bullet: FVG in NY 3-4/10-11/14-15 +discount TOP_LIQ    6.0       932  29.3%  +0.107   +100.0   +73.8   +26.3   1.6
+   M30  Silver Bullet + sweep                        CLOSE_LIQ  6.0      1752  36.3%  +0.082   +143.6   +98.6   +44.9   2.0
+   M30  Silver Bullet + sweep +discount              TOP_LIQ    6.0       713  29.0%  +0.091    +64.7   +54.4   +10.3   1.2
+   M30  FVG + break + no news                        -
+   M30  FVG + break + no news +discount              -
+   M30  IFVG (inverted FVG)                          -
+   M30  IFVG (inverted FVG) +discount                -
+   M30  IFVG + displacement                          -
+   M30  IFVG + displacement +discount                CE_LIQ     6.0      2604  26.5%  +0.012    +31.2   +11.0   +20.2   0.3
+   M30  IFVG + sweep                                 -
+   M30  IFVG + sweep +discount                       -
+
+   H1   all FVGs                                     CLOSE_LIQ  4.0     13940  34.9%  +0.016   +228.5  +186.5   +42.0   1.2
+   H1   all FVGs +discount                           CLOSE_LIQ  6.0      4049  30.0%  +0.051   +206.4  +159.7   +46.7   1.7
+   H1   FVG with displacement (body >= 1 ATR)        CLOSE_DISP 4.0      5910  28.8%  +0.028   +165.2   +87.7   +77.6   1.2
+   H1   FVG with displacement (body >= 1 ATR) +discount CLOSE_C1   3.0      1412  32.1%  +0.049    +69.0   +29.6   +39.4   1.1
+   H1   FVG + sweep                                  CLOSE_LIQ  5.0      6764  34.2%  +0.034   +231.7  +121.0  +110.6   1.7
+   H1   FVG + sweep +discount                        CLOSE_LIQ  6.0      3042  30.6%  +0.063   +193.1  +126.5   +66.6   1.8
+   H1   FVG + structure break (MSS or BOS)           CLOSE_LIQ  3.0      8608  38.7%  +0.025   +212.6  +163.8   +48.8   1.7
+   H1   FVG + structure break (MSS or BOS) +discount BOT_LIQ    6.0      1412  27.9%  +0.084   +119.1   +42.6   +76.5   1.5
+   H1   FVG + MSS (trend turn)                       BOT_LIQ    6.0      2284  31.5%  +0.124   +283.6   +33.3  +250.3   2.9
+   H1   FVG + MSS (trend turn) +discount             BOT_LIQ    6.0      1146  29.1%  +0.139   +159.2   +57.6  +101.7   2.2
+   H1   SMC: sweep + MSS + FVG                       TOP_LIQ    5.0      1762  36.3%  +0.105   +185.4   +49.8  +135.5   2.6
+   H1   SMC: sweep + MSS + FVG +discount             TOP_C1     6.0       774  27.6%  +0.194   +150.5   +66.7   +83.8   2.3
+   H1   SMC: sweep + MSS + displacement + FVG        CE_LIQ     5.0       722  35.5%  +0.146   +105.6   +20.6   +84.9   2.1
+   H1   SMC: sweep + MSS + displacement + FVG +discount TOP_C1     6.0       374  29.4%  +0.202    +75.5   +36.3   +39.2   1.7
+   H1   SMC: sweep + break + FVG in a killzone       CLOSE_C1   4.0      1000  33.3%  +0.111   +111.1  +102.0    +9.1   2.0
+   H1   SMC: sweep + break + FVG in a killzone +discount BOT_LIQ    2.5       221  37.1%  +0.147    +32.4    +5.0   +27.4   1.4
+   H1   Silver Bullet: FVG in NY 3-4/10-11/14-15     CE_LIQ     6.0      1097  31.1%  +0.046    +50.4   +39.6   +10.8   0.8
+   H1   Silver Bullet: FVG in NY 3-4/10-11/14-15 +discount BOT_LIQ    EXT       103  56.3%  +0.078     +8.0    +2.3    +5.7   0.7
+   H1   Silver Bullet + sweep                        -
+   H1   Silver Bullet + sweep +discount              -
+   H1   FVG + break + no news                        CLOSE_LIQ  3.0      8025  38.3%  +0.017   +132.8  +119.6   +13.2   1.1
+   H1   FVG + break + no news +discount              BOT_LIQ    6.0      1318  27.4%  +0.079   +103.9   +47.7   +56.2   1.3
+   H1   IFVG (inverted FVG)                          TOP_LIQ    6.0      6926  26.7%  +0.022   +153.0   +11.0  +142.1   0.9
+   H1   IFVG (inverted FVG) +discount                TOP_LIQ    6.0      3729  26.4%  +0.033   +122.2   +99.1   +23.1   1.0
+   H1   IFVG + displacement                          CE_LIQ     6.0      2153  27.1%  +0.041    +88.3   +19.2   +69.1   0.9
+   H1   IFVG + displacement +discount                CE_LIQ     6.0      1211  26.9%  +0.056    +68.2   +67.9    +0.3   0.9
+   H1   IFVG + sweep                                 TOP_LIQ    6.0      5198  28.4%  +0.044   +226.4    +8.3  +218.1   1.6
+   H1   IFVG + sweep +discount                       TOP_LIQ    6.0      3182  28.0%  +0.070   +223.9   +94.6  +129.4   1.9
+
+   H4   all FVGs                                     TOP_C1     3.0      2728  29.4%  +0.061   +166.7   +84.9   +81.8   1.9
+   H4   all FVGs +discount                           CLOSE_C1   2.5      1030  36.4%  +0.188   +193.4  +130.0   +63.4   3.7
+   H4   FVG with displacement (body >= 1 ATR)        TOP_DISP   2.0      1193  36.4%  +0.049    +57.9    +6.8   +51.1   1.2
+   H4   FVG with displacement (body >= 1 ATR) +discount TOP_DISP   3.0       370  31.4%  +0.204    +75.6   +36.0   +39.6   2.1
+   H4   FVG + sweep                                  CLOSE_C1   2.5      1719  35.6%  +0.110   +188.4  +156.8   +31.6   2.9
+   H4   FVG + sweep +discount                        CE_C1      4.0       623  27.3%  +0.254   +158.3   +85.3   +73.1   3.0
+   H4   FVG + structure break (MSS or BOS)           TOP_DISP   2.0      1449  36.9%  +0.059    +86.1   +12.7   +73.4   1.6
+   H4   FVG + structure break (MSS or BOS) +discount BOT_LIQ    6.0       348  29.6%  +0.291   +101.1   +38.7   +62.4   2.3
+   H4   FVG + MSS (trend turn)                       TOP_DISP   3.0       718  28.8%  +0.082    +58.6   +30.6   +27.9   1.2
+   H4   FVG + MSS (trend turn) +discount             BOT_LIQ    6.0       290  29.3%  +0.235    +68.1   +36.1   +32.1   1.8
+   H4   SMC: sweep + MSS + FVG                       CLOSE_C1   2.5       618  38.0%  +0.127    +78.3   +73.8    +4.5   2.1
+   H4   SMC: sweep + MSS + FVG +discount             BOT_C1     5.0       111  27.0%  +0.453    +50.3   +37.1   +13.2   1.9
+   H4   SMC: sweep + MSS + displacement + FVG        CLOSE_C1   2.5       335  39.4%  +0.151    +50.7   +47.2    +3.5   1.9
+   H4   SMC: sweep + MSS + displacement + FVG +discount TOP_DISP   3.0       114  30.7%  +0.140    +15.9   +14.4    +1.5   0.8
+   H4   SMC: sweep + break + FVG in a killzone       BOT_LIQ    6.0       120  34.2%  +0.400    +48.0   +25.4   +22.5   1.9
+   H4   SMC: sweep + break + FVG in a killzone +discount -
+   H4   Silver Bullet: FVG in NY 3-4/10-11/14-15     TOP_C1     3.0       156  31.4%  +0.227    +35.5   +19.0   +16.5   1.5
+   H4   Silver Bullet: FVG in NY 3-4/10-11/14-15 +discount -
+   H4   Silver Bullet + sweep                        -
+   H4   Silver Bullet + sweep +discount              -
+   H4   FVG + break + no news                        TOP_DISP   2.0      1373  37.1%  +0.065    +89.9   +11.4   +78.5   1.7
+   H4   FVG + break + no news +discount              BOT_LIQ    6.0       332  28.9%  +0.265    +87.9   +28.6   +59.3   2.1
+   H4   IFVG (inverted FVG)                          BOT_LIQ    EXT       335  49.9%  +0.048    +16.0   +15.8    +0.3   0.7
+   H4   IFVG (inverted FVG) +discount                CE_LIQ     6.0       929  25.7%  +0.077    +71.6   +42.4   +29.2   1.1
+   H4   IFVG + displacement                          CE_DISP    5.0       338  23.4%  +0.141    +47.8   +25.1   +22.7   1.2
+   H4   IFVG + displacement +discount                CE_DISP    5.0       199  24.1%  +0.178    +35.4   +15.1   +20.3   1.1
+   H4   IFVG + sweep                                 BOT_LIQ    EXT       251  49.0%  +0.048    +12.1    +7.0    +5.2   0.6
+   H4   IFVG + sweep +discount                       CE_LIQ     6.0       802  26.6%  +0.058    +46.2    +6.2   +40.0   0.8
+
+   H12  all FVGs                                     CLOSE_LIQ  2.5      1440  37.3%  +0.055    +79.1   +77.6    +1.5   1.5
+   H12  all FVGs +discount                           TOP_LIQ    3.0       394  34.0%  +0.148    +58.4   +20.7   +37.7   1.7
+   H12  FVG with displacement (body >= 1 ATR)        TOP_LIQ    4.0       519  35.6%  +0.175    +90.9   +78.9   +12.1   2.3
+   H12  FVG with displacement (body >= 1 ATR) +discount TOP_LIQ    3.0       157  39.5%  +0.316    +49.5   +19.5   +30.0   2.3
+   H12  FVG + sweep                                  CLOSE_DISP 6.0       730  23.7%  +0.135    +98.8   +67.8   +30.9   1.6
+   H12  FVG + sweep +discount                        TOP_DISP   2.5       254  34.6%  +0.163    +41.5   +16.2   +25.3   1.6
+   H12  FVG + structure break (MSS or BOS)           TOP_LIQ    5.0       744  34.1%  +0.085    +63.5   +46.9   +16.7   1.3
+   H12  FVG + structure break (MSS or BOS) +discount TOP_LIQ    5.0       153  37.3%  +0.262    +40.1    +3.1   +37.0   1.7
+   H12  FVG + MSS (trend turn)                       CLOSE_LIQ  3.0       455  39.6%  +0.088    +40.2    +5.2   +35.0   1.3
+   H12  FVG + MSS (trend turn) +discount             TOP_LIQ    5.0       132  40.9%  +0.421    +55.6   +10.0   +45.6   2.5
+   H12  SMC: sweep + MSS + FVG                       TOP_DISP   1.0       159  57.9%  +0.142    +22.6    +9.3   +13.3   1.8
+   H12  SMC: sweep + MSS + FVG +discount             -
+   H12  SMC: sweep + MSS + displacement + FVG        CLOSE_DISP 6.0       111  27.0%  +0.217    +24.1    +9.8   +14.3   1.0
+   H12  SMC: sweep + MSS + displacement + FVG +discount -
+   H12  SMC: sweep + break + FVG in a killzone       CLOSE_DISP 4.0       165  30.9%  +0.305    +50.3   +27.3   +23.0   1.9
+   H12  SMC: sweep + break + FVG in a killzone +discount -
+   H12  Silver Bullet: FVG in NY 3-4/10-11/14-15     -
+   H12  Silver Bullet: FVG in NY 3-4/10-11/14-15 +discount -
+   H12  Silver Bullet + sweep                        -
+   H12  Silver Bullet + sweep +discount              -
+   H12  FVG + break + no news                        TOP_LIQ    5.0       669  35.0%  +0.109    +72.8   +61.0   +11.7   1.6
+   H12  FVG + break + no news +discount              TOP_LIQ    5.0       135  38.5%  +0.305    +41.2    +7.9   +33.3   1.8
+   H12  IFVG (inverted FVG)                          CE_DISP    5.0       351  21.9%  +0.200    +70.1   +59.5   +10.6   1.6
+   H12  IFVG (inverted FVG) +discount                BOT_DISP   4.0       138  26.1%  +0.241    +33.2   +16.2   +17.0   1.3
+   H12  IFVG + displacement                          CE_DISP    5.0       153  27.5%  +0.448    +68.5   +38.7   +29.8   2.2
+   H12  IFVG + displacement +discount                TOP_DISP   2.5       133  36.1%  +0.227    +30.2   +12.1   +18.1   1.6
+   H12  IFVG + sweep                                 TOP_DISP   5.0       463  21.8%  +0.176    +81.4   +57.1   +24.3   1.6
+   H12  IFVG + sweep +discount                       CE_DISP    5.0       200  22.5%  +0.206    +41.3    +9.7   +31.6   1.2
+
+   D1   all FVGs                                     CLOSE_LIQ  2.0       807  39.0%  +0.049    +39.2   +38.4    +0.8   1.1
+   D1   all FVGs +discount                           BOT_LIQ    3.0       171  37.4%  +0.251    +43.0   +16.0   +27.0   1.9
+   D1   FVG with displacement (body >= 1 ATR)        TOP_LIQ    5.0       297  32.0%  +0.245    +72.7   +72.2    +0.4   2.1
+   D1   FVG with displacement (body >= 1 ATR) +discount TOP_LIQ    5.0       100  37.0%  +0.434    +43.4    +2.8   +40.5   2.0
+   D1   FVG + sweep                                  TOP_LIQ    2.5       324  38.0%  +0.120    +39.0   +16.3   +22.7   1.5
+   D1   FVG + sweep +discount                        BOT_LIQ    3.0       138  38.4%  +0.238    +32.8    +8.2   +24.6   1.7
+   D1   FVG + structure break (MSS or BOS)           TOP_DISP   2.5       328  30.8%  +0.055    +18.0    +4.7   +13.2   0.6
+   D1   FVG + structure break (MSS or BOS) +discount -
+   D1   FVG + MSS (trend turn)                       BOT_LIQ    3.0       131  35.9%  +0.143    +18.8   +10.1    +8.6   1.0
+   D1   FVG + MSS (trend turn) +discount             -
+   D1   SMC: sweep + MSS + FVG                       CLOSE_LIQ  1.0       131  58.0%  +0.162    +21.2    +8.1   +13.2   2.0
+   D1   SMC: sweep + MSS + FVG +discount             -
+   D1   SMC: sweep + MSS + displacement + FVG        -
+   D1   SMC: sweep + MSS + displacement + FVG +discount -
+   D1   SMC: sweep + break + FVG in a killzone       -
+   D1   SMC: sweep + break + FVG in a killzone +discount -
+   D1   Silver Bullet: FVG in NY 3-4/10-11/14-15     -
+   D1   Silver Bullet: FVG in NY 3-4/10-11/14-15 +discount -
+   D1   Silver Bullet + sweep                        -
+   D1   Silver Bullet + sweep +discount              -
+   D1   FVG + break + no news                        TOP_DISP   2.5       326  30.7%  +0.051    +16.5    +4.7   +11.7   0.6
+   D1   FVG + break + no news +discount              -
+   D1   IFVG (inverted FVG)                          BOT_LIQ    5.0       277  25.3%  +0.089    +24.6    +2.8   +21.8   0.7
+   D1   IFVG (inverted FVG) +discount                TOP_C1     6.0       155  18.1%  +0.155    +24.1    +3.8   +20.3   0.7
+   D1   IFVG + displacement                          TOP_LIQ    4.0       148  33.1%  +0.265    +39.2   +15.7   +23.4   1.6
+   D1   IFVG + displacement +discount                -
+   D1   IFVG + sweep                                 CE_DISP    4.0       143  24.5%  +0.108    +15.5   +10.8    +4.7   0.6
+   D1   IFVG + sweep +discount                       TOP_C1     5.0       135  20.0%  +0.110    +14.8    +7.2    +7.6   0.5
+
+3) TOP 10 BY t (every one of these was CHOSEN on this data -- the untouched check decides)
+   t  3.7 H4   all FVGs                                   +discount CLOSE_C1  target 2.5  n  1030 +0.188R total +193R
+   t  3.0 H4   FVG + sweep                                +discount CE_C1     target 4.0  n   623 +0.254R total +158R
+   t  2.9 M30  SMC: sweep + MSS + displacement + FVG                CLOSE_LIQ target 6.0  n  2391 +0.098R total +234R
+   t  2.9 H1   FVG + MSS (trend turn)                               BOT_LIQ   target 6.0  n  2284 +0.124R total +284R
+   t  2.9 H4   FVG + sweep                                          CLOSE_C1  target 2.5  n  1719 +0.110R total +188R
+   t  2.6 H1   SMC: sweep + MSS + FVG                               TOP_LIQ   target 5.0  n  1762 +0.105R total +185R
+   t  2.5 H12  FVG + MSS (trend turn)                     +discount TOP_LIQ   target 5.0  n   132 +0.421R total +56R
+   t  2.3 H4   FVG + structure break (MSS or BOS)         +discount BOT_LIQ   target 6.0  n   348 +0.291R total +101R
+   t  2.3 H1   SMC: sweep + MSS + FVG                     +discount TOP_C1    target 6.0  n   774 +0.194R total +150R
+   t  2.3 H12  FVG with displacement (body >= 1 ATR)      +discount TOP_LIQ   target 3.0  n   157 +0.316R total +50R

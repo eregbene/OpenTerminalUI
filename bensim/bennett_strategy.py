@@ -119,6 +119,9 @@ LIVE = BennettParams(need_fvg=False, choch_plus=False, top_in_ote=False, after_f
                      max_targets=2, bias="H4", stop_mode="tight", liq_eq_pips=0.0, premium_entry=False,
                      took_internal=False, clear_path=True, killzones=((7, 11), (13, 17)), no_sunday=True, agree_tf=1800)
 LIVE_SYMBOLS = ["EURUSD", "GBPUSD", "USDJPY", "USDCHF", "USDCAD"]
+# 2026-11-10 user GO: the mentor-matched version (fib on the newest 2-ATR swing + FVG), as tested in round 25 (LATEST2F)
+MENTOR = BennettParams(leg_anchor="latest", leg_swing_atr=2.0, need_fvg=True)
+MENTOR_SYMBOLS = ["EURUSD", "GBPUSD", "USDJPY", "AUDUSD", "USDCHF", "USDCAD", "XAUUSD"]
 
 
 def context_text(p: BennettParams) -> str:

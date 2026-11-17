@@ -13,8 +13,14 @@ Rules (server time; day = 00:00, week = Monday 00:00):
   positions opened before "effective_from_utc" (the switch-on time) are never closed by this rule.
   TradeGuard cannot stop an order reaching the broker: it closes it within ~1 s (the trade's spread + commission is
   lost). Absent "trading_hours" = no time restriction (old behaviour).
+  DAY LOSSES (optional, rules "day_losses"): lock for the day once today's LOSING trades added up (closed today, + open
+  losing trades in "floating" mode) reach the limit, whatever the wins -- e.g. -1k, +3k, -1k = 2k of losses = locked.
+  TRADE MAX LOSS (optional, rules "trade_loss"): any open trade whose profit + swap reaches -trade_loss is closed.
   TRADE PROFIT BY DAY (optional, rules "trade_profit_by_day" {"mon": 1100, ...}, local weekday): replaces the single
   "trade_profit" target for that day; a day missing from the map falls back to "trade_profit".
+  ONE TRADE PER GROUP (optional, cfg "one_trade_groups" [["GBPUSD","EURUSD","USDCAD"], ["XAUUSD"]]): in each group only
+  the oldest open trade may stay; a newer one is closed within ~1 s. Groups are independent (gold beside a forex trade
+  is fine); symbols in no group are free. Matched on the first 6 letters, so broker suffixes still count.
 
     python -m bensim.tradeguard replay        # 1-month replay of the live account's real trades, scaled to $25K
     python -m bensim.tradeguard live          # the guard (start via bensim/start_tradeguard.ps1)
@@ -111,9 +117,19 @@ def trading_hours_step(mt5, rule: dict | None, utc: int, mine, to_utc, state: di
     return acts
 
 
-def breach(day: float, week: float, r: dict, t: int) -> tuple[str, int] | None:
-    """(reason, locked_until) for the first rule hit, else None."""
-    for name, val, lim, sign, until in (("DAY LOSS", day, r["day_loss"], -1, day_start(t) + DAY),
+def extra_trades(positions, groups: list[list[str]]) -> list:
+    """Positions to close under ONE TRADE PER GROUP: in each group only the oldest open trade may stay."""
+    out = []
+    for g in groups:
+        inside = sorted((p for p in positions if p.symbol.upper()[:6] in g), key=lambda p: (p.time_msc, p.ticket))
+        out += inside[1:]
+    return out
+
+
+def breach(day: float, week: float, r: dict, t: int, losses: float = 0.0) -> tuple[str, int] | None:
+    """(reason, locked_until) for the first rule hit, else None. losses = today's losing trades added up (>= 0)."""
+    for name, val, lim, sign, until in (("DAY LOSSES", -losses, r.get("day_losses", 0), -1, day_start(t) + DAY),
+                                        ("DAY LOSS", day, r["day_loss"], -1, day_start(t) + DAY),
                                         ("WEEK LOSS", week, r["week_loss"], -1, week_start(t) + WEEK),
                                         ("DAY PROFIT", day, r["day_profit"], 1, day_start(t) + DAY),
                                         ("WEEK PROFIT", week, r["week_profit"], 1, week_start(t) + WEEK)):
@@ -228,7 +244,15 @@ def live() -> None:
         net = lambda since: sum(d.profit + d.commission + d.swap + d.fee for d in deals if d.time >= since)
         fl = sum(p.profit + p.swap for p in mine(mt5.positions_get())) if cfg.get("floating", True) else 0.0
         day, week = net(day_start(t)) + fl, net(week_start(t)) + fl
-        if t >= st["lock_until"] and (b := breach(day, week, cfg["rules"], t)):
+        by_pos = defaultdict(float)  # net of each trade (all its deals) that CLOSED today
+        closed_today = {d.position_id for d in deals if d.time >= day_start(t) and d.entry in (1, 3)}
+        for d in deals:
+            if d.position_id in closed_today:
+                by_pos[d.position_id] += d.profit + d.commission + d.swap + d.fee
+        losses = -sum(v for v in by_pos.values() if v < 0)
+        if cfg.get("floating", True):  # open trades that are losing count too
+            losses -= sum(min(0.0, p.profit + p.swap) for p in mine(mt5.positions_get()))
+        if t >= st["lock_until"] and (b := breach(day, week, cfg["rules"], t, losses)):
             st = {"lock_until": b[1], "why": b[0]}
             STATE.write_text(json.dumps(st))
             log(f"LOCK {b[0]}: day {day:+.2f} week {week:+.2f} -> no trading until "
@@ -237,6 +261,15 @@ def live() -> None:
         if not locked and cfg.get("trading_hours"):
             for a in trading_hours_step(mt5, cfg["trading_hours"], utc, mine, lambda s_: s_ - server_offset_hours(s_ - 7200) * 3600, th_state):
                 log(("ALERT: " if a.startswith("closed") else "") + a)
+        if not locked and (groups := cfg.get("one_trade_groups")):
+            for p in extra_trades(mine(mt5.positions_get()), groups):
+                close_pos(mt5, p, "TradeGuard one trade")
+                log(f"ALERT: closed #{p.ticket} {p.symbol} (another trade in its group was already open)")
+        if tl := float(cfg["rules"].get("trade_loss") or 0):  # per-trade max loss (profit + swap, before commission)
+            for p in mine(mt5.positions_get()):
+                if p.profit + p.swap <= -tl:
+                    close_pos(mt5, p, "TradeGuard trade max loss")
+                    log(f"ALERT: closed #{p.ticket} {p.symbol} at {p.profit + p.swap:+.2f} (trade max loss {tl:.0f})")
         if locked and (mine(mt5.positions_get()) or mine(mt5.orders_get())):
             flatten(mt5, mine)
         elif tp := trade_profit_for(utc, cfg):  # per-trade profit target (profit + swap, before commission); by local weekday if set
@@ -314,4 +347,15 @@ if __name__ == "__main__":
     assert breach(-100, -625, DUMMY, mon + 100) == ("WEEK LOSS", mon + WEEK)
     assert breach(300, 300, DUMMY, mon) == ("DAY PROFIT", mon + DAY)
     assert breach(-249, 749, DUMMY, mon) is None
+    dl = {"day_loss": 0, "week_loss": 0, "day_profit": 0, "week_profit": 0, "day_losses": 2000}
+    assert breach(1000, 1000, dl, mon, losses=2000) == ("DAY LOSSES", mon + DAY)  # -1k, +3k, -1k = 2k of losses
+    assert breach(1000, 1000, dl, mon, losses=1999) is None
+    from types import SimpleNamespace as P
+    G = [["GBPUSD", "EURUSD", "USDCAD"], ["XAUUSD"]]
+    ps = [P(symbol="EURUSD", time_msc=1, ticket=1), P(symbol="XAUUSD", time_msc=2, ticket=2),
+          P(symbol="GBPUSD", time_msc=3, ticket=3), P(symbol="XAUUSD", time_msc=4, ticket=4), P(symbol="USDJPY", time_msc=5, ticket=5)]
+    assert [p.ticket for p in extra_trades(ps, G)] == [3, 4]  # 2nd forex + 2nd gold closed; gold beside forex ok; others free
+    assert extra_trades(ps[:2], G) == []
+    if sys.argv[1:] == ["test"]:
+        sys.exit(print("ok"))
     main()

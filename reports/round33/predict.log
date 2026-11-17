@@ -1,0 +1,18 @@
+Round 33: predict what an imbalance does next. 277636 imbalances (15m..1D, 7 pairs, both directions)
+train 2021-10..2024-11: 160153 | TEST (never seen) 2024-11..2026-11: 117483
+
+1) WITHOUT a model (take every one) -- the base rate, R per trade
+   FILL    M15 -0.399 | M30 -0.267 | H1 -0.197 | H4 -0.084 | H12 -0.024 | D1 -0.040
+   FOLLOW  M15 -0.158 | M30 -0.117 | H1 -0.096 | H4 -0.039 | H12 -0.010 | D1 -0.007
+   HOLD    M15 -0.304 | M30 -0.235 | H1 -0.158 | H4 -0.076 | H12 -0.186 | D1 -0.179
+   BREAK   M15 -0.798 | M30 -0.570 | H1 -0.408 | H4 -0.194 | H12 -0.023 | D1 +0.004
+
+2) WITH the model (trained on 2021-24 only; threshold chosen on 2021-24 only), scored on 2024-26
+   decision TF   test trades   win%  R/trade  total R     t   $ at $1k | top 10% of predictions: R/trade, total
+   FILL     the training years found NO threshold with positive R -> no trades
+   FOLLOW   the training years found NO threshold with positive R -> no trades
+   HOLD     the training years found NO threshold with positive R -> no trades
+   BREAK    the training years found NO threshold with positive R -> no trades
+3) HOLD OR BREAK at the liquidity (2024-26, no model): M15: holds->fills 22% / breaks->runs 13%, M30: holds->fills 20% / breaks->runs 15%, H1: holds->fills 20% / breaks->runs 17%, H4: holds->fills 22% / breaks->runs 21%, H12: holds->fills 17% / breaks->runs 23%, D1: holds->fills 19% / breaks->runs 23%
+
+VERDICT (model chosen on 2021-24, judged on unseen 2024-26; pass = total > 0 and t >= 2):

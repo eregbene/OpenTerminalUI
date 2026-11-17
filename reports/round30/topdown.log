@@ -1,0 +1,49 @@
+Round 30: Fibonacci premium/discount + OTE, top-down. 18187 dealing ranges, 333302 trade rows, 7 pairs, buys + sells
+
+1) THE PATTERN: after an HTF break of structure, the pullback into discount / OTE
+   D1 discovery 2024-26: 274 ranges | DISC 85% -> new high 38% / broke low 42% | OTE 69% -> new high 24% / broke low 57% | DEEP 56% -> new high 11% / broke low 75% | OTE inside an HTF FVG: new high 19% (n 26) vs not 25% (n 163)
+   D1 untouched 2021-24: 382 ranges | DISC 85% -> new high 41% / broke low 38% | OTE 76% -> new high 28% / broke low 49% | DEEP 59% -> new high 16% / broke low 68% | OTE inside an HTF FVG: new high 30% (n 37) vs not 27% (n 255)
+   H4 discovery 2024-26: 1456 ranges | DISC 83% -> new high 40% / broke low 37% | OTE 70% -> new high 28% / broke low 47% | DEEP 54% -> new high 14% / broke low 68% | OTE inside an HTF FVG: new high 27% (n 152) vs not 28% (n 868)
+   H4 untouched 2021-24: 2116 ranges | DISC 82% -> new high 38% / broke low 41% | OTE 71% -> new high 27% / broke low 51% | DEEP 56% -> new high 14% / broke low 71% | OTE inside an HTF FVG: new high 29% (n 224) vs not 27% (n 1286)
+   H1 discovery 2024-26: 5680 ranges | DISC 84% -> new high 42% / broke low 40% | OTE 74% -> new high 31% / broke low 51% | DEEP 58% -> new high 16% / broke low 71% | OTE inside an HTF FVG: new high 28% (n 640) vs not 32% (n 3561)
+   H1 untouched 2021-24: 8279 ranges | DISC 85% -> new high 42% / broke low 43% | OTE 76% -> new high 31% / broke low 53% | DEEP 62% -> new high 17% / broke low 72% | OTE inside an HTF FVG: new high 31% (n 800) vs not 31% (n 5453)
+   (new high = price went on to the range high = the liquidity; broke low = the setup failed)
+
+2) PRE-REGISTERED textbook model: H4 OTE -> M15 MSS -> limit at the M15 FVG 50% -> stop under the M15 low -> target H4 range high
+   discovery 2024-26: n 331, win 25.1%, -0.291 R/trade, total -96.3R, t -3.1, median stop 20 pips -> FAIL
+   untouched 2021-24: n 433, win 27.5%, -0.219 R/trade, total -94.9R, t -2.3, median stop 24 pips -> FAIL
+   VERDICT: FAIL
+
+3) EXPLORATION GRID (both periods side by side; * = positive in both; only rows with n >= 60 per period)
+   HTF LTF zone entry          tgt fvg  |       untouched 2021-24        |       discovery 2024-26       
+   H4  M5  DISC LTF_FVG_CE     EXT HTF  | n   78 +0.373R   +29.1 t  0.8 | n   60 +0.033R    +2.0 t  0.1 *
+   D1  M15 DISC MSS            3R  all  | n  315 +0.006R    +2.0 t  0.1 | n  213 +0.141R   +29.9 t  1.1 *
+   H4  M5  DISC LTF_FVG_CE     3R  HTF  | n   78 +0.068R    +5.3 t  0.3 | n   60 -0.005R    -0.3 t -0.0  
+   D1  M15 DEEP LTF_FVG_CE     2R  all  | n   74 +0.102R    +7.6 t  0.6 | n   70 -0.013R    -0.9 t -0.1  
+   D1  M15 DISC LTF_FVG_TOP    EXT all  | n  155 +0.147R   +22.8 t  0.5 | n  103 -0.026R    -2.7 t -0.1  
+   H4  M5  DISC LTF_FVG_TOP    EXT HTF  | n   82 +0.317R   +26.0 t  0.8 | n   66 -0.059R    -3.9 t -0.2  
+   D1  M15 DISC LTF_FVG_TOP    RH  all  | n  155 +0.057R    +8.9 t  0.2 | n  103 -0.074R    -7.6 t -0.3  
+   D1  M15 DISC MSS            EXT all  | n  315 -0.045R   -14.0 t -0.3 | n  213 +0.205R   +43.7 t  1.0  
+   D1  M15 DISC LTF_FVG_CE     2R  all  | n  144 -0.031R    -4.4 t -0.3 | n   92 -0.053R    -4.9 t -0.4  
+   H1  M15 OTE  LTF_FVG_TOP    3R  all  | n 1083 +0.012R   +13.0 t  0.2 | n  839 -0.022R   -18.8 t -0.4  
+   H4  M15 OTE  LTF_FVG_CE     EXT HTF  | n   76 +0.056R    +4.3 t  0.2 | n   60 -0.111R    -6.7 t -0.4  
+   H4  M5  DISC LTF_FVG_TOP    3R  HTF  | n   82 +0.163R   +13.3 t  0.8 | n   66 -0.098R    -6.5 t -0.5  
+   D1  M15 DEEP LTF_FVG_TOP    2R  all  | n   78 +0.125R    +9.8 t  0.8 | n   75 -0.076R    -5.7 t -0.5  
+   H1  M15 OTE  MSS            3R  HTF  | n  304 -0.023R    -7.1 t -0.3 | n  259 -0.046R   -11.9 t -0.5  
+   D1  M15 DISC MSS            2R  all  | n  315 -0.042R   -13.1 t -0.5 | n  213 +0.004R    +0.9 t  0.0  
+   H4  M5  DISC LTF_FVG_CE     2R  HTF  | n   78 +0.085R    +6.6 t  0.5 | n   60 -0.099R    -5.9 t -0.5  
+   H1  M5  DEEP LTF_FVG_CE     EXT HTF  | n   89 +0.492R   +43.8 t  1.5 | n   64 -0.158R   -10.1 t -0.5  
+   H1  M15 OTE  LTF_FVG_CE     3R  all  | n 1000 -0.029R   -28.8 t -0.6 | n  792 -0.021R   -16.5 t -0.4  
+   H4  -   OTE  FIB_LIMIT_0705 RH  HTF  | n  186 +0.135R   +25.2 t  1.2 | n  128 -0.073R    -9.3 t -0.6  
+   H1  M5  DISC LTF_FVG_CE     3R  HTF  | n  249 -0.040R   -10.1 t -0.4 | n  205 -0.068R   -13.9 t -0.6  
+   D1  M15 DISC LTF_FVG_CE     RH  all  | n  144 -0.040R    -5.8 t -0.1 | n   92 -0.151R   -13.9 t -0.6  
+   D1  M15 DISC LTF_FVG_TOP    2R  all  | n  155 -0.079R   -12.2 t -0.7 | n  103 -0.066R    -6.8 t -0.5  
+   D1  M15 DEEP LTF_FVG_CE     3R  all  | n   74 +0.264R   +19.6 t  1.2 | n   70 -0.142R   -10.0 t -0.7  
+   H4  M15 DEEP LTF_FVG_CE     EXT all  | n  239 -0.136R   -32.6 t -0.7 | n  165 -0.057R    -9.5 t -0.3  
+   D1  M15 DEEP LTF_FVG_TOP    3R  all  | n   78 +0.305R   +23.8 t  1.4 | n   75 -0.145R   -10.9 t -0.8  
+   H4  M5  DISC MSS            2R  HTF  | n  132 +0.058R    +7.7 t  0.5 | n  122 -0.097R   -11.8 t -0.8  
+   H1  M15 DISC MSS            3R  HTF  | n  333 -0.058R   -19.5 t -0.7 | n  272 -0.068R   -18.6 t -0.8  
+   H1  M5  DEEP LTF_FVG_TOP    3R  HTF  | n   90 +0.161R   +14.5 t  0.8 | n   69 -0.154R   -10.7 t -0.8  
+   H4  M5  DISC LTF_FVG_TOP    2R  HTF  | n   82 +0.068R    +5.6 t  0.4 | n   66 -0.137R    -9.1 t -0.8  
+   H1  M5  DEEP LTF_FVG_TOP    EXT HTF  | n   90 +0.370R   +33.3 t  1.2 | n   69 -0.195R   -13.5 t -0.8  
+   289 grid rows, 2 positive in both periods (rows sorted by the weaker period's t)

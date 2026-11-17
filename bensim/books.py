@@ -53,6 +53,9 @@ ON = [] if _on == "off" else [b for b in _on.split(",") if b in MAGICS]
 SHADOW = [b for b in env("BENSIM_BOOKS_SHADOW", "parallax,cta").lower().split(",") if b in MAGICS and b not in ON]
 SYMBOLS = [x for x in env("BENSIM_BOOKS_SYMBOLS", "EURUSD,GBPUSD,USDJPY,AUDUSD,USDCHF,USDCAD,XAUUSD").split(",") if x]
 RISK_SCALE = float(env("BENSIM_BOOKS_RISK_SCALE", "0.5"))
+# 2026-11-10 user GO: sflow = JeaFx MATCHED (round 25): a zone lives until touched / closed through or WAIT_DAYS,
+# not killed by the next BOS. BENSIM_SFLOW_ZONE_LIFE=next_bos restores the old rule.
+sflow.ZONE_LIFE = env("BENSIM_SFLOW_ZONE_LIFE", "touch").lower()
 IMB, ENIGMA = Params(), fvg_strategy.FvgParams(htf="H4")
 EX = Exec()
 DAY = 86400
@@ -342,7 +345,7 @@ def step(initial: float, day_start: float, equity: float, halted: bool, dry: boo
                         """select book, signal_time, dir, leg, kind, entry, stop, target, cancel, expire, hold, extra from live_books
                            where status='PENDING' and symbol=%s and book = any(%s)""", (sym, ON)).fetchall():
                     key = (book, sym, sig_t, d, leg)
-                    newer = book == "sflow" and any(int(h1["t"][e["i"]]) > sig_t for e in sflow.structure(h1)[-3:])
+                    newer = book == "sflow" and sflow.ZONE_LIFE == "next_bos" and any(int(h1["t"][e["i"]]) > sig_t for e in sflow.structure(h1)[-3:])
                     if now >= expire or newer:
                         c.execute("update live_books set status='EXPIRED', updated=now() where book=%s and symbol=%s and signal_time=%s and dir=%s and leg=%s", key)
                         continue

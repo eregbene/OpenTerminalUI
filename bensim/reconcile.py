@@ -30,7 +30,7 @@ from .mt5_time import server_to_utc
 START, END = "2026-10-13T06:00:00+00:00", "2026-11-03T12:00:00+00:00"
 OUT = Path("reports/reconciliation_2026-11-03")
 BOOK = {770101: "fib618", 770102: "bennett", 770103: "flow", 770104: "imbalance", 770105: "enigma", 770106: "sflow",
-        770107: "parallax", 770108: "cta", 770109: "manager"}
+        770107: "parallax", 770108: "cta", 770109: "manager", 770110: "channel", 770111: "faiz"}
 REASON = {0: "client (terminal)", 1: "client (mobile)", 2: "client (web)", 3: "engine/expert", 4: "SL", 5: "TP", 6: "stop-out"}
 T0, T1 = int(pd.Timestamp(START).timestamp()), int(pd.Timestamp(END).timestamp())
 
